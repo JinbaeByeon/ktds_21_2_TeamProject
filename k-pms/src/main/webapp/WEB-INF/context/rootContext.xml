@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:property-placeholder location="/WEB-INF/config/dbconfig.properties"/>
+
+	<bean id="dataSource"
+		  class="
+</beans>
+
+9. rootContext.xml 생성
+	- Property-Placeholder 설정 (dbconfig.properties 파일 로드)
+	- DataSource 설정
+	- MyBatis 설정
+		- mybatis-config.xml 설정
+			- mapUnderscoreToCamelCase = true
+			- jdbcTypeForNull = VARCHAR
+		- SqlSessionFactory 설정
+			- dataSource 지정
+			- mapperLocation 지정
+			- configLocation 지정
+		- SqlSessionTemplate 설정
+10. src/main/resource 에 logback.xml 생성
+	- ch.qos.logback.core.ConsoleAppender
+	- ch.qos.logback.core.rolling.RollingFileAppender 설정
