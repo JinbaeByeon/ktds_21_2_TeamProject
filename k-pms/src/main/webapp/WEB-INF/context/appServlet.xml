@@ -11,7 +11,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	<context:property-placeholder location="/WEB-INF/config/appconfig.properties"/>
-	<context:component-scan base-package="com.ktdsuniversity"/>
+	<context:component-scan base-package="com.kpms"/>
 	
 	<mvc:annotation-driven/>
 	<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**"/>
@@ -26,15 +26,15 @@
 	<bean id="multipartResolver"
 		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		  <property name="defaultEncoding" value="UTF-8"/>
-		  <property name="maxUploadSize" value="10485760"/>
+		  <property name="maxUploadSize" value="10485760"/> <!-- 10MB -->
 	</bean>
 	
-	<bean id="myTransactionManager"
+	<bean id="txManager"
 		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		  <property name="dataSource" ref="dataSource"/>
 	</bean>
 	
-	<tx:advice id="myAdvice" transaction-manager="myTransactionManager">
+	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
 			<tx:method name="read*" rollback-for="RuntimeException"/>
 			<tx:method name="create*" rollback-for="RuntimeException"/>
@@ -44,7 +44,7 @@
 	</tx:advice>
 	
 	<aop:config>
-		<aop:pointcut expression="execution(* com.ktuniversity..service.*ServiceImpl.*(..))" id="myPointCut"/>
-		<aop:advisor advice-ref="myAdvice" pointcut-ref="myPointCut"/>
+		<aop:pointcut expression="execution(* com.kpms..service.*ServiceImpl.*(..))" id="txPointCut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
 	</aop:config>
 </beans>
