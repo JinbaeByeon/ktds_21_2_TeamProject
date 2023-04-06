@@ -1,9 +1,11 @@
 package com.kpms.reqtstr.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * REQ_TSTR
  */
-public class ReqTstrVO {
+public class ReqTstrVO extends AbstractVO {
 
 	private String tstrId;
 	private String rqrId;

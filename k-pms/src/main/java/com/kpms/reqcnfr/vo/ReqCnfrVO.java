@@ -1,9 +1,11 @@
 package com.kpms.reqcnfr.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * REQ_CNFR
  */
-public class ReqCnfrVO {
+public class ReqCnfrVO extends AbstractVO {
 
 	private String cnfrId;
 	private String rqrId;

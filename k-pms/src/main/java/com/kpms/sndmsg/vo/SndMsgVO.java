@@ -1,9 +1,11 @@
 package com.kpms.sndmsg.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * SND_MSG
  */
-public class SndMsgVO {
+public class SndMsgVO extends AbstractVO {
 
 	private String msgId;
 	private String ttl;

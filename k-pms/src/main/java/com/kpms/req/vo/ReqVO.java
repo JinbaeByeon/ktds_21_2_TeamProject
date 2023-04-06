@@ -1,9 +1,11 @@
 package com.kpms.req.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * REQ
  */
-public class ReqVO {
+public class ReqVO extends AbstractVO {
 
 	private String rqrId;
 	private String dtlReq;
