@@ -1,9 +1,11 @@
 package com.kpms.eqplog.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * EQP_LOG
  */
-public class EqpLogVO {
+public class EqpLogVO extends AbstractVO {
 
 	private String logId;
 	private String empId;

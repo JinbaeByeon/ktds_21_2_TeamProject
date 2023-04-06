@@ -1,9 +1,11 @@
 package com.kpms.cmncd.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * CMN_CD
  */
-public class CmnCdVO {
+public class CmnCdVO extends AbstractVO {
 
 	private String cdId;
 	private String cdNm;

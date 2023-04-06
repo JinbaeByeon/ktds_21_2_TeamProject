@@ -1,9 +1,13 @@
 package com.kpms.acslog.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * ACS_LOG
  */
-public class AcsLogVO {
+public class AcsLogVO extends AbstractVO {
 
 	private String logId;
 	private String acsLog;

@@ -1,9 +1,11 @@
 package com.kpms.issu.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * ISSU
  */
-public class IssuVO {
+public class IssuVO extends AbstractVO {
 
 	private String issuId;
 	private String rqrId;

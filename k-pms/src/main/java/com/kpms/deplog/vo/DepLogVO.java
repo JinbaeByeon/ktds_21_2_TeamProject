@@ -1,9 +1,11 @@
 package com.kpms.deplog.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * DEP_LOG
  */
-public class DepLogVO {
+public class DepLogVO extends AbstractVO {
 	private String empId;
 	private String chngDt;
 	private String prvsDepId;

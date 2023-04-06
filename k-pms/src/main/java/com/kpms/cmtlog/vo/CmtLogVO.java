@@ -1,9 +1,11 @@
 package com.kpms.cmtlog.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * CMT_LOG
  */
-public class CmtLogVO {
+public class CmtLogVO extends AbstractVO {
 
 	private String cmtLogId;
 	private String cmtTime;

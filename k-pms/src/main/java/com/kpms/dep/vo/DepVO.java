@@ -1,9 +1,11 @@
 package com.kpms.dep.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * DEP
  */
-public class DepVO {
+public class DepVO extends AbstractVO {
 
 	private String depId;
 	private String depHdNm;
