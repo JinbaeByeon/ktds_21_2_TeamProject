@@ -1,143 +1,32 @@
 package com.kpms.emp.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * EMP
  */
-public class EmpVO {
+public class EmpVO extends AbstractVO{
 
-	/**
-	 * 
-	 */
 	private String empId;
-
-	/**
-	 * 
-	 */
-	private String crtDt;
-
-	/**
-	 * 
-	 */
-	private String crtr;
-
-	/**
-	 * 
-	 */
-	private String mdfyDt;
-
-	/**
-	 * 
-	 */
-	private String mdfyr;
-
-	/**
-	 * 
-	 */
-	private String useYn;
-
-	/**
-	 * 
-	 */
-	private String delYn;
-
-	/**
-	 * 
-	 */
 	private String nm;
-
-	/**
-	 * 
-	 */
 	private String brthdy;
-
-	/**
-	 * 
-	 */
 	private String eml;
-
-	/**
-	 * 
-	 */
 	private String phn;
-
-	/**
-	 * 
-	 */
 	private int pstnPrd;
-
-	/**
-	 * 
-	 */
 	private String prflPht;
-
-	/**
-	 * 
-	 */
 	private String hrDt;
-
-	/**
-	 * 
-	 */
 	private int hrPrd;
-
-	/**
-	 * 
-	 */
 	private String addrss;
-
-	/**
-	 * 
-	 */
 	private String emplmntStts;
-
-	/**
-	 * 
-	 */
 	private String admnYn;
-
-	/**
-	 * 
-	 */
 	private String pwdChngDt;
-
-	/**
-	 * 
-	 */
 	private String ltstLgnIp;
-
-	/**
-	 * 
-	 */
 	private String ltstLgnDt;
-
-	/**
-	 * 
-	 */
 	private int lgnCnt;
-
-	/**
-	 * 
-	 */
 	private String pwdSalt;
-
-	/**
-	 * 
-	 */
 	private String pwd;
-
-	/**
-	 * 
-	 */
 	private int pstnId;
-
-	/**
-	 * 
-	 */
 	private int jobId;
-
-	/**
-	 * 
-	 */
 	private String depId;
 
 
@@ -147,54 +36,6 @@ public class EmpVO {
 
 	public String getEmpId() {
 		return this.empId;
-	}
-
-	public void setCrtDt(String crtDt) {
-		this.crtDt = crtDt;
-	}
-
-	public String getCrtDt() {
-		return this.crtDt;
-	}
-
-	public void setCrtr(String crtr) {
-		this.crtr = crtr;
-	}
-
-	public String getCrtr() {
-		return this.crtr;
-	}
-
-	public void setMdfyDt(String mdfyDt) {
-		this.mdfyDt = mdfyDt;
-	}
-
-	public String getMdfyDt() {
-		return this.mdfyDt;
-	}
-
-	public void setMdfyr(String mdfyr) {
-		this.mdfyr = mdfyr;
-	}
-
-	public String getMdfyr() {
-		return this.mdfyr;
-	}
-
-	public void setUseYn(String useYn) {
-		this.useYn = useYn;
-	}
-
-	public String getUseYn() {
-		return this.useYn;
-	}
-
-	public void setDelYn(String delYn) {
-		this.delYn = delYn;
-	}
-
-	public String getDelYn() {
-		return this.delYn;
 	}
 
 	public void setNm(String nm) {
