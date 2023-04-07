@@ -2,13 +2,28 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="namespace">
+<mapper namespace="Pstn">
 	
-	<insert id="id"
-			parameterType="parameterType">
+	<insert id="createNewPstn"
+			parameterType="com.kpms.pstn.vo.PstnVO">
 		
 	</insert>
 	
-	
+	<select id="readPstnByPstnId"
+			parameterType="parameterType"
+			resultType="com.kpms.pstn.vo.PstnVO">
+	</select>
 
+	<select id="readAllPstn"
+			parameterType="com.kpms.pstn.vo.PstnVO"
+			resultMap="com.kpms.pstn.vo.PstnVO">
+	</select>	
+
+	<update id="updateNewPstn"
+			parameterType="string">
+	</update>
+	
+	<update id="deletePstnByPstnId"
+			parameterType="string">
+	</update>
 </mapper>
