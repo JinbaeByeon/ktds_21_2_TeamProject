@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp: include page="../include/styelscript.jsp"/>
+<jsp: include page="../include/styelscript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
 		
@@ -49,10 +49,36 @@
 			}
 			$.get("${context}/api/job/delete/" + jobId, function(response) {
 				if(response.status == "200 OK") {
-					location.reload
+					location.reload();
+				}
+				else {
+					alert(response.status == "500");
+				}
+			});
+		});
+		
+		$("#save_btn").click(function() {
+
+		if ( $("#isModify").val() == "false") {
+			// 신규등록
+			$.post("${context}/api/job/create", {jobNm: $("#jobNm").val(), useYn: $("#useYn:checked").val()}, function(response) {
+				if(response.status == "200 OK") {
+					location.reload();
+				}
+				else {
+					alert(response.status == "500");
+				}
+			});
+		}
+		else {
+			$.post("${context}/api/job/update", {jobId: $("#jobId").val(), jobNm: $("#jobNm").val(), useYn: $("#useYn:checked").val()}, function(response) {
+				
+				if(response.status == "200 OK") {
+					
 				}
 			})
-		})
+		}
+		}
 	})
 
 </script>
