@@ -1,5 +1,7 @@
 package com.kpms.dep.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,40 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 	}
 
 	@Override
+	public List<DepVO> readAllDepVO(DepVO depVO) {
+		return getSqlSession().selectList("Dep.readAllDepVO", depVO);
+	}
+	
+	@Override
+	public List<DepVO> readAllDepVONopagination(String depHdNm) {
+		return getSqlSession().selectList("Dep.readAllDepVONopagination", depHdNm);
+	}
+	
+	@Override
 	public int createOneDep(DepVO depVO) {
 		return getSqlSession().insert("Dep.createOneDep", depVO);
 	}
+
+	@Override
+	public DepVO readOneDepVOByDepId(String depId) {
+		return getSqlSession().selectOne("Dep.readOneDepVOByDepId", depId);
+	}
+
+	@Override
+	public int updateOneDepByDepId(DepVO depVO) {
+		return getSqlSession().update("Dep.updateOneDepByDepId", depVO);
+	}
+
+	@Override
+	public int deleteOneDepByDepId(String depId) {
+		return getSqlSession().update("Dep.deleteOneDepByDepId", depId);
+	}
+
+	@Override
+	public int deleteDepBySelectedDepId(List<String> depIdList) {
+		return getSqlSession().update("Dep.deleteDepBySelectedDepId", depIdList);
+	}
+
+	
+
 }

@@ -29,4 +29,51 @@
 	 	, SYSDATE)
 	</insert>
 	
+	<select id="readOneDepVOByDepId"
+			parameterType="string"
+			resultType="com.kpms.dep.vo.DepVO">
+		SELECT DEP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEP_HD_NM
+			 , DEP_HD_ID
+			 , DEP_CRT_DT
+		  FROM KPMS.DEP
+		 WHERE DEP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+		
+	</select>
+
+	<update id="updateOneDepByDepId"
+			parameterType="com.kpms.dep.vo.DepVO">
+		UPDATE DEP
+		   SET MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		     , DEP_HD_NM = #{depHdNm}
+		     , DEP_HD_ID = #{depHdId}
+		    <if test = 'useYn != null and useYn != ""'>
+		     , USE_YN = NVL(#{useYn}, 'N')	
+		    </if>
+		 WHERE DEP_ID = #{}
+	</update>
+	
+	<update id="deleteOneDepByDepId"
+			parameterType="string">
+	 	UPDATE DEP
+		   SET DEL_YN = 'Y'
+		 WHERE DEP_ID = #{_parameter}
+	</update>
+	
+	<update id="deleteDepBySelectedDepId"
+			parameterType="arraylist">
+		UPDATE DEP
+		   SET DEL_YN = 'Y'
+		 WHERE DEP_ID IN
+		 <foreach collection="list" item="depId" open="(" close=")" separator="">
+		 	#{depId}
+		 </foreach>
+	</update>
 </mapper>
