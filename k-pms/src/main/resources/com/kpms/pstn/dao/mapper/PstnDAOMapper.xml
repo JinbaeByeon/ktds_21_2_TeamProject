@@ -6,24 +6,79 @@
 	
 	<insert id="createNewPstn"
 			parameterType="com.kpms.pstn.vo.PstnVO">
-		
+		INSERT INTO PSTN
+		 (PSTN_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, PSTN_NM)
+		VALUES
+		 (SEQ_PSTN_PK.NEXTVAL
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'Y')
+		, 'N'
+		, #{pstnNm})
 	</insert>
 	
-	<select id="readPstnByPstnId"
-			parameterType="parameterType"
+	<select id="readAllPstn"
+			parameterType="string"
 			resultType="com.kpms.pstn.vo.PstnVO">
+		SELECT PSTN_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , PSTN_NM
+		  FROM PSTN
 	</select>
 
-	<select id="readAllPstn"
+<!-- 	<select id="readAllPstn"
 			parameterType="com.kpms.pstn.vo.PstnVO"
 			resultMap="com.kpms.pstn.vo.PstnVO">
-	</select>	
+		SELECT PSTN_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , PSTN_NM
+		  FROM PSTN
+	</select>	 -->
 
 	<update id="updateNewPstn"
 			parameterType="string">
+		UPDATE PSTN
+		   SET CRT_DT=''
+		     , CRTR=''
+		     , MDFY_DT=''
+		     , MDFYR=''
+		     , USE_YN=''
+		     , DEL_YN=''
+		     , PSTN_NM=''
+		 WHERE PSTN_ID=0;
+		
 	</update>
 	
 	<update id="deletePstnByPstnId"
 			parameterType="string">
+		UPDATE PSTN
+		   SET CRT_DT=''
+		     , CRTR=''
+		     , MDFY_DT=''
+		     , MDFYR=''
+		     , USE_YN=''
+		     , DEL_YN=''
+		     , PSTN_NM=''
+		 WHERE PSTN_ID=0;
+		
 	</update>
 </mapper>

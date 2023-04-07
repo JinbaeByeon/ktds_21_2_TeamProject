@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kpms.common.exception.APIArgsException;
 import com.kpms.pstn.dao.PstnDAO;
 import com.kpms.pstn.vo.PstnVO;
 
@@ -16,6 +17,10 @@ public class PstnServiceImpl implements PstnService{
 	
 	@Override
 	public boolean createNewPstn(PstnVO pstnVO) {
+		String pstnNm = pstnVO.getPstnNm();
+		if(pstnNm == null || pstnNm == "") {
+			throw new APIArgsException("404", "직급명을 입력하세요.");
+		}
 		return pstnDAO.createNewPstn(pstnVO) > 0;
 	}
 
