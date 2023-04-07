@@ -8,7 +8,8 @@ import com.kpms.common.vo.AbstractVO;
 public class EmpVO extends AbstractVO{
 
 	private String empId;
-	private String nm;
+	private String lNm;
+	private String fNm;
 	private String brthdy;
 	private String eml;
 	private String phn;
@@ -38,12 +39,20 @@ public class EmpVO extends AbstractVO{
 		return this.empId;
 	}
 
-	public void setNm(String nm) {
-		this.nm = nm;
+	public String getlNm() {
+		return lNm;
 	}
 
-	public String getNm() {
-		return this.nm;
+	public void setlNm(String lNm) {
+		this.lNm = lNm;
+	}
+
+	public String getfNm() {
+		return fNm;
+	}
+
+	public void setfNm(String fNm) {
+		this.fNm = fNm;
 	}
 
 	public void setBrthdy(String brthdy) {
