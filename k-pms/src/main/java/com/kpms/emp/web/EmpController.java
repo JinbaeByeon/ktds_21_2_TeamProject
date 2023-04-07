@@ -14,7 +14,6 @@ public class EmpController {
 	
 	@GetMapping("/")
 	public String viewLgnPage() {
-		
 		return "emp/lgn";
 	}
 }
