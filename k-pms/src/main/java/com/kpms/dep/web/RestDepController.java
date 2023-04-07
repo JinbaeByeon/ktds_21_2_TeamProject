@@ -10,6 +10,4 @@ public class RestDepController {
 
 	@Autowired
 	private DepService depService;
-	
-	public api 
 }
