@@ -10,6 +10,6 @@
 		<li class="nav-item"><a href="${context}/mbr/list">시스템관리</a></li>
 	</ul>
 	<div class="inline profile">
-		${sessionScope.__ADMIN__.mbrNm} <a href="${context}/mbr/lgt">(Logout)</a>
+		${sessionScope.__USER__.mbrNm} <a href="${context}/mbr/lgt">(Logout)</a>
 	</div>
 </div>

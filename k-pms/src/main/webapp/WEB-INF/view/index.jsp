@@ -8,7 +8,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>홈페이지</title>
 	<jsp:include page="./include/stylescript.jsp"/>
 </head>
 	<body>
