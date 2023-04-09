@@ -1,6 +1,9 @@
 package com.kpms.dep.vo;
 
+import java.util.List;
+
 import com.kpms.common.vo.AbstractVO;
+import com.kpms.emp.vo.EmpVO;
 
 /**
  * DEP
@@ -8,9 +11,12 @@ import com.kpms.common.vo.AbstractVO;
 public class DepVO extends AbstractVO {
 
 	private String depId;
+	private String depNm;
 	private String depHdNm;
 	private String depHdId;
 	private String depCrtDt;
+	
+	private List<EmpVO> empList;
 	
 	
 	public String getDepId() {
@@ -18,6 +24,13 @@ public class DepVO extends AbstractVO {
 	}
 	public void setDepId(String depId) {
 		this.depId = depId;
+	}
+	
+	public String getDepNm() {
+		return depNm;
+	}
+	public void setDepNm(String depNm) {
+		this.depNm = depNm;
 	}
 	
 	public String getDepHdNm() {
@@ -38,6 +51,13 @@ public class DepVO extends AbstractVO {
 	public void setDepCrtDt(String depCrtDt) {
 		this.depCrtDt = depCrtDt;
 	}
+	public List<EmpVO> getEmpList() {
+		return empList;
+	}
+	public void setEmpList(List<EmpVO> empList) {
+		this.empList = empList;
+	}
+	
 	
 	
 }

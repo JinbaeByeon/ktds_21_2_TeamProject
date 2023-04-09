@@ -7,6 +7,7 @@
 			parameterType="com.kpms.dep.vo.DepVO">
 		INSERT INTO DEP
 		 (DEP_ID
+		, DEP_NM
 		, CRT_DT
 		, CRTR
 		, MDFY_DT
@@ -18,6 +19,7 @@
 		, DEP_CRT_DT)
 	 	VALUES
 	 	 ('DEP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_DEP_PK.NEXTVAL, 5, '0')
+	 	, #{depNm}
 	 	, SYSDATE
 	 	, #{crtr}
 	 	, SYSDATE
@@ -33,6 +35,7 @@
 			parameterType="string"
 			resultType="com.kpms.dep.vo.DepVO">
 		SELECT DEP_ID
+			 , DEP_NM
 			 , CRT_DT
 			 , CRTR
 			 , MDFY_DT
@@ -50,7 +53,8 @@
 	<update id="updateOneDepByDepId"
 			parameterType="com.kpms.dep.vo.DepVO">
 		UPDATE DEP
-		   SET MDFY_DT = SYSDATE
+		   SET DEP_NM
+		   	 , MDFY_DT = SYSDATE
 		     , MDFYR = #{mdfyr}
 		     , DEP_HD_NM = #{depHdNm}
 		     , DEP_HD_ID = #{depHdId}
