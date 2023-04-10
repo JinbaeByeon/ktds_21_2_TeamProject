@@ -23,7 +23,7 @@
 		 </if>
 		 ORDER BY CD_NM DESC
 	</select>
-
+	
  	<insert id="createOneCmnCd"
 			parameterType="com.kpms.cmncd.vo.CmnCdVO">
 		INSERT INTO CMN_CD

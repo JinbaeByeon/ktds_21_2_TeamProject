@@ -10,11 +10,41 @@
 <script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$().ready(function() {
+		
+		$("table > tbody > tr").click(function(){
+			$("#isModify").val("true"); // 수정모드
+			var data = $(this).data();
+			console.log(data);
+			
+			$("#cdId").val(data.cdid);
+			$("#cdNm").val(data.cdnm);
+			$("#prcdncCdId").val(data.prcdnccdid);
+			$("#crtr").val(data.crtr);
+			$("#crtDt").val(data.crtdt);
+			$("#mdfyr").val(data.mdfyr);
+			$("#mdfyDt").val(data.mdfydt);
+			
+			$("#useYn").prop("checked", data.useyn == "Y");
+		});
+		
+		$("#new_btn").click(function() {
+			$("#isModify").val("false"); // 등록모드
+			
+			$("#gnrId").val("");
+			$("#gnrNm").val("");
+			$("#prcdncCdId").val("");
+			$("#crtDt").val("");
+			$("#mdfyr").val("");
+			$("#mdftDt").val("");
+			
+			$("#useYn").prop("checked", false);
+		});
+		
 		$("#save_btn").click(function() {
 
 			if ($("#isModify").val() == "false") {
 				// 신규 등록
-				$.post("${context}/cmncd/create", {cdNm: $("#cdNm").val(), useYn: $("#useYn:checked").val()}, function() {
+				$.post("${context}/cmncd/create", $("#detail_form").serialize(), function() {
 					location.reload();
 				});
 			} else {
@@ -46,10 +76,10 @@
 			<c:choose>
 				<c:when test="${not empty cmnCdList}">
 					<c:forEach items="${cmnCdList}" var="cmnCd">
-						<tr data-gnrid="${cmnCd.cdId}" data-gnrnm="${cmnCd.cdNm}"
-							data-useyn="${cmnCd.prcdncCdId}" data-crtr="${cmnCd.crtr}"
+						<tr data-cdid="${cmnCd.cdId}" data-cdNm="${cmnCd.cdNm}"
+							data-prcdnccdid="${cmnCd.prcdncCdId}" data-crtr="${cmnCd.crtr}"
 							data-crtdt="${cmnCd.crtDt}" data-mdfyr="${cmnCd.mdfyr}"
-							data-mdftdt="${cmnCd.mdfyDt}" data-useyn="${cmnCd.useYn}">
+							data-mdfydt="${cmnCd.mdfyDt}" data-useyn="${cmnCd.useYn}">
 							<td><input type="checkbox" class="check_idx"
 								value="${cmnCd.cdId}"></td>
 							<td>${cmnCd.cdNm}</td>
@@ -102,11 +132,11 @@
 				</div>
 				<div>
 					<label for="mdftDt" style="width: 180px;">수정일</label> <input
-						type="text" id="mdftDt" disabled value="">
+						type="text" id="mdfyDt" disabled value="">
 				</div>
 				<div>
 					<label for="useYn" style="width: 180px;">사용여부</label> <input
-						type="checkbox" id="useYn" name="useYn" value="Y" checked>
+						type="checkbox" id="useYn" name="useYn" value="Y" >
 				</div>
 			</div>
 		</form>

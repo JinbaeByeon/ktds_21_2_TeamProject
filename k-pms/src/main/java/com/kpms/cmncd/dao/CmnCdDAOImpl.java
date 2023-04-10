@@ -22,12 +22,11 @@ public class CmnCdDAOImpl extends SqlSessionDaoSupport implements CmnCdDAO {
 	public List<CmnCdVO> readAllCmnCd(CmnCdVO cmnCdVO) {
 		return getSqlSession().selectList("CmnCd.readAllCmnCd", cmnCdVO);
 	}
-	
+
 	@Override
 	public int createOneCmnCd(CmnCdVO cmnCdVO) {
 		return getSqlSession().insert("CmnCd.createOneCmnCd", cmnCdVO);
 	}
-
 
 	@Override
 	public int updateOneCmnCd(CmnCdVO cmnCdVO) {
@@ -38,6 +37,5 @@ public class CmnCdDAOImpl extends SqlSessionDaoSupport implements CmnCdDAO {
 	public int deleteOneCmnCdByCdId(int cdId) {
 		return getSqlSession().update("CmnCd.deleteOneCmnCdByCdId", cdId);
 	}
-	
-	
+
 }
