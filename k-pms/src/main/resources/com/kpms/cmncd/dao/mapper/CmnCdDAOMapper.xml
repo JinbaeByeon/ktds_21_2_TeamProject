@@ -3,16 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CmnCd">
-	
 
 	<select id="readAllCmnCd"
 			parameterType="com.kpms.cmncd.vo.CmnCdVO"
 			resultType="com.kpms.cmncd.vo.CmnCdVO">
-		<include refid="Common.pageHeader" />
 		SELECT CD_ID
-		     , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS')
+		     , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 		     , CRTR
-		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS')
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 		     , MDFYR
 		     , USE_YN
 		     , DEL_YN
@@ -24,7 +22,6 @@
 		   AND CD_NM LIKE '%' || #{cdNm} || '%'
 		 </if>
 		 ORDER BY CD_NM DESC
-		 <include refid="Common.pageFooter" />
 	</select>
 
  	<insert id="createOneCmnCd"
@@ -48,7 +45,7 @@
         , NVL(#{useYn}, 'N')
         , 'N'
         , #{cdNm}
-        , #{prcdncCdId})
+        , NVL(#{prcdncCdId}, NULL))
 	</insert>
 	
 	<update id="updateOneCmnCd"

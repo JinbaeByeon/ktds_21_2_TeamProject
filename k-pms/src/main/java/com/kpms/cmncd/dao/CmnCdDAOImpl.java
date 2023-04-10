@@ -25,7 +25,7 @@ public class CmnCdDAOImpl extends SqlSessionDaoSupport implements CmnCdDAO {
 	
 	@Override
 	public int createOneCmnCd(CmnCdVO cmnCdVO) {
-		return getSqlSession().insert("CmnCd.createCmncd", cmnCdVO);
+		return getSqlSession().insert("CmnCd.createOneCmnCd", cmnCdVO);
 	}
 
 

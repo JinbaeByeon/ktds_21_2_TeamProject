@@ -20,9 +20,9 @@ public class RestCmnCdController {
 	private CmnCdService cmnCdService;
 	
 	@PostMapping("/cmncd/create")
-	public APIResponseVO doCreateCmnCd(CmnCdVO cmnCdVO, @SessionAttribute("__ADMIN__") EmpVO empVO) {
-		cmnCdVO.setCrtr(empVO.getEmpId());
-		cmnCdVO.setMdfyr(empVO.getEmpId());
+	public APIResponseVO doCreateCmnCd(CmnCdVO cmnCdVO) { // TODO @SessionAttribute("__ADMIN__") EmpVO empVO 추가	
+		cmnCdVO.setCrtr("1");  // TODO empVO.getCrtr()
+		cmnCdVO.setMdfyr("1"); // TODO empVO.getMdfyr()
 		
 		boolean createResult = cmnCdService.createOneCmnCd(cmnCdVO);
 		
@@ -34,7 +34,7 @@ public class RestCmnCdController {
 		}
 	}
 	
-	@PostMapping("/cmncd/update/")
+	@PostMapping("api/cmncd/update/")
 	public APIResponseVO doUpdateCmnCd(CmnCdVO cmnCdVO, @SessionAttribute("__ADMIN__") EmpVO empVO) {
 		cmnCdVO.setMdfyr(empVO.getEmpId());
 		
@@ -48,7 +48,7 @@ public class RestCmnCdController {
 		}
 	}
 	
-	@GetMapping("/cmncd/delete/{cmnCdId}")
+	@GetMapping("api/cmncd/delete/{cmnCdId}")
 	public APIResponseVO doDeleteCmnCd(@PathVariable int cmnCdId) {
 		boolean deleteResult = cmnCdService.deleteOneCmnCdByCdId(cmnCdId);
 		
