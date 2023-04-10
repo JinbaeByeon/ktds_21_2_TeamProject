@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Job">
+
+	<select id="readAllJobVO"
+			parameterType="com.kpms.job.vo.JobVO;"
+			resultType="com.kpms.job.vo.JobVO">
+		SELECT JOB_ID
+			 , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , CRTR
+			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , JOB_NM
+		  FROM JOB
+		
+	</select>
+	
+	<insert id="createOneJob"
+			parameterType="com.kpms.job.vo.JobVO">
+		INSERT INTO JOB
+				  (JOB_ID
+				 , CRT_DT
+				 , CRTR
+				 , MDFY_DT
+				 , MDFYR
+				 , USE_YN
+				 , DEL_YN
+				 , JOB_NM)
+			VALUES
+				 (SEQ_JOB_PK.NEXTVAL
+				 , SYSDATE
+				 , #{crtr}
+				 , SYSDATE
+				 , #{mdfyr}
+				 , NVL(#{useYn}, 'N')
+				 , 'N'
+				 , #{jobNm})
+		
+	</insert>
+	
+	<update id="updateOneJob"
+			parameterType="com.kpms.job.vo.JobVO">
+			UPDATE JOB
+			   SET MDFY_DT = SYSDATE
+			     , MDFYR = #{mdfyr}
+			     , USE_YN = NVL(#{useYn}, 'N')
+			     , JOB_NM = #{jobNm}
+			 WHERE JOB_ID = #{jobId}
+		
+	</update>
+	
+	<update id = "deleteOneJobByJobId"
+			  parameterType="_int">
+			UPDATE JOB
+			   SET DEL_YN = 'Y' 
+			 WHERE JOB_ID = #{_parameter}
+	</update>
+</mapper>
