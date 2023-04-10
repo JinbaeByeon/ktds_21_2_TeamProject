@@ -62,6 +62,8 @@
 						empId: $("#empId").val(),
 						pwd: $("#signup_pwd").val(),
 						cPwd: $("#cnfrm_pwd").val(),
+						phn: $("#phn").val(),
+						brthdy: $("#brthdy").val(),
 						eml: $("#eml").val(),
 						lNm: $("#lNm").val(),
 						fNm: $("#fNm").val()
@@ -98,46 +100,55 @@
               <!-- <p class="mt-3">  </p> -->
             </div>
             <!--title-->
-            <form method="post" name="form" class="form w-100 p-4" id="form">
-              <div class="row">
-                <div class="col col-sm-12 col-md-12 col-lg-6 m-0">
-                  <div class="form-group">
-                    <label for="fNm">Firstname</label>
-                    <input type="text" name="fNm" class="form-control" id="fNm" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-                  </div>
-                </div>
-                <div class="col col-sm-12 col-md-12 col-lg-6 m-0">
-                  <div class="form-group">
-                    <label for="lNm">Lastname</label>
-                    <input type="text" name="lNm" class="form-control" id="lNm" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-                  </div>
-                </div>
-              </div>
-              <!--form-row-->
-              <div class="form-group">
-                <label for="empId">Id</label>
-                <input type="text" name="empId" class="form-control" id="empId" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <label for="eml">Email</label>
-                <input type="email" name="eml" class="form-control" id="eml" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <label for="signup_password">Password</label>
-                <i class="fa fa-eye-slash" id="eye_icon_signup"></i>
-                <input type="password" name="pwd" class="form-control" id="signup_pwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <label for="cPwd">Confirm Password</label>
-                <input type="password" name="cPwd" class="form-control" id="cnfrm_pwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <button id="btn-rgst" class="btn btn-primary register_btn w-100">Sign Up</button>
-              </div>
-            </form>
-
-            <div class="already_member_box">
-              <p class="text-center" id="to_login">I am already member</p>
+            <div>
+	            <form method="post" name="form" class="form w-100 p-4" id="form">
+	              <div class="row">
+	                <div class="col col-sm-12 col-md-12 col-lg-6 m-0">
+	                  <div class="form-group">
+	                    <label for="fNm">Firstname</label>
+	                    <input type="text" name="fNm" class="form-control" id="fNm" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+	                  </div>
+	                </div>
+	                <div class="col col-sm-12 col-md-12 col-lg-6 m-0">
+	                  <div class="form-group">
+	                    <label for="lNm">Lastname</label>
+	                    <input type="text" name="lNm" class="form-control" id="lNm" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+	                  </div>
+	                </div>
+	              </div>
+	              <!--form-row-->
+	              <div class="form-group">
+	                <label for="empId">Id</label>
+	                <input type="text" name="empId" class="form-control" id="empId" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+	              </div>
+	              <div class="form-group">
+	                <label for="eml">Email</label>
+	                <input type="email" name="eml" class="form-control" id="eml" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+	              </div>
+	              <div class="form-group">
+	                <label for="phn">Phone</label>
+	                <input type="tel" name="phn" class="form-control" id="phn" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+	              </div>
+	              <div class="form-group">
+	                <label for="brthdy" class="change_label">Birthday</label>
+	                <input type="date" name="brthdy" class="form-control" id="brthdy" required />
+	              </div>
+	              <div class="form-group">
+	                <label for="signup_password">Password</label>
+	                <i class="fa fa-eye-slash" id="eye_icon_signup"></i>
+	                <input type="password" name="pwd" class="form-control" id="signup_pwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+	              </div>
+	              <div class="form-group">
+	                <label for="cPwd">Confirm Password</label>
+	                <input type="password" name="cPwd" class="form-control" id="cnfrm_pwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+	              </div>
+	              <div class="form-group">
+	                <button id="btn-rgst" class="btn btn-primary register_btn w-100">Sign Up</button>
+	              </div>
+	            </form>
+	            <div class="already_member_box">
+	              <p class="text-center" id="to_login">I am already member</p>
+	            </div>
             </div>
           </div>
           <!--accounts_forms-->

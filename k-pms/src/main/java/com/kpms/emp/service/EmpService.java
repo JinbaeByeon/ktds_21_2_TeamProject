@@ -6,7 +6,7 @@ import com.kpms.emp.vo.EmpVO;
 
 public interface EmpService {
 
-	public boolean createOneEmp(EmpVO empVO);
+	public boolean createOneEmp(EmpVO empVO, String cPwd);
 	
 	public EmpVO readOneEmpByIdAndPwd(EmpVO empVO);
 	public EmpVO readOneEmpByEmpId(String empId);
