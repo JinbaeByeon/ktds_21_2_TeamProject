@@ -1,9 +1,12 @@
 package com.kpms.dep.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -73,6 +76,18 @@ public class RestDepController {
 		}
 		else {
 			return new APIResponseVO(APIStatus.FAIL, "부서를 삭제할 수 없습니다.", "500", "");
+		}
+	}
+	
+	@PostMapping("/api/dep/delete")
+	public APIResponseVO doDeleteDepBySelectedDepId(@RequestParam List<String> depId) {
+		boolean deleteResult = depService.deleteDepBySelectedDepId(depId);
+		
+		if (deleteResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kpms.common.exception.APIArgsException;
+import com.kpms.common.exception.APIException;
 import com.kpms.dep.dao.DepDAO;
 import com.kpms.dep.vo.DepVO;
 import com.kpms.emp.dao.EmpDAO;
@@ -26,8 +27,13 @@ public class DepServiceImpl implements DepService {
 	}
 	
 	@Override
-	public List<DepVO> readAllDepVONopagination(String depHdNm) {
-		return depDAO.readAllDepVONopagination(depHdNm);
+	public List<DepVO> readAllDepVONopagination(String depNm) {
+		return depDAO.readAllDepVONopagination(depNm);
+	}
+	
+	@Override
+	public DepVO readOneDepVOByDepId(String depId) {
+		return depDAO.readOneDepVOByDepId(depId);
 	}
 	
 	@Override
@@ -46,11 +52,6 @@ public class DepServiceImpl implements DepService {
 		}
 		
 		return depCreateCount > 0;
-	}
-
-	@Override
-	public DepVO readOneDepVOByDepId(String depId) {
-		return depDAO.readOneDepVOByDepId(depId);
 	}
 
 	@Override
@@ -76,8 +77,16 @@ public class DepServiceImpl implements DepService {
 	}
 
 	@Override
-	public boolean deleteDepBySelectedDepId(List<String> depIdList) {
-		return depDAO.deleteDepBySelectedDepId(depIdList) > 0;
+	public boolean deleteDepBySelectedDepId(List<String> depId) {
+		
+		int delCount = depDAO.deleteDepBySelectedDepId(depId);
+		boolean isSuccess = delCount == depId.size();
+		
+		if (!isSuccess) {
+			throw new APIException("500", "삭제에 실패했습니다. 요청건수:("+depId.size() +"건), 삭제건수:("+delCount+"건)");
+		}
+		
+		return isSuccess; 
 	}
 
 	

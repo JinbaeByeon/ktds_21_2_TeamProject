@@ -3,65 +3,140 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Dep">
+
+	<resultMap id="depVOMap" 
+				type="com.kpms.dep.vo.DepVO"
+				autoMapping="true">
+		<id property="depId" column="DEP_ID"/>
+		<association property="crtrEmpVO" 
+					   javaType="com.kpms.emp.vo.EmpVO"
+					  autoMapping="true" >
+			<id property="empId" column="CRTR" />
+			<result property="fNm" column="CRTR_E_F_NM"/>
+			<result property="lNm" column="CRTR_E_L_NM"/>
+		</association>	
+		<association property="mdfyrEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO"
+					  autoMapping="true">
+			<id property="empId" column="MDFYR"/>
+			<result property="fNm" column="MDFYR_E_F_NM"/>
+			<result property="lNm" column="MDFYR_E_L_NM"/>
+		</association>
+	</resultMap>
+
+	<select id="readAllDepVO"
+			parameterType="com.kpms.dep.vo.DepVO"
+			resultMap="depVOMap">
+		<include refid="Common.pageHeader" />
+		SELECT D.DEP_ID
+			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , D.CRTR
+			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , D.MDFYR
+			 , D.USE_YN
+			 , D.DEL_YN
+			 , D.DEP_NM
+			 , D.DEP_HD_ID
+			 , D.DEP_CRT_DT
+			 , CRTR_E.F_NM CRTR_E_F_NM
+			 , CRTR_E.L_NM CRTR_E_L_NM
+			 , MDFYR_E.F_NM MDFYR_E_F_NM
+			 , MDFYR_E.L_NM MDFYR_E_L_NM
+		  FROM DEP D
+		 INNER JOIN EMP CRTR_E
+		 	ON D.CRTR = CRTR_E.EMP_ID
+		 INNER JOIN EMP MDFYR_E
+		    ON D.MDFYR = MDFYR_E.EMP_ID
+		 WHERE D.DEL_YN = 'N'
+		<if test='depNm != null and depNm !=""'>
+		   AND D.DEP_NM LIKE '%' || #{depNm} || '%'
+		</if>
+		 ORDER BY D.DEP_NM ASC
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllDepVONopagination"
+			parameterType="string"
+			resultType="com.kpms.dep.vo.DepVO">
+		SELECT D.DEP_ID
+			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , D.CRTR
+			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , D.MDFYR
+			 , D.USE_YN
+			 , D.DEL_YN
+			 , D.DEP_NM
+			 , D.DEP_HD_ID
+			 , D.DEP_CRT_DT
+			 , CRTR_E.F_NM CRTR_E_F_NM
+			 , CRTR_E.L_NM CRTR_E_L_NM
+			 , MDFYR_E.F_NM MDFYR_E_F_NM
+			 , MDFYR_E.L_NM MDFYR_E_L_NM
+		  FROM DEP D
+		 INNER JOIN EMP CRTR_E
+		 	ON D.CRTR = CRTR_E.EMP_ID
+		 INNER JOIN EMP MDFYR_E
+		    ON D.MDFYR = MDFYR_E.EMP_ID
+		 WHERE D.DEL_YN = 'N'
+		   AND D.USE_YN = 'Y'
+		   AND D.DEP_NM LIKE '%' || #{_parameter} || '%'
+		 ORDER BY D.DEP_ID ASC
+	</select>
+
+	<select id="readOneDepVOByDepId"
+			parameterType="string"
+			resultType="com.kpms.dep.vo.DepVO">
+		SELECT DEP_ID
+			 , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , CRTR
+			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEP_NM
+			 , DEP_HD_ID
+			 , DEP_CRT_DT
+		  FROM DEP
+		 WHERE DEP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</select>
+
 	<insert id="createOneDep"
 			parameterType="com.kpms.dep.vo.DepVO">
 		INSERT INTO DEP
 		 (DEP_ID
-		, DEP_NM
 		, CRT_DT
 		, CRTR
 		, MDFY_DT
 		, MDFYR
 		, USE_YN
 		, DEL_YN
-		, DEP_HD_NM
+		, DEP_NM
 		, DEP_HD_ID
 		, DEP_CRT_DT)
 	 	VALUES
 	 	 ('DEP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_DEP_PK.NEXTVAL, 5, '0')
-	 	, #{depNm}
 	 	, SYSDATE
 	 	, #{crtr}
 	 	, SYSDATE
 	 	, #{mdfyr}
 	 	, NVL(#{useYn}, 'N')
 	 	, 'N'
-	 	, #{depHdNm}
+	 	, #{depNm}
 	 	, #{depHdId}
 	 	, SYSDATE)
 	</insert>
 	
-	<select id="readOneDepVOByDepId"
-			parameterType="string"
-			resultType="com.kpms.dep.vo.DepVO">
-		SELECT DEP_ID
-			 , DEP_NM
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEP_HD_NM
-			 , DEP_HD_ID
-			 , DEP_CRT_DT
-		  FROM KPMS.DEP
-		 WHERE DEP_ID = #{_parameter}
-		   AND DEL_YN = 'N'
-		
-	</select>
-
 	<update id="updateOneDepByDepId"
 			parameterType="com.kpms.dep.vo.DepVO">
 		UPDATE DEP
-		   SET DEP_NM
-		   	 , MDFY_DT = SYSDATE
+		   SET MDFY_DT = SYSDATE
 		     , MDFYR = #{mdfyr}
-		     , DEP_HD_NM = #{depHdNm}
+		     , DEP_NM = #{depNm}
 		     , DEP_HD_ID = #{depHdId}
 		    <if test = 'useYn != null and useYn != ""'>
 		     , USE_YN = NVL(#{useYn}, 'N')	
 		    </if>
-		 WHERE DEP_ID = #{}
+		 WHERE DEP_ID = #{depId}
 	</update>
 	
 	<update id="deleteOneDepByDepId"
