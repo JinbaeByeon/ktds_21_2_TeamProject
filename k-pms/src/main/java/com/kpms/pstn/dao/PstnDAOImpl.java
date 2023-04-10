@@ -20,11 +20,11 @@ public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO{
 	
 	@Override
 	public int createNewPstn(PstnVO pstnVO) {
-		return getSqlSession().insert("Pstn.", pstnVO);
+		return getSqlSession().insert("Pstn.createNewPstn", pstnVO);
 	}
 
 	@Override
-	public int readPstnByPstnId(String pstnId) {
+	public int readPstnByPstnId(int pstnId) {
 		return getSqlSession().selectOne("Pstn.readPstnByPstnId", pstnId);
 	}
 
@@ -39,8 +39,13 @@ public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO{
 	}
 
 	@Override
-	public int deletePstnByPstnId(String pstnId) {
+	public int deletePstnByPstnId(int pstnId) {
 		return getSqlSession().update("Pstn.deletePstnByPstnId", pstnId);
+	}
+
+	@Override
+	public int deletePstnBySelectedPstnId(List<Integer> pstnId) {
+		return getSqlSession().update("Pstn.deletePstnBySelectedPstnId", pstnId);
 	}
 
 

@@ -40,20 +40,6 @@
 		  FROM PSTN
 	</select>
 
-<!-- 	<select id="readAllPstn"
-			parameterType="com.kpms.pstn.vo.PstnVO"
-			resultMap="com.kpms.pstn.vo.PstnVO">
-		SELECT PSTN_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , PSTN_NM
-		  FROM PSTN
-	</select>	 -->
-
 	<update id="updateNewPstn"
 			parameterType="string">
 		UPDATE PSTN
