@@ -6,7 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,22 +19,26 @@
 			$("#isModify").val("true"); //수정모드
 			
 			var data = $(this).data();
-			$("#gnrId").val(data.gnrid);
-			$("#gnrNm").val(data.gnrnm);
-			$("#crtr").val(data.crtr);
+			$("#depId").val(data.depid);
+			$("#depNm").val(data.depnm);
+			$("#depHdId").val(data.dephdid);
+			$("#depCrtDt").val(data.depcrtdt);
 			$("#crtDt").val(data.crtdt);
+			$("#mdfyDt").val(data.mdfydt);
 			$("#mdfyr").val(data.mdfyr);
 			$("#mdfyDt").val(data.mdfydt);
 			
 			$("#useYn").prop("checked", data.useyn == "Y");
 		});
 		
-		$("#new_btn").click(function() {
+			$("#new_btn").click(function() {
 			
 			$("#isModify").val("false"); //등록모드
 			
-			$("#gnrId").val("");
-			$("#gnrNm").val("");
+			$("#depId").val("");
+			$("#depNm").val("");
+			$("#depHdId").val("");
+			$("#depCrtDt").val("");
 			$("#crtr").val("");
 			$("#crtDt").val("");
 			$("#mdfyr").val("");
@@ -45,9 +48,9 @@
 		});
 		
 		$("#delete_btn").click(function() {
-			var gnrId =$("#gnrId").val()
-			if (gnrId == "") {
-				alert("선택된 장르가 없습니다.");
+			var depId =$("#depId").val()
+			if (depId == "") {
+				alert("선택된 부서가 없습니다.");
 				return;
 			}
 			
@@ -55,7 +58,7 @@
 				return;
 			}
 			
-			$.get("${context}/api/gnr/delete/" + gnrId, function(response) {
+			$.get("${context}/api/dep/delete/" + depId, function(response) {
 				if (response.status == "200 OK") {
 					location.reload(); //새로고침
 				}
@@ -68,7 +71,7 @@
 		$("#save_btn").click(function() {
 			if($("#isModify").val() == "false") {
 				//신규등록
-				$.post("${context}/api/gnr/create", {gnrNm: $("#gnrNm").val(), useYn: $("#useYn:checked").val()}, function(response) {
+				$.post("${context}/api/dep/create", {depNm: $("#depNm").val(), useYn: $("#useYn:checked").val()}, function(response) {
 					if (response.status == "200 OK") {
 						location.reload(); //새로고침
 					}
@@ -80,7 +83,7 @@
 			}
 			else {
 				//수정
-				$.post("${context}/api/gnr/update", {gnrId: $("#gnrId").val(), gnrNm: $("#gnrNm").val(), useYn: $("#useYn:checked").val()}, function(response) {
+				$.post("${context}/api/dep/update", {depId: $("#depId").val(), depNm: $("#depNm").val(), useYn: $("#useYn:checked").val()}, function(response) {
 					if (response.status == "200 OK") {
 						location.reload(); //새로고침
 					}
@@ -109,7 +112,7 @@
 		$("#delete_all_btn").click(function() {
 			var checkLen = $(".check_idx:checked").length;
 			if (checkLen == 0) {
-				alert("삭제할 장르가 없습니다.");
+				alert("삭제할 부서가 없습니다.");
 				return;
 			}
 			
@@ -117,10 +120,10 @@
 			
 			$(".check_idx:checked").each(function() {
 				console.log($(this).val());
-				form.append("<input type='hidden' name='gnrId' value='" + $(this).val() + "'>"); //name이 같으면 컬렉션으로 받는다 받아올때 List로 받는다.
+				form.append("<input type='hidden' name='depId' value='" + $(this).val() + "'>"); 
 			});
 			
-			$.post("${context}/api/gnr/delete", form.serialize(), function(response) {
+			$.post("${context}/api/dep/delete", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload(); //새로고침
 				}
@@ -136,7 +139,7 @@
 			// 입력 값
 			var gnrNm = $("#search-keyword").val();
 			// URL 요청
-			location.href = "${context}/gnr/list?gnrNm=" + gnrNm + "&pageNo=" + pageNo;
+			location.href = "${context}/dep/list?depNm=" + depNm + "&pageNo=" + pageNo;
 		}
 </script>
 </head>
@@ -147,25 +150,27 @@
 			<jsp:include page="../include/sidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			
-				<div class="path">영화 > 장르관리</div>
+				<div class="path">부서 > 부서관리</div>
 				<div class="search-group">
-					<label for="search_keyword">장르명</label>
-					<input type="text" id="search-keyword" class="search-input" value="${gnrVO.gnrNm}"/>
+					<label for="search_keyword">부서명</label>
+					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
 					
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">
 					
 					<div class="grid-count align-right">
-						총 ${gnrList.size() > 0 ? gnrList.get(0).totalCount : 0}건 
+						총 ${depList.size() > 0 ? depList.get(0).totalCount : 0}건 
 					</div>
 					<table>
 						<thead>
 							<tr>
 								<th><input type="checkbox" id="all_check" /></th>
 								<th>순번</th>
-								<th>장르ID</th>
-								<th>장르명</th>
+								<th>부서ID</th>
+								<th>부서명</th>
+								<th>부서장ID</th>
+								<th>부서생성일</th>
 								<th>사용여부</th>
 								<th>등록자</th>
 								<th>등록일</th>
@@ -175,34 +180,38 @@
 						</thead>
 						<tbody>
 							<c:choose>
-								<c:when test="${not empty gnrList}">
-									<c:forEach items="${gnrList}"
-												var="gnr">
-										<tr data-gnrid="${gnr.gnrId}"
-											data-gnrnm="${gnr.gnrNm}"
-											data-useyn="${gnr.useYn}"
-											data-crtr="${gnr.crtr}"
-											data-crtdt="${gnr.crtDt}"
-											data-mdfyr="${gnr.mdfyr}"
-											data-mdfydt="${gnr.mdfyDt}">
+								<c:when test="${not empty depList}">
+									<c:forEach items="${depList}"
+												var="dep">
+										<tr data-depid="${dep.depId}"
+											data-depnm="${dep.depNm}"
+											data-dephdid="${dep.depHdId}"
+											data-depcrtdt="${dep.depCrtDt}"
+											data-useyn="${dep.useYn}"
+											data-crtr="${dep.crtr}"
+											data-crtdt="${dep.crtDt}"
+											data-mdfyr="${dep.mdfyr}"
+											data-mdfydt="${dep.mdfyDt}">
 											<td>
 												<input type="checkbox" class="check_idx" value="${gnr.gnrId}"/>
 											</td>
 											<td>순번</td>
-											<td>${gnr.gnrId}</td>
-											<td>${gnr.gnrNm}</td>
-											<td>${gnr.useYn}</td>
-											<td>${gnr.crtr}</td>
-											<td>${gnr.crtDt}</td>
-											<td>${gnr.mdfyr}</td>
-											<td>${gnr.mdfyDt}</td>
+											<td>${dep.depId}</td>
+											<td>${dep.depNm}</td>
+											<td>${dep.depHdId}</td>
+											<td>${dep.depCrtDt}</td>
+											<td>${dep.useYn}</td>
+											<td>${dep.crtr}</td>
+											<td>${dep.crtDt}</td>
+											<td>${dep.mdfyr}</td>
+											<td>${dep.mdfyDt}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="9" class="no-items">
-											등록된 장르가 없습니다.
+										<td colspan="10" class="no-items">
+											등록된 부서가 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -216,10 +225,10 @@
 					
 					<div class="pagenate">
 						<ul>
-							<c:set value="${gnrList.size() > 0 ? gnrList.get(0).lastPage : 0}" var="lastPage" />
-							<c:set value="${gnrList.size() > 0 ? gnrList.get(0).lastGroup : 0}" var="lastGroup" />
+							<c:set value="${depList.size() > 0 ? depList.get(0).lastPage : 0}" var="lastPage" />
+							<c:set value="${depList.size() > 0 ? depList.get(0).lastGroup : 0}" var="lastGroup" />
 							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(gnrVO.pageNo / 10)}" integerOnly="true" />
+							<fmt:parseNumber var="nowGroup" value="${Math.floor(depVO.pageNo / 10)}" integerOnly="true" />
 							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
 							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
 							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
@@ -241,7 +250,7 @@
 							</c:if>
 							
 							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-								<li><a class="${pageNo eq gnrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
+								<li><a class="${pageNo eq depVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
 							</c:forEach>
 							
 							<c:if test="${lastGroup > nowGroup}">
@@ -262,10 +271,16 @@
 						-->
 						<input type="hidden" id="isModify" value="false" />
 						<div class="input-group inline">
-							<label for="gnrId" style="width: 180px;">장르ID</label><input type="text" id="gnrId" name="gnrId" readonly value="" />
+							<label for="depId" style="width: 180px;">부서ID</label><input type="text" id="depId" name="depId" readonly value="" />
 						</div>
 						<div class="input-group inline">
-							<label for="gnrNm" style="width: 180px;">장르명</label><input type="text" id="gnrNm" name="gnrNm" value=""/>
+							<label for="depNm" style="width: 180px;">부서명</label><input type="text" id="depNm" name="depNm" value=""/>
+						</div>
+						<div class="input-group inline">
+							<label for="depHdId" style="width: 180px;">부서장ID</label><input type="text" id="depHdId" name="depHdId" readonly value="" />
+						</div>
+						<div class="input-group inline">
+							<label for="depCrtDt" style="width: 180px;">부서생성일</label><input type="text" id="depCrtDt" name="depCrtDt" disabled value="" />
 						</div>
 						<div class="input-group inline">
 							<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
