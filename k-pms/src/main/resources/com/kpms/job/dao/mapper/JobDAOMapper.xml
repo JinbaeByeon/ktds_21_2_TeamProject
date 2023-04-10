@@ -5,7 +5,7 @@
 <mapper namespace="Job">
 
 	<select id="readAllJobVO"
-			parameterType="com.kpms.job.vo.JobVO;"
+			parameterType="com.kpms.job.vo.JobVO"
 			resultType="com.kpms.job.vo.JobVO">
 		SELECT JOB_ID
 			 , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
