@@ -25,27 +25,27 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 
 	@Override
 	public EmpVO readOneEmpByIdAndPwd(EmpVO empVO) {
-		return getSqlSession().selectOne("Emp.createOneEmp",empVO);
+		return getSqlSession().selectOne("Emp.readOneEmpByIdAndPwd",empVO);
 	}
 
 	@Override
 	public EmpVO readOneEmpByEmpId(String empId) {
-		return getSqlSession().selectOne("Emp.createOneEmp",empId);
+		return getSqlSession().selectOne("Emp.readOneEmpByEmpId",empId);
 	}
 
 	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
-		return getSqlSession().selectList("Emp.createOneEmp",empVO);
+		return getSqlSession().selectList("Emp.readEmpList",empVO);
 	}
 
 	@Override
 	public int updateOneEmp(EmpVO empVO) {
-		return getSqlSession().update("Emp.createOneEmp",empVO);
+		return getSqlSession().update("Emp.updateOneEmp",empVO);
 	}
 
 	@Override
 	public int deleteOneEmp(EmpVO empVO) {
-		return getSqlSession().update("Emp.createOneEmp",empVO);
+		return getSqlSession().update("Emp.deleteOneEmp",empVO);
 	}
 	
 }

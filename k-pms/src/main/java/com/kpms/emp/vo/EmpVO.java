@@ -6,7 +6,6 @@ import com.kpms.common.vo.AbstractVO;
  * EMP
  */
 public class EmpVO extends AbstractVO{
-
 	private String empId;
 	private String lNm;
 	private String fNm;
@@ -30,13 +29,12 @@ public class EmpVO extends AbstractVO{
 	private int jobId;
 	private String depId;
 
+	public String getEmpId() {
+		return empId;
+	}
 
 	public void setEmpId(String empId) {
 		this.empId = empId;
-	}
-
-	public String getEmpId() {
-		return this.empId;
 	}
 
 	public String getlNm() {
