@@ -18,7 +18,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 	
 	<!-- jQuery library -->
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<!-- 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script> -->
 	
 	<!-- Popper JS -->
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -28,7 +28,36 @@
 	
 	
 	<jsp:include page="../include/stylescript.jsp"/>
-
+	<script type="text/javascript">
+		$().ready(function(){
+			$("#pwd").keydown(function(key){
+				if(key.keyCode == 13){
+					doLogin();
+				}	
+			});
+			$("#btn-lgn").click(function(){
+				doLogin();
+			});
+			function doLogin(){
+				var data = {
+						empId: $("#empId").val(),
+						pwd: $("#pwd").val(),
+						eml: $("#eml").val(),
+						lNm: $("#lNm").val(),
+						fNm: $("#fNm").val()
+					};
+					$.post("${context}/api/emp/lgn",data,function(response){
+						
+						if(response.status !="200 OK"){
+							alert(response.errorCode + " / " + response.message);
+						}
+						if(response.redirectURL){
+							location.href="${context}" +response.redirectURL;
+						}
+				});
+			};
+		});
+	</script>
 </head>
 <body>
   <section class="login_section">
@@ -108,7 +137,7 @@
                 <input type="password" name="pwd" class="form-control" id="login_password" onfocus="labelUp(this)" onblur="labelDown(this)" required />
               </div>
               <div class="form-group mb-0">
-                <button type="submit" class="btn btn-primary register_btn w-100">Sign In</button>
+                <button id="btn-lgn" class="btn btn-primary register_btn w-100">Sign In</button>
               </div>
             </form>
 

@@ -1,6 +1,9 @@
 package com.kpms.dep.vo;
 
+import java.util.List;
+
 import com.kpms.common.vo.AbstractVO;
+import com.kpms.emp.vo.EmpVO;
 
 /**
  * DEP
@@ -8,15 +11,12 @@ import com.kpms.common.vo.AbstractVO;
 public class DepVO extends AbstractVO {
 
 	private String depId;
-	private String crtDt;
-	private String crtr;
-	private String mdfyDt;
-	private String mdfyr;
-	private String useYn;
-	private String delYn;
+	private String depNm;
 	private String depHdNm;
 	private String depHdId;
 	private String depCrtDt;
+	
+	private List<EmpVO> empList;
 	
 	
 	public String getDepId() {
@@ -25,42 +25,14 @@ public class DepVO extends AbstractVO {
 	public void setDepId(String depId) {
 		this.depId = depId;
 	}
-	public String getCrtDt() {
-		return crtDt;
+	
+	public String getDepNm() {
+		return depNm;
 	}
-	public void setCrtDt(String crtDt) {
-		this.crtDt = crtDt;
+	public void setDepNm(String depNm) {
+		this.depNm = depNm;
 	}
-	public String getCrtr() {
-		return crtr;
-	}
-	public void setCrtr(String crtr) {
-		this.crtr = crtr;
-	}
-	public String getMdfyDt() {
-		return mdfyDt;
-	}
-	public void setMdfyDt(String mdfyDt) {
-		this.mdfyDt = mdfyDt;
-	}
-	public String getMdfyr() {
-		return mdfyr;
-	}
-	public void setMdfyr(String mdfyr) {
-		this.mdfyr = mdfyr;
-	}
-	public String getUseYn() {
-		return useYn;
-	}
-	public void setUseYn(String useYn) {
-		this.useYn = useYn;
-	}
-	public String getDelYn() {
-		return delYn;
-	}
-	public void setDelYn(String delYn) {
-		this.delYn = delYn;
-	}
+	
 	public String getDepHdNm() {
 		return depHdNm;
 	}
@@ -79,6 +51,13 @@ public class DepVO extends AbstractVO {
 	public void setDepCrtDt(String depCrtDt) {
 		this.depCrtDt = depCrtDt;
 	}
+	public List<EmpVO> getEmpList() {
+		return empList;
+	}
+	public void setEmpList(List<EmpVO> empList) {
+		this.empList = empList;
+	}
+	
 	
 	
 }

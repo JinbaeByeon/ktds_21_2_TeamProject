@@ -4,7 +4,7 @@
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 
 <div class="header bg-black">
-	<ul class="nav">
+	<ul class="nav"> 
 		<li class="nav-item active">회원관리</li>
 		<li class="nav-item"><a href="${context}/gnr/list">영화관리</a></li>
 		<li class="nav-item"><a href="${context}/mbr/list">시스템관리</a></li>
