@@ -16,7 +16,7 @@ public class PrjController {
 	@Autowired
 	private PrjService prjService;
 	
-	@GetMapping("/prj/list")
+	@GetMapping("/prj")
 	public String viewPrjListPage(Model model, PrjVO prjVO) {
 		List<PrjVO> prjList = prjService.readAllPrjVO(prjVO);
 		model.addAttribute("prjList", prjList);
