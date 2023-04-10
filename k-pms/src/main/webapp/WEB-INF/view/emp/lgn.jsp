@@ -16,35 +16,36 @@
 	<!--Font-aweome-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-	
-	<!-- jQuery library -->
-<!-- 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script> -->
-	
+		
 	<!-- Popper JS -->
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	
 	<!-- Latest compiled JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	
-	
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
+			// Regist
+			$("#btn-rgst").click(function(e){
+				e.preventDefault();
+				doRegist();
+			});
+			
+			// Login
 			$("#pwd").keydown(function(key){
 				if(key.keyCode == 13){
 					doLogin();
 				}	
 			});
-			$("#btn-lgn").click(function(){
+			$("#btn-lgn").click(function(e){
+				e.preventDefault();
 				doLogin();
 			});
 			function doLogin(){
 				var data = {
 						empId: $("#empId").val(),
-						pwd: $("#pwd").val(),
-						eml: $("#eml").val(),
-						lNm: $("#lNm").val(),
-						fNm: $("#fNm").val()
+						pwd: $("#login_pwd").val()
 					};
 					$.post("${context}/api/emp/lgn",data,function(response){
 						
@@ -54,7 +55,27 @@
 						if(response.redirectURL){
 							location.href="${context}" +response.redirectURL;
 						}
-				});
+					});
+			}
+			function doRegist(){
+				var data = {
+						empId: $("#empId").val(),
+						pwd: $("#signup_pwd").val(),
+						cPwd: $("#cnfrm_pwd").val(),
+						eml: $("#eml").val(),
+						lNm: $("#lNm").val(),
+						fNm: $("#fNm").val()
+					};
+					$.post("${context}/api/emp/rgst",data,function(response){
+						
+						if(response.status !="200 OK"){
+							alert(response.errorCode + " / " + response.message);
+						}
+						if(response.redirectURL){
+							location.href="${context}" +response.redirectURL;
+						}
+					});
+				
 			};
 		});
 	</script>
@@ -104,14 +125,14 @@
               <div class="form-group">
                 <label for="signup_password">Password</label>
                 <i class="fa fa-eye-slash" id="eye_icon_signup"></i>
-                <input type="password" name="pwd" class="form-control" id="signup_password" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+                <input type="password" name="pwd" class="form-control" id="signup_pwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
               </div>
               <div class="form-group">
                 <label for="cPwd">Confirm Password</label>
-                <input type="password" name="cPwd" class="form-control" id="cPwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+                <input type="password" name="cPwd" class="form-control" id="cnfrm_pwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary register_btn w-100">Sign Up</button>
+                <button id="btn-rgst" class="btn btn-primary register_btn w-100">Sign Up</button>
               </div>
             </form>
 
@@ -134,7 +155,7 @@
               <div class="form-group">
                 <label for="login_password">Password</label>
                 <i class="fa fa-eye-slash" id="eye_icon_login"></i>
-                <input type="password" name="pwd" class="form-control" id="login_password" onfocus="labelUp(this)" onblur="labelDown(this)" required />
+                <input type="password" name="pwd" class="form-control" id="login_pwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
               </div>
               <div class="form-group mb-0">
                 <button id="btn-lgn" class="btn btn-primary register_btn w-100">Sign In</button>
