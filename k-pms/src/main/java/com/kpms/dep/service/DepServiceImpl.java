@@ -39,36 +39,44 @@ public class DepServiceImpl implements DepService {
 	@Override
 	public boolean createOneDep(DepVO depVO) {
 		
-		int depCreateCount = depDAO.createOneDep(depVO);
-		if (depCreateCount > 0) {
-			
-			List<EmpVO> empList = depVO.getEmpList();
-			if (empList == null || empList.isEmpty()) {
-				throw new APIArgsException("404", "부서장을 선택하세요.");
-			}
-			for (EmpVO emp: empList) {
-				empDAO.createOneEmp(emp);
-			}
+//		int depCreateCount = depDAO.createOneDep(depVO);
+//		if (depCreateCount > 0) {
+//			
+//			List<EmpVO> empList = depVO.getEmpList();
+//			if (empList == null || empList.isEmpty()) {
+//				throw new APIArgsException("404", "부서장을 선택하세요.");
+//			}
+//			for (EmpVO emp: empList) {
+//				empDAO.createOneEmp(emp);
+//			}
+//		}
+//		
+//		return depCreateCount > 0;
+		if (depVO.getDepNm() == null || depVO.getDepNm().trim().length() == 0) {
+			throw new APIArgsException("400", "부서명이 누락되었습니다.");
 		}
-		
-		return depCreateCount > 0;
+		return depDAO.createOneDep(depVO) > 0;
 	}
 
 	@Override
 	public boolean updateOneDepByDepId(DepVO depVO) {
-		int depUpdateCount = depDAO.updateOneDepByDepId(depVO);
-		if (depUpdateCount > 0) {
-			
-			List<EmpVO> empList = depVO.getEmpList();
-			if (empList == null || empList.isEmpty()) {
-				throw new APIArgsException("404", "부서장을 선택하세요.");
-			}
-			for (EmpVO emp: empList) {
-				empDAO.createOneEmp(emp);
-			}
+//		int depUpdateCount = depDAO.updateOneDepByDepId(depVO);
+//		if (depUpdateCount > 0) {
+//			
+//			List<EmpVO> empList = depVO.getEmpList();
+//			if (empList == null || empList.isEmpty()) {
+//				throw new APIArgsException("404", "부서장을 선택하세요.");
+//			}
+//			for (EmpVO emp: empList) {
+//				empDAO.createOneEmp(emp);
+//			}
+//		}
+//		
+//		return depUpdateCount > 0;
+		if (depVO.getDepNm() == null || depVO.getDepNm().trim().length() == 0) {
+			throw new APIArgsException("400", "부서명이 누락되었습니다.");
 		}
-		
-		return depUpdateCount > 0;
+		return depDAO.updateOneDepByDepId(depVO) > 0;
 	}
 
 	@Override

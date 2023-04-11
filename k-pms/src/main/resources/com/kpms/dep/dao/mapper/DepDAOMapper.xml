@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Dep">
 
-	<resultMap id="depVOMap" 
+	<!-- <resultMap id="depVOMap" 
 				type="com.kpms.dep.vo.DepVO"
 				autoMapping="true">
 		<id property="depId" column="DEP_ID"/>
@@ -23,11 +23,12 @@
 			<result property="lNm" column="MDFYR_E_L_NM"/>
 		</association>
 	</resultMap>
-
+ -->
 	<select id="readAllDepVO"
 			parameterType="com.kpms.dep.vo.DepVO"
-			resultMap="depVOMap">
-		<include refid="Common.pageHeader" />
+			resultType="com.kpms.dep.vo.DepVO">
+			<!-- resultMap="depVOMap" -->
+		<!-- <include refid="Common.pageHeader" /> -->
 		SELECT D.DEP_ID
 			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , D.CRTR
@@ -38,24 +39,24 @@
 			 , D.DEP_NM
 			 , D.DEP_HD_ID
 			 , D.DEP_CRT_DT
-			 , CRTR_E.F_NM CRTR_E_F_NM
+			<!--  , CRTR_E.F_NM CRTR_E_F_NM
 			 , CRTR_E.L_NM CRTR_E_L_NM
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
-			 , MDFYR_E.L_NM MDFYR_E_L_NM
+			 , MDFYR_E.L_NM MDFYR_E_L_NM -->
 		  FROM DEP D
-		 INNER JOIN EMP CRTR_E
+		<!--  INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
-		    ON D.MDFYR = MDFYR_E.EMP_ID
+		    ON D.MDFYR = MDFYR_E.EMP_ID -->
 		 WHERE D.DEL_YN = 'N'
 		<if test='depNm != null and depNm !=""'>
 		   AND D.DEP_NM LIKE '%' || #{depNm} || '%'
 		</if>
 		 ORDER BY D.DEP_NM ASC
-		<include refid="Common.pageFooter" />
+		<!-- <include refid="Common.pageFooter" /> -->
 	</select>
 	
-	<select id="readAllDepVONopagination"
+	<!-- <select id="readAllDepVONopagination"
 			parameterType="string"
 			resultType="com.kpms.dep.vo.DepVO">
 		SELECT D.DEP_ID
@@ -81,7 +82,7 @@
 		   AND D.USE_YN = 'Y'
 		   AND D.DEP_NM LIKE '%' || #{_parameter} || '%'
 		 ORDER BY D.DEP_ID ASC
-	</select>
+	</select> -->
 
 	<select id="readOneDepVOByDepId"
 			parameterType="string"
@@ -151,7 +152,7 @@
 		UPDATE DEP
 		   SET DEL_YN = 'Y'
 		 WHERE DEP_ID IN
-		 <foreach collection="list" item="depId" open="(" close=")" separator="">
+		 <foreach collection="list" item="depId" open="(" close=")" separator=", ">
 		 	#{depId}
 		 </foreach>
 	</update>

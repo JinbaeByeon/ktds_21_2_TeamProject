@@ -17,9 +17,11 @@ public class DepController {
 	@Autowired
 	private DepService depService;
 	
-	@GetMapping("/dep/list")
+	@GetMapping("/dep")
 	public String viewDepListPage(DepVO depVO, Model model) {
+		
 		List<DepVO> depList = depService.readAllDepVO(depVO);
+		
 		model.addAttribute("depList", depList);
 		model.addAttribute("depVO", depVO);
 		

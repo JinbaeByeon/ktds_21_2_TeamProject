@@ -23,12 +23,14 @@
 			$("#depNm").val(data.depnm);
 			$("#depHdId").val(data.dephdid);
 			$("#depCrtDt").val(data.depcrtdt);
+			$("#crtr").val(data.crtr);
 			$("#crtDt").val(data.crtdt);
 			$("#mdfyDt").val(data.mdfydt);
 			$("#mdfyr").val(data.mdfyr);
 			$("#mdfyDt").val(data.mdfydt);
 			
 			$("#useYn").prop("checked", data.useyn == "Y");
+			
 		});
 		
 			$("#new_btn").click(function() {
@@ -95,7 +97,9 @@
 		});
 		
 		$("#search-btn").click(function() {
-			movePage(0)
+			var depNm = $("#search-keyword").val();
+			location.href = "${context}/dep?depNm=" + depNm;
+			/* movePage(0) */
 		});
 		
 		$("#all_check").change(function() {
@@ -133,14 +137,19 @@
 			});
 		});
 		
+		$("#addDepHeadBtn").click(function(event) {
+			//event.preventDefault();
+			var depHd = window.open("${context}/emp/search", "부서장 검색", "width=500,height=500");
+		})
+		
 	});
-		function movePage(pageNo) {
+		/* function movePage(pageNo) {
 			// 전송
 			// 입력 값
 			var gnrNm = $("#search-keyword").val();
 			// URL 요청
 			location.href = "${context}/dep/list?depNm=" + depNm + "&pageNo=" + pageNo;
-		}
+		} */
 </script>
 </head>
 <body>
@@ -160,7 +169,7 @@
 				<div class="grid">
 					
 					<div class="grid-count align-right">
-						총 ${depList.size() > 0 ? depList.get(0).totalCount : 0}건 
+						<%-- 총 ${depList.size() > 0 ? depList.get(0).totalCount : 0}건  --%>
 					</div>
 					<table>
 						<thead>
@@ -193,7 +202,7 @@
 											data-mdfyr="${dep.mdfyr}"
 											data-mdfydt="${dep.mdfyDt}">
 											<td>
-												<input type="checkbox" class="check_idx" value="${gnr.gnrId}"/>
+												<input type="checkbox" class="check_idx" value="${dep.depId}"/>
 											</td>
 											<td>순번</td>
 											<td>${dep.depId}</td>
@@ -223,7 +232,7 @@
 						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					
-					<div class="pagenate">
+					<<%-- div class="pagenate">
 						<ul>
 							<c:set value="${depList.size() > 0 ? depList.get(0).lastPage : 0}" var="lastPage" />
 							<c:set value="${depList.size() > 0 ? depList.get(0).lastGroup : 0}" var="lastGroup" />
@@ -259,7 +268,7 @@
 							</c:if>
 							
 						</ul>
-					</div>
+					</div> --%>
 					
 				</div>
 				
@@ -277,7 +286,10 @@
 							<label for="depNm" style="width: 180px;">부서명</label><input type="text" id="depNm" name="depNm" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="depHdId" style="width: 180px;">부서장ID</label><input type="text" id="depHdId" name="depHdId" readonly value="" />
+							<label for="depHdId" style="width: 180px;">부서장ID</label>
+							<div class="create-head">
+								<button id="addDepHeadBtn" class="btn-p">등록</button>
+							</div>
 						</div>
 						<div class="input-group inline">
 							<label for="depCrtDt" style="width: 180px;">부서생성일</label><input type="text" id="depCrtDt" name="depCrtDt" disabled value="" />

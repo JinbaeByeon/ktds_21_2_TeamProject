@@ -24,17 +24,15 @@ public class RestDepController {
 	private DepService depService;
 	
 	@PostMapping("/api/dep/create")
-	public APIResponseVO doCreateDep(DepVO depVO,
-			@SessionAttribute("__USER__") EmpVO empVO) {
+	public APIResponseVO doCreateDep(DepVO depVO/*
+												 * ,
+												 * 
+												 * @SessionAttribute("__USER__") EmpVO empVO
+												 */) {
 		
-		depVO.setCrtr(empVO.getEmpId());
-		depVO.setMdfyr(empVO.getEmpId());
-		
-		String depNm = depVO.getDepNm();
-		
-		if (depNm == null || depNm.trim().length() == 0) {
-			throw new APIArgsException("400", "부서명이 누락되었습니다.");
-		}
+		depVO.setCrtr("1"/* empVO.getEmpId() */);
+		depVO.setMdfyr("1"/* empVO.getEmpId() */);
+		depVO.setDepHdId("1");
 		
 		boolean createResult = depService.createOneDep(depVO);
 		
@@ -47,10 +45,14 @@ public class RestDepController {
 	}
 	
 	@PostMapping("/api/dep/update")
-	public APIResponseVO doUpadateDep(DepVO depVO, 
-				@SessionAttribute("__USER__") EmpVO empVO) {
-		depVO.setCrtr(empVO.getEmpId());
-		depVO.setMdfyr(empVO.getEmpId());
+	public APIResponseVO doUpadateDep(DepVO depVO/*
+													 * ,
+													 * 
+													 * @SessionAttribute("__USER__") EmpVO empVO
+													 */) {
+		depVO.setCrtr("1"/* empVO.getEmpId() */);
+		depVO.setMdfyr("1"/* empVO.getEmpId() */);
+		depVO.setDepHdId("1");
 
 		String depNm = depVO.getDepNm();
 		
