@@ -24,8 +24,8 @@ public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO{
 	}
 
 	@Override
-	public int readPstnByPstnId(int pstnId) {
-		return getSqlSession().selectOne("Pstn.readPstnByPstnId", pstnId);
+	public List<PstnVO> readPstnByPstnNm(String pstnNm) {
+		return getSqlSession().selectList("Pstn.readPstnByPstnNm", pstnNm);
 	}
 
 	@Override

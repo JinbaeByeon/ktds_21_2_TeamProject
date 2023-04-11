@@ -25,8 +25,8 @@ public class PstnServiceImpl implements PstnService{
 	}
 
 	@Override
-	public boolean readPstnByPstnId(int pstnId) {
-		return pstnDAO.readPstnByPstnId(pstnId) > 0;
+	public List<PstnVO> readPstnByPstnNm(String pstnNm) {
+		return pstnDAO.readPstnByPstnNm(pstnNm);
 	}
 
 	@Override

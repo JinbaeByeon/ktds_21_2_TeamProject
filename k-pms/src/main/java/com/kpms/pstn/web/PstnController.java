@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.kpms.common.api.vo.APIResponseVO;
+import com.kpms.common.api.vo.APIStatus;
 import com.kpms.pstn.service.PstnService;
 import com.kpms.pstn.vo.PstnVO;
 
@@ -25,5 +27,4 @@ public class PstnController {
 
 		return "pstn/list";
 	}
-	
 }

@@ -27,7 +27,7 @@
 	</insert>
 	
 	<select id="readAllPstn"
-			parameterType="string"
+			parameterType="com.kpms.pstn.vo.PstnVO"
 			resultType="com.kpms.pstn.vo.PstnVO">
 		SELECT PSTN_ID
 			 , CRT_DT
@@ -38,33 +38,27 @@
 			 , DEL_YN
 			 , PSTN_NM
 		  FROM PSTN
+		 WHERE DEL_YN = 'N'
+		 <if test="pstnNm != null and pstnNm != ''">
+		   AND PSTN_NM LIKE '%' || #{pstnNm} || '%'
+		 </if>
 	</select>
-
+	
 	<update id="updateNewPstn"
-			parameterType="string">
+			parameterType="com.kpms.pstn.vo.PstnVO">
 		UPDATE PSTN
-		   SET CRT_DT=''
-		     , CRTR=''
-		     , MDFY_DT=''
-		     , MDFYR=''
-		     , USE_YN=''
-		     , DEL_YN=''
-		     , PSTN_NM=''
-		 WHERE PSTN_ID=0;
+		   SET MDFY_DT= SYSDATE
+		     , MDFYR= #{mdfyr}
+		     , USE_YN= NVL(#{useYn}, 'Y')
+		     , PSTN_NM= #{pstnNm}
+		 WHERE PSTN_ID= #{pstnId}
 		
 	</update>
 	
 	<update id="deletePstnByPstnId"
-			parameterType="string">
+			parameterType="_int">
 		UPDATE PSTN
-		   SET CRT_DT=''
-		     , CRTR=''
-		     , MDFY_DT=''
-		     , MDFYR=''
-		     , USE_YN=''
-		     , DEL_YN=''
-		     , PSTN_NM=''
-		 WHERE PSTN_ID=0;
-		
+		   SET DEL_YN= 'Y'
+		 WHERE PSTN_ID= #{pstnId}
 	</update>
 </mapper>

@@ -55,7 +55,7 @@
 				return;
 			}
 			
-			$.get("${context}/api/gnr/delete/" + pstnId, function(response){
+			$.get("${context}/api/pstn/delete/" + pstnId, function(response){
 				if(response.status == "200 OK"){
 					location.reload(); //새로고침
 				}
@@ -93,7 +93,10 @@
 		});
 		
 		$("#search-btn").click(function(){
-			movePage(0)
+			var pstnNm =$("#search-keyword").val();
+			location.href = "${context}/pstn?pstnNm=" + pstnNm;
+			/* movePage(0) */
+			
 		})
 		
 		
@@ -159,6 +162,40 @@
 					</div>
 					<table>
 						<thead>
+							<c:choose>
+								<c:when test="${not empty readList}">
+									<c:forEach items="${readList}"
+											   var="read">
+										<tr data-pstnid="${read.pstnId}"
+											data-pstnnm="${read.pstnNm}"
+											data-useyn="${read.useYn}"
+											data-crtr="${read.crtr}"
+											data-crtdt="${read.crtDt}"
+											data-mdfyr="${read.mdfyr}"
+											data-mdfydt="${read.mdfyDt}"
+											data-delyn="${read.delYn}">
+											<td>
+												<input type="checkbox" class="check_idx" value="${read.pstnId}">
+											</td>
+											<td>${read.pstnId}</td>
+											<td>${read.pstnNm}</td>
+											<td>${read.useYn}</td>
+											<td>${read.crtr}</td>
+											<td>${read.crtDt}</td>
+											<td>${read.mdfyr}</td>
+											<td>${read.mdfyDt}</td>
+											<td>${pstn.delYn}</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="9" class="no-items">
+											등록된 직급이 없습니다.
+										</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
 							<tr>
 								<th><input type="checkbox" id="all_check"/></th>
 								<th>직급ID</th>
@@ -200,7 +237,7 @@
 								<c:otherwise>
 									<tr>
 										<td colspan="9" class="no-items">
-											등록된 장르가 없습니다.
+											등록된 직급이 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
