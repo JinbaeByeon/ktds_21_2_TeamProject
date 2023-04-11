@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kpms.prj.service.PrjService;
 import com.kpms.prj.vo.PrjVO;
@@ -23,4 +24,5 @@ public class PrjController {
 		model.addAttribute("prjVO", prjVO);
 		return "prj/list";
 	}
+
 }

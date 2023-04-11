@@ -1,11 +1,12 @@
 package com.kpms.prj.vo;
 
+import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.common.vo.AbstractVO;
 
 /**
  * PRJ
  */
-public class PrjVO extends AbstractVO{
+public class PrjVO extends AbstractPagingVO{
 
 	private String prjId;
 	private String prjNm;

@@ -5,7 +5,7 @@ import java.util.Calendar;
 import com.kpms.common.util.CalendarUtil;
 
 
-public abstract class AbstractPagingVO {
+public abstract class AbstractPagingVO extends AbstractVO{
 	private String startDt;
 	private String endDt;
 	

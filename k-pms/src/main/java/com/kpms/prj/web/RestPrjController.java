@@ -54,7 +54,7 @@ public class RestPrjController {
 		}
 	}
 	
-	@GetMapping("/api/gnr/delete/{prjId}")
+	@GetMapping("/api/prj/delete/{prjId}")
 	public APIResponseVO deDeletePrj(@PathVariable String prjId) {
 		boolean deleteResult = prjService.deleteOnePrjByPrjId(prjId);
 		
@@ -62,11 +62,11 @@ public class RestPrjController {
 			return new APIResponseVO(APIStatus.OK);
 		}
 		else {
-			return new APIResponseVO(APIStatus.FAIL, "장르 삭제 실패");
+			return new APIResponseVO(APIStatus.FAIL, "프로젝트 삭제 실패");
 		}
 	}
 	
-	@PostMapping("/api/gnr/delete")
+	@PostMapping("/api/prj/delete")
 	public APIResponseVO doDeletePrjBySelectedPrjId(@RequestParam List<String> prjId) {
 		boolean deleteResult = prjService.deletePrjByPrjList(prjId);
 		
@@ -74,7 +74,7 @@ public class RestPrjController {
 			return new APIResponseVO(APIStatus.OK);
 		}
 		else {
-			return new APIResponseVO(APIStatus.FAIL, "장르 삭제 실패");
+			return new APIResponseVO(APIStatus.FAIL, "프로젝트 삭제 실패");
 		}
 	}
 }

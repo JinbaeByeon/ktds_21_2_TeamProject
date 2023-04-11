@@ -7,6 +7,7 @@
 	<select id="readAllPrjVO"
 			parameterType="com.kpms.prj.vo.PrjVO"
 			resultType="com.kpms.prj.vo.PrjVO">
+		<include refid="Common.pageHeader" />
 		SELECT P.PRJ_ID
 			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , P.CRTR
@@ -28,6 +29,7 @@
 		   AND P.CSTMR LIKE '%' || #{cstmr} || '%'
 		 </if>
 		 ORDER BY P.PRJ_ID ASC
+		 <include refid="Common.pageFooter" />
 	</select>
 	
 	<insert id="createOnePrj"
@@ -65,9 +67,7 @@
 		UPDATE PRJ
 		   SET MDFY_DT = SYSDATE
 		   	 , MDFYR = #{mdfyr}
-		   	<if test='useYn != null and useYn != ""'>
 		   	 , USE_YN = NVL(#{useYn}, 'N')
-		   	</if>
 		   	<if test='prjNm != null and prjNm != ""'>
 		   	 , PRJ_NM = #{prjNm}
 		   	</if>
@@ -95,7 +95,7 @@
 	
 	<update id="deletePrjByPrjList"
 			parameterType="arrayList">
-				UPDATE PRJ
+		UPDATE PRJ
 		   SET DEL_YN = 'Y' 
 		 WHERE PRJ_ID IN
 		<foreach item="prjId" collection="list" open="(" close=")" separator=",">
