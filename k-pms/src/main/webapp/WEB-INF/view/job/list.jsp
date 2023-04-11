@@ -69,7 +69,7 @@
 					if (response.status == "200 OK") {
 						location.reload();
 					} else {
-						alert(response.status == "500");
+						alert(response.status);
 					}
 				});
 			} else {
