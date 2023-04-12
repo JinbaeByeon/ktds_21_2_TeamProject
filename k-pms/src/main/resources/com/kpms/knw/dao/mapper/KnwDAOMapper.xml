@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Knw">
+
+	<insert id="createOneKnw"
+			parameterType="com.kpms.knw.vo.KnwVO">
+		INSERT INTO KNW
+		 (KNW_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, TTL
+		, CNTNT
+		, VW_CNT
+		, PRJ_ID)
+		VALUES
+		 ('KNW-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_KNW_PK)
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, #{useYn}
+		, 'N'
+		, #{ttl}
+		, #{CNTNT}
+		, '0'
+		, #{prjId})
+	</insert>
+	
+	<select id="readAllKnw"
+			parameterType="com.kpms.knw.vo.KnwVO"
+			resultType="com.kpms.knw.vo.KnwVO">
+		SELECT KNW_ID
+		     , CRT_DT
+		     , CRTR
+		     , MDFY_DT
+		     , MDFYR
+		     , USE_YN
+		     , DEL_YN
+		     , TTL
+		     , CNTNT
+		     , VW_CNT
+		     , PRJ_ID
+		  FROM KNW
+		
+	</select>

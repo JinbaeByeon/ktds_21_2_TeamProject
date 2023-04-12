@@ -19,10 +19,10 @@ public class RestCmnCdController {
 	@Autowired
 	private CmnCdService cmnCdService;
 	
-	@PostMapping("/cmncd/create")
-	public APIResponseVO doCreateCmnCd(CmnCdVO cmnCdVO) { // TODO @SessionAttribute("__ADMIN__") EmpVO empVO 추가	
-		cmnCdVO.setCrtr("1");  // TODO empVO.getCrtr()
-		cmnCdVO.setMdfyr("1"); // TODO empVO.getMdfyr()
+	@PostMapping("api/cmncd/create")
+	public APIResponseVO doCreateCmnCd(CmnCdVO cmnCdVO, @SessionAttribute("__ADMIN__") EmpVO empVO) {	
+		cmnCdVO.setCrtr(empVO.getCrtr());
+		cmnCdVO.setMdfyr(empVO.getMdfyr());
 		
 		boolean createResult = cmnCdService.createOneCmnCd(cmnCdVO);
 		
