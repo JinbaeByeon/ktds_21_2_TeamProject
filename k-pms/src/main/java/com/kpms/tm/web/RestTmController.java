@@ -25,13 +25,13 @@ public class RestTmController {
 	private TmService tmService;
 	
 	@PostMapping("/api/tm/create")
-	public APIResponseVO doCreateTm(TmVO tmVO, 
+	public APIResponseVO doCreateTm(TmVO tmVO, DepVO depVO,
 			 @SessionAttribute("__USER__") EmpVO empVO) {
 		
 		tmVO.setCrtr(empVO.getEmpId());
 		tmVO.setMdfyr(empVO.getEmpId());
 		tmVO.setTmHdId("1");
-		tmVO.setDepId("1");
+		tmVO.setDepId(depVO.getDepId());
 		
 		boolean createResult = tmService.createOneTm(tmVO);
 		
@@ -44,12 +44,12 @@ public class RestTmController {
 	}
 	
 	@PostMapping("/api/tm/update")
-	public APIResponseVO doUpadateTm(TmVO tmVO,
+	public APIResponseVO doUpadateTm(TmVO tmVO, DepVO depVO,
 						 @SessionAttribute("__USER__") EmpVO empVO) {
 		tmVO.setCrtr(empVO.getEmpId());
 		tmVO.setMdfyr(empVO.getEmpId());
 		tmVO.setTmHdId("1");
-		tmVO.setDepId("1"/* depVO.getDepId() */);
+		tmVO.setDepId(depVO.getDepId());
 
 		String tmNm = tmVO.getTmNm();
 		
