@@ -6,157 +6,224 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="SignUp, Login, Register">
-	<meta name="keywords" content="Sign up, Sign in">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
 	<title>Login</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-	
-	<!--Font-aweome-->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-	
-	<!-- jQuery library -->
-<!-- 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script> -->
-	
-	<!-- Popper JS -->
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-	
-	<!-- Latest compiled JavaScript -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-	
-	
-	<jsp:include page="../include/stylescript.jsp"/>
+	<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<link rel ="stylesheet" href="${context}/css/lgn.css"/>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("#pwd").keydown(function(key){
+			$('a.modal').click(function(e) {
+			  	e.stopPropagation();
+			  	$('body').addClass('modal-active');
+			});
+			$('div.modal').click(function(e) {
+			  	e.stopPropagation();
+			});
+			/* $('body').click(function () {
+				$(this).removeClass('modal-active');
+				window.clearTimeout(window.t);
+				$('button').removeClass('loading');
+				$('.modal').removeClass('success');
+			}); */
+			
+			$('a.nav').click(function() {
+				$('div.modal').attr('class','modal '+$(this).data('target'));
+				$('div.modal a.nav').removeClass('active');
+				$('div.modal a.nav.'+$(this).data('target')).addClass('active');
+				/* Without pulling in my jquery parent visiblility thing, I'm just going to hard code it */
+				
+				//$('div.modal input'+($(this).data('target') == 'login' ? '#username' : '#email')).focus();
+			});
+			 
+			/* $('form').submit(function(e) {
+				e.preventDefault;
+				$('button').addClass('loading');
+				
+				window.t = setTimeout(function() {
+					$('.modal').addClass('success');
+					window.t = setTimeout(function() {
+						$('body').click();
+						$('button').removeClass('loading');
+						$('.modal').removeClass('success');
+					},5000);
+				},1000+Math.random()*2000);
+				return false;
+			}); */
+
+			/* Don't look at the man behind the curtain! */
+			$('a').click(function(e){e.preventDefault();});
+			$('a.nav').first().click();
+			
+			// address
+			$('#addrss').click(function(){
+				 new daum.Postcode({
+				        oncomplete: function(data) {
+				            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+				            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+				            $("#addrss").val(data.roadAddress);
+				            $("#dtlAddrss").focus();
+				        }
+				    }).open();
+			});
+			
+			// 엔터 submit 방지
+			$('input').keydown(function() {
+				  if (event.keyCode === 13) {
+				    event.preventDefault();
+				  };
+			});
+			$('button').click(function(e){
+				e.preventDefault();
+			})
+			// Regist
+			$("span.register").click(function(e){
+				e.preventDefault();
+				$('button').addClass('loading');
+				doRegist();
+			});
+			
+			$("#cnfrmPwd").keyup(function(key){
 				if(key.keyCode == 13){
-					doLogin();
+					doRegist();
 				}	
 			});
-			$("#btn-lgn").click(function(){
+			
+			// Login
+			$("#pwd").keyup(function(key){
+				if(key.keyCode == 13){
+					if($(this).closest("div.content").find(".nav.login.active").length == 1){
+						$("#empId").focus();
+						doLogin();
+					}
+				}
+			});
+			$("span.login").click(function(e){
+				e.preventDefault();
 				doLogin();
 			});
 			function doLogin(){
+				if($("#empId").val() == null || $("#empId").val() == ''){
+					alert("Id를 입력하세요");
+					$("#empId").focus();
+					return;
+				}
+				if($("#pwd").val() == null || $("#pwd").val() == ''){
+					alert("비밀번호를 입력하세요");
+					$("#pwd").focus();
+					return;
+				}
+				$('button').addClass('loading');
 				var data = {
 						empId: $("#empId").val(),
-						pwd: $("#pwd").val(),
-						eml: $("#eml").val(),
-						lNm: $("#lNm").val(),
-						fNm: $("#fNm").val()
+						pwd: $("#pwd").val()
 					};
-					$.post("${context}/api/emp/lgn",data,function(response){
+				$.post("${context}/api/emp/lgn",data,function(response){
+					console.log(response);
+					if(response.status == "200 OK"){
+						alert("로그인성공");
+						if(response.redirectURL){
+							location.href="${context}"+response.redirectURL;
+						}
+					} else{
+						$('button').removeClass('loading');
+						alert(response.errorCode + " / " + response.message);
+					}
+				});
+			}
+			function doRegist(){
+				var data = {
+						empId: $("#empId").val(),
+						lNm: $("#lNm").val(),
+						fNm: $("#fNm").val(),
+						eml: $("#eml").val(),
+						phn: $("#phn").val(),
+						brthdy: $("#brthdy").val(),
+						addrss: $("#addrss").val() + " " + $("dtlAddrss").val(),
+						pwd: $("#pwd").val(),
+						cPwd: $("#cnfrmPwd").val()
+					};
+					$.post("${context}/api/emp/rgst",data,function(response){
 						
 						if(response.status !="200 OK"){
 							alert(response.errorCode + " / " + response.message);
 						}
 						if(response.redirectURL){
+							alert("회원가입");
 							location.href="${context}" +response.redirectURL;
 						}
-				});
+					});
+				
 			};
 		});
 	</script>
 </head>
 <body>
-  <section class="login_section">
-    <div class="container outer_container accounts_container">
-      <div class="row h-100">
-        <div class="col col-sm-12 col-md-12 col-lg-8 m-0 p-0 w-100 h-100 accounts_col">
-          <div class="accounts_image w-100 h-100">
-            <img src="https://img.freepik.com/free-photo/social-media-instagram-digital-marketing-concept-3d-rendering_106244-1717.jpg?t=st=1647414398~exp=1647414998~hmac=2c478ef6affd973ccd71ea4d394d9283db4a0c6c4c686ba0b9f6091c8a56e5a1&w=1480" alt="accounts_image" class="img-fluid w-100 h-100" />
-          </div>
-          <!--accounts_image-->
-        </div>
-        <!--account_col-->
-        <div class="col col-sm-12 col-md-12 col-lg-4 m-0 p-0 accounts_col">
-          <div class="accounts_forms signup_form w-100 h-100" id="signup">
-            <div class="title mt-4 p-4 w-100">
-              <h1>Sign Up</h1>
-              <!-- <p class="mt-3">  </p> -->
-            </div>
-            <!--title-->
-            <form method="post" name="form" class="form w-100 p-4" id="form">
-              <div class="row">
-                <div class="col col-sm-12 col-md-12 col-lg-6 m-0">
-                  <div class="form-group">
-                    <label for="fNm">Firstname</label>
-                    <input type="text" name="fNm" class="form-control" id="fNm" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-                  </div>
-                </div>
-                <div class="col col-sm-12 col-md-12 col-lg-6 m-0">
-                  <div class="form-group">
-                    <label for="lNm">Lastname</label>
-                    <input type="text" name="lNm" class="form-control" id="lNm" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-                  </div>
-                </div>
-              </div>
-              <!--form-row-->
-              <div class="form-group">
-                <label for="empId">Id</label>
-                <input type="text" name="empId" class="form-control" id="empId" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <label for="eml">Email</label>
-                <input type="email" name="eml" class="form-control" id="eml" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <label for="signup_password">Password</label>
-                <i class="fa fa-eye-slash" id="eye_icon_signup"></i>
-                <input type="password" name="pwd" class="form-control" id="signup_password" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <label for="cPwd">Confirm Password</label>
-                <input type="password" name="cPwd" class="form-control" id="cPwd" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary register_btn w-100">Sign Up</button>
-              </div>
-            </form>
-
-            <div class="already_member_box">
-              <p class="text-center" id="to_login">I am already member</p>
-            </div>
-          </div>
-          <!--accounts_forms-->
-          <div class="accounts_forms  w-100 h-100" id="login">
-            <div class="title  mt-4 p-4 w-100">
-              <h1>Sign In</h1>
-              <!-- <p class="mt-3"> 2222222 </p> -->
-            </div>
-            <!--title-->
-            <form method="post" name="form" class="form  w-100 p-4" id="form">
-              <div class="form-group">
-                <label for="empId">Id</label>
-                <input type="text" name="empId" class="form-control" id="empId" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group">
-                <label for="login_password">Password</label>
-                <i class="fa fa-eye-slash" id="eye_icon_login"></i>
-                <input type="password" name="pwd" class="form-control" id="login_password" onfocus="labelUp(this)" onblur="labelDown(this)" required />
-              </div>
-              <div class="form-group mb-0">
-                <button id="btn-lgn" class="btn btn-primary register_btn w-100">Sign In</button>
-              </div>
-            </form>
-
-            <div class="already_member_box d-flex justify-content-between px-4">
-              <span class="text-center" id="to_signup">Create an account?</span>
-              <span class="text-center">Forgot password</span>
-            </div>
-          </div>
-          <!--accounts_forms-->
-        </div>
-        <!--account_col-->
-      </div>
-      <!--row-->
-    </div>
-    <!--accounts_container-->
-  </section>
-  <!--login_section-->
-  
-  <!--Custom Js-->
-  <script type="text/javascript" src="${context}/js/lgn.js"></script>
+	<div class="container">
+	  <div class="actions">
+	    <a href="/login" data-target="login" class="btn nav login modal">Login</a>
+	    <a href="/register" data-target="register" class="btn nav register modal">Register</a>
+	  </div>
+	</div>
+	<div class="modal">
+	  <div class="content">
+	  	<div>
+	      <a class="nav login" data-target="login">Log In</a>
+	      <a class="nav register" data-target="register">Register</a>
+	  	</div>
+	  	<div class="regist-form">
+		  <form>
+		    <div class="regist">
+		    	<div class="first-name">
+			      <label for="fNm">First Name</label>
+			      <input id="fNm" type="text"/>
+		    	</div>
+		    	<div class="last-name">
+			      <label for="lNm">Last Name</label>
+			      <input id="lNm" type="text"/>
+		    	</div>
+		    </div>
+		    <div class="regist">
+		      <label for="eml">Email</label>
+		      <input id="eml" type="email"/>
+		    </div>
+		    <div class="regist">
+		      <label for="phn">Phone</label>
+		      <input id="phn" type="tel"/>
+		    </div>
+		    <div class="regist">
+		      <label for="brthdy">Birthday</label>
+		      <input id="brthdy" type="date"/>
+		    </div>
+		    <div class="regist address">
+	      		<label for="addrss">Address</label>
+	    		<input id="addrss" type="search"/>
+	    	</div>
+		    <div class="regist detail-address">
+	      		<label for="dtlAddrss">Detail Address</label>
+	    		<input id="dtlAddrss" type="search"/>
+		    </div>
+		    <label for="empId">Id</label>
+		    <input id="empId" />
+		    <label for="pwd">Password</label>
+		    <input id="pwd" type="password" />
+		    <div class="regist">
+		      <label for="cnfrmPwd">Confirm Password</label>
+		      <input id="cnfrmPwd" type="password"/>
+		    </div>
+		    <button>
+		      <span class="login">Log In</span>
+		      <span class="register">Register</span>
+		      <span class="loading">Loading</span>
+		    </button>
+		    <div class="text-center">
+		      <a href="/forgot">Forgot Password?</a>
+		    </div>
+		  </form>
+	  	</div>
+	  </div>
+	  <div class="success-check"></div>
+	</div>
+	
 </body>
 </html>

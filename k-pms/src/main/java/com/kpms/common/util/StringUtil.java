@@ -19,4 +19,8 @@ public abstract class StringUtil {
 	public static boolean isMatchTo(String lhs, String rhs) {
 		return lhs.equals(rhs);
 	}
+
+	public static int dateToInt(String dt) {
+		return Integer.parseInt(dt.replace("-", ""));
+	}
 }
