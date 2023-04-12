@@ -6,30 +6,11 @@
 	
 	<insert id="createLgnTryLog"
 			parameterType="com.kpms.lgntrylog.vo.LgnTryLogVO">
-		INSERT INTO LGN_TRY_LOG
-		(LGN_TRY_IP,
-		 CRT_DT,
-		 CRTR,
-		 DEL_YN,
-		 LGN_TRY_CNT,
-		 LTST_LGN_TRY_DT)
-		VALUES
-		(#{lgnTryIp},
-		 SYSDATE,
-		 #{crtr},
-		 'N',
-		 0,
-		 SYSDATE)
 	</insert>
 	
 	
 	<update id="updateLgnTryLog"
 			parameterType="com.kpms.lgntrylog.vo.LgnTryLogVO">
-		UPDATE LGN_TRY_LOG
-		   SET CRTR = #{crtr},
-			   LGN_TRY_CNT = #{lgnTryCnt},
-			   LTST_LGN_TRY_DT = SYSDATE
-		 WHERE LGN_TRY_IP = #{lgnTryIp}
 		
 	</update>
 	

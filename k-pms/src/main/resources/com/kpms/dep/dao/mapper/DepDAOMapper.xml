@@ -22,13 +22,13 @@
 			<result property="fNm" column="MDFYR_E_F_NM"/>
 			<result property="lNm" column="MDFYR_E_L_NM"/>
 		</association>
-	</resultMap>
- -->
+	</resultMap> -->
+
 	<select id="readAllDepVO"
 			parameterType="com.kpms.dep.vo.DepVO"
 			resultType="com.kpms.dep.vo.DepVO">
-			<!-- resultMap="depVOMap" -->
-		<!-- <include refid="Common.pageHeader" /> -->
+			<!-- resultMap="depVOMap" > -->
+		<include refid="Common.pageHeader" />
 		SELECT D.DEP_ID
 			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , D.CRTR
@@ -38,25 +38,25 @@
 			 , D.DEL_YN
 			 , D.DEP_NM
 			 , D.DEP_HD_ID
-			 , D.DEP_CRT_DT
+			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
 			<!--  , CRTR_E.F_NM CRTR_E_F_NM
 			 , CRTR_E.L_NM CRTR_E_L_NM
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
-			 , MDFYR_E.L_NM MDFYR_E_L_NM -->
+			 , MDFYR_E.L_NM MDFYR_E_L_NM  -->
 		  FROM DEP D
 		<!--  INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
-		    ON D.MDFYR = MDFYR_E.EMP_ID -->
+		    ON D.MDFYR = MDFYR_E.EMP_ID --> 
 		 WHERE D.DEL_YN = 'N'
 		<if test='depNm != null and depNm !=""'>
 		   AND D.DEP_NM LIKE '%' || #{depNm} || '%'
 		</if>
-		 ORDER BY D.DEP_NM ASC
-		<!-- <include refid="Common.pageFooter" /> -->
+		 ORDER BY D.DEP_ID ASC
+		<include refid="Common.pageFooter" />
 	</select>
 	
-	<!-- <select id="readAllDepVONopagination"
+	<select id="readAllDepVONopagination"
 			parameterType="string"
 			resultType="com.kpms.dep.vo.DepVO">
 		SELECT D.DEP_ID
@@ -68,21 +68,21 @@
 			 , D.DEL_YN
 			 , D.DEP_NM
 			 , D.DEP_HD_ID
-			 , D.DEP_CRT_DT
-			 , CRTR_E.F_NM CRTR_E_F_NM
+			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
+			<!--  , CRTR_E.F_NM CRTR_E_F_NM
 			 , CRTR_E.L_NM CRTR_E_L_NM
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
-			 , MDFYR_E.L_NM MDFYR_E_L_NM
+			 , MDFYR_E.L_NM MDFYR_E_L_NM -->
 		  FROM DEP D
-		 INNER JOIN EMP CRTR_E
+		 <!-- INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
-		    ON D.MDFYR = MDFYR_E.EMP_ID
+		    ON D.MDFYR = MDFYR_E.EMP_ID -->
 		 WHERE D.DEL_YN = 'N'
 		   AND D.USE_YN = 'Y'
 		   AND D.DEP_NM LIKE '%' || #{_parameter} || '%'
 		 ORDER BY D.DEP_ID ASC
-	</select> -->
+	</select>
 
 	<select id="readOneDepVOByDepId"
 			parameterType="string"
@@ -124,7 +124,7 @@
 	 	, 'N'
 	 	, #{depNm}
 	 	, #{depHdId}
-	 	, SYSDATE)
+	 	, TO_DATE(#{depCrtDt}, 'YYYY-MM-DD'))
 	</insert>
 	
 	<update id="updateOneDepByDepId"
@@ -134,6 +134,7 @@
 		     , MDFYR = #{mdfyr}
 		     , DEP_NM = #{depNm}
 		     , DEP_HD_ID = #{depHdId}
+		     , DEP_CRT_DT = TO_DATE(#{depCrtDt}, 'YYYY-MM-DD')
 		    <if test = 'useYn != null and useYn != ""'>
 		     , USE_YN = NVL(#{useYn}, 'N')	
 		    </if>

@@ -25,9 +25,9 @@
 			$("#depCrtDt").val(data.depcrtdt);
 			$("#crtr").val(data.crtr);
 			$("#crtDt").val(data.crtdt);
-			$("#mdfyDt").val(data.mdfydt);
 			$("#mdfyr").val(data.mdfyr);
 			$("#mdfyDt").val(data.mdfydt);
+
 			
 			$("#useYn").prop("checked", data.useyn == "Y");
 			
@@ -71,21 +71,21 @@
 		})
 		
 		$("#save_btn").click(function() {
+			var ajaxUtil = new AjaxUtil();
 			if($("#isModify").val() == "false") {
 				//신규등록
-				$.post("${context}/api/dep/create", {depNm: $("#depNm").val(), useYn: $("#useYn:checked").val()}, function(response) {
+				ajaxUtil.upload("#detail_form","${context}/api/dep/create",function(response){
 					if (response.status == "200 OK") {
 						location.reload(); //새로고침
 					}
 					else {
 						alert(response.errorCode + " / " + response.message);
 					}
-				
 				});
 			}
 			else {
 				//수정
-				$.post("${context}/api/dep/update", {depId: $("#depId").val(), depNm: $("#depNm").val(), useYn: $("#useYn:checked").val()}, function(response) {
+				ajaxUtil.upload("#detail_form","${context}/api/dep/update",function(response){
 					if (response.status == "200 OK") {
 						location.reload(); //새로고침
 					}
@@ -99,7 +99,7 @@
 		$("#search-btn").click(function() {
 			var depNm = $("#search-keyword").val();
 			location.href = "${context}/dep?depNm=" + depNm;
-			/* movePage(0) */
+			 movePage(0) 
 		});
 		
 		$("#all_check").change(function() {
@@ -138,38 +138,36 @@
 		});
 		
 		$("#addDepHeadBtn").click(function(event) {
-			//event.preventDefault();
+			event.preventDefault(); // depNm으로 보내지 않게 하기 위해
 			var depHd = window.open("${context}/emp/search", "부서장 검색", "width=500,height=500");
-		})
+		});
 		
 	});
-		/* function movePage(pageNo) {
+		 function movePage(pageNo) {
 			// 전송
 			// 입력 값
-			var gnrNm = $("#search-keyword").val();
+			var depNm = $("#search-keyword").val();
 			// URL 요청
 			location.href = "${context}/dep/list?depNm=" + depNm + "&pageNo=" + pageNo;
-		} */
+		} 
 </script>
 </head>
 <body>
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sidemenu.jsp" />
+			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			
 				<div class="path">부서 > 부서관리</div>
 				<div class="search-group">
 					<label for="search_keyword">부서명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
-					
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">
 					
 					<div class="grid-count align-right">
-						<%-- 총 ${depList.size() > 0 ? depList.get(0).totalCount : 0}건  --%>
+						 총 ${depList.size() > 0 ? depList.get(0).totalCount : 0}건  
 					</div>
 					<table>
 						<thead>
@@ -210,9 +208,9 @@
 											<td>${dep.depHdId}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
-											<td>${dep.crtr}</td>
+											<td>${dep.crtr}<!-- (dep.crtrEmpVO.lNm) --></td>
 											<td>${dep.crtDt}</td>
-											<td>${dep.mdfyr}</td>
+											<td>${dep.mdfyr}<!-- (dep.mdfyrMbrVO.lNm --></td>
 											<td>${dep.mdfyDt}</td>
 										</tr>
 									</c:forEach>
@@ -231,6 +229,12 @@
 					<div class="align-right mt-10">
 						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
+					<c:import url="../include/pagenate.jsp">
+                  		<c:param name="pageNo" value="${pageNo}"/>
+                  		<c:param name="pageCnt" value="${pageCnt}"/>
+                  		<c:param name="lastPage" value="${lastPage}"/>
+                  		<c:param name="path" value="${context}/dep"/>
+					</c:import>
 					
 					<<%-- div class="pagenate">
 						<ul>
@@ -288,11 +292,12 @@
 						<div class="input-group inline">
 							<label for="depHdId" style="width: 180px;">부서장ID</label>
 							<div class="create-head">
+								<input type="hidden" name="depHdId" value="tmpId" /> 
 								<button id="addDepHeadBtn" class="btn-p">등록</button>
 							</div>
 						</div>
 						<div class="input-group inline">
-							<label for="depCrtDt" style="width: 180px;">부서생성일</label><input type="text" id="depCrtDt" name="depCrtDt" disabled value="" />
+							<label for="depCrtDt" style="width: 180px;">부서생성일</label><input type="date" id="depCrtDt" name="depCrtDt" />
 						</div>
 						<div class="input-group inline">
 							<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>

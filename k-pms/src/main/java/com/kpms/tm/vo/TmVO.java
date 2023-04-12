@@ -1,11 +1,11 @@
 package com.kpms.tm.vo;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
 
 /**
  * TM
  */
-public class TmVO extends AbstractVO {
+public class TmVO extends AbstractPagingVO {
 
 	private String tmId;
 	private String tmNm;

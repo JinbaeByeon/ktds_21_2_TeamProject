@@ -2,13 +2,13 @@ package com.kpms.dep.vo;
 
 import java.util.List;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.emp.vo.EmpVO;
 
 /**
  * DEP
  */
-public class DepVO extends AbstractVO {
+public class DepVO extends AbstractPagingVO {
 
 	private String depId;
 	private String depNm;

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Tm">
+	
+	<select id="readAllTmVO"
+			parameterType="com.kpms.tm.vo.TmVO"
+			resultType="com.kpms.tm.vo.TmVO">
+		<include refid="Common.pageHeader" />
+		SELECT T.TM_ID
+			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , T.CRTR
+			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , T.MDFYR
+			 , T.USE_YN
+			 , T.DEL_YN
+			 , T.TM_NM
+			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
+			 , T.DEP_ID
+			 , T.TM_HD_ID
+		  FROM TM T
+		 WHERE T.DEL_YN = 'N'
+		<if test='tmNm != null and tmNm !=""'>
+		   AND T.TM_NM LIKE '%' || #{tmNm} || '%'
+		</if>
+		 ORDER BY T.TM_ID ASC
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllTmVONopagination"
+			parameterType="string"
+			resultType="com.kpms.tm.vo.TmVO">
+		SELECT T.TM_ID
+			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , T.CRTR
+			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , T.MDFYR
+			 , T.USE_YN
+			 , T.DEL_YN
+			 , T.TM_NM
+			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
+			 , T.DEP_ID
+			 , T.TM_HD_ID
+		  FROM TM T
+		 WHERE T.DEL_YN = 'N'
+		   AND T.USE_YN = 'Y'
+		   AND T.TM_NM LIKE '%' || #{_parameter} || '%'
+		 ORDER BY T.TM_ID ASC
+	</select>
+	
+	<select id="readOneTmVOByTmId"
+			parameterType="string"
+			resultType="com.kpms.tm.vo.TmVO">
+		SELECT TM_ID
+			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , CRTR
+			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , TM_NM
+			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
+			 , DEP_ID
+			 , TM_HD_ID
+		  FROM TM T
+		 WHERE TM_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</select>
+	
+	<insert id="createOneTm"
+			parameterType="com.kpms.tm.vo.TmVO">
+		INSERT INTO TM
+		 (TM_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, TM_NM
+		, TM_CRT_DT
+		, DEP_ID
+		, TM_HD_ID)
+		VALUES
+		 ('TM-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_TM_PK.NEXTVAL, 5, '0')
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{tmNm}
+		, TO_DATE(#{tmCrtDt}, 'YYYY-MM-DD')
+		, #{depId}
+		, #{tmHdId})
+	</insert>
+	
+	<update id="updateOneTm"
+			parameterType="com.kpms.tm.vo.TmVO">
+		UPDATE TM
+		   SET MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		     , TM_NM = #{tmNm}
+		     , TM_CRT_DT = TO_DATE(#{tmCrtDt}, 'YYYY-MM-DD')
+		     , DEP_ID = #{depId}
+		     , TM_HD_ID = #{tmHdId}
+		    <if test = 'useYn != null and useYn != ""'>
+		     , USE_YN = NVL(#{useYn}, 'N')	
+		    </if>
+		 WHERE TM_ID = #{tmId}
+	</update>
+
+	<update id="deleteOneTmByTmId"
+			parameterType="string">
+		UPDATE TM
+		   SET DEL_YN = 'Y'
+		 WHERE TM_ID = #{_parameter}
+	</update>	
+	
+	<update id="deleteTmBySelectedTmId"
+			parameterType="arraylist">
+		UPDATE TM
+		   SET DEL_YN = 'Y'
+		 WHERE TM_ID IN
+		 <foreach collection="list" item="tmId" open="(" close=")" separator=", ">
+		 	#{tmId}
+		 </foreach>
+	</update>
+	
+</mapper>
