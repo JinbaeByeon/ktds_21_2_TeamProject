@@ -24,6 +24,14 @@ public class JobController {
 		model.addAttribute("jobList", jobList);
 		model.addAttribute("jobVO", jobVO);
 		
+		if(!jobList.isEmpty()) {
+	         model.addAttribute("lastPage",jobList.get(0).getLastPage());
+	      }
+	      model.addAttribute("jobNm", jobVO.getJobNm());
+	      model.addAttribute("pageNo", jobVO.getPageNo());
+	      model.addAttribute("viewCnt", jobVO.getViewCnt());
+	      model.addAttribute("pageCnt", jobVO.getPageCnt());
+		
 		return "job/list";
 	}
 	

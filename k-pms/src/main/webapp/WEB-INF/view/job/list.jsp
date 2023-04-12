@@ -197,13 +197,20 @@
 					</tbody>
 				</table>
 				
+				<c:import url="../include/pagenate.jsp">
+                  <c:param name="pageNo" value="${pageNo}"/>
+                  <c:param name="pageCnt" value="${pageCnt}"/>
+                  <c:param name="lastPage" value="${lastPage}"/>
+                  <c:param name="path" value="${context}/job"/>
+               </c:import>
+               
 				<div class="align-right">
-				<button id="delete_all_btn" class="btn-delete">삭제</button>
+					<button id="delete_all_btn" class="btn-delete">삭제</button>
 				</div>
-				</div>
-				<div class="grid-detail">
+			</div>
+			<div class="grid-detail">
 				<form id="detail_form" >
-				<input type="hidden" id="isModify" value="false" />
+					<input type="hidden" id="isModify" value="false" />
 					<div class="input-group inline">
 						<label for="jobId" style="width: 180px;">직무ID</label><input type="text" id="jobId" name="jobId" value="" readonly/>
 					</div>

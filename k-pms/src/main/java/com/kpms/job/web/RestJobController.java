@@ -22,8 +22,10 @@ public class RestJobController {
 	@Autowired
 	private JobService jobService;
 	
-	@PostMapping("/api/job/create/")
+	@PostMapping("/api/job/create")
 	public APIResponseVO doCreateJob(JobVO jobVO) {
+		jobVO.setCrtr("임시 값");
+		jobVO.setMdfyr("임시 값");
 		boolean createResult = jobService.createOneJob(jobVO);
 		
 		if(createResult) {
