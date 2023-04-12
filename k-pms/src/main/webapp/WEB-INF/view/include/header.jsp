@@ -9,7 +9,7 @@
 		<li class="nav-item" data-menu="dep"><a href="${context}/dep/list">부서관리</a></li>
 		<li class="nav-item" data-menu="eqp"><a href="${context}/eqp/list">비품관리</a></li>
 		<li class="nav-item" data-menu="prj"><a href="${context}/prj/list">프로젝트관리</a></li>
-		<li class="nav-item" data-menu="sys"><a href="${context}/emp/admin/list">시스템관리</a></li>
+		<li class="nav-item" data-menu="sys"><a href="${context}/sys/list">시스템관리</a></li>
 	</ul>
 	<div class="inline profile">
 		${sessionScope.__USER__.fNm} <a href="${context}/emp/lgt">(Logout)</a>

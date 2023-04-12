@@ -25,11 +25,6 @@ public class PstnServiceImpl implements PstnService{
 	}
 
 	@Override
-	public List<PstnVO> readPstnByPstnNm(String pstnNm) {
-		return pstnDAO.readPstnByPstnNm(pstnNm);
-	}
-
-	@Override
 	public List<PstnVO> readAllPstn(PstnVO pstnVO) {
 		return pstnDAO.readAllPstn(pstnVO);
 	}

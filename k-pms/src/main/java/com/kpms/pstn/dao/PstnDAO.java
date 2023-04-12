@@ -7,7 +7,6 @@ import com.kpms.pstn.vo.PstnVO;
 public interface PstnDAO {
 
 	public int createNewPstn(PstnVO pstnVO);
-	public List<PstnVO> readPstnByPstnNm(String pstnNm);
 	public List<PstnVO> readAllPstn(PstnVO pstnVO);
 	public int updateNewPstn(PstnVO pstnVO);
 	public int deletePstnByPstnId(int pstnId);

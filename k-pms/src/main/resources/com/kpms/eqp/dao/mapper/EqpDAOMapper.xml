@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Eqp">
+	
+	<insert id="createNewEqp"
+			parameterType="com.kpms.eqp.vo.EqpVO">
+		INSERT INTO EQP
+		 (EQP_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, EQP_NM
+		, EQP_TP
+		, APPL_STTS
+		, EQP_PRC
+		, PRCHS_DT
+		, LOSS_STTS
+		, LOSS_RPRT_DT
+		, APPL_DT)
+		VALUES
+		 (SEQ_EQP_PK.NEXTVAL
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{eqpNm}
+		, #{eqpTp}
+		, #{applStts}
+		, #{eqpPrc}
+		, #{prchsDt}
+		, #{lossStts}
+		, #{lossRprtDt}
+		, #{applDt})
+	</insert>
+		
+	
+	<select id="readAllEqp"
+			parameterType="com.kpms.eqp.vo.EqpVO"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		SELECT EQP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , EQP_PRC
+			 , PRCHS_DT
+			 , LOSS_STTS
+			 , LOSS_RPRT_DT
+			 , APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		 <if test="eqpNm != null and eqpNm != ''">
+		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		 </if>
+	</select>
+	
+	
+	<update id="updateEqp"
+			parameterType="com.kpms.eqp.vo.EqpVO">
+		UPDATE EQP
+		   SET MDFY_DT= SYSDATE
+		     , MDFYR= #{mdfyr}
+		     , USE_YN= NVL(#{useYn}, 'Y')
+		     , EQP_NM= #{eqpNm}
+		     , EQP_TP= #{eqpTp}
+		     , APPL_STTS= #{applStts}
+		     , EQP_PRC= #{eqpPrc}
+		     , PRCHS_DT= SYSDATE
+		     , LOSS_STTS= #{lossStts}
+		     , LOSS_RPRT_DT= SYSDATE
+		     , APPL_DT= SYSDATE
+		 WHERE EQP_ID= #{eqpId}
+	</update>
+	
+	
+	<update id="deleteEqpByEqpId"
+			parameterType="string">
+		UPDATE EQP
+		   SET DEL_YN= 'Y'
+		 WHERE EQP_ID= #{eqpId}
+	</update>
+	
+	
+	<update id="deleteEqpBySelectedEqpId"
+			parameterType="arraylist">
+		UPDATE EQP
+		   SET DEL_YN= 'Y'
+		 WHERE EQP_ID= #{eqpId}
+	</update>
+
+</mapper>

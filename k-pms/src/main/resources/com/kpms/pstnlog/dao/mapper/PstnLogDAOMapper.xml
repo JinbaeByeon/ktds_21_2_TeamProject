@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PstnLog">
+
+	<insert id="createPstnLog"
+			parameterType="parameterType">
+		INSERT INTO PSTN_LOG
+		 (EMP_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, CHNG_DT
+		, PRVS_PSTN_ID
+		, CHNG_PSTN_ID
+		, CHNG_RSN)
+		VALUES
+		 (#{empId}
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, SYSDATE
+		, #{prvsPstnId}
+		, #{chngPstnId}
+		, #{chngRsn})
+	</insert>
+	
+	
+	<select id="readAllPstnLog"
+			parameterType="com.kpms.pstnlog.vo.PstnLogVO"
+			resultType="com.kpms.pstnlog.vo.PstnLogVO">
+		SELECT EMP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , CHNG_DT
+			 , PRVS_PSTN_ID
+			 , CHNG_PSTN_ID
+			 , CHNG_RSN
+		  FROM PSTN_LOG
+	</select>
+	
+</mapper>

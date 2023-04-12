@@ -1,4 +1,4 @@
-package com.kpms.pstn.web;
+package com.kpms.eqp.web;
 
 import java.util.List;
 
@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
-import com.kpms.pstn.service.PstnService;
+import com.kpms.eqp.service.EqpService;
 import com.kpms.pstn.vo.PstnVO;
 
 @RestController
-public class RestPstnController {
+public class RestEqpController {
 
 	@Autowired
-	private PstnService pstnService;
+	private EqpService eqpService;
 	
-	@PostMapping("/pstn/create")
-	public APIResponseVO doCreatePstn(PstnVO pstnVO
+	@PostMapping("/eqp/create")
+	public APIResponseVO doCreateEqp(EqpVO eqpVO
 			) {
-		pstnVO.setCrtr("1");
-		pstnVO.setMdfyr("1");
+		eqpVO.setCrtr("1");
+		eqpVO.setMdfyr("1");
 		
-		boolean createResult = pstnService.createNewPstn(pstnVO);
+		boolean createResult = eqpService.createNewEqp(eqpVO);
 		
 		if(createResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -37,15 +37,15 @@ public class RestPstnController {
 	}
 
 	
-	@PostMapping("/api/pstn/update")	
-	public APIResponseVO doUpdatePstn(PstnVO pstnVO
+	@PostMapping("/api/eqp/update")	
+	public APIResponseVO doUpdatePstn(PstnVO eqpVO
 			/*@SessionAttribute("__ADMIN__") EmpVO empVO*/) {
 		
 				/*
 				 * pstnVO.setMdfyr(empVO.getEmpId());
 				 */		
-		pstnVO.setMdfyr("1");
-		boolean updateResult = pstnService.updateNewPstn(pstnVO);
+		eqpVO.setMdfyr("1");
+		boolean updateResult = eqpService.updateNewPstn(eqpVO);
 		
 		if(updateResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -55,9 +55,9 @@ public class RestPstnController {
 		}
 	}
 	
-	@GetMapping("/api/pstn/delete/{pstnId}")
-	public APIResponseVO doDeletePstn(@PathVariable int pstnId) {
-		boolean deleteResult = pstnService.deletePstnByPstnId(pstnId);
+	@GetMapping("/api/eqp/delete/{eqpId}")
+	public APIResponseVO doDeleteEqp(@PathVariable String eqpId) {
+		boolean deleteResult = eqpService.deleteEqpByEqpId(eqpId);
 		
 		if(deleteResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -67,9 +67,9 @@ public class RestPstnController {
 		}
 	}
 	
-	@PostMapping("/api/pstn/delete")
-	public APIResponseVO doDeletePstnBySelectedPstnId(@RequestParam List<Integer> pstnId) {
-		boolean deleteResult = pstnService.deletePstnBySelectedPstnId(pstnId);
+	@PostMapping("/api/eqp/delete")
+	public APIResponseVO doDeleteEqpBySelectedEqpId(@RequestParam List<String> eqpId) {
+		boolean deleteResult = eqpService.deleteEqpBySelectedEqpId(eqpId);
 		
 		if(deleteResult) {
 			return new APIResponseVO(APIStatus.OK);

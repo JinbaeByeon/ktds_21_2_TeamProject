@@ -10,22 +10,17 @@ import org.springframework.stereotype.Repository;
 import com.kpms.pstn.vo.PstnVO;
 
 @Repository
-public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO{
+public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO {
 
 	@Autowired
 	@Override
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
-	
+
 	@Override
 	public int createNewPstn(PstnVO pstnVO) {
 		return getSqlSession().insert("Pstn.createNewPstn", pstnVO);
-	}
-
-	@Override
-	public List<PstnVO> readPstnByPstnNm(String pstnNm) {
-		return getSqlSession().selectList("Pstn.readPstnByPstnNm", pstnNm);
 	}
 
 	@Override
@@ -47,13 +42,5 @@ public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO{
 	public int deletePstnBySelectedPstnId(List<Integer> pstnId) {
 		return getSqlSession().update("Pstn.deletePstnBySelectedPstnId", pstnId);
 	}
-
-
-
-
-
-	
-
-	
 
 }

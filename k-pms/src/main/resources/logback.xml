@@ -21,10 +21,10 @@
     </encoder>
   </appender>
   
-  <logger level="info" name="org.springframework">
+  <logger level="debug" name="org.springframework">
     <appender-ref ref="FILE"/>
   </logger>
-  <logger level="info" name="com.kpms">
+  <logger level="debug" name="com.kpms">
     <appender-ref ref="FILE"/>
   </logger>
   

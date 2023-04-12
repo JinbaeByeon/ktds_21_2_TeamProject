@@ -7,7 +7,6 @@ import com.kpms.pstn.vo.PstnVO;
 public interface PstnService {
 	
 	public boolean createNewPstn(PstnVO pstnVO);
-	public List<PstnVO> readPstnByPstnNm(String pstnNm);
 	public List<PstnVO> readAllPstn(PstnVO pstnVO);
 	public boolean updateNewPstn(PstnVO pstnVO);
 	public boolean deletePstnByPstnId(int pstnId);
