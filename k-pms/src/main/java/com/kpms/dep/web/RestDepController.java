@@ -24,11 +24,8 @@ public class RestDepController {
 	private DepService depService;
 	
 	@PostMapping("/api/dep/create")
-	public APIResponseVO doCreateDep(DepVO depVO/*
-												 * ,
-												 * 
-												 * @SessionAttribute("__USER__") EmpVO empVO
-												 */) {
+	public APIResponseVO doCreateDep(DepVO depVO,
+			@SessionAttribute("__USER__") EmpVO empVO) {
 		
 		depVO.setCrtr("1"/* empVO.getEmpId() */);
 		depVO.setMdfyr("1"/* empVO.getEmpId() */);
@@ -45,11 +42,8 @@ public class RestDepController {
 	}
 	
 	@PostMapping("/api/dep/update")
-	public APIResponseVO doUpadateDep(DepVO depVO/*
-													 * ,
-													 * 
-													 * @SessionAttribute("__USER__") EmpVO empVO
-													 */) {
+	public APIResponseVO doUpadateDep(DepVO depVO, 
+			@SessionAttribute("__USER__") EmpVO empVO) {
 		depVO.setCrtr("1"/* empVO.getEmpId() */);
 		depVO.setMdfyr("1"/* empVO.getEmpId() */);
 		depVO.setDepHdId("1");

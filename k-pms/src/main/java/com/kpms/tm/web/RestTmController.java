@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
+import com.kpms.dep.vo.DepVO;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.tm.service.TmService;
 import com.kpms.tm.vo.TmVO;
@@ -23,17 +24,15 @@ public class RestTmController {
 	@Autowired
 	private TmService tmService;
 	
+	
 	@PostMapping("/api/tm/create")
-	public APIResponseVO doCreateTm(TmVO tmVO/*
-												 * ,
-												 * 
-												 * @SessionAttribute("__USER__") EmpVO empVO
-												 */) {
+	public APIResponseVO doCreateTm(TmVO tmVO, 
+			 @SessionAttribute("__USER__") EmpVO empVO) {
 		
 		tmVO.setCrtr("1"/* empVO.getEmpId() */);
 		tmVO.setMdfyr("1"/* empVO.getEmpId() */);
 		tmVO.setTmHdId("1");
-		tmVO.setDepId("1");
+		tmVO.setDepId("1"/* depVO.getDepId() */);
 		
 		boolean createResult = tmService.createOneTm(tmVO);
 		
@@ -46,15 +45,12 @@ public class RestTmController {
 	}
 	
 	@PostMapping("/api/tm/update")
-	public APIResponseVO doUpadateTm(TmVO tmVO/*
-													 * ,
-													 * 
-													 * @SessionAttribute("__USER__") EmpVO empVO
-													 */) {
+	public APIResponseVO doUpadateTm(TmVO tmVO,
+						 @SessionAttribute("__USER__") EmpVO empVO) {
 		tmVO.setCrtr("1"/* empVO.getEmpId() */);
 		tmVO.setMdfyr("1"/* empVO.getEmpId() */);
 		tmVO.setTmHdId("1");
-		tmVO.setDepId("1");
+		tmVO.setDepId("1"/* depVO.getDepId() */);
 
 		String tmNm = tmVO.getTmNm();
 		
