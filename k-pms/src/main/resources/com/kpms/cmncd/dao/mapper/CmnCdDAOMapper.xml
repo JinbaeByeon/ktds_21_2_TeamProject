@@ -5,65 +5,66 @@
 <mapper namespace="CmnCd">
 
 	<select id="readAllCmnCd"
-			parameterType="com.kpms.cmncd.vo.CmnCdVO"
-			resultType="com.kpms.cmncd.vo.CmnCdVO">
+		parameterType="com.kpms.cmncd.vo.CmnCdVO"
+		resultType="com.kpms.cmncd.vo.CmnCdVO">
+		<include refid="Common.pageHeader" />
 		SELECT CD_ID
-		     , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
-		     , CRTR
-		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		     , MDFYR
-		     , USE_YN
-		     , DEL_YN
-		     , CD_NM
-		     , PRCDNC_CD_ID
-          FROM CMN_CD
-		 WHERE DEL_YN = 'N'
-		 <if test='cdNm != null and cdNm != ""'>
-		   AND CD_NM LIKE '%' || #{cdNm} || '%'
-		 </if>
-		 ORDER BY CD_NM DESC
+		, TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+		, CRTR
+		, TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, CD_NM
+		, PRCDNC_CD_ID
+		FROM CMN_CD
+		WHERE DEL_YN = 'N'
+		<if test='cdNm != null and cdNm != ""'>
+			AND CD_NM LIKE '%' || #{cdNm} || '%'
+		</if>
+		ORDER BY CD_NM DESC
+		<include refid="Common.pageFooter" />
 	</select>
-	
- 	<insert id="createOneCmnCd"
-			parameterType="com.kpms.cmncd.vo.CmnCdVO">
+
+	<insert id="createOneCmnCd"
+		parameterType="com.kpms.cmncd.vo.CmnCdVO">
 		INSERT INTO CMN_CD
-    	 (CD_ID
-    	, CRT_DT
-    	, CRTR
-    	, MDFY_DT
-    	, MDFYR
-    	, USE_YN
-    	, DEL_YN
-    	, CD_NM
-    	, PRCDNC_CD_ID)
-        VALUES
-         (SEQ_CMN_CD_PK.NEXTVAL
-        , SYSDATE
-        , #{crtr}
-        , SYSDATE
-        , #{mdfyr}
-        , NVL(#{useYn}, 'N')
-        , 'N'
-        , #{cdNm}
-        , NVL(#{prcdncCdId}, NULL))
+		(CD_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, CD_NM
+		, PRCDNC_CD_ID)
+		VALUES
+		(#{cdId}
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{cdNm}
+		, NVL(#{prcdncCdId}, NULL))
 	</insert>
-	
+
 	<update id="updateOneCmnCd"
-			parameterType="com.kpms.cmncd.vo.CmnCdVO">
+		parameterType="com.kpms.cmncd.vo.CmnCdVO">
 		UPDATE CMN_CD
-		   SET MDFY_DT = SYSDATE
-		     , MDFYR = #{mdfyr}
-		     , USE_YN = #{useYn}
-		     , CD_NM = #{cdNm}
-		     , PRCDNC_CD_ID = #{prcdncCdId}
-         WHERE CD_ID = #{cdId}
+		SET MDFY_DT = SYSDATE
+		, MDFYR = #{mdfyr}
+		, USE_YN = #{useYn}
+		, CD_NM = #{cdNm}
+		, PRCDNC_CD_ID = #{prcdncCdId}
+		WHERE CD_ID = #{cdId}
 	</update>
-	
-	<update id="deleteOneCmnCdByCdId"
-			parameterType="_int">
+
+	<update id="deleteOneCmnCdByCdId" parameterType="string">
 		UPDATE CMN_CD
-		   SET DEL_YN = 'Y'
-         WHERE CD_ID = #{cdId}
+		SET DEL_YN = 'Y'
+		WHERE CD_ID = #{cdId}
 	</update>
-	
+
 </mapper>

@@ -22,6 +22,6 @@ public class KnwController {
 		
 		model.addAttribute("knwList", knwList);
 		
-		return "mvppl/list";
+		return "knw/list";
 	}
 }

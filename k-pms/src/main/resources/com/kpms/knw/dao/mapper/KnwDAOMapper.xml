@@ -52,7 +52,6 @@
          INNER JOIN PRJ P
             ON K.PRJ_ID = P.PRJ_ID 
          WHERE K.DEL_YN = 'N'
-           AND KR.DEL_YN = 'N'
 	</select>
 
 

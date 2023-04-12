@@ -21,7 +21,6 @@ public class EmpVO extends AbstractVO{
 	private String pwdChngDt;
 	private String ltstLgnIp;
 	private String ltstLgnDt;
-	private int lgnCnt;
 	private String pwdSalt;
 	private String pwd;
 	private int pstnId;
@@ -155,14 +154,6 @@ public class EmpVO extends AbstractVO{
 
 	public String getLtstLgnDt() {
 		return this.ltstLgnDt;
-	}
-
-	public void setLgnCnt(int lgnCnt) {
-		this.lgnCnt = lgnCnt;
-	}
-
-	public int getLgnCnt() {
-		return this.lgnCnt;
 	}
 
 	public void setPwdSalt(String pwdSalt) {
