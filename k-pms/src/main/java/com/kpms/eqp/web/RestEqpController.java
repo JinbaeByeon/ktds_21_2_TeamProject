@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.eqp.service.EqpService;
-import com.kpms.pstn.vo.PstnVO;
+import com.kpms.eqp.vo.EqpVO;
 
 @RestController
 public class RestEqpController {
@@ -21,8 +21,7 @@ public class RestEqpController {
 	private EqpService eqpService;
 	
 	@PostMapping("/eqp/create")
-	public APIResponseVO doCreateEqp(EqpVO eqpVO
-			) {
+	public APIResponseVO doCreateEqp(EqpVO eqpVO) {
 		eqpVO.setCrtr("1");
 		eqpVO.setMdfyr("1");
 		
@@ -38,14 +37,14 @@ public class RestEqpController {
 
 	
 	@PostMapping("/api/eqp/update")	
-	public APIResponseVO doUpdatePstn(PstnVO eqpVO
+	public APIResponseVO doUpdateEqp(EqpVO eqpVO
 			/*@SessionAttribute("__ADMIN__") EmpVO empVO*/) {
 		
 				/*
 				 * pstnVO.setMdfyr(empVO.getEmpId());
 				 */		
 		eqpVO.setMdfyr("1");
-		boolean updateResult = eqpService.updateNewPstn(eqpVO);
+		boolean updateResult = eqpService.updateEqp(eqpVO);
 		
 		if(updateResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -57,7 +56,9 @@ public class RestEqpController {
 	
 	@GetMapping("/api/eqp/delete/{eqpId}")
 	public APIResponseVO doDeleteEqp(@PathVariable String eqpId) {
+		System.out.println(eqpId);
 		boolean deleteResult = eqpService.deleteEqpByEqpId(eqpId);
+		
 		
 		if(deleteResult) {
 			return new APIResponseVO(APIStatus.OK);

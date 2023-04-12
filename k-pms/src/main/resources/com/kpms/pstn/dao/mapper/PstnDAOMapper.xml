@@ -61,4 +61,14 @@
 		   SET DEL_YN= 'Y'
 		 WHERE PSTN_ID= #{pstnId}
 	</update>
+	
+	<update id="deletePstnBySelectedPstnId"
+			parameterType="arraylist">
+		UPDATE PSTN
+		   SET DEL_YN= 'Y'
+		 WHERE PSTN_ID IN
+		 <foreach collection="list" item="pstnId" open="(" close=")" separator=", ">
+		 	#{pstnId}
+		 </foreach>
+	</update>
 </mapper>

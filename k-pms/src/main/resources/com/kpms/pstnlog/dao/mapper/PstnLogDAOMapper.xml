@@ -5,7 +5,7 @@
 <mapper namespace="PstnLog">
 
 	<insert id="createPstnLog"
-			parameterType="parameterType">
+			parameterType="com.kpms.pstnlog.vo.PstnLogVO">
 		INSERT INTO PSTN_LOG
 		 (EMP_ID
 		, CRT_DT

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kpms.eqp.vo.EqpVO;
@@ -11,6 +12,7 @@ import com.kpms.eqp.vo.EqpVO;
 @Repository
 public class EqpDAOImpl extends SqlSessionDaoSupport implements EqpDAO{
 
+	@Autowired
 	@Override
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
@@ -33,7 +35,7 @@ public class EqpDAOImpl extends SqlSessionDaoSupport implements EqpDAO{
 
 	@Override
 	public int deleteEqpByEqpId(String eqpId) {
-		return getSqlSession().update("Eqp.deleteEqpByEpqId", eqpId);
+		return getSqlSession().update("Eqp.deleteEqpByEqpId", eqpId);
 	}
 
 	@Override

@@ -55,10 +55,10 @@
 			 , EQP_TP
 			 , APPL_STTS
 			 , EQP_PRC
-			 , PRCHS_DT
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
 			 , LOSS_STTS
-			 , LOSS_RPRT_DT
-			 , APPL_DT
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
 		  FROM EQP
 		 WHERE DEL_YN = 'N'
 		 <if test="eqpNm != null and eqpNm != ''">
@@ -97,7 +97,10 @@
 			parameterType="arraylist">
 		UPDATE EQP
 		   SET DEL_YN= 'Y'
-		 WHERE EQP_ID= #{eqpId}
+		 WHERE EQP_ID IN
+		 <foreach collection="list" item="eqpId" open="(" close=")" separator=", ">
+		 	#{eqpId}
+		 </foreach>
 	</update>
 
 </mapper>
