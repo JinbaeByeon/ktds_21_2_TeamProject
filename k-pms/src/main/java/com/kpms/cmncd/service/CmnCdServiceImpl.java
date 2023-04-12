@@ -18,7 +18,7 @@ public class CmnCdServiceImpl implements CmnCdService {
 	public List<CmnCdVO> readAllCmnCd(CmnCdVO cmnCdVO) {
 		return cmnCdDAO.readAllCmnCd(cmnCdVO);
 	}
-
+	
 	@Override
 	public boolean createOneCmnCd(CmnCdVO cmnCdVO) {
 		return cmnCdDAO.createOneCmnCd(cmnCdVO) > 0;

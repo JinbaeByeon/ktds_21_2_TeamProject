@@ -64,9 +64,9 @@
 	<table>
 		<thead>
 			<tr>
-				<th>코드ID</th>
-				<th>코드명</th>
-				<th>상위코드ID</th>
+				<th>지식관리ID</th>
+				<th>제목</th>
+				<th>내용</th>
 				<th>등록자</th>
 				<th>등록일</th>
 				<th>수정자</th>

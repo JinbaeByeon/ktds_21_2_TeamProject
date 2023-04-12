@@ -35,17 +35,25 @@
 	<select id="readAllKnw"
 			parameterType="com.kpms.knw.vo.KnwVO"
 			resultType="com.kpms.knw.vo.KnwVO">
-		SELECT KNW_ID
-		     , CRT_DT
-		     , CRTR
-		     , MDFY_DT
-		     , MDFYR
-		     , USE_YN
-		     , DEL_YN
-		     , TTL
-		     , CNTNT
-		     , VW_CNT
-		     , PRJ_ID
-		  FROM KNW
-		
+		SELECT K.KNW_ID
+             , TO_CHAR(K.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') K_CRT_DT
+             , K.CRTR
+             , TO_CHAR(K.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') K_MDFY_DT
+             , K.MDFYR
+             , K.USE_YN
+             , K.DEL_YN
+             , K.TTL
+             , K.CNTNT
+             , K.VW_CNT
+             , K.PRJ_ID
+             , P.PRJ_ID P_PRJ_ID
+             , P.PRJ_NM 
+          FROM KNW K
+         INNER JOIN PRJ P
+            ON K.PRJ_ID = P.PRJ_ID 
+         WHERE K.DEL_YN = 'N'
+           AND KR.DEL_YN = 'N'
 	</select>
+
+
+</mapper>

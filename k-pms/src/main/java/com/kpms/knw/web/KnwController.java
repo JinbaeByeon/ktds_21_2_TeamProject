@@ -21,7 +21,6 @@ public class KnwController {
 		List<KnwVO> knwList = knwService.readAllKnw(knwVO);
 		
 		model.addAttribute("knwList", knwList);
-		model.addAttribute("knw", knwVO);
 		
 		return "mvppl/list";
 	}

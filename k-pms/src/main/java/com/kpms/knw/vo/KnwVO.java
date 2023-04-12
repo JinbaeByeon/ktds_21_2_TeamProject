@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kpms.common.vo.AbstractVO;
 import com.kpms.knwrpl.vo.KnwRplVO;
+import com.kpms.prj.vo.PrjVO;
 
 /**
  * KNW
@@ -16,7 +17,8 @@ public class KnwVO extends AbstractVO {
 	private String vwCnt;
 	private String prjId;
 
-	private List<KnwRplVO> rplList;
+	private PrjVO prjVO; // 프로젝트에 대한 정보(프로젝트 이름, 상태)
+	private List<KnwRplVO> rplList; // 지식관리 댓글
 
 	public String getKnwId() {
 		return knwId;
@@ -56,6 +58,14 @@ public class KnwVO extends AbstractVO {
 
 	public void setPrjId(String prjId) {
 		this.prjId = prjId;
+	}
+
+	public PrjVO getPrjVO() {
+		return prjVO;
+	}
+
+	public void setPrjVO(PrjVO prjVO) {
+		this.prjVO = prjVO;
 	}
 
 	public List<KnwRplVO> getRplList() {
