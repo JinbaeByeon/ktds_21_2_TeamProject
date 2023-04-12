@@ -3,6 +3,7 @@ package com.kpms.emp.service;
 import java.util.List;
 
 import com.kpms.emp.vo.EmpVO;
+import com.kpms.lgnhst.vo.LgnHstVO;
 
 public interface EmpService {
 
@@ -16,5 +17,7 @@ public interface EmpService {
 	public boolean updateOneEmp(EmpVO empVO);
 	
 	public boolean deleteOneEmp(EmpVO empVO);
+
+	public boolean createLgnHst(LgnHstVO lgnHst);
 
 }

@@ -14,7 +14,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 			throws Exception {
 		EmpVO user = (EmpVO)request.getSession().getAttribute("__USER__");
 		if(user==null) {
-			response.sendRedirect(request.getContextPath());
+			response.sendRedirect(request.getContextPath() + "/");
 			return false;
 		}
 		return true;

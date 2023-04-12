@@ -170,15 +170,15 @@ li{
 	display: inline-block;
 	padding: 0px;
 	margin :0px;
-	color: #EEE;
+	color: #fff7;
 }
 
 .main-layout > .header > .nav > .nav-item:hover{
-	color: #d070fb;
+	color: #fff;
 }
 
 .main-layout > .header > .nav > .nav-item > a:hover{
-	color: #d070fb;
+	color: #fff;
 }
 
 .main-layout > .header > .nav > .active {

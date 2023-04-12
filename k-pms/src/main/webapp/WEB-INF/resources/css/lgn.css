@@ -274,3 +274,7 @@ div.modal .content .regist-form div.last-name {
 	width: 30%;
 }
 
+div.modal .content .regist-form div.regist.address #addrss{
+	margin-bottom: 5px;
+	width: 60%;
+}

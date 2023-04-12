@@ -9,8 +9,8 @@
 	
 	<title>Login</title>
 	<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<link rel ="stylesheet" href="${context}/css/lgn.css"/>
-	
 	<script type="text/javascript">
 		$().ready(function(){
 			$('a.modal').click(function(e) {
@@ -55,56 +55,93 @@
 			$('a').click(function(e){e.preventDefault();});
 			$('a.nav').first().click();
 			
+			// address
+			$('#addrss').click(function(){
+				 new daum.Postcode({
+				        oncomplete: function(data) {
+				            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+				            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+				            $("#addrss").val(data.roadAddress);
+				            $("#dtlAddrss").focus();
+				        }
+				    }).open();
+			});
 			
+			// 엔터 submit 방지
+			$('input').keydown(function() {
+				  if (event.keyCode === 13) {
+				    event.preventDefault();
+				  };
+			});
+			$('button').click(function(e){
+				e.preventDefault();
+			})
 			// Regist
 			$("span.register").click(function(e){
 				e.preventDefault();
 				$('button').addClass('loading');
 				doRegist();
 			});
-			$("#cnfrmPwd").keydown(function(key){
+			
+			$("#cnfrmPwd").keyup(function(key){
 				if(key.keyCode == 13){
 					doRegist();
 				}	
 			});
 			
 			// Login
-			$("#pwd").keydown(function(key){
+			$("#pwd").keyup(function(key){
 				if(key.keyCode == 13){
-					console.log($(this).))
-					/* doLogin(); */
-				}	
+					if($(this).closest("div.content").find(".nav.login.active").length == 1){
+						$("#empId").focus();
+						doLogin();
+					}
+				}
 			});
 			$("span.login").click(function(e){
 				e.preventDefault();
-				$('button').addClass('loading');
 				doLogin();
 			});
 			function doLogin(){
+				if($("#empId").val() == null || $("#empId").val() == ''){
+					alert("Id를 입력하세요");
+					$("#empId").focus();
+					return;
+				}
+				if($("#pwd").val() == null || $("#pwd").val() == ''){
+					alert("비밀번호를 입력하세요");
+					$("#pwd").focus();
+					return;
+				}
+				$('button').addClass('loading');
 				var data = {
 						empId: $("#empId").val(),
 						pwd: $("#pwd").val()
 					};
-					$.post("${context}/api/emp/lgn",data,function(response){
-						
-						if(response.status !="200 OK"){
-							alert(response.errorCode + " / " + response.message);
-						}
+				$.post("${context}/api/emp/lgn",data,function(response){
+					console.log(response);
+					if(response.status == "200 OK"){
+						alert("로그인성공");
 						if(response.redirectURL){
-							location.href="${context}" +response.redirectURL;
+							location.href="${context}"+response.redirectURL;
 						}
-					});
+					} else{
+						$('button').removeClass('loading');
+						alert(response.errorCode + " / " + response.message);
+					}
+				});
 			}
 			function doRegist(){
 				var data = {
 						empId: $("#empId").val(),
-						pwd: $("#pwd").val(),
-						cPwd: $("#cnfrmPwd").val(),
+						lNm: $("#lNm").val(),
+						fNm: $("#fNm").val(),
+						eml: $("#eml").val(),
 						phn: $("#phn").val(),
 						brthdy: $("#brthdy").val(),
-						eml: $("#eml").val(),
-						lNm: $("#lNm").val(),
-						fNm: $("#fNm").val()
+						addrss: $("#addrss").val() + " " + $("dtlAddrss").val(),
+						pwd: $("#pwd").val(),
+						cPwd: $("#cnfrmPwd").val()
 					};
 					$.post("${context}/api/emp/rgst",data,function(response){
 						
@@ -112,6 +149,7 @@
 							alert(response.errorCode + " / " + response.message);
 						}
 						if(response.redirectURL){
+							alert("회원가입");
 							location.href="${context}" +response.redirectURL;
 						}
 					});
@@ -135,8 +173,6 @@
 	  	</div>
 	  	<div class="regist-form">
 		  <form>
-		    <label for="empId">Id</label>
-		    <input id="empId" />
 		    <div class="regist">
 		    	<div class="first-name">
 			      <label for="fNm">First Name</label>
@@ -159,13 +195,23 @@
 		      <label for="brthdy">Birthday</label>
 		      <input id="brthdy" type="date"/>
 		    </div>
+		    <div class="regist address">
+	      		<label for="addrss">Address</label>
+	    		<input id="addrss" type="search"/>
+	    	</div>
+		    <div class="regist detail-address">
+	      		<label for="dtlAddrss">Detail Address</label>
+	    		<input id="dtlAddrss" type="search"/>
+		    </div>
+		    <label for="empId">Id</label>
+		    <input id="empId" />
 		    <label for="pwd">Password</label>
 		    <input id="pwd" type="password" />
 		    <div class="regist">
 		      <label for="cnfrmPwd">Confirm Password</label>
 		      <input id="cnfrmPwd" type="password"/>
 		    </div>
-		    <button type="submit">
+		    <button>
 		      <span class="login">Log In</span>
 		      <span class="register">Register</span>
 		      <span class="loading">Loading</span>
