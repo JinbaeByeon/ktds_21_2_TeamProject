@@ -24,6 +24,8 @@ public class CalendarUtil {
 			e.printStackTrace();
 		}
 		cal.add(field, amount);
-		return getDate(cal);
+		return sdf.format(cal.getTime());
 	}
+	
+	
 }

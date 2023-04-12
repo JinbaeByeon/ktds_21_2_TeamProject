@@ -24,15 +24,21 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	}
 
 	@Override
+	public int readCntLgnTryDataRcnt60ById(String empId) {
+		return getSqlSession().selectOne("Emp.readCntLgnTryDataRcnt60ById",empId);
+	}
+	@Override
+	public EmpVO readLgnTryDataById(String empId) {
+		return getSqlSession().selectOne("Emp.readLgnTryDataById",empId);
+	}
+	@Override
 	public EmpVO readOneEmpByIdAndPwd(EmpVO empVO) {
 		return getSqlSession().selectOne("Emp.readOneEmpByIdAndPwd",empVO);
 	}
-
 	@Override
 	public EmpVO readOneEmpByEmpId(String empId) {
 		return getSqlSession().selectOne("Emp.readOneEmpByEmpId",empId);
 	}
-
 	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
 		return getSqlSession().selectList("Emp.readEmpList",empVO);
@@ -42,7 +48,19 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	public int updateOneEmp(EmpVO empVO) {
 		return getSqlSession().update("Emp.updateOneEmp",empVO);
 	}
-
+	@Override
+	public int updateEmpLgnSucc(EmpVO empVO) {
+		return getSqlSession().update("Emp.updateEmpLgnSucc",empVO);
+	}
+	@Override
+	public int updateEmpLgnFail(String empId) {
+		return getSqlSession().update("Emp.updateEmpLgnFail",empId);
+	}
+	@Override
+	public int updateEmpLgnCntZero(String empId) {
+		return getSqlSession().update("Emp.updateEmpLgnCntZero",empId);
+	}
+	
 	@Override
 	public int deleteOneEmp(EmpVO empVO) {
 		return getSqlSession().update("Emp.deleteOneEmp",empVO);
