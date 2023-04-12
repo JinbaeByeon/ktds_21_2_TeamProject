@@ -21,4 +21,5 @@ public interface JobDAO {
 	public int deleteOneJobByJobId(int jobId);
 
 	public int deleteJobBySelectedJobId(List<Integer> jobId);
+	
 }
