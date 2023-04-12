@@ -39,4 +39,10 @@ public class EmpController {
 		
 		return "emp/list";
 	}
+	
+	@GetMapping("/emp/admin/list")
+	public String viewAdminListPage() {
+		
+		return "emp/adminList";
+	}
 }
