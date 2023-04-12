@@ -1,6 +1,6 @@
 package com.kpms.common.vo;
 
-public class AbstractFileVO {
+public class AbstractFileVO extends AbstractPagingVO{
 	private String fileName;
 
 	public String getFileName() {
