@@ -80,7 +80,7 @@
 				}, function(response) {
 
 					if (response.status == "200 OK") {
-
+						location.reload();
 					} else {
 						alert(response.errorCode + "/" + response.message);
 					}
@@ -134,7 +134,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp"/>
 		<div>
-		<jsp:include page="../include/sidemenu.jsp"/>
+		<jsp:include page="../include/sysSidemenu.jsp"/>
 		<jsp:include page="../include/content.jsp"/>
 			<div class="path">직무관리 > </div>
 			<div class="search-group">
