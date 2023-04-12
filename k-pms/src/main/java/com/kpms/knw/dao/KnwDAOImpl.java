@@ -27,6 +27,26 @@ public class KnwDAOImpl extends SqlSessionDaoSupport implements KnwDAO {
 	public List<KnwVO> readAllKnw(KnwVO knwVO) {
 		return getSqlSession().selectList("Knw.readAllKnw", knwVO);
 	}
+	
+	@Override
+	public KnwVO readOneKnwByKnwId(String KnwId) {
+		return getSqlSession().selectOne("Knw.readOneKnwByKnwId", KnwId);
+	}
+
+	@Override
+	public int updateOneKnw(KnwVO knwVO) {
+		return getSqlSession().update("knw.updateOneKnw", knwVO);
+	}
+
+	@Override
+	public int deleteOneKnw(String knwId) {
+		return getSqlSession().update("Knw.deleteOneKnw", knwId);
+	}
+
+	@Override
+	public int deleteKnwBySelectedKnwId(List<String> knwIdList) {
+		return getSqlSession().update("Knw.deleteKnwBySelectedKnwId", knwIdList);
+	}
 
 	
 }

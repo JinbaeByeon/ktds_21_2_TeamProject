@@ -8,4 +8,8 @@ public interface KnwDAO {
 	
 	public int createOneKnw(KnwVO knwVO);
 	public List<KnwVO> readAllKnw(KnwVO knwVO);
+	public KnwVO readOneKnwByKnwId(String KnwId);
+	public int updateOneKnw(KnwVO knwVO);
+	public int deleteOneKnw(String knwId);
+	public int deleteKnwBySelectedKnwId(List<String> knwIdList);
 }

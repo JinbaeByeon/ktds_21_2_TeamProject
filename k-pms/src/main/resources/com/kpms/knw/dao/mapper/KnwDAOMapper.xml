@@ -54,5 +54,33 @@
          WHERE K.DEL_YN = 'N'
 	</select>
 
+	<update id="updateOneKnw"
+			parameterType="com.kpms.knw.vo.KnwVO">
+		UPDATE KNW
+		   SET MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		     , USE_YN = NVL(#{useYn}, 'N')
+		     , TTL = #{ttl}
+		     , CNTNT = #{cntnt}
+		     , PRJ_ID = #{prjId}
+		 WHERE KNW_ID = #{knwId}
+	</update>
+
+	<update id="deleteOneKnw"
+			parameterType="string">
+		UPDATE KNW
+		   SET DEL_YN = NVL(#{delYn}, 'N')
+		 WHERE KNW_ID = #{knwId}
+	</update>
+	
+	<update id="deleteKnwBySelectedKnwId"
+			parameterType="arraylist">
+		UPDATE KNW
+		   SET DEL_YN = NVL(#{delYn}, 'N')
+		 WHERE KNW_ID IN
+		 <foreach collection="list" item="knwId" open="( " close=" )" separator=", ">
+			#{knwId}
+		</foreach>
+	</update>
 
 </mapper>

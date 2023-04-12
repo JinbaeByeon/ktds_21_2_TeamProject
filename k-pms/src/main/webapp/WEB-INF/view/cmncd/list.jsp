@@ -167,7 +167,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="8" class="no-items">등록된 장르가 없습니다.</td>
+									<td colspan="9" class="no-items">등록된 공통코드가 없습니다.</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>

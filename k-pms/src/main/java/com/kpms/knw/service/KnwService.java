@@ -8,4 +8,8 @@ public interface KnwService {
 
 	public boolean createOneKnw(KnwVO knwVO);
 	public List<KnwVO> readAllKnw(KnwVO knwVO);
+	public KnwVO readOneKnwByKnwId(String KnwId);
+	public boolean updateOneKnw(KnwVO knwVO);
+	public boolean deleteOneKnw(String knwId);
+	public boolean deleteKnwBySelectedKnwId(List<String> knwIdList);
 }
