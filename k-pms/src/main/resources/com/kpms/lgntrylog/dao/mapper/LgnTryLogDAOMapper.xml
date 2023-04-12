@@ -5,38 +5,29 @@
 <mapper namespace="LgnTryLog">
 	
 	<insert id="createLgnTryLog"
-			parameterType="com.kpms.lgntrylog.vo.LgnTryLogVO">
+			parameterType="com.kpms.emp.vo.EmpVO">
 		INSERT INTO LGN_TRY_LOG
-		(LGN_TRY_IP,
+		(LOG_ID,
+		 LGN_TRY_IP,
 		 CRT_DT,
-		 CRTR,
-		 DEL_YN,
-		 LGN_TRY_CNT,
-		 LTST_LGN_TRY_DT)
+		 CRTR)
 		VALUES
-		(#{lgnTryIp},
+		('LTL-' || TO_CHAR(SYSDATE,'YYYYMMDDHH') || '-' || LPAD(SEQ_LGN_TRY_LOG_PK.NEXTVAL,5,'0'),
+		#{ltstLgnIp},
 		 SYSDATE,
-		 #{crtr},
-		 'N',
-		 0,
-		 SYSDATE)
+		 #{empId})
 	</insert>
 	
 	
-	<update id="updateLgnTryLog"
-			parameterType="com.kpms.lgntrylog.vo.LgnTryLogVO">
-		UPDATE LGN_TRY_LOG
-		   SET CRTR = #{crtr},
-			   LGN_TRY_CNT = #{lgnTryCnt},
-			   LTST_LGN_TRY_DT = SYSDATE
-		 WHERE LGN_TRY_IP = #{lgnTryIp}
-		
-	</update>
-	
 	<select id="readLgnTryLogByIp"
-			parameterType="com.kpms.lgntrylog.vo.LgnTryLogVO"
+			parameterType="string"
 			resultType="com.kpms.lgntrylog.vo.LgnTryLogVO">
-		
+		SELECT LGN_TRY_IP,
+			   TO_CHAR(CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
+			   CRTR
+		  FROM LGN_TRY_LOG
+		 WHERE CRT_DT >= SYSDATE - 1/24
+		   AND LGN_TRY_IP = #{lgnTryIp}
 	</select>
 	
 </mapper>

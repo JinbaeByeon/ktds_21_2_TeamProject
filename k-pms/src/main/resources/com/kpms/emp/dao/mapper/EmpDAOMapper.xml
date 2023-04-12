@@ -29,7 +29,6 @@
 		 EMPLMNT_STTS,
 		 ADMN_YN,
 		 PWD_CHNG_DT,
-		 LGN_CNT,
 		 PWD_SALT,
 		 PWD,
 		 PSTN_ID,
@@ -56,7 +55,6 @@
 		 #{emplmntStts},
 		 #{admnYn},
 		 SYSDATE,
-		 0,
 		 #{pwdSalt},
 		 #{pwd},
 		 #{pstnId},
@@ -65,6 +63,25 @@
 		 #{lNm})
 	</insert>
 	
+	
+	<select id="readCntLgnTryDataRcnt60ById"
+			parameterType="string"
+			resultType="int">
+		SELECT COUNT(1)
+		  FROM EMP
+		 WHERE EMP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+		   AND FAIL_DT >= SYSDATE - 1/24
+	</select>
+	<select id="readLgnTryDataById"
+			parameterType="string"
+			resultType="com.kpms.emp.vo.EmpVO">
+		SELECT LGN_CNT,
+			   TO_CHAR(FAIL_DT,'YYYY-MM-DD HH24:MI:SS') FAIL_DT
+		  FROM EMP
+		 WHERE EMP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</select>
 	<select id="readOneEmpByIdAndPwd"
 			parameterType="com.kpms.emp.vo.EmpVO"
 			resultType="com.kpms.emp.vo.EmpVO">
@@ -89,13 +106,14 @@
 			   PWD_CHNG_DT,
 			   LTST_LGN_IP,
 			   LTST_LGN_DT,
-			   LGN_CNT,
 			   PWD_SALT,
 			   PWD,
 			   PSTN_ID,
 			   JOB_ID,
 			   DEP_ID,
-			   L_NM
+			   L_NM,
+			   LGN_CNT,
+			   FAIL_DT
 		  FROM EMP
 		 WHERE EMP_ID = #{empId}
 		   AND PWD = #{pwd}
@@ -126,7 +144,6 @@
 			   PWD_CHNG_DT,
 			   LTST_LGN_IP,
 			   LTST_LGN_DT,
-			   LGN_CNT,
 			   PWD_SALT,
 			   PWD,
 			   PSTN_ID,
@@ -160,7 +177,6 @@
 			   PWD_CHNG_DT,
 			   LTST_LGN_IP,
 			   LTST_LGN_DT,
-			   LGN_CNT,
 			   PWD_SALT,
 			   PWD,
 			   PSTN_ID,
@@ -194,6 +210,30 @@
 			parameterType="com.kpms.emp.vo.EmpVO">
 		UPDATE EMP
 		   SET DEL_YN = 'Y'
+		 WHERE EMP_ID = #{empId}
+	</update>
+	
+	<update id="updateEmpLgnSucc"
+			parameterType="com.kpms.emp.vo.EmpVO">
+		UPDATE EMP
+		   SET LTST_LGN_IP = #{ltstLgnIp}
+		   	 , LTST_LGN_DT = SYSDATE
+		   	 , LGN_CNT = 0
+		   	 , FAIL_DT = ''
+		 WHERE EMP_ID = #{empId}
+	</update>
+	<update id="updateEmpLgnFail"
+			parameterType="string">
+		UPDATE EMP
+		   SET LGN_CNT = LGN_CNT + 1
+		   	 , FAIL_DT = SYSDATE
+		 WHERE EMP_ID = #{empId}
+	</update>
+	<update id="updateEmpLgnCntZero"
+			parameterType="string">
+		UPDATE EMP
+		   SET LGN_CNT = 0
+		   	 , FAIL_DT = ''
 		 WHERE EMP_ID = #{empId}
 	</update>
 	

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="MbrLgnHist">
+<mapper namespace="LgnHst">
 	
-	<insert id="createMbrLgnHist"
+	<insert id="createEmpLgnHst"
 			parameterType="com.kpms.lgnhst.vo.LgnHstVO">
 		INSERT INTO LGN_HST
 		(HST_ID,
@@ -13,13 +13,11 @@
 		 IP,
 		 ACT)
 		VALUES
-		('LH-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_LGN_HST_PK.NEXTVAL,5,'0')
+		('LH-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_LGN_HST_PK.NEXTVAL,5,'0'),
 		 SYSDATE,
-		 , #{crtr}
+		 #{crtr},
 		 #{ip},
 		 #{act})
-
-		
 	</insert>
 	
 </mapper>

@@ -17,8 +17,7 @@ public class LgnHstDAOImpl extends SqlSessionDaoSupport implements LgnHstDAO {
 	}
 	@Override
 	public int createEmpLgnHst(LgnHstVO lgnHst) {
-		return 0;
-		/* return getSqlSession().insert("LgnHst.createEmpLgnHst",lgnHst); */
+		return getSqlSession().insert("LgnHst.createEmpLgnHst",lgnHst); 
 	}
 
 }
