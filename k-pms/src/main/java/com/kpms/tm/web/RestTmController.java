@@ -24,15 +24,14 @@ public class RestTmController {
 	@Autowired
 	private TmService tmService;
 	
-	
 	@PostMapping("/api/tm/create")
 	public APIResponseVO doCreateTm(TmVO tmVO, 
 			 @SessionAttribute("__USER__") EmpVO empVO) {
 		
-		tmVO.setCrtr("1"/* empVO.getEmpId() */);
-		tmVO.setMdfyr("1"/* empVO.getEmpId() */);
+		tmVO.setCrtr(empVO.getEmpId());
+		tmVO.setMdfyr(empVO.getEmpId());
 		tmVO.setTmHdId("1");
-		tmVO.setDepId("1"/* depVO.getDepId() */);
+		tmVO.setDepId("1");
 		
 		boolean createResult = tmService.createOneTm(tmVO);
 		
@@ -47,8 +46,8 @@ public class RestTmController {
 	@PostMapping("/api/tm/update")
 	public APIResponseVO doUpadateTm(TmVO tmVO,
 						 @SessionAttribute("__USER__") EmpVO empVO) {
-		tmVO.setCrtr("1"/* empVO.getEmpId() */);
-		tmVO.setMdfyr("1"/* empVO.getEmpId() */);
+		tmVO.setCrtr(empVO.getEmpId());
+		tmVO.setMdfyr(empVO.getEmpId());
 		tmVO.setTmHdId("1");
 		tmVO.setDepId("1"/* depVO.getDepId() */);
 

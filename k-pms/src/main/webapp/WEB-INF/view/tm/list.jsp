@@ -13,6 +13,39 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	
+var dep;
+
+function addDepFn(message) {
+	console.log(message);
+	
+	var depItems = $("#addDepIdBtn").closest(".create-group").find(".items");
+	if (depItems.find("." + message.depid).length > 0) {
+		dep.alert(message.depnm + "은(는) 이미 추가된 부서입니다."); 
+		return;
+	}
+	
+	var len = depItems.find(".dep-item").length;
+	var itemDiv = $("<div class='dep-item " + message.depid + "'></div>");
+	
+	var itemId = $("<input type='hidden' name='depList["+len+"].depId'/>");
+	itemId.val(message.depid);
+	itemDiv.append(itemId);
+	
+	var itemSpan = $("<span></span>");
+	itemSpan.text(message.depnm)
+	itemDiv.append(itemSpan);
+	
+	var itemRemoveBtn = $("<button>X</button>");
+	itemRemoveBtn.click(function() {
+		$(this).closest("." + message.depid).remove();
+	});
+	itemDiv.append(itemRemoveBtn);
+	
+	depItems.append(itemDiv);
+	
+} 
+	
 	$().ready(function() {
 		
 		$(".grid > table > tbody > tr").click(function() {
@@ -142,6 +175,13 @@
 			event.preventDefault(); 
 			var tmHd = window.open("${context}/emp/search", "팀장 검색", "width=500,height=500");
 		});
+		
+		$("#addDepIdBtn").click(function(event) {
+			event.preventDefault(); 
+			var depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
+		});
+		
+		
 		
 	});
 		 function movePage(pageNo) {
@@ -288,7 +328,13 @@
 						-->
 						<input type="hidden" id="isModify" value="false" />
 						<div class="input-group inline">
-							<label for="depId" style="width: 180px;">부서ID</label><input type="text" id="depId" name="depId" readonly value="" />
+							<label for="depId" style="width: 180px;">부서ID</label>
+							<div class="create-group">
+								<input type="hidden" name="depId" value="depId" />
+								<input type="text" id="depId" name="depId" readonly value="" /> 
+								<button id="addDepIdBtn" class="btn-dep">등록</button>
+								<div class="items"></div>
+							</div>
 						</div>
 						<div class="input-group inline">
 							<label for="tmId" style="width: 180px;">팀ID</label><input type="text" id="tmId" name="tmId" readonly value="" />
@@ -298,9 +344,11 @@
 						</div>
 						<div class="input-group inline">
 							<label for="tmHdId" style="width: 180px;">팀장ID</label>
-							<div class="create-head">
-								<input type="hidden" name="tmHdId" value="tmpId" /> 
-								<button id="addTmHeadBtn" class="btn-t">등록</button>
+							<div class="create-group">
+								<input type="hidden" name="tmHdId" value="tmpId" />
+								<input type="text" id="tmHdId" name="tmHdId" readonly value="" /> 
+								<button id="addTmHeadBtn" class="btn-tm">등록</button>
+								<div class="items"></div>
 							</div>
 						</div>
 						<div class="input-group inline">

@@ -27,8 +27,8 @@ public class RestDepController {
 	public APIResponseVO doCreateDep(DepVO depVO,
 			@SessionAttribute("__USER__") EmpVO empVO) {
 		
-		depVO.setCrtr("1"/* empVO.getEmpId() */);
-		depVO.setMdfyr("1"/* empVO.getEmpId() */);
+		depVO.setCrtr(empVO.getEmpId());
+		depVO.setMdfyr(empVO.getEmpId());
 		depVO.setDepHdId("1");
 		
 		boolean createResult = depService.createOneDep(depVO);
@@ -44,8 +44,8 @@ public class RestDepController {
 	@PostMapping("/api/dep/update")
 	public APIResponseVO doUpadateDep(DepVO depVO, 
 			@SessionAttribute("__USER__") EmpVO empVO) {
-		depVO.setCrtr("1"/* empVO.getEmpId() */);
-		depVO.setMdfyr("1"/* empVO.getEmpId() */);
+		depVO.setCrtr(empVO.getEmpId());
+		depVO.setMdfyr(empVO.getEmpId());
 		depVO.setDepHdId("1");
 
 		String depNm = depVO.getDepNm();

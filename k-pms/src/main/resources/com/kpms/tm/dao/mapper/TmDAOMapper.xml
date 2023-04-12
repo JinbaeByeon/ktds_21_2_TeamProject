@@ -4,9 +4,21 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Tm">
 	
+	<resultMap id="tmVOMap" 
+				type="com.kpms.tm.vo.TmVO"
+				autoMapping="true">
+		<id property="tmId" column="TM_ID"/>
+		<association property="depIdDepVO"
+					  javaType="com.kpms.dep.vo.DepVO"
+					  autoMapping="true">
+			<id property="depId" column="DEP_ID" />
+			<result property="depNm" column="DEP_NM"/>
+		</association>
+	</resultMap>
+	
 	<select id="readAllTmVO"
 			parameterType="com.kpms.tm.vo.TmVO"
-			resultType="com.kpms.tm.vo.TmVO">
+			resultMap="tmVOMap">
 		<include refid="Common.pageHeader" />
 		SELECT T.TM_ID
 			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
@@ -19,7 +31,10 @@
 			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
 			 , T.DEP_ID
 			 , T.TM_HD_ID
+			 , D.DEP_NM DEP_NM
 		  FROM TM T
+		 INNER JOIN DEP D
+		 	ON T.DEP_ID = D.DEP_ID
 		 WHERE T.DEL_YN = 'N'
 		<if test='tmNm != null and tmNm !=""'>
 		   AND T.TM_NM LIKE '%' || #{tmNm} || '%'

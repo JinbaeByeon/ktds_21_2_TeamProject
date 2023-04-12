@@ -7,11 +7,11 @@
 	<!-- <resultMap id="depVOMap" 
 				type="com.kpms.dep.vo.DepVO"
 				autoMapping="true">
-		<id property="depId" column="DEP_ID"/>
+		<id property="depId" column="DEP_ID"/> pk
 		<association property="crtrEmpVO" 
 					   javaType="com.kpms.emp.vo.EmpVO"
 					  autoMapping="true" >
-			<id property="empId" column="CRTR" />
+			<id property="empId" column="CRTR" /> join pk
 			<result property="fNm" column="CRTR_E_F_NM"/>
 			<result property="lNm" column="CRTR_E_L_NM"/>
 		</association>	

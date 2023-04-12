@@ -13,6 +13,9 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	
+	
+	
 	$().ready(function() {
 		
 		$(".grid > table > tbody > tr").click(function() {

@@ -1,6 +1,7 @@
 package com.kpms.tm.vo;
 
 import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.dep.vo.DepVO;
 
 /**
  * TM
@@ -12,6 +13,8 @@ public class TmVO extends AbstractPagingVO {
 	private String tmCrtDt;
 	private String depId;
 	private String tmHdId;
+	
+	private DepVO depIdDepVO;
 	
 	public String getTmId() {
 		return tmId;
@@ -42,6 +45,12 @@ public class TmVO extends AbstractPagingVO {
 	}
 	public void setTmHdId(String tmHdId) {
 		this.tmHdId = tmHdId;
+	}
+	public DepVO getDepIdDepVO() {
+		return depIdDepVO;
+	}
+	public void setDepIdDepVO(DepVO depIdDepVO) {
+		this.depIdDepVO = depIdDepVO;
 	}
 
 }
