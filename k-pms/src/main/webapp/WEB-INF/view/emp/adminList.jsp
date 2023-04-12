@@ -25,8 +25,6 @@
 				$("li.nav-item.sys").addClass("active");
 			});
 			$(".sub-item").mouseenter(function(){
-				console.log("!");
-				/* $(this).closest("li.nav-item.active").find(".active").removeClass("active"); */
 				$(this).addClass("active");
 			});
 		});
