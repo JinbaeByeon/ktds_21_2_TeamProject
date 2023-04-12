@@ -7,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.kpms.common.api.vo.APIResponseVO;
-import com.kpms.common.api.vo.APIStatus;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.lgnhst.vo.LgnHstVO;
-import com.kpms.lgntrylog.vo.LgnTryLogVO;
 
 @Controller
 public class EmpController {
@@ -41,5 +38,11 @@ public class EmpController {
 	public String viewEmpListPage() {
 		
 		return "emp/list";
+	}
+	
+	@GetMapping("/emp/admin/list")
+	public String viewAdminListPage() {
+		
+		return "emp/adminList";
 	}
 }

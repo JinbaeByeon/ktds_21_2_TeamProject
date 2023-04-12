@@ -27,6 +27,8 @@ public class EmpVO extends AbstractVO{
 	private int jobId;
 	private String depId;
 	private String lNm;
+	private int lgnCnt;
+	private String failDt;
 
 	public String getEmpId() {
 		return empId;
@@ -194,6 +196,22 @@ public class EmpVO extends AbstractVO{
 
 	public String getDepId() {
 		return this.depId;
+	}
+
+	public int getLgnCnt() {
+		return lgnCnt;
+	}
+
+	public void setLgnCnt(int lgnCnt) {
+		this.lgnCnt = lgnCnt;
+	}
+
+	public String getFailDt() {
+		return failDt;
+	}
+
+	public void setFailDt(String failDt) {
+		this.failDt = failDt;
 	}
 
 }

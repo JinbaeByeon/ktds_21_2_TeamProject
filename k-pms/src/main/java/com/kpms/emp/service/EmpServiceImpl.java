@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
+import com.kpms.common.exception.APIException;
 import com.kpms.common.util.CalendarUtil;
 import com.kpms.common.util.StringUtil;
 import com.kpms.emp.dao.EmpDAO;
@@ -15,8 +16,6 @@ import com.kpms.emp.vo.EmpVO;
 import com.kpms.lgnhst.dao.LgnHstDAO;
 import com.kpms.lgnhst.vo.LgnHstVO;
 import com.kpms.lgntrylog.dao.LgnTryLogDAO;
-import com.kpms.lgntrylog.vo.LgnTryLogVO;
-import com.kpms.common.exception.APIException;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -26,6 +25,7 @@ public class EmpServiceImpl implements EmpService {
 	private LgnHstDAO lgnHstDAO;
 	@Autowired
 	private LgnTryLogDAO lgnTryLogDAO;
+	
 	
 	@Override
 	public boolean createOneEmp(EmpVO empVO, String cPwd) {
@@ -99,25 +99,38 @@ public class EmpServiceImpl implements EmpService {
 		if(StringUtil.isEmpty(empVO.getPwd())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "비밀번호를 입력하세요.");
 		}
-		/*
-		 * LgnTryLogVO lgnTryLog = lgnTryLogDAO.readLgnTryLog(empVO);
-		 * 
-		 * if(lgnTryLog.getLgnTryCnt() >= 5) { Calendar now = Calendar.getInstance();
-		 * String nowDt = CalendarUtil.getDate(now); String unLockDt =
-		 * CalendarUtil.getDate(lgnTryLog.getLtstLgnTryDt(), Calendar.HOUR, 1); int min
-		 * = StringUtil.dateToInt(unLockDt) - StringUtil.dateToInt(nowDt); if(min > 0) {
-		 * throw new APIException(APIStatus.FAIL, "계정이 잠겼습니다." + min +
-		 * " 분 후에 다시 시도하세요."); } else { lgnTryLog.setLgnTryCnt(0);
-		 * lgnTryLogDAO.updateLgnTryLog(lgnTryLog); } }
-		 */
+		
+		EmpVO lgnTryData = empDAO.readLgnTryDataById(empId);
+		if(lgnTryData == null) {
+			throw new APIException(APIStatus.DISMATCH, "아이디 또는 비밀번호가 일치하지 않습니다.");
+		} else if(lgnTryData.getLgnCnt() >= 5) {
+			if(empDAO.readCntLgnTryDataRcnt60ById(empId) == 0) {
+				empDAO.updateEmpLgnCntZero(empId);
+			} else {
+				String unLockTm = CalendarUtil.getDate(lgnTryData.getFailDt(), Calendar.HOUR, 1).substring(10,19);
+				throw new APIException(APIStatus.FAIL, unLockTm + " 이후 다시 시도해주세요.");
+			}
+		}
+		
 		EmpVO loginData = empDAO.readOneEmpByIdAndPwd(empVO);
-		/*
-		 * if(loginData == null) { lgnTryLog.setLgnTryCnt(lgnTryLog.getLgnTryCnt()+1); }
-		 * else { lgnTryLog.setLgnTryCnt(0); LgnHstVO lgnHstVO = new LgnHstVO();
-		 * lgnHstVO.setCrtr(empId); lgnHstVO.setAct("login");
-		 * lgnHstVO.setIp(empVO.getLtstLgnIp()); lgnHstDAO.createEmpLgnHst(lgnHstVO); }
-		 * lgnTryLogDAO.updateLgnTryLog(lgnTryLog);
-		 */
+		if(loginData == null) {
+			// 로그인 실패
+			// 로그인 시도 회수 증가
+			empDAO.updateEmpLgnFail(empId);
+			// 로그인 시도 이력 추가
+			lgnTryLogDAO.createLgnTryLog(empVO);
+		} else {
+			// 로그인 성공
+			// emp 테이블 로그인 데이터 수정
+			empDAO.updateEmpLgnSucc(empVO);
+			// 로그인 이력 추가
+			LgnHstVO lgnHstVO = new LgnHstVO();
+			lgnHstVO.setCrtr(empId);
+			lgnHstVO.setAct("login");
+			lgnHstVO.setIp(empVO.getLtstLgnIp());
+			lgnHstDAO.createEmpLgnHst(lgnHstVO);
+		}
+		
 		return loginData;
 	}
 
