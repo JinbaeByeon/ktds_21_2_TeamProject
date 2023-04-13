@@ -160,7 +160,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sysSidemenu.jsp"/>
+			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 비품관리</div>
 				<div class="search-group">
