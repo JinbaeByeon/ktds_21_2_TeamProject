@@ -24,6 +24,11 @@ public class JobDAOImpl extends SqlSessionDaoSupport implements JobDAO {
 	}
 
 	@Override
+	public List<JobVO> readAllJobVONoPagination(String jobNm) {
+		return getSqlSession().selectList("Job.readAllJobVONoPagination", jobNm);
+	}
+	
+	@Override
 	public int createOneJob(JobVO jobVO) {
 		return getSqlSession().insert("Job.createOneJob", jobVO);
 	}
@@ -36,5 +41,11 @@ public class JobDAOImpl extends SqlSessionDaoSupport implements JobDAO {
 	@Override
 	public int deleteOneJobByJobId(int jobId) {
 		return getSqlSession().update("Job.deleteOneJobByJobId", jobId);
+	}
+
+
+	@Override
+	public int deleteJobBySelectedJobId(List<Integer> jobId) {
+		return getSqlSession().update("Job.deleteJobBySelectedJobId", jobId);
 	}
 }

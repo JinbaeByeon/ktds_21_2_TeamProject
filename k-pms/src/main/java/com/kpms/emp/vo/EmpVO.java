@@ -15,7 +15,9 @@ public class EmpVO extends AbstractVO{
 	private String prflPht;
 	private String hrDt;
 	private int hrPrd;
+	private String pstCd;
 	private String addrss;
+	private String dtlAddrss;
 	private String emplmntStts;
 	private String admnYn;
 	private String pwdChngDt;
@@ -110,6 +112,14 @@ public class EmpVO extends AbstractVO{
 		return this.hrPrd;
 	}
 
+	public String getPstCd() {
+		return pstCd;
+	}
+
+	public void setPstCd(String pstCd) {
+		this.pstCd = pstCd;
+	}
+
 	public void setAddrss(String addrss) {
 		this.addrss = addrss;
 	}
@@ -118,6 +128,14 @@ public class EmpVO extends AbstractVO{
 		return this.addrss;
 	}
 
+	public String getDtlAddrss() {
+		return dtlAddrss;
+	}
+
+	public void setDtlAddrss(String dtlAddrss) {
+		this.dtlAddrss = dtlAddrss;
+	}
+	
 	public void setEmplmntStts(String emplmntStts) {
 		this.emplmntStts = emplmntStts;
 	}

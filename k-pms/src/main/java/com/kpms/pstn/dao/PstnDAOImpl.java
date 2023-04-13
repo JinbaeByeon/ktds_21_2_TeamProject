@@ -10,22 +10,17 @@ import org.springframework.stereotype.Repository;
 import com.kpms.pstn.vo.PstnVO;
 
 @Repository
-public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO{
+public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO {
 
 	@Autowired
 	@Override
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
-	
-	@Override
-	public int createNewPstn(PstnVO pstnVO) {
-		return getSqlSession().insert("Pstn.", pstnVO);
-	}
 
 	@Override
-	public int readPstnByPstnId(String pstnId) {
-		return getSqlSession().selectOne("Pstn.readPstnByPstnId", pstnId);
+	public int createNewPstn(PstnVO pstnVO) {
+		return getSqlSession().insert("Pstn.createNewPstn", pstnVO);
 	}
 
 	@Override
@@ -34,20 +29,24 @@ public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO{
 	}
 
 	@Override
+	public List<PstnVO> readAllPstnNoPagination(String pstnNm) {
+		return getSqlSession().selectList("Pstn.readAllPstnNoPagination", pstnNm);
+	}
+	
+	@Override
 	public int updateNewPstn(PstnVO pstnVO) {
 		return getSqlSession().update("Pstn.updateNewPstn", pstnVO);
 	}
 
 	@Override
-	public int deletePstnByPstnId(String pstnId) {
+	public int deletePstnByPstnId(int pstnId) {
 		return getSqlSession().update("Pstn.deletePstnByPstnId", pstnId);
 	}
 
-
-
-
-
-	
+	@Override
+	public int deletePstnBySelectedPstnId(List<Integer> pstnId) {
+		return getSqlSession().update("Pstn.deletePstnBySelectedPstnId", pstnId);
+	}
 
 	
 

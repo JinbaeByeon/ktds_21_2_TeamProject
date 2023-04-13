@@ -9,6 +9,8 @@ public interface JobDAO {
 	// 조회
 	public List<JobVO>readAllJobVO(JobVO jobVO);
 	
+	public List<JobVO>readAllJobVONoPagination(String jobNm);
+	
 	// 등록
 	public int createOneJob(JobVO jobVO);
 	
@@ -18,4 +20,6 @@ public interface JobDAO {
 	// 삭제
 	public int deleteOneJobByJobId(int jobId);
 
+	public int deleteJobBySelectedJobId(List<Integer> jobId);
+	
 }
