@@ -38,10 +38,8 @@ public class JobController {
 	@GetMapping("/job/search")
 	public String viewJobSearchPage(@RequestParam(required=false) String jobNm, Model model) {
 		model.addAttribute("jobNm", jobNm);
-		if(jobNm != null && jobNm.length() > 0) {
 			List<JobVO> jobList = jobService.readAllJobVONoPagination(jobNm);
 			model.addAttribute("jobList", jobList);
-		}
 		return "job/search";
 	}
 	
