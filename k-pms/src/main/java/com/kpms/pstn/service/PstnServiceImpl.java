@@ -25,23 +25,30 @@ public class PstnServiceImpl implements PstnService{
 	}
 
 	@Override
-	public boolean readPstnByPstnId(String pstnId) {
-		return pstnDAO.readPstnByPstnId(pstnId) > 0;
-	}
-
-	@Override
 	public List<PstnVO> readAllPstn(PstnVO pstnVO) {
 		return pstnDAO.readAllPstn(pstnVO);
 	}
 
+	@Override
+	public List<PstnVO> readAllPstnNoPagination(String pstnNm) {
+		return pstnDAO.readAllPstnNoPagination(pstnNm);
+	}
+	
 	@Override
 	public boolean updateNewPstn(PstnVO pstnVO) {
 		return pstnDAO.updateNewPstn(pstnVO) > 0;
 	}
 
 	@Override
-	public boolean deletePstnByPstnId(String pstnId) {
+	public boolean deletePstnByPstnId(int pstnId) {
 		return pstnDAO.deletePstnByPstnId(pstnId) > 0;
 	}
+
+	@Override
+	public boolean deletePstnBySelectedPstnId(List<Integer> pstnId) {
+		return pstnDAO.deletePstnBySelectedPstnId(pstnId) > 0;
+	}
+
+	
 
 }

@@ -5,10 +5,6 @@
 <mapper namespace="Emp">
 	<insert id="createOneEmp"
 			parameterType="com.kpms.emp.vo.EmpVO">
-		<selectKey keyProperty="empId" resultType="string" order="BEFORE">
-			SELECT 'EMP-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_EMP_PK.NEXTVAL,5,'0')
-			  FROM DUAL
-		</selectKey>
 		INSERT INTO EMP
 		(EMP_ID,
 		 CRT_DT,
@@ -29,19 +25,25 @@
 		 EMPLMNT_STTS,
 		 ADMN_YN,
 		 PWD_CHNG_DT,
+		 LTST_LGN_IP,
+		 LTST_LGN_DT,
 		 PWD_SALT,
 		 PWD,
 		 PSTN_ID,
 		 JOB_ID,
 		 DEP_ID,
-		 L_NM)
+		 L_NM,
+		 LGN_CNT,
+		 FAIL_DT,
+		 DTL_ADDRSS,
+		 PST_CD)
 		VALUES
 		(#{empId},
 		 SYSDATE,
 		 #{crtr},
 		 SYSDATE,
 		 #{mdfyr},
-		 NVL(#{useYn},'N'),
+		 'Y',
 		 'N',
 		 #{fNm},
 		 #{brthdy},
@@ -55,15 +57,29 @@
 		 #{emplmntStts},
 		 #{admnYn},
 		 SYSDATE,
+		 '',
+		 '',
 		 #{pwdSalt},
 		 #{pwd},
 		 #{pstnId},
 		 #{jobId},
 		 #{depId},
-		 #{lNm})
+		 #{lNm},
+		 0,
+		 '',
+		 #{dtlAddrss},
+		 #{pstCd})
 	</insert>
 	
 	
+	<select id="readSaltById"
+			parameterType="string"
+			resultType="string">
+		SELECT PWD_SALT
+		  FROM EMP
+		 WHERE EMP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</select>
 	<select id="readCntLgnTryDataRcnt60ById"
 			parameterType="string"
 			resultType="int">

@@ -1,11 +1,12 @@
 package com.kpms.eqp.vo;
 
+import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.common.vo.AbstractVO;
 
 /**
  * EQP
  */
-public class EqpVO extends AbstractVO {
+public class EqpVO extends AbstractPagingVO {
 
 	private String eqpId;
 	private String eqpNm;

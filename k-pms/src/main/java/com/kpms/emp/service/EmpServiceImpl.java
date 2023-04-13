@@ -10,6 +10,7 @@ import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.util.CalendarUtil;
+import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
 import com.kpms.emp.dao.EmpDAO;
 import com.kpms.emp.vo.EmpVO;
@@ -28,8 +29,11 @@ public class EmpServiceImpl implements EmpService {
 	
 	
 	@Override
-	public boolean createOneEmp(EmpVO empVO, String cPwd) {
-
+	public boolean createOneEmp(EmpVO empVO) {
+		
+		if(empDAO.readOneEmpByEmpId(empVO.getEmpId()) != null) {
+			throw new APIException(APIStatus.FAIL, "이미 사용중인 ID입니다.");
+		}
 		if (StringUtil.isEmpty(empVO.getfNm())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "이름은 필수 값입니다.");
 		}
@@ -51,21 +55,6 @@ public class EmpServiceImpl implements EmpService {
 			throw new APIArgsException(APIStatus.OVER_LEN_ARG, "이메일은 50글자까지 입력할 수 있습니다.");
 		}
 		
-		if (StringUtil.isEmpty(empVO.getPwd())) {
-			throw new APIArgsException(APIStatus.MISSING_ARG, "비밀번호는 필수 값입니다.");
-		}
-		
-		if (StringUtil.isExceedLength(empVO.getlNm(), 10)) {
-			throw new APIArgsException(APIStatus.OVER_LEN_ARG, "성은 10글자까지 입력할 수 있습니다.");
-		}
-		
-		if(StringUtil.isEmpty(empVO.getfNm())) {
-			throw new APIArgsException(APIStatus.MISSING_ARG, "이름은 필수 값입니다.");
-		}
-		if (StringUtil.isExceedLength(empVO.getfNm(), 30)) {
-			throw new APIArgsException(APIStatus.OVER_LEN_ARG, "이름은 30글자까지 입력할 수 있습니다.");
-		}
-		
 		// 핸드폰
 		if(StringUtil.isEmpty(empVO.getPhn())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "휴대폰 번호는 필수 값입니다.");
@@ -83,9 +72,11 @@ public class EmpServiceImpl implements EmpService {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "생년월일은 필수 값입니다.");
 		}
 		
-		if (!StringUtil.isMatchTo(empVO.getPwd(), cPwd)) {
-			throw new APIArgsException(APIStatus.DISMATCH, "확인값이 비밀번호와 일치하지 않습니다.");
-		}
+		String defaultPwd = empVO.getEmpId();
+		String salt = SHA256Util.generateSalt();
+		empVO.setPwdSalt(salt);
+		defaultPwd = SHA256Util.getEncrypt(defaultPwd, salt);
+		empVO.setPwd(defaultPwd);
 		
 		return empDAO.createOneEmp(empVO) > 0;
 	}
@@ -99,6 +90,9 @@ public class EmpServiceImpl implements EmpService {
 		if(StringUtil.isEmpty(empVO.getPwd())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "비밀번호를 입력하세요.");
 		}
+		
+		String salt = empDAO.readSaltById(empId);
+		empVO.setPwd(SHA256Util.getEncrypt(empVO.getPwd(), salt));
 		
 		EmpVO lgnTryData = empDAO.readLgnTryDataById(empId);
 		if(lgnTryData == null) {

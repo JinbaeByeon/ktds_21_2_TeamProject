@@ -20,6 +20,11 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
+	public List<JobVO> readAllJobVONoPagination(String jobNm) {
+		return jobDAO.readAllJobVONoPagination(jobNm);
+	}
+	
+	@Override
 	public boolean createOneJob(JobVO jobVO) {
 		return jobDAO.createOneJob(jobVO) > 0;
 	}
@@ -33,7 +38,11 @@ public class JobServiceImpl implements JobService {
 	public boolean deleteOneJobByJobId(int jobId) {
 		return jobDAO.deleteOneJobByJobId(jobId) > 0;
 	}
-	
-	
 
+
+	@Override
+	public boolean deleteJobBySelectedJobId(List<Integer> jobId) {
+		return jobDAO.deleteJobBySelectedJobId(jobId) > 0;
+	}
+	
 }

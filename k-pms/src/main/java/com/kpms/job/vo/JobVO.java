@@ -1,9 +1,11 @@
 package com.kpms.job.vo;
 
+import com.kpms.common.vo.AbstractPagingVO;
+
 /**
  * JOB
  */
-public class JobVO {
+public class JobVO extends AbstractPagingVO{
 	private int jobId;
 	private String jobNm;
 

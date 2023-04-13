@@ -9,10 +9,10 @@
 		<c:set var="end" value="${begin + pageCnt}"/>
 		
 		<c:if test="${param.pageNo != 0}">
-			<li><a href="javascript:movePage(0)">처음</li>
+			<li><a href="javascript:movePage(0)">처음</a></li>
 		</c:if>
 		<c:if test="${not empty param.pageCnt and begin > 0}">
-			<li><a href="javascript:movePage(${begin-1})">이전</li>
+			<li><a href="javascript:movePage(${begin-1})">이전</a></li>
 		</c:if>
 		<c:forEach begin="${begin+1}" end="${end > param.lastPage ? param.lastPage : end}" step="1" var="page">
 			<li>
