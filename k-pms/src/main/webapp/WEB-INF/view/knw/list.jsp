@@ -65,8 +65,10 @@
 			<jsp:include page="../include/content.jsp" />
 
 			<div class="search-group">
-				<label for="search-keyword">제목</label> <input type="text"
-					id="search-keyword" class="search-input" value="${cmnCdVO.cdNm}" />
+				<label for="search-keyword">제목</label>
+				<input type="text" id="search-keyword" class="search-input" value="${cmnCdVO.cdNm}" placeholder="지식관리 제목으로 검색" />
+				<label for="search-keyword">프로젝트명</label>
+				<input type="text" id="search-keyword" class="search-input" value="${cmnCdVO.cdNm}" placeholder="프로젝트명으로 검색"/>
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>
