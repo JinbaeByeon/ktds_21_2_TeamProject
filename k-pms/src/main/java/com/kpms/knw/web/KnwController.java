@@ -20,6 +20,7 @@ public class KnwController {
 	@GetMapping("/knw/list")
 	public String viewKnwListPage(KnwVO knwVO, Model model) {
 		List<KnwVO> knwList = knwService.readAllKnw(knwVO);
+		System.out.println(knwVO.getPrjId());
 		
 		model.addAttribute("knwList", knwList);
 		

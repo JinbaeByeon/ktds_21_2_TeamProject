@@ -9,33 +9,51 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-	$().ready(
-			function() {
-				$("#save_btn").click(
-						function() {
-
-							if ($("#isModify").val() == "false") {
-								// 신규 등록
-								$.post("${context}/knw/create", $(
-										"#detail_form").serialize(),
-										function() {
-											location.reload();
-										});
-							} else {
-								// 수정
-								$.post("${context}/knw/update", $(
-										"#detail_form").serialize(), function(
-										response) {
-									location.reload();
-								});
-							}
-
-						});
-
-				$("#new_btn").click(function() {
-					location.href = "${context}/knw/create";
-				});
+	$().ready(function() {
+		
+		$("#new_btn").click(function() {
+			location.href = "${context}/knw/create";
+		});
+		
+		
+		$("#all_check").change(function() {
+			$(".check_idx").prop("checked", $(this).prop("checked"));
+		});
+		
+		$(".check_idx").change(function() {
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").legnth;
+			$("#all_check").prop("checked", count == checkCount);
+		});
+		
+		$("#delete_btn").click(function() {
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("삭제할 지식ID가 없습니다.");
+				return;
+			}
+			
+			var form = $("<form></form>");
+			
+			
+			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
+				
+				form.append("<input type='hidden' name='knwId' value='" + $(this).val() + "'>");
 			});
+			
+			$.post("${context}/api/knw/delete", form.serialize(), function(response) {});
+			
+			location.reload();
+		});
+		
+		$(".check_idx").change(function() {
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").legnth;
+			$("#all_check").prop("checked", count == checkCount);
+		});
+		
+	});
 </script>
 </head>
 <body>
@@ -60,11 +78,10 @@
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"></th>
+							<th>프로젝트ID</th>
+							<th>프로젝트명</th>
 							<th>지식관리ID</th>
 							<th>제목</th>
-							<th>내용</th>
-							<th>조회수</th>
-							<th>프로젝트ID</th>
 							<th>등록자</th>
 							<th>등록일</th>
 							<th>수정자</th>
@@ -78,16 +95,16 @@
 								<c:forEach items="${knwList}" var="knw">
 									<tr data-knwid="${knw.knwId}" data-ttl="${knw.ttl}"
 										data-cntnt="${knw.cntnt}" data-vwcnt="${knw.vwCnt}"
-										data-prjId="${knw.prjId}" data-crtr="${knw.crtr}"
+										data-prjid="${knw.prjId}" data-crtr="${knw.crtr}"
 										data-crtdt="${knw.crtDt}" data-mdfyr="${knw.mdfyr}"
 										data-mdfydt="${knw.mdfyDt}" data-useyn="${knw.useYn}">
 										<td><input type="checkbox" class="check_idx"
 											value="${knw.knwId}"></td>
-										<td>${knw.knwId}</td>
-										<td>${knw.ttl}</td>
-										<td>${knw.cntnt}</td>
-										<td>${knw.vwCnt}</td>
 										<td>${knw.prjId}</td>
+										<td>${knw.prjId}</td>
+										<td>${knw.knwId}</td>
+										<td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a>
+										</td>
 										<td>${knw.crtr}</td>
 										<td>${knw.crtDt}</td>
 										<td>${knw.mdfyr}</td>
@@ -107,7 +124,6 @@
 			</div>
 			<div class="align-right">
 				<button id="new_btn" class="btn-primary">신규</button>
-				<button id="save_btn" class="btn-primary">저장</button>
 				<button id="delete_btn" class="btn-delete">삭제</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
