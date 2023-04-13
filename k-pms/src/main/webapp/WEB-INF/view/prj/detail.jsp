@@ -25,16 +25,6 @@
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />		
 				<div class="path"> ${prjId} | ${prjVO.prjNm}</div>
-						${prjId}
-						${prjVO.prjNm}
-						${prjVO.cstmr}
-						${prjVO.strtDt}
-						${prjVO.endDt}
-						${prjVO.prjStts}
-						${prjVO.useYn}
-						${prjVO.ptmList.get(0).tmMbrVO.empId}
-						${prjVO.ptmList.get(0).tmMbrVO.empVO.fNm}
-
 					<div class="create-group">
 						<label for="mvTtl">프로젝트ID</label>
 						<h3>${prjId}</h3>
@@ -103,27 +93,29 @@
 								<table>
 									<thead>
 										<tr>
-											<th>직원ID</th>
-											<th>성</th>
-											<th>이름</th>
-											<th>권한</th>
+											<th>우선순위</th>
+											<th>제목</th>
+											<th>담당자</th>
+											<th>일정</th>
+											<th>진행상태</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:choose>
-											<c:when test="${not empty prjVO.ptmList}">
-												<c:forEach items="${prjVO.ptmList}" var="ptm">
+											<c:when test="${not empty prjVO.reqList}">
+												<c:forEach items="${prjVO.reqList}" var="req">
 													<tr>
-														<td>${ptm.tmMbrVO.empVO.empId}</td>
-														<td>${ptm.tmMbrVO.empVO.fNm}</td>
-														<td>${ptm.tmMbrVO.empVO.lNm}</td>
-														<td>${ptm.prjPstn}</td>
+														<td>${req.prrty}</td>
+														<td>${req.reqTtl}</td>
+														<td>${req.mnDvlpr}</td>
+														<td>${req.tskStts}</td>
+														<td>${req.prcsStts}</td>
 													</tr>
 												</c:forEach>
 											</c:when>
 										<c:otherwise>
-											<td colspan="4" class="no-items">
-												등록된 팀원이 없습니다.
+											<td colspan="5" class="no-items">
+												등록된 요구사항이 없습니다.
 											</td>
 										</c:otherwise>
 										</c:choose>
@@ -131,146 +123,36 @@
 								</table>
 							</div>
 						</div>
-						
-						
-						
-						<div class=items>
-							<c:forEach items="${prjVO.ptmList}" var="ptm">
-								${ptm.prjTmMbrId}
-							</c:forEach>
-						<div>
-						<div class=items>
-							<c:forEach items="${prjVO.ptmList}" var="ptm">
-								${ptm.prjTmMbrId}
-							</c:forEach>
-						<div>
-						<button id="addGnrBtn" class="btn-primary">등록</button>
-						<div class="items">
-							<c:forEach items="${mvVO.gnrList}" var="gnr" varStatus="index" >
-								<div class="gnr-item ${gnr.gnrId}">
-												<input type='hidden' name='gnrList[${index.index}].gnrId' value="${gnr.gnrId}"/>
-												<span>${gnr.gnrVO.gnrNm}</span>
-												<button class="del-gnr-item-btn" data-index="${index.index}" data-gnrid="${gnr.gnrId}">X</button>
-											</div>
-										</c:forEach>
-									</div>
-								</div>
+						<div class="create-group">
+							<label for="req">지식관리</label>
+							<div class="grid">
+								<table>
+									<thead>
+										<tr>
+											<th>제목</th>
+											<th>등록자</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:choose>
+											<c:when test="${not empty prjVO.knwList}">
+												<c:forEach items="${prjVO.knwList}" var="knw">
+													<tr>
+														<td>${knw.ttl}</td>
+														<td>${knw.crtr}</td>
+													</tr>
+												</c:forEach>
+											</c:when>
+										<c:otherwise>
+											<td colspan="2" class="no-items">
+												등록된 지식사항이 없습니다.
+											</td>
+										</c:otherwise>
+										</c:choose>
+									</tbody>
+								</table>
 							</div>
-							<div class="create-group">
-								<label for="addDirectorBtn">감독</label>
-								<div>
-									<button id="addDirectorBtn" class="btn-primary">등록</button>
-									<div class="items">
-										<c:forEach items="${mvVO.pplList}" var="mvppl" varStatus="index">
-											<c:if test="${mvppl.rol eq 'DRCTR'}" >
-											<div class="mvppl-item ${mvppl.mvPplId}">
-												<input type='hidden' name='pplList[${index.index}].mvPplId' value="${mvppl.mvPplId}"/>
-												<input type='hidden' name='pplList[${index.index}].rol' value="${mvppl.rol}"/>
-												<input type='text' data-index="${index.index}" data-org-name="${mvppl.dtlRol}" name='pplList[${index.index}].dtlRol' class="dtlRol" placeholder='배역명' value="${mvppl.dtlRol}"/>	
-												<span>${mvppl.mvPplVO.nm}</span>
-												<button class="del-ppl-item-btn" data-index="${index.index}" data-prdcprtcptnid="${mvppl.prdcPrtcptnId}">X</button>						
-											</div>
-											</c:if>
-										</c:forEach>
-									</div>
-								</div>
-							</div>
-							<div class="create-group">
-								<label for="addWriterBtn">각본</label>
-								<div>
-									<button id="addWriterBtn" class="btn-primary">등록</button>
-									<div class="items">
-										<c:forEach items="${mvVO.pplList}" var="mvppl" varStatus="index">
-											<c:if test="${mvppl.rol eq 'WRTR'}" >
-											<div class="mvppl-item ${mvppl.mvPplId}">
-												<input type='hidden' name='pplList[${index.index}].mvPplId' value="${mvppl.mvPplId}"/>
-												<input type='hidden' name='pplList[${index.index}].rol' value="${mvppl.rol}"/>
-												<input type='text' data-index="${index.index}" data-org-name="${mvppl.dtlRol}" name='pplList[${index.index}].dtlRol' class="dtlRol" placeholder='배역명' value="${mvppl.dtlRol}"/>	
-												<span>${mvppl.mvPplVO.nm}</span>
-												<button class="del-ppl-item-btn" data-index="${index.index}" data-prdcprtcptnid="${mvppl.prdcPrtcptnId}">X</button>						
-											</div>
-											</c:if>
-										</c:forEach>
-									</div>
-								</div>
-							</div>
-							<div class="create-group">
-								<label for="addProducerBtn">연출</label>
-								<div>
-									<button id="addProducerBtn" class="btn-primary">등록</button>
-									<div class="items">
-										<c:forEach items="${mvVO.pplList}" var="mvppl" varStatus="index">
-											<c:if test="${mvppl.rol eq 'PRDCR'}" >
-											<div class="mvppl-item ${mvppl.mvPplId}">
-												<input type='hidden' name='pplList[${index.index}].mvPplId' value="${mvppl.mvPplId}"/>
-												<input type='hidden' name='pplList[${index.index}].rol' value="${mvppl.rol}"/>
-												<input type='text' data-index="${index.index}" data-org-name="${mvppl.dtlRol}" name='pplList[${index.index}].dtlRol' class="dtlRol" placeholder='배역명' value="${mvppl.dtlRol}"/>	
-												<span>${mvppl.mvPplVO.nm}</span>
-												<button class="del-ppl-item-btn" data-index="${index.index}" data-prdcprtcptnid="${mvppl.prdcPrtcptnId}">X</button>						
-											</div>
-											</c:if>
-										</c:forEach>
-									</div>
-								</div>
-							</div>
-							<div class="create-group">
-								<label for="addMainActorBtn">주연</label>
-								<div>
-									<button id="addMainActorBtn" class="btn-primary">등록</button>
-									<div class="items">
-										<c:forEach items="${mvVO.pplList}" var="mvppl" varStatus="index">
-											<c:if test="${mvppl.rol eq 'MNACTR'}" >
-											<div class="mvppl-item ${mvppl.mvPplId}">
-												<input type='hidden' name='pplList[${index.index}].mvPplId' value="${mvppl.mvPplId}"/>
-												<input type='hidden' name='pplList[${index.index}].rol' value="${mvppl.rol}"/>
-												<input type='text' data-index="${index.index}" data-org-name="${mvppl.dtlRol}" name='pplList[${index.index}].dtlRol' class="dtlRol" placeholder='배역명' value="${mvppl.dtlRol}"/>	
-												<span>${mvppl.mvPplVO.nm}</span>
-												<button class="del-ppl-item-btn" data-index="${index.index}" data-prdcprtcptnid="${mvppl.prdcPrtcptnId}">X</button>						
-											</div>
-											</c:if>
-										</c:forEach>
-									</div>
-								</div>
-							</div>
-							<div class="create-group">
-								<label for="addSupportActorBtn">조연</label>
-								<div>
-									<button id="addSupportActorBtn" class="btn-primary">등록</button>
-									<div class="items">
-										<c:forEach items="${mvVO.pplList}" var="mvppl" varStatus="index">
-											<c:if test="${mvppl.rol eq 'SPRTACTR'}" >
-											<div class="mvppl-item ${mvppl.mvPplId}">
-												<input type='hidden' name='pplList[${index.index}].mvPplId' value="${mvppl.mvPplId}"/>
-												<input type='hidden' name='pplList[${index.index}].rol' value="${mvppl.rol}"/>
-												<input type='text' data-index="${index.index}" data-org-name="${mvppl.dtlRol}" name='pplList[${index.index}].dtlRol' class="dtlRol" placeholder='배역명' value="${mvppl.dtlRol}"/>	
-												<span>${mvppl.mvPplVO.nm}</span>
-												<button class="del-ppl-item-btn" data-index="${index.index}" data-prdcprtcptnid="${mvppl.prdcPrtcptnId}">X</button>						
-											</div>
-											</c:if>
-										</c:forEach>
-									</div>
-								</div>
-							</div>
-							<div class="create-group">
-								<label for="addEtcBtn">기타</label>
-								<div>
-									<button id="addEtcBtn" class="btn-primary">등록</button>
-									<div class="items">
-										<c:forEach items="${mvVO.pplList}" var="mvppl" varStatus="index">
-											<c:if test="${mvppl.rol eq 'ECT'}" >
-											<div class="mvppl-item ${mvppl.mvPplId}">
-												<input type='hidden' name='pplList[${index.index}].mvPplId' value="${mvppl.mvPplId}"/>
-												<input type='hidden' name='pplList[${index.index}].rol' value="${mvppl.rol}"/>
-												<input type='text' data-index="${index.index}" data-org-name="${mvppl.dtlRol}" name='pplList[${index.index}].dtlRol' class="dtlRol" placeholder='배역명' value="${mvppl.dtlRol}"/>	
-												<span>${mvppl.mvPplVO.nm}</span>
-												<button class="del-ppl-item-btn" data-index="${index.index}" data-prdcprtcptnid="${mvppl.prdcPrtcptnId}">X</button>						
-											</div>
-											</c:if>
-										</c:forEach>
-									</div>
-								</div>
-							</div>
-				</div>
+						</div>
 				<div class="align-right">
 					<button id="new-btn" class="btn-primary">등록</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>

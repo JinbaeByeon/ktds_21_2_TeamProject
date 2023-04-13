@@ -19,7 +19,7 @@
 			</association>
 		</collection>
 		<collection property="reqList" ofType="com.kpms.req.vo.ReqVO" autoMapping="true">
-			<id property="rqrId" column="REQ_ID" />
+			<id property="reqId" column="REQ_ID" />
 		</collection>
 		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO" autoMapping="true">
 			<id property="knwId" column="KNW_ID" />
@@ -102,6 +102,7 @@
 			 , R.TSK_STTS
 			 , R.PRCS_STTS 
 			 , R.PRRTY 
+			 , R.REQ_TTL
 			 , K.KNW_ID
 			 , K.TTL
 			 , K.CRT_DT 
@@ -111,7 +112,7 @@
 		 INNER JOIN PRJ_TM_MBR PTM
 		    ON P.PRJ_ID = PTM.PRJ_ID
 		 INNER JOIN TM_MBR TM
-		    ON PTM.TM_MBR_ID  = TM.TM_MBR_ID 
+		    ON PTM.TM_MBR_ID = TM.TM_MBR_ID 
 		 INNER JOIN EMP E
 		    ON TM.EMP_ID = E.EMP_ID 
 		 INNER JOIN REQ R 
