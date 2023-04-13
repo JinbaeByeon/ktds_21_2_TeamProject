@@ -91,6 +91,9 @@ public class EmpServiceImpl implements EmpService {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "비밀번호를 입력하세요.");
 		}
 		
+		String salt = empDAO.readSaltById(empId);
+		empVO.setPwd(SHA256Util.getEncrypt(empVO.getPwd(), salt));
+		
 		EmpVO lgnTryData = empDAO.readLgnTryDataById(empId);
 		if(lgnTryData == null) {
 			throw new APIException(APIStatus.DISMATCH, "아이디 또는 비밀번호가 일치하지 않습니다.");

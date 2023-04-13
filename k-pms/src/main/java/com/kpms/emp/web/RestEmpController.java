@@ -30,6 +30,8 @@ public class RestEmpController {
 		}
 		session.setAttribute("__USER__", user);
 		
+		
+		
 		return new APIResponseVO(APIStatus.OK,"/index");
 
 	}

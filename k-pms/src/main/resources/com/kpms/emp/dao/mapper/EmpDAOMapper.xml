@@ -72,6 +72,14 @@
 	</insert>
 	
 	
+	<select id="readSaltById"
+			parameterType="string"
+			resultType="string">
+		SELECT PWD_SALT
+		  FROM EMP
+		 WHERE EMP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</select>
 	<select id="readCntLgnTryDataRcnt60ById"
 			parameterType="string"
 			resultType="int">
