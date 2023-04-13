@@ -178,7 +178,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 비품관리</div>
+				<div class="path"> 대여 신청 관리</div>
 				<div class="search-group">
 					<label for="search-keyword">비품명</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>

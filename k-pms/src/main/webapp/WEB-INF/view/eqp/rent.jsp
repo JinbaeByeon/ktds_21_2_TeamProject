@@ -178,7 +178,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 비품관리</div>
+				<div class="path"> 대여 관리</div>
 				<div class="search-group">
 					<label for="search-keyword">비품명</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
@@ -313,6 +313,7 @@
 							<input type="date" id="prchsDt"  name="prchsDt" value=""/>
 						</div>
 						<div class="input-group inline">
+		
 							<label for="lossStts" style="width: 180px;">분실상태</label>
 							<input type="checkbox" id="lossStts"  name="lossStts" value="Y"/>
 						</div>

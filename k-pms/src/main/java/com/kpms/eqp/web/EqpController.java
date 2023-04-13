@@ -47,4 +47,51 @@ public class EqpController {
 
 		return "eqp/search";
 	}
+	
+	
+	@GetMapping("/eqp/rent")  
+	public String viewEqpRentPage(@RequestParam(required = false) String eqpNm,
+			Model model) {
+		
+		model.addAttribute("eqpNm", eqpNm);
+		
+		List<EqpVO> eqpList = eqpService.readAllEqpNoPagination(eqpNm);
+		model.addAttribute("eqpList", eqpList);
+		
+		return "eqp/rent";
+	}
+	@GetMapping("/eqp/apply")  
+	public String viewEqpRentApplyPage(@RequestParam(required = false) String eqpNm,
+			Model model) {
+		
+		model.addAttribute("eqpNm", eqpNm);
+		
+		List<EqpVO> eqpList = eqpService.readAllEqpNoPagination(eqpNm);
+		model.addAttribute("eqpList", eqpList);
+		
+		return "eqp/apply";
+	}
+	@GetMapping("/eqp/change")  
+	public String viewEqpChangePage(@RequestParam(required = false) String eqpNm,
+			Model model) {
+		
+		model.addAttribute("eqpNm", eqpNm);
+		
+		List<EqpVO> eqpList = eqpService.readAllEqpNoPagination(eqpNm);
+		model.addAttribute("eqpList", eqpList);
+		
+		return "eqp/change";
+	}
+	@GetMapping("/eqp/lostitem")  
+	public String viewEqpLostItemPage(@RequestParam(required = false) String eqpNm,
+			Model model) {
+		
+		model.addAttribute("eqpNm", eqpNm);
+		
+		List<EqpVO> eqpList = eqpService.readAllEqpNoPagination(eqpNm);
+		model.addAttribute("eqpList", eqpList);
+		
+		return "eqp/lostitem";
+	}
+	
 }
