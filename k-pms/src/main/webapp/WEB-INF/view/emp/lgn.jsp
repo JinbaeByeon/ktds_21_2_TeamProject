@@ -68,7 +68,7 @@
 			});
 			
 			// 엔터 submit 방지
-			$('input').keydown(function() {
+			$('input').keydown(function(event) {
 				  if (event.keyCode === 13) {
 				    event.preventDefault();
 				  };
@@ -121,7 +121,6 @@
 				$.post("${context}/api/emp/lgn",data,function(response){
 					console.log(response);
 					if(response.status == "200 OK"){
-						alert("로그인성공");
 						if(response.redirectURL){
 							location.href="${context}"+response.redirectURL;
 						}
