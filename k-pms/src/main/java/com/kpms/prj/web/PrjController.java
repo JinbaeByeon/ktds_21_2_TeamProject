@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIArgsException;
+import com.kpms.common.util.StringUtil;
 import com.kpms.prj.service.PrjService;
 import com.kpms.prj.vo.PrjVO;
 
@@ -38,6 +41,14 @@ public class PrjController {
 		PrjVO prjVO = prjService.readOnePrjVOByPrjId(prjId);
 		model.addAttribute("prjVO", prjVO);
 		return "prj/detail";
+	}
+	
+	@GetMapping("/prj/search")
+	public String viewPrjDetailPage(@RequestParam(required=false) String prjNm, Model model) {
+		model.addAttribute("prjNm", prjNm);
+		List<PrjVO> prjList = prjService.readAllPrjVONoPagination(prjNm);
+		model.addAttribute("prjList", prjList);
+		return "prj/search";
 	}
 
 }
