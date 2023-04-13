@@ -24,8 +24,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />		
-				<div class="path"> 프로젝트 > 프로젝트 목록 > ${prjId} | ${prjVO.prjNm}</div>
-					<div>
+				<div class="path"> ${prjId} | ${prjVO.prjNm}</div>
 						${prjId}
 						${prjVO.prjNm}
 						${prjVO.cstmr}
@@ -33,59 +32,122 @@
 						${prjVO.endDt}
 						${prjVO.prjStts}
 						${prjVO.useYn}
-						${prjVO.ptmList.get(0).prjTmMbrId}
+						${prjVO.ptmList.get(0).tmMbrVO.empId}
+						${prjVO.ptmList.get(0).tmMbrVO.empVO.fNm}
 
-				<div class="create-group">
-								<label for="mvTtl">영화제목</label>
-								<input type="text" id="mvTtl" name="mvTtl" value="${mvVO.mvTtl}"/>
+					<div class="create-group">
+						<label for="mvTtl">프로젝트ID</label>
+						<h3>${prjId}</h3>
+					</div>
+					<div class="create-group">
+						<label for="prjNm">프로젝트명</label>
+						<input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}"/>
+					</div>
+					<div class="create-group">
+						<label for="cstmr">고객사</label>
+						<input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}"/>
+					</div>
+					<div class="create-group">
+						<label for="strtDt">시작일</label>
+						<input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}"/>
+					</div>
+					<div class="create-group">
+						<label for="endDt">종료일</label>
+						<input type="date" id="endDt" name="endDt" value='${prjVO.endDt}'/>
+					</div>
+					<div class="create-group">
+						<label for="prjStts">프로젝트 상태</label>
+						<input type="text" id="prjStts" name="prjStts" value='${prjVO.prjStts}'/>
+					</div>
+					<div class="create-group">
+						<label for="useYn">사용여부</label>
+						<input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''}/>
+					</div>
+						<div class="create-group">
+							<label for="tm">팀원</label>
+							<div class="grid">
+								<table>
+									<thead>
+										<tr>
+											<th>직원ID</th>
+											<th>성</th>
+											<th>이름</th>
+											<th>권한</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:choose>
+											<c:when test="${not empty prjVO.ptmList}">
+												<c:forEach items="${prjVO.ptmList}" var="ptm">
+													<tr>
+														<td>${ptm.tmMbrVO.empVO.empId}</td>
+														<td>${ptm.tmMbrVO.empVO.fNm}</td>
+														<td>${ptm.tmMbrVO.empVO.lNm}</td>
+														<td>${ptm.prjPstn}</td>
+													</tr>
+												</c:forEach>
+											</c:when>
+										<c:otherwise>
+											<td colspan="4" class="no-items">
+												등록된 팀원이 없습니다.
+											</td>
+										</c:otherwise>
+										</c:choose>
+									</tbody>
+								</table>
 							</div>
-							<div class="create-group">
-								<label for="engTtl">영화제목(영어)</label>
-								<input type="text" id="engTtl" name="engTtl" value="${mvVO.engTtl}"/>
+						</div>
+						<div class="create-group">
+							<label for="req">요구사항</label>
+							<div class="grid">
+								<table>
+									<thead>
+										<tr>
+											<th>직원ID</th>
+											<th>성</th>
+											<th>이름</th>
+											<th>권한</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:choose>
+											<c:when test="${not empty prjVO.ptmList}">
+												<c:forEach items="${prjVO.ptmList}" var="ptm">
+													<tr>
+														<td>${ptm.tmMbrVO.empVO.empId}</td>
+														<td>${ptm.tmMbrVO.empVO.fNm}</td>
+														<td>${ptm.tmMbrVO.empVO.lNm}</td>
+														<td>${ptm.prjPstn}</td>
+													</tr>
+												</c:forEach>
+											</c:when>
+										<c:otherwise>
+											<td colspan="4" class="no-items">
+												등록된 팀원이 없습니다.
+											</td>
+										</c:otherwise>
+										</c:choose>
+									</tbody>
+								</table>
 							</div>
-							<div class="create-group">
-								<label for="scrnStt">상영상태</label>
-								<select id="scrnStt" name="scrnStt">
-									<option>선택</option>
-									<option value="상영중" ${mvVO.scrnStt eq '상영중' ? 'selected' : '' }>상영중</option>						
-									<option value="상영예정" ${mvVO.scrnStt eq '상영예정' ? 'selected' : '' }>상영예정</option>						
-									<option value="상영종료" ${mvVO.scrnStt eq '상영종료' ? 'selected' : '' }>상영종료</option>						
-								</select>
-							</div>
-							<div class="create-group">
-								<label for="scrnTm">상영시간</label>
-								<input type="number" id="scrnTm" name="scrnTm" value="${mvVO.scrnTm}"/>
-							</div>
-							<div class="create-group">
-								<label for="opngDt">개봉일</label>
-								<input type="date" id="opngDt" name="opngDt" value='${mvVO.opngDt}'/>
-							</div>
-							<div class="create-group">
-								<label for="grd">관람등급</label>
-								<select id="grd" name="grd">
-									<option>선택</option>
-									<option value="전체관람가" ${mvVO.grd eq '전체관람가' ? 'selected' : ''}>전체관람가</option>
-									<option value="7" ${mvVO.grd eq '7' ? 'selected' : ''}>7세 이상 관람가</option>
-									<option value="12" ${mvVO.grd eq '12' ? 'selected' : ''}>12세 이상 관람가</option>
-									<option value="15" ${mvVO.grd eq '15' ? 'selected' : ''}>15세 이상 관람가</option>
-									<option value="19" ${mvVO.grd eq '19' ? 'selected' : ''}>청소년 관람 불가</option>
-								</select>
-							</div>
-							<div class="create-group">
-								<label for="smr">줄거리</label>
-								<textarea id="smr" name="smr" >${mvVO.smr}</textarea>
-							</div>
-							<div class="create-group">
-								<label for="useYn">게시여부</label>
-								<input type="checkbox" id="useYn" name="useYn" value="Y" ${mvVO.useYn eq 'Y' ? 'checked' : ''}/>
-							</div>
-							<div class="create-group">
-								<label for="addGnrBtn">장르</label>
-								<div>
-									<button id="addGnrBtn" class="btn-primary">등록</button>
-									<div class="items">
-										<c:forEach items="${mvVO.gnrList}" var="gnr" varStatus="index" >
-											<div class="gnr-item ${gnr.gnrId}">
+						</div>
+						
+						
+						
+						<div class=items>
+							<c:forEach items="${prjVO.ptmList}" var="ptm">
+								${ptm.prjTmMbrId}
+							</c:forEach>
+						<div>
+						<div class=items>
+							<c:forEach items="${prjVO.ptmList}" var="ptm">
+								${ptm.prjTmMbrId}
+							</c:forEach>
+						<div>
+						<button id="addGnrBtn" class="btn-primary">등록</button>
+						<div class="items">
+							<c:forEach items="${mvVO.gnrList}" var="gnr" varStatus="index" >
+								<div class="gnr-item ${gnr.gnrId}">
 												<input type='hidden' name='gnrList[${index.index}].gnrId' value="${gnr.gnrId}"/>
 												<span>${gnr.gnrVO.gnrNm}</span>
 												<button class="del-gnr-item-btn" data-index="${index.index}" data-gnrid="${gnr.gnrId}">X</button>

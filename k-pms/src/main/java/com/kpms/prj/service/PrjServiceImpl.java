@@ -24,6 +24,11 @@ public class PrjServiceImpl implements PrjService {
 	}
 	
 	@Override
+	public List<PrjVO> readAllPrjVONoPagination(String prjNm) {
+		return prjDAO.readAllPrjVONoPagination(prjNm);
+	}
+	
+	@Override
 	public PrjVO readOnePrjVOByPrjId(String prjId) {
 		return prjDAO.readOnePrjVOByPrjId(prjId);
 	}

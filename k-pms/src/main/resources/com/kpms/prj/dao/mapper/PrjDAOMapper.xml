@@ -54,6 +54,27 @@
 		 <include refid="Common.pageFooter" />
 	</select>
 	
+	<select id="readAllPrjVONoPagination"
+			parameterType="string"
+			resultType="com.kpms.prj.vo.PrjVO">
+		SELECT P.PRJ_ID
+			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , P.CRTR
+			 , TO_CHAR(P.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , P.MDFYR
+			 , P.USE_YN
+			 , P.DEL_YN
+			 , P.PRJ_NM
+			 , P.CSTMR
+			 , TO_CHAR(P.STRT_DT, 'YYYY-MM-DD') STRT_DT
+			 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
+			 , P.PRJ_STTS
+		  FROM PRJ P
+		 WHERE P.DEL_YN = 'N'
+		   AND P.PRJ_NM LIKE '%' || #{prjNm} || '%'
+		 ORDER BY P.PRJ_ID ASC
+	</select>
+	
 	<select id="readOnePrjVOByPrjId"
 			parameterType="string"
 			resultMap="prjVOMap">
@@ -70,6 +91,7 @@
 			 , P.END_DT
 			 , P.PRJ_STTS
 			 , PTM.TM_MBR_ID
+			 , TM.EMP_ID 
 			 , E.F_NM 
 			 , E.L_NM 
 			 , PTM.PRJ_PSTN
@@ -103,6 +125,7 @@
 		   AND R.DEL_YN = 'N'
 		   AND K.DEL_YN = 'N'
 	</select>
+	
 	
 	<insert id="createOnePrj"
 			parameterType="com.kpms.prj.vo.PrjVO">
