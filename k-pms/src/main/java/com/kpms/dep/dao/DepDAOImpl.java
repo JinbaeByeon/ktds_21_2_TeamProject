@@ -24,8 +24,13 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 	}
 	
 	@Override
-	public List<DepVO> readAllDepVONopagination(String depHdNm) {
-		return getSqlSession().selectList("Dep.readAllDepVONopagination", depHdNm);
+	public List<DepVO> readAllDepVONopagination(String depNm) {
+		return getSqlSession().selectList("Dep.readAllDepVONopagination", depNm);
+	}
+	
+	@Override
+	public DepVO readOneDepVOByDepId(String depId) {
+		return getSqlSession().selectOne("Dep.readOneDepVOByDepId", depId);
 	}
 	
 	@Override
@@ -33,10 +38,6 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 		return getSqlSession().insert("Dep.createOneDep", depVO);
 	}
 
-	@Override
-	public DepVO readOneDepVOByDepId(String depId) {
-		return getSqlSession().selectOne("Dep.readOneDepVOByDepId", depId);
-	}
 
 	@Override
 	public int updateOneDepByDepId(DepVO depVO) {
@@ -49,8 +50,8 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 	}
 
 	@Override
-	public int deleteDepBySelectedDepId(List<String> depIdList) {
-		return getSqlSession().update("Dep.deleteDepBySelectedDepId", depIdList);
+	public int deleteDepBySelectedDepId(List<String> depId) {
+		return getSqlSession().update("Dep.deleteDepBySelectedDepId", depId);
 	}
 
 	

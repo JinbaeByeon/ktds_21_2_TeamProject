@@ -8,7 +8,7 @@ public interface DepService {
 
 	public List<DepVO> readAllDepVO(DepVO depVO);
 	
-	public List<DepVO> readAllDepVONopagination(String depHdNm);
+	public List<DepVO> readAllDepVONopagination(String depNm);
 	
 	public DepVO readOneDepVOByDepId(String depId);
 	
@@ -18,5 +18,5 @@ public interface DepService {
 	
 	public boolean deleteOneDepByDepId(String depId);
 	
-	public boolean deleteDepBySelectedDepId(List<String> depIdList);
+	public boolean deleteDepBySelectedDepId(List<String> depId);
 }
