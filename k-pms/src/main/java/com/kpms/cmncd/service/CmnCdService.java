@@ -9,6 +9,6 @@ public interface CmnCdService {
 	public List<CmnCdVO> readAllCmnCd(CmnCdVO cmnCdVO);
 	public boolean createOneCmnCd(CmnCdVO cmnCdVO);
 	public boolean updateOneCmnCd(CmnCdVO cmnCdVO);
-	public boolean deleteOneCmnCdByCdId(int cdId);
-	
+	public boolean deleteOneCmnCdByCdId(String cdId);
+	public boolean deleteCmnCdBySelectedCmnCdId(List<String> cdIdList);
 }
