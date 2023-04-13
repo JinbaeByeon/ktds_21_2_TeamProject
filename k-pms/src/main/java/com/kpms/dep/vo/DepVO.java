@@ -2,19 +2,22 @@ package com.kpms.dep.vo;
 
 import java.util.List;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.emp.vo.EmpVO;
 
 /**
  * DEP
  */
-public class DepVO extends AbstractVO {
+public class DepVO extends AbstractPagingVO {
 
 	private String depId;
 	private String depNm;
-	private String depHdNm;
 	private String depHdId;
 	private String depCrtDt;
+	
+	private EmpVO crtrEmpVO;
+	private EmpVO mdfyrMbrVO;
+	
 	
 	private List<EmpVO> empList;
 	
@@ -33,12 +36,6 @@ public class DepVO extends AbstractVO {
 		this.depNm = depNm;
 	}
 	
-	public String getDepHdNm() {
-		return depHdNm;
-	}
-	public void setDepHdNm(String depHdNm) {
-		this.depHdNm = depHdNm;
-	}
 	public String getDepHdId() {
 		return depHdId;
 	}
@@ -51,6 +48,20 @@ public class DepVO extends AbstractVO {
 	public void setDepCrtDt(String depCrtDt) {
 		this.depCrtDt = depCrtDt;
 	}
+	
+	public EmpVO getCrtrEmpVO() {
+		return crtrEmpVO;
+	}
+	public void setCrtrEmpVO(EmpVO crtrEmpVO) {
+		this.crtrEmpVO = crtrEmpVO;
+	}
+	public EmpVO getMdfyrMbrVO() {
+		return mdfyrMbrVO;
+	}
+	public void setMdfyrMbrVO(EmpVO mdfyrMbrVO) {
+		this.mdfyrMbrVO = mdfyrMbrVO;
+	}
+	
 	public List<EmpVO> getEmpList() {
 		return empList;
 	}

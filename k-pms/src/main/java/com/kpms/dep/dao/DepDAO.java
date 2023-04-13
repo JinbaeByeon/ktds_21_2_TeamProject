@@ -8,7 +8,7 @@ public interface DepDAO {
 	
 	public List<DepVO> readAllDepVO(DepVO depVO);
 	
-	public List<DepVO> readAllDepVONopagination(String depHdNm);
+	public List<DepVO> readAllDepVONopagination(String depNm);
 	
 	public DepVO readOneDepVOByDepId(String depId);
 	
@@ -18,6 +18,6 @@ public interface DepDAO {
 	
 	public int deleteOneDepByDepId(String depId);
 	
-	public int deleteDepBySelectedDepId(List<String> depIdList);
+	public int deleteDepBySelectedDepId(List<String> depId);
 	
 }

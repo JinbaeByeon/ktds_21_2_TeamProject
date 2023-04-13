@@ -19,7 +19,7 @@ public abstract class AbstractPagingVO extends AbstractVO{
 
 	protected AbstractPagingVO() {
 		pageNo = 0;
-		viewCnt = 2;
+		viewCnt = 5;
 		pageCnt = 3;
 	}
 
