@@ -13,7 +13,6 @@ import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIException;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpVO;
-import com.kpms.lgnhst.vo.LgnHstVO;
 
 @RestController
 public class RestEmpController {
@@ -23,16 +22,12 @@ public class RestEmpController {
 
 	@PostMapping("/api/emp/lgn")
 	public APIResponseVO doLoginEmp(EmpVO empVO, HttpServletRequest request, HttpSession session) {
+		empVO.setLtstLgnIp(request.getRemoteAddr());
 		EmpVO user =  empService.readOneEmpByIdAndPwd(empVO);
 		if(user == null) {
 			throw new APIException(APIStatus.DISMATCH, "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		session.setAttribute("__USER__", user);
-		LgnHstVO lgnHst = new LgnHstVO();
-		lgnHst.setAct("login");
-		lgnHst.setCrtr(user.getEmpId());
-		lgnHst.setIp(request.getRemoteAddr());
-		empService.createLgnHst(lgnHst);
 		
 		return new APIResponseVO(APIStatus.OK,"/index");
 

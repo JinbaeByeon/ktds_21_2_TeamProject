@@ -159,32 +159,51 @@ li{
 
 .main-layout > .header > .nav{
 	display: inline-block;
-	padding: 0px;
+	padding: 0;
 	margin :0px;
 	list-style-type:none;
 	position: absolute;
-	bottom:10px;
+	top:0;
 }
 .main-layout > .header > .nav > .nav-item,
-.main-layout > .header > .nav > .nav-item > a {
+.main-layout > .header > .nav > .nav-item  a {
 	display: inline-block;
 	padding: 0px;
 	margin :0px;
 	color: #fff7;
+	position: relative;
+	padding: 0 5px;
 }
 
-.main-layout > .header > .nav > .nav-item:hover{
-	color: #fff;
+.main-layout > .header > .nav > .nav-item > a {
+	padding: 10px 0;
 }
 
-.main-layout > .header > .nav > .nav-item > a:hover{
-	color: #fff;
+.main-layout > .header > .nav > .nav-item > .sub-item{
+	position: absolute;
+	padding: 0;
+	opacity: 0;
+	display: none;
 }
 
-.main-layout > .header > .nav > .active {
+.main-layout > .header > .nav > .nav-item.active {
 	font-weight:bold;
-	color:#DDD;
+	color: #fff;
 }
+.main-layout > .header > .nav > .nav-item.active a {
+	color: #fff;
+}
+.main-layout > .header > .nav > .nav-item.active > .sub-item.active,
+.main-layout > .header > .nav > .nav-item.active:hover > .sub-item {
+	opacity: 1;
+	width: 1000px;
+	display: block;
+}
+
+.main-layout > .header > .nav > .nav-item.active > .sub-item.active > li:hover a {
+	color: #f009;
+}
+
 .main-layout > .header > .profile {
 	color: #EEE;
 	position: absolute;
@@ -387,10 +406,7 @@ img.profile{
 /* 등록 폼*/
 .create-group {
 	display: flex;
-}
-
-.create-group > div {
-	border-bottom: 3px solid #e3e3e3;
+	border-bottom: 1px solid #eee;
 }
 
 .create-group label {
@@ -402,10 +418,12 @@ img.profile{
 
 .create-group button, 
 .create-group select,
-.create-group input,
-.create-group .items{
-	flex-grow: 1;
+.create-group input{
 	margin: 10px;
+}
+,
+.create-group .items{
+	
 }
 
 .create-group textarea {
