@@ -9,15 +9,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$("#all_check").change(function() {
-			$(".check_idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
 		
 		$("#cancel_btn").click(function() {
 			window.close();	
@@ -59,7 +50,7 @@
 				<thead>
 					<tr>
 						<th>
-							<input type="checkbox" id="all_check" />
+							<input type="checkbox" />
 						</th>
 						<th>부서명</th>
 						<th>부서ID</th>
@@ -72,7 +63,7 @@
 								<tr data-depid="${dep.depId}"
 									data-depnm="${dep.depNm}">
 									<td>
-										<input type="checkbox" class="check_idx" value="${dep.depId}" />
+										<input type="radio" name="check_idx" class="check_idx" value="${dep.depId}" />
 									</td>
 									<td>${dep.depNm}</td>
 									<td>${dep.depId}</td>

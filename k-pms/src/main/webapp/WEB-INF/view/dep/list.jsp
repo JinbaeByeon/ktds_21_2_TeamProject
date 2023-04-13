@@ -161,7 +161,7 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서 > 부서관리</div>
+				<div class="path">부서관리 > 부서 목록</div>
 				<div class="search-group">
 					<label for="search_keyword">부서명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
@@ -192,7 +192,8 @@
 							<c:choose>
 								<c:when test="${not empty depList}">
 									<c:forEach items="${depList}"
-												var="dep">
+												var="dep"
+												varStatus="index">
 										<tr data-depid="${dep.depId}"
 											data-depnm="${dep.depNm}"
 											data-dephdid="${dep.depHdId}"
@@ -205,9 +206,9 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${dep.depId}"/>
 											</td>
-											<td>순번</td>
+											<td>${index.index + 1}</td>
 											<td>${dep.depId}</td>
-											<td>${dep.depNm}</td>
+											<td><a href="${context}/dep/detail/${dep.depId}">${dep.depNm}</a></td>
 											<td>${dep.depHdId}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
@@ -238,45 +239,6 @@
                   		<c:param name="lastPage" value="${lastPage}"/>
                   		<c:param name="path" value="${context}/dep"/>
 					</c:import>
-					
-					<<%-- div class="pagenate">
-						<ul>
-							<c:set value="${depList.size() > 0 ? depList.get(0).lastPage : 0}" var="lastPage" />
-							<c:set value="${depList.size() > 0 ? depList.get(0).lastGroup : 0}" var="lastGroup" />
-							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(depVO.pageNo / 10)}" integerOnly="true" />
-							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-							
-							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-							
-							<!--lastPage: ${lastPage}
-							lastGroup: $lastGroup}
-							nowGroup: ${nowGroup}
-							groupStartPageNo: ${groupStartPageNo}
-							groupEndPageNo: ${groupEndPageNo}
-							prevGroupStartPageNo: ${prevGroupStartPageNo}
-							nextGroupStartPageNo: ${nextGroupStartPageNo}  -->
-							
-							<c:if test="${nowGroup > 0}">
-								<li><a href="javascript:movePage(0)">처음</a></li>
-								<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-							</c:if>
-							
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-								<li><a class="${pageNo eq depVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-							</c:forEach>
-							
-							<c:if test="${lastGroup > nowGroup}">
-								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-							</c:if>
-							
-						</ul>
-					</div> --%>
-					
 				</div>
 				
 				<div class="grid-detail">
@@ -293,10 +255,9 @@
 							<label for="depNm" style="width: 180px;">부서명</label><input type="text" id="depNm" name="depNm" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="depHdId" style="width: 180px;">부서장ID</label>
 							<div class="create-head">
-								<input type="hidden" name="depHdId" value="tmpId" /> 
-								<button id="addDepHeadBtn" class="btn-p">등록</button>
+								<label for="depHdId" style="width: 180px;">부서장ID</label>
+								<input type="hidden" name="depHdId" value="tmpId" /><button id="addDepHeadBtn" class="btn-p">등록</button>
 							</div>
 						</div>
 						<div class="input-group inline">

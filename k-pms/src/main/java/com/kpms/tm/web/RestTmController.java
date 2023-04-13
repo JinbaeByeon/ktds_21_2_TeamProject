@@ -25,13 +25,11 @@ public class RestTmController {
 	private TmService tmService;
 	
 	@PostMapping("/api/tm/create")
-	public APIResponseVO doCreateTm(TmVO tmVO, DepVO depVO,
+	public APIResponseVO doCreateTm(TmVO tmVO,
 			 @SessionAttribute("__USER__") EmpVO empVO) {
 		
 		tmVO.setCrtr(empVO.getEmpId());
 		tmVO.setMdfyr(empVO.getEmpId());
-		tmVO.setTmHdId("1");
-		tmVO.setDepId(depVO.getDepId());
 		
 		boolean createResult = tmService.createOneTm(tmVO);
 		

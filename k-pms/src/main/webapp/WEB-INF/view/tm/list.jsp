@@ -14,37 +14,35 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	
-var dep;
-
-function addDepFn(message) {
-	console.log(message);
-	
-	var depItems = $("#addDepIdBtn").closest(".create-group").find(".items");
-	if (depItems.find("." + message.depid).length > 0) {
-		dep.alert(message.depnm + "은(는) 이미 추가된 부서입니다."); 
-		return;
-	}
-	
-	var len = depItems.find(".dep-item").length;
-	var itemDiv = $("<div class='dep-item " + message.depid + "'></div>");
-	
-	var itemId = $("<input type='hidden' name='depList["+len+"].depId'/>");
-	itemId.val(message.depid);
-	itemDiv.append(itemId);
-	
-	var itemSpan = $("<span></span>");
-	itemSpan.text(message.depnm)
-	itemDiv.append(itemSpan);
-	
-	var itemRemoveBtn = $("<button>X</button>");
-	itemRemoveBtn.click(function() {
-		$(this).closest("." + message.depid).remove();
-	});
-	itemDiv.append(itemRemoveBtn);
-	
-	depItems.append(itemDiv);
-	
-} 
+	function addDepFn(message) {
+		console.log(message);
+		
+		var depItems = $("#addDepIdBtn").closest(".create-group").find(".items");
+		if (depItems.find("." + message.depid).length > 0) {
+			alert(message.depnm + "은(는) 이미 추가된 부서입니다."); 
+			return;
+		}
+		
+		var itemDiv = $("<div class='dep-item " + message.depid + "'></div>");
+		
+		var itemId = $("<input type='text' name='depId'/>");
+		console.log(message.depid);
+		itemId.val(message.depid);
+		itemDiv.append(itemId);
+		
+		var itemSpan = $("<span></span>");
+		itemSpan.text(message.depnm)
+		itemDiv.append(itemSpan);
+		
+		var itemRemoveBtn = $("<button>X</button>");
+		itemRemoveBtn.click(function() {
+			$(this).closest("." + message.depid).remove();
+		});
+		itemDiv.append(itemRemoveBtn);
+		
+		depItems.append(itemDiv);
+		
+	} 
 	
 	$().ready(function() {
 		
@@ -86,7 +84,7 @@ function addDepFn(message) {
 		$("#delete_btn").click(function() {
 			var tmId =$("#tmId").val()
 			if (tmId == "") {
-				alert("선택된 부서가 없습니다.");
+				alert("선택된 팀이 없습니다.");
 				return;
 			}
 			
@@ -231,7 +229,8 @@ function addDepFn(message) {
 							<c:choose>
 								<c:when test="${not empty tmList}">
 									<c:forEach items="${tmList}"
-												var="tm">
+												var="tm"
+												varStatus="index">
 										<tr data-depid="${tm.depId}"
 											data-tmid="${tm.tmId}"
 											data-tmnm="${tm.tmNm}"
@@ -245,7 +244,7 @@ function addDepFn(message) {
 											<td>
 												<input type="checkbox" class="check_idx" value="${tm.tmId}"/>
 											</td>
-											<td>순번</td>
+											<td>${index.index + 1}</td>
 											<td>${tm.depId}</td>
 											<td>${tm.tmId}</td>
 											<td>${tm.tmNm}</td>
@@ -279,45 +278,6 @@ function addDepFn(message) {
                   		<c:param name="lastPage" value="${lastPage}"/>
                   		<c:param name="path" value="${context}/tm"/>
 					</c:import>
-					
-					<<%-- div class="pagenate">
-						<ul>
-							<c:set value="${depList.size() > 0 ? depList.get(0).lastPage : 0}" var="lastPage" />
-							<c:set value="${depList.size() > 0 ? depList.get(0).lastGroup : 0}" var="lastGroup" />
-							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(depVO.pageNo / 10)}" integerOnly="true" />
-							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo-1}" var="groupEndPageNo" />
-							
-							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-							
-							<!--lastPage: ${lastPage}
-							lastGroup: $lastGroup}
-							nowGroup: ${nowGroup}
-							groupStartPageNo: ${groupStartPageNo}
-							groupEndPageNo: ${groupEndPageNo}
-							prevGroupStartPageNo: ${prevGroupStartPageNo}
-							nextGroupStartPageNo: ${nextGroupStartPageNo}  -->
-							
-							<c:if test="${nowGroup > 0}">
-								<li><a href="javascript:movePage(0)">처음</a></li>
-								<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-							</c:if>
-							
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-								<li><a class="${pageNo eq depVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-							</c:forEach>
-							
-							<c:if test="${lastGroup > nowGroup}">
-								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-							</c:if>
-							
-						</ul>
-					</div> --%>
-					
 				</div>
 				
 				<div class="grid-detail">
@@ -328,10 +288,8 @@ function addDepFn(message) {
 						-->
 						<input type="hidden" id="isModify" value="false" />
 						<div class="input-group inline">
-							<label for="depId" style="width: 180px;">부서ID</label>
 							<div class="create-group">
-								<input type="hidden" name="depId" value="depId" />
-								<input type="text" id="depId" name="depId" readonly value="" /> 
+								<label for="addDepIdBtn" style="width: 180px;">부서ID</label> 
 								<button id="addDepIdBtn" class="btn-dep">등록</button>
 								<div class="items"></div>
 							</div>
@@ -343,10 +301,9 @@ function addDepFn(message) {
 							<label for="tmNm" style="width: 180px;">팀명</label><input type="text" id="tmNm" name="tmNm" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="tmHdId" style="width: 180px;">팀장ID</label>
 							<div class="create-group">
-								<input type="hidden" name="tmHdId" value="tmpId" />
-								<input type="text" id="tmHdId" name="tmHdId" readonly value="" /> 
+								<label for="tmHdId" style="width: 180px;">팀장ID</label>
+								<input type="text" id="tmHdId" name="tmHdId" readonly value="admin" />
 								<button id="addTmHeadBtn" class="btn-tm">등록</button>
 								<div class="items"></div>
 							</div>

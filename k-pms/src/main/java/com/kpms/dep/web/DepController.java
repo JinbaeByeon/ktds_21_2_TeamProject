@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kpms.dep.service.DepService;
 import com.kpms.dep.vo.DepVO;
+import com.kpms.tm.vo.TmVO;
 
 @Controller
 public class DepController {
@@ -34,6 +36,15 @@ public class DepController {
 	      model.addAttribute("pageCnt", depVO.getPageCnt());
 		
 		return "dep/list";
+	}
+	
+	@GetMapping("/dep/detail/{depId}")
+	public String viewDetailPage(@PathVariable String depId, TmVO tmVO, Model model) {
+		DepVO depVO = depService.readOneDepVOByDepId(depId);
+		model.addAttribute("depVO", depVO);
+		model.addAttribute("tmVO", tmVO);
+		
+		return "dep/detail";
 	}
 	
 	@GetMapping("/dep/search")
