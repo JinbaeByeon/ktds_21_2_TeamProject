@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
-import com.kpms.common.exception.APIArgsException;
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.prj.service.PrjService;
 import com.kpms.prj.vo.PrjVO;
 
@@ -22,15 +23,10 @@ public class RestPrjController {
 	private PrjService prjService;
 	
 	@PostMapping("/api/prj/create")
-	public APIResponseVO doCreatePrj(PrjVO prjVO) {
+	public APIResponseVO doCreatePrj(PrjVO prjVO, @SessionAttribute("__USER__") EmpVO empVO) {
 		
-		prjVO.setCrtr("temp");
-		prjVO.setMdfyr("temp");
-		
-		String prjNm = prjVO.getPrjNm();
-		if (prjNm == null || prjNm.trim().length() == 0) {
-			throw new APIArgsException("400", "프로젝트명이 없습니다.");
-		}
+		prjVO.setCrtr(empVO.getCrtr());
+		prjVO.setMdfyr(empVO.getMdfyr());
 		
 		boolean createResult = prjService.createOnePrj(prjVO);
 		if (createResult) {
@@ -42,8 +38,8 @@ public class RestPrjController {
 	}
 	
 	@PostMapping("/api/prj/update")
-	public APIResponseVO doUpdatePrj(PrjVO prjVO) {
-		prjVO.setMdfyr("update_temp");
+	public APIResponseVO doUpdatePrj(PrjVO prjVO, @SessionAttribute("__USER__") EmpVO empVO) {
+		prjVO.setMdfyr(empVO.getMdfyr());
 		
 		boolean isSuccess = prjService.updateOnePrj(prjVO);
 		if (isSuccess) {

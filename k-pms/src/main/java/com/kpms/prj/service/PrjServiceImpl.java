@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
+import com.kpms.common.util.StringUtil;
 import com.kpms.prj.dao.PrjDAO;
 import com.kpms.prj.vo.PrjVO;
 
@@ -19,9 +22,27 @@ public class PrjServiceImpl implements PrjService {
 	public List<PrjVO> readAllPrjVO(PrjVO prjVO) {
 		return prjDAO.readAllPrjVO(prjVO);
 	}
-
+	
+	@Override
+	public PrjVO readOnePrjVOByPrjId(String prjId) {
+		return prjDAO.readOnePrjVOByPrjId(prjId);
+	}
+	
 	@Override
 	public boolean createOnePrj(PrjVO prjVO) {
+		
+		if (StringUtil.isEmpty(prjVO.getPrjNm())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트명은 필수 값입니다.");
+		}
+
+		if (StringUtil.isEmpty(prjVO.getCstmr())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "고객사명은 필수 값입니다.");
+		}
+		
+		if (StringUtil.isEmpty(prjVO.getPrjStts())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 상태는 필수 값입니다.");
+		}
+		
 		return prjDAO.createOnePrj(prjVO) > 0;
 	}
 

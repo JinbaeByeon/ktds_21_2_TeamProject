@@ -3,6 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Prj">
+	<resultMap id="prjVOMap" type="com.kpms.prj.vo.PrjVO" autoMapping="true">
+		<id property="prjId" column="PRJ_ID" />
+		<collection property="ptmList" ofType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
+			<id property="prjTmMbrId" column="TM_MBR_ID" />
+			<result property="tmMbrId" column="TM_MBR_ID" />
+			<result property="prjPstn" column="PRJ_PSTN" />
+			<association property="tmMbrVO" javaType="com.kpms.tmmbr.vo.TmMbrVO">
+				<id property="tmMbrId" column="TM_MBR_ID" />
+				<association property="empVO" javaType="com.kpms.emp.vo.EmpVO">
+					<id property="empId" column="EMP_ID" />
+					<result property="fNm" column="F_NM" />
+					<result property="lNm" column="L_NM" />
+				</association>
+			</association>
+		</collection>
+		<collection property="reqList" ofType="com.kpms.req.vo.ReqVO" autoMapping="true">
+			<id property="rqrId" column="REQ_ID" />
+		</collection>
+		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO" autoMapping="true">
+			<id property="knwId" column="KNW_ID" />
+		</collection>
+	</resultMap>
 
 	<select id="readAllPrjVO"
 			parameterType="com.kpms.prj.vo.PrjVO"
@@ -30,6 +52,56 @@
 		 </if>
 		 ORDER BY P.PRJ_ID ASC
 		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readOnePrjVOByPrjId"
+			parameterType="string"
+			resultMap="prjVOMap">
+		SELECT P.PRJ_ID
+			 , P.CRT_DT
+			 , P.CRTR
+			 , P.MDFY_DT
+			 , P.MDFYR
+			 , P.USE_YN
+			 , P.DEL_YN
+			 , P.PRJ_NM
+			 , P.CSTMR
+			 , P.STRT_DT
+			 , P.END_DT
+			 , P.PRJ_STTS
+			 , PTM.TM_MBR_ID
+			 , E.F_NM 
+			 , E.L_NM 
+			 , PTM.PRJ_PSTN
+			 , R.REQ_ID
+			 , R.STRT_DT
+			 , R.EXPCT_END_DT
+			 , R.MN_DVLPR
+			 , R.TSK_STTS
+			 , R.PRCS_STTS 
+			 , R.PRRTY 
+			 , K.KNW_ID
+			 , K.TTL
+			 , K.CRT_DT 
+			 , K.CRTR
+			 , K.VW_CNT
+		  FROM PRJ P
+		 INNER JOIN PRJ_TM_MBR PTM
+		    ON P.PRJ_ID = PTM.PRJ_ID
+		 INNER JOIN TM_MBR TM
+		    ON PTM.TM_MBR_ID  = TM.TM_MBR_ID 
+		 INNER JOIN EMP E
+		    ON TM.EMP_ID = E.EMP_ID 
+		 INNER JOIN REQ R 
+		    ON P.PRJ_ID = R.PRJ_ID 
+		 INNER JOIN KNW K 
+		    ON P.PRJ_ID = K.PRJ_ID 
+		 WHERE P.PRJ_ID = #{_parameter}
+		   AND PTM.DEL_YN = 'N'
+		   AND TM.DEL_YN = 'N'
+		   AND E.DEL_YN = 'N'
+		   AND R.DEL_YN = 'N'
+		   AND K.DEL_YN = 'N'
 	</select>
 	
 	<insert id="createOnePrj"
