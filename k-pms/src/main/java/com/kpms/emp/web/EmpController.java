@@ -39,4 +39,15 @@ public class EmpController {
 		
 		return "emp/list";
 	}
+	
+	@GetMapping("/emp/create")
+	public String viewEmpCreatePage() {
+		return "emp/create";
+	}
+
+	@GetMapping("/emp/admin/list")
+	public String viewAdminListPage() {
+		
+		return "emp/adminList";
+	}
 }
