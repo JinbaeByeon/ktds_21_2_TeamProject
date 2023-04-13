@@ -3,10 +3,33 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Prj">
+	<resultMap id="prjVOMap" type="com.kpms.prj.vo.PrjVO" autoMapping="true">
+		<id property="prjId" column="PRJ_ID" />
+		<collection property="ptmList" ofType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
+			<id property="prjTmMbrId" column="TM_MBR_ID" />
+			<result property="tmMbrId" column="TM_MBR_ID" />
+			<result property="prjPstn" column="PRJ_PSTN" />
+			<association property="tmMbrVO" javaType="com.kpms.tmmbr.vo.TmMbrVO">
+				<id property="tmMbrId" column="TM_MBR_ID" />
+				<association property="empVO" javaType="com.kpms.emp.vo.EmpVO">
+					<id property="empId" column="EMP_ID" />
+					<result property="fNm" column="F_NM" />
+					<result property="lNm" column="L_NM" />
+				</association>
+			</association>
+		</collection>
+		<collection property="reqList" ofType="com.kpms.req.vo.ReqVO" autoMapping="true">
+			<id property="rqrId" column="REQ_ID" />
+		</collection>
+		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO" autoMapping="true">
+			<id property="knwId" column="KNW_ID" />
+		</collection>
+	</resultMap>
 
 	<select id="readAllPrjVO"
 			parameterType="com.kpms.prj.vo.PrjVO"
 			resultType="com.kpms.prj.vo.PrjVO">
+		<include refid="Common.pageHeader" />
 		SELECT P.PRJ_ID
 			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , P.CRTR
@@ -16,13 +39,10 @@
 			 , P.DEL_YN
 			 , P.PRJ_NM
 			 , P.CSTMR
-			 , P.STRT_DT
-			 , P.END_DT
-			 , C.CD_NM PRJ_STTS
+			 , TO_CHAR(P.STRT_DT, 'YYYY-MM-DD') STRT_DT
+			 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
 			 , P.PRJ_STTS
 		  FROM PRJ P
-		 INNER JOIN CMN_CD C
-		    ON P.PRJ_STTS = C.CD_ID
 		 WHERE P.DEL_YN = 'N'
 		 <if test='prjNm != null and prjNm != ""'>
 		   AND P.PRJ_NM LIKE '%' || #{prjNm} || '%'
@@ -31,6 +51,57 @@
 		   AND P.CSTMR LIKE '%' || #{cstmr} || '%'
 		 </if>
 		 ORDER BY P.PRJ_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readOnePrjVOByPrjId"
+			parameterType="string"
+			resultMap="prjVOMap">
+		SELECT P.PRJ_ID
+			 , P.CRT_DT
+			 , P.CRTR
+			 , P.MDFY_DT
+			 , P.MDFYR
+			 , P.USE_YN
+			 , P.DEL_YN
+			 , P.PRJ_NM
+			 , P.CSTMR
+			 , P.STRT_DT
+			 , P.END_DT
+			 , P.PRJ_STTS
+			 , PTM.TM_MBR_ID
+			 , E.F_NM 
+			 , E.L_NM 
+			 , PTM.PRJ_PSTN
+			 , R.REQ_ID
+			 , R.STRT_DT
+			 , R.EXPCT_END_DT
+			 , R.MN_DVLPR
+			 , R.TSK_STTS
+			 , R.PRCS_STTS 
+			 , R.PRRTY 
+			 , K.KNW_ID
+			 , K.TTL
+			 , K.CRT_DT 
+			 , K.CRTR
+			 , K.VW_CNT
+		  FROM PRJ P
+		 INNER JOIN PRJ_TM_MBR PTM
+		    ON P.PRJ_ID = PTM.PRJ_ID
+		 INNER JOIN TM_MBR TM
+		    ON PTM.TM_MBR_ID  = TM.TM_MBR_ID 
+		 INNER JOIN EMP E
+		    ON TM.EMP_ID = E.EMP_ID 
+		 INNER JOIN REQ R 
+		    ON P.PRJ_ID = R.PRJ_ID 
+		 INNER JOIN KNW K 
+		    ON P.PRJ_ID = K.PRJ_ID 
+		 WHERE P.PRJ_ID = #{_parameter}
+		   AND PTM.DEL_YN = 'N'
+		   AND TM.DEL_YN = 'N'
+		   AND E.DEL_YN = 'N'
+		   AND R.DEL_YN = 'N'
+		   AND K.DEL_YN = 'N'
 	</select>
 	
 	<insert id="createOnePrj"
@@ -53,7 +124,7 @@
 	   	     , SYSDATE
 	   	     , #{crtr}
 	   	     , SYSDATE
-	   	     , #{mdfyDt}
+	   	     , #{mdfyr}
 	   	     , NVL(#{useYn}, 'N')
 	   	     , 'N'
 	   	     , #{prjNm}
@@ -63,4 +134,44 @@
 	   	     , #{prjStts})
 	</insert>
 	
+	<update id="updateOnePrj"
+			parameterType="com.kpms.prj.vo.PrjVO">
+		UPDATE PRJ
+		   SET MDFY_DT = SYSDATE
+		   	 , MDFYR = #{mdfyr}
+		   	 , USE_YN = NVL(#{useYn}, 'N')
+		   	<if test='prjNm != null and prjNm != ""'>
+		   	 , PRJ_NM = #{prjNm}
+		   	</if>
+		   	<if test='cstmr != null and cstmr != ""'>
+		   	 , CSTMR = #{cstmr}
+		   	</if>
+		   	<if test='strtDt != null and strtDt != ""'>
+		   	 , STRT_DT = #{strtDt}
+		   	</if>
+		   	<if test='endDt != null and endDt != ""'>
+		   	 , END_DT = #{endDt}
+		   	</if>
+		   	<if test='prjStts != null and prjStts != ""'>
+		   	 , PRJ_STTS =#{prjStts}
+		   	</if>
+		 WHERE PRJ_ID = #{prjId}
+	</update>
+	
+	<update id="deleteOnePrjByPrjId"
+			parameterType="string">
+		UPDATE PRJ
+		   SET DEL_YN = 'Y' 
+		 WHERE PRJ_ID = #{_parameter}		
+	</update>
+	
+	<update id="deletePrjByPrjList"
+			parameterType="arrayList">
+		UPDATE PRJ
+		   SET DEL_YN = 'Y' 
+		 WHERE PRJ_ID IN
+		<foreach item="prjId" collection="list" open="(" close=")" separator=",">
+			#{prjId}
+		</foreach>
+	</update>
 </mapper>

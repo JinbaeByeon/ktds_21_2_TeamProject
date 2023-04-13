@@ -15,7 +15,6 @@ public class PrjDAOImpl extends SqlSessionDaoSupport implements PrjDAO {
 	@Autowired
 	@Override
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
-		// TODO Auto-generated method stub
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
 
@@ -23,10 +22,30 @@ public class PrjDAOImpl extends SqlSessionDaoSupport implements PrjDAO {
 	public List<PrjVO> readAllPrjVO(PrjVO prjVO) {
 		return getSqlSession().selectList("Prj.readAllPrjVO", prjVO);
 	}
-
+	
+	@Override
+	public PrjVO readOnePrjVOByPrjId(String prjId) {
+		return getSqlSession().selectOne("Prj.readOnePrjVOByPrjId", prjId);
+	}
+	
 	@Override
 	public int createOnePrj(PrjVO prjVO) {
 		return getSqlSession().insert("Prj.createOnePrj", prjVO);
+	}
+
+	@Override
+	public int updateOnePrj(PrjVO prjVO) {
+		return getSqlSession().update("Prj.updateOnePrj", prjVO);
+	}
+
+	@Override
+	public int deleteOnePrjByPrjId(String prjId) {
+		return getSqlSession().delete("Prj.deleteOnePrjByPrjId", prjId);
+	}
+
+	@Override
+	public int deletePrjByPrjList(List<String> prjIdList) {
+		return getSqlSession().delete("Prj.deletePrjByPrjList", prjIdList);
 	}
 
 }
