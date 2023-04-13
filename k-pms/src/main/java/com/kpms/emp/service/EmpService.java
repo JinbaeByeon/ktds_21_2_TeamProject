@@ -7,7 +7,7 @@ import com.kpms.lgnhst.vo.LgnHstVO;
 
 public interface EmpService {
 
-	public boolean createOneEmp(EmpVO empVO, String cPwd);
+	public boolean createOneEmp(EmpVO empVO);
 	
 	public EmpVO readOneEmpByIdAndPwd(EmpVO empVO);
 	public EmpVO readOneEmpByEmpId(String empId);

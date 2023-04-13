@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Eqp">
+	
+	<insert id="createNewEqp"
+			parameterType="com.kpms.eqp.vo.EqpVO">
+		INSERT INTO EQP
+		 (EQP_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, EQP_NM
+		, EQP_TP
+		, APPL_STTS
+		, EQP_PRC
+		, PRCHS_DT
+		, LOSS_STTS
+		, LOSS_RPRT_DT
+		, APPL_DT)
+		VALUES
+		 (SEQ_EQP_PK.NEXTVAL
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{eqpNm}
+		, #{eqpTp}
+		, NVL(#{applStts}, 'N')
+		, #{eqpPrc}
+		, #{prchsDt}
+		, NVL(#{lossStts}, 'N')
+		, #{lossRprtDt}
+		, #{applDt})
+	</insert>
+		
+	
+	<select id="readAllEqp"
+			parameterType="com.kpms.eqp.vo.EqpVO"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		<include refid="Common.pageHeader" />
+		SELECT EQP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , EQP_PRC
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , LOSS_STTS
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		 <if test="eqpNm != null and eqpNm != ''">
+		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		 </if>
+		  ORDER BY EQP_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllEqpNoPagination"
+			parameterType="string"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		SELECT EQP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , EQP_PRC
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , LOSS_STTS
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		 ORDER BY EQP_ID ASC
+	</select>
+	
+	
+	<update id="updateEqp"
+			parameterType="com.kpms.eqp.vo.EqpVO">
+		UPDATE EQP
+		   SET MDFY_DT= SYSDATE
+		     , MDFYR= #{mdfyr}
+		     , USE_YN= NVL(#{useYn}, 'N')
+		     , EQP_NM= #{eqpNm}
+		     , EQP_TP= #{eqpTp}
+		     , APPL_STTS= #{applStts}
+		     , EQP_PRC= #{eqpPrc}
+		     , PRCHS_DT= SYSDATE
+		     , LOSS_STTS= #{lossStts}
+		     , LOSS_RPRT_DT= SYSDATE
+		     , APPL_DT= SYSDATE
+		 WHERE EQP_ID= #{eqpId}
+		   AND CRT_DT <![CDATA[<=]]> 
+	</update>
+	
+	
+	<update id="deleteEqpByEqpId"
+			parameterType="string">
+		UPDATE EQP
+		   SET DEL_YN= 'Y'
+		 WHERE EQP_ID= #{eqpId}
+	</update>
+	
+	
+	<update id="deleteEqpBySelectedEqpId"
+			parameterType="arraylist">
+		UPDATE EQP
+		   SET DEL_YN= 'Y'
+		 WHERE EQP_ID IN
+		 <foreach collection="list" item="eqpId" open="(" close=")" separator=", ">
+		 	#{eqpId}
+		 </foreach>
+	</update>
+
+</mapper>

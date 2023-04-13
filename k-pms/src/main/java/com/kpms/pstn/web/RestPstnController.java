@@ -1,4 +1,4 @@
-package com.kpms.job.web;
+package com.kpms.pstn.web;
 
 import java.util.List;
 
@@ -8,25 +8,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
-import com.kpms.emp.vo.EmpVO;
-import com.kpms.job.service.JobService;
-import com.kpms.job.vo.JobVO;
+import com.kpms.pstn.service.PstnService;
+import com.kpms.pstn.vo.PstnVO;
 
 @RestController
-public class RestJobController {
-	
+public class RestPstnController {
+
 	@Autowired
-	private JobService jobService;
+	private PstnService pstnService;
 	
-	@PostMapping("/api/job/create")
-	public APIResponseVO doCreateJob(JobVO jobVO) {
-		jobVO.setCrtr("임시 값");
-		jobVO.setMdfyr("임시 값");
-		boolean createResult = jobService.createOneJob(jobVO);
+	@PostMapping("/pstn/create")
+	public APIResponseVO doCreatePstn(PstnVO pstnVO
+			) {
+		pstnVO.setCrtr("1");
+		pstnVO.setMdfyr("1");
+		
+		boolean createResult = pstnService.createNewPstn(pstnVO);
 		
 		if(createResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -35,13 +35,17 @@ public class RestJobController {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
+
 	
-	@PostMapping("/api/job/update")
-	public APIResponseVO doUpdateJob(JobVO jobVO, @SessionAttribute("__USER__") EmpVO empVO) {
+	@PostMapping("/api/pstn/update")	
+	public APIResponseVO doUpdatePstn(PstnVO pstnVO
+			/*@SessionAttribute("__ADMIN__") EmpVO empVO*/) {
 		
-		jobVO.setMdfyr(empVO.getEmpId());
-		
-		boolean updateResult = jobService.updateOneJob(jobVO);
+				/*
+				 * pstnVO.setMdfyr(empVO.getEmpId());
+				 */		
+		pstnVO.setMdfyr("1");
+		boolean updateResult = pstnService.updateNewPstn(pstnVO);
 		
 		if(updateResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -51,9 +55,9 @@ public class RestJobController {
 		}
 	}
 	
-	@GetMapping("/api/job/delete/{jobId}")
-	public APIResponseVO doDeleteJob(@PathVariable int jobId) {
-		boolean deleteResult = jobService.deleteOneJobByJobId(jobId);
+	@GetMapping("/api/pstn/delete/{pstnId}")
+	public APIResponseVO doDeletePstn(@PathVariable int pstnId) {
+		boolean deleteResult = pstnService.deletePstnByPstnId(pstnId);
 		
 		if(deleteResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -62,10 +66,10 @@ public class RestJobController {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
-
-	@PostMapping("/api/job/delete")
-	public APIResponseVO doDeleteJobBySelectedJobId(@RequestParam List<Integer> jobId) {
-		boolean deleteResult = jobService.deleteJobBySelectedJobId(jobId);
+	
+	@PostMapping("/api/pstn/delete")
+	public APIResponseVO doDeletePstnBySelectedPstnId(@RequestParam List<Integer> pstnId) {
+		boolean deleteResult = pstnService.deletePstnBySelectedPstnId(pstnId);
 		
 		if(deleteResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -74,4 +78,6 @@ public class RestJobController {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
+	
+	
 }

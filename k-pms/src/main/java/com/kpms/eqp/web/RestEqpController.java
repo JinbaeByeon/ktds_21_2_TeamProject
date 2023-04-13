@@ -1,4 +1,4 @@
-package com.kpms.job.web;
+package com.kpms.eqp.web;
 
 import java.util.List;
 
@@ -8,25 +8,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
-import com.kpms.emp.vo.EmpVO;
-import com.kpms.job.service.JobService;
-import com.kpms.job.vo.JobVO;
+import com.kpms.eqp.service.EqpService;
+import com.kpms.eqp.vo.EqpVO;
 
 @RestController
-public class RestJobController {
-	
+public class RestEqpController {
+
 	@Autowired
-	private JobService jobService;
+	private EqpService eqpService;
 	
-	@PostMapping("/api/job/create")
-	public APIResponseVO doCreateJob(JobVO jobVO) {
-		jobVO.setCrtr("임시 값");
-		jobVO.setMdfyr("임시 값");
-		boolean createResult = jobService.createOneJob(jobVO);
+	@PostMapping("/eqp/create")
+	public APIResponseVO doCreateEqp(EqpVO eqpVO) {
+		eqpVO.setCrtr("1");
+		eqpVO.setMdfyr("1");
+		
+		boolean createResult = eqpService.createNewEqp(eqpVO);
 		
 		if(createResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -35,13 +34,17 @@ public class RestJobController {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
+
 	
-	@PostMapping("/api/job/update")
-	public APIResponseVO doUpdateJob(JobVO jobVO, @SessionAttribute("__USER__") EmpVO empVO) {
+	@PostMapping("/api/eqp/update")	
+	public APIResponseVO doUpdateEqp(EqpVO eqpVO
+			/*@SessionAttribute("__ADMIN__") EmpVO empVO*/) {
 		
-		jobVO.setMdfyr(empVO.getEmpId());
-		
-		boolean updateResult = jobService.updateOneJob(jobVO);
+				/*
+				 * pstnVO.setMdfyr(empVO.getEmpId());
+				 */		
+		eqpVO.setMdfyr("1");
+		boolean updateResult = eqpService.updateEqp(eqpVO);
 		
 		if(updateResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -51,9 +54,11 @@ public class RestJobController {
 		}
 	}
 	
-	@GetMapping("/api/job/delete/{jobId}")
-	public APIResponseVO doDeleteJob(@PathVariable int jobId) {
-		boolean deleteResult = jobService.deleteOneJobByJobId(jobId);
+	@GetMapping("/api/eqp/delete/{eqpId}")
+	public APIResponseVO doDeleteEqp(@PathVariable String eqpId) {
+		System.out.println(eqpId);
+		boolean deleteResult = eqpService.deleteEqpByEqpId(eqpId);
+		
 		
 		if(deleteResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -62,10 +67,10 @@ public class RestJobController {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
-
-	@PostMapping("/api/job/delete")
-	public APIResponseVO doDeleteJobBySelectedJobId(@RequestParam List<Integer> jobId) {
-		boolean deleteResult = jobService.deleteJobBySelectedJobId(jobId);
+	
+	@PostMapping("/api/eqp/delete")
+	public APIResponseVO doDeleteEqpBySelectedEqpId(@RequestParam List<String> eqpId) {
+		boolean deleteResult = eqpService.deleteEqpBySelectedEqpId(eqpId);
 		
 		if(deleteResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -74,4 +79,6 @@ public class RestJobController {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
+	
+	
 }

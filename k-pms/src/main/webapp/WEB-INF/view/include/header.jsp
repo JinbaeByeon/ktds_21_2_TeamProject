@@ -6,9 +6,10 @@
 <div class="header bg-black">
 	<ul class="nav">
 		<li class="nav-item emp">
-			<a href="${context}/emp/list">회원관리</a>
+			<a href="${context}/emp/list">임직원관리</a>
 			<ul class="sub-item">
-				<li><a href="${context}/emp/list">회원 목록</a></li>
+				<li><a href="${context}/emp/create">임직원 등록</a></li>
+				<li><a href="${context}/emp/list">임직원 목록</a></li>
 				<li><a href="${context}/emp/lgn/hst">로그인 이력</a></li>
 				<li><a href="${context}/emp/acs/log">화면 접근 이력</a></li>
 				<li><a href="${context}/emp/pstn/log">직급 변경 이력</a></li>

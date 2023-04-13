@@ -1,10 +1,13 @@
 package com.kpms.emp.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.kpms.emp.service.EmpService;
@@ -35,11 +38,18 @@ public class EmpController {
 	}
 	
 	@GetMapping("/emp/list")
-	public String viewEmpListPage() {
+	public String viewEmpListPage(Model model, EmpVO empVO) {
+		List<EmpVO> empList = empService.readEmpList(empVO);
+		model.addAttribute("empList",empList);
 		
 		return "emp/list";
 	}
 	
+	@GetMapping("/emp/create")
+	public String viewEmpCreatePage() {
+		return "emp/create";
+	}
+
 	@GetMapping("/emp/admin/list")
 	public String viewAdminListPage() {
 		

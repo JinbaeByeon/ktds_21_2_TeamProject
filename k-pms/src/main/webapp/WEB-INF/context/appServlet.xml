@@ -22,7 +22,6 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/"/>
 			<mvc:mapping path="/api/emp/lgn"/>
-			<mvc:mapping path="/api/emp/rgst"/>
 			<bean class="com.kpms.common.interceptor.BlockPageInterceptor">
 			</bean>
 		</mvc:interceptor>
