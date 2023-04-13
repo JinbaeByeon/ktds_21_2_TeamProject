@@ -13,7 +13,21 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-	
+		$("li.nav-item.eqp").addClass("active");
+		$("li.nav-item").children("a").mouseover(function(){
+			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
+			if($(this).attr("class")!="nav-item eqp"){
+				$("li.nav-item.eqp").removeClass("active");
+			}
+			$(this).closest("li.nav-item").addClass("active");
+		});
+		$(".nav").mouseleave(function(){
+			$(this).find(".active").removeClass("active");
+			$("li.nav-item.eqp").addClass("active");
+		});
+		$(".sub-item").mouseenter(function(){
+			$(this).addClass("active");
+		});
 		$(".grid > table > tbody > tr").click(function(){
 			
 			$("#isModify").val("true"); //수정모드
@@ -152,7 +166,7 @@
 		// 입력값
 		var eqpNm = $("#search-keyword").val();
 		// URL 요청
-		location.href = "${context}/eqp?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+		location.href = "${context}/eqp/list?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
