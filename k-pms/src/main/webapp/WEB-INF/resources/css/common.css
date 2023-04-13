@@ -406,10 +406,7 @@ img.profile{
 /* 등록 폼*/
 .create-group {
 	display: flex;
-}
-
-.create-group > div {
-	border-bottom: 3px solid #e3e3e3;
+	border-bottom: 1px solid #eee;
 }
 
 .create-group label {
@@ -421,10 +418,12 @@ img.profile{
 
 .create-group button, 
 .create-group select,
-.create-group input,
-.create-group .items{
-	flex-grow: 1;
+.create-group input{
 	margin: 10px;
+}
+,
+.create-group .items{
+	
 }
 
 .create-group textarea {

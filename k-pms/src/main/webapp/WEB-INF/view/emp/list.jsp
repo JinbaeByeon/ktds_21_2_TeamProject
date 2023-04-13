@@ -13,18 +13,20 @@
 	<script type="text/javascript">
 		$().ready(function(){
 			$("li.nav-item.emp").addClass("active");
-			$("li.nav-item").mouseover(function(){
-				$(this).closest(".nav").find(".active").removeClass("active");
+			$("li.nav-item").children("a").mouseover(function(){
+				$(this).closest(".nav").find(".nav-item.active").removeClass("active");
 				if($(this).attr("class")!="nav-item emp"){
 					$("li.nav-item.emp").removeClass("active");
 				}
-				
+				$(this).closest("li.nav-item").addClass("active");
+			});
+			$(".nav").mouseleave(function(){
+				$(this).find(".active").removeClass("active");
+				$("li.nav-item.emp").addClass("active");
+			});
+			$(".sub-item").mouseenter(function(){
 				$(this).addClass("active");
 			});
-			/* $("li.nav-item").mouseout(function(){
-				$(this).removeClass("active");
-				$("li.nav-item.emp").addClass("active");
-			}); */
 		});
 	</script>
 </head>
