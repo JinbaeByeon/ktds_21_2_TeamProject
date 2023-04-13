@@ -27,6 +27,27 @@
 	</insert>
 	
 	<select id="readAllPstn"
+			parameterType="com.kpms.pstn.vo.PstnVO"
+			resultType="com.kpms.pstn.vo.PstnVO">
+		<include refid="Common.pageHeader" />
+		SELECT PSTN_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , PSTN_NM
+		  FROM PSTN
+		 WHERE DEL_YN = 'N'
+		 <if test="pstnNm != null and pstnNm != ''">
+		   AND PSTN_NM LIKE '%' || #{pstnNm} || '%'
+		 </if>
+		 ORDER BY PSTN_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllPstnNoPagination"
 			parameterType="string"
 			resultType="com.kpms.pstn.vo.PstnVO">
 		SELECT PSTN_ID
@@ -38,47 +59,37 @@
 			 , DEL_YN
 			 , PSTN_NM
 		  FROM PSTN
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND PSTN_NM LIKE '%' || #{pstnNm} || '%'
+		 ORDER BY PSTN_ID ASC
 	</select>
-
-<!-- 	<select id="readAllPstn"
-			parameterType="com.kpms.pstn.vo.PstnVO"
-			resultMap="com.kpms.pstn.vo.PstnVO">
-		SELECT PSTN_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , PSTN_NM
-		  FROM PSTN
-	</select>	 -->
-
+	
 	<update id="updateNewPstn"
-			parameterType="string">
+			parameterType="com.kpms.pstn.vo.PstnVO">
 		UPDATE PSTN
-		   SET CRT_DT=''
-		     , CRTR=''
-		     , MDFY_DT=''
-		     , MDFYR=''
-		     , USE_YN=''
-		     , DEL_YN=''
-		     , PSTN_NM=''
-		 WHERE PSTN_ID=0;
+		   SET MDFY_DT= SYSDATE
+		     , MDFYR= #{mdfyr}
+		     , USE_YN= NVL(#{useYn}, 'Y')
+		     , PSTN_NM= #{pstnNm}
+		 WHERE PSTN_ID= #{pstnId}
 		
 	</update>
 	
 	<update id="deletePstnByPstnId"
-			parameterType="string">
+			parameterType="_int">
 		UPDATE PSTN
-		   SET CRT_DT=''
-		     , CRTR=''
-		     , MDFY_DT=''
-		     , MDFYR=''
-		     , USE_YN=''
-		     , DEL_YN=''
-		     , PSTN_NM=''
-		 WHERE PSTN_ID=0;
-		
+		   SET DEL_YN= 'Y'
+		 WHERE PSTN_ID= #{pstnId}
+	</update>
+	
+	<update id="deletePstnBySelectedPstnId"
+			parameterType="arraylist">
+		UPDATE PSTN
+		   SET DEL_YN= 'Y'
+		 WHERE PSTN_ID IN
+		 <foreach collection="list" item="pstnId" open="(" close=")" separator=", ">
+		 	#{pstnId}
+		 </foreach>
 	</update>
 </mapper>
