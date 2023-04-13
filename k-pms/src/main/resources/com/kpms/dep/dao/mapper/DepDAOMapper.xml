@@ -83,20 +83,39 @@
 		   AND D.DEP_NM LIKE '%' || #{_parameter} || '%'
 		 ORDER BY D.DEP_ID ASC
 	</select>
+	
+	<resultMap id="depIdVOMap" 
+				type="com.kpms.dep.vo.DepVO"
+				autoMapping="true">
+		<id property="depId" column="DEP_ID"/>
+		<collection property="tmList" ofType="com.kpms.tm.vo.TmVO">
+			<id property="tmId" column="TM_ID" />
+			<result property="tmId" column="TM_ID" />
+			<result property="tmNm" column="TM_NM" />
+			<result property="tmCrtDt" column="TM_CRT_DT" />
+			<result property="tmHdId" column="TM_HD_ID" />
+		</collection>
+	</resultMap>
 
 	<select id="readOneDepVOByDepId"
 			parameterType="string"
-			resultType="com.kpms.dep.vo.DepVO">
-		SELECT DEP_ID
-			 , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
-			 , CRTR
-			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEP_NM
-			 , DEP_HD_ID
-			 , DEP_CRT_DT
-		  FROM DEP
+			resultMap="depIdVOMap">
+		SELECT D.DEP_ID
+			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , D.CRTR
+			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , D.MDFYR
+			 , D.USE_YN
+			 , D.DEP_NM
+			 , D.DEP_HD_ID
+			 , D.DEP_CRT_DT
+			 , T.TM_ID
+			 , T.TM_NM
+			 , T.TM_CRT_DT
+			 , T.TM_HD_ID
+		  FROM DEP D
+		 INNER JOIN TM T
+		    ON D.DEP_ID = T.DEP_ID
 		 WHERE DEP_ID = #{_parameter}
 		   AND DEL_YN = 'N'
 	</select>

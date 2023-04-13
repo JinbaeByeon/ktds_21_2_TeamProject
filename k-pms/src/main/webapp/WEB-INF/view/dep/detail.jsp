@@ -40,6 +40,7 @@
 						</div>
 					</div>
 					<div>
+					리스트로 만들자
 						<div>
 							팀명: ${tmVO.tmNm}
 						</div>
