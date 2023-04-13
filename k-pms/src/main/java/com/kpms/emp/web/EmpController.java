@@ -55,4 +55,10 @@ public class EmpController {
 		
 		return "emp/adminList";
 	}
+	
+	@GetMapping("/emp/search")
+	public String viewSearchPage() {
+		
+		return "";
+	}
 }

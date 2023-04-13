@@ -54,7 +54,7 @@
 							<th>직무</th>
 							<th>부서</th>
 							<th>로그인실패횟수</th>
-							<th>차단날짜</th>
+							<th>최근로그인실패날짜</th>
 						</tr>
 					</thead>
 					<tbody>
