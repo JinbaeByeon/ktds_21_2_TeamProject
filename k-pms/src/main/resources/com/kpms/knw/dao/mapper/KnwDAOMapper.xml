@@ -32,10 +32,17 @@
 		, #{prjId})
 	</insert>
 	
+	<resultMap id="knwVOMap" type="com.kpms.knw.vo.KnwVO" autoMapping="true">
+		<id property="knwId" column="KNW_ID" />
+		<association property="prjVO" javaType="com.kpms.prj.vo.PrjVO">
+			<id property="prjId" column="PRJ_ID" />
+			<result property="prjNm" column="PRJ_NM" />
+		</association>
+	</resultMap>
 	
 	<select id="readAllKnw"
 			parameterType="com.kpms.knw.vo.KnwVO"
-			resultType="com.kpms.knw.vo.KnwVO">
+			resultMap="knwVOMap">
 		SELECT K.KNW_ID
              , TO_CHAR(K.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
              , K.CRTR
@@ -55,7 +62,7 @@
          WHERE K.DEL_YN = 'N'
 	</select>
 	
-	<resultMap id="knwVOMap"
+<!-- 	<resultMap id="knwVOMap"
 			   type="com.kpms.knw.vo.KnwVO"
 			   autoMapping="true">
 		<id property="knwId" column="KNW_ID" />
@@ -90,7 +97,7 @@
 			ON K.PRJ_ID = P.PRJ_ID
 		 WHERE K.KNW_ID = #{_parameter}
 		 
-	</select>
+	</select> -->
 	
 	<update id="updateOneKnw"
 			parameterType="com.kpms.knw.vo.KnwVO">

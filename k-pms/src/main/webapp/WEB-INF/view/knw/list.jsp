@@ -97,11 +97,12 @@
 										data-cntnt="${knw.cntnt}" data-vwcnt="${knw.vwCnt}"
 										data-prjid="${knw.prjId}" data-crtr="${knw.crtr}"
 										data-crtdt="${knw.crtDt}" data-mdfyr="${knw.mdfyr}"
-										data-mdfydt="${knw.mdfyDt}" data-useyn="${knw.useYn}">
+										data-mdfydt="${knw.mdfyDt}" data-useyn="${knw.useYn}"
+										data-prjNm="${knw.prjVO.prjNm}">
 										<td><input type="checkbox" class="check_idx"
 											value="${knw.knwId}"></td>
 										<td>${knw.prjId}</td>
-										<td>${knw.prjId}</td>
+										<td>${knw.prjVO.prjNm}</td>
 										<td>${knw.knwId}</td>
 										<td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a>
 										</td>
