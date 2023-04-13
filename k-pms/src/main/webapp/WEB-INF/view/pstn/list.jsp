@@ -157,6 +157,7 @@
 						<thead>
 							<tr>
 								<th><input type="checkbox" id="all_check"/></th>
+								<th>순번</th>
 								<th>직급ID</th>
 								<th>직급명</th>
 								<th>사용여부</th>
@@ -164,13 +165,15 @@
 								<th>등록일</th>
 								<th>수정자</th>
 								<th>수정일</th>
+								<th>삭제여부</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:choose>
 								<c:when test="${not empty pstnList}">
 									<c:forEach items="${pstnList}"
-											   var="pstn">
+											   var="pstn"
+											   varStatus="index">
 										<tr data-pstnid="${pstn.pstnId}"
 											data-pstnnm="${pstn.pstnNm}"
 											data-useyn="${pstn.useYn}"
@@ -182,6 +185,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${pstn.pstnId}">
 											</td>
+											<td>${index.index}</td>
 											<td>${pstn.pstnId}</td>
 											<td>${pstn.pstnNm}</td>
 											<td>${pstn.useYn}</td>
@@ -245,25 +249,32 @@
 						<!-- isModify == false => 등록(insert) -->
 						<input type="hidden" id="isModify" value="false" />
 						<div class="input-group inline">
-							<label for="gnrId" style="width: 180px;">직급 ID</label><input type="text" id="pstnId"  name="pstnId" value="" readonly />
+							<label for="gnrId" style="width: 180px;">직급 ID</label>
+							<input type="text" id="pstnId"  name="pstnId" value="" readonly />
 						</div>
 						<div class="input-group inline">
-							<label for="gnrNm" style="width: 180px;">직급명</label><input type="text" id="pstnNm"  name="pstnNm" value=""/>
+							<label for="gnrNm" style="width: 180px;">직급명</label>
+							<input type="text" id="pstnNm"  name="pstnNm" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
+							<label for="useYn" style="width: 180px;">사용여부</label>
+							<input type="checkbox" id="useYn" name="useYn" value="Y"/>
 						</div>
 						<div class="input-group inline">
-							<label for="crtr" style="width: 180px;">등록자</label><input type="text" id="crtr"  disabled value=""/>
+							<label for="crtr" style="width: 180px;">등록자</label>
+							<input type="text" id="crtr"  disabled value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="crtDt" style="width: 180px;">등록일</label><input type="text" id="crtDt"  disabled value=""/>
+							<label for="crtDt" style="width: 180px;">등록일</label>
+							<input type="text" id="crtDt"  disabled value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="mdfyr" style="width: 180px;">수정자</label><input type="text" id="mdfyr"  disabled value=""/>
+							<label for="mdfyr" style="width: 180px;">수정자</label>
+							<input type="text" id="mdfyr"  disabled value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="mdfyDt" style="width: 180px;">수정일</label><input type="text" id="mdfyDt"  disabled value=""/>
+							<label for="mdfyDt" style="width: 180px;">수정일</label>
+							<input type="text" id="mdfyDt"  disabled value=""/>
 						</div>
 						
 					</form>

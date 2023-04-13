@@ -168,6 +168,7 @@
 						<thead>
 							<tr>
 								<th><input type="checkbox" id="all_check"/></th>
+								<th>순번</th>
 								<th>비품ID</th>
 								<th>비품명</th>
 								<th>비품종류</th>
@@ -188,7 +189,8 @@
 							<c:choose>
 								<c:when test="${not empty eqpList}">
 									<c:forEach items="${eqpList}"
-											   var="eqp">
+											   var="eqp"
+											   varStatus="index">
 										<tr data-eqpid="${eqp.eqpId}"
 											data-eqpnm="${eqp.eqpNm}"
 											data-eqptp="${eqp.eqpTp}"
@@ -207,6 +209,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${eqp.eqpId}">
 											</td>
+											<td>${index.index + 1}</td>
 											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
@@ -244,45 +247,58 @@
 						<!-- isModify == false => 등록(insert) -->
 						<input type="hidden" id="isModify" value="false" />
 						<div class="input-group inline">
-							<label for="eqpId" style="width: 180px;">비품 ID</label><input type="text" id="eqpId"  name="eqpId" value="" readonly />
+							<label for="eqpId" style="width: 180px;">비품 ID</label>
+							<input type="text" id="eqpId"  name="eqpId" value="" readonly />
 						</div>
 						<div class="input-group inline">
-							<label for="eqpNm" style="width: 180px;">비품명</label><input type="text" id="eqpNm"  name="eqpNm" value=""/>
+							<label for="eqpNm" style="width: 180px;">비품명</label>
+							<input type="text" id="eqpNm"  name="eqpNm" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="eqpTp" style="width: 180px;">비품종류</label><input type="text" id="eqpTp"  name="eqpTp" value=""/>
+							<label for="eqpTp" style="width: 180px;">비품종류</label>
+							<input type="text" id="eqpTp"  name="eqpTp" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="applStts" style="width: 180px;">신청상태</label><input type="text" id="applStts"  name="applStts" value=""/>
+							<label for="applStts" style="width: 180px;">신청상태</label>
+							<input type="checkbox" id="applStts"  name="applStts" value="Y"/>
 						</div>
 						<div class="input-group inline">
-							<label for="eqpPrc" style="width: 180px;">비품가격</label><input type="text" id="eqpPrc"  name="eqpPrc" value=""/>
+							<label for="eqpPrc" style="width: 180px;">비품가격</label>
+							<input type="text" id="eqpPrc"  name="eqpPrc" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="prchsDt" style="width: 180px;">구매일</label><input type="date" id="prchsDt"  name="prchsDt" value=""/>
+							<label for="prchsDt" style="width: 180px;">구매일</label>
+							<input type="date" id="prchsDt"  name="prchsDt" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">분실상태</label><input type="text" id="lossStts"  name="lossStts" value=""/>
+							<label for="lossStts" style="width: 180px;">분실상태</label>
+							<input type="checkbox" id="lossStts"  name="lossStts" value="Y"/>
 						</div>
 						<div class="input-group inline">
-							<label for="lossRprtDt" style="width: 180px;">분실신고일</label><input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
+							<label for="lossRprtDt" style="width: 180px;">분실신고일</label>
+							<input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="applDt" style="width: 180px;">신청일</label><input type="date" id="applDt"  name="applDt" value=""/>
+							<label for="applDt" style="width: 180px;">신청일</label>
+							<input type="date" id="applDt"  name="applDt" value=""/>
 						</div>
 						
 						
 						<div class="input-group inline">
-							<label for="crtr" style="width: 180px;">등록자</label><input type="text" id="crtr"  disabled value=""/>
+							<label for="crtr" style="width: 180px;">등록자</label>
+							<input type="text" id="crtr"  disabled value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="crtDt" style="width: 180px;">등록일</label><input type="text" id="crtDt"  disabled value=""/>
+							<label for="crtDt" style="width: 180px;">등록일</label>
+							<input type="text" id="crtDt"  disabled value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="mdfyr" style="width: 180px;">수정자</label><input type="text" id="mdfyr"  disabled value=""/>
+							<label for="mdfyr" style="width: 180px;">수정자</label>
+							<input type="text" id="mdfyr"  disabled value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="mdfyDt" style="width: 180px;">수정일</label><input type="text" id="mdfyDt"  disabled value=""/>
+							<label for="mdfyDt" style="width: 180px;">수정일</label>
+							<input type="text" id="mdfyDt"  disabled value=""/>
 						</div>
 						
 					</form>
