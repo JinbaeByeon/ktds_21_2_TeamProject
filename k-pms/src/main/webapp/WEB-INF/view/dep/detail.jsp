@@ -40,22 +40,49 @@
 						</div>
 					</div>
 					
-					<div>
-						<c:forEach items="${depVO.tmList}" var="tm">
-						<div>
-							팀명: ${tm.tmNm}
+					<div class="grid">
+						
+						<div class="grid-count align-right">
+						 총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
 						</div>
-						<div>
-							팀ID: ${tm.tmId}
-						</div>
-						<div>
-							팀장ID: ${tm.tmHdId}
-						</div>
-						<div>
-							팀생성일: ${tm.tmCrtDt}
-						</div>
-						</c:forEach>
-					</div>
+						<table>
+							<thead>
+								<tr>
+									<th>순번</th>
+									<th>팀ID</th>
+									<th>팀명</th>
+									<th>팀장ID</th>
+									<th>팀생성일</th>
+								</tr>
+							</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${not empty depVO.tmList}">
+									<c:forEach items="${depVO.tmList}"
+												var="tm"
+												varStatus="index">
+											<tr>
+												<td>${index.index + 1}</td>
+												<td>${tm.tmId}</td>
+												<td>${tm.tmNm}</td>
+												<td>${tm.tmHdId}</td>
+												<td>${tm.tmCrtDt}</td>
+											</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="5" class="no-items">
+											등록된 팀이 없습니다.
+										</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+						팀명클릭해서 팀원목록 출력
+						부서원목록 출력
+			</div>			
 		</div>
 	</div>
 </body>

@@ -23,14 +23,14 @@
 			return;
 		}
 		
-		var itemDiv = $("<div class='dep-item " + message.depid + "'></div>");
-		
-		var itemId = $("<input type='text' name='depId'/>");
+		var itemDiv = depItems.find(".dep-item");
+			
+		var itemId = itemDiv.find("#depId")
 		console.log(message.depid);
 		itemId.val(message.depid);
 		itemDiv.append(itemId);
 		
-		var itemSpan = $("<span></span>");
+		var itemSpan = itemDiv.find("span");
 		itemSpan.text(message.depnm)
 		itemDiv.append(itemSpan);
 		
@@ -51,6 +51,7 @@
 			
 			var data = $(this).data();
 			$("#depId").val(data.depid);
+			$("#depNm").text(data.depnm);
 			$("#tmId").val(data.tmid);
 			$("#tmNm").val(data.tmnm);
 			$("#tmHdId").val(data.tmhdid);
@@ -69,6 +70,7 @@
 			$("#isModify").val("false"); //등록모드
 			
 			$("#depId").val("");
+			$("depNm").val("");
 			$("#tmId").val("");
 			$("#tmNm").val("");
 			$("#tmHdId").val("");
@@ -214,6 +216,7 @@
 								<th><input type="checkbox" id="all_check" /></th>
 								<th>순번</th>
 								<th>부서ID</th>
+								<th>부서명</th>
 								<th>팀ID</th>
 								<th>팀명</th>
 								<th>팀장ID</th>
@@ -232,6 +235,7 @@
 												var="tm"
 												varStatus="index">
 										<tr data-depid="${tm.depId}"
+											data-depnm="${tm.depIdDepVO.depNm}"
 											data-tmid="${tm.tmId}"
 											data-tmnm="${tm.tmNm}"
 											data-tmhdid="${tm.tmHdId}"
@@ -246,6 +250,7 @@
 											</td>
 											<td>${index.index + 1}</td>
 											<td>${tm.depId}</td>
+											<td>${tm.depIdDepVO.depNm}</td>
 											<td>${tm.tmId}</td>
 											<td>${tm.tmNm}</td>
 											<td>${tm.tmHdId}</td>
@@ -260,7 +265,7 @@
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="11" class="no-items">
+										<td colspan="12" class="no-items">
 											등록된 팀이 없습니다.
 										</td>
 									</tr>
@@ -278,6 +283,7 @@
                   		<c:param name="lastPage" value="${lastPage}"/>
                   		<c:param name="path" value="${context}/tm"/>
 					</c:import>
+					
 				</div>
 				
 				<div class="grid-detail">
@@ -291,7 +297,12 @@
 							<div class="create-group">
 								<label for="addDepIdBtn" style="width: 180px;">부서ID</label> 
 								<button id="addDepIdBtn" class="btn-dep">등록</button>
-								<div class="items"></div>
+								<div class="items">
+									<div class='dep-item'>
+										<input type='text' name='depId' id= "depId" readonly="readonly"/>
+										<span id="depNm"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="input-group inline">
