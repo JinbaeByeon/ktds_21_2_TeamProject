@@ -25,5 +25,5 @@ public interface EmpDAO {
 
 	public int updateEmpLgnCntZero(String empId);
 
-
+	public String readSaltById(String empId);
 }

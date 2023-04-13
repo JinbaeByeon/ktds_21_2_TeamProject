@@ -374,7 +374,7 @@ li{
 }
 
 .grow-1 {
-	flex-frow: 1;
+	flex-grow: 1;
 }
 .mr-10 {
 	margin-right: 10px;
@@ -407,6 +407,7 @@ img.profile{
 .create-group {
 	display: flex;
 	border-bottom: 1px solid #eee;
+	position: relative;
 }
 
 .create-group label {
@@ -414,6 +415,12 @@ img.profile{
 	background-color: #e3e3e3;	
 	width: 130px;
 	padding: 10px;
+	font-size: 13px;
+}
+
+.create-group label.required:after {
+	color: red;
+	content: " *";
 }
 
 .create-group button, 
@@ -421,9 +428,18 @@ img.profile{
 .create-group input{
 	margin: 10px;
 }
-,
-.create-group .items{
-	
+
+.create-group > div{
+	display: flex;
+}
+
+.create-group > .right-item {
+	position: absolute;
+	left: 450px;
+}
+
+.create-group .addrss-group {
+	flex-direction: column;
 }
 
 .create-group textarea {
@@ -432,3 +448,37 @@ img.profile{
 	height: 300px;
 }
 
+
+.mr-10p {
+	margin-right: 10%
+}
+
+.w-50p {
+	width: 50%;
+}
+
+.fs-12 {
+	font-size: 12px;
+}
+
+
+#postCode {
+	width: 100px;
+}
+
+#addrss,
+#dtlAddrss {
+	width:400px;
+}
+
+#hrPrd,
+#pstnPrd {
+	width: 20px;
+	text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
