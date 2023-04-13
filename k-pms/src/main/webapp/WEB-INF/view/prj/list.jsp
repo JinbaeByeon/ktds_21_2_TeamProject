@@ -126,9 +126,9 @@ $().ready(function() {
 				<div class="search-row-group">
 					<div class="search-group">
 						<label for="search-keyword-nm">프로젝트명</label>
-						<input type="text" id="search-keyword-prjnm" class="search-input" value="${prjNm}" />
+						<input type="text" id="search-keyword-prjnm" class="search-input" value="${prjVO.prjNm}" />
 						<label for="search-keyword-rlnm">고객사명</label>
-						<input type="text" id="search-keyword-cstmr" class="search-input" value="${cstmr}" />
+						<input type="text" id="search-keyword-cstmr" class="search-input" value="${prjVO.cstmr}" />
 						<button class="btn-search" id="search-btn">&#128269</button>	
 					</div>
 				</div>

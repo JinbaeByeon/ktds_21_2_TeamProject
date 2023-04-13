@@ -70,6 +70,7 @@
 			 , P.END_DT
 			 , P.PRJ_STTS
 			 , PTM.TM_MBR_ID
+			 , TM.EMP_ID 
 			 , E.F_NM 
 			 , E.L_NM 
 			 , PTM.PRJ_PSTN
