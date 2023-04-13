@@ -138,7 +138,7 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var gnrNm = $("#search-keyword").val();
+		var pstnNm = $("#search-keyword").val();
 		// URL 요청
 		location.href = "${context}/pstn/list?pstnNm=" + pstnNm + "&pageNo=" + pageNo;
 	}

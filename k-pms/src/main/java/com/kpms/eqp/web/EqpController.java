@@ -18,7 +18,7 @@ public class EqpController {
 	@Autowired
 	private EqpService eqpService;
 	
-	@GetMapping("/eqp")
+	@GetMapping("/eqp/list")
 	public String viewEqpListPage(Model model, EqpVO eqpVO) {
 		List<EqpVO> eqpList = eqpService.readAllEqp(eqpVO);
 		
