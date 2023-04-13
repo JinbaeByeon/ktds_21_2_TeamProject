@@ -17,7 +17,7 @@ public class DepVO extends AbstractPagingVO {
 	private String depCrtDt;
 	
 	private EmpVO crtrEmpVO;
-	private EmpVO mdfyrMbrVO;
+	private EmpVO mdfyrEmpVO;
 	
 	private TmVO depIdtmVO;
 	
@@ -58,11 +58,11 @@ public class DepVO extends AbstractPagingVO {
 	public void setCrtrEmpVO(EmpVO crtrEmpVO) {
 		this.crtrEmpVO = crtrEmpVO;
 	}
-	public EmpVO getMdfyrMbrVO() {
-		return mdfyrMbrVO;
+	public EmpVO getMdfyrEmpVO() {
+		return mdfyrEmpVO;
 	}
-	public void setMdfyrMbrVO(EmpVO mdfyrMbrVO) {
-		this.mdfyrMbrVO = mdfyrMbrVO;
+	public void setMdfyrEmpVO(EmpVO mdfyrEmpVO) {
+		this.mdfyrEmpVO = mdfyrEmpVO;
 	}
 	
 	public TmVO getDepIdtmVO() {

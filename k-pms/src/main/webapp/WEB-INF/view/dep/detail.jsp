@@ -39,27 +39,23 @@
 							부서 생성일: ${depVO.depCrtDt}
 						</div>
 					</div>
+					
 					<div>
-					리스트로 만들자
+						<c:forEach items="${depVO.tmList}" var="tm">
 						<div>
-							팀명: ${tmVO.tmNm}
+							팀명: ${tm.tmNm}
 						</div>
 						<div>
-							팀ID: ${tmVO.tmId}
+							팀ID: ${tm.tmId}
 						</div>
 						<div>
-							팀명: ${tmVO.tmNm}
+							팀장ID: ${tm.tmHdId}
 						</div>
 						<div>
-							팀장ID: ${tmVO.tmHdId}
+							팀생성일: ${tm.tmCrtDt}
 						</div>
-						<div>
-							팀생성일: ${tmVO.tmCrtDt}
-						</div>
+						</c:forEach>
 					</div>
-						
-					
-					
 		</div>
 	</div>
 </body>

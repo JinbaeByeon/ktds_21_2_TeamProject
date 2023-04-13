@@ -202,7 +202,9 @@
 											data-crtr="${dep.crtr}"
 											data-crtdt="${dep.crtDt}"
 											data-mdfyr="${dep.mdfyr}"
-											data-mdfydt="${dep.mdfyDt}">
+											data-mdfydt="${dep.mdfyDt}"
+											data-crtrnm="${dep.crtrEmpVO.fNm}"
+											data-mdfynm="${dep.mdfyrEmpVO.fNm}">
 											<td>
 												<input type="checkbox" class="check_idx" value="${dep.depId}"/>
 											</td>
@@ -212,9 +214,9 @@
 											<td>${dep.depHdId}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
-											<td>${dep.crtr}<!-- (dep.crtrEmpVO.lNm) --></td>
+											<td>${dep.crtr}(${dep.crtrEmpVO.fNm})</td>
 											<td>${dep.crtDt}</td>
-											<td>${dep.mdfyr}<!-- (dep.mdfyrMbrVO.lNm --></td>
+											<td>${dep.mdfyr}(${dep.mdfyrEmpVO.fNm})</td>
 											<td>${dep.mdfyDt}</td>
 										</tr>
 									</c:forEach>

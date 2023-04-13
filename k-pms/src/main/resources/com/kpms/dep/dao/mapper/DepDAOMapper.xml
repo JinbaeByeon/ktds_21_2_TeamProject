@@ -4,14 +4,14 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Dep">
 
-	<!-- <resultMap id="depVOMap" 
+	 <resultMap id="depVOMap" 
 				type="com.kpms.dep.vo.DepVO"
 				autoMapping="true">
-		<id property="depId" column="DEP_ID"/> pk
+		<id property="depId" column="DEP_ID"/>
 		<association property="crtrEmpVO" 
 					   javaType="com.kpms.emp.vo.EmpVO"
 					  autoMapping="true" >
-			<id property="empId" column="CRTR" /> join pk
+			<id property="empId" column="CRTR" />
 			<result property="fNm" column="CRTR_E_F_NM"/>
 			<result property="lNm" column="CRTR_E_L_NM"/>
 		</association>	
@@ -22,12 +22,11 @@
 			<result property="fNm" column="MDFYR_E_F_NM"/>
 			<result property="lNm" column="MDFYR_E_L_NM"/>
 		</association>
-	</resultMap> -->
+	</resultMap> 
 
 	<select id="readAllDepVO"
 			parameterType="com.kpms.dep.vo.DepVO"
-			resultType="com.kpms.dep.vo.DepVO">
-			<!-- resultMap="depVOMap" > -->
+			resultMap="depVOMap" >
 		<include refid="Common.pageHeader" />
 		SELECT D.DEP_ID
 			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
@@ -39,15 +38,15 @@
 			 , D.DEP_NM
 			 , D.DEP_HD_ID
 			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
-			<!--  , CRTR_E.F_NM CRTR_E_F_NM
+			 , CRTR_E.F_NM CRTR_E_F_NM
 			 , CRTR_E.L_NM CRTR_E_L_NM
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
-			 , MDFYR_E.L_NM MDFYR_E_L_NM  -->
+			 , MDFYR_E.L_NM MDFYR_E_L_NM  
 		  FROM DEP D
-		<!--  INNER JOIN EMP CRTR_E
+	     INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
-		    ON D.MDFYR = MDFYR_E.EMP_ID --> 
+		    ON D.MDFYR = MDFYR_E.EMP_ID 
 		 WHERE D.DEL_YN = 'N'
 		<if test='depNm != null and depNm !=""'>
 		   AND D.DEP_NM LIKE '%' || #{depNm} || '%'
@@ -69,15 +68,15 @@
 			 , D.DEP_NM
 			 , D.DEP_HD_ID
 			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
-			<!--  , CRTR_E.F_NM CRTR_E_F_NM
+			 , CRTR_E.F_NM CRTR_E_F_NM
 			 , CRTR_E.L_NM CRTR_E_L_NM
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
-			 , MDFYR_E.L_NM MDFYR_E_L_NM -->
+			 , MDFYR_E.L_NM MDFYR_E_L_NM 
 		  FROM DEP D
-		 <!-- INNER JOIN EMP CRTR_E
+		 INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
-		    ON D.MDFYR = MDFYR_E.EMP_ID -->
+		    ON D.MDFYR = MDFYR_E.EMP_ID 
 		 WHERE D.DEL_YN = 'N'
 		   AND D.USE_YN = 'Y'
 		   AND D.DEP_NM LIKE '%' || #{_parameter} || '%'
@@ -90,7 +89,6 @@
 		<id property="depId" column="DEP_ID"/>
 		<collection property="tmList" ofType="com.kpms.tm.vo.TmVO">
 			<id property="tmId" column="TM_ID" />
-			<result property="tmId" column="TM_ID" />
 			<result property="tmNm" column="TM_NM" />
 			<result property="tmCrtDt" column="TM_CRT_DT" />
 			<result property="tmHdId" column="TM_HD_ID" />
@@ -101,9 +99,9 @@
 			parameterType="string"
 			resultMap="depIdVOMap">
 		SELECT D.DEP_ID
-			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') DEP_CRT_DT
 			 , D.CRTR
-			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') DEP_MDFY_DT
 			 , D.MDFYR
 			 , D.USE_YN
 			 , D.DEP_NM
@@ -111,13 +109,13 @@
 			 , D.DEP_CRT_DT
 			 , T.TM_ID
 			 , T.TM_NM
-			 , T.TM_CRT_DT
+			 , T.TM_CRT_DT 
 			 , T.TM_HD_ID
 		  FROM DEP D
 		 INNER JOIN TM T
 		    ON D.DEP_ID = T.DEP_ID
-		 WHERE DEP_ID = #{_parameter}
-		   AND DEL_YN = 'N'
+		 WHERE D.DEP_ID = #{_parameter}
+		   AND D.DEL_YN = 'N'
 	</select>
 
 	<insert id="createOneDep"

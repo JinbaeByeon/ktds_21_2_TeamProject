@@ -26,7 +26,6 @@ public class DepController {
 		
 		model.addAttribute("depList", depList);
 		model.addAttribute("depVO", depVO);
-		
 		if(!depList.isEmpty()) {
 			model.addAttribute("lastPage",depList.get(0).getLastPage());
 	      }
