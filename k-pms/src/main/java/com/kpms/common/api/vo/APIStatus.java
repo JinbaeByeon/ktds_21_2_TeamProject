@@ -9,8 +9,8 @@ public interface APIStatus {
 	/**
 	 * 데이터 불일치
 	 */
-	public static final String INCORRECT = "401";
-	public static final String OVER_LEN_ARG = "401";
+	public static final String DISMATCH = "401";
+	public static final String OVER_LEN_ARG = "402";
 	
 	
 }

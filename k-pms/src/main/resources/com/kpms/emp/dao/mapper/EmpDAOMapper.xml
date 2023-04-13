@@ -3,7 +3,238 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Emp">
+	<insert id="createOneEmp"
+			parameterType="com.kpms.emp.vo.EmpVO">
+		<selectKey keyProperty="empId" resultType="string" order="BEFORE">
+			SELECT 'EMP-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_EMP_PK.NEXTVAL,5,'0')
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO EMP
+		(EMP_ID,
+		 CRT_DT,
+		 CRTR,
+		 MDFY_DT,
+		 MDFYR,
+		 USE_YN,
+		 DEL_YN,
+		 F_NM,
+		 BRTHDY,
+		 EML,
+		 PHN,
+		 PSTN_PRD,
+		 PRFL_PHT,
+		 HR_DT,
+		 HR_PRD,
+		 ADDRSS,
+		 EMPLMNT_STTS,
+		 ADMN_YN,
+		 PWD_CHNG_DT,
+		 PWD_SALT,
+		 PWD,
+		 PSTN_ID,
+		 JOB_ID,
+		 DEP_ID,
+		 L_NM)
+		VALUES
+		(#{empId},
+		 SYSDATE,
+		 #{crtr},
+		 SYSDATE,
+		 #{mdfyr},
+		 NVL(#{useYn},'N'),
+		 'N',
+		 #{fNm},
+		 #{brthdy},
+		 #{eml},
+		 #{phn},
+		 #{pstnPrd},
+		 #{prflPht},
+		 #{hrDt},
+		 #{hrPrd},
+		 #{addrss},
+		 #{emplmntStts},
+		 #{admnYn},
+		 SYSDATE,
+		 #{pwdSalt},
+		 #{pwd},
+		 #{pstnId},
+		 #{jobId},
+		 #{depId},
+		 #{lNm})
+	</insert>
 	
 	
+	<select id="readCntLgnTryDataRcnt60ById"
+			parameterType="string"
+			resultType="int">
+		SELECT COUNT(1)
+		  FROM EMP
+		 WHERE EMP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+		   AND FAIL_DT >= SYSDATE - 1/24
+	</select>
+	<select id="readLgnTryDataById"
+			parameterType="string"
+			resultType="com.kpms.emp.vo.EmpVO">
+		SELECT LGN_CNT,
+			   TO_CHAR(FAIL_DT,'YYYY-MM-DD HH24:MI:SS') FAIL_DT
+		  FROM EMP
+		 WHERE EMP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</select>
+	<select id="readOneEmpByIdAndPwd"
+			parameterType="com.kpms.emp.vo.EmpVO"
+			resultType="com.kpms.emp.vo.EmpVO">
+		SELECT EMP_ID,
+			   CRT_DT,
+			   CRTR,
+			   MDFY_DT,
+			   MDFYR,
+			   USE_YN,
+			   DEL_YN,
+			   F_NM,
+			   BRTHDY,
+			   EML,
+			   PHN,
+			   PSTN_PRD,
+			   PRFL_PHT,
+			   HR_DT,
+			   HR_PRD,
+			   ADDRSS,
+			   EMPLMNT_STTS,
+			   ADMN_YN,
+			   PWD_CHNG_DT,
+			   LTST_LGN_IP,
+			   LTST_LGN_DT,
+			   PWD_SALT,
+			   PWD,
+			   PSTN_ID,
+			   JOB_ID,
+			   DEP_ID,
+			   L_NM,
+			   LGN_CNT,
+			   FAIL_DT
+		  FROM EMP
+		 WHERE EMP_ID = #{empId}
+		   AND PWD = #{pwd}
+		   AND DEL_YN = 'N'
+	</select>
+	
+	<select id="readOneEmpByEmpId"
+			parameterType="string"
+			resultType="com.kpms.emp.vo.EmpVO">
+		SELECT EMP_ID,
+			   CRT_DT,
+			   CRTR,
+			   MDFY_DT,
+			   MDFYR,
+			   USE_YN,
+			   DEL_YN,
+			   F_NM,
+			   BRTHDY,
+			   EML,
+			   PHN,
+			   PSTN_PRD,
+			   PRFL_PHT,
+			   HR_DT,
+			   HR_PRD,
+			   ADDRSS,
+			   EMPLMNT_STTS,
+			   ADMN_YN,
+			   PWD_CHNG_DT,
+			   LTST_LGN_IP,
+			   LTST_LGN_DT,
+			   PWD_SALT,
+			   PWD,
+			   PSTN_ID,
+			   JOB_ID,
+			   DEP_ID,
+			   L_NM
+		  FROM EMP
+		 WHERE EMP_ID = #{_parameter}
+	</select>
+	<select id="readEmpList"
+			parameterType="com.kpms.emp.vo.EmpVO"
+			resultType="com.kpms.emp.vo.EmpVO">
+		SELECT EMP_ID,
+			   CRT_DT,
+			   CRTR,
+			   MDFY_DT,
+			   MDFYR,
+			   USE_YN,
+			   DEL_YN,
+			   F_NM,
+			   BRTHDY,
+			   EML,
+			   PHN,
+			   PSTN_PRD,
+			   PRFL_PHT,
+			   HR_DT,
+			   HR_PRD,
+			   ADDRSS,
+			   EMPLMNT_STTS,
+			   ADMN_YN,
+			   PWD_CHNG_DT,
+			   LTST_LGN_IP,
+			   LTST_LGN_DT,
+			   PWD_SALT,
+			   PWD,
+			   PSTN_ID,
+			   JOB_ID,
+			   DEP_ID,
+			   L_NM
+		  FROM EMP
+		 WHERE DEL_YN = 'N'
+		<if test="fNm != null and fNm != #{}">
+		   AND F_NM LIKE '%' || #{fNm} || '%'
+		</if>
+	</select>
+	
+	<update id="updateOneEmp"
+			parameterType="com.kpms.emp.vo.EmpVO">
+		UPDATE EMP
+		   SET MDFY_DT = SYSDATE,
+			   MDFYR = #{mdfyr},
+			   F_NM = #{fNm},
+			   BRTHDY = #{brthdy},
+			   EML = #{eml},
+			   PHN = #{phn},
+			   PRFL_PHT = #{prflPht},
+			   ADDRSS = #{addrss},
+			   L_NM = #{lNm}
+		 WHERE EMP_ID = #{empId}
+		   AND DEL_YN = 'N'
+	</update>
+	
+	<update id="deleteOneEmp"
+			parameterType="com.kpms.emp.vo.EmpVO">
+		UPDATE EMP
+		   SET DEL_YN = 'Y'
+		 WHERE EMP_ID = #{empId}
+	</update>
+	
+	<update id="updateEmpLgnSucc"
+			parameterType="com.kpms.emp.vo.EmpVO">
+		UPDATE EMP
+		   SET LTST_LGN_IP = #{ltstLgnIp}
+		   	 , LTST_LGN_DT = SYSDATE
+		   	 , LGN_CNT = 0
+		   	 , FAIL_DT = ''
+		 WHERE EMP_ID = #{empId}
+	</update>
+	<update id="updateEmpLgnFail"
+			parameterType="string">
+		UPDATE EMP
+		   SET LGN_CNT = LGN_CNT + 1
+		   	 , FAIL_DT = SYSDATE
+		 WHERE EMP_ID = #{empId}
+	</update>
+	<update id="updateEmpLgnCntZero"
+			parameterType="string">
+		UPDATE EMP
+		   SET LGN_CNT = 0
+		   	 , FAIL_DT = ''
+		 WHERE EMP_ID = #{empId}
+	</update>
 	
 </mapper>

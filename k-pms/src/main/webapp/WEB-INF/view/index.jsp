@@ -10,16 +10,26 @@
 	<meta charset="UTF-8">
 	<title>홈페이지</title>
 	<jsp:include page="./include/stylescript.jsp"/>
+	<script type="text/javascript">
+		$().ready(function(){
+			$("li.nav-item").mouseover(function(){
+				$(this).addClass("active");
+			});
+			$("li.nav-item").mouseout(function(){
+				$(this).removeClass("active");
+			});
+		});
+	</script>
 </head>
-	<body>
-		<div class="main-layout">
-			<jsp:include page="./include/header.jsp"/>
-			<div>
-				<jsp:include page="./include/sidemenu.jsp"/>
-				<jsp:include page="./include/content.jsp"/>
-					안녕하세요! aaa  ${context} ${date} bbb
-				<jsp:include page="./include/footer.jsp"/>
-			</div>
+<body>
+	<div class="main-layout">
+		<jsp:include page="./include/header.jsp"/>
+		<div>
+			<jsp:include page="./include/sysSidemenu.jsp"/>
+			<jsp:include page="./include/content.jsp"/>
+				안녕하세요! aaa  ${context} ${date} bbb
+			<jsp:include page="./include/footer.jsp"/>
 		</div>
-	</body>
+	</div>
+</body>
 </html>

@@ -7,7 +7,6 @@ import com.kpms.common.vo.AbstractVO;
  */
 public class EmpVO extends AbstractVO{
 	private String empId;
-	private String lNm;
 	private String fNm;
 	private String brthdy;
 	private String eml;
@@ -22,12 +21,14 @@ public class EmpVO extends AbstractVO{
 	private String pwdChngDt;
 	private String ltstLgnIp;
 	private String ltstLgnDt;
-	private int lgnCnt;
 	private String pwdSalt;
 	private String pwd;
 	private int pstnId;
 	private int jobId;
 	private String depId;
+	private String lNm;
+	private int lgnCnt;
+	private String failDt;
 
 	public String getEmpId() {
 		return empId;
@@ -157,14 +158,6 @@ public class EmpVO extends AbstractVO{
 		return this.ltstLgnDt;
 	}
 
-	public void setLgnCnt(int lgnCnt) {
-		this.lgnCnt = lgnCnt;
-	}
-
-	public int getLgnCnt() {
-		return this.lgnCnt;
-	}
-
 	public void setPwdSalt(String pwdSalt) {
 		this.pwdSalt = pwdSalt;
 	}
@@ -203,6 +196,22 @@ public class EmpVO extends AbstractVO{
 
 	public String getDepId() {
 		return this.depId;
+	}
+
+	public int getLgnCnt() {
+		return lgnCnt;
+	}
+
+	public void setLgnCnt(int lgnCnt) {
+		this.lgnCnt = lgnCnt;
+	}
+
+	public String getFailDt() {
+		return failDt;
+	}
+
+	public void setFailDt(String failDt) {
+		this.failDt = failDt;
 	}
 
 }

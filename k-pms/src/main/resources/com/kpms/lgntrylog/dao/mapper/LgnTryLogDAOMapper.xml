@@ -4,6 +4,30 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="LgnTryLog">
 	
+	<insert id="createLgnTryLog"
+			parameterType="com.kpms.emp.vo.EmpVO">
+		INSERT INTO LGN_TRY_LOG
+		(LOG_ID,
+		 LGN_TRY_IP,
+		 CRT_DT,
+		 CRTR)
+		VALUES
+		('LTL-' || TO_CHAR(SYSDATE,'YYYYMMDDHH') || '-' || LPAD(SEQ_LGN_TRY_LOG_PK.NEXTVAL,5,'0'),
+		#{ltstLgnIp},
+		 SYSDATE,
+		 #{empId})
+	</insert>
 	
+	
+	<select id="readLgnTryLogByIp"
+			parameterType="string"
+			resultType="com.kpms.lgntrylog.vo.LgnTryLogVO">
+		SELECT LGN_TRY_IP,
+			   TO_CHAR(CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
+			   CRTR
+		  FROM LGN_TRY_LOG
+		 WHERE CRT_DT >= SYSDATE - 1/24
+		   AND LGN_TRY_IP = #{lgnTryIp}
+	</select>
 	
 </mapper>
