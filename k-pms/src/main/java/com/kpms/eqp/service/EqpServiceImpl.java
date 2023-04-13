@@ -25,6 +25,11 @@ public class EqpServiceImpl implements EqpService{
 	}
 
 	@Override
+	public List<EqpVO> readAllEqpNoPagination(String eqpNm) {
+		return eqpDAO.readAllEqpNoPagination(eqpNm);
+	}
+	
+	@Override
 	public boolean updateEqp(EqpVO eqpVO) {
 		return eqpDAO.updateEqp(eqpVO) > 0;
 	}
@@ -38,5 +43,7 @@ public class EqpServiceImpl implements EqpService{
 	public boolean deleteEqpBySelectedEqpId(List<String> eqpId) {
 		return eqpDAO.deleteEqpBySelectedEqpId(eqpId) > 0;
 	}
+
+	
 
 }

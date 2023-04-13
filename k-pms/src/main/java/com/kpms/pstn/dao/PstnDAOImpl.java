@@ -29,6 +29,11 @@ public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO {
 	}
 
 	@Override
+	public List<PstnVO> readAllPstnNoPagination(String pstnNm) {
+		return getSqlSession().selectList("Pstn.readAllPstnNoPagination", pstnNm);
+	}
+	
+	@Override
 	public int updateNewPstn(PstnVO pstnVO) {
 		return getSqlSession().update("Pstn.updateNewPstn", pstnVO);
 	}
@@ -42,5 +47,7 @@ public class PstnDAOImpl extends SqlSessionDaoSupport implements PstnDAO {
 	public int deletePstnBySelectedPstnId(List<Integer> pstnId) {
 		return getSqlSession().update("Pstn.deletePstnBySelectedPstnId", pstnId);
 	}
+
+	
 
 }

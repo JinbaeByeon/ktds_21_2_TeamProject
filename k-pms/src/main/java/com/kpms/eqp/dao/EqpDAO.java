@@ -8,6 +8,7 @@ public interface EqpDAO {
 	
 	public int createNewEqp(EqpVO eqpVO);
 	public List<EqpVO> readAllEqp(EqpVO eqpVO);
+	public List<EqpVO> readAllEqpNoPagination(String eqpNm);
 	public int updateEqp(EqpVO eqpVO);
 	public int deleteEqpByEqpId(String eqpId);
 	public int deleteEqpBySelectedEqpId(List<String> eqpId);

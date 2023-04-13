@@ -32,10 +32,10 @@
 		, 'N'
 		, #{eqpNm}
 		, #{eqpTp}
-		, #{applStts}
+		, NVL(#{applStts}, 'N')
 		, #{eqpPrc}
 		, #{prchsDt}
-		, #{lossStts}
+		, NVL(#{lossStts}, 'N')
 		, #{lossRprtDt}
 		, #{applDt})
 	</insert>
@@ -44,6 +44,7 @@
 	<select id="readAllEqp"
 			parameterType="com.kpms.eqp.vo.EqpVO"
 			resultType="com.kpms.eqp.vo.EqpVO">
+		<include refid="Common.pageHeader" />
 		SELECT EQP_ID
 			 , CRT_DT
 			 , CRTR
@@ -64,6 +65,33 @@
 		 <if test="eqpNm != null and eqpNm != ''">
 		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
 		 </if>
+		  ORDER BY EQP_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllEqpNoPagination"
+			parameterType="string"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		SELECT EQP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , EQP_PRC
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , LOSS_STTS
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		 ORDER BY EQP_ID ASC
 	</select>
 	
 	
@@ -72,7 +100,7 @@
 		UPDATE EQP
 		   SET MDFY_DT= SYSDATE
 		     , MDFYR= #{mdfyr}
-		     , USE_YN= NVL(#{useYn}, 'Y')
+		     , USE_YN= NVL(#{useYn}, 'N')
 		     , EQP_NM= #{eqpNm}
 		     , EQP_TP= #{eqpTp}
 		     , APPL_STTS= #{applStts}
@@ -82,6 +110,7 @@
 		     , LOSS_RPRT_DT= SYSDATE
 		     , APPL_DT= SYSDATE
 		 WHERE EQP_ID= #{eqpId}
+		   AND CRT_DT <![CDATA[<=]]> 
 	</update>
 	
 	

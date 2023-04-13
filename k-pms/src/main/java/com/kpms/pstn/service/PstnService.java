@@ -8,6 +8,7 @@ public interface PstnService {
 	
 	public boolean createNewPstn(PstnVO pstnVO);
 	public List<PstnVO> readAllPstn(PstnVO pstnVO);
+	public List<PstnVO> readAllPstnNoPagination(String pstnNm);
 	public boolean updateNewPstn(PstnVO pstnVO);
 	public boolean deletePstnByPstnId(int pstnId);
 	public boolean deletePstnBySelectedPstnId(List<Integer> pstnId);

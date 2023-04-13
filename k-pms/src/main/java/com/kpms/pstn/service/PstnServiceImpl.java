@@ -30,6 +30,11 @@ public class PstnServiceImpl implements PstnService{
 	}
 
 	@Override
+	public List<PstnVO> readAllPstnNoPagination(String pstnNm) {
+		return pstnDAO.readAllPstnNoPagination(pstnNm);
+	}
+	
+	@Override
 	public boolean updateNewPstn(PstnVO pstnVO) {
 		return pstnDAO.updateNewPstn(pstnVO) > 0;
 	}
@@ -43,5 +48,7 @@ public class PstnServiceImpl implements PstnService{
 	public boolean deletePstnBySelectedPstnId(List<Integer> pstnId) {
 		return pstnDAO.deletePstnBySelectedPstnId(pstnId) > 0;
 	}
+
+	
 
 }

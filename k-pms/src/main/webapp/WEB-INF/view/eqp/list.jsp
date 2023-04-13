@@ -146,6 +146,14 @@
 			});
 		});
 	});
+	
+	function movePage(pageNo) {
+		// 전송
+		// 입력값
+		var eqpNm = $("#search-keyword").val();
+		// URL 요청
+		location.href = "${context}/eqp?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+	}
 </script>
 </head>
 <body>
@@ -182,6 +190,7 @@
 								<th>등록일</th>
 								<th>수정자</th>
 								<th>수정일</th>
+								<th>사용여부</th>
 								<th>삭제여부</th>
 							</tr>
 						</thead>
@@ -223,6 +232,7 @@
 											<td>${eqp.crtDt}</td>
 											<td>${eqp.mdfyr}</td>
 											<td>${eqp.mdfyDt}</td>
+											<td>${eqp.useYn}</td>
 											<td>${eqp.delYn}</td>
 										</tr>
 									</c:forEach>
@@ -240,6 +250,13 @@
 					<div class="align-right mt-10">
 						<button id="delete_all_btn" class="btn_delete">삭제</button>
 					</div>
+					<c:import url="../include/pagenate.jsp">
+	                  <c:param name="pageNo" value="${pageNo}"/>
+	                  <c:param name="pageCnt" value="${pageCnt}"/>
+	                  <c:param name="lastPage" value="${lastPage}"/>
+	                  <c:param name="path" value="${context}/eqp"/>
+	               	</c:import>
+					
 				</div>	
 				<div class="grid-detail">
 					<form id="detail_form" >
@@ -256,11 +273,20 @@
 						</div>
 						<div class="input-group inline">
 							<label for="eqpTp" style="width: 180px;">비품종류</label>
-							<input type="text" id="eqpTp"  name="eqpTp" value=""/>
+							<select id="eqpTp"  name="eqpTp" >
+								<option>선택</option>
+								<option>공기구</option>
+								<option>사무용품</option>
+								<option>소모품</option>
+							</select>
 						</div>
 						<div class="input-group inline">
 							<label for="applStts" style="width: 180px;">신청상태</label>
 							<input type="checkbox" id="applStts"  name="applStts" value="Y"/>
+						</div>
+						<div class="input-group inline">
+							<label for="applDt" style="width: 180px;">신청일</label>
+							<input type="date" id="applDt"  name="applDt" value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="eqpPrc" style="width: 180px;">비품가격</label>
@@ -279,10 +305,9 @@
 							<input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="applDt" style="width: 180px;">신청일</label>
-							<input type="date" id="applDt"  name="applDt" value=""/>
+							<label for="lossStts" style="width: 180px;">사용여부</label>
+							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
 						</div>
-						
 						
 						<div class="input-group inline">
 							<label for="crtr" style="width: 180px;">등록자</label>

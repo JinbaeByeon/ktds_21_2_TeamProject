@@ -29,6 +29,7 @@
 	<select id="readAllPstn"
 			parameterType="com.kpms.pstn.vo.PstnVO"
 			resultType="com.kpms.pstn.vo.PstnVO">
+		<include refid="Common.pageHeader" />
 		SELECT PSTN_ID
 			 , CRT_DT
 			 , CRTR
@@ -42,6 +43,26 @@
 		 <if test="pstnNm != null and pstnNm != ''">
 		   AND PSTN_NM LIKE '%' || #{pstnNm} || '%'
 		 </if>
+		 ORDER BY PSTN_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllPstnNoPagination"
+			parameterType="string"
+			resultType="com.kpms.pstn.vo.PstnVO">
+		SELECT PSTN_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , PSTN_NM
+		  FROM PSTN
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND PSTN_NM LIKE '%' || #{pstnNm} || '%'
+		 ORDER BY PSTN_ID ASC
 	</select>
 	
 	<update id="updateNewPstn"

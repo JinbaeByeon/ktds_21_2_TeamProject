@@ -95,7 +95,7 @@
 		$("#search-btn").click(function(){
 			var pstnNm =$("#search-keyword").val();
 			location.href = "${context}/pstn?pstnNm=" + pstnNm;
-			/* movePage(0) */
+			movePage(0) 
 			
 		})
 		
@@ -134,6 +134,14 @@
 		});
 		
 	});
+	
+	function movePage(pageNo) {
+		// 전송
+		// 입력값
+		var gnrNm = $("#search-keyword").val();
+		// URL 요청
+		location.href = "${context}/pstn/list?pstnNm=" + pstnNm + "&pageNo=" + pageNo;
+	}
 	
 </script>
 </head>
@@ -185,7 +193,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${pstn.pstnId}">
 											</td>
-											<td>${index.index}</td>
+											<td>${index.index + 1}</td>
 											<td>${pstn.pstnId}</td>
 											<td>${pstn.pstnNm}</td>
 											<td>${pstn.useYn}</td>
@@ -209,38 +217,14 @@
 					</table>
 					
 					<div class="align-right mt-10">
-						<button id="delete_all_btn" class="btn_delete">삭제</button>
+						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
-					
-					<%-- <div class="pagenate">
-						<ul>
-							<c:set value="${pstnList.size() > 0 ? pstnList.get(0).lastPage : 0}" var="lastPage" />
-							<c:set value="${pstnList.size() > 0 ? pstnList.get(0).lastGroup : 0}" var="lastGroup" />
-							
-							<fmt:parseNumber var="nowGroup" value="${Math.floor(pstnVO.pageNo / 10)}" integerOnly="true" />
-							<c:set value="${nowGroup * 10}" var="groupStartPageNo" />
-							<c:set value="${groupStartPageNo + 10}" var="groupEndPageNo" />
-							<c:set value="${groupEndPageNo > lastPage ? lastPage : groupEndPageNo - 1}" var="groupEndPageNo" />
-							
-							<c:set value="${(nowGroup - 1) * 10}" var="prevGroupStartPageNo" />
-							<c:set value="${(nowGroup + 1) * 10}" var="nextGroupStartPageNo" />
-
-							
-							<c:if test="${nowGroup > 0}">
-								<li><a href="javascript:movePage(0)">처음</a></li>
-								<li><a href="javascript:movePage(${prevGroupStartPageNo})">이전</a></li>
-							</c:if>
-							
-							<c:forEach begin="${groupStartPageNo}" end="${groupEndPageNo}" step="1" var="pageNo">
-								<li><a class="${pageNo eq gnrVO.pageNo ? 'on' : ''}" href="javascript:movePage(${pageNo})">${pageNo+1}</a></li>
-							</c:forEach>	
-							
-							<c:if test="${lastGroup > nowGroup}">
-								<li><a href="javascript:movePage(${nextGroupStartPageNo})">다음</a></li>
-								<li><a href="javascript:movePage(${lastPage})">끝</a></li>
-							</c:if>			
-						</ul>
-					</div> --%>
+					<c:import url="../include/pagenate.jsp">
+	                  <c:param name="pageNo" value="${pageNo}"/>
+	                  <c:param name="pageCnt" value="${pageCnt}"/>
+	                  <c:param name="lastPage" value="${lastPage}"/>
+	                  <c:param name="path" value="${context}/pstn"/>
+	               	</c:import>
 					
 				</div>	
 				<div class="grid-detail">

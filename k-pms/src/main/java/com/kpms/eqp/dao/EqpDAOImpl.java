@@ -29,6 +29,11 @@ public class EqpDAOImpl extends SqlSessionDaoSupport implements EqpDAO{
 	}
 
 	@Override
+	public List<EqpVO> readAllEqpNoPagination(String eqpNm) {
+		return getSqlSession().selectList("Eqp.readAllEqpNoPagination", eqpNm);
+	}
+	
+	@Override
 	public int updateEqp(EqpVO eqpVO) {
 		return getSqlSession().update("Eqp.updateEqp", eqpVO);
 	}
@@ -42,6 +47,8 @@ public class EqpDAOImpl extends SqlSessionDaoSupport implements EqpDAO{
 	public int deleteEqpBySelectedEqpId(List<String> eqpId) {
 		return getSqlSession().update("Eqp.deleteEqpBySelectedEqpId", eqpId);
 	}
+
+	
 
 
 	
