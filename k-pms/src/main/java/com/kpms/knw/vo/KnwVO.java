@@ -2,14 +2,14 @@ package com.kpms.knw.vo;
 
 import java.util.List;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.knwrpl.vo.KnwRplVO;
 import com.kpms.prj.vo.PrjVO;
 
 /**
  * KNW
  */
-public class KnwVO extends AbstractVO {
+public class KnwVO extends AbstractPagingVO {
 
 	private String knwId;
 	private String ttl;
