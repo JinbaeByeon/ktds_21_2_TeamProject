@@ -10,8 +10,8 @@
 		     , CEIL(B.TOTAL_COUNT / #{viewCnt}) LAST_PAGE
 		     , FLOOR(FLOOR(B.TOTAL_COUNT / #{viewCnt}) / #{pageCnt}) LAST_GROUP
 		  FROM (SELECT R.*
-		             , ROWNUM RNUM 
-		             , COUNT(1) OVER() TOTAL_COUNT
+		             , DENSE_RANK() OVER(ORDER BY ROWNUM ASC) RNUM
+		             , COUNT(DISTINCT PK_COL) OVER() TOTAL_COUNT
 		          FROM (
 	</sql>
 	

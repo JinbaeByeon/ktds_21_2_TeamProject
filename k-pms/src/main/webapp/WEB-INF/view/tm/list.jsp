@@ -23,14 +23,14 @@
 			return;
 		}
 		
-		var itemDiv = $("<div class='dep-item " + message.depid + "'></div>");
-		
-		var itemId = $("<input type='text' name='depId'/>");
+		var itemDiv = depItems.find(".dep-item");
+			
+		var itemId = itemDiv.find("#depId")
 		console.log(message.depid);
 		itemId.val(message.depid);
 		itemDiv.append(itemId);
 		
-		var itemSpan = $("<span></span>");
+		var itemSpan = itemDiv.find("span");
 		itemSpan.text(message.depnm)
 		itemDiv.append(itemSpan);
 		
@@ -51,6 +51,7 @@
 			
 			var data = $(this).data();
 			$("#depId").val(data.depid);
+			$("#depNm").text(data.depnm);
 			$("#tmId").val(data.tmid);
 			$("#tmNm").val(data.tmnm);
 			$("#tmHdId").val(data.tmhdid);
@@ -69,6 +70,7 @@
 			$("#isModify").val("false"); //등록모드
 			
 			$("#depId").val("");
+			$("depNm").val("");
 			$("#tmId").val("");
 			$("#tmNm").val("");
 			$("#tmHdId").val("");
@@ -129,9 +131,7 @@
 		});
 		
 		$("#search-btn").click(function() {
-			var tmNm = $("#search-keyword").val();
-			location.href = "${context}/tm?tmNm=" + tmNm;
-			 movePage(0) 
+			 movePage(0);
 		});
 		
 		$("#all_check").change(function() {
@@ -175,7 +175,7 @@
 		});
 		
 		$("#addDepIdBtn").click(function(event) {
-			event.preventDefault(); 
+			event.preventDefault();
 			var depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
 		});
 		
@@ -183,11 +183,12 @@
 		
 	});
 		 function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			var tmNm = $("#search-keyword").val();
-			// URL 요청
-			location.href = "${context}/tm/list?tmNm=" + tmNm + "&pageNo=" + pageNo;
+			var queryString = "?tmNm=" + $("#search-keyword").val();
+			queryString += "&depIdDepVO.depNm=" + $("#search-depNm-keyword").val();
+			queryString += "&pageNo=" + pageNo;
+			location.href = "${context}/tm/list" + queryString;
+			
+			
 		} 
 </script>
 </head>
@@ -199,8 +200,10 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">팀 > 팀관리</div>
 				<div class="search-group">
-					<label for="search_keyword">팀명</label>
+					<label for="search-keyword">팀명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${tmVO.tmNm}"/>
+					<label for="search-depNm-keyword">부서명</label>
+					<input type="text" id="search-depNm-keyword" class="search-input" value="${tmVO.depIdDepVO.depNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">
@@ -214,6 +217,7 @@
 								<th><input type="checkbox" id="all_check" /></th>
 								<th>순번</th>
 								<th>부서ID</th>
+								<th>부서명</th>
 								<th>팀ID</th>
 								<th>팀명</th>
 								<th>팀장ID</th>
@@ -232,6 +236,7 @@
 												var="tm"
 												varStatus="index">
 										<tr data-depid="${tm.depId}"
+											data-depnm="${tm.depIdDepVO.depNm}"
 											data-tmid="${tm.tmId}"
 											data-tmnm="${tm.tmNm}"
 											data-tmhdid="${tm.tmHdId}"
@@ -246,6 +251,7 @@
 											</td>
 											<td>${index.index + 1}</td>
 											<td>${tm.depId}</td>
+											<td>${tm.depIdDepVO.depNm}</td>
 											<td>${tm.tmId}</td>
 											<td>${tm.tmNm}</td>
 											<td>${tm.tmHdId}</td>
@@ -260,7 +266,7 @@
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="11" class="no-items">
+										<td colspan="12" class="no-items">
 											등록된 팀이 없습니다.
 										</td>
 									</tr>
@@ -278,6 +284,7 @@
                   		<c:param name="lastPage" value="${lastPage}"/>
                   		<c:param name="path" value="${context}/tm"/>
 					</c:import>
+					
 				</div>
 				
 				<div class="grid-detail">
@@ -291,7 +298,12 @@
 							<div class="create-group">
 								<label for="addDepIdBtn" style="width: 180px;">부서ID</label> 
 								<button id="addDepIdBtn" class="btn-dep">등록</button>
-								<div class="items"></div>
+								<div class="items">
+									<div class='dep-item'>
+										<input type='text' name='depId' id= "depId" readonly="readonly"/>
+										<span id="depNm"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="input-group inline">
