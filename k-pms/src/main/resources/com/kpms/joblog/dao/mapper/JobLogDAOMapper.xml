@@ -4,22 +4,49 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="JobLog">
 
+	<resultMap id="jobLogVOMap" 
+			 type="com.kpms.joblog.vo.JobLogVO"
+			 autoMapping="true">
+			 <id property="empId" column="EMP_ID"/>
+			 <id property="chngDt" column="CHNG_DT"/>
+			 <association property="empVO"
+			 			  javaType="com.kpms.emp.vo.EmpVO">
+			 	<id property="empId" column="EMP_ID"/>
+			 	<result property="fNm" column="F_NM"/>
+			 	<result property="lNm" column="L_NM"/>
+			 </association>
+			 <association property="prvsJobNmVO"
+			 			  javaType="com.kpms.job.vo.JobVO">
+			 	<id property="jobId" column="PRVS_JOB_ID"/>
+			 	<result property="jobNm" column="PRVS_JOBNM"/>
+			 </association>
+			<association property="chngJobNmVO"
+						 javaType="com.kpms.job.vo.JobVO">
+				<id property="jobId" column="CHNG_JOB_ID"/>
+				<result property="jobNm" column="CHNG_JOBNM"/>	
+			</association>
+	</resultMap>
 	<select id="readAllJobLogVO"
 			parameterType="com.kpms.joblog.vo.JobLogVO"
-			resultType="com.kpms.joblog.vo.JobLogVO">
-		SELECT EMP_ID
-		     , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
-		     , CRTR
-		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		     , MDFYR
-		     , USE_YN
-		     , DEL_YN
-		     , CHNG_DT
-		     , PRVS_JOB_ID
-		     , CHNG_JOB_ID
-		     , CHNG_RSN
-		  FROM JOB_LOG
-		
+			resultMap="jobLogVOMap">
+		SELECT JL.EMP_ID
+	 		 , TO_CHAR(JL.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+	 		 , JL.CRTR
+			 , TO_CHAR(JL.CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
+			 , JL.PRVS_JOB_ID
+			 , J.JOB_NM PRVS_JOBNM
+			 , JL.CHNG_JOB_ID
+			 , JB.JOB_NM CHNG_JOBNM
+			 , JL.CHNG_RSN
+			 , E.F_NM
+			 , E.L_NM
+  		  FROM JOB_LOG JL
+ 		 INNER JOIN JOB J
+   		    ON J.JOB_ID = JL.PRVS_JOB_ID
+ 		 INNER JOIN JOB JB
+   		    ON JB.JOB_ID = JL.CHNG_JOB_ID
+		 INNER JOIN EMP E
+		    ON E.EMP_ID = JL.EMP_ID
 	</select>
 
 	<insert id="createJobLog"
@@ -28,22 +55,14 @@
 				   (EMP_ID
 				  , CRT_DT
 				  , CRTR
-				  , MDFY_DT
-				  , MDFYR
-				  , USE_YN
-				  , DEL_YN
 				  , CHNG_DT
 				  , PRVS_JOB_ID
 				  , CHNG_JOB_ID
 				  , CHNG_RSN)
 			VALUES
-				  (SEQ_JOB_LOG_PK.NEXTVAL
+				  (#{empId}
 				 , SYSDATE
-				 , #{empId}
 				 , #{crtr}
-				 , SYSDATE
-				 , NVL(#{useYn}, 'N')
-				 , 'N'
 				 , SYSDATE
 				 , #{prvsJobId}
 				 , #{chngJobId}

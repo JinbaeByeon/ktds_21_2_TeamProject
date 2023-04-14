@@ -130,8 +130,9 @@
 				form.append("<input type='hidden' name='jobId' value='"+ $(this).val() +"'>");
 			});
 			
-			$.post("${context}/api/job/delete", form.serialize(), function(response) {});
-			location.reload(); // 새로고침
+			$.post("${context}/api/job/delete", form.serialize(), function(response) {
+				location.reload(); // 새로고침
+			});
 		});
 	});
 		function movePage(pageNo) {

@@ -1,11 +1,11 @@
 package com.kpms.pstnlog.vo;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
 
 /**
  * PSTN_LOG
  */
-public class PstnLogVO extends AbstractVO {
+public class PstnLogVO extends AbstractPagingVO {
 
 	private String empId;
 	private String chngDt;
