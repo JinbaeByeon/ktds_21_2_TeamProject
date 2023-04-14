@@ -25,10 +25,10 @@
 		<collection property="reqList" ofType="com.kpms.req.vo.ReqVO" autoMapping="true">
 			<id property="reqId" column="REQ_ID" />
 		</collection>
-		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO" autoMapping="true">
-			<id property="knwId" column="KNW_ID" />
-			<result property="crtDt" column="CRT_DT" />
-			<result property="crtr" column="CRTR" />
+		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO"  autoMapping="true">
+			<id property="knwId" column="KNW_ID"/>
+			<result property="crtDt" column="KNW_CRT_DT" />
+			<result property="crtr" column="KNW_CRTR" />
 		</collection>
 	</resultMap>
 
@@ -123,8 +123,8 @@
 					 , P.DEL_YN
 					 , P.PRJ_NM
 					 , P.CSTMR
-					 , P.STRT_DT
-					 , P.END_DT
+					 , TO_CHAR(P.STRT_DT, 'YYYY-MM-DD') STRT_DT
+					 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
 					 , P.PRJ_STTS
 					 , R.REQ_ID
 					 , R.STRT_DT REQ_STRT_DT

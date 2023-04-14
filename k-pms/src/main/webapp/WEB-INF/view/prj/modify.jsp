@@ -9,30 +9,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로젝트 상세정보 조회</title>
+<title>프로젝트 수정</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
-		$("#modify-btn").click(function() {
-			location.href = "modify.jsp"
-		});
 		
-		$("#delete-btn").click(function() {
-			var prjId = $("#prjId").val();
-			if(!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			
-			$.get("${context}/api/prj/delete/" + prjId, function(response) {
-				if (response.status == "200 OK") {
-					location.href = "${context}/prj/list"
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
-			
 	});
 </script>
 </head>
@@ -42,10 +23,10 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />		
-				<div class="path"> ${prjId} | ${prjVO.prjNm}</div>
+				<div class="path"> 수정수정 ${prjId} | ${prjVO.prjNm}</div>
 					<div class="create-group">
-						<label for="prjId">프로젝트ID</label>
-						<input type="text" id="prjId" name="prjId" value="${prjId}"/>
+						<label for="mvTtl">프로젝트ID</label>
+						<h3>${prjId}</h3>
 					</div>
 					<div class="create-group">
 						<label for="prjNm">프로젝트명</label>
