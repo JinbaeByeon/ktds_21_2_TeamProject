@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <c:set var="date" value="<%= new Random().nextInt() %>"/>
+<c:set scope="request" var="selected" value="emp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,23 +18,6 @@
 		var pstnWindow;
 		
 		$().ready(function(){
-			// header 서브메뉴 ui 구현 코드
-			$("li.nav-item.emp").addClass("active");
-			$("li.nav-item").children("a").mouseover(function(){
-				$(this).closest(".nav").find(".nav-item.active").removeClass("active");
-				if($(this).attr("class")!="nav-item emp"){
-					$("li.nav-item.emp").removeClass("active");
-				}
-				$(this).closest("li.nav-item").addClass("active");
-			});
-			$(".nav").mouseleave(function(){
-				$(this).find(".active").removeClass("active");
-				$("li.nav-item.emp").addClass("active");
-			});
-			$(".sub-item").mouseenter(function(){
-				$(this).addClass("active");
-			});
-			
 			// 카카오 주소 검색 api
 			$(".addrss-group").find("button").click(function(e){
 				e.preventDefault();
