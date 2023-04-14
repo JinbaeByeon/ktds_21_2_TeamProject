@@ -189,13 +189,9 @@
 		
 	});
 		 function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			
 			var queryString = "?tmNm=" + $("#search-keyword").val();
 			queryString += "&depIdDepVO.depNm=" + $("#search-depNm-keyword").val();
 			queryString += "&pageNo=" + pageNo;
-			// URL 요청
 			location.href = "${context}/tm/list" + queryString;
 			
 			

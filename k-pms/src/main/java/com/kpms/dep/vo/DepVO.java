@@ -19,7 +19,7 @@ public class DepVO extends AbstractPagingVO {
 	private EmpVO crtrEmpVO;
 	private EmpVO mdfyrEmpVO;
 	
-	private TmVO depIdtmVO;
+	private TmVO depIdTmVO;
 	
 	private List<TmVO> tmList;
 	private List<EmpVO> empList;
@@ -65,11 +65,11 @@ public class DepVO extends AbstractPagingVO {
 		this.mdfyrEmpVO = mdfyrEmpVO;
 	}
 	
-	public TmVO getDepIdtmVO() {
-		return depIdtmVO;
+	public TmVO getDepIdTmVO() {
+		return depIdTmVO;
 	}
-	public void setDepIdtmVO(TmVO depIdtmVO) {
-		this.depIdtmVO = depIdtmVO;
+	public void setDepIdTmVO(TmVO depIdTmVO) {
+		this.depIdTmVO = depIdTmVO;
 	}
 	public List<TmVO> getTmList() {
 		return tmList;

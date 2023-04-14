@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="dep"/>
 
 <!DOCTYPE html>
 <html>
@@ -105,8 +106,14 @@
 			 movePage(0) 
 		});
 		
+		$("#search-tmNm-keyword").click(function() {
+			var tmNm = $("#search-tmNm-keyword").val();
+			location.href = "${context}/dep?tmNm=" + tmNm;
+			 movePage(0) 
+		});
+		
 		$("#all_check").change(function() {
-		/* 	console.log($(this).prop("checked")); */
+			
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		
@@ -142,15 +149,12 @@
 		
 		$("#addDepHeadBtn").click(function(event) {
 			event.preventDefault(); // depNm으로 보내지 않게 하기 위해
-			var depHd = window.open("${context}/emp/search", "부서장 검색", "width=500,height=500");
+			var depHd = window.open("${context}/emp/search?depId=" + depId, "부서장 검색", "width=500,height=500");
 		});
 		
 	});
 		 function movePage(pageNo) {
-			// 전송
-			// 입력 값
 			var depNm = $("#search-keyword").val();
-			// URL 요청
 			location.href = "${context}/dep/list?depNm=" + depNm + "&pageNo=" + pageNo;
 		} 
 </script>
@@ -163,8 +167,10 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">부서관리 > 부서 목록</div>
 				<div class="search-group">
-					<label for="search_keyword">부서명</label>
+					<label for="search-keyword">부서명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
+					<label for="search-tmNm-keyword">부서명</label>
+					<input type="text" id="search-tmNm-keyword" class="search-input" value="${depVO.depIdTmVO.tmNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">

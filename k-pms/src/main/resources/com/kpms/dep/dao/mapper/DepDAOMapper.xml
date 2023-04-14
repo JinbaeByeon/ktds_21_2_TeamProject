@@ -22,6 +22,12 @@
 			<result property="fNm" column="MDFYR_E_F_NM"/>
 			<result property="lNm" column="MDFYR_E_L_NM"/>
 		</association>
+		<association property="depIdTmVO"
+					  javaType="com.kpms.tm.vo.TmVO"
+					  autoMapping="true">
+			<id property="tmId" column="TM_ID"/>
+			<result property="tmNm" column="TM_NM"/>
+		</association>
 	</resultMap> 
 
 	<select id="readAllDepVO"
@@ -41,15 +47,21 @@
 			 , CRTR_E.F_NM CRTR_E_F_NM
 			 , CRTR_E.L_NM CRTR_E_L_NM
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
-			 , MDFYR_E.L_NM MDFYR_E_L_NM  
+			 , MDFYR_E.L_NM MDFYR_E_L_NM
+			 , T.TM_NM
 		  FROM DEP D
 	     INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
-		    ON D.MDFYR = MDFYR_E.EMP_ID 
+		    ON D.MDFYR = MDFYR_E.EMP_ID
+		 INNER JOIN TM T
+		 	ON D.DEP_ID = T.DEP_ID 
 		 WHERE D.DEL_YN = 'N'
 		<if test='depNm != null and depNm !=""'>
 		   AND D.DEP_NM LIKE '%' || #{depNm} || '%'
+		</if>
+		<if test='depIdTmVO != null'>
+		   AND T.TM_NM LIKE '%' || #{tmNm} || '%'
 		</if>
 		 ORDER BY D.DEP_ID ASC
 		<include refid="Common.pageFooter" />
@@ -83,21 +95,9 @@
 		 ORDER BY D.DEP_ID ASC
 	</select>
 	
-	<resultMap id="depIdVOMap" 
-				type="com.kpms.dep.vo.DepVO"
-				autoMapping="true">
-		<id property="depId" column="DEP_ID"/>
-		<collection property="tmList" ofType="com.kpms.tm.vo.TmVO">
-			<id property="tmId" column="TM_ID" />
-			<result property="tmNm" column="TM_NM" />
-			<result property="tmCrtDt" column="TM_CRT_DT" />
-			<result property="tmHdId" column="TM_HD_ID" />
-		</collection>
-	</resultMap>
-
 	<select id="readOneDepVOByDepId"
 			parameterType="string"
-			resultMap="depIdVOMap">
+			resultType="com.kpms.dep.vo.DepVO">
 		SELECT D.DEP_ID
 			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') DEP_CRT_DT
 			 , D.CRTR
@@ -107,13 +107,7 @@
 			 , D.DEP_NM
 			 , D.DEP_HD_ID
 			 , D.DEP_CRT_DT
-			 , T.TM_ID
-			 , T.TM_NM
-			 , T.TM_CRT_DT 
-			 , T.TM_HD_ID
 		  FROM DEP D
-		 INNER JOIN TM T
-		    ON D.DEP_ID = T.DEP_ID
 		 WHERE D.DEP_ID = #{_parameter}
 		   AND D.DEL_YN = 'N'
 	</select>
