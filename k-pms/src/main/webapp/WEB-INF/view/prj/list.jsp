@@ -165,7 +165,7 @@ $().ready(function() {
 													<input type="checkbox" class="check-idx" value="${prj.prjId}" />
 												</td>
 												<td>${prj.prjId}</td>
-												<td>${prj.prjNm}</td>
+												<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
 												<td>${prj.cstmr}</td>
 												<td>${prj.strtDt}</td>
 												<td>${prj.endDt}</td>

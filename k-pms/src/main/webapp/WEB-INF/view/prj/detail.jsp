@@ -13,7 +13,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
-
 	});
 	
 </script>
@@ -60,6 +59,7 @@
 									<thead>
 										<tr>
 											<th>직원ID</th>
+											<th>팀</th>
 											<th>성</th>
 											<th>이름</th>
 											<th>권한</th>
@@ -71,6 +71,7 @@
 												<c:forEach items="${prjVO.ptmList}" var="ptm">
 													<tr>
 														<td>${ptm.tmMbrVO.empVO.empId}</td>
+														<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 														<td>${ptm.tmMbrVO.empVO.fNm}</td>
 														<td>${ptm.tmMbrVO.empVO.lNm}</td>
 														<td>${ptm.prjPstn}</td>

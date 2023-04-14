@@ -16,6 +16,10 @@
 					<result property="fNm" column="F_NM" />
 					<result property="lNm" column="L_NM" />
 				</association>
+				<association property="tmVO" javaType="com.kpms.tm.vo.TmVO">
+					<id property="tmId" column="TM_ID" />
+					<result property="tmNm" column="TM_NM" />
+				</association>
 			</association>
 		</collection>
 		<collection property="reqList" ofType="com.kpms.req.vo.ReqVO" autoMapping="true">
@@ -23,6 +27,8 @@
 		</collection>
 		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO" autoMapping="true">
 			<id property="knwId" column="KNW_ID" />
+			<result property="crtDt" column="CRT_DT" />
+			<result property="crtr" column="CRTR" />
 		</collection>
 	</resultMap>
 
@@ -78,55 +84,84 @@
 	<select id="readOnePrjVOByPrjId"
 			parameterType="string"
 			resultMap="prjVOMap">
-		SELECT P.PRJ_ID
-			 , P.CRT_DT
-			 , P.CRTR
-			 , P.MDFY_DT
-			 , P.MDFYR
-			 , P.USE_YN
-			 , P.DEL_YN
-			 , P.PRJ_NM
-			 , P.CSTMR
-			 , P.STRT_DT
-			 , P.END_DT
-			 , P.PRJ_STTS
+		SELECT PRK.PRJ_ID
+			 , PRK.CRT_DT
+			 , PRK.CRTR
+			 , PRK.MDFY_DT
+			 , PRK.MDFYR
+			 , PRK.USE_YN
+			 , PRK.DEL_YN
+			 , PRK.PRJ_NM
+			 , PRK.CSTMR
+			 , PRK.STRT_DT
+			 , PRK.END_DT
+			 , PRK.PRJ_STTS
 			 , PTM.TM_MBR_ID
-			 , TM.EMP_ID 
+			 , TM.EMP_ID
+			 , T.TM_NM
 			 , E.F_NM 
 			 , E.L_NM 
 			 , PTM.PRJ_PSTN
-			 , R.REQ_ID
-			 , R.STRT_DT
-			 , R.EXPCT_END_DT
-			 , R.MN_DVLPR
-			 , R.TSK_STTS
-			 , R.PRCS_STTS 
-			 , R.PRRTY 
-			 , R.REQ_TTL
-			 , K.KNW_ID
-			 , K.TTL
-			 , K.CRT_DT 
-			 , K.CRTR
-			 , K.VW_CNT
-		  FROM PRJ P
-		 INNER JOIN PRJ_TM_MBR PTM
-		    ON P.PRJ_ID = PTM.PRJ_ID
-		 INNER JOIN TM_MBR TM
-		    ON PTM.TM_MBR_ID = TM.TM_MBR_ID 
-		 INNER JOIN EMP E
-		    ON TM.EMP_ID = E.EMP_ID 
-		 INNER JOIN REQ R 
-		    ON P.PRJ_ID = R.PRJ_ID 
-		 INNER JOIN KNW K 
-		    ON P.PRJ_ID = K.PRJ_ID 
-		 WHERE P.PRJ_ID = #{_parameter}
-		   AND PTM.DEL_YN = 'N'
+			 , PRK.REQ_ID
+			 , PRK.REQ_STRT_DT
+			 , PRK.EXPCT_END_DT
+			 , PRK.MN_DVLPR
+			 , PRK.TSK_STTS
+			 , PRK.PRCS_STTS 
+			 , PRK.PRRTY 
+			 , PRK.KNW_ID
+			 , PRK.TTL
+			 , PRK.KNW_CRT_DT 
+			 , PRK.KNW_CRTR
+			 , PRK.VW_CNT
+		  FROM (SELECT P.PRJ_ID
+					 , P.CRT_DT
+					 , P.CRTR
+					 , P.MDFY_DT
+					 , P.MDFYR
+					 , P.USE_YN
+					 , P.DEL_YN
+					 , P.PRJ_NM
+					 , P.CSTMR
+					 , P.STRT_DT
+					 , P.END_DT
+					 , P.PRJ_STTS
+					 , R.REQ_ID
+					 , R.STRT_DT REQ_STRT_DT
+					 , R.EXPCT_END_DT
+					 , R.MN_DVLPR
+					 , R.TSK_STTS
+					 , R.PRCS_STTS 
+					 , R.PRRTY 
+					 , K.KNW_ID
+					 , K.TTL
+					 , K.CRT_DT KNW_CRT_DT
+					 , K.CRTR KNW_CRTR
+					 , K.VW_CNT
+		  		  FROM (SELECT *
+				  		  FROM PRJ
+						 WHERE PRJ_ID = #{_parameter}
+						   AND DEL_YN = 'N') P
+			      LEFT JOIN (SELECT *
+			      			   FROM REQ
+			      			  WHERE DEL_YN = 'N') R
+				    ON P.PRJ_ID = R.PRJ_ID 
+				  LEFT JOIN (SELECT *
+			      			   FROM KNW
+			      			  WHERE DEL_YN = 'N') K
+				    ON P.PRJ_ID = K.PRJ_ID) PRK
+		  JOIN PRJ_TM_MBR PTM
+		    ON PRK.PRJ_ID = PTM.PRJ_ID
+		  JOIN TM_MBR TM
+		    ON PTM.TM_MBR_ID  = TM.TM_MBR_ID
+		  JOIN TM T 
+		    ON TM.TM_ID = T.TM_ID 
+		  JOIN EMP E
+		    ON TM.EMP_ID = E.EMP_ID
+		 WHERE PTM.DEL_YN ='N'
 		   AND TM.DEL_YN = 'N'
 		   AND E.DEL_YN = 'N'
-		   AND R.DEL_YN = 'N'
-		   AND K.DEL_YN = 'N'
 	</select>
-	
 	
 	<insert id="createOnePrj"
 			parameterType="com.kpms.prj.vo.PrjVO">
