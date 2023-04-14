@@ -177,7 +177,7 @@ $().ready(function(){
 		
 		var applStts =$("#applSttsType").val();
 		console.log(applStts);
-		location.href = "${context}/eqp/rent?applStts=" + applStts;
+		location.href = "${context}/eqp/apply?applStts=" + applStts;
 	});
 	
 });
@@ -187,7 +187,7 @@ function movePage(pageNo) {
 	// 입력값
 	var eqpNm = $("#search-keyword").val();
 	// URL 요청
-	location.href = "${context}/eqp/list?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+	location.href = "${context}/eqp/apply?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
 }
 </script>
 </head>
@@ -197,7 +197,7 @@ function movePage(pageNo) {
 	<div>
 		<jsp:include page="../include/eqpSidemenu.jsp"/>
 		<jsp:include page="../include/content.jsp" />
-			<div class="path"> 대여 관리</div>
+			<div class="path"> 대여 신청</div>
 			<div class="search-group">
 				<label for="search-keyword">비품명</label>
 				<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>

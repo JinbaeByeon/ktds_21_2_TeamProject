@@ -48,7 +48,7 @@
 			$("#applStts").val(data.applstts);
 			$("#eqpPrc").val(data.eqpprc);
 			$("#prchsDt").val(data.prchsdt);
-			$("#lossStts").val(data.lossstts);
+			$("#lossStts").prop("checked", data.lossstts == "Y");
 			$("#lossRprtDt").val(data.lossrprtdt);
 			$("#applDt").val(data.appldt);
 			
@@ -340,7 +340,6 @@
 							<input type="date" id="prchsDt"  name="prchsDt" value=""/>
 						</div>
 						<div class="input-group inline">
-		
 							<label for="lossStts" style="width: 180px;">분실상태</label>
 							<input type="checkbox" id="lossStts"  name="lossStts" value="Y"/>
 						</div>
@@ -349,7 +348,7 @@
 							<input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">사용여부</label>
+							<label for="useYn" style="width: 180px;">사용여부</label>
 							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
 						</div>
 						

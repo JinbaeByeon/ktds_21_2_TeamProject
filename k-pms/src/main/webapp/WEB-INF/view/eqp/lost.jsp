@@ -168,7 +168,7 @@
 		// 입력값
 		var eqpNm = $("#search-keyword").val();
 		// URL 요청
-		location.href = "${context}/eqp/list?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+		location.href = "${context}/eqp/lost?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
@@ -178,7 +178,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 변경 관리</div>
+				<div class="path"> 분실물 관리</div>
 				<div class="search-group">
 					<label for="search-keyword">비품명</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
