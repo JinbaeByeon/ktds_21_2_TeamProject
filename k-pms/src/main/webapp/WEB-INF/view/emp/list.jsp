@@ -78,10 +78,17 @@
 										<td>${emp.fNm} ${emp.lNm}</td>
 										<td>${emp.crtDt}</td>
 										<td>${emp.emplmntStts}</td>
-										<td>${emp.admnYn}</td>
-										<td>${emp.pstnId}</td>
-										<td>${emp.jobId}</td>
-										<td>${emp.depId}</td>
+										<td>
+											<c:if test="${emp.admnYn=='Y'}">
+												<span>관리자</span>
+											</c:if>
+											<c:if test="${emp.admnYn=='N'}">
+												<span>일반회원</span>
+											</c:if>
+										</td>
+										<td>${emp.pstn.pstnNm}</td>
+										<td>${emp.job.jobNm}</td>
+										<td>${emp.dep.depNm}</td>
 										<td>${emp.lgnCnt}</td>
 										<td>${emp.failDt}</td>
 										

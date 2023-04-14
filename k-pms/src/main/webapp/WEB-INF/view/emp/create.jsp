@@ -12,6 +12,10 @@
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
+		var depWindow;
+		var jobWindow;
+		var pstnWindow;
+		
 		$().ready(function(){
 			// header 서브메뉴 ui 구현 코드
 			$("li.nav-item.emp").addClass("active");
@@ -70,18 +74,87 @@
 					}
 				});
 			});
-			
+			$(".btn-add").click(function(e){
+				e.preventDefault();
+				var id = $(this).attr("id");
+				if(id == "btn-add-pstn"){
+					pstnWindow = window.open("${context}/pstn/search","직급검색","width=500,height=500");
+				}
+				if(id == "btn-add-job"){
+					jobWindow = window.open("${context}/job/search","직무검색","width=500,height=500");
+				}
+				if(id == "btn-add-dep"){
+					depWindow = window.open("${context}/dep/search","부서검색","width=500,height=500");
+				}
+			});
 		});
-		function addPstnFn(pstn){
+		function addPstnFn(pstnData){
+			$("#btn-add-pstn").hide();
+			var pstnDiv = $("#btn-add-pstn").closest("div");
+			var itemDiv = $("<div class='pstn-item ml-10'></div>");
+			pstnDiv.append(itemDiv);
 			
+			var itemId = $("<input type='hidden' name='pstnId'/>");
+			itemId.val(pstnData.pstnid);
+			itemDiv.append(itemId);
+			
+			var itemSpan = $("<span></span>");
+			itemSpan.text(pstnData.pstnnm);
+			itemDiv.append(itemSpan);
+			
+			var itemRemoveBtn = $("<button>X</button>");
+			itemRemoveBtn.click(function(){
+				$(this).closest("div").remove();
+				$("#btn-add-pstn").show();
+			});
+			itemDiv.append(itemRemoveBtn);
+			pstnWindow.close();
 		}
 		
-		function addJobFn(job){
+		function addJobFn(jobData){
+			$("#btn-add-job").hide();
+			var jobDiv = $("#btn-add-job").closest("div");
+			var itemDiv = $("<div class='job-item ml-10'></div>");
+			jobDiv.append(itemDiv);
 			
+			var itemId = $("<input type='hidden' name='jobId'/>");
+			itemId.val(jobData.jobid);
+			itemDiv.append(itemId);
+			
+			var itemSpan = $("<span></span>");
+			itemSpan.text(jobData.jobnm);
+			itemDiv.append(itemSpan);
+			
+			var itemRemoveBtn = $("<button>X</button>");
+			itemRemoveBtn.click(function(){
+				$(this).closest("div").remove();
+				$("#btn-add-job").show();
+			});
+			itemDiv.append(itemRemoveBtn);
+			jobWindow.close();
 		}
 		
-		function addDepFn(dep){
+		function addDepFn(depData){
+			$("#btn-add-dep").hide();
+			var depDiv = $("#btn-add-dep").closest("div");
+			var itemDiv = $("<div class='dep-item ml-10'></div>");
+			depDiv.append(itemDiv);
 			
+			var itemId = $("<input type='hidden' name='depId'/>");
+			itemId.val(depData.depid);
+			itemDiv.append(itemId);
+			
+			var itemSpan = $("<span></span>");
+			itemSpan.text(depData.depnm);
+			itemDiv.append(itemSpan);
+			
+			var itemRemoveBtn = $("<button>X</button>");
+			itemRemoveBtn.click(function(){
+				$(this).closest("div").remove();
+				$("#btn-add-dep").show();
+			});
+			itemDiv.append(itemRemoveBtn);
+			depWindow.close();
 		}
 	</script>
 </head>
@@ -166,8 +239,6 @@
 						<div class="create-group">
 							<label for="btn-add-pstn" class="required">직급</label>
 							<div class="mr-10p">
-								<div class="items">
-								</div>
 								<button id="btn-add-pstn" class="btn-add">+</button>
 							</div>
 							<div class="right-item">
@@ -178,16 +249,12 @@
 						<div class="create-group">
 							<label for="btn-add-job" class="required">직무</label>
 							<div>
-								<div class="items">
-								</div>
 								<button id="btn-add-job" class="btn-add">+</button>
 							</div>
 						</div>
 						<div class="create-group">
 							<label for="btn-add-dep" class="required">부서</label>
 							<div>
-								<div class="items">
-								</div>
 								<button id="btn-add-dep" class="btn-add">+</button>
 							</div>
 						</div>
@@ -204,7 +271,6 @@
 				</div>
 				<div class="align-right">
 					<button id="new_btn" class="btn-primary">등록</button>
-					<button id="delete_btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>
