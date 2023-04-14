@@ -57,14 +57,23 @@ public class EmpController {
 		
 		return "emp/list";
 	}
-	
+
 	@GetMapping("/emp/search")
-	public String viewSearchPage(Model model, EmpVO empVO) {
+	public String viewSearchEmpPage(Model model, EmpVO empVO) {
 		List<EmpVO> empList = empService.readEmpListNoPagination(empVO);
 		model.addAttribute("empList",empList);
 		model.addAttribute("depId",empVO.getDepId());
 		model.addAttribute("fNm",empVO.getfNm());
 		
 		return "emp/search";
+	}
+	@GetMapping("/emp/search/head")
+	public String viewSearchHeadEmpPage(Model model, EmpVO empVO) {
+		List<EmpVO> empList = empService.readEmpListNoPagination(empVO);
+		model.addAttribute("empList",empList);
+		model.addAttribute("depId",empVO.getDepId());
+		model.addAttribute("fNm",empVO.getfNm());
+		
+		return "emp/searchHdEmp";
 	}
 }

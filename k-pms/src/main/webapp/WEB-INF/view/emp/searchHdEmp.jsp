@@ -13,24 +13,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$("#all_check").change(function(){
-			$(".check_idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		function checkIndex(){
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		}
-		
-		$(".check_idx").change(function(){
-			checkIndex();
-		});
-		
-		$(".grid > table > tbody > tr > td").not(".check").click(function(){
-			var check_idx = $(this).closest("tr").find(".check_idx");
-			check_idx.prop("checked",check_idx.prop("checked")==false);
-			checkIndex();
+		$(".grid > table > tbody > tr").click(function(){
+			$(this).find(".radio_idx").prop("checked",true);
 		});
 		
 		$("#cancel_btn").click(function(){
@@ -38,15 +22,14 @@
 		});
 		
 		$("#regist_btn").click(function(){
-			var checkbox = $(".check_idx:checked");
-			if(checkbox.length == 0) {
+			var radiobox = $(".radio_idx:checked");
+			if(radiobox.length == 0) {
 				alert("직원을 선택하세요");
 				return;
 			}
-			checkbox.each(function(){
-				var emp = $(this).closest("tr").data();
-				opener.addEmpFn(emp);
-			});
+
+			var emp = radiobox.closest("tr").data();
+			opener.addHdEmpFn(emp);
 		});
 	});
 </script>
@@ -69,11 +52,10 @@
 			<table>
 				<thead>
 					<tr>
-						<th>
-							<input type="checkbox" id="all_check" />
-						</th>
+						<th></th>
 						<th>이름</th>
 						<th>성</th>
+						<th>팀명?</th>
 						<th>부서ID</th>
 					</tr>
 				</thead>
@@ -84,11 +66,12 @@
 								<tr data-empid = "${emp.empId}"
 									data-fnm = "${emp.fNm}"
 									data-lnm = "${emp.lNm}">
-									<td class="check">
-										<input type="checkbox" class="check_idx" value="${emp.empId}" />
+									<td>
+										<input type="radio" name ="radio_idx" class="radio_idx" value="${emp.empId}" />
 									</td>
 									<td>${emp.fNm}</td>
 									<td>${emp.lNm}</td>
+									<td>팀명 넣을까? </td>
 									<td>${emp.depId} </td>
 								</tr>
 							</c:forEach>
