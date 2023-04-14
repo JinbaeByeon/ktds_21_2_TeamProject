@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,29 +31,8 @@ $().ready(function() {
 		movePage(0);
 	});
 	
-	$("#save-btn").click(function() {
-		if ($("#isModify").val() == "false") {
-			// 신규등록
-			$.post("${context}/api/prj/create", $("#detail-form").serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload(); // 새로고침
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		}
-		else {
-			// 수정
-			$.post("${context}/api/prj/update", $("#detail-form").serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload(); // 새로고침
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});				
-		}
+	$("#new-btn").click(function() {
+		location.href = "${context}/prj/create"
 	});
 	
 	/* $("#delete-btn").click(function() {
@@ -226,7 +206,6 @@ $().ready(function() {
 				</div>
 				<div class="align-right">
 					<button id="new-btn" class="btn-primary">신규</button>
-					<button id="save-btn" class="btn-primary">저장</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />			

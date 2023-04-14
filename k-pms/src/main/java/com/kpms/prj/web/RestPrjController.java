@@ -30,7 +30,7 @@ public class RestPrjController {
 		
 		boolean createResult = prjService.createOnePrj(prjVO);
 		if (createResult) {
-			return new APIResponseVO(APIStatus.OK);
+			return new APIResponseVO(APIStatus.OK, "/prj/detail/" + prjVO.getPrjId());
 		}
 		else {
 			return new APIResponseVO(APIStatus.FAIL, "프로젝트 등록 실패", "");

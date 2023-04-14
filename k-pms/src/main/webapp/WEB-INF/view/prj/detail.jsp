@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
 <script type="text/javascript">	
 	$().ready(function() {
 		$("#modify-btn").click(function() {
-			location.href = "modify.jsp"
+			location.href = "${context}/prj/update"
 		});
 		
 		$("#delete-btn").click(function() {
@@ -107,8 +108,12 @@
 								</table>
 							</div>
 						</div>
-						<div class="create-group">
+						
+						
 							<label for="req">요구사항</label>
+							<div class="grid-count align-right">
+								전체보기
+							</div>
 							<div class="grid">
 								<table>
 									<thead>
@@ -142,9 +147,12 @@
 									</tbody>
 								</table>
 							</div>
-						</div>
-						<div class="create-group">
+						
+						
 							<label for="req">지식관리</label>
+							<div class="grid-count align-right">
+								전체보기
+							</div>
 							<div class="grid">
 								<table>
 									<thead>
@@ -172,7 +180,7 @@
 									</tbody>
 								</table>
 							</div>
-						</div>
+						
 				<div class="align-right">
 					<button id="modify-btn" class="btn-primary">수정</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>

@@ -18,6 +18,16 @@ public class PrjController {
 	@Autowired
 	private PrjService prjService;
 	
+	@GetMapping("/prj/create")
+	public String viewPrjCreatePage() {
+		return "prj/create";
+	}
+	
+	@GetMapping("/prj/update")
+	public String viewPrjUpdatePage() {
+		return "prj/update";
+	}
+	
 	@GetMapping("/prj/list")
 	public String viewPrjListPage(Model model, PrjVO prjVO) {
 		List<PrjVO> prjList = prjService.readAllPrjVO(prjVO);
