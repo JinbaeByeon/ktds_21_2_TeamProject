@@ -1,5 +1,7 @@
 package com.kpms.prjtmmbr.vo;
 
+import com.kpms.tmmbr.vo.TmMbrVO;
+
 /**
  * PRJ_TM_MBR
  */
@@ -9,6 +11,16 @@ public class PrjTmMbrVO {
 	private String prjPstn;
 	private String prjId;
 	private String tmMbrId;
+	
+	private TmMbrVO tmMbrVO;
+	
+	public TmMbrVO getTmMbrVO() {
+		return tmMbrVO;
+	}
+
+	public void setTmMbrVO(TmMbrVO tmMbrVO) {
+		this.tmMbrVO = tmMbrVO;
+	}
 
 	public String getPrjTmMbrId() {
 		return prjTmMbrId;
