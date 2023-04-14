@@ -34,6 +34,7 @@
 			<result property="pstnNm" column="PSTN_NM" />
 		</association>
 	</resultMap>
+	
 	<insert id="createOneEmp"
 			parameterType="com.kpms.emp.vo.EmpVO">
 		INSERT INTO EMP
@@ -133,9 +134,9 @@
 			parameterType="com.kpms.emp.vo.EmpVO"
 			resultType="com.kpms.emp.vo.EmpVO">
 		SELECT EMP_ID,
-			   CRT_DT,
+			   TO_CHAR(CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
 			   CRTR,
-			   MDFY_DT,
+			   TO_CHAR(MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT,
 			   MDFYR,
 			   USE_YN,
 			   DEL_YN,
@@ -145,14 +146,14 @@
 			   PHN,
 			   PSTN_PRD,
 			   PRFL_PHT,
-			   HR_DT,
+			   TO_CHAR(HR_DT,'YYYY-MM-DD HH24:MI:SS') HR_DT,
 			   HR_PRD,
 			   ADDRSS,
 			   EMPLMNT_STTS,
 			   ADMN_YN,
-			   PWD_CHNG_DT,
+			   TO_CHAR(PWD_CHNG_DT,'YYYY-MM-DD HH24:MI:SS') PWD_CHNG_DT,
 			   LTST_LGN_IP,
-			   LTST_LGN_DT,
+			   TO_CHAR(LTST_LGN_DT,'YYYY-MM-DD HH24:MI:SS') LTST_LGN_DT,
 			   PWD_SALT,
 			   PWD,
 			   PSTN_ID,
@@ -160,7 +161,7 @@
 			   DEP_ID,
 			   L_NM,
 			   LGN_CNT,
-			   FAIL_DT
+			   TO_CHAR(FAIL_DT,'YYYY-MM-DD HH24:MI:SS') FAIL_DT
 		  FROM EMP
 		 WHERE EMP_ID = #{empId}
 		   AND PWD = #{pwd}
@@ -171,9 +172,9 @@
 			parameterType="string"
 			resultMap="EmpMap">
 		SELECT E.EMP_ID,
-			   E.CRT_DT,
+			   TO_CHAR(E.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
 			   E.CRTR,
-			   E.MDFY_DT,
+			   TO_CHAR(E.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT,
 			   E.MDFYR,
 			   E.USE_YN,
 			   E.DEL_YN,
@@ -183,14 +184,14 @@
 			   E.PHN,
 			   E.PSTN_PRD,
 			   E.PRFL_PHT,
-			   E.HR_DT,
+			   TO_CHAR(E.HR_DT,
 			   E.HR_PRD,
 			   E.ADDRSS,
 			   E.EMPLMNT_STTS,
 			   E.ADMN_YN,
-			   E.PWD_CHNG_DT,
+			   TO_CHAR(E.PWD_CHNG_DT,'YYYY-MM-DD HH24:MI:SS') PWD_CHNG_DT,
 			   E.LTST_LGN_IP,
-			   E.LTST_LGN_DT,
+			   TO_CHAR(E.LTST_LGN_DT,'YYYY-MM-DD HH24:MI:SS') LTST_LGN_DT,
 			   E.PWD_SALT,
 			   E.PWD,
 			   E.PSTN_ID,
@@ -198,7 +199,7 @@
 			   E.DEP_ID,
 			   E.L_NM,
 			   E.LGN_CNT,
-			   E.FAIL_DT,
+			   TO_CHAR(E.FAIL_DT,'YYYY-MM-DD HH24:MI:SS') FAIL_DT,
 			   E.DTL_ADDRSS,
 			   E.PST_CD,
 			   CE.F_NM CRTR_F_NM,
@@ -223,13 +224,49 @@
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
 	</select>
-	<select id="readEmpList"
+	
+	<select id="readEmpListNoPagination"
 			parameterType="com.kpms.emp.vo.EmpVO"
 			resultMap="EmpMap">
 		SELECT E.EMP_ID,
-			   E.CRT_DT,
+			   E.F_NM,
+			   E.L_NM,
+			   E.EML,
+			   E.PHN,
+			   E.PRFL_PHT,
+			   E.EMPLMNT_STTS,
+			   E.DEP_ID,
+			   J.JOB_NM,
+			   D.DEP_NM,
+			   P.PSTN_NM
+		  FROM (SELECT *
+		  		  FROM EMP
+				 WHERE DEL_YN = 'N'
+				<if test="depId != null and depId != ''">
+				   AND DEP_ID = #{depId}
+				</if>
+				<if test="fNm != null and fNm != ''">
+				   AND F_NM LIKE '%' || #{fNm} || '%'
+				</if>) E
+		  JOIN EMP CE
+		  	ON CE.EMP_ID = E.CRTR
+		  JOIN EMP ME
+		  	ON ME.EMP_ID = E.MDFYR
+		  JOIN DEP D
+		  	ON D.DEP_ID = E.DEP_ID
+		  JOIN JOB J
+		  	ON J.JOB_ID = E.JOB_ID
+		  JOIN PSTN P
+		  	ON P.PSTN_ID = E.PSTN_ID
+	</select>
+	<select id="readEmpList"
+			parameterType="com.kpms.emp.vo.EmpVO"
+			resultMap="EmpMap">
+		<include refid="Common.pageHeader"/>
+		SELECT E.EMP_ID,
+			   TO_CHAR(E.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
 			   E.CRTR,
-			   E.MDFY_DT,
+			   TO_CHAR(E.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT,
 			   E.MDFYR,
 			   E.USE_YN,
 			   E.DEL_YN,
@@ -239,14 +276,14 @@
 			   E.PHN,
 			   E.PSTN_PRD,
 			   E.PRFL_PHT,
-			   E.HR_DT,
+			   TO_CHAR(E.HR_DT,'YYYY-MM-DD HH24:MI:SS') HR_DT,
 			   E.HR_PRD,
 			   E.ADDRSS,
 			   E.EMPLMNT_STTS,
 			   E.ADMN_YN,
-			   E.PWD_CHNG_DT,
+			   TO_CHAR(E.PWD_CHNG_DT,'YYYY-MM-DD HH24:MI:SS') PWD_CHNG_DT,
 			   E.LTST_LGN_IP,
-			   E.LTST_LGN_DT,
+			   TO_CHAR(E.LTST_LGN_DT,'YYYY-MM-DD HH24:MI:SS') LTST_LGN_DT,
 			   E.PWD_SALT,
 			   E.PWD,
 			   E.PSTN_ID,
@@ -254,7 +291,7 @@
 			   E.DEP_ID,
 			   E.L_NM,
 			   E.LGN_CNT,
-			   E.FAIL_DT,
+			   TO_CHAR(E.FAIL_DT,'YYYY-MM-DD HH24:MI:SS') FAIL_DT,
 			   E.DTL_ADDRSS,
 			   E.PST_CD,
 			   CE.F_NM CRTR_F_NM,
@@ -280,6 +317,7 @@
 		  	ON J.JOB_ID = E.JOB_ID
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
+		<include refid="Common.pageFooter"/>
 	</select>
 	
 	<update id="updateOneEmp"

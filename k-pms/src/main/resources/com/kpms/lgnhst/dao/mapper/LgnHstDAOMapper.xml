@@ -4,6 +4,35 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="LgnHst">
 	
+	<resultMap id="lgnHstMap" 
+			   type="com.kpms.lgnhst.vo.LgnHstVO"
+			   autoMapping="true">
+		<id property="hstId" column="HST_ID" />
+		<association property="emp" 
+					 javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="EMP_ID" />
+			<result property="fNm" column="F_NM" />
+			<result property="lNm" column="L_NM" />
+		</association>
+	</resultMap>
+	
+	<select id="readAllLgnHst"
+			parameterType="com.kpms.lgnhst.vo.LgnHstVO"
+			resultMap="lgnHstMap">
+		<include refid="Common.pageHeader"/>
+		SELECT LH.HST_ID,
+			   TO_CHAR(LH.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
+			   LH.CRTR,
+			   LH.IP,
+			   LH.ACT,
+			   E.F_NM,
+			   E.L_NM
+		  FROM LGN_HST LH
+		  JOIN EMP E
+		  	ON E.EMP_ID = LH.CRTR
+		<include refid="Common.pageFooter"/>
+	</select>
+	
 	<insert id="createEmpLgnHst"
 			parameterType="com.kpms.lgnhst.vo.LgnHstVO">
 		INSERT INTO LGN_HST
