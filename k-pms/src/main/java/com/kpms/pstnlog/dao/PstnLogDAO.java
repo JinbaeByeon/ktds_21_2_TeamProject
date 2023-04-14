@@ -6,7 +6,7 @@ import com.kpms.pstnlog.vo.PstnLogVO;
 
 public interface PstnLogDAO {
 	
-	public List<PstnLogVO> readAllPstnLog(PstnLogVO pstnLogVO);
+	public List<PstnLogVO> readAllPstnLogVO(PstnLogVO pstnLogVO);
 	
 	public int createPstnLog(PstnLogVO pstnLogVO);
 

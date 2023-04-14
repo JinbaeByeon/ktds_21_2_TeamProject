@@ -6,6 +6,6 @@ import com.kpms.pstnlog.vo.PstnLogVO;
 
 public interface PstnLogService {
 	
-	public List<PstnLogVO> readAllPstnLog(PstnLogVO pstnLogVO);
+	public List<PstnLogVO> readAllPstnLogVO(PstnLogVO pstnLogVO);
 	
 }

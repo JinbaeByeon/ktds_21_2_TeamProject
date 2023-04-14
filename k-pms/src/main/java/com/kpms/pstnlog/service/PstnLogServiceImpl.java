@@ -15,8 +15,8 @@ public class PstnLogServiceImpl implements PstnLogService{
 	private PstnLogDAO pstnLogDAO;
 	
 	@Override
-	public List<PstnLogVO> readAllPstnLog(PstnLogVO pstnLogVO) {
-		return pstnLogDAO.readAllPstnLog(pstnLogVO);
+	public List<PstnLogVO> readAllPstnLogVO(PstnLogVO pstnLogVO) {
+		return pstnLogDAO.readAllPstnLogVO(pstnLogVO);
 	}
 
 }

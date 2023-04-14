@@ -31,11 +31,11 @@
 			$("#empId").val(data.empid);
 			$("#fNm").val(data.fnm);
 			$("#lNm").val(data.lnm);
-			$("#prvsJobId").val(data.prvsjobid);
-			$("#prvsJobNm").val(data.prvsjobnm);
-			$("#chngJobId").val(data.chngjobid);
+			$("#prvsPstnId").val(data.prvspstnid);
+			$("#prvsPstnId").val(data.prvspstnid);
+			$("#chngPstnId").val(data.chngpstnid);
 			$("#chngDt").val(data.chngdt);
-			$("#chngJobNm").val(data.chngjobnm);
+			$("#chngPstnNm").val(data.chngpstnnm);
 			$("#chngRsn").val(data.chngrsn);
 			$("#crtDt").val(data.crtdt);
 			$("#crtr").val(data.crtr);
@@ -64,7 +64,7 @@
 			// 입력 값
 			var jobNm=$("#search-keyword").val();
 			// URL 요청
-			location.href= "${context}/emp/job/log?jobNm=" + jobNm + "&pageNo=" + pageNo;
+			location.href= "${context}/emp/job/log?pstnNm=" + pstnNm + "&pageNo=" + pageNo;
 		}
 
 </script>
@@ -75,7 +75,7 @@
 		<div>
 		<jsp:include page="../include/sysSidemenu.jsp"/>
 		<jsp:include page="../include/content.jsp"/>
-			<div class="path">직무변경이력 > </div>
+			<div class="path">직급변경이력 > </div>
 			<div class="search-group">
 				<label for="search-keyword">직원명</label>
 				<input type="text" id="search-keyword" class="search-input" value="${empVO.fNm}"/>
@@ -83,7 +83,7 @@
 			</div>
 			<div class="grid">
 				<div class="grid-count align-right">
-					총 ${jobLogList.size() > 0 ? jobList.get(0).totalCount : 0}건
+					총 ${pstnLogList.size() > 0 ? pstnList.get(0).totalCount : 0}건
 				</div>
 				<table>
 					<thead>
@@ -92,10 +92,10 @@
 							<th>순번</th>
 							<th>직원ID</th>
 							<th>이름</th>
-							<th>첫직무ID</th>
-							<th>첫직무</th>
-							<th>변경된직무ID</th>
-							<th>변경된직무</th>
+							<th>첫직급ID</th>
+							<th>첫직급</th>
+							<th>변경된직급ID</th>
+							<th>변경된직급</th>
 							<th>변경일</th>
 							<th>변경사유</th>
 							<th>생성일</th>
@@ -104,34 +104,34 @@
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${not empty jobLogList}">
+							<c:when test="${not empty pstnLogList}">
 								<c:forEach items="${jobList}"
-										   var="jobLog">
-									<tr data-empid="${jobLog.empId}"
-										data-fnm="${jobLog.fNm}"
-										data-lnm="${jobLog.lNm}"
-										data-prvsjobid="${jobLog.prvsJobId}"
-										data-prvsjobnm="${jobLog.prvsJobNm}"
-										data-chngjobid="${jobLog.chngJobId}"
-										data-chngjobnm="${jobLog.chngJobNm}"
-										data-chngDt="${jobLog.chngDt}"
-										data-chngrsn="${jobLog.chngRsn}"
-										data-crtdt="${jobLog.crtDt}"
-										data-crtr="${jobLog.crtr}">
+										   var="pstnLog">
+									<tr data-empid="${pstnLog.empId}"
+										data-fnm="${pstnLog.fNm}"
+										data-lnm="${pstnLog.lNm}"
+										data-prvspstnid="${pstnLog.prvsPstnId}"
+										data-prvspstnnm="${pstnLog.prvsPstnNm}"
+										data-chngpstnid="${pstnLog.chngPstnId}"
+										data-chngpstnnm="${pstnLog.chngPstnNm}"
+										data-chngDt="${pstnLog.chngDt}"
+										data-chngrsn="${pstnLog.chngRsn}"
+										data-crtdt="${pstnLog.crtDt}"
+										data-crtr="${pstnLog.crtr}">
 									<td>
-										<input type="checkbox" class="check_idx" value="${jobLog.jobId}"/>
+										<input type="checkbox" class="check_idx" value="${pstnLog.jobId}"/>
 									</td>
 									<td>순번</td>
-									<td>${jobLog.empId}</td>
-									<td>${jobLog.fNm} ${jobLog.lNm}</td>
-									<td>${jobLog.prvsJobId}</td>
-									<td>${jobLog.prvsJobNm}</td>
-									<td>${jobLog.chngJobId}</td>
-									<td>${jobLog.chngJobNm}</td>
-									<td>${jobLog.chngDt}</td>
-									<td>${jobLog.chngRsn}</td>
-									<td>${jobLog.crtDt}</td>
-									<td>${jobLog.crtr}</td>
+									<td>${pstnLog.empId}</td>
+									<td>${pstnLog.fNm} ${pstnLog.lNm}</td>
+									<td>${pstnLog.prvsPstnId}</td>
+									<td>${pstnLog.prvsPstnNm}</td>
+									<td>${pstnLog.chngPstnId}</td>
+									<td>${pstnLog.chngPstnNm}</td>
+									<td>${pstnLog.chngDt}</td>
+									<td>${pstnLog.chngRsn}</td>
+									<td>${pstnLog.crtDt}</td>
+									<td>${pstnLog.crtr}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -150,7 +150,7 @@
                   <c:param name="pageNo" value="${pageNo}"/>
                   <c:param name="pageCnt" value="${pageCnt}"/>
                   <c:param name="lastPage" value="${lastPage}"/>
-                  <c:param name="path" value="${context}/jobLog"/>
+                  <c:param name="path" value="${context}/pstnLog"/>
                </c:import>
                
 			</div>
@@ -167,16 +167,16 @@
 						<label for="lNm" style="width: 180px;">성</label><input type="text" id="lNm" disabled value=""/>
 					</div>
 					<div class="input-group inline">
-						<label for="prvsJobId" style="width: 180px;">첫직무ID</label><input type="text" id="prvsJobId" disabled value=""/>
+						<label for="prvsPstnId" style="width: 180px;">첫직급ID</label><input type="text" id="prvsPstnId" disabled value=""/>
 					</div>
 					<div class="input-group inline">
-						<label for="prvsJobNm" style="width: 180px;">첫직무</label><input type="text" id="prvsJobNm" disabled value=""/>
+						<label for="prvsPstnNm" style="width: 180px;">첫직급</label><input type="text" id="prvsPstnNm" disabled value=""/>
 					</div>
 					<div class="input-group inline">
-						<label for="chngJobId" style="width: 180px;">변경된직무ID</label><input type="text" id="chngJobId" disabled value=""/>
+						<label for="chngPstnId" style="width: 180px;">변경된직급ID</label><input type="text" id="chngPstnId" disabled value=""/>
 					</div>
 					<div class="input-group inline">
-						<label for="chngJobNm" style="width: 180px;">변경직무</label><input type="text" id="chngJobNm" disabled value=""/>
+						<label for="chngPstnNm" style="width: 180px;">변경직급</label><input type="text" id="chngPstnNm" disabled value=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="chngDt" style="width: 180px;">변경일</label><input type="text" id="chngDt" disabled value=""/>
