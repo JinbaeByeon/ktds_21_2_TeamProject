@@ -15,6 +15,14 @@
 		$().ready(function(){
 			
 		});
+		function movePage(pageNo) {
+			/* var fNm = $("#search-keyword").val();
+			var empId = $("#empId").val();
+			var qryStr = "emp.fNm="+ fNm;
+			qryStr +=  "&crtr=" + empId; */
+			var qryStr =  "&pageNo=" + pageNo;
+			location.href = "${context}/emp/list?"  + qryStr;
+		}
 	</script>
 </head>
 <body>
@@ -23,6 +31,7 @@
 		<div>
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
+			<div class="path"> 사원 관리 > 사원 조회</div>
 			
 			<div class="grid">
 				<div class="grid-count align-right">
@@ -97,7 +106,11 @@
 					
 					</tbody>
 				</table>
-				
+				<c:import url="../include/pagenate.jsp">
+                  <c:param name="pageNo" value="${pageNo}"/>
+                  <c:param name="pageCnt" value="${pageCnt}"/>
+                  <c:param name="lastPage" value="${lastPage}"/>
+               	</c:import>
 			</div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>

@@ -41,7 +41,12 @@ public class EmpController {
 	public String viewEmpListPage(Model model, EmpVO empVO) {
 		List<EmpVO> empList = empService.readEmpList(empVO);
 		model.addAttribute("empList",empList);
-		
+		if(!empList.isEmpty()) {
+			model.addAttribute("lastPage",empList.get(0).getLastPage());
+		}
+		model.addAttribute("pageNo",empVO.getPageNo());
+		model.addAttribute("pageCnt",empVO.getPageCnt());
+		model.addAttribute("viewCnt",empVO.getViewCnt());
 		return "emp/list";
 	}
 	
@@ -54,7 +59,12 @@ public class EmpController {
 	public String viewAdminListPage(Model model, EmpVO empVO) {
 		List<EmpVO> empList = empService.readEmpList(empVO);
 		model.addAttribute("empList",empList);
-		
+		if(!empList.isEmpty()) {
+			model.addAttribute("lastPage",empList.get(0).getLastPage());
+		}
+		model.addAttribute("pageNo",empVO.getPageNo());
+		model.addAttribute("pageCnt",empVO.getPageCnt());
+		model.addAttribute("viewCnt",empVO.getViewCnt());
 		return "emp/list";
 	}
 
