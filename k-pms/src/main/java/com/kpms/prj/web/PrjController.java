@@ -23,8 +23,10 @@ public class PrjController {
 		return "prj/create";
 	}
 	
-	@GetMapping("/prj/update")
-	public String viewPrjUpdatePage() {
+	@GetMapping("/prj/update/{prjId}")
+	public String viewPrjUpdatePage(@PathVariable String prjId, Model model) {
+		PrjVO prjVO = prjService.readOnePrjVOByPrjId(prjId);
+		model.addAttribute("prjVO", prjVO);
 		return "prj/update";
 	}
 	

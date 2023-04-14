@@ -15,6 +15,38 @@
 <script type="text/javascript">	
 	$().ready(function() {
 		
+		$("#addTmMbrBtn").click(function(event) {
+			event.preventDefault();
+			gnr = window.open("${context}/tmMbr/search", "팀원검색", "width=500, height=500")
+		});
+		
+		$("#save-btn").click(function() {
+			$.post("${context}/api/prj/update", $("#create_form").serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.href = "${context}" + response.redirectURL;
+				}
+				else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		
+		
+		$("#delete-btn").click(function() {
+			var prjId = $("#prjId").val();
+			if(!confirm("정말 삭제하시겠습니까?")) {
+				return;
+			}
+			
+			$.get("${context}/api/prj/delete/" + prjId, function(response) {
+				if (response.status == "200 OK") {
+					location.href = "${context}/prj/list"
+				}
+				else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
 	});
 </script>
 </head>
@@ -25,9 +57,9 @@
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />		
 				<div class="path"> 수정수정 ${prjId} | ${prjVO.prjNm}</div>
+				<form id="create_form" enctype="multipart/form-data">
 					<div class="create-group">
-						<label for="mvTtl">프로젝트ID</label>
-						<h3>${prjId}</h3>
+						<input type="hidden" id="prjId" name="prjId" value="${prjVO.prjId}"/>
 					</div>
 					<div class="create-group">
 						<label for="prjNm">프로젝트명</label>
@@ -35,7 +67,7 @@
 					</div>
 					<div class="create-group">
 						<label for="cstmr">고객사</label>
-						<input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}"/>
+						<input type="text" id="cstmr" name="cstmr" value="${prjVO.cstmr}"/>
 					</div>
 					<div class="create-group">
 						<label for="strtDt">시작일</label>
@@ -43,18 +75,23 @@
 					</div>
 					<div class="create-group">
 						<label for="endDt">종료일</label>
-						<input type="date" id="endDt" name="endDt" value='${prjVO.endDt}'/>
+						<input type="date" id="endDt" name="endDt" value="${prjVO.endDt}"/>
 					</div>
 					<div class="create-group">
 						<label for="prjStts">프로젝트 상태</label>
-						<input type="text" id="prjStts" name="prjStts" value='${prjVO.prjStts}'/>
+						<input type="text" id="prjStts" name="prjStts" value="${prjVO.prjStts}"/>
 					</div>
 					<div class="create-group">
 						<label for="useYn">사용여부</label>
 						<input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''}/>
 					</div>
+					
 						<div class="create-group">
-							<label for="tm">팀원</label>
+							<label for="tmMbr">팀원</label>
+							<div>
+								<button id="addTmMbrBtn" class="btn-primary">추가</button>
+								<div class="items"></div>
+							</div>
 							<div class="grid">
 								<table>
 									<thead>
@@ -89,74 +126,9 @@
 								</table>
 							</div>
 						</div>
-						<div class="create-group">
-							<label for="req">요구사항</label>
-							<div class="grid">
-								<table>
-									<thead>
-										<tr>
-											<th>우선순위</th>
-											<th>제목</th>
-											<th>담당자</th>
-											<th>일정</th>
-											<th>진행상태</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:choose>
-											<c:when test="${not empty prjVO.reqList}">
-												<c:forEach items="${prjVO.reqList}" var="req">
-													<tr>
-														<td>${req.prrty}</td>
-														<td>${req.reqTtl}</td>
-														<td>${req.mnDvlpr}</td>
-														<td>${req.tskStts}</td>
-														<td>${req.prcsStts}</td>
-													</tr>
-												</c:forEach>
-											</c:when>
-										<c:otherwise>
-											<td colspan="5" class="no-items">
-												등록된 요구사항이 없습니다.
-											</td>
-										</c:otherwise>
-										</c:choose>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="create-group">
-							<label for="req">지식관리</label>
-							<div class="grid">
-								<table>
-									<thead>
-										<tr>
-											<th>제목</th>
-											<th>등록자</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:choose>
-											<c:when test="${not empty prjVO.knwList}">
-												<c:forEach items="${prjVO.knwList}" var="knw">
-													<tr>
-														<td>${knw.ttl}</td>
-														<td>${knw.crtr}</td>
-													</tr>
-												</c:forEach>
-											</c:when>
-										<c:otherwise>
-											<td colspan="2" class="no-items">
-												등록된 지식사항이 없습니다.
-											</td>
-										</c:otherwise>
-										</c:choose>
-									</tbody>
-								</table>
-							</div>
-						</div>
+					</form>	
 				<div class="align-right">
-					<button id="modify-btn" class="btn-primary">수정</button>
+					<button id="save-btn" class="btn-primary">저장</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />			

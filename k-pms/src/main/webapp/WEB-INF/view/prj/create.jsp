@@ -21,30 +21,15 @@
 		});
 		
 		$("#save-btn").click(function() {
-			if ($("#isModify").val() == "false") {
-				// 신규등록
-				$.post("${context}/api/prj/create", $("#detail-form").serialize(), function(response) {
-					if (response.status == "200 OK") {
-						location.reload(); // 새로고침
-					}
-					else {
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
-			else {
-				// 수정
-				$.post("${context}/api/prj/update", $("#detail-form").serialize(), function(response) {
-					if (response.status == "200 OK") {
-						location.reload(); // 새로고침
-					}
-					else {
-						alert(response.errorCode + "/" + response.message);
-					}
-				});				
-			}
+			$.post("${context}/api/prj/create", $("#create_form").serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.href = "${context}" + response.redirectURL;
+				}
+				else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
 		});
-		
 	});
 </script>
 </head>

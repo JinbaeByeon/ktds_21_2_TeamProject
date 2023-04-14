@@ -165,6 +165,12 @@
 	
 	<insert id="createOnePrj"
 			parameterType="com.kpms.prj.vo.PrjVO">
+		<selectKey keyProperty="prjId"
+					resultType="string"
+					order="BEFORE"> 
+		SELECT 'PRJ-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRJ_PK.NEXTVAL, '5', 0)
+		  FROM DUAL
+		</selectKey>
 		INSERT INTO PRJ
 		      (PRJ_ID
 		     , CRT_DT
@@ -179,7 +185,7 @@
 		     , END_DT
 		     , PRJ_STTS)
 	   VALUES
-	   	      ('PRJ-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRJ_PK.NEXTVAL, '5', 0)
+	   	      (#{prjId}
 	   	     , SYSDATE
 	   	     , #{crtr}
 	   	     , SYSDATE

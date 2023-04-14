@@ -15,7 +15,7 @@
 <script type="text/javascript">	
 	$().ready(function() {
 		$("#modify-btn").click(function() {
-			location.href = "${context}/prj/update"
+			location.href = "${context}/prj/update/" + $("#prjId").val();
 		});
 		
 		$("#delete-btn").click(function() {
@@ -43,34 +43,33 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />		
-				<div class="path"> ${prjId} | ${prjVO.prjNm}</div>
+				<div class="path"> 상세보기 ${prjId} | ${prjVO.prjNm}</div>
 					<div class="create-group">
-						<label for="prjId">프로젝트ID</label>
-						<input type="text" id="prjId" name="prjId" value="${prjId}"/>
+						<input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly/>
 					</div>
 					<div class="create-group">
 						<label for="prjNm">프로젝트명</label>
-						<input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}"/>
+						<input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" readonly/>
 					</div>
 					<div class="create-group">
 						<label for="cstmr">고객사</label>
-						<input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}"/>
+						<input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}" readonly/>
 					</div>
 					<div class="create-group">
 						<label for="strtDt">시작일</label>
-						<input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}"/>
+						<input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}" readonly/>
 					</div>
 					<div class="create-group">
 						<label for="endDt">종료일</label>
-						<input type="date" id="endDt" name="endDt" value='${prjVO.endDt}'/>
+						<input type="date" id="endDt" name="endDt" value="${prjVO.endDt}" readonly/>
 					</div>
 					<div class="create-group">
 						<label for="prjStts">프로젝트 상태</label>
-						<input type="text" id="prjStts" name="prjStts" value='${prjVO.prjStts}'/>
+						<input type="text" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/>
 					</div>
 					<div class="create-group">
 						<label for="useYn">사용여부</label>
-						<input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''}/>
+						<input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''} onClick="return false" />
 					</div>
 						<div class="create-group">
 							<label for="tm">팀원</label>
@@ -151,7 +150,7 @@
 						
 							<label for="req">지식관리</label>
 							<div class="grid-count align-right">
-								전체보기
+								<a href="${context}/knw/list?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
 							</div>
 							<div class="grid">
 								<table>
