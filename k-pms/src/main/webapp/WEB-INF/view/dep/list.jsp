@@ -149,7 +149,8 @@
 		
 		$("#addDepHeadBtn").click(function(event) {
 			event.preventDefault(); // depNm으로 보내지 않게 하기 위해
-			var depHd = window.open("${context}/emp/search?depId=" + depId, "부서장 검색", "width=500,height=500");
+			var depId = $("#depId").val();
+			var depHd = window.open("${context}/emp/search?depId="+depId, "부서장 검색", "width=500,height=500");
 		});
 		
 	});
