@@ -38,10 +38,11 @@
 	<div class="search-popup content">
 		<h1>직원검색</h1>
 		<form>
+			<input type="hidden" name="depId" value="${depId}">
 			<div class="search-group">
 				<label for="">직원명</label>
 				<input type="text" name="fNm" class="grow-1 mr-10" value="${fNm}"/>
-				<button class="btn-search" id="btn-search-btn">검색</button>
+				<button class="btn-search" id="search-btn">검색</button>
 			</div>
 		</form>
 		<div class="grid">

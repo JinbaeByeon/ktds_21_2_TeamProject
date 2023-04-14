@@ -62,6 +62,8 @@ public class EmpController {
 	public String viewSearchPage(Model model, EmpVO empVO) {
 		List<EmpVO> empList = empService.readEmpListNoPagination(empVO);
 		model.addAttribute("empList",empList);
+		model.addAttribute("depId",empVO.getDepId());
+		model.addAttribute("fNm",empVO.getfNm());
 		
 		return "emp/search";
 	}
