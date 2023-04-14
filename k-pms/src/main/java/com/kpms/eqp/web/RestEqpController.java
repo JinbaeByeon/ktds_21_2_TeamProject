@@ -22,7 +22,7 @@ public class RestEqpController {
 	@Autowired
 	private EqpService eqpService;
 	
-	@PostMapping("/eqp/create")
+	@PostMapping("/api/eqp/create")
 	public APIResponseVO doCreateEqp(EqpVO eqpVO,
 									@SessionAttribute("__USER__") EmpVO empVO) {
 		eqpVO.setCrtr(empVO.getEmpId());

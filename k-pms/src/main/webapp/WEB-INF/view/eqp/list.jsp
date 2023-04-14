@@ -99,7 +99,7 @@
 			var ajaxUtil = new AjaxUtil();
 			if($("#isModify").val() == "false"){
 				// 신규등록	
-				ajaxUtil.upload("#detail_form","${context}/eqp/create",function(response){
+				ajaxUtil.upload("#detail_form","${context}/api/eqp/create",function(response){
 					if(response.status == "200 OK"){
 						location.reload(); //새로고침
 					}	
@@ -196,12 +196,10 @@
 								<th>비품ID</th>
 								<th>비품명</th>
 								<th>비품종류</th>
-								<th>신청상태</th>
 								<th>비품가격</th>
 								<th>구매일</th>
+								<th>신청상태</th>
 								<th>분실상태</th>
-								<th>분실신고일</th>
-								<th>신청일</th>
 								<th>등록자</th>
 								<th>등록일</th>
 								<th>수정자</th>
@@ -220,11 +218,11 @@
 											data-eqpnm="${eqp.eqpNm}"
 											data-eqptp="${eqp.eqpTp}"
 											data-applstts="${eqp.applStts}"
+											data-appldt="${eqp.applDt}"
 											data-eqpprc="${eqp.eqpPrc}"
 											data-prchsdt="${eqp.prchsDt}"
 											data-lossstts="${eqp.lossStts}"
 											data-lossrprtdt="${eqp.lossRprtDt}"
-											data-appldt="${eqp.applDt}"
 											data-useyn="${eqp.useYn}"
 											data-crtr="${eqp.crtr}"
 											data-crtdt="${eqp.crtDt}"
@@ -238,12 +236,10 @@
 											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
-											<td>${eqp.applStts}</td>
 											<td>${eqp.eqpPrc}</td>
 											<td>${eqp.prchsDt}</td>
+											<td>${eqp.applStts}</td>
 											<td>${eqp.lossStts}</td>
-											<td>${eqp.lossRprtDt}</td>
-											<td>${eqp.applDt}</td>
 											<td>${eqp.crtr}</td>
 											<td>${eqp.crtDt}</td>
 											<td>${eqp.mdfyr}</td>
@@ -297,28 +293,12 @@
 							</select>
 						</div>
 						<div class="input-group inline">
-							<label for="applStts" style="width: 180px;">신청상태</label>
-							<input type="checkbox" id="applStts"  name="applStts" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="applDt" style="width: 180px;">신청일</label>
-							<input type="date" id="applDt"  name="applDt" value=""/>
-						</div>
-						<div class="input-group inline">
 							<label for="eqpPrc" style="width: 180px;">비품가격</label>
 							<input type="text" id="eqpPrc"  name="eqpPrc" value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="prchsDt" style="width: 180px;">구매일</label>
 							<input type="date" id="prchsDt"  name="prchsDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">분실상태</label>
-							<input type="checkbox" id="lossStts"  name="lossStts" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="lossRprtDt" style="width: 180px;">분실신고일</label>
-							<input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="lossStts" style="width: 180px;">사용여부</label>

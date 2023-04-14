@@ -13,6 +13,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		
 		$("li.nav-item.eqp").addClass("active");
 		$("li.nav-item").children("a").mouseover(function(){
 			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
@@ -109,6 +110,15 @@
 				});
 			}
 			else {
+				
+				if($("#applDt").val() != "" && $("#applDt").val() != null && $("#applDt").val() < $("#prchsDt").val()){
+					alert("신청일은 구매일 이후로 선택해야합니다.");
+					return;
+				}
+				else if($("#lossRprtDt").val() != "" && $("#lossRprtDt").val() != null && $("#lossRprtDt").val() < $("#prchsDt").val()){
+					alert("분실신고일은 구매일 이후로 선택해야합니다.")
+					return;
+				}
 				//수정
 				ajaxUtil.upload("#detail_form","${context}/api/eqp/update",function(response){
 					if(response.status == "200 OK"){
@@ -197,11 +207,11 @@
 								<th>비품명</th>
 								<th>비품종류</th>
 								<th>신청상태</th>
-								<th>비품가격</th>
-								<th>구매일</th>
+								<th>신청일</th>
 								<th>분실상태</th>
 								<th>분실신고일</th>
-								<th>신청일</th>
+								<th>비품가격</th>
+								<th>구매일</th>
 								<th>등록자</th>
 								<th>등록일</th>
 								<th>수정자</th>
@@ -220,11 +230,11 @@
 											data-eqpnm="${eqp.eqpNm}"
 											data-eqptp="${eqp.eqpTp}"
 											data-applstts="${eqp.applStts}"
+											data-appldt="${eqp.applDt}"
 											data-eqpprc="${eqp.eqpPrc}"
 											data-prchsdt="${eqp.prchsDt}"
 											data-lossstts="${eqp.lossStts}"
 											data-lossrprtdt="${eqp.lossRprtDt}"
-											data-appldt="${eqp.applDt}"
 											data-useyn="${eqp.useYn}"
 											data-crtr="${eqp.crtr}"
 											data-crtdt="${eqp.crtDt}"
@@ -239,11 +249,11 @@
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
 											<td>${eqp.applStts}</td>
-											<td>${eqp.eqpPrc}</td>
-											<td>${eqp.prchsDt}</td>
+											<td>${eqp.applDt}</td>
 											<td>${eqp.lossStts}</td>
 											<td>${eqp.lossRprtDt}</td>
-											<td>${eqp.applDt}</td>
+											<td>${eqp.eqpPrc}</td>
+											<td>${eqp.prchsDt}</td>
 											<td>${eqp.crtr}</td>
 											<td>${eqp.crtDt}</td>
 											<td>${eqp.mdfyr}</td>
@@ -298,7 +308,12 @@
 						</div>
 						<div class="input-group inline">
 							<label for="applStts" style="width: 180px;">신청상태</label>
-							<input type="checkbox" id="applStts"  name="applStts" value="Y"/>
+							<select id="applStts"  name="applStts" >
+								<option>선택</option>
+								<option>대여신청</option>
+								<option>대여중</option>
+								<option>변경신청</option>
+							</select>
 						</div>
 						<div class="input-group inline">
 							<label for="applDt" style="width: 180px;">신청일</label>

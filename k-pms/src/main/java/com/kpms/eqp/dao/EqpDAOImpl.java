@@ -48,6 +48,12 @@ public class EqpDAOImpl extends SqlSessionDaoSupport implements EqpDAO{
 		return getSqlSession().update("Eqp.deleteEqpBySelectedEqpId", eqpId);
 	}
 
+	// 대여신청 
+	@Override
+	public int createNewRentEqp(EqpVO eqpVO) {
+		return getSqlSession().insert("Eqp.createNewRentEqp", eqpVO);
+	}
+
 	
 
 

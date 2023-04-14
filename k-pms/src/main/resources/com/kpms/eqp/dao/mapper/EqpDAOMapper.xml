@@ -32,7 +32,7 @@
 		, 'N'
 		, #{eqpNm}
 		, #{eqpTp}
-		, NVL(#{applStts}, 'N')
+		, #{applStts}
 		, #{eqpPrc}
 		, #{prchsDt}
 		, NVL(#{lossStts}, 'N')
@@ -105,12 +105,17 @@
 		     , EQP_TP= #{eqpTp}
 		     , APPL_STTS= #{applStts}
 		     , EQP_PRC= #{eqpPrc}
-		     , PRCHS_DT= SYSDATE
-		     , LOSS_STTS= #{lossStts}
-		     , LOSS_RPRT_DT= SYSDATE
-		     , APPL_DT= SYSDATE
+		     , PRCHS_DT= #{prchsDt}
+		     , LOSS_STTS= NVL(#{lossStts}, 'N')
+		     , LOSS_RPRT_DT= #{lossRprtDt}
+		     , APPL_DT= #{applDt}
 		 WHERE EQP_ID= #{eqpId}
-		   AND CRT_DT <![CDATA[<=]]> 
+		   <if test="applDt != null and applDt != ''">
+		   AND PRCHS_DT <![CDATA[<=]]> #{applDt}
+		   </if>
+		   <if test="lossRprtDt != null and lossRprtDt != ''">
+		   AND PRCHS_DT <![CDATA[<=]]> #{lossRprtDt}
+		   </if>
 	</update>
 	
 	
