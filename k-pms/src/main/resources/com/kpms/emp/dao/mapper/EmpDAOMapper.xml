@@ -223,6 +223,41 @@
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
 	</select>
+	
+	<select id="readEmpListNoPagination"
+			parameterType="com.kpms.emp.vo.EmpVO"
+			resultMap="EmpMap">
+		SELECT E.EMP_ID,
+			   E.F_NM,
+			   E.L_NM,
+			   E.EML,
+			   E.PHN,
+			   E.PRFL_PHT,
+			   E.EMPLMNT_STTS,
+			   E.DEP_ID,
+			   J.JOB_NM,
+			   D.DEP_NM,
+			   P.PSTN_NM
+		  FROM (SELECT *
+		  		  FROM EMP
+				 WHERE DEL_YN = 'N'
+				<if test="depId != null and depId != ''">
+				   AND DEP_ID = #{depId}
+				</if>
+				<if test="fNm != null and fNm != ''">
+				   AND F_NM LIKE '%' || #{fNm} || '%'
+				</if>) E
+		  JOIN EMP CE
+		  	ON CE.EMP_ID = E.CRTR
+		  JOIN EMP ME
+		  	ON ME.EMP_ID = E.MDFYR
+		  JOIN DEP D
+		  	ON D.DEP_ID = E.DEP_ID
+		  JOIN JOB J
+		  	ON J.JOB_ID = E.JOB_ID
+		  JOIN PSTN P
+		  	ON P.PSTN_ID = E.PSTN_ID
+	</select>
 	<select id="readEmpList"
 			parameterType="com.kpms.emp.vo.EmpVO"
 			resultMap="EmpMap">

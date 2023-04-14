@@ -134,6 +134,10 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
+	public List<EmpVO> readEmpListNoPagination(EmpVO empVO) {
+		return empDAO.readEmpListNoPagination(empVO);
+	}
+	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
 		return empDAO.readEmpList(empVO);
 	}
