@@ -1,6 +1,7 @@
 package com.kpms.tmmbr.vo;
 
 import com.kpms.common.vo.AbstractVO;
+import com.kpms.emp.vo.EmpVO;
 
 /**
  * TM_MBR
@@ -11,6 +12,14 @@ public class TmMbrVO extends AbstractVO {
 	private String tmId;
 	private String empId;
 	
+	private EmpVO empVO;
+	
+	public EmpVO getEmpVO() {
+		return empVO;
+	}
+	public void setEmpVO(EmpVO empVO) {
+		this.empVO = empVO;
+	}
 	public String getTmMbrId() {
 		return tmMbrId;
 	}

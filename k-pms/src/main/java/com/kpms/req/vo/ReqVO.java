@@ -7,7 +7,7 @@ import com.kpms.common.vo.AbstractVO;
  */
 public class ReqVO extends AbstractVO {
 
-	private String rqrId;
+	private String reqId;
 	private String dtlReq;
 	private String strtDt;
 	private String expctEndDt;
@@ -18,12 +18,19 @@ public class ReqVO extends AbstractVO {
 	private String tskStts;
 	private String prcsStts;
 	private String prrty;
-	
-	public String getRqrId() {
-		return rqrId;
+	private String reqTtl;
+
+	public String getReqId() {
+		return reqId;
 	}
-	public void setRqrId(String rqrId) {
-		this.rqrId = rqrId;
+	public void setReqId(String reqId) {
+		this.reqId = reqId;
+	}
+	public String getReqTtl() {
+		return reqTtl;
+	}
+	public void setReqTtl(String reqTtl) {
+		this.reqTtl = reqTtl;
 	}
 	public String getDtlReq() {
 		return dtlReq;

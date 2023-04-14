@@ -7,9 +7,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpVO;
@@ -29,19 +31,26 @@ public class RestEmpController {
 		}
 		session.setAttribute("__USER__", user);
 		
+		
+		
 		return new APIResponseVO(APIStatus.OK,"/index");
 
 	}
 	
 	@PostMapping("/api/emp/rgst")
-	public APIResponseVO doRegistEmp(EmpVO empVO,String cPwd) {
-
-		empVO.setCrtr(empVO.getEmpId());
-		empVO.setMdfyr(empVO.getEmpId());
-		if (empService.createOneEmp(empVO, cPwd)) {
-			return new APIResponseVO(APIStatus.OK,"/");
+	public APIResponseVO doRegistEmp(EmpVO empVO, @SessionAttribute("__USER__") EmpVO user) {
+		
+		if(empVO.getDepId()==null) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "부서를 입력하세요.");
 		}
-		return new APIResponseVO(APIStatus.FAIL);
+		
+		empVO.setCrtr(user.getEmpId());
+		empVO.setMdfyr(user.getEmpId());
+		if (empService.createOneEmp(empVO)) {
+			return new APIResponseVO(APIStatus.OK,"/emp/list");
+		}
+		return new APIResponseVO(APIStatus.FAIL,"사원 등록 실패","왜실패햇지","");
 	}
+	
 
 }

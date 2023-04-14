@@ -1,11 +1,12 @@
 package com.kpms.pstn.vo;
 
+import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.common.vo.AbstractVO;
 
 /**
  * PSTN
  */
-public class PstnVO extends AbstractVO{
+public class PstnVO extends AbstractPagingVO{
 
 	private int pstnId;
 	private String pstnNm;

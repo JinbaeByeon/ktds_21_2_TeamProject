@@ -15,14 +15,22 @@ public class CmnCdController {
 
 	@Autowired
 	private CmnCdService cmnCdService;
-	
+
 	@GetMapping("/cmncd/list")
 	public String viewCmnCdListPage(Model model, CmnCdVO cmnCdVO) {
 		List<CmnCdVO> cmnCdList = cmnCdService.readAllCmnCd(cmnCdVO);
-		
+
 		model.addAttribute("cmnCdList", cmnCdList);
 		model.addAttribute("cmnCdVO", cmnCdVO);
+
+		if (!cmnCdList.isEmpty()) {
+			model.addAttribute("lastPage", cmnCdList.get(0).getLastPage());
+		}
 		
+		model.addAttribute("cdNm", cmnCdVO.getCdNm());
+		model.addAttribute("pageNo", cmnCdVO.getPageNo());
+		model.addAttribute("viewCnt", cmnCdVO.getViewCnt());
+		model.addAttribute("pageCnt", cmnCdVO.getPageCnt());
 		return "cmncd/list";
 	}
 }

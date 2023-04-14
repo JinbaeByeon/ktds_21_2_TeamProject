@@ -1,9 +1,12 @@
 package com.kpms.dep.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -19,6 +22,7 @@ public class RestDepController {
 
 	@Autowired
 	private DepService depService;
+
 	
 	@PostMapping("/api/dep/create")
 	public APIResponseVO doCreateDep(DepVO depVO,
@@ -26,12 +30,7 @@ public class RestDepController {
 		
 		depVO.setCrtr(empVO.getEmpId());
 		depVO.setMdfyr(empVO.getEmpId());
-		
-		String depNm = depVO.getDepNm();
-		
-		if (depNm == null || depNm.trim().length() == 0) {
-			throw new APIArgsException("400", "부서명이 누락되었습니다.");
-		}
+		depVO.setDepHdId("1");
 		
 		boolean createResult = depService.createOneDep(depVO);
 		
@@ -45,9 +44,10 @@ public class RestDepController {
 	
 	@PostMapping("/api/dep/update")
 	public APIResponseVO doUpadateDep(DepVO depVO, 
-				@SessionAttribute("__USER__") EmpVO empVO) {
+			@SessionAttribute("__USER__") EmpVO empVO) {
 		depVO.setCrtr(empVO.getEmpId());
 		depVO.setMdfyr(empVO.getEmpId());
+		depVO.setDepHdId("1");
 
 		String depNm = depVO.getDepNm();
 		
@@ -73,6 +73,18 @@ public class RestDepController {
 		}
 		else {
 			return new APIResponseVO(APIStatus.FAIL, "부서를 삭제할 수 없습니다.", "500", "");
+		}
+	}
+	
+	@PostMapping("/api/dep/delete")
+	public APIResponseVO doDeleteDepBySelectedDepId(@RequestParam List<String> depId) {
+		boolean deleteResult = depService.deleteDepBySelectedDepId(depId);
+		
+		if (deleteResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
 }
