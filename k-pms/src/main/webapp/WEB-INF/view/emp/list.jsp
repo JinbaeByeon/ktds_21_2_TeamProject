@@ -40,8 +40,10 @@
 							<th>직급</th>
 							<th>직무</th>
 							<th>부서</th>
-							<th>로그인실패횟수</th>
+							<th>최근로그인IP</th>
+							<th>최근로그인날짜</th>
 							<th>최근로그인실패날짜</th>
+							<th>로그인실패횟수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -76,8 +78,10 @@
 										<td>${emp.pstn.pstnNm}</td>
 										<td>${emp.job.jobNm}</td>
 										<td>${emp.dep.depNm}</td>
-										<td>${emp.lgnCnt}</td>
+										<td>${emp.ltstLgnIp}</td>
+										<td>${emp.ltstLgnDt}</td>
 										<td>${emp.failDt}</td>
+										<td>${emp.lgnCnt}</td>
 										
 									</tr>
 								</c:forEach>
