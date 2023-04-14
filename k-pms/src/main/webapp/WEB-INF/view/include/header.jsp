@@ -70,7 +70,7 @@
 		<li class="nav-item sys">
 			<a>시스템관리</a>
 			<ul class="sub-item">
-				<li><a href="${context}/emp/admin/list">관리자 관리</a></li>
+				<li><a href="${context}/emp/list?admnYn=Y">관리자 관리</a></li>
 				<li><a href="${context}/cmncd/list">공통코드 관리</a></li>
 				<li><a href="${context}/pstn/list">직급 관리</a></li>
 				<li><a href="${context}/job/list">직무 관리</a></li>
