@@ -131,8 +131,12 @@
 		});
 		
 		$("#search-btn").click(function() {
-			var tmNm = $("#search-keyword").val();
-			location.href = "${context}/tm?tmNm=" + tmNm;
+			 movePage(0);
+		});
+		
+		$("#search-depNm-btn").click(function() {
+			var depNm = $("#search-depNm-keyword").val();
+			location.href = "${context}/tm?depNm=" + depNm;
 			 movePage(0) 
 		});
 		
@@ -177,7 +181,7 @@
 		});
 		
 		$("#addDepIdBtn").click(function(event) {
-			event.preventDefault(); 
+			event.preventDefault();
 			var depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
 		});
 		
@@ -187,9 +191,14 @@
 		 function movePage(pageNo) {
 			// 전송
 			// 입력 값
-			var tmNm = $("#search-keyword").val();
+			
+			var queryString = "?tmNm=" + $("#search-keyword").val();
+			queryString += "&depIdDepVO.depNm=" + $("#search-depNm-keyword").val();
+			queryString += "&pageNo=" + pageNo;
 			// URL 요청
-			location.href = "${context}/tm/list?tmNm=" + tmNm + "&pageNo=" + pageNo;
+			location.href = "${context}/tm/list" + queryString;
+			
+			
 		} 
 </script>
 </head>
@@ -201,8 +210,10 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">팀 > 팀관리</div>
 				<div class="search-group">
-					<label for="search_keyword">팀명</label>
+					<label for="search-keyword">팀명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${tmVO.tmNm}"/>
+					<label for="search-depNm-keyword">부서명</label>
+					<input type="text" id="search-depNm-keyword" class="search-input" value="${tmVO.depIdDepVO.depNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">
