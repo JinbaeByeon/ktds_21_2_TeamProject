@@ -2,7 +2,30 @@
     pageEncoding="UTF-8"%>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
-
+<jsp:include page="../include/stylescript.jsp"/>
+<script type="text/javascript">
+	$().ready(function(){
+		<c:if test="${not empty selected}">
+			$("li.nav-item.${selected}").addClass("active");
+		</c:if>
+		$("li.nav-item").children("a").mouseover(function(){
+			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
+			if($(this).attr("class")!="nav-item sys"){
+				$("li.nav-item.sys").removeClass("active");
+			}
+			$(this).closest("li.nav-item").addClass("active");
+		});
+		$(".nav").mouseleave(function(){
+			$(this).find(".active").removeClass("active");
+			<c:if test="${not empty selected}">
+				$("li.nav-item.${selected}").addClass("active");
+			</c:if>
+		});
+		$(".sub-item").mouseenter(function(){
+			$(this).addClass("active");
+		});
+	});
+</script>
 <div class="header bg-black">
 	<ul class="nav">
 		<li class="nav-item emp">

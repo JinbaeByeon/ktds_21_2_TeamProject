@@ -51,6 +51,5 @@ public class RestEmpController {
 		}
 		return new APIResponseVO(APIStatus.FAIL,"사원 등록 실패","왜실패햇지","");
 	}
-	
 
 }
