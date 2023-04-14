@@ -13,6 +13,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 		
 		$("li.nav-item.eqp").addClass("active");
 		$("li.nav-item").children("a").mouseover(function(){
@@ -133,7 +134,7 @@
 		
 		$("#search-btn").click(function(){
 			var eqpNm =$("#search-keyword").val();
-			location.href = "${context}/eqp?eqpNm=" + eqpNm;
+			location.href = "${context}/eqp/rent?eqpNm=" + eqpNm;
 			/* movePage(0) */
 			
 		})
@@ -171,6 +172,14 @@
 				}
 			});
 		});
+		
+		$("#applSttsType").change(function(){
+			
+			var applStts =$("#applSttsType").val();
+			console.log(applStts);
+			location.href = "${context}/eqp/rent?applStts=" + applStts;
+		});
+		
 	});
 	
 	function movePage(pageNo) {
@@ -206,7 +215,15 @@
 								<th>비품ID</th>
 								<th>비품명</th>
 								<th>비품종류</th>
-								<th>신청상태</th>
+								<th>
+									<select id="applSttsType" name="applSttsType">
+										<option value="">선택</option>
+										<option value="대여신청">대여신청</option>
+										<option value="대여취소">대여취소</option>
+										<option value="대여중">대여중</option>
+										<option value="변경신청">변경신청</option>
+									</select>
+								</th>
 								<th>신청일</th>
 								<th>분실상태</th>
 								<th>분실신고일</th>
@@ -274,7 +291,7 @@
 						</tbody>
 					</table>
 					<div class="align-right mt-10">
-						<button id="delete_all_btn" class="btn_delete">삭제</button>
+						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
@@ -308,12 +325,7 @@
 						</div>
 						<div class="input-group inline">
 							<label for="applStts" style="width: 180px;">신청상태</label>
-							<select id="applStts"  name="applStts" >
-								<option>선택</option>
-								<option>대여신청</option>
-								<option>대여중</option>
-								<option>변경신청</option>
-							</select>
+							<input type="text" id="applStts"  name="applStts" value="" readonly="readonly"/>
 						</div>
 						<div class="input-group inline">
 							<label for="applDt" style="width: 180px;">신청일</label>

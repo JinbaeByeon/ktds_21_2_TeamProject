@@ -8,8 +8,14 @@ public interface EqpService {
 
 	
 	public boolean createNewEqp(EqpVO eqpVO);
+	
 	public List<EqpVO> readAllEqp(EqpVO eqpVO);
+	public List<EqpVO> readAllEqpRented(EqpVO eqpVO);
+	public List<EqpVO> readAllEqpApply(EqpVO eqpVO);
+	public List<EqpVO> readAllEqpLosted(EqpVO eqpVO);
+	
 	public List<EqpVO> readAllEqpNoPagination(String eqpNm);
+	
 	public boolean updateEqp(EqpVO eqpVO);
 	public boolean deleteEqpByEqpId(String eqpId);
 	public boolean deleteEqpBySelectedEqpId(List<String> eqpId);

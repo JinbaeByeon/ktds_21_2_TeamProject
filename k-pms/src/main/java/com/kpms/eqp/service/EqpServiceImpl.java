@@ -25,6 +25,21 @@ public class EqpServiceImpl implements EqpService{
 	}
 
 	@Override
+	public List<EqpVO> readAllEqpRented(EqpVO eqpVO) {
+		return eqpDAO.readAllEqpRented(eqpVO);
+	}
+
+	@Override
+	public List<EqpVO> readAllEqpApply(EqpVO eqpVO) {
+		return eqpDAO.readAllEqpApply(eqpVO);
+	}
+
+	@Override
+	public List<EqpVO> readAllEqpLosted(EqpVO eqpVO) {
+		return eqpDAO.readAllEqpLosted(eqpVO);
+	}
+	
+	@Override
 	public List<EqpVO> readAllEqpNoPagination(String eqpNm) {
 		return eqpDAO.readAllEqpNoPagination(eqpNm);
 	}
@@ -43,6 +58,8 @@ public class EqpServiceImpl implements EqpService{
 	public boolean deleteEqpBySelectedEqpId(List<String> eqpId) {
 		return eqpDAO.deleteEqpBySelectedEqpId(eqpId) > 0;
 	}
+
+
 
 	
 

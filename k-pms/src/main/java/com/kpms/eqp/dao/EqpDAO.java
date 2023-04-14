@@ -7,7 +7,12 @@ import com.kpms.eqp.vo.EqpVO;
 public interface EqpDAO {
 	//비품 자체 CRUD
 	public int createNewEqp(EqpVO eqpVO);
+	
 	public List<EqpVO> readAllEqp(EqpVO eqpVO);
+	public List<EqpVO> readAllEqpRented(EqpVO eqpVO);
+	public List<EqpVO> readAllEqpApply(EqpVO eqpVO);
+	public List<EqpVO> readAllEqpLosted(EqpVO eqpVO);
+	
 	public List<EqpVO> readAllEqpNoPagination(String eqpNm);
 	public int updateEqp(EqpVO eqpVO);
 	public int deleteEqpByEqpId(String eqpId);

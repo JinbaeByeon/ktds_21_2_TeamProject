@@ -107,7 +107,7 @@
 		
 		$("#search-btn").click(function(){
 			var eqpNm =$("#search-keyword").val();
-			location.href = "${context}/eqp?eqpNm=" + eqpNm;
+			location.href = "${context}/eqp/list?eqpNm=" + eqpNm;
 			/* movePage(0) */
 			
 		})
@@ -244,7 +244,7 @@
 						</tbody>
 					</table>
 					<div class="align-right mt-10">
-						<button id="delete_all_btn" class="btn_delete">삭제</button>
+						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>

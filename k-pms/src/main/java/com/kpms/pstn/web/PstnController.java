@@ -27,6 +27,7 @@ public class PstnController {
 		return "pstn/list";
 	}
 	
+	
 	@GetMapping("/pstn/search")  
 	public String viewPstnSearchPage(@RequestParam(required = false) String pstnNm,
 												Model model) {

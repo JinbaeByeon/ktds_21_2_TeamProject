@@ -62,8 +62,120 @@
 			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
 		  FROM EQP
 		 WHERE DEL_YN = 'N'
+		   AND APPL_STTS IS NOT NULL
 		 <if test="eqpNm != null and eqpNm != ''">
 		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		 </if>
+		 <if test="applStts != null and applStts != ''">
+		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
+		 </if>
+		 <if test="lossStts != null and lossStts != ''">
+		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
+		 </if>
+		  ORDER BY EQP_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllEqpRented"
+			parameterType="com.kpms.eqp.vo.EqpVO"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		<include refid="Common.pageHeader" />
+		SELECT EQP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , EQP_PRC
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , LOSS_STTS
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		   AND APPL_STTS IS NOT NULL
+		 <if test="eqpNm != null and eqpNm != ''">
+		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		 </if>
+		 <if test="applStts != null and applStts != ''">
+		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
+		 </if>
+		 <if test="lossStts != null and lossStts != ''">
+		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
+		 </if>
+		  ORDER BY EQP_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllEqpApply"
+			parameterType="com.kpms.eqp.vo.EqpVO"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		<include refid="Common.pageHeader" />
+		SELECT EQP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , EQP_PRC
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , LOSS_STTS
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		   AND APPL_STTS IS NULL
+		 <if test="eqpNm != null and eqpNm != ''">
+		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		 </if>
+		 <if test="applStts != null and applStts != ''">
+		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
+		 </if>
+		 <if test="lossStts != null and lossStts != ''">
+		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
+		 </if>
+		  ORDER BY EQP_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+		<select id="readAllEqpLosted"
+			parameterType="com.kpms.eqp.vo.EqpVO"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		<include refid="Common.pageHeader" />
+		SELECT EQP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , EQP_PRC
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , LOSS_STTS
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		   AND LOSS_STTS = 'Y'
+		 <if test="eqpNm != null and eqpNm != ''">
+		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		 </if>
+		 <if test="applStts != null and applStts != ''">
+		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
+		 </if>
+		 <if test="lossStts != null and lossStts != ''">
+		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
 		 </if>
 		  ORDER BY EQP_ID ASC
 		 <include refid="Common.pageFooter" />
