@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpVO;
@@ -40,7 +41,7 @@ public class RestEmpController {
 	public APIResponseVO doRegistEmp(EmpVO empVO, @SessionAttribute("__USER__") EmpVO user) {
 		
 		if(empVO.getDepId()==null) {
-			empVO.setDepId("임시값");
+			throw new APIArgsException(APIStatus.MISSING_ARG, "부서를 입력하세요.");
 		}
 		
 		empVO.setCrtr(user.getEmpId());
@@ -50,6 +51,5 @@ public class RestEmpController {
 		}
 		return new APIResponseVO(APIStatus.FAIL,"사원 등록 실패","왜실패햇지","");
 	}
-	
 
 }
