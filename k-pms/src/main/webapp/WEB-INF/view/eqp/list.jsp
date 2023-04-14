@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="eqp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,21 +14,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$("li.nav-item.eqp").addClass("active");
-		$("li.nav-item").children("a").mouseover(function(){
-			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
-			if($(this).attr("class")!="nav-item eqp"){
-				$("li.nav-item.eqp").removeClass("active");
-			}
-			$(this).closest("li.nav-item").addClass("active");
-		});
-		$(".nav").mouseleave(function(){
-			$(this).find(".active").removeClass("active");
-			$("li.nav-item.eqp").addClass("active");
-		});
-		$(".sub-item").mouseenter(function(){
-			$(this).addClass("active");
-		});
 		$(".grid > table > tbody > tr").click(function(){
 			
 			$("#isModify").val("true"); //수정모드

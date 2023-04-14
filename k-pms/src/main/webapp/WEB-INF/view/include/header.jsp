@@ -2,7 +2,30 @@
     pageEncoding="UTF-8"%>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
-
+<jsp:include page="../include/stylescript.jsp"/>
+<script type="text/javascript">
+	$().ready(function(){
+		<c:if test="${not empty selected}">
+			$("li.nav-item.${selected}").addClass("active");
+		</c:if>
+		$("li.nav-item").children("a").mouseover(function(){
+			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
+			if($(this).attr("class")!="nav-item sys"){
+				$("li.nav-item.sys").removeClass("active");
+			}
+			$(this).closest("li.nav-item").addClass("active");
+		});
+		$(".nav").mouseleave(function(){
+			$(this).find(".active").removeClass("active");
+			<c:if test="${not empty selected}">
+				$("li.nav-item.${selected}").addClass("active");
+			</c:if>
+		});
+		$(".sub-item").mouseenter(function(){
+			$(this).addClass("active");
+		});
+	});
+</script>
 <div class="header bg-black">
 	<ul class="nav">
 		<li class="nav-item emp">
@@ -47,7 +70,7 @@
 		<li class="nav-item sys">
 			<a>시스템관리</a>
 			<ul class="sub-item">
-				<li><a href="${context}/emp/admin/list">관리자 관리</a></li>
+				<li><a href="${context}/emp/list?admnYn=Y">관리자 관리</a></li>
 				<li><a href="${context}/cmncd/list">공통코드 관리</a></li>
 				<li><a href="${context}/pstn/list">직급 관리</a></li>
 				<li><a href="${context}/job/list">직무 관리</a></li>

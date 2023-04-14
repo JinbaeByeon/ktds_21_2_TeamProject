@@ -43,6 +43,11 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	public EmpVO readOneEmpByEmpId(String empId) {
 		return getSqlSession().selectOne("Emp.readOneEmpByEmpId",empId);
 	}
+	
+	@Override
+	public List<EmpVO> readEmpListNoPagination(EmpVO empVO) {
+		return getSqlSession().selectList("Emp.readEmpListNoPagination",empVO);
+	}
 	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
 		return getSqlSession().selectList("Emp.readEmpList",empVO);

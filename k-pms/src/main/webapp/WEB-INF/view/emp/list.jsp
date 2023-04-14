@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <c:set var="date" value="<%= new Random().nextInt() %>"/>
+<c:set scope="request" var="selected" value="emp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,21 +13,7 @@
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
-			$("li.nav-item.emp").addClass("active");
-			$("li.nav-item").children("a").mouseover(function(){
-				$(this).closest(".nav").find(".nav-item.active").removeClass("active");
-				if($(this).attr("class")!="nav-item emp"){
-					$("li.nav-item.emp").removeClass("active");
-				}
-				$(this).closest("li.nav-item").addClass("active");
-			});
-			$(".nav").mouseleave(function(){
-				$(this).find(".active").removeClass("active");
-				$("li.nav-item.emp").addClass("active");
-			});
-			$(".sub-item").mouseenter(function(){
-				$(this).addClass("active");
-			});
+			
 		});
 	</script>
 </head>
@@ -54,7 +41,7 @@
 							<th>직무</th>
 							<th>부서</th>
 							<th>로그인실패횟수</th>
-							<th>차단날짜</th>
+							<th>최근로그인실패날짜</th>
 						</tr>
 					</thead>
 					<tbody>
