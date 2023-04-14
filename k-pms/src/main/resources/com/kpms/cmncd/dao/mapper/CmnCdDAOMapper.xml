@@ -4,25 +4,41 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CmnCd">
 
+	<resultMap id="cmnCdVOMap" type="com.kpms.cmncd.vo.CmnCdVO" autoMapping="true">
+		<id property="cdId" column="CD_ID" />
+		<association property="prcdCmnCdVO"
+					 javaType="com.kpms.cmncd.vo.CmnCdVO">
+			<id property="cdId" column="PRCDNC_CD_ID" />
+			<result property="cdNm" column="PRCDNCD_CD_NM" />
+		</association>
+	</resultMap>
 	<select id="readAllCmnCd"
 		parameterType="com.kpms.cmncd.vo.CmnCdVO"
-		resultType="com.kpms.cmncd.vo.CmnCdVO">
+		resultMap="cmnCdVOMap">
 		<include refid="Common.pageHeader" />
-		SELECT CD_ID
-		, TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
-		, CRTR
-		, TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-		, MDFYR
-		, USE_YN
-		, DEL_YN
-		, CD_NM
-		, PRCDNC_CD_ID
-		FROM CMN_CD
-		WHERE DEL_YN = 'N'
+		SELECT CD.CD_ID
+			 , TO_CHAR(CD.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , CD.CRTR
+			 , TO_CHAR(CD.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , CD.MDFYR
+			 , CD.USE_YN
+			 , CD.DEL_YN
+			 , CD.CD_NM
+			 , CD.PRCDNC_CD_ID
+			 , PRCDNC_CD.CD_NM PRCDNCD_CD_NM
+		  FROM CMN_CD CD
+		 LEFT JOIN (SELECT *
+		 			  FROM CMN_CD
+		 			 WHERE DEL_YN = 'N') PRCDNC_CD
+		    ON CD.PRCDNC_CD_ID = PRCDNC_CD.CD_ID
+	     WHERE CD.DEL_YN = 'N'
 		<if test='cdNm != null and cdNm != ""'>
-			AND CD_NM LIKE '%' || #{cdNm} || '%'
+		   AND CD.CD_NM LIKE '%' || #{cdNm} || '%'
 		</if>
-		ORDER BY CD_NM DESC
+		<if test='prcdCmnCdVO!= null and prcdCmnCdVO.cdNm != null and prcdCmnCdVO.cdNm !="" '>
+		   AND PRCDNC_CD.CD_NM LIKE '%' || #{prcdCmnCdVO.cdNm} || '%'
+		</if>
+		ORDER BY CD.CD_ID DESC
 		<include refid="Common.pageFooter" />
 	</select>
 

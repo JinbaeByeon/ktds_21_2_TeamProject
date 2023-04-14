@@ -53,7 +53,24 @@
 			$("#all_check").prop("checked", count == checkCount);
 		});
 		
+		$("#search-btn").click(function() {
+			movePage(0);
+		});
+
+			
 	});
+	
+	function movePage(pageNo) {
+		// 전송
+		// 입력값
+		var queryString = "?ttl=" + $("#ttl").val();
+		queryString += "&prjId=" + $("#prjId").val();
+		queryString += "&prjVO.prjNm=" + $("#prjNm").val();
+		queryString += "&pageNo=" + pageNo;
+		// URL 요청
+		location.href = "${context}/knw/list" + queryString;
+
+	}
 </script>
 </head>
 <body>
@@ -66,13 +83,14 @@
 
 			<div class="search-group">
 				<label for="search-keyword">제목</label>
-				<input type="text" id="search-keyword" class="search-input" value="${cmnCdVO.cdNm}" placeholder="지식관리 제목으로 검색" />
+				<input type="text" id="ttl" class="search-input" value="${knw.ttl}" placeholder="지식관리 제목으로 검색" />
 				<label for="search-keyword">프로젝트명</label>
-				<input type="text" id="search-keyword" class="search-input" value="${cmnCdVO.cdNm}" placeholder="프로젝트명으로 검색"/>
+				<input type="text" id="prjNm" class="search-input" value="${knw.prjVO.prjNm}" placeholder="프로젝트명으로 검색"/>
+				<input type="hidden" id="prjId" class="search-input" value="${knw.prjId}" placeholder="프로젝트ID로 검색"/>
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>
-			</div>
+			</div>  
 			<div class="grid">
 				<div class="grid-count align-right">총 ${knwList.size() > 0 ? knwList.size() : 0}
 					건</div>

@@ -14,6 +14,7 @@
 	$().ready(
 			function() {
 
+				
 				$("table > tbody > tr").click(function() {
 					$("#isModify").val("true"); // 수정모드
 					var data = $(this).data();
@@ -33,12 +34,13 @@
 				$("#new_btn").click(function() {
 					$("#isModify").val("false"); // 등록모드
 
-					$("#gnrId").val("");
-					$("#gnrNm").val("");
+					$("#cdId").val("");
+					$("#cdNm").val("");
 					$("#prcdncCdId").val("");
+					$("#crtr").val("");
 					$("#crtDt").val("");
 					$("#mdfyr").val("");
-					$("#mdftDt").val("");
+					$("#mdfyDt").val("");
 
 					$("#useYn").prop("checked", false);
 				});
@@ -106,10 +108,12 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var cdNm = $("#search-keyword").val();
+		var queryString = "?cdNm=" + $("#search-cdNm-keyword").val();
+		queryString += "&prcdCmnCdVO.cdNm=" + $("#search-prcdncCdNm-keyword").val();
+		queryString += "&pageNo=" + pageNo;
+		
 		// URL 요청
-		location.href = "${context}/cmncd/list?cdNm=" + cdNm + "&pageNo=" + pageNo;
-
+		location.href = "${context}/cmncd/list" + queryString;
 	}
 </script>
 </head>
@@ -122,21 +126,22 @@
 			<jsp:include page="../include/content.jsp" />
 
 			<div class="search-group">
-				<label for="search-keyword">코드명</label> <input type="text"
-					id="search-keyword" class="search-input" value="${cmnCdVO.cdNm}" />
+				<label for="search-keyword">코드명</label>
+				<input type="text" id="search-cdNm-keyword" class="search-input" value="${cmnCdVO.cdNm}" />
+				<label for="search-keyword">코드유형</label>
+				<input type="text" id="search-prcdncCdNm-keyword" class="search-input" value="${cmnCdVO.prcdCmnCdVO.cdNm}" />
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>
 			</div>
 			<div class="grid">
-				<div class="grid-count align-right">총 ${cmnCdList.size() > 0 ? cmnCdList.size() : 0} 건</div>
+				<div class="grid-count align-right">총 ${cmnCdList.size() > 0 ? cmnCdList.get(0).getTotalCount() : 0} 건</div>
 				<table>
 					<thead>
 						<tr>
-							<th><input type="checkbox" id="all_check"></th>
 							<th>코드ID</th>
 							<th>코드명</th>
-							<th>상위코드ID</th>
+							<th>코드유형</th>
 							<th>등록자</th>
 							<th>등록일</th>
 							<th>수정자</th>
@@ -151,12 +156,11 @@
 									<tr data-cdid="${cmnCd.cdId}" data-cdNm="${cmnCd.cdNm}"
 										data-prcdnccdid="${cmnCd.prcdncCdId}" data-crtr="${cmnCd.crtr}"
 										data-crtdt="${cmnCd.crtDt}" data-mdfyr="${cmnCd.mdfyr}"
-										data-mdfydt="${cmnCd.mdfyDt}" data-useyn="${cmnCd.useYn}">
-										<td><input type="checkbox" class="check_idx"
-											value="${cmnCd.cdId}"></td>
+										data-mdfydt="${cmnCd.mdfyDt}" data-useyn="${cmnCd.useYn}"
+										data-prcdnccdNm="${cmnCd.prcdCmnCdVO.cdNm}">
 										<td>${cmnCd.cdId}</td>
 										<td>${cmnCd.cdNm}</td>
-										<td>${cmnCd.prcdncCdId}</td>
+										<td>${cmnCd.prcdCmnCdVO.cdNm}</td>
 										<td>${cmnCd.crtr}</td>
 										<td>${cmnCd.crtDt}</td>
 										<td>${cmnCd.mdfyr}</td>
@@ -189,7 +193,7 @@
 						<div class="input-group inline">
 							<label for="cdId" style="width: 180px;">코드ID</label> <input
 								type="text" id="cdId" name="cdId" value=""
-								placeholder="코드유형_코드명">
+								placeholder="상위코드ID_코드ID">
 						</div>
 						<div class="input-group inline">
 							<label for="cdNm" style="width: 180px;">코드명</label> <input
