@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="eqp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-	
 		$(".grid > table > tbody > tr").click(function(){
 			
 			$("#isModify").val("true"); //수정모드
@@ -152,7 +152,7 @@
 		// 입력값
 		var eqpNm = $("#search-keyword").val();
 		// URL 요청
-		location.href = "${context}/eqp?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+		location.href = "${context}/eqp/list?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
