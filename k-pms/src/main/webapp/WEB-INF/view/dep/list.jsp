@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="dep"/>
 
 <!DOCTYPE html>
 <html>
@@ -100,13 +101,11 @@
 		});
 		
 		$("#search-btn").click(function() {
-			var depNm = $("#search-keyword").val();
-			location.href = "${context}/dep?depNm=" + depNm;
 			 movePage(0) 
 		});
 		
 		$("#all_check").change(function() {
-		/* 	console.log($(this).prop("checked")); */
+			
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		
@@ -142,16 +141,17 @@
 		
 		$("#addDepHeadBtn").click(function(event) {
 			event.preventDefault(); // depNm으로 보내지 않게 하기 위해
-			var depHd = window.open("${context}/emp/search", "부서장 검색", "width=500,height=500");
+			var depId = $("#depId").val();
+			var depHd = window.open("${context}/emp/search?depId="+depId, "부서장 검색", "width=500,height=500");
+			//search/head?
 		});
 		
 	});
 		 function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			var depNm = $("#search-keyword").val();
-			// URL 요청
-			location.href = "${context}/dep/list?depNm=" + depNm + "&pageNo=" + pageNo;
+			var queryString = "?depNm=" + $("#search-keyword").val();
+			queryString += "&tmNm=" + $("#search-tmNm-keyword").val();
+			queryString += "&pageNo=" + pageNo;
+			location.href = "${context}/dep/list" + queryString;
 		} 
 </script>
 </head>
@@ -163,8 +163,10 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">부서관리 > 부서 목록</div>
 				<div class="search-group">
-					<label for="search_keyword">부서명</label>
+					<label for="search-keyword">부서명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
+					<label for="search-tmNm-keyword">팀명</label>
+					<input type="text" id="search-tmNm-keyword" class="search-input" value="${depVO.tmNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">
@@ -202,7 +204,9 @@
 											data-crtr="${dep.crtr}"
 											data-crtdt="${dep.crtDt}"
 											data-mdfyr="${dep.mdfyr}"
-											data-mdfydt="${dep.mdfyDt}">
+											data-mdfydt="${dep.mdfyDt}"
+											data-crtrnm="${dep.crtrEmpVO.fNm}"
+											data-mdfynm="${dep.mdfyrEmpVO.fNm}">
 											<td>
 												<input type="checkbox" class="check_idx" value="${dep.depId}"/>
 											</td>
@@ -212,9 +216,9 @@
 											<td>${dep.depHdId}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
-											<td>${dep.crtr}<!-- (dep.crtrEmpVO.lNm) --></td>
+											<td>${dep.crtr}(${dep.crtrEmpVO.fNm})</td>
 											<td>${dep.crtDt}</td>
-											<td>${dep.mdfyr}<!-- (dep.mdfyrMbrVO.lNm --></td>
+											<td>${dep.mdfyr}(${dep.mdfyrEmpVO.fNm})</td>
 											<td>${dep.mdfyDt}</td>
 										</tr>
 									</c:forEach>

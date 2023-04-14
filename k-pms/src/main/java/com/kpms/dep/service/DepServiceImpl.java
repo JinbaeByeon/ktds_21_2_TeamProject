@@ -9,6 +9,7 @@ import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.dep.dao.DepDAO;
 import com.kpms.dep.vo.DepVO;
+import com.kpms.dep.vo.DeptSearchVO;
 import com.kpms.emp.dao.EmpDAO;
 import com.kpms.emp.vo.EmpVO;
 
@@ -22,8 +23,8 @@ public class DepServiceImpl implements DepService {
 	private EmpDAO empDAO;
 
 	@Override
-	public List<DepVO> readAllDepVO(DepVO depVO) {
-		return depDAO.readAllDepVO(depVO);
+	public List<DepVO> readAllDepVO(DeptSearchVO deptSearchVO) {
+		return depDAO.readAllDepVO(deptSearchVO);
 	}
 	
 	@Override

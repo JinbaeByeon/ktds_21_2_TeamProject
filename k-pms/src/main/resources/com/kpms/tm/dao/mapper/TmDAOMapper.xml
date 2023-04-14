@@ -20,7 +20,8 @@
 			parameterType="com.kpms.tm.vo.TmVO"
 			resultMap="tmVOMap">
 		<include refid="Common.pageHeader" />
-		SELECT T.TM_ID
+		SELECT T.TM_ID PK_COL
+			 , T.TM_ID
 			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , T.CRTR
 			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
@@ -38,6 +39,9 @@
 		 WHERE T.DEL_YN = 'N'
 		<if test='tmNm != null and tmNm !=""'>
 		   AND T.TM_NM LIKE '%' || #{tmNm} || '%'
+		</if>
+		<if test='depIdDepVO != null'>
+		   AND D.DEP_NM LIKE '%' || #{depIdDepVO.depNm} || '%'
 		</if>
 		 ORDER BY T.TM_ID ASC
 		<include refid="Common.pageFooter" />
@@ -64,21 +68,36 @@
 		 ORDER BY T.TM_ID ASC
 	</select>
 	
+	<resultMap id="depNmVOMap" 
+				type="com.kpms.tm.vo.TmVO"
+				autoMapping="true">
+		<id property="tmId" column="TM_ID"/>
+		<association property="depIdDepVO"
+					  javaType="com.kpms.dep.vo.DepVO"
+					  autoMapping="true">
+			<id property="depId" column="DEP_ID" />
+			<result property="depNm" column="DEP_NM"/>
+		</association>
+	</resultMap>
+	
 	<select id="readOneTmVOByTmId"
 			parameterType="string"
-			resultType="com.kpms.tm.vo.TmVO">
-		SELECT TM_ID
+			resultMap="depNmVOMap">
+		SELECT T.TM_ID
 			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
-			 , CRTR
+			 , T.CRTR
 			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , TM_NM
+			 , T.MDFYR
+			 , T.USE_YN
+			 , T.DEL_YN
+			 , T.TM_NM
 			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
-			 , DEP_ID
-			 , TM_HD_ID
+			 , T.DEP_ID
+			 , T.TM_HD_ID
+			 , D.DEP_NM
 		  FROM TM T
+		 INNER JOIN DEP D
+		 	ON T.DEP_ID = D.DEP_ID
 		 WHERE TM_ID = #{_parameter}
 		   AND DEL_YN = 'N'
 	</select>
