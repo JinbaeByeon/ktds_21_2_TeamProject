@@ -101,14 +101,6 @@
 		});
 		
 		$("#search-btn").click(function() {
-			var depNm = $("#search-keyword").val();
-			location.href = "${context}/dep?depNm=" + depNm;
-			 movePage(0) 
-		});
-		
-		$("#search-tmNm-keyword").click(function() {
-			var tmNm = $("#search-tmNm-keyword").val();
-			location.href = "${context}/dep?tmNm=" + tmNm;
 			 movePage(0) 
 		});
 		
@@ -151,12 +143,15 @@
 			event.preventDefault(); // depNm으로 보내지 않게 하기 위해
 			var depId = $("#depId").val();
 			var depHd = window.open("${context}/emp/search?depId="+depId, "부서장 검색", "width=500,height=500");
+			//search/head?
 		});
 		
 	});
 		 function movePage(pageNo) {
-			var depNm = $("#search-keyword").val();
-			location.href = "${context}/dep/list?depNm=" + depNm + "&pageNo=" + pageNo;
+			var queryString = "?depNm=" + $("#search-keyword").val();
+			queryString += "&tmNm=" + $("#search-tmNm-keyword").val();
+			queryString += "&pageNo=" + pageNo;
+			location.href = "${context}/dep/list" + queryString;
 		} 
 </script>
 </head>
@@ -170,8 +165,8 @@
 				<div class="search-group">
 					<label for="search-keyword">부서명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
-					<label for="search-tmNm-keyword">부서명</label>
-					<input type="text" id="search-tmNm-keyword" class="search-input" value="${depVO.depIdTmVO.tmNm}"/>
+					<label for="search-tmNm-keyword">팀명</label>
+					<input type="text" id="search-tmNm-keyword" class="search-input" value="${depVO.tmNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">

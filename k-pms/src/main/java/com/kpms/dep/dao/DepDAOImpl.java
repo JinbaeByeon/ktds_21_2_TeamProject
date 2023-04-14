@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kpms.dep.vo.DepVO;
+import com.kpms.dep.vo.DeptSearchVO;
 
 @Repository
 public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
@@ -19,8 +20,8 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 	}
 
 	@Override
-	public List<DepVO> readAllDepVO(DepVO depVO) {
-		return getSqlSession().selectList("Dep.readAllDepVO", depVO);
+	public List<DepVO> readAllDepVO(DeptSearchVO deptSearchVO) {
+		return getSqlSession().selectList("Dep.readAllDepVO", deptSearchVO);
 	}
 	
 	@Override

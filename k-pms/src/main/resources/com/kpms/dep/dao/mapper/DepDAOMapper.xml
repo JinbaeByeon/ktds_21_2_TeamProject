@@ -9,32 +9,31 @@
 				autoMapping="true">
 		<id property="depId" column="DEP_ID"/>
 		<association property="crtrEmpVO" 
-					   javaType="com.kpms.emp.vo.EmpVO"
-					  autoMapping="true" >
+					   javaType="com.kpms.emp.vo.EmpVO">
 			<id property="empId" column="CRTR" />
 			<result property="fNm" column="CRTR_E_F_NM"/>
 			<result property="lNm" column="CRTR_E_L_NM"/>
 		</association>	
 		<association property="mdfyrEmpVO"
-					  javaType="com.kpms.emp.vo.EmpVO"
-					  autoMapping="true">
+					  javaType="com.kpms.emp.vo.EmpVO">
 			<id property="empId" column="MDFYR"/>
 			<result property="fNm" column="MDFYR_E_F_NM"/>
 			<result property="lNm" column="MDFYR_E_L_NM"/>
 		</association>
-		<association property="depIdTmVO"
-					  javaType="com.kpms.tm.vo.TmVO"
-					  autoMapping="true">
+		<collection property="tmList"
+					 ofType="com.kpms.tm.vo.TmVO">
 			<id property="tmId" column="TM_ID"/>
+			<result property="depId" column="DEP_ID"/>
 			<result property="tmNm" column="TM_NM"/>
-		</association>
+		</collection>
 	</resultMap> 
 
 	<select id="readAllDepVO"
-			parameterType="com.kpms.dep.vo.DepVO"
+			parameterType="com.kpms.dep.vo.DeptSearchVO"
 			resultMap="depVOMap" >
 		<include refid="Common.pageHeader" />
-		SELECT D.DEP_ID
+		SELECT D.DEP_ID PK_COL
+		     , D.DEP_ID
 			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , D.CRTR
 			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
@@ -54,13 +53,13 @@
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
 		    ON D.MDFYR = MDFYR_E.EMP_ID
-		 INNER JOIN TM T
+		  LEFT JOIN TM T
 		 	ON D.DEP_ID = T.DEP_ID 
 		 WHERE D.DEL_YN = 'N'
-		<if test='depNm != null and depNm !=""'>
+		<if test='depNm != null and depNm != ""'>
 		   AND D.DEP_NM LIKE '%' || #{depNm} || '%'
 		</if>
-		<if test='depIdTmVO != null'>
+		<if test='tmNm != null and tmNm != ""'>
 		   AND T.TM_NM LIKE '%' || #{tmNm} || '%'
 		</if>
 		 ORDER BY D.DEP_ID ASC

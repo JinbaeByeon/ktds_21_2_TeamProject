@@ -134,12 +134,6 @@
 			 movePage(0);
 		});
 		
-		$("#search-depNm-btn").click(function() {
-			var depNm = $("#search-depNm-keyword").val();
-			location.href = "${context}/tm?depNm=" + depNm;
-			 movePage(0) 
-		});
-		
 		$("#all_check").change(function() {
 		/* 	console.log($(this).prop("checked")); */
 			$(".check_idx").prop("checked", $(this).prop("checked"));

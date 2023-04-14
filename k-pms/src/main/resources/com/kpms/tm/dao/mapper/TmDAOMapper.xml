@@ -20,7 +20,8 @@
 			parameterType="com.kpms.tm.vo.TmVO"
 			resultMap="tmVOMap">
 		<include refid="Common.pageHeader" />
-		SELECT T.TM_ID
+		SELECT T.TM_ID PK_COL
+			 , T.TM_ID
 			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , T.CRTR
 			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
