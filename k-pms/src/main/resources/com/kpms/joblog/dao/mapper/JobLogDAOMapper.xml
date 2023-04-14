@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="JobLog">
+
+	<select id="readAllJobLogVO"
+			parameterType="com.kpms.joblog.vo.JobLogVO"
+			resultType="com.kpms.joblog.vo.JobLogVO">
+		SELECT EMP_ID
+		     , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+		     , CRTR
+		     , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , MDFYR
+		     , USE_YN
+		     , DEL_YN
+		     , CHNG_DT
+		     , PRVS_JOB_ID
+		     , CHNG_JOB_ID
+		     , CHNG_RSN
+		  FROM JOB_LOG
+		
+	</select>
+
+	<insert id="createJobLog"
+			parameterType="com.kpms.joblog.vo.JobLogVO">
+		INSERT INTO JOB_LOG
+				   (EMP_ID
+				  , CRT_DT
+				  , CRTR
+				  , MDFY_DT
+				  , MDFYR
+				  , USE_YN
+				  , DEL_YN
+				  , CHNG_DT
+				  , PRVS_JOB_ID
+				  , CHNG_JOB_ID
+				  , CHNG_RSN)
+			VALUES
+				  (SEQ_JOB_LOG_PK.NEXTVAL
+				 , SYSDATE
+				 , #{empId}
+				 , #{crtr}
+				 , SYSDATE
+				 , NVL(#{useYn}, 'N')
+				 , 'N'
+				 , SYSDATE
+				 , #{prvsJobId}
+				 , #{chngJobId}
+				 , #{chngRsn})
+	</insert>
+	
+</mapper>

@@ -11,6 +11,20 @@
 <script type="text/javascript">
 	$().ready(function() {
 
+		$("li.nav-item").children("a").mouseover(function(){
+			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
+			if($(this).attr("class")!="nav-item sys"){
+				$("li.nav-item.sys").removeClass("active");
+			}
+			$(this).closest("li.nav-item").addClass("active");
+		});
+		$(".nav").mouseleave(function(){
+			$(this).find(".active").removeClass("active");
+		});
+		$(".sub-item").mouseenter(function(){
+			$(this).addClass("active");
+		});
+		
 		$(".grid > table > tbody > tr").click(function() {
 			$("#isModify").val("true");
 			var data = $(this).data();
