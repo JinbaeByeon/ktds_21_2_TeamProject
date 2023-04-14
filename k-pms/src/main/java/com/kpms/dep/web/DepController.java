@@ -38,10 +38,9 @@ public class DepController {
 	}
 	
 	@GetMapping("/dep/detail/{depId}")
-	public String viewDetailPage(@PathVariable String depId, TmVO tmVO, Model model) {
+	public String viewDetailPage(@PathVariable String depId, Model model) {
 		DepVO depVO = depService.readOneDepVOByDepId(depId);
 		model.addAttribute("depVO", depVO);
-		model.addAttribute("tmVO", tmVO);
 		
 		return "dep/detail";
 	}
