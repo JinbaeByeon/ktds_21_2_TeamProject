@@ -30,7 +30,6 @@ public class RestDepController {
 		
 		depVO.setCrtr(empVO.getEmpId());
 		depVO.setMdfyr(empVO.getEmpId());
-		depVO.setDepHdId("1");
 		
 		boolean createResult = depService.createOneDep(depVO);
 		
@@ -47,7 +46,6 @@ public class RestDepController {
 			@SessionAttribute("__USER__") EmpVO empVO) {
 		depVO.setCrtr(empVO.getEmpId());
 		depVO.setMdfyr(empVO.getEmpId());
-		depVO.setDepHdId("1");
 
 		String depNm = depVO.getDepNm();
 		

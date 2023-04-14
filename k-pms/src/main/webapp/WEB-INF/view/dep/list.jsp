@@ -14,8 +14,26 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-	
-	
+	var depHd;
+	function addHdEmpFn(message) {
+		
+		var tmHdItems = $("#addDepHeadBtn").closest(".create-group").find(".items");
+		if (tmHdItems.find("." + message.empid).length > 0) {
+			alert(message.lNm + "은(는) 이미 추가된 부서장입니다.");
+			return;
+		}
+		$("#depHdId").val(message.empid);
+		console.log(message.lNm);
+		$("#lNm").text(message.lNm);
+		
+		/* var itemRemoveBtn = $("<button>X</button>");
+		itemRemoveBtn.click(function() {
+			$(this).closest("." + message.empid).remove();
+		});
+		itemDiv.append(itemRemoveBtn); */
+		
+		depHd.close();
+	}
 	
 	$().ready(function() {
 		
@@ -140,10 +158,9 @@
 		});
 		
 		$("#addDepHeadBtn").click(function(event) {
-			event.preventDefault(); // depNm으로 보내지 않게 하기 위해
+			event.preventDefault();
 			var depId = $("#depId").val();
-			var depHd = window.open("${context}/emp/search?depId="+depId, "부서장 검색", "width=500,height=500");
-			//search/head?
+			depHd = window.open("${context}/emp/search/head?depId=" + depId, "부서장 검색", "width=500,height=500");
 		});
 		
 	});
@@ -261,7 +278,13 @@
 						<div class="input-group inline">
 							<div class="create-head">
 								<label for="depHdId" style="width: 180px;">부서장ID</label>
-								<input type="hidden" name="depHdId" value="tmpId" /><button id="addDepHeadBtn" class="btn-p">등록</button>
+								<button id="addDepHeadBtn" class="btn-p">등록</button>
+								<div class="items">
+									<div class='head-item'>
+										<input type='text' name='depHdId' id="depHdId" readonly="readonly" />
+										<span id="lNm"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="input-group inline">
