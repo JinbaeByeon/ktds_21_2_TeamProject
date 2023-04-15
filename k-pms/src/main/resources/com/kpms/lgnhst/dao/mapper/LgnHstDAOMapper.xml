@@ -20,7 +20,8 @@
 			parameterType="com.kpms.lgnhst.vo.LgnHstVO"
 			resultMap="lgnHstMap">
 		<include refid="Common.pageHeader"/>
-		SELECT LH.HST_ID,
+		SELECT LH.HST_ID PK_COL,
+			   LH.HST_ID,
 			   TO_CHAR(LH.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
 			   LH.CRTR,
 			   LH.IP,

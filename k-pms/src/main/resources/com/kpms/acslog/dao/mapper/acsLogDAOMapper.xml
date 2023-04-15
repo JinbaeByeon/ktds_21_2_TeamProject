@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AcsLog">
+
+	<resultMap id="AcsLogMap"
+			   type="com.kpms.acslog.vo.AcsLogVO"
+			   autoMapping="true">
+		<id property="logId" column="LOG_ID" />
+		<association property="emp" 
+					 javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="crtr" />
+			<result property="fNm" column="F_NM" />
+			<result property="lNm" column="L_NM" />
+		</association>
+	</resultMap>
+
+	<insert id="createAcsLog"
+			parameterType="com.kpms.acslog.vo.AcsLogVO">
+		INSERT INTO ACS_LOG
+		(LOG_ID,
+		 CRT_DT,
+		 CRTR,
+		 ACS_LOG)
+		VALUES
+		('AL-'||TO_CHAR(SYSDATE,'YYYYMMDDHH24MI')||'-'||LPAD(SEQ_ACS_LOG_PK.NEXTVAL,5,'0'),
+		 SYSDATE,
+		 #{crtr},
+		 #{acsLog})
+	</insert>
+	
+	<select id="readAllAcsLog"
+			parameterType="com.kpms.acslog.vo.AcsLogVO"
+			resultMap="AcsLogMap">
+		<include refid="Common.pageHeader"/>
+		SELECT AL.LOG_ID PK_COL
+			 , AL.LOG_ID
+			 , AL.CRT_DT
+			 , AL.CRTR
+			 , AL.ACS_LOG
+			 , E.F_NM
+			 , E.L_NM
+		  FROM ACS_LOG AL
+		  JOIN EMP E
+		 	ON E.EMP_ID = AL.CRTR
+		 ORDER BY CRT_DT DESC
+		<include refid="Common.pageFooter"/>
+	</select>
+</mapper>
