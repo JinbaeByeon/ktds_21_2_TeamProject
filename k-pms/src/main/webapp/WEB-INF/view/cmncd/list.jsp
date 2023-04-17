@@ -104,6 +104,7 @@
 				});
 
 				$("#cdTypes").change(function() {
+					movePage(0);
 				});
 			});
 
@@ -111,6 +112,7 @@
 		// 전송
 		// 입력값
 		var queryString = "?prcdncCdId=" + $("#cdTypes").val();
+		queryString += "&cdNm=" + $("#cdNm").val();
 		queryString += "&pageNo=" + pageNo;
 		
 		// URL 요청
@@ -135,11 +137,7 @@
 					</c:forEach>
 				</select>
 				<label for="search-keyword">코드명</label>
-				<select id="cdNames">
-					<c:forEach items="${cmnCdNameList}" var="CdName">
-						<option value="${CdName.cdId}">${CdName.cdNm}</option>
-					</c:forEach>
-				</select>
+					<input type="text" id="cdNm" name="cdNm" />
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>
