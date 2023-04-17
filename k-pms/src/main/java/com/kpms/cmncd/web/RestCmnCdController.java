@@ -1,5 +1,7 @@
 package com.kpms.cmncd.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.cmncd.service.CmnCdService;
 import com.kpms.cmncd.vo.CmnCdVO;
+import com.kpms.common.api.vo.APIDataResponseVO;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.emp.vo.EmpVO;
@@ -58,6 +61,12 @@ public class RestCmnCdController {
 		else {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
+	}
+	
+	@GetMapping("/api/cmncd/list/{prcdncCdId}")
+	public APIDataResponseVO getCmncdList(@PathVariable String prcdncCdId) {
+		List<CmnCdVO> cdResult = cmnCdService.readCmnCdNameByPrcdncCdId(prcdncCdId);
+		return new APIDataResponseVO(APIStatus.OK, cdResult);
 	}
 
 }
