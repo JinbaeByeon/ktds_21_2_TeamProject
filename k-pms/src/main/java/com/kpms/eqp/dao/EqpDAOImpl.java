@@ -30,21 +30,6 @@ public class EqpDAOImpl extends SqlSessionDaoSupport implements EqpDAO{
 	}
 	
 	@Override
-	public List<EqpVO> readAllEqpRented(EqpVO eqpVO) {
-		return getSqlSession().selectList("Eqp.readAllEqpRented", eqpVO);
-	}
-
-	@Override
-	public List<EqpVO> readAllEqpApply(EqpVO eqpVO) {
-		return getSqlSession().selectList("Eqp.readAllEqpApply", eqpVO);
-	}
-
-	@Override
-	public List<EqpVO> readAllEqpLosted(EqpVO eqpVO) {
-		return getSqlSession().selectList("Eqp.readAllEqpLosted", eqpVO);
-	}
-	
-	@Override
 	public List<EqpVO> readAllEqpNoPagination(String eqpNm) {
 		return getSqlSession().selectList("Eqp.readAllEqpNoPagination", eqpNm);
 	}
@@ -68,6 +53,16 @@ public class EqpDAOImpl extends SqlSessionDaoSupport implements EqpDAO{
 	@Override
 	public int createNewRentEqp(EqpVO eqpVO) {
 		return getSqlSession().insert("Eqp.createNewRentEqp", eqpVO);
+	}
+
+	@Override
+	public int applyEqp(EqpVO eqpVO) {
+		return getSqlSession().update("Eqp.applyEqp", eqpVO);
+	}
+
+	@Override
+	public List<EqpVO> readEqpByEqpId(List<String> eqpId) {
+		return getSqlSession().selectList("Eqp.readEqpByEqpId", eqpId);
 	}
 
 	

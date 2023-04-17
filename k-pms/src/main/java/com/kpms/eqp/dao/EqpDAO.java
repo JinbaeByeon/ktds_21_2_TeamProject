@@ -9,12 +9,12 @@ public interface EqpDAO {
 	public int createNewEqp(EqpVO eqpVO);
 	
 	public List<EqpVO> readAllEqp(EqpVO eqpVO);
-	public List<EqpVO> readAllEqpRented(EqpVO eqpVO);
-	public List<EqpVO> readAllEqpApply(EqpVO eqpVO);
-	public List<EqpVO> readAllEqpLosted(EqpVO eqpVO);
 	
 	public List<EqpVO> readAllEqpNoPagination(String eqpNm);
+	public List<EqpVO> readEqpByEqpId(List<String> eqpId);
+	
 	public int updateEqp(EqpVO eqpVO);
+	public int applyEqp(EqpVO eqpVO);
 	public int deleteEqpByEqpId(String eqpId);
 	public int deleteEqpBySelectedEqpId(List<String> eqpId);
 	

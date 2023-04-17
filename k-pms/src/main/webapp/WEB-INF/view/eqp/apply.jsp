@@ -173,6 +173,29 @@ $().ready(function(){
 		});
 	});
 	
+	$("#apply_all_btn").click(function(){
+		var checkLen = $(".check_idx:checked").length;
+		if(checkLen == 0) {
+			alert("신청할 비품이 없습니다.");
+			return;
+		}
+		var form = $("<form></form>")
+		
+		$(".check_idx:checked").each(function(){
+			console.log($(this).val());
+			form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+		});
+		
+		$.post("${context}/api/eqp/apply", form.serialize(), function(response){
+			if(response.status == "200 OK"){
+				location.reload(); //새로고침
+			}
+			else{
+				alert(response.errorCode + "/" + response.message);
+			}
+		});
+	});
+	
 	$("#applSttsType").change(function(){
 		
 		var applStts =$("#applSttsType").val();
@@ -215,15 +238,7 @@ function movePage(pageNo) {
 							<th>비품ID</th>
 							<th>비품명</th>
 							<th>비품종류</th>
-							<th>
-								<select id="applSttsType" name="applSttsType">
-									<option value="">선택</option>
-									<option value="대여신청">대여신청</option>
-									<option value="대여취소">대여취소</option>
-									<option value="대여중">대여중</option>
-									<option value="변경신청">변경신청</option>
-								</select>
-							</th>
+							<th>신청상태</th>
 							<th>신청일</th>
 							<th>분실상태</th>
 							<th>분실신고일</th>
@@ -291,6 +306,7 @@ function movePage(pageNo) {
 					</tbody>
 				</table>
 				<div class="align-right mt-10">
+					<button id="apply_all_btn" class="btn-apply">신청</button>
 					<button id="delete_all_btn" class="btn-delete">삭제</button>
 				</div>
 				<c:import url="../include/pagenate.jsp">
@@ -325,7 +341,13 @@ function movePage(pageNo) {
 					</div>
 					<div class="input-group inline">
 						<label for="applStts" style="width: 180px;">신청상태</label>
-						<input type="text" id="applStts"  name="applStts" value="" readonly="readonly"/>
+						<select id="applStts" name="applStts">
+										<option value="">선택</option>
+										<option value="대여신청">대여신청</option>
+										<option value="대여취소">대여취소</option>
+										<option value="대여중">대여중</option>
+										<option value="변경신청">변경신청</option>
+						</select>
 					</div>
 					<div class="input-group inline">
 						<label for="applDt" style="width: 180px;">신청일</label>

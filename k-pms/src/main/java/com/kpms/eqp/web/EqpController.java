@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kpms.eqp.service.EqpService;
@@ -17,33 +18,16 @@ public class EqpController {
 	@Autowired
 	private EqpService eqpService;
 	// 비품등록
-	@GetMapping("/eqp/list")
-	public String viewEqpListPage(Model model, EqpVO eqpVO) {
+	@GetMapping("/eqp/{searchMode}")
+	public String viewEqpListPage(@PathVariable String searchMode, Model model, EqpVO eqpVO) {
+		eqpVO.setSearchMode(searchMode);
 		List<EqpVO> eqpList = eqpService.readAllEqp(eqpVO);
 		
 		model.addAttribute("eqpList", eqpList);
 		model.addAttribute("eqpVO", eqpVO);
 		
-		if(!eqpList.isEmpty()) {
-	         model.addAttribute("lastPage",eqpList.get(0).getLastPage());
-	      }
-	      model.addAttribute("eqpNm", eqpVO.getEqpNm());
-	      model.addAttribute("pageNo", eqpVO.getPageNo());
-	      model.addAttribute("viewCnt", eqpVO.getViewCnt());
-	      model.addAttribute("pageCnt", eqpVO.getPageCnt());
-		
-		return "eqp/list";
-	}
-	// 대여 관리 
-	@GetMapping("/eqp/rent")  
-	public String viewEqpRentPage(Model model, EqpVO eqpVO) {
-		List<EqpVO> eqpList = eqpService.readAllEqpRented(eqpVO);
-		
-		model.addAttribute("eqpList", eqpList);
-		model.addAttribute("eqpVO", eqpVO);
-		
-		if(!eqpList.isEmpty()) {
-			model.addAttribute("lastPage",eqpList.get(0).getLastPage());
+		if (!eqpList.isEmpty()) {
+			model.addAttribute("lastPage", eqpList.get(0).getLastPage());
 		}
 		model.addAttribute("applStts", eqpVO.getApplStts());
 		model.addAttribute("eqpNm", eqpVO.getEqpNm());
@@ -51,45 +35,7 @@ public class EqpController {
 		model.addAttribute("viewCnt", eqpVO.getViewCnt());
 		model.addAttribute("pageCnt", eqpVO.getPageCnt());
 		
-		return "eqp/rent";
-	}
-	// 대여 신청
-	@GetMapping("/eqp/apply")  
-	public String viewEqpApplyPage(Model model, EqpVO eqpVO) {
-		List<EqpVO> eqpList = eqpService.readAllEqpApply(eqpVO);
-		
-		model.addAttribute("eqpList", eqpList);
-		model.addAttribute("eqpVO", eqpVO);
-		
-		if(!eqpList.isEmpty()) {
-			model.addAttribute("lastPage",eqpList.get(0).getLastPage());
-		}
-		model.addAttribute("applStts", eqpVO.getApplStts());
-		model.addAttribute("eqpNm", eqpVO.getEqpNm());
-		model.addAttribute("pageNo", eqpVO.getPageNo());
-		model.addAttribute("viewCnt", eqpVO.getViewCnt());
-		model.addAttribute("pageCnt", eqpVO.getPageCnt());
-		
-		return "eqp/apply";
-	}
-	// 분실물 관리
-	@GetMapping("/eqp/lost")  
-	public String viewEqpLostedPage(Model model, EqpVO eqpVO) {
-		List<EqpVO> eqpList = eqpService.readAllEqpLosted(eqpVO);
-		
-		model.addAttribute("eqpList", eqpList);
-		model.addAttribute("eqpVO", eqpVO);
-		
-		if(!eqpList.isEmpty()) {
-			model.addAttribute("lastPage",eqpList.get(0).getLastPage());
-		}
-		model.addAttribute("lossStts", eqpVO.getLossStts());
-		model.addAttribute("eqpNm", eqpVO.getEqpNm());
-		model.addAttribute("pageNo", eqpVO.getPageNo());
-		model.addAttribute("viewCnt", eqpVO.getViewCnt());
-		model.addAttribute("pageCnt", eqpVO.getPageCnt());
-		
-		return "eqp/lost";
+		return "eqp/" + searchMode;
 	}
 	
 	@GetMapping("/eqp/search")  

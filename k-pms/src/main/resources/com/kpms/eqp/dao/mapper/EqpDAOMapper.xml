@@ -17,6 +17,7 @@
 		, EQP_NM
 		, EQP_TP
 		, APPL_STTS
+		, APPL_ID
 		, EQP_PRC
 		, PRCHS_DT
 		, LOSS_STTS
@@ -33,6 +34,7 @@
 		, #{eqpNm}
 		, #{eqpTp}
 		, #{applStts}
+		, #{applId}
 		, #{eqpPrc}
 		, #{prchsDt}
 		, NVL(#{lossStts}, 'N')
@@ -55,6 +57,7 @@
 			 , EQP_NM
 			 , EQP_TP
 			 , APPL_STTS
+			 , APPL_ID
 			 , EQP_PRC
 			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
 			 , LOSS_STTS
@@ -62,121 +65,29 @@
 			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
 		  FROM EQP
 		 WHERE DEL_YN = 'N'
-		 <if test="eqpNm != null and eqpNm != ''">
-		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
-		 </if>
-		 <if test="applStts != null and applStts != ''">
-		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
-		 </if>
-		 <if test="lossStts != null and lossStts != ''">
-		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
-		 </if>
-		  ORDER BY EQP_ID ASC
-		 <include refid="Common.pageFooter" />
-	</select>
-	
-	<select id="readAllEqpRented"
-			parameterType="com.kpms.eqp.vo.EqpVO"
-			resultType="com.kpms.eqp.vo.EqpVO">
-		<include refid="Common.pageHeader" />
-		SELECT EQP_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , EQP_NM
-			 , EQP_TP
-			 , APPL_STTS
-			 , EQP_PRC
-			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
-			 , LOSS_STTS
-			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
-			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
-		  FROM EQP
-		 WHERE DEL_YN = 'N'
-		   AND LOSS_STTS = 'N'
+		 <choose>
+		 	<when test='searchMode == "rent"'>
+  		   AND LOSS_STTS = 'N'
 		   AND APPL_STTS IS NOT NULL
-		 <if test="eqpNm != null and eqpNm != ''">
-		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
-		 </if>
-		 <if test="applStts != null and applStts != ''">
-		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
-		 </if>
-		 <if test="lossStts != null and lossStts != ''">
-		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
-		 </if>
-		  ORDER BY EQP_ID ASC
-		 <include refid="Common.pageFooter" />
-	</select>
-	
-	<select id="readAllEqpApply"
-			parameterType="com.kpms.eqp.vo.EqpVO"
-			resultType="com.kpms.eqp.vo.EqpVO">
-		<include refid="Common.pageHeader" />
-		SELECT EQP_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , EQP_NM
-			 , EQP_TP
-			 , APPL_STTS
-			 , EQP_PRC
-			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
-			 , LOSS_STTS
-			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
-			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
-		  FROM EQP
-		 WHERE DEL_YN = 'N'
-		   AND LOSS_STTS = 'N'
+		 	</when>
+		 	<when test='searchMode == "apply"'>
+  		   AND LOSS_STTS = 'N'
 		   AND APPL_STTS IS NULL
+		 	</when>
+		 	<when test='searchMode == "lost"'>
+  		   AND LOSS_STTS = 'Y'
+		 	</when>
+		 	<otherwise>
+		 		<if test="lossStts != null and lossStts != ''">
+		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
+		 		</if>
+		 	</otherwise>
+		 </choose>
 		 <if test="eqpNm != null and eqpNm != ''">
 		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
 		 </if>
 		 <if test="applStts != null and applStts != ''">
 		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
-		 </if>
-		 <if test="lossStts != null and lossStts != ''">
-		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
-		 </if>
-		  ORDER BY EQP_ID ASC
-		 <include refid="Common.pageFooter" />
-	</select>
-	
-		<select id="readAllEqpLosted"
-			parameterType="com.kpms.eqp.vo.EqpVO"
-			resultType="com.kpms.eqp.vo.EqpVO">
-		<include refid="Common.pageHeader" />
-		SELECT EQP_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , EQP_NM
-			 , EQP_TP
-			 , APPL_STTS
-			 , EQP_PRC
-			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
-			 , LOSS_STTS
-			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
-			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
-		  FROM EQP
-		 WHERE DEL_YN = 'N'
-		   AND LOSS_STTS = 'Y'
-		 <if test="eqpNm != null and eqpNm != ''">
-		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
-		 </if>
-		 <if test="applStts != null and applStts != ''">
-		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
-		 </if>
-		 <if test="lossStts != null and lossStts != ''">
-		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
 		 </if>
 		  ORDER BY EQP_ID ASC
 		 <include refid="Common.pageFooter" />
@@ -195,6 +106,7 @@
 			 , EQP_NM
 			 , EQP_TP
 			 , APPL_STTS
+			 , APPL_ID
 			 , EQP_PRC
 			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
 			 , LOSS_STTS
@@ -203,10 +115,47 @@
 		  FROM EQP
 		 WHERE DEL_YN = 'N'
 		   AND USE_YN = 'Y'
-		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		   AND EQP_NM LIKE '%' || #{_parameter} || '%'
 		 ORDER BY EQP_ID ASC
 	</select>
 	
+	<select id="readEqpByEqpId"
+			parameterType="arraylist"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		SELECT EQP_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , APPL_ID
+			 , EQP_PRC
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , LOSS_STTS
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND EQP_ID IN 
+		   <foreach collection="list" item="eqpId" open="(" close=")" separator=", ">
+		 	   #{eqpId}
+		   </foreach>
+		 ORDER BY EQP_ID ASC
+	</select>
+	
+	<update id="applyEqp"
+			parameterType="com.kpms.eqp.vo.EqpVO">
+		UPDATE EQP
+		   SET APPL_STTS= #{applStts}
+		     , APPL_ID = #{applId}
+		     , APPL_DT= SYSDATE
+		 WHERE EQP_ID= #{eqpId}
+	</update>
 	
 	<update id="updateEqp"
 			parameterType="com.kpms.eqp.vo.EqpVO">

@@ -180,6 +180,51 @@
 			location.href = "${context}/eqp/rent?applStts=" + applStts;
 		});
 		
+		$("#apply_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/apply", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		$("#refuse_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/refuse", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		
 	});
 	
 	function movePage(pageNo) {
@@ -187,7 +232,7 @@
 		// 입력값
 		var eqpNm = $("#search-keyword").val();
 		// URL 요청
-		location.href = "${context}/eqp/list?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+		location.href = "${context}/eqp/rent?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
@@ -224,6 +269,7 @@
 										<option value="변경신청">변경신청</option>
 									</select>
 								</th>
+								<th>신청자명</th>
 								<th>신청일</th>
 								<th>분실상태</th>
 								<th>분실신고일</th>
@@ -247,6 +293,7 @@
 											data-eqpnm="${eqp.eqpNm}"
 											data-eqptp="${eqp.eqpTp}"
 											data-applstts="${eqp.applStts}"
+											data-applid="${eqp.applId}"
 											data-appldt="${eqp.applDt}"
 											data-eqpprc="${eqp.eqpPrc}"
 											data-prchsdt="${eqp.prchsDt}"
@@ -266,6 +313,7 @@
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
 											<td>${eqp.applStts}</td>
+											<td>${eqp.applId}</td>
 											<td>${eqp.applDt}</td>
 											<td>${eqp.lossStts}</td>
 											<td>${eqp.lossRprtDt}</td>
@@ -291,6 +339,8 @@
 						</tbody>
 					</table>
 					<div class="align-right mt-10">
+						<button id="apply_all_btn" class="apply-delete">승인</button>
+						<button id="refuse_all_btn" class="refuse-delete">반려</button>
 						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					<c:import url="../include/pagenate.jsp">
@@ -325,7 +375,7 @@
 						</div>
 						<div class="input-group inline">
 							<label for="applStts" style="width: 180px;">신청상태</label>
-							<input type="text" id="applStts"  name="applStts" value="" readonly="readonly"/>
+							<input type="text" id="applStts"  name="applStts" value="" />
 						</div>
 						<div class="input-group inline">
 							<label for="applDt" style="width: 180px;">신청일</label>

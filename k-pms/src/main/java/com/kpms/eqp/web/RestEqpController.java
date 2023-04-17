@@ -37,8 +37,21 @@ public class RestEqpController {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
+	@PostMapping("/api/eqp/{action}")
+	public APIResponseVO doApplyEqp(@RequestParam List<String> eqpId
+									, @PathVariable String action
+									, @SessionAttribute("__USER__") EmpVO empVO) {
+		boolean applyResult = eqpService.applyEqp(eqpId, empVO, action);
+		
+		if(applyResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL);
+		}
+	}
 
-	
+		
 	@PostMapping("/api/eqp/update")	
 	public APIResponseVO doUpdateEqp(EqpVO eqpVO,
 									  @SessionAttribute("__USER__") EmpVO empVO) {

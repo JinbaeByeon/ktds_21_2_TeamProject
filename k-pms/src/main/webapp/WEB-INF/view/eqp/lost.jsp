@@ -197,11 +197,12 @@
 								<th>비품명</th>
 								<th>비품종류</th>
 								<th>신청상태</th>
+								<th>신청자명</th>
+								<th>신청일</th>
 								<th>비품가격</th>
 								<th>구매일</th>
 								<th>분실상태</th>
 								<th>분실신고일</th>
-								<th>신청일</th>
 								<th>등록자</th>
 								<th>등록일</th>
 								<th>수정자</th>
@@ -220,6 +221,7 @@
 											data-eqpnm="${eqp.eqpNm}"
 											data-eqptp="${eqp.eqpTp}"
 											data-applstts="${eqp.applStts}"
+											data-applid="${eqp.applId}"
 											data-eqpprc="${eqp.eqpPrc}"
 											data-prchsdt="${eqp.prchsDt}"
 											data-lossstts="${eqp.lossStts}"
@@ -239,11 +241,12 @@
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
 											<td>${eqp.applStts}</td>
+											<td>${eqp.applId}</td>
+											<td>${eqp.applDt}</td>
 											<td>${eqp.eqpPrc}</td>
 											<td>${eqp.prchsDt}</td>
 											<td>${eqp.lossStts}</td>
 											<td>${eqp.lossRprtDt}</td>
-											<td>${eqp.applDt}</td>
 											<td>${eqp.crtr}</td>
 											<td>${eqp.crtDt}</td>
 											<td>${eqp.mdfyr}</td>
