@@ -1,16 +1,17 @@
 package com.kpms.rcvmsg.vo;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
 
 /**
  * RCV_MSG
  */
-public class RcvMsgVO extends AbstractVO {
+public class RcvMsgVO extends AbstractPagingVO {
 
 	private String msgId;
 	private String sndMsgId;
 	private String rcvr;
 	private String rdYn;
+	
 	
 	public String getMsgId() {
 		return msgId;

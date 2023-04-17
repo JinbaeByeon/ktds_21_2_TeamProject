@@ -1,13 +1,11 @@
-package com.kpms.pstnlog.dao;
+package com.kpms.pstnlog.service;
 
 import java.util.List;
 
 import com.kpms.pstnlog.vo.PstnLogVO;
 
-public interface PstnLogDAO {
+public interface PstnLogService {
 	
 	public List<PstnLogVO> readAllPstnLogVO(PstnLogVO pstnLogVO);
 	
-	public int createPstnLog(PstnLogVO pstnLogVO);
-
 }

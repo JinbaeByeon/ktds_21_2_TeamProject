@@ -11,6 +11,20 @@
 <script type="text/javascript">
 	$().ready(function() {
 
+		$("li.nav-item").children("a").mouseover(function(){
+			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
+			if($(this).attr("class")!="nav-item sys"){
+				$("li.nav-item.sys").removeClass("active");
+			}
+			$(this).closest("li.nav-item").addClass("active");
+		});
+		$(".nav").mouseleave(function(){
+			$(this).find(".active").removeClass("active");
+		});
+		$(".sub-item").mouseenter(function(){
+			$(this).addClass("active");
+		});
+		
 		$(".grid > table > tbody > tr").click(function() {
 			$("#isModify").val("true");
 			var data = $(this).data();
@@ -95,11 +109,20 @@
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		
-		$(".check_idx").change(function() {
+		function checkIndex(){
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
+		}
 		
+		$(".check_idx").change(function(){
+			checkIndex();
+		});
+		
+		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+			var check_idx = $(this).closest("tr").find(".check_idx");
+			check_idx.prop("checked",check_idx.prop("checked")==false);
+			checkIndex();
 		});
 		
 		$("#delete_all_btn").click(function() {
@@ -116,8 +139,9 @@
 				form.append("<input type='hidden' name='jobId' value='"+ $(this).val() +"'>");
 			});
 			
-			$.post("${context}/api/job/delete", form.serialize(), function(response) {});
-			location.reload(); // 새로고침
+			$.post("${context}/api/job/delete", form.serialize(), function(response) {
+				location.reload(); // 새로고침
+			});
 		});
 	});
 		function movePage(pageNo) {
