@@ -68,7 +68,7 @@
 		 ORDER BY T.TM_ID ASC
 	</select>
 	
-	<resultMap id="depNmVOMap" 
+	<resultMap id="tmMbrVOMap" 
 				type="com.kpms.tm.vo.TmVO"
 				autoMapping="true">
 		<id property="tmId" column="TM_ID"/>
@@ -78,11 +78,21 @@
 			<id property="depId" column="DEP_ID" />
 			<result property="depNm" column="DEP_NM"/>
 		</association>
+		<collection property="empList"
+					 ofType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="EMP_ID"/>
+			<result property="fNm" column="F_NM"/>
+			<result property="lNm" column="L_NM"/>
+			<result property="brthdy" column="BRTHDY"/>
+			<result property="eml" column="EML"/>
+			<result property="phn" column="PHN"/>
+			<result property="pstnPrd" column="PSTN_PRD"/>
+		</collection>
 	</resultMap>
 	
 	<select id="readOneTmVOByTmId"
 			parameterType="string"
-			resultMap="depNmVOMap">
+			resultMap="tmMbrVOMap">
 		SELECT T.TM_ID
 			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , T.CRTR
@@ -95,11 +105,20 @@
 			 , T.DEP_ID
 			 , T.TM_HD_ID
 			 , D.DEP_NM
+			 , E.EMP_ID
+			 , E.F_NM
+			 , E.L_NM
+			 , E.BRTHDY
+			 , E.EML
+			 , E.PHN
+			 , E.PSTN_PRD
 		  FROM TM T
 		 INNER JOIN DEP D
 		 	ON T.DEP_ID = D.DEP_ID
-		 WHERE TM_ID = #{_parameter}
-		   AND DEL_YN = 'N'
+		 INNER JOIN EMP E
+		    ON D.DEP_ID = E.DEP_ID
+		 WHERE T.TM_ID = #{_parameter}
+		   AND T.DEL_YN = 'N'
 	</select>
 	
 	<insert id="createOneTm"

@@ -257,7 +257,7 @@
 											<td>${tm.depId}</td>
 											<td>${tm.depIdDepVO.depNm}</td>
 											<td>${tm.tmId}</td>
-											<td>${tm.tmNm}</td>
+											<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
 											<td>${tm.tmHdId}</td>
 											<td>${tm.tmCrtDt}</td>
 											<td>${tm.useYn}</td>

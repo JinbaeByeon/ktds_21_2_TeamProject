@@ -38,7 +38,7 @@
 		<form>
 			<div class="search-group">
 				<label for="">팀명</label>
-				<input type="text" name="depNm" class="grow-1 mr-10" value="${tmNm}"/>
+				<input type="text" name="tmNm" class="grow-1 mr-10" value="${tmNm}"/>
 				<button class="btn-search" id="btn-search-btn">검색</button>
 			</div>
 		</form>
