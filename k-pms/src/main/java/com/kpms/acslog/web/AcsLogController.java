@@ -24,6 +24,7 @@ public class AcsLogController {
 		if(!acsLogList.isEmpty()) {
 			model.addAttribute("lastPage",acsLogList.get(0).getLastPage());
 		}
+		model.addAttribute("empId",acsLogVO.getCrtr());
 		model.addAttribute("viewCnt",acsLogVO.getViewCnt());
 		model.addAttribute("pageCnt",acsLogVO.getPageCnt());
 		model.addAttribute("pageNo",acsLogVO.getPageNo());

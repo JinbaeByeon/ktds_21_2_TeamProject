@@ -35,16 +35,21 @@
 			resultMap="AcsLogMap">
 		<include refid="Common.pageHeader"/>
 		SELECT AL.LOG_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY AL.CRT_DT || AL.LOG_ID DESC) RNUM
 			 , AL.LOG_ID
 			 , AL.CRT_DT
 			 , AL.CRTR
 			 , AL.ACS_LOG
 			 , E.F_NM
 			 , E.L_NM
-		  FROM ACS_LOG AL
+		  FROM (SELECT *
+		  		  FROM ACS_LOG
+		  		 <if test="crtr != null and crtr != ''">
+		  		 WHERE CRTR = #{crtr}
+		  		 </if>) AL
 		  JOIN EMP E
 		 	ON E.EMP_ID = AL.CRTR
-		 ORDER BY CRT_DT DESC
+		 ORDER BY AL.CRT_DT DESC
 		<include refid="Common.pageFooter"/>
 	</select>
 </mapper>
