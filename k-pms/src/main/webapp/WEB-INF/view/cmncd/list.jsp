@@ -103,16 +103,13 @@
 					movePage(0);
 				});
 
-				$("#cdTypes").change(function() {
-					movePage(0);
-				});
 			});
 
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
 		var queryString = "?prcdncCdId=" + $("#cdTypes").val();
-		queryString += "&cdNm=" + $("#cdNm").val();
+		queryString += "&cdNm=" + $("#cdName").val();
 		queryString += "&pageNo=" + pageNo;
 		
 		// URL 요청
@@ -137,7 +134,7 @@
 					</c:forEach>
 				</select>
 				<label for="search-keyword">코드명</label>
-					<input type="text" id="cdNm" name="cdNm" />
+					<input type="text" id="cdName" name="cdName" />
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>

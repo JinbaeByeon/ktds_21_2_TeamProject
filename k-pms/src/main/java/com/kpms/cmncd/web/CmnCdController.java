@@ -20,12 +20,10 @@ public class CmnCdController {
 	public String viewCmnCdListPage(Model model, CmnCdVO cmnCdVO) {
 		List<CmnCdVO> cmnCdList = cmnCdService.readAllCmnCd(cmnCdVO);
 		List<CmnCdVO> cmnCdTypeList = cmnCdService.readCmnCdType(cmnCdVO);
-		List<CmnCdVO> cmnCdNameList = cmnCdService.readCmnCdNameByPrcdncCdId(cmnCdVO.getPrcdncCdId());
 		
 		model.addAttribute("cmnCdList", cmnCdList);
 		model.addAttribute("cmnCdVO", cmnCdVO);
 		model.addAttribute("cmnCdTypeList", cmnCdTypeList);
-		model.addAttribute("cmnCdNameList", cmnCdNameList);
 
 		if (!cmnCdList.isEmpty()) {
 			model.addAttribute("lastPage", cmnCdList.get(0).getLastPage());
