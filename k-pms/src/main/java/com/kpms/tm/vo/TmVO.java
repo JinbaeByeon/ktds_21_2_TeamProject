@@ -20,12 +20,6 @@ public class TmVO extends AbstractPagingVO {
 	private DepVO depIdDepVO;
 	List<TmMbrVO> tmMbrList;
 	
-	public List<TmMbrVO> getTmMbrList() {
-		return tmMbrList;
-	}
-	public void setTmMbrList(List<TmMbrVO> tmMbrList) {
-		this.tmMbrList = tmMbrList;
-	}
 	public String getTmId() {
 		return tmId;
 	}
@@ -61,6 +55,12 @@ public class TmVO extends AbstractPagingVO {
 	}
 	public void setDepIdDepVO(DepVO depIdDepVO) {
 		this.depIdDepVO = depIdDepVO;
+	}
+	public List<TmMbrVO> getTmMbrList() {
+		return tmMbrList;
+	}
+	public void setTmMbrList(List<TmMbrVO> tmMbrList) {
+		this.tmMbrList = tmMbrList;
 	}
 
 }

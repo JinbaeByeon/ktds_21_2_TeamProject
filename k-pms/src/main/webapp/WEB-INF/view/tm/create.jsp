@@ -15,6 +15,7 @@
 	
 	var depId;
 	var tmHd;
+	var tmMbr;
 	
 	function addDepFn(message) {
 		
@@ -48,37 +49,46 @@
 	
 	function addHdEmpFn(message) {
 			
-			var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
-			if (tmHdIdItems.find("." + message.empid).length > 0) {
-				alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
-				return;
-			}
-			
-			var itemDiv = tmHdIdItems.find(".head-item");
-			
-			var itemId = itemDiv.find("#tmHdId")
-			console.log(message.empid);
-			itemId.val(message.empid);
-			itemDiv.append(itemId);
-			
-			var itemSpan = itemDiv.find("span");
-			itemSpan.text(message.lnm + message.fnm);
-			itemDiv.append(itemSpan);
-			
-			$("#tmHdId").val(message.empid);
-			console.log(message.lnm + message.fnm);
-			$("#tmHdNm").text(message.lnm + message.fnm);
-			
-			tmHdIdItems.append(itemDiv);
-			
-			tmHd.close();
+		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
+		if (tmHdIdItems.find("." + message.empid).length > 0) {
+			alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
+			return;
 		}
+			
+		var itemDiv = tmHdIdItems.find(".head-item");
+			
+		var itemId = itemDiv.find("#tmHdId")
+		itemId.val(message.empid);
+		itemDiv.append(itemId);
+			
+		var itemSpan = itemDiv.find("span");
+		itemSpan.text(message.lnm + message.fnm);
+		itemDiv.append(itemSpan);
+			
+		$("#tmHdId").val(message.empid);
+		$("#tmHdNm").text(message.lnm + message.fnm);
+			
+		tmHdIdItems.append(itemDiv);
+			
+		tmHd.close();
+	}
+	
+	function addEmpFn(message) {
+		
+		console.log(message);
+		$(".tmMbr").append("<tr id="+ message.empid +"></tr>");
+		$(".tmMbr").find("#" + message.empid).append("<td>" + message.empid + "</td>");
+		$(".tmMbr").find("#" + message.empid).append("<td>" + message.lnm + message.fnm + "</td>");
+		
+	
+	}
 	
 	$().ready(function() {
 		
 		$("#addTmHeadBtn").click(function(event) {
 			event.preventDefault(); 
-			var tmHd = window.open("${context}/emp/search/head", "팀장 검색", "width=500,height=500");
+			var depId = $("#depId").val();
+			var tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
 		});
 		
 		$("#addDepIdBtn").click(function(event) {
@@ -88,7 +98,8 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			gnr = window.open("${context}/emp/search", "팀원검색", "width=500, height=500")
+			var depId = $("#depId").val();
+			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#list-btn").click(function() {
@@ -151,8 +162,8 @@
 						</div>
 					
 						<div class="create-group">
-							<label for="tmMbr">팀원</label>
 							<div>
+								<label for="addTmMbrBtn">팀원</label>
 								<button id="addTmMbrBtn" class="btn-primary">추가</button>
 								<div class="items"></div>
 							</div>
@@ -161,31 +172,10 @@
 									<thead>
 										<tr>
 											<th>직원ID</th>
-											<th>팀</th>
-											<th>성</th>
 											<th>이름</th>
-											<th>권한</th>
 										</tr>
 									</thead>
-									<tbody>
-										<c:choose>
-											<c:when test="${not empty prjVO.ptmList}">
-												<c:forEach items="${prjVO.ptmList}" var="ptm">
-													<tr>
-														<td>${ptm.tmMbrVO.empVO.empId}</td>
-														<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-														<td>${ptm.tmMbrVO.empVO.fNm}</td>
-														<td>${ptm.tmMbrVO.empVO.lNm}</td>
-														<td>${ptm.prjPstn}</td>
-													</tr>
-												</c:forEach>
-											</c:when>
-										<c:otherwise>
-											<td colspan="4" class="no-items">
-												등록된 팀원이 없습니다.
-											</td>
-										</c:otherwise>
-										</c:choose>
+									<tbody class="tmMbr">
 									</tbody>
 								</table>
 							</div>

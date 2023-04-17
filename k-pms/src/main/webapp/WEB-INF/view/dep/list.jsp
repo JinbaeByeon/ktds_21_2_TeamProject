@@ -220,7 +220,6 @@
 						<tbody>
 							<c:choose>
 								<c:when test="${not empty depList}">
-									<h1>${depList.size()}</h1>
 									<c:forEach items="${depList}"
 												var="dep"
 												varStatus="index">
@@ -244,9 +243,9 @@
 											<td>${dep.depHdId}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
-											<td>${dep.crtr}(${dep.crtrEmpVO.fNm})</td>
+											<td>${dep.crtr}(${dep.crtrEmpVO.lNm}${dep.crtrEmpVO.fNm})</td>
 											<td>${dep.crtDt}</td>
-											<td>${dep.mdfyr}(${dep.mdfyrEmpVO.fNm})</td>
+											<td>${dep.mdfyr}(${dep.mdfyrEmpVO.lNm}${dep.mdfyrEmpVO.fNm})</td>
 											<td>${dep.mdfyDt}</td>
 										</tr>
 									</c:forEach>
