@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.dep.vo.DepVO;
-import com.kpms.tmmbr.vo.TmMbrVO;
+import com.kpms.emp.vo.EmpVO;
 
 /**
  * TM
@@ -18,7 +18,8 @@ public class TmVO extends AbstractPagingVO {
 	private String tmHdId;
 	
 	private DepVO depIdDepVO;
-	List<TmMbrVO> tmMbrList;
+	
+	private List<EmpVO> empList;
 	
 	public String getTmId() {
 		return tmId;
@@ -56,11 +57,11 @@ public class TmVO extends AbstractPagingVO {
 	public void setDepIdDepVO(DepVO depIdDepVO) {
 		this.depIdDepVO = depIdDepVO;
 	}
-	public List<TmMbrVO> getTmMbrList() {
-		return tmMbrList;
+	public List<EmpVO> getEmpList() {
+		return empList;
 	}
-	public void setTmMbrList(List<TmMbrVO> tmMbrList) {
-		this.tmMbrList = tmMbrList;
+	public void setEmpList(List<EmpVO> empList) {
+		this.empList = empList;
 	}
 
 }

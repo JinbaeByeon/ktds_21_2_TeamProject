@@ -15,7 +15,7 @@
 			}
 			$(this).closest("li.nav-item").addClass("active");
 		});
-		$(".nav").mouseleave(function(){
+		$("div.header").mouseleave(function(){
 			$(this).find(".active").removeClass("active");
 			<c:if test="${not empty selected}">
 				$("li.nav-item.${selected}").addClass("active");
