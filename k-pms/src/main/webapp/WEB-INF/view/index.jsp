@@ -34,6 +34,7 @@
 		<div>
 			<jsp:include page="./include/sysSidemenu.jsp"/>
 			<jsp:include page="./include/content.jsp"/>
+			
 				안녕하세요! aaa  ${context} ${date} bbb
 			<jsp:include page="./include/footer.jsp"/>
 		</div>

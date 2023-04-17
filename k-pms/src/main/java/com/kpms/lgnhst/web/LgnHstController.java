@@ -24,6 +24,7 @@ public class LgnHstController {
 		if(!lgnHstList.isEmpty()) {
 			model.addAttribute("lastPage",lgnHstList.get(0).getLastPage());
 		}
+		model.addAttribute("empId",lgnHstVO.getCrtr());
 		model.addAttribute("pageNo",lgnHstVO.getPageNo());
 		model.addAttribute("pageCnt",lgnHstVO.getPageCnt());
 		model.addAttribute("viewCnt",lgnHstVO.getViewCnt());

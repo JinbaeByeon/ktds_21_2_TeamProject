@@ -104,6 +104,16 @@
 	</insert>
 	
 	
+	<select id="readCntPwdChngDtMore90ById"
+			parameterType="string"
+			resultType="int">
+		SELECT COUNT(1)
+		  FROM EMP
+		 WHERE EMP_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+		   AND PWD_CHNG_DT <![CDATA[<]]>= SYSDATE - 90
+	</select>
+	
 	<select id="readSaltById"
 			parameterType="string"
 			resultType="string">
@@ -263,8 +273,9 @@
 			parameterType="com.kpms.emp.vo.EmpVO"
 			resultMap="EmpMap">
 		<include refid="Common.pageHeader"/>
-		SELECT E.EMP_ID,
-			   E.EMP_ID PK_COL,
+		SELECT E.EMP_ID PK_COL,
+			   DENSE_RANK() OVER(ORDER BY E.CRT_DT || E.EMP_ID DESC) RNUM,
+			   E.EMP_ID,
 			   TO_CHAR(E.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
 			   E.CRTR,
 			   TO_CHAR(E.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT,
