@@ -86,6 +86,6 @@ public class EmpController {
 		model.addAttribute("depId",empVO.getDepId());
 		model.addAttribute("fNm",empVO.getfNm());
 		
-		return "emp/searchHdEmp";
+		return "emp/searchHd";
 	}
 }

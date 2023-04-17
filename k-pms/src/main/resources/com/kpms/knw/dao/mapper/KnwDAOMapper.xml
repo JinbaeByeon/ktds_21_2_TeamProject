@@ -43,6 +43,7 @@
 	<select id="readAllKnw"
 			parameterType="com.kpms.knw.vo.KnwVO"
 			resultMap="knwVOMap">
+		<include refid="Common.pageHeader" />
 		SELECT K.KNW_ID
              , TO_CHAR(K.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
              , K.CRTR
@@ -60,6 +61,16 @@
          INNER JOIN PRJ P
             ON K.PRJ_ID = P.PRJ_ID
          WHERE K.DEL_YN = 'N'
+         <if test='ttl != null and ttl != ""'>
+           AND K.TTL LIKE '%' || #{ttl} || '%'
+         </if>
+         <if test='prjId != null and prjId != ""'>
+           AND K.PRJ_ID LIKE '%' || #{prjId} || '%'
+         </if>
+         <if test='prjVO != null and prjVO.prjNm != null and prjVO.prjNm != ""'>
+           AND P.PRJ_NM LIKE '%' || #{prjVO.prjNm} || '%'
+         </if>
+         <include refid="Common.pageFooter" />
 	</select>
 	
 <!-- 	<resultMap id="knwVOMap"

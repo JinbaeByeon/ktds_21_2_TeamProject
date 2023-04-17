@@ -15,7 +15,35 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	
+	var depHd;
 	
+	function addHdEmpFn(message) {
+		
+		var depHdIdItems = $("#addDepHeadBtn").closest(".create-group").find(".items");
+		if (depHdIdItems.find("." + message.empid).length > 0) {
+			alert(message.lnm + message.fnm + "은(는) 이미 추가된 부서장입니다.");
+			return;
+		}
+		
+		var itemDiv = depHdIdItems.find(".head-item");
+		
+		var itemId = itemDiv.find("#depHdId")
+		console.log(message.empid);
+		itemId.val(message.empid);
+		itemDiv.append(itemId);
+		
+		var itemSpan = itemDiv.find("span");
+		itemSpan.text(message.lnm + message.fnm);
+		itemDiv.append(itemSpan);
+		
+		$("#depHdId").val(message.empid);
+		console.log(message.lnm + message.fnm);
+		$("#depHdNm").text(message.lnm + message.fnm);
+		
+		depHdIdItems.append(itemDiv);
+		
+		depHd.close();
+	}
 	
 	$().ready(function() {
 		
@@ -48,7 +76,7 @@
 			$("#crtr").val("");
 			$("#crtDt").val("");
 			$("#mdfyr").val("");
-			$("#mdfyDt").val(0);
+			$("#mdfyDt").val("");
 			
 			$("#useYn").prop("checked", false);
 		});
@@ -140,10 +168,9 @@
 		});
 		
 		$("#addDepHeadBtn").click(function(event) {
-			event.preventDefault(); // depNm으로 보내지 않게 하기 위해
+			event.preventDefault();
 			var depId = $("#depId").val();
-			var depHd = window.open("${context}/emp/search?depId="+depId, "부서장 검색", "width=500,height=500");
-			//search/head?
+			depHd = window.open("${context}/emp/search/head?depId=" + depId, "부서장 검색", "width=500,height=500");
 		});
 		
 	});
@@ -193,6 +220,7 @@
 						<tbody>
 							<c:choose>
 								<c:when test="${not empty depList}">
+									<h1>${depList.size()}</h1>
 									<c:forEach items="${depList}"
 												var="dep"
 												varStatus="index">
@@ -259,9 +287,15 @@
 							<label for="depNm" style="width: 180px;">부서명</label><input type="text" id="depNm" name="depNm" value=""/>
 						</div>
 						<div class="input-group inline">
-							<div class="create-head">
-								<label for="depHdId" style="width: 180px;">부서장ID</label>
-								<input type="hidden" name="depHdId" value="tmpId" /><button id="addDepHeadBtn" class="btn-p">등록</button>
+							<div class="create-group">
+								<label for="addDepHeadBtn" style="width: 180px;">부서장ID</label>
+								<button id="addDepHeadBtn" class="btn-p">등록</button>
+								<div class="items">
+									<div class='head-item'>
+										<input type='text' name='depHdId' id="depHdId" readonly value="" />
+										<span id="depHdNm"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="input-group inline">

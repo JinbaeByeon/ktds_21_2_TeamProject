@@ -10,30 +10,23 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		$("#all_check").change(function() {
-			$(".check-idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check-idx").change(function() {
-			var count = $(".check-idx").length;
-			var checkCount = $(".check-idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
 		
 		$("#cancel-btn").click(function() {
 			window.close();
 		});
 		
 		$("#regist-btn").click(function() {
-			var checkbox = $(".check-idx:checked");
-			if (checkbox.length == 0) {
+			var checkOne = $("#check-one:checked");
+			
+			if (checkOne.length == 0) {
 				alert("프로젝트를 선택하세요");
 				return;
 			}
 			
-			checkbox.each(function() {
+			checkOne.each(function() {
 				var each = $(this).closest("tr").data();
-				opener.addGnrFn(each);
+				console.log(each);
+				opener.addPrjFn(each);
 			});
 			window.close();
 		});
@@ -58,7 +51,7 @@
 			<table>
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="all_check" /></th>
+						<th></th>
 						<th>프로젝트명</th>
 						<th>고객사</th>
 						<th>프로젝트 상태</th>
@@ -74,7 +67,7 @@
 									data-cstmr="${prj.cstmr}"
 									data-prjstts="${prj.prjStts}" >
 									<td>
-										<input type="checkbox" class="check-idx" value="${prj.prjId}" />
+										<input type="radio" id="check-one" name="check-one" value="${prj.prjId}" />
 									</td>
 									<td>${prj.prjNm}</td>
 									<td>${prj.cstmr}</td>

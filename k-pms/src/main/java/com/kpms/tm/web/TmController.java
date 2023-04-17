@@ -37,6 +37,12 @@ public class TmController {
 		return "tm/list";
 	}
 	
+	
+	@GetMapping("tm/create")
+	public String viewTmCreatePage() {
+		return "tm/create";
+	}
+	
 	@GetMapping("/tm/search")
 	public String viewTmSearchPage(@RequestParam(required = false) String tmNm,
 									Model model) {
