@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kpms.dep.service.DepService;
 import com.kpms.dep.vo.DepVO;
 import com.kpms.dep.vo.DeptSearchVO;
-import com.kpms.tm.vo.TmVO;
 
 @Controller
 public class DepController {
@@ -27,6 +26,7 @@ public class DepController {
 		
 		model.addAttribute("depList", depList);
 		model.addAttribute("depVO", deptSearchVO);
+		
 		if (!depList.isEmpty()) {
 			model.addAttribute("lastPage", depList.get(0).getLastPage());
 		}

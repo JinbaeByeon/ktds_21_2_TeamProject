@@ -82,6 +82,48 @@
 					</table>
 						팀명클릭해서 팀원목록 출력
 						부서원목록 출력
+					<div class="grid-count align-right">
+						 총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>순번</th>
+									<th>직원ID</th>
+									<th>이름</th>
+									<th>생년월일</th>
+									<th>이메일</th>
+									<th>전화번호</th>
+									<th>직급연차</th>
+								</tr>
+							</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${not empty depVO.empList}">
+									<c:forEach items="${depVO.empList}"
+												var="emp"
+												varStatus="index">
+											<tr>
+												<td>${index.index + 1}</td>
+												<td>${emp.empId}</td>
+												<td>${emp.lNm + emp.fNm}</td>
+												<td>${emp.brthdy}</td>
+												<td>${emp.eml}</td>
+												<td>${emp.phn}</td>
+												<td>${emp.pstnPrd}</td>
+											</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="5" class="no-items">
+											등록된 팀이 없습니다.
+										</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
 			</div>			
 		</div>
 	</div>
