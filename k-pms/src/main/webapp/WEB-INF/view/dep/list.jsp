@@ -20,7 +20,7 @@
 	function addHdEmpFn(message) {
 		
 		var depHdIdItems = $("#addDepHeadBtn").closest(".create-group").find(".items");
-		if (depHdIdItems.find("." + message.empid).length > 0) {
+		if (depHdIdItems.find("." + message.empid	).length > 0) {
 			alert(message.lnm + message.fnm + "은(는) 이미 추가된 부서장입니다.");
 			return;
 		}
@@ -37,6 +37,7 @@
 		itemDiv.append(itemSpan);
 		
 		$("#depHdId").val(message.empid);
+		$("#depHdId").attr("class", message.empid);
 		console.log(message.lnm + message.fnm);
 		$("#depHdNm").text(message.lnm + message.fnm);
 		
@@ -291,7 +292,7 @@
 								<button id="addDepHeadBtn" class="btn-p">등록</button>
 								<div class="items">
 									<div class='head-item'>
-										<input type='text' name='depHdId' id="depHdId" readonly value="" />
+										<input type='text' class="" name='depHdId' id="depHdId" readonly value="" />
 										<span id="depHdNm"></span>
 									</div>
 								</div>

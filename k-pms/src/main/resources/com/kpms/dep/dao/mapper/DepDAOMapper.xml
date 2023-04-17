@@ -121,14 +121,14 @@
 			parameterType="string"
 			resultMap="tmVOMap">
 		SELECT D.DEP_ID
-			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') DEP_CRT_DT
+			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , D.CRTR
-			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') DEP_MDFY_DT
+			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
 			 , D.MDFYR
 			 , D.USE_YN
 			 , D.DEP_NM
 			 , D.DEP_HD_ID
-			 , D.DEP_CRT_DT
+			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
 			 , T.TM_ID
 			 , T.TM_NM
 			 , T.TM_HD_ID
