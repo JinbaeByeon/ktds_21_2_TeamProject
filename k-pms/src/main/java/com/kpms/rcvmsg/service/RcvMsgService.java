@@ -10,9 +10,7 @@ public interface RcvMsgService {
 	
 	public boolean createOneRcvMsg(RcvMsgVO rcvMsgVO);
 	
-	public boolean updateOneRcvMsg(RcvMsgVO rcvMsgVO);
-	
-	public boolean deleteOneRcvMsg(int msgId);
+	public boolean deleteOneRcvMsg(String msgId);
 	
 	public boolean deleteRcvMsgBySelectedMsgId(List<Integer> msgId);
 

@@ -21,6 +21,7 @@
 			resultMap="lgnHstMap">
 		<include refid="Common.pageHeader"/>
 		SELECT LH.HST_ID PK_COL,
+			   DENSE_RANK() OVER(ORDER BY LH.CRT_DT || LH.HST_ID DESC) RNUM,
 			   LH.HST_ID,
 			   TO_CHAR(LH.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
 			   LH.CRTR,

@@ -25,12 +25,7 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 	}
 
 	@Override
-	public boolean updateOneRcvMsg(RcvMsgVO rcvMsgVO) {
-		return rcvMsgDAO.updateOneRcvMsg(rcvMsgVO) > 0;
-	}
-
-	@Override
-	public boolean deleteOneRcvMsg(int msgId) {
+	public boolean deleteOneRcvMsg(String msgId) {
 		return rcvMsgDAO.deleteOneRcvMsg(msgId) > 0;
 	}
 

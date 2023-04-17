@@ -47,6 +47,10 @@
    		    ON JB.JOB_ID = JL.CHNG_JOB_ID
 		 INNER JOIN EMP E
 		    ON E.EMP_ID = JL.EMP_ID
+		 <if test="empId != null and empId != ''">
+		 WHERE JL.EMP_ID = #{empId}
+		 </if>
+		 
 	</select>
 
 	<insert id="createJobLog"

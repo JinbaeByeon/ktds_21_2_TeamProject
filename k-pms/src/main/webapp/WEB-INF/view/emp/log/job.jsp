@@ -42,29 +42,23 @@
 
 			$("#useYn").prop("checked", data.useyn == "Y");
 		});
-
+		
+		$("#search-keyword").keydown(function(e){
+			if(e.keyCode == '13'){
+				movePage(0);
+			}
+		})
+		
 		$("#search-btn").click(function() {
 			movePage(0)
 		});
-		
-		$("#all_check").change(function() {
-			$(".check_idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		
-		});
-		
 	});
 		function movePage(pageNo) {
 			// 전송
 			// 입력 값
-			var jobNm=$("#search-keyword").val();
+			var empId =$("#search-keyword").val();
 			// URL 요청
-			location.href= "${context}/emp/job/log?jobNm=" + jobNm + "&pageNo=" + pageNo;
+			location.href= "${context}/emp/log/job?empId=" + empId + "&pageNo=" + pageNo;
 		}
 
 </script>
@@ -77,8 +71,8 @@
 		<jsp:include page="../../include/content.jsp"/>
 			<div class="path">직무변경이력 > </div>
 			<div class="search-group">
-				<label for="search-keyword">직원명</label>
-				<input type="text" id="search-keyword" class="search-input" value="${empVO.fNm}"/>
+				<label for="search-keyword">직원ID</label>
+				<input type="text" id="search-keyword" class="search-input" value="${jobLogVO.empId}"/>
 				<button class="btn-search" id="search-btn">&#128269</button>
 			</div>
 			<div class="grid">
@@ -88,14 +82,12 @@
 				<table>
 					<thead>
 						<tr>
-							<th><input type="checkbox" id="all_check"/></th>
-							<th>순번</th>
 							<th>직원ID</th>
 							<th>이름</th>
-							<th>첫직무ID</th>
-							<th>첫직무</th>
-							<th>변경된직무ID</th>
-							<th>변경된직무</th>
+							<th>이전직무ID</th>
+							<th>이전직무명</th>
+							<th>변경직무ID</th>
+							<th>변경직무명</th>
 							<th>변경일</th>
 							<th>변경사유</th>
 							<th>생성일</th>
@@ -118,16 +110,12 @@
 										data-chngrsn="${jobLog.chngRsn}"
 										data-crtdt="${jobLog.crtDt}"
 										data-crtr="${jobLog.crtr}">
-									<td>
-										<input type="checkbox" class="check_idx" value="${jobLog.empId + '|' +jobLog.chngDt}"/>
-									</td>
-									<td>순번</td>
 									<td>${jobLog.empId}</td>
-									<td>${jobLog.fNm} ${jobLog.lNm}</td>
+									<td>${jobLog.empVO.fNm} ${jobLog.empVO.lNm}</td>
 									<td>${jobLog.prvsJobId}</td>
-									<td>${jobLog.prvsJobNm}</td>
+									<td>${jobLog.prvsJobNmVO.jobNm}</td>
 									<td>${jobLog.chngJobId}</td>
-									<td>${jobLog.chngJobNm}</td>
+									<td>${jobLog.chngJobNmVO.jobNm}</td>
 									<td>${jobLog.chngDt}</td>
 									<td>${jobLog.chngRsn}</td>
 									<td>${jobLog.crtDt}</td>
@@ -137,7 +125,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="9" class="no-items">
+									<td colspan="10" class="no-items">
 										등록된 직원이 없습니다.
 									</td>
 								</tr>

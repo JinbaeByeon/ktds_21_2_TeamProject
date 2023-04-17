@@ -30,7 +30,7 @@ public class SndMsgServiceImpl implements SndMsgService {
 	}
 
 	@Override
-	public boolean deleteOneSndMsg(int msgId) {
+	public boolean deleteOneSndMsg(String msgId) {
 		return sndMsgDAO.deleteOneSndMsg(msgId) > 0;
 	}
 

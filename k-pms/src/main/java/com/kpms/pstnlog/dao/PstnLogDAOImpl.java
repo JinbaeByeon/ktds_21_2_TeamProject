@@ -20,7 +20,7 @@ public class PstnLogDAOImpl extends SqlSessionDaoSupport implements PstnLogDAO {
 	
 	@Override
 	public List<PstnLogVO> readAllPstnLogVO(PstnLogVO pstnLogVO) {
-		return getSqlSession().selectList("PstnLog.readAllPstnLog", pstnLogVO);
+		return getSqlSession().selectList("PstnLog.readAllPstnLogVO", pstnLogVO);
 	}
 	
 	@Override

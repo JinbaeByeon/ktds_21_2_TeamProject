@@ -10,9 +10,7 @@ public interface RcvMsgDAO {
 	
 	public int createOneRcvMsg(RcvMsgVO rcvMsgVO);
 	
-	public int updateOneRcvMsg(RcvMsgVO rcvMsgVO);
-	
-	public int deleteOneRcvMsg(int msgId);
+	public int deleteOneRcvMsg(String msgId);
 	
 	public int deleteRcvMsgBySelectedMsgId(List<Integer> msgId);
 

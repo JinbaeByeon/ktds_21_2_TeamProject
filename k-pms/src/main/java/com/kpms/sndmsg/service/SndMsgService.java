@@ -12,7 +12,7 @@ public interface SndMsgService {
 	
 	public boolean updateOneSndMsg(SndMsgVO sndMsgVO);
 	
-	public boolean deleteOneSndMsg(int msgId);
+	public boolean deleteOneSndMsg(String msgId);
 	
 	public boolean deleteSndMsgBySelectedMsgId(List<Integer> msgId);
 	

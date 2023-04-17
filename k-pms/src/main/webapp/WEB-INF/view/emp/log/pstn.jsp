@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="../include/stylescript.jsp" />
+<jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
 
@@ -43,42 +43,36 @@
 			$("#useYn").prop("checked", data.useyn == "Y");
 		});
 
+		$("#search-keyword").keydown(function(e){
+			if(e.keyCode == '13'){
+				movePage(0);
+			}
+		})
+		
 		$("#search-btn").click(function() {
 			movePage(0)
 		});
-		
-		$("#all_check").change(function() {
-			$(".check_idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		
-		});
-		
 	});
 		function movePage(pageNo) {
 			// 전송
 			// 입력 값
 			var jobNm=$("#search-keyword").val();
 			// URL 요청
-			location.href= "${context}/emp/job/log?pstnNm=" + pstnNm + "&pageNo=" + pageNo;
+			location.href= "${context}/emp/log/pstn?pstnNm=" + pstnNm + "&pageNo=" + pageNo;
 		}
 
 </script>
 </head>
 <body>
 	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"/>
+		<jsp:include page="../../include/header.jsp"/>
 		<div>
-		<jsp:include page="../include/sysSidemenu.jsp"/>
-		<jsp:include page="../include/content.jsp"/>
+		<jsp:include page="../../include/sysSidemenu.jsp"/>
+		<jsp:include page="../../include/content.jsp"/>
 			<div class="path">직급변경이력 > </div>
 			<div class="search-group">
-				<label for="search-keyword">직원명</label>
-				<input type="text" id="search-keyword" class="search-input" value="${empVO.fNm}"/>
+				<label for="search-keyword">직원ID</label>
+				<input type="text" id="search-keyword" class="search-input" value="${pstnLogVO.empId}"/>
 				<button class="btn-search" id="search-btn">&#128269</button>
 			</div>
 			<div class="grid">
@@ -88,12 +82,10 @@
 				<table>
 					<thead>
 						<tr>
-							<th><input type="checkbox" id="all_check"/></th>
-							<th>순번</th>
 							<th>직원ID</th>
 							<th>이름</th>
-							<th>첫직급ID</th>
-							<th>첫직급</th>
+							<th>이전직급ID</th>
+							<th>이전직급</th>
 							<th>변경된직급ID</th>
 							<th>변경된직급</th>
 							<th>변경일</th>
@@ -108,26 +100,22 @@
 								<c:forEach items="${jobList}"
 										   var="pstnLog">
 									<tr data-empid="${pstnLog.empId}"
-										data-fnm="${pstnLog.fNm}"
-										data-lnm="${pstnLog.lNm}"
+										data-fnm="${pstnLog.empVO.fNm}"
+										data-lnm="${pstnLog.empVO.lNm}"
 										data-prvspstnid="${pstnLog.prvsPstnId}"
-										data-prvspstnnm="${pstnLog.prvsPstnNm}"
+										data-prvspstnnm="${pstnLog.prvsPstnNmVO.pstnNm}"
 										data-chngpstnid="${pstnLog.chngPstnId}"
-										data-chngpstnnm="${pstnLog.chngPstnNm}"
+										data-chngpstnnm="${pstnLog.chngPstnNmVO.pstnNm}"
 										data-chngDt="${pstnLog.chngDt}"
 										data-chngrsn="${pstnLog.chngRsn}"
 										data-crtdt="${pstnLog.crtDt}"
 										data-crtr="${pstnLog.crtr}">
-									<td>
-										<input type="checkbox" class="check_idx" value="${pstnLog.jobId}"/>
-									</td>
-									<td>순번</td>
 									<td>${pstnLog.empId}</td>
-									<td>${pstnLog.fNm} ${pstnLog.lNm}</td>
+									<td>${pstnLog.empVO.fNm} ${pstnLog.empVO.lNm}</td>
 									<td>${pstnLog.prvsPstnId}</td>
-									<td>${pstnLog.prvsPstnNm}</td>
+									<td>${pstnLog.prvsPstnNmVO.pstnNm}</td>
 									<td>${pstnLog.chngPstnId}</td>
-									<td>${pstnLog.chngPstnNm}</td>
+									<td>${pstnLog.chngPstnNmVO.pstnNm}</td>
 									<td>${pstnLog.chngDt}</td>
 									<td>${pstnLog.chngRsn}</td>
 									<td>${pstnLog.crtDt}</td>
@@ -137,7 +125,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="9" class="no-items">
+									<td colspan="10" class="no-items">
 										등록된 직원이 없습니다.
 									</td>
 								</tr>
@@ -146,53 +134,15 @@
 					</tbody>
 				</table>
 				
-				<c:import url="../include/pagenate.jsp">
+				<c:import url="../../include/pagenate.jsp">
                   <c:param name="pageNo" value="${pageNo}"/>
                   <c:param name="pageCnt" value="${pageCnt}"/>
                   <c:param name="lastPage" value="${lastPage}"/>
                   <c:param name="path" value="${context}/pstnLog"/>
                </c:import>
-               
+            
 			</div>
-			<div class="grid-detail">
-				<form id="detail_form" >
-					<input type="hidden" id="isModify" value="false" />
-					<div class="input-group inline">
-						<label for="empId" style="width: 180px;">직원ID</label><input type="text" id="empId" name="jobId" value="" readonly/>
-					</div>
-					<div class="input-group inline">
-						<label for="fNm" style="width: 180px;">이름</label><input type="text" id="fNm" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="lNm" style="width: 180px;">성</label><input type="text" id="lNm" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="prvsPstnId" style="width: 180px;">첫직급ID</label><input type="text" id="prvsPstnId" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="prvsPstnNm" style="width: 180px;">첫직급</label><input type="text" id="prvsPstnNm" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="chngPstnId" style="width: 180px;">변경된직급ID</label><input type="text" id="chngPstnId" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="chngPstnNm" style="width: 180px;">변경직급</label><input type="text" id="chngPstnNm" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="chngDt" style="width: 180px;">변경일</label><input type="text" id="chngDt" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="chngRsn" style="width: 180px;">변경사유</label><input type="text" id="chngRsn" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="crtDt" style="width: 180px;">생성일</label><input type="text" id="crtDt" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="crtr" style="width: 180px;">생성자</label><input type="text" id="crtr" disabled value=""/>
-					</div>
-				</form>
-			</div>
-		<jsp:include page="../include/footer.jsp"/>
+		<jsp:include page="../../include/footer.jsp"/>
 		</div>
 	</div>
 </body>

@@ -12,7 +12,7 @@ public interface SndMsgDAO {
 	
 	public int updateOneSndMsg(SndMsgVO sndMsgVO);
 	
-	public int deleteOneSndMsg(int msgId);
+	public int deleteOneSndMsg(String msgId);
 	
 	public int deleteSndMsgBySelectedMsgId(List<Integer> msgId);
 

@@ -16,7 +16,7 @@ public class PstnLogController {
 	@Autowired
 	private PstnLogService pstnLogService;
 	
-	@GetMapping("/emp/pstn/log")
+	@GetMapping("/emp/log/pstn")
 	public String viewPstnLogListPage(Model model, PstnLogVO pstnLogVO) {
 		List<PstnLogVO> pstnLogList = pstnLogService.readAllPstnLogVO(pstnLogVO);
 		
@@ -30,7 +30,7 @@ public class PstnLogController {
 	      model.addAttribute("viewCnt", pstnLogVO.getViewCnt());
 	      model.addAttribute("pageCnt", pstnLogVO.getPageCnt());
 	      
-		return "/pstnlog/list";
+		return "/emp/log/pstn";
 	}
 
 }

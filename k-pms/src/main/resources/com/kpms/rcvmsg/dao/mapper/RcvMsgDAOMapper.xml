@@ -17,7 +17,8 @@
 			 , SND_MSG_ID
 			 , RCVR
 			 , RD_YN
-		  FROM RCV_MSG;
+		  FROM RCV_MSG
+		 WHERE RCVR = #{rcvr}
 	</select>
 	
 	<insert id="createOneRcvMsg"
@@ -41,25 +42,10 @@
 			 	 , #{mdfyr}
 			 	 , NVL(#{useYn}, 'N')
 			 	 , 'N'
-			 	 , ''
-			 	 , ''
-			 	 , '')
+			 	 , #{sndMsgId}
+			 	 , #{rcvr}
+			 	 , 'N')
 	</insert>
-	
-	<update id="updateOneRcvMsg"
-			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO">
-		UPDATE RCV_MSG
-		   SET CRT_DT=''
-		   	 , CRTR=''
-		   	 , MDFY_DT=''
-		   	 , MDFYR=''
-		   	 , USE_YN=''
-		   	 , DEL_YN=''
-		   	 , SND_MSG_ID=''
-		   	 , RCVR=''
-		   	 , RD_YN=''
-		 WHERE MSG_ID=''
-	</update>
 	
 	<update id="deleteOneRcvMsg"
 			parameterType="_int">

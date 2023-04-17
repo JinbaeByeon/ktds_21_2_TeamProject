@@ -20,26 +20,26 @@ public class SndMsgDAOImpl extends SqlSessionDaoSupport implements SndMsgDAO {
 
 	@Override
 	public List<SndMsgVO> readAllSndMsgVO(SndMsgVO sndMsgVO) {
-		return getSqlSession().selectList("SndMsgVO.readAllSndMsgVO", sndMsgVO);
+		return getSqlSession().selectList("SndMsg.readAllSndMsgVO", sndMsgVO);
 	}
 
 	@Override
 	public int createOneSndMsg(SndMsgVO sndMsgVO) {
-		return getSqlSession().insert("SndMsgVO.createOneSndMsg", sndMsgVO);
+		return getSqlSession().insert("SndMsg.createOneSndMsg", sndMsgVO);
 	}
 
 	@Override
 	public int updateOneSndMsg(SndMsgVO sndMsgVO) {
-		return getSqlSession().update("SndMsgVO.updateOneSndMsg", sndMsgVO);
+		return getSqlSession().update("SndMsg.updateOneSndMsg", sndMsgVO);
 	}
 
 	@Override
-	public int deleteOneSndMsg(int msgId) {
-		return getSqlSession().update("SndMsgVO.deleteOneSndMsg", msgId);
+	public int deleteOneSndMsg(String msgId) {
+		return getSqlSession().update("SndMsg.deleteOneSndMsg", msgId);
 	}
 
 	@Override
 	public int deleteSndMsgBySelectedMsgId(List<Integer> msgId) {
-		return getSqlSession().update("SndMsgVO.deleteSndMsgBySelectedMsgId", msgId);
+		return getSqlSession().update("SndMsg.deleteSndMsgBySelectedMsgId", msgId);
 	}
 }

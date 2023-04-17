@@ -27,16 +27,15 @@
 	<select id="readAllPstnLogVO"
 			parameterType="com.kpms.pstnlog.vo.PstnLogVO"
 			resultMap="pstnLogVOMap">
-		SELECT EMP_ID
-			 , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
-			 , CRTR
-			 , TO_CHAR(CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
-			 , PRVS_PSTN_ID
+		SELECT PL.EMP_ID
+			 , TO_CHAR(PL.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , PL.CRTR
+			 , TO_CHAR(PL.CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
+			 , PL.PRVS_PSTN_ID
 			 , P.PSTN_NM PRVS_PSTNNM
-			 , CHNG_PSTN_ID
-			 , CHNG_PSTN_ID
+			 , PL.CHNG_PSTN_ID
 			 , PT.PSTN_NM CHNG_PSTNNM
-			 , CHNG_RSN
+			 , PL.CHNG_RSN
 			 , E.F_NM
 			 , E.L_NM
 		  FROM PSTN_LOG PL
@@ -46,6 +45,9 @@
 		    ON PT.PSTN_ID = PL.CHNG_PSTN_ID
 		 INNER JOIN EMP E
 		    ON E.EMP_ID = PL.EMP_ID
+		<if test="empId != null and empId != ''">
+		 WHERE PL.EMP_ID = #{empId}
+		 </if>
 	</select>
 	
 	<insert id="createPstnLog"
