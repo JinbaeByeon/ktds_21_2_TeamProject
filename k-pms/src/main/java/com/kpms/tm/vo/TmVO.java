@@ -2,6 +2,10 @@ package com.kpms.tm.vo;
 
 import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.dep.vo.DepVO;
+<<<<<<< Updated upstream
+=======
+import com.kpms.emp.vo.EmpVO;
+>>>>>>> Stashed changes
 
 /**
  * TM
@@ -15,6 +19,11 @@ public class TmVO extends AbstractPagingVO {
 	private String tmHdId;
 	
 	private DepVO depIdDepVO;
+<<<<<<< Updated upstream
+=======
+	
+	private List<EmpVO> empList;
+>>>>>>> Stashed changes
 	
 	public String getTmId() {
 		return tmId;
@@ -52,5 +61,14 @@ public class TmVO extends AbstractPagingVO {
 	public void setDepIdDepVO(DepVO depIdDepVO) {
 		this.depIdDepVO = depIdDepVO;
 	}
+<<<<<<< Updated upstream
+=======
+	public List<EmpVO> getEmpList() {
+		return empList;
+	}
+	public void setEmpList(List<EmpVO> empList) {
+		this.empList = empList;
+	}
+>>>>>>> Stashed changes
 
 }
