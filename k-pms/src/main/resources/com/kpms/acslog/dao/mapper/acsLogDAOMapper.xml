@@ -10,7 +10,7 @@
 		<id property="logId" column="LOG_ID" />
 		<association property="emp" 
 					 javaType="com.kpms.emp.vo.EmpVO">
-			<id property="empId" column="crtr" />
+			<id property="empId" column="CRTR" />
 			<result property="fNm" column="F_NM" />
 			<result property="lNm" column="L_NM" />
 		</association>
@@ -35,16 +35,20 @@
 			resultMap="AcsLogMap">
 		<include refid="Common.pageHeader"/>
 		SELECT AL.LOG_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY AL.CRT_DT || AL.LOG_ID DESC) RNUM
 			 , AL.LOG_ID
-			 , AL.CRT_DT
+			 , TO_CHAR(AL.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , AL.CRTR
 			 , AL.ACS_LOG
 			 , E.F_NM
 			 , E.L_NM
-		  FROM ACS_LOG AL
+		  FROM (SELECT *
+		  		  FROM ACS_LOG
+		  		 <if test="crtr != null and crtr != ''">
+		  		 WHERE CRTR = #{crtr}
+		  		 </if>) AL
 		  JOIN EMP E
 		 	ON E.EMP_ID = AL.CRTR
-		 ORDER BY CRT_DT DESC
 		<include refid="Common.pageFooter"/>
 	</select>
 </mapper>

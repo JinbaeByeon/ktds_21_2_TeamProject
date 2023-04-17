@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.kpms.common.handler.SessionHandler;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.lgnhst.vo.LgnHstVO;
@@ -32,6 +33,7 @@ public class EmpController {
 		lgnHst.setAct("logout");
 		lgnHst.setCrtr(user.getEmpId());
 		lgnHst.setIp(request.getRemoteAddr());
+		SessionHandler.get().clearSession(user.getEmpId());
 		session.invalidate();
 		empService.createLgnHst(lgnHst);
 		return "redirect:/";

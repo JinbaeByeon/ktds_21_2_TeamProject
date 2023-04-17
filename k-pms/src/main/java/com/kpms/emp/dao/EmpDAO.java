@@ -8,6 +8,8 @@ public interface EmpDAO {
 
 	public int createOneEmp(EmpVO empVO);
 
+	public int readCntPwdChngDtMore90ById(String empId);
+	public String readSaltById(String empId);
 	public int readCntLgnTryDataRcnt60ById(String empId);
 	public EmpVO readLgnTryDataById(String empId);
 	public EmpVO readOneEmpByIdAndPwd(EmpVO empVO);
@@ -26,5 +28,4 @@ public interface EmpDAO {
 
 	public int updateEmpLgnCntZero(String empId);
 
-	public String readSaltById(String empId);
 }

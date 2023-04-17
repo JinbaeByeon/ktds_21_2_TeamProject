@@ -105,6 +105,16 @@
 			<result property="tmHdId" column="TM_HD_ID"/>
 			<result property="tmCrtDt" column="TM_CRT_DT"/>
 		</collection>
+		<collection property="empList"
+					 ofType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="EMP_ID"/>
+			<result property="fNm" column="F_NM"/>
+			<result property="lNm" column="L_NM"/>
+			<result property="brthdy" column="BRTHDY"/>
+			<result property="eml" column="EML"/>
+			<result property="phn" column="PHN"/>
+			<result property="pstnPrd" column="PSTN_PRD"/>
+		</collection>
 	</resultMap>
 	
 	<select id="readOneDepVOByDepId"
@@ -123,9 +133,18 @@
 			 , T.TM_NM
 			 , T.TM_HD_ID
 			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
+			 , E.EMP_ID
+			 , E.F_NM
+			 , E.L_NM
+			 , E.BRTHDY
+			 , E.EML
+			 , E.PHN
+			 , E.PSTN_PRD
 		  FROM DEP D
 		 INNER JOIN TM T
 		    ON D.DEP_ID = T.DEP_ID
+		 INNER JOIN EMP E
+		 	ON D.DEP_ID = E.DEP_ID
 		 WHERE D.DEP_ID = #{_parameter}
 		   AND D.DEL_YN = 'N'
 	</select>

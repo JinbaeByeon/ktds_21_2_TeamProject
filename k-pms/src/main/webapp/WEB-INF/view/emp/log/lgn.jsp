@@ -17,11 +17,9 @@
 		});
 		
 		function movePage(pageNo) {
-			/* var fNm = $("#search-keyword").val();
 			var empId = $("#empId").val();
-			var qryStr = "emp.fNm="+ fNm;
-			qryStr +=  "&crtr=" + empId; */
-			var qryStr =  "&pageNo=" + pageNo;
+			var qryStr = "&crtr=" + empId;
+			qryStr += "&pageNo=" + pageNo;
 			location.href = "${context}/emp/log/lgn?"  + qryStr;
 		}
 	</script>
@@ -33,7 +31,13 @@
 			<jsp:include page="../../include/empSidemenu.jsp"/>
 			<jsp:include page="../../include/content.jsp"/>
 			<div class="path"> 임직원관리 > 로그인 이력 조회</div>
-			
+			<form>
+				<div class="search-group">
+					<label for="">ID</label>
+					<input type="text" id="empId" name="crtr" class="grow-1 mr-10" value="${empId}"/>
+					<button class="btn-search" id="search-btn">검색</button>
+				</div>
+			</form>
 			<div class="grid">
 				<div class="grid-count align-right">
 					총 ${lgnHstList.size()}건

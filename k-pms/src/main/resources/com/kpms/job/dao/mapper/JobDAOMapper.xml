@@ -8,7 +8,8 @@
 			parameterType="com.kpms.job.vo.JobVO"
 			resultType="com.kpms.job.vo.JobVO">
 			<include refid="Common.pageHeader"></include>
-		SELECT JOB_ID
+		SELECT JOB_ID PK_COL
+			 , JOB_ID
 			 , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , CRTR
 			 , TO_CHAR(MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
