@@ -18,7 +18,7 @@ public class PstnLogController {
 	
 	@GetMapping("/emp/pstn/log")
 	public String viewPstnLogListPage(Model model, PstnLogVO pstnLogVO) {
-		List<PstnLogVO> pstnLogList = pstnLogService.readAllPstnLog(pstnLogVO);
+		List<PstnLogVO> pstnLogList = pstnLogService.readAllPstnLogVO(pstnLogVO);
 		
 		model.addAttribute("pstnLogList", pstnLogList);
 		model.addAttribute("pstnLogVO", pstnLogVO);

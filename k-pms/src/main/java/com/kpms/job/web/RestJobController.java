@@ -23,9 +23,9 @@ public class RestJobController {
 	private JobService jobService;
 	
 	@PostMapping("/api/job/create")
-	public APIResponseVO doCreateJob(JobVO jobVO) {
-		jobVO.setCrtr("임시 값");
-		jobVO.setMdfyr("임시 값");
+	public APIResponseVO doCreateJob(JobVO jobVO, @SessionAttribute("__USER__") EmpVO empVO) {
+		jobVO.setCrtr(empVO.getEmpId());
+		jobVO.setMdfyr(empVO.getEmpId());
 		boolean createResult = jobService.createOneJob(jobVO);
 		
 		if(createResult) {

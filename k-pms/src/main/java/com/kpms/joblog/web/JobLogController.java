@@ -16,7 +16,7 @@ public class JobLogController {
 	@Autowired
 	private JobLogService jobLogService;
 	
-	@GetMapping("/emp/job/log")
+	@GetMapping("/emp/log/job")
 	public String viewJobLogListPage(Model model, JobLogVO jobLogVO) {
 		List<JobLogVO> jobLogList = jobLogService.readAllJobLogVO(jobLogVO);
 			
@@ -30,6 +30,6 @@ public class JobLogController {
 		      model.addAttribute("viewCnt", jobLogVO.getViewCnt());
 		      model.addAttribute("pageCnt", jobLogVO.getPageCnt());
 		      
-			return "/joblog/list";
+			return "/emp/log/job";
 	}
 }

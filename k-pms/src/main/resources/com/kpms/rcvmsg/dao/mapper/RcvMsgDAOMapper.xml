@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RcvMsg">
+
+	<select id="readAllRcvMsgVO"
+			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO"
+			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
+		SELECT MSG_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , SND_MSG_ID
+			 , RCVR
+			 , RD_YN
+		  FROM RCV_MSG;
+	</select>
+	
+	<insert id="createOneRcvMsg"
+			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO">
+		INSERT INTO RCV_MSG
+				   (MSG_ID
+				  , CRT_DT
+				  , CRTR
+				  , MDFY_DT
+				  , MDFYR
+				  , USE_YN
+				  , DEL_YN
+				  , SND_MSG_ID
+				  , RCVR
+				  , RD_YN)
+			 VALUES
+			 	  (SEQ_RCV_MSG_PK.NEXTVAL
+			 	 , SYSDATE
+			 	 , #{crtr}
+			 	 , SYSDATE
+			 	 , #{mdfyr}
+			 	 , NVL(#{useYn}, 'N')
+			 	 , 'N'
+			 	 , ''
+			 	 , ''
+			 	 , '')
+	</insert>
+	
+	<update id="updateOneRcvMsg"
+			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO">
+		UPDATE RCV_MSG
+		   SET CRT_DT=''
+		   	 , CRTR=''
+		   	 , MDFY_DT=''
+		   	 , MDFYR=''
+		   	 , USE_YN=''
+		   	 , DEL_YN=''
+		   	 , SND_MSG_ID=''
+		   	 , RCVR=''
+		   	 , RD_YN=''
+		 WHERE MSG_ID=''
+	</update>
+	
+	<update id="deleteOneRcvMsg"
+			parameterType="_int">
+		UPDATE RCV_MSG
+		   SET DEL_YN = 'Y'
+		 WHERE MSG_ID = #{_parameter}
+	</update>
+	
+	<update id="deleteRcvMsgBySelectedMsgId"
+			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO">
+		UPDATE RCV_MSG
+		   SET DEL_YN = 'Y'
+		 WHERE MSG_ID IN
+	</update>
+</mapper>
