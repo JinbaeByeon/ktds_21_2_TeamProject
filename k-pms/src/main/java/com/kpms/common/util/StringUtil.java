@@ -16,6 +16,7 @@ public abstract class StringUtil {
 	public static boolean isNull(String str) {
 		return str == null;
 	}
+	
 	public static boolean isMatchTo(String lhs, String rhs) {
 		return lhs.equals(rhs);
 	}

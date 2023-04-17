@@ -35,6 +35,12 @@ public class PrjController {
 	public String viewPrjUpdatePage(@PathVariable String prjId, Model model) {
 		PrjVO prjVO = prjService.readOnePrjVOByPrjId(prjId);
 		model.addAttribute("prjVO", prjVO);
+		Map<String, String> tmMap = new HashMap<String, String>();
+		for(PrjTmMbrVO prjTmMbr : prjVO.getPrjTmMbrVO()) {
+			TmVO tmVO =  prjTmMbr.getTmMbrVO().getTmVO();
+			tmMap.put(tmVO.getTmId(), tmVO.getTmNm());
+		}
+	    model.addAttribute("tmList",tmMap.entrySet());
 		return "prj/update";
 	}
 	
@@ -68,7 +74,7 @@ public class PrjController {
 	}
 	
 	@GetMapping("/prj/search")
-	public String viewPrjDetailPage(@RequestParam(required=false) String prjNm, Model model) {
+	public String viewPrjSearchPage(@RequestParam(required=false) String prjNm, Model model) {
 		model.addAttribute("prjNm", prjNm);
 		List<PrjVO> prjList = prjService.readAllPrjVONoPagination(prjNm);
 		model.addAttribute("prjList", prjList);

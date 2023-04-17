@@ -106,7 +106,7 @@
 						<div>
 							<button id="addTmBtn" class="btn-primary">추가</button>
 						</div>
-						<div class="tm-grid">
+						<div class="grid">
 							<table>
 								<thead>
 									<tr>
@@ -125,7 +125,7 @@
 							<button id="addTmMbrBtn" class="btn-primary">추가</button>
 							<div class="items"></div>
 						</div>
-						<div class="tmMbr-grid">
+						<div class="grid">
 							<table>
 								<thead>
 									<tr>
