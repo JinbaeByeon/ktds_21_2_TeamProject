@@ -108,8 +108,8 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var queryString = "?cdNm=" + $("#search-cdNm-keyword").val();
-		queryString += "&prcdCmnCdVO.cdNm=" + $("#search-prcdncCdNm-keyword").val();
+		var queryString = "?prcdncCdId=" + $("#cdTypes").val();
+		queryString += "&cdNm=" + $("#cdName").val();
 		queryString += "&pageNo=" + pageNo;
 		
 		// URL 요청
@@ -126,10 +126,15 @@
 			<jsp:include page="../include/content.jsp" />
 
 			<div class="search-group">
-				<label for="search-keyword">코드명</label>
-				<input type="text" id="search-cdNm-keyword" class="search-input" value="${cmnCdVO.cdNm}" />
 				<label for="search-keyword">코드유형</label>
-				<input type="text" id="search-prcdncCdNm-keyword" class="search-input" value="${cmnCdVO.prcdCmnCdVO.cdNm}" />
+				<select id="cdTypes">
+					<option value="%">전체</option>
+					<c:forEach items="${cmnCdTypeList}" var="cmnCdType">
+						<option value="${cmnCdType.cdId}">${cmnCdType.cdNm}</option>
+					</c:forEach>
+				</select>
+				<label for="search-keyword">코드명</label>
+					<input type="text" id="cdName" name="cdName" />
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>
