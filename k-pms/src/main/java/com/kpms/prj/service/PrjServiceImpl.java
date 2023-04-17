@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kpms.cmncd.dao.CmnCdDAO;
+import com.kpms.cmncd.vo.CmnCdVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
@@ -17,6 +19,9 @@ public class PrjServiceImpl implements PrjService {
 	
 	@Autowired
 	private PrjDAO prjDAO;
+	
+	@Autowired
+	private CmnCdDAO cmnCdDAO;
 
 	@Override
 	public List<PrjVO> readAllPrjVO(PrjVO prjVO) {

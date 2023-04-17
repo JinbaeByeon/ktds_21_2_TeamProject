@@ -88,6 +88,11 @@
 					</div>
 					<div class="create-group">
 						<label for="prjStts">프로젝트 상태</label>
+						<select name = "prjStts">
+							<c:forEach items="${cmnCdList}" var="cmnCd">
+								<option value="${cmnCd.cdId}">${cmnCd.cdNm}</option>
+							</c:forEach>
+						</select>
 						<input type="text" id="prjStts" name="prjStts" value=""/>
 					</div>
 					<div class="create-group">

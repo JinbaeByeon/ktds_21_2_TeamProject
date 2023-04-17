@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kpms.cmncd.service.CmnCdService;
+import com.kpms.cmncd.vo.CmnCdVO;
 import com.kpms.prj.service.PrjService;
 import com.kpms.prj.vo.PrjVO;
 
@@ -18,8 +20,12 @@ public class PrjController {
 	@Autowired
 	private PrjService prjService;
 	
+	@Autowired
+	private CmnCdService cmnCdService;
+	
 	@GetMapping("/prj/create")
-	public String viewPrjCreatePage() {
+	public String viewPrjCreatePage(Model model, List<CmnCdVO> cmnCdList) {
+		model.addAttribute("cmnCdList", cmnCdList);
 		return "prj/create";
 	}
 	
