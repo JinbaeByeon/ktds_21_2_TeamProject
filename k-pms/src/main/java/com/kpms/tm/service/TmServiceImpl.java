@@ -56,7 +56,7 @@ public class TmServiceImpl implements TmService {
 
 	@Override
 	public boolean updateOneTm(TmVO tmVO) {
-		return tmDAO.updateOneTm(tmVO) > 0;
+		return tmDAO.updateOneTm(tmVO) > 0; 
 	}
 
 	@Override

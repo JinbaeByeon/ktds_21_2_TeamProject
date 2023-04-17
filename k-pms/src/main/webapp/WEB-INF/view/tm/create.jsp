@@ -101,7 +101,7 @@
 			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
-		$("#list-btn").click(function() {
+		$("#list-btn").click(function(response) {
 			location.href = "${context}/tm/list"
 		});
 		

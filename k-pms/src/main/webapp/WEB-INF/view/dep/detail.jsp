@@ -30,10 +30,10 @@
 							<label for="depNm">부서명</label>
 							<input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/>
 						</div>
-						<div class="create-group">
-							<label for="depId">부서ID</label>
-							<input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/>
-						</div>
+							<div class="create-group">
+								<label for="depId">부서ID</label>
+								<input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/>
+							</div>
 						<div class="create-group">
 							<label for="depHdId">부서장ID</label>
 							<input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/>
