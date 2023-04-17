@@ -14,24 +14,24 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	
+	var depId;
+	
 	function addDepFn(message) {
-		console.log(message);
 		
 		var depItems = $("#addDepIdBtn").closest(".create-group").find(".items");
 		if (depItems.find("." + message.depid).length > 0) {
-			alert(message.depnm + "은(는) 이미 추가된 부서입니다."); 
+			alert(message.depnm + "은(는) 이미 추가된 부서입니다.");
 			return;
 		}
 		
 		var itemDiv = depItems.find(".dep-item");
 			
 		var itemId = itemDiv.find("#depId")
-		console.log(message.depid);
 		itemId.val(message.depid);
 		itemDiv.append(itemId);
 		
 		var itemSpan = itemDiv.find("span");
-		itemSpan.text(message.depnm)
+		itemSpan.text(message.depnm);
 		itemDiv.append(itemSpan);
 		
 		var itemRemoveBtn = $("<button>X</button>");
@@ -41,6 +41,8 @@
 		itemDiv.append(itemRemoveBtn);
 		
 		depItems.append(itemDiv);
+		
+		depId.close();
 		
 	} 
 	
@@ -67,7 +69,9 @@
 		
 			$("#new_btn").click(function() {
 			
-			$("#isModify").val("false"); //등록모드
+				location.href = "${context}/tm/create"
+				
+			/* $("#isModify").val("false"); //등록모드
 			
 			$("#depId").val("");
 			$("depNm").val("");
@@ -78,9 +82,9 @@
 			$("#crtr").val("");
 			$("#crtDt").val("");
 			$("#mdfyr").val("");
-			$("#mdfyDt").val(0);
+			$("#mdfyDt").val("");
 			
-			$("#useYn").prop("checked", false);
+			$("#useYn").prop("checked", false); */
 		});
 		
 		$("#delete_btn").click(function() {
@@ -176,7 +180,7 @@
 		
 		$("#addDepIdBtn").click(function(event) {
 			event.preventDefault();
-			var depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
+			depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
 		});
 		
 		
@@ -315,7 +319,7 @@
 						<div class="input-group inline">
 							<div class="create-group">
 								<label for="tmHdId" style="width: 180px;">팀장ID</label>
-								<input type="text" id="tmHdId" name="tmHdId" readonly value="admin" />
+								<input type="text" id="tmHdId" name="tmHdId" readonly value=" " />
 								<button id="addTmHeadBtn" class="btn-tm">등록</button>
 								<div class="items"></div>
 							</div>

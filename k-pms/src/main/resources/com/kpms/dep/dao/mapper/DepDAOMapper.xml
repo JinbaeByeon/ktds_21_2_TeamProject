@@ -3,7 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Dep">
-
 	 <resultMap id="depVOMap" 
 				type="com.kpms.dep.vo.DepVO"
 				autoMapping="true">
@@ -94,9 +93,23 @@
 		 ORDER BY D.DEP_ID ASC
 	</select>
 	
+	<resultMap id="tmVOMap" 
+				type="com.kpms.dep.vo.DepVO"
+				autoMapping="true">
+		<id property="depId" column="DEP_ID"/>
+		<collection property="tmList"
+					 ofType="com.kpms.tm.vo.TmVO">
+			<id property="tmId" column="TM_ID"/>
+			<result property="depId" column="DEP_ID"/>
+			<result property="tmNm" column="TM_NM"/>
+			<result property="tmHdId" column="TM_HD_ID"/>
+			<result property="tmCrtDt" column="TM_CRT_DT"/>
+		</collection>
+	</resultMap>
+	
 	<select id="readOneDepVOByDepId"
 			parameterType="string"
-			resultType="com.kpms.dep.vo.DepVO">
+			resultMap="tmVOMap">
 		SELECT D.DEP_ID
 			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') DEP_CRT_DT
 			 , D.CRTR
@@ -106,7 +119,13 @@
 			 , D.DEP_NM
 			 , D.DEP_HD_ID
 			 , D.DEP_CRT_DT
+			 , T.TM_ID
+			 , T.TM_NM
+			 , T.TM_HD_ID
+			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
 		  FROM DEP D
+		 INNER JOIN TM T
+		    ON D.DEP_ID = T.DEP_ID
 		 WHERE D.DEP_ID = #{_parameter}
 		   AND D.DEL_YN = 'N'
 	</select>
