@@ -71,42 +71,74 @@
 						<label for="useYn">사용여부</label>
 						<input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''} onClick="return false" />
 					</div>
-						<div class="create-group">
-							<label for="tm">팀원</label>
-							<div class="grid">
-								<table>
-									<thead>
-										<tr>
-											<th>직원ID</th>
-											<th>팀</th>
-											<th>성</th>
-											<th>이름</th>
-											<th>권한</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:choose>
-											<c:when test="${not empty prjVO.ptmList}">
-												<c:forEach items="${prjVO.ptmList}" var="ptm">
-													<tr>
-														<td>${ptm.tmMbrVO.empVO.empId}</td>
-														<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-														<td>${ptm.tmMbrVO.empVO.fNm}</td>
-														<td>${ptm.tmMbrVO.empVO.lNm}</td>
-														<td>${ptm.prjPstn}</td>
-													</tr>
-												</c:forEach>
-											</c:when>
-										<c:otherwise>
-											<td colspan="4" class="no-items">
-												등록된 팀원이 없습니다.
-											</td>
-										</c:otherwise>
-										</c:choose>
-									</tbody>
-								</table>
-							</div>
+					
+					<div class="create-group">
+						<label for="tm">팀</label>
+						<div class="grid">
+							<table>
+								<thead>
+									<tr>
+										<th>팀ID</th>
+										<th>팀</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:choose>
+										<c:when test="${not empty prjVO.ptmList}">
+											<c:forEach items="${prjVO.ptmList}" var="ptm">
+												<tr>
+													<td>${ptm.tmMbrVO.tmVO.tmId}</td>
+													<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												</tr>
+											</c:forEach>
+										</c:when>
+									<c:otherwise>
+										<td colspan="2" class="no-items">
+											등록된 팀이 없습니다.
+										</td>
+									</c:otherwise>
+									</c:choose>
+								</tbody>
+							</table>
 						</div>
+					</div>
+					
+					<div class="create-group">
+						<label for="tmMbr">팀원</label>
+						<div class="grid">
+							<table>
+								<thead>
+									<tr>
+										<th>직원ID</th>
+										<th>팀</th>
+										<th>성</th>
+										<th>이름</th>
+										<th>권한</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:choose>
+										<c:when test="${not empty prjVO.ptmList}">
+											<c:forEach items="${prjVO.ptmList}" var="ptm">
+												<tr>
+													<td>${ptm.tmMbrVO.empVO.empId}</td>
+													<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+													<td>${ptm.tmMbrVO.empVO.fNm}</td>
+													<td>${ptm.tmMbrVO.empVO.lNm}</td>
+													<td>${ptm.prjPstn}</td>
+												</tr>
+											</c:forEach>
+										</c:when>
+									<c:otherwise>
+										<td colspan="4" class="no-items">
+											등록된 팀원이 없습니다.
+										</td>
+									</c:otherwise>
+									</c:choose>
+								</tbody>
+							</table>
+						</div>
+					</div>
 						
 						
 							<label for="req">요구사항</label>

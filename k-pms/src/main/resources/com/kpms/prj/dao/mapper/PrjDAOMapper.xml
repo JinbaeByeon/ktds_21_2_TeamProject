@@ -36,7 +36,8 @@
 			parameterType="com.kpms.prj.vo.PrjVO"
 			resultType="com.kpms.prj.vo.PrjVO">
 		<include refid="Common.pageHeader" />
-		SELECT P.PRJ_ID
+		SELECT P.PRJ_ID PK_COL
+			 , P.PRJ_ID
 			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , P.CRTR
 			 , TO_CHAR(P.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
@@ -98,6 +99,7 @@
 			 , PRK.PRJ_STTS
 			 , PTM.TM_MBR_ID
 			 , TM.EMP_ID
+			 , T.TM_ID 
 			 , T.TM_NM
 			 , E.F_NM 
 			 , E.L_NM 
