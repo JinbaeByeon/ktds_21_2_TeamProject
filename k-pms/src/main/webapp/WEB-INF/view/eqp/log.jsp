@@ -6,8 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="eqp"/>
-<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -164,82 +162,57 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 비품관리</div>
+				<div class="path"> 비품내역 관리</div>
 				<div class="search-group">
-					<label for="search-keyword">비품명</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
-					<button class="btn-search" id="search-btn">검색</button>
+					
 				</div>
 				
 				<div class="grid">
 					<div class="grid-count align-right">
-						총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건
+						총 ${eqpLogList.size() > 0 ? eqpLogList.get(0).totalCount : 0}건
 					</div>
 					<table>
 						<thead>
 							<tr>
 								<th><input type="checkbox" id="all_check"/></th>
 								<th>순번</th>
+								<th>로그ID</th>
 								<th>비품ID</th>
-								<th>비품명</th>
-								<th>비품종류</th>
-								<th>비품가격</th>
-								<th>구매일</th>
-								<th>신청상태</th>
-								<th>분실상태</th>
-								<th>등록자</th>
+								<th>신청자명</th>
+								<th>신청내용</th>
+								<th>등록자명</th>
 								<th>등록일</th>
-								<th>수정자</th>
-								<th>수정일</th>
-								<th>사용여부</th>
-								<th>삭제여부</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:choose>
-								<c:when test="${not empty eqpList}">
-									<c:forEach items="${eqpList}"
-											   var="eqp"
+								<c:when test="${not empty eqpLogList}">
+									<c:forEach items="${eqpLogList}"
+											   var="eqpLog"
 											   varStatus="index">
-										<tr data-eqpid="${eqp.eqpId}"
-											data-eqpnm="${eqp.eqpNm}"
-											data-eqptp="${eqp.eqpTp}"
-											data-applstts="${eqp.applStts}"
-											data-appldt="${eqp.applDt}"
-											data-eqpprc="${eqp.eqpPrc}"
-											data-prchsdt="${eqp.prchsDt}"
-											data-lossstts="${eqp.lossStts}"
-											data-lossrprtdt="${eqp.lossRprtDt}"
-											data-useyn="${eqp.useYn}"
-											data-crtr="${eqp.crtr}"
-											data-crtdt="${eqp.crtDt}"
-											data-mdfyr="${eqp.mdfyr}"
-											data-mdfydt="${eqp.mdfyDt}"
-											data-delyn="${eqp.delYn}">
+										<tr data-logid="${eqpLog.logId}"
+											data-eqpid="${eqpLog.eqpId}"
+											data-empid="${eqpLog.empId}"
+											data-stts="${eqpLog.stts}"
+											data-crtr="${eqpLog.crtr}"
+											data-crtdt="${eqpLog.crtDt}">
 											<td>
 												<input type="checkbox" class="check_idx" value="${eqp.eqpId}">
 											</td>
 											<td>${index.index + 1}</td>
-											<td>${eqp.eqpId}</td>
-											<td>${eqp.eqpNm}</td>
-											<td>${eqp.eqpTp}</td>
-											<td>${eqp.eqpPrc}</td>
-											<td>${eqp.prchsDt}</td>
-											<td>${eqp.applStts}</td>
-											<td>${eqp.lossStts}</td>
-											<td>${eqp.crtr}</td>
-											<td>${eqp.crtDt}</td>
-											<td>${eqp.mdfyr}</td>
-											<td>${eqp.mdfyDt}</td>
-											<td>${eqp.useYn}</td>
-											<td>${eqp.delYn}</td>
+											<td>${eqpLog.logId}</td>
+											<td>${eqpLog.eqpId}</td>
+											<td>${eqpLog.empId}</td>
+											<td>${eqpLog.stts}</td>
+											<td>${eqpLog.crtr}</td>
+											<td>${eqpLog.crtDt}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="15" class="no-items">
-											등록된 비품이 없습니다.
+										<td colspan="7" class="no-items">
+											등록된 로그이력이 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -258,66 +231,13 @@
 					
 				</div>	
 				<div class="grid-detail">
-					<form id="detail_form" >
-						<!-- isModify == true => 수정(update) -->
-						<!-- isModify == false => 등록(insert) -->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline">
-							<label for="eqpId" style="width: 180px;">비품 ID</label>
-							<input type="text" id="eqpId"  name="eqpId" value="" readonly />
-						</div>
-						<div class="input-group inline">
-							<label for="eqpNm" style="width: 180px;">비품명</label>
-							<input type="text" id="eqpNm"  name="eqpNm" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="eqpTp" style="width: 180px;">비품종류</label>
-							<select id="eqpTp"  name="eqpTp" >
-								<option>선택</option>
-								<option>공기구</option>
-								<option>사무용품</option>
-								<option>소모품</option>
-							</select>
-						</div>
-						<div class="input-group inline">
-							<label for="eqpPrc" style="width: 180px;">비품가격</label>
-							<input type="text" id="eqpPrc"  name="eqpPrc" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prchsDt" style="width: 180px;">구매일</label>
-							<input type="date" id="prchsDt"  name="prchsDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">사용여부</label>
-							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
-						</div>
-						
-						<div class="input-group inline">
-							<label for="crtr" style="width: 180px;">등록자</label>
-							<input type="text" id="crtr"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="crtDt" style="width: 180px;">등록일</label>
-							<input type="text" id="crtDt"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyr" style="width: 180px;">수정자</label>
-							<input type="text" id="mdfyr"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyDt" style="width: 180px;">수정일</label>
-							<input type="text" id="mdfyDt"  disabled value=""/>
-						</div>
-						
-					</form>
+					
 				</div>
 				<div class="align-right">
-					<button id="new_btn" class="btn-primary">신규</button>
-					<button id="save_btn" class="btn-primary">저장</button>
-					<button id="delete_btn" class="btn-delete">삭제</button>
+					
 				</div>		
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
 </body>
-</html>
+</html>>

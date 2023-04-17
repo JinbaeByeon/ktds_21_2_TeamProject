@@ -187,6 +187,7 @@
 				
 				<div class="grid">
 					<div class="grid-count align-right">
+						총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건
 					</div>
 					<table>
 						<thead>

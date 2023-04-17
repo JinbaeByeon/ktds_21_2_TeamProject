@@ -66,6 +66,10 @@
 		  FROM EQP
 		 WHERE DEL_YN = 'N'
 		 <choose>
+		 	<when test='searchMode == "list"'>
+		   AND APPL_STTS IS NULL
+		   AND LOSS_STTS = 'N'
+		 	</when>
 		 	<when test='searchMode == "rent"'>
   		   AND LOSS_STTS = 'N'
 		   AND APPL_STTS IS NOT NULL
@@ -154,6 +158,7 @@
 		   SET APPL_STTS= #{applStts}
 		     , APPL_ID = #{applId}
 		     , APPL_DT= SYSDATE
+		     , LOSS_STTS = NVL(#{lossStts}, 'N')
 		 WHERE EQP_ID= #{eqpId}
 	</update>
 	

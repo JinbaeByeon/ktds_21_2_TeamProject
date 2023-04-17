@@ -202,6 +202,7 @@
 				}
 			});
 		});
+		
 		$("#refuse_all_btn").click(function(){
 			var checkLen = $(".check_idx:checked").length;
 			if(checkLen == 0) {
@@ -216,6 +217,119 @@
 			});
 			
 			$.post("${context}/api/eqp/refuse", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		
+		$("#return_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/return", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		$("#no_return_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/noreturn", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		$("#no_apply_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/noapply", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		
+		$("#lost_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/lost", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		
+		$("#no_lost_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/nolost", form.serialize(), function(response){
 				if(response.status == "200 OK"){
 					location.reload(); //새로고침
 				}
@@ -251,6 +365,7 @@
 				
 				<div class="grid">
 					<div class="grid-count align-right">
+						총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건
 					</div>
 					<table>
 						<thead>
@@ -264,9 +379,9 @@
 									<select id="applSttsType" name="applSttsType">
 										<option value="">선택</option>
 										<option value="대여신청">대여신청</option>
-										<option value="대여취소">대여취소</option>
 										<option value="대여중">대여중</option>
-										<option value="변경신청">변경신청</option>
+										<option value="반납신청">반납신청</option>
+										<option value="분실신청">분실신청</option>
 									</select>
 								</th>
 								<th>신청자명</th>
@@ -339,8 +454,13 @@
 						</tbody>
 					</table>
 					<div class="align-right mt-10">
-						<button id="apply_all_btn" class="apply-delete">승인</button>
-						<button id="refuse_all_btn" class="refuse-delete">반려</button>
+						<button id="lost_all_btn" class="btn-lost">분실신청</button>
+						<button id="no_lost_all_btn" class="btn-no-lost">분실신청취소</button>
+						<button id="no_apply_all_btn" class="btn-no-apply">대여신청취소</button>
+						<button id="return_all_btn" class="btn-return">반납신청</button>
+						<button id="no_return_all_btn" class="btn-no-return">반납취소</button>
+						<button id="apply_all_btn" class="btn-apply">승인</button>
+						<button id="refuse_all_btn" class="btn-refuse">반려</button>
 						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					<c:import url="../include/pagenate.jsp">

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EqpLog">
+	
+	<insert id="createEqpLog"
+			parameterType="com.kpms.eqplog.vo.EqpLogVO">
+		INSERT INTO EQP_LOG
+		 (LOG_ID
+		, CRT_DT
+		, CRTR
+		, EMP_ID
+		, EQP_ID
+		, STTS)
+		VALUES
+		 ('EL-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_EQP_LOG_PK.NEXTVAL,5,'0')
+		, SYSDATE
+		, #{crtr}
+		, #{empId}
+		, #{eqpId}
+		, #{stts})
+	</insert>
+	
+	<select id="readAllEqpLog"
+			parameterType="com.kpms.eqplog.vo.EqpLogVO"
+			resultType="com.kpms.eqplog.vo.EqpLogVO">
+		SELECT LOG_ID
+			 , CRT_DT
+			 , CRTR
+			 , EMP_ID
+			 , EQP_ID
+			 , STTS
+		  FROM EQP_LOG
+	</select>
+	
+
+</mapper>
