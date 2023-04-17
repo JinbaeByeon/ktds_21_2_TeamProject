@@ -26,17 +26,21 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">부서관리 > 부서 상세조회</div>
 					<div>	
-						<div>
-							부서명: ${depVO.depNm}
+						<div class="create-group">
+							<label for="depNm">부서명</label>
+							<input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/>
 						</div>
-						<div>
-							부서ID: ${depVO.depId}
+						<div class="create-group">
+							<label for="depId">부서ID</label>
+							<input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/>
 						</div>
-						<div>
-							부서장ID: ${depVO.depHdId}
+						<div class="create-group">
+							<label for="depHdId">부서장ID</label>
+							<input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/>
 						</div>
-						<div>
-							부서 생성일: ${depVO.depCrtDt}
+						<div class="create-group">
+							<label for="depCrtDt">부서 생성일</label>
+							<input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/>
 						</div>
 					</div>
 					
