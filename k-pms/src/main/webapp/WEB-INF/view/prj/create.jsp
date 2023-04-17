@@ -17,8 +17,6 @@
 	
 	function addTmFn(message) {
 		
-		var tmThead = $(document).find()
-		
 		var tmItems = $(document).find(".tmAddTbody");
 		if (tmItems.find("." + message.tmid).length > 0) {
 			tm.alert(message.tmnm + "은(는) 이미 추가된 팀입니다.");
@@ -38,6 +36,16 @@
 	}
 	
 	$().ready(function() {
+		
+		$.get("${context}/api/cmncd/list/002", function(response) {
+			
+			for (var i in response.data) {
+				var cdNm = response.data[i].cdNm;
+				var option = $("<option value='" + response.data[i].cdId + "'></option>");
+				option.append(cdNm);
+				$("#prjStts-select").append(option)
+			}
+		});
 		
 		$("#addTmBtn").click(function(event) {
 			event.preventDefault();
@@ -88,12 +96,7 @@
 					</div>
 					<div class="create-group">
 						<label for="prjStts">프로젝트 상태</label>
-						<select name = "prjStts">
-							<c:forEach items="${cmnCdList}" var="cmnCd">
-								<option value="${cmnCd.cdId}">${cmnCd.cdNm}</option>
-							</c:forEach>
-						</select>
-						<input type="text" id="prjStts" name="prjStts" value=""/>
+						<select id="prjStts-select" name="prjStts"></select>
 					</div>
 					<div class="create-group">
 						<label for="useYn">사용여부</label>

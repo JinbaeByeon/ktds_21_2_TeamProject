@@ -24,8 +24,7 @@ public class PrjController {
 	private CmnCdService cmnCdService;
 	
 	@GetMapping("/prj/create")
-	public String viewPrjCreatePage(Model model, List<CmnCdVO> cmnCdList) {
-		model.addAttribute("cmnCdList", cmnCdList);
+	public String viewPrjCreatePage() {
 		return "prj/create";
 	}
 	

@@ -15,6 +15,23 @@
 <script type="text/javascript">	
 	$().ready(function() {
 		
+		$.get("${context}/api/cmncd/list/002", function(response) {
+			var isSelected
+			
+			for (var i in response.data) {
+				var cdNm = response.data[i].cdNm;
+				if ($("#prjStts").val() == response.data[i].cdId) {
+					isSelected = "selected";
+				}
+				else {
+					isSelected = "";
+				}
+				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
+				option.append(cdNm);
+				$("#prjStts-select").append(option)
+			}
+		});
+		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
 			gnr = window.open("${context}/tmMbr/search", "팀원검색", "width=500, height=500")
@@ -79,7 +96,7 @@
 					</div>
 					<div class="create-group">
 						<label for="prjStts">프로젝트 상태</label>
-						<input type="text" id="prjStts" name="prjStts" value="${prjVO.prjStts}"/>
+						<select id="prjStts-select" name="prjStts"></select>
 					</div>
 					<div class="create-group">
 						<label for="useYn">사용여부</label>

@@ -14,6 +14,21 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
+		
+		$.get("${context}/api/cmncd/list/002", function(response) {
+			var prjSttsInput = $(document).find("#prjStts");
+			var sttsNm
+			
+			for (var i in response.data) {
+				if ($("#prjStts").val() == response.data[i].cdId) {
+					sttsNm = response.data[i].cdNm;
+				}
+			}
+			
+			var sttsInput = $("<input type='text' id='prjStts' name='prjStts' value='" + sttsNm + "' readonly/>");
+			prjSttsInput.after(sttsInput);
+		});
+		
 		$("#modify-btn").click(function() {
 			location.href = "${context}/prj/update/" + $("#prjId").val();
 		});
@@ -65,7 +80,8 @@
 					</div>
 					<div class="create-group">
 						<label for="prjStts">프로젝트 상태</label>
-						<input type="text" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/>
+						<input type="hidden" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/>
+						
 					</div>
 					<div class="create-group">
 						<label for="useYn">사용여부</label>
