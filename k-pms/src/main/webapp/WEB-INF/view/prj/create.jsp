@@ -27,12 +27,11 @@
 
 		
 		$(".trRemoveBtn").click(function() {
-			$(this).closest("." + message.tmid).remove();
+			console.log($(this).closest("." + message.tmid))
+			$(this).closest('tr').remove();
 		});
 		
 		tmItems.append(tmTr);
-
-		
 	}
 	
 	$().ready(function() {

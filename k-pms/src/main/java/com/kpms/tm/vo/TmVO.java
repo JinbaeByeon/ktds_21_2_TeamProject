@@ -62,5 +62,5 @@ public class TmVO extends AbstractPagingVO {
 	public void setDepIdDepVO(DepVO depIdDepVO) {
 		this.depIdDepVO = depIdDepVO;
 	}
-
+	
 }

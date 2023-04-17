@@ -14,13 +14,12 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
-		
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			var isSelected
 			
 			for (var i in response.data) {
 				var cdNm = response.data[i].cdNm;
-				if ($("#prjStts").val() == response.data[i].cdId) {
+				if ($("#original-prjStts").val() == response.data[i].cdId) {
 					isSelected = "selected";
 				}
 				else {
@@ -96,6 +95,7 @@
 					</div>
 					<div class="create-group">
 						<label for="prjStts">프로젝트 상태</label>
+						<input type="hidden" id="original-prjStts" name="original-prjStts" value="${prjVO.prjStts}"/>
 						<select id="prjStts-select" name="prjStts"></select>
 					</div>
 					<div class="create-group">

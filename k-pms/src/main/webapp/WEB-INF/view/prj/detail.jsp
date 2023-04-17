@@ -14,7 +14,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
-		
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			var prjSttsInput = $(document).find("#prjStts");
 			var sttsNm
@@ -81,7 +80,6 @@
 					<div class="create-group">
 						<label for="prjStts">프로젝트 상태</label>
 						<input type="hidden" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/>
-						
 					</div>
 					<div class="create-group">
 						<label for="useYn">사용여부</label>
@@ -100,11 +98,11 @@
 								</thead>
 								<tbody>
 									<c:choose>
-										<c:when test="${not empty prjVO.ptmList}">
-											<c:forEach items="${prjVO.ptmList}" var="ptm">
+										<c:when test="${not empty tmList}">
+											<c:forEach items="${tmList}" var="tm">
 												<tr>
-													<td>${ptm.tmMbrVO.tmVO.tmId}</td>
-													<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+													<td>${tm.getKey()}</td>
+													<td>${tm.getValue()}</td>
 												</tr>
 											</c:forEach>
 										</c:when>
