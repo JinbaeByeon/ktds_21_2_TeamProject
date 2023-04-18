@@ -12,15 +12,18 @@
 	<title>홈페이지</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
+		var detailWindow;
+		
 		$().ready(function(){
-			
+			$(".grid > table > tbody > tr").click(function() {
+				var empId = $(this).data("empid");
+				detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=500,height=500");
+			});
 		});
 		function movePage(pageNo) {
-			/* var fNm = $("#search-keyword").val();
 			var empId = $("#empId").val();
-			var qryStr = "emp.fNm="+ fNm;
-			qryStr +=  "&crtr=" + empId; */
-			var qryStr =  "&pageNo=" + pageNo;
+			var qryStr = "crtr=" + empId;
+			qryStr +=  "&pageNo=" + pageNo;
 			location.href = "${context}/emp/list?"  + qryStr;
 		}
 	</script>
@@ -32,7 +35,13 @@
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path"> 사원 관리 > 사원 조회</div>
-			
+			<form>
+				<div class="search-group">
+					<label for="">ID</label>
+					<input type="text" id="empId" name="crtr" class="grow-1 mr-10" value="${empId}"/>
+					<button class="btn-search" id="search-btn">검색</button>
+				</div>
+			</form>
 			<div class="grid">
 				<div class="grid-count align-right">
 					총 ${empList.size()}건
@@ -61,12 +70,12 @@
 								<c:forEach items="${empList}"
 										   var="emp"
 										   varStatus="index">
-									<tr data-mbrId="${emp.empId}" 
-									    data-fNm="${emp.fNm}"
-									    data-lNm="${emp.lNm}"
-									    data-crtDt="${emp.crtDt}"
+									<tr data-empid="${emp.empId}" 
+									    data-fnm="${emp.fNm}"
+									    data-lnm="${emp.lNm}"
+									    data-crtdt="${emp.crtDt}"
 									    data-emplmntstts="${emp.emplmntStts}"
-									    data-admnYn="${emp.admnYn}"
+									    data-admnyn="${emp.admnYn}"
 									    data-pstnid="${emp.pstnId}"
 									    data-jobid="${emp.jobId}"
 									    data-depid="${emp.depId}"
