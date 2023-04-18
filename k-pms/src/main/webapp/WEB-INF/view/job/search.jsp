@@ -9,6 +9,23 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript"> <!-- -->
 	$().ready(function() {
+		
+		function checkIndex(){
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
+		}
+		
+		$(".check_idx").change(function(){
+			checkIndex();
+		});
+		
+		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+			var check_idx = $(this).closest("tr").find(".check_idx");
+			check_idx.prop("checked",check_idx.prop("checked")==false);
+			checkIndex();
+		});
+		
 		$("#cancel_btn").click(function() {
 			window.close();
 		});

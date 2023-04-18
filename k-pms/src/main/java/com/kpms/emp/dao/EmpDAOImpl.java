@@ -22,7 +22,11 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	public int createOneEmp(EmpVO empVO) {
 		return getSqlSession().insert("Emp.createOneEmp",empVO);
 	}
-
+	
+	@Override
+	public int readCntPwdChngDtMore90ById(String empId) {
+		return getSqlSession().selectOne("Emp.readCntPwdChngDtMore90ById",empId);
+	}
 	@Override
 	public String readSaltById(String empId) {
 		return getSqlSession().selectOne("Emp.readSaltById",empId);
@@ -42,6 +46,11 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	@Override
 	public EmpVO readOneEmpByEmpId(String empId) {
 		return getSqlSession().selectOne("Emp.readOneEmpByEmpId",empId);
+	}
+	
+	@Override
+	public List<EmpVO> readEmpListNoPagination(EmpVO empVO) {
+		return getSqlSession().selectList("Emp.readEmpListNoPagination",empVO);
 	}
 	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {

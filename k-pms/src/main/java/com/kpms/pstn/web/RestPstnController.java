@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.pstn.service.PstnService;
 import com.kpms.pstn.vo.PstnVO;
 
@@ -21,11 +23,11 @@ public class RestPstnController {
 	private PstnService pstnService;
 	
 	@PostMapping("/pstn/create")
-	public APIResponseVO doCreatePstn(PstnVO pstnVO
-			) {
-		pstnVO.setCrtr("1");
-		pstnVO.setMdfyr("1");
-		
+	public APIResponseVO doCreatePstn(PstnVO pstnVO,
+			   						   @SessionAttribute("__USER__") EmpVO empVO) {
+		pstnVO.setCrtr(empVO.getEmpId());
+		pstnVO.setMdfyr(empVO.getEmpId());
+		pstnVO.setMdfyr(empVO.getEmpId());
 		boolean createResult = pstnService.createNewPstn(pstnVO);
 		
 		if(createResult) {
@@ -38,13 +40,10 @@ public class RestPstnController {
 
 	
 	@PostMapping("/api/pstn/update")	
-	public APIResponseVO doUpdatePstn(PstnVO pstnVO
-			/*@SessionAttribute("__ADMIN__") EmpVO empVO*/) {
-		
-				/*
-				 * pstnVO.setMdfyr(empVO.getEmpId());
-				 */		
-		pstnVO.setMdfyr("1");
+	public APIResponseVO doUpdatePstn(PstnVO pstnVO,
+									   @SessionAttribute("__USER__") EmpVO empVO) {
+		pstnVO.setMdfyr(empVO.getEmpId());
+				 	
 		boolean updateResult = pstnService.updateNewPstn(pstnVO);
 		
 		if(updateResult) {

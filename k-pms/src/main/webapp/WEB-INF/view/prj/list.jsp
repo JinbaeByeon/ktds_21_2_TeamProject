@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,29 +31,8 @@ $().ready(function() {
 		movePage(0);
 	});
 	
-	$("#save-btn").click(function() {
-		if ($("#isModify").val() == "false") {
-			// 신규등록
-			$.post("${context}/api/prj/create", $("#detail-form").serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload(); // 새로고침
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		}
-		else {
-			// 수정
-			$.post("${context}/api/prj/update", $("#detail-form").serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload(); // 새로고침
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});				
-		}
+	$("#new-btn").click(function() {
+		location.href = "${context}/prj/create"
 	});
 	
 	/* $("#delete-btn").click(function() {
@@ -87,6 +67,10 @@ $().ready(function() {
 		$(".check-idx:checked").each(function() {
 			form.append("<input type='hidden' name='prjId' value='" + $(this).val() + "'>");
 		});
+		
+		if(!confirm("정말 삭제하시겠습니까?")) {
+			return;
+		}
 		
 		$.post("${context}/api/prj/delete", form.serialize(), function(response) {});
 		location.reload(); // 새로고침
@@ -165,7 +149,7 @@ $().ready(function() {
 													<input type="checkbox" class="check-idx" value="${prj.prjId}" />
 												</td>
 												<td>${prj.prjId}</td>
-												<td>${prj.prjNm}</td>
+												<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
 												<td>${prj.cstmr}</td>
 												<td>${prj.strtDt}</td>
 												<td>${prj.endDt}</td>
@@ -185,7 +169,6 @@ $().ready(function() {
 							</tbody>
 					</table>
 					<div class="align-right mt-10">
-						<button id="delete-all-btn" class="btn-delete">선택 삭제</button>
 					</div>
 						<c:import url="../include/pagenate.jsp">
 		                  <c:param name="pageNo" value="${pageNo}"/>
@@ -194,39 +177,8 @@ $().ready(function() {
 		                  <c:param name="path" value="${context}/gnr"/>
 		               </c:import>
 				</div>
-				<div class="grid-detail">
-					<form id="detail-form">
-						<!-- 
-						isModify == true ==> 수정(update)
-						isModify == false ==> 등록(insert)
-						-->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline"> 
-							<label for="prjId" style="width: 180px;">프로젝트ID</label><input type="text" id="prjId" name="prjId" readonly value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prjNm" style="width: 180px;">프로젝트명</label><input type="text" id="prjNm" name="prjNm" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="cstmr" style="width: 180px;">고객사</label><input type="text" id="cstmr" name="cstmr" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="strtDt" style="width: 180px;">시작일</label><input type="date" id="strtDt" name="strtDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="endDt" style="width: 180px;">종료일</label><input type="date" id="endDt" name="endDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prjStts" style="width: 180px;">상태</label><input type="text" id="prjStts" name="prjStts" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
-						</div>
-					</form>
-				</div>
 				<div class="align-right">
 					<button id="new-btn" class="btn-primary">신규</button>
-					<button id="save-btn" class="btn-primary">저장</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />			

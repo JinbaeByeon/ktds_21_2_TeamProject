@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kpms.tm.service.TmService;
@@ -35,6 +36,27 @@ public class TmController {
 	      model.addAttribute("pageCnt", tmVO.getPageCnt());
 		
 		return "tm/list";
+	}
+	
+	
+	@GetMapping("tm/create")
+	public String viewTmCreatePage() {
+		return "tm/create";
+	}
+	
+	@GetMapping("/tm/detail/{tmId}")
+	public String viewDetailPage(@PathVariable String tmId, Model model) {
+		TmVO tmVO = tmService.readOneTmVOByTmId(tmId);
+		model.addAttribute("tmVO", tmVO);
+		
+		return "tm/detail";
+	}
+	
+	@GetMapping("/tm/update/{tmId}")
+	public String viewUpdatePage(@PathVariable String tmId, Model model) {
+		TmVO tmVO = tmService.readOneTmVOByTmId(tmId);
+		model.addAttribute("tmVO", tmVO);
+		return "tm/update";
 	}
 	
 	@GetMapping("/tm/search")

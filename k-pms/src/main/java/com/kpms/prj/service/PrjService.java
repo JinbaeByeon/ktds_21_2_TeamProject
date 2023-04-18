@@ -2,6 +2,7 @@ package com.kpms.prj.service;
 
 import java.util.List;
 
+import com.kpms.cmncd.vo.CmnCdVO;
 import com.kpms.prj.vo.PrjVO;
 
 public interface PrjService {

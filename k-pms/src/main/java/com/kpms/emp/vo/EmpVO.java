@@ -1,11 +1,14 @@
 package com.kpms.emp.vo;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.dep.vo.DepVO;
+import com.kpms.job.vo.JobVO;
+import com.kpms.pstn.vo.PstnVO;
 
 /**
  * EMP
  */
-public class EmpVO extends AbstractVO{
+public class EmpVO extends AbstractPagingVO{
 	private String empId;
 	private String fNm;
 	private String brthdy;
@@ -31,7 +34,14 @@ public class EmpVO extends AbstractVO{
 	private String lNm;
 	private int lgnCnt;
 	private String failDt;
-
+	
+	private EmpVO crtEmp;
+	private EmpVO mdfyEmp;
+	private DepVO dep;
+	private JobVO job;
+	private PstnVO pstn;
+	
+	
 	public String getEmpId() {
 		return empId;
 	}
@@ -232,4 +242,44 @@ public class EmpVO extends AbstractVO{
 		this.failDt = failDt;
 	}
 
+	public EmpVO getCrtEmp() {
+		return crtEmp;
+	}
+
+	public void setCrtEmp(EmpVO crtEmp) {
+		this.crtEmp = crtEmp;
+	}
+
+	public EmpVO getMdfyEmp() {
+		return mdfyEmp;
+	}
+
+	public void setMdfyEmp(EmpVO mdfyEmp) {
+		this.mdfyEmp = mdfyEmp;
+	}
+
+	public DepVO getDep() {
+		return dep;
+	}
+
+	public void setDep(DepVO dep) {
+		this.dep = dep;
+	}
+
+	public JobVO getJob() {
+		return job;
+	}
+
+	public void setJob(JobVO job) {
+		this.job = job;
+	}
+
+	public PstnVO getPstn() {
+		return pstn;
+	}
+
+	public void setPstn(PstnVO pstn) {
+		this.pstn = pstn;
+	}
+	
 }

@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="eqp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-	
 		$(".grid > table > tbody > tr").click(function(){
 			
 			$("#isModify").val("true"); //수정모드
@@ -83,7 +83,7 @@
 			var ajaxUtil = new AjaxUtil();
 			if($("#isModify").val() == "false"){
 				// 신규등록	
-				ajaxUtil.upload("#detail_form","${context}/eqp/create",function(response){
+				ajaxUtil.upload("#detail_form","${context}/api/eqp/create",function(response){
 					if(response.status == "200 OK"){
 						location.reload(); //새로고침
 					}	
@@ -107,7 +107,7 @@
 		
 		$("#search-btn").click(function(){
 			var eqpNm =$("#search-keyword").val();
-			location.href = "${context}/eqp?eqpNm=" + eqpNm;
+			location.href = "${context}/eqp/list?eqpNm=" + eqpNm;
 			/* movePage(0) */
 			
 		})
@@ -152,7 +152,7 @@
 		// 입력값
 		var eqpNm = $("#search-keyword").val();
 		// URL 요청
-		location.href = "${context}/eqp?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+		location.href = "${context}/eqp/list?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
@@ -160,7 +160,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/sysSidemenu.jsp"/>
+			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 비품관리</div>
 				<div class="search-group">
@@ -180,12 +180,10 @@
 								<th>비품ID</th>
 								<th>비품명</th>
 								<th>비품종류</th>
-								<th>신청상태</th>
 								<th>비품가격</th>
 								<th>구매일</th>
+								<th>신청상태</th>
 								<th>분실상태</th>
-								<th>분실신고일</th>
-								<th>신청일</th>
 								<th>등록자</th>
 								<th>등록일</th>
 								<th>수정자</th>
@@ -204,11 +202,11 @@
 											data-eqpnm="${eqp.eqpNm}"
 											data-eqptp="${eqp.eqpTp}"
 											data-applstts="${eqp.applStts}"
+											data-appldt="${eqp.applDt}"
 											data-eqpprc="${eqp.eqpPrc}"
 											data-prchsdt="${eqp.prchsDt}"
 											data-lossstts="${eqp.lossStts}"
 											data-lossrprtdt="${eqp.lossRprtDt}"
-											data-appldt="${eqp.applDt}"
 											data-useyn="${eqp.useYn}"
 											data-crtr="${eqp.crtr}"
 											data-crtdt="${eqp.crtDt}"
@@ -222,12 +220,10 @@
 											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
-											<td>${eqp.applStts}</td>
 											<td>${eqp.eqpPrc}</td>
 											<td>${eqp.prchsDt}</td>
+											<td>${eqp.applStts}</td>
 											<td>${eqp.lossStts}</td>
-											<td>${eqp.lossRprtDt}</td>
-											<td>${eqp.applDt}</td>
 											<td>${eqp.crtr}</td>
 											<td>${eqp.crtDt}</td>
 											<td>${eqp.mdfyr}</td>
@@ -248,7 +244,7 @@
 						</tbody>
 					</table>
 					<div class="align-right mt-10">
-						<button id="delete_all_btn" class="btn_delete">삭제</button>
+						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
@@ -281,28 +277,12 @@
 							</select>
 						</div>
 						<div class="input-group inline">
-							<label for="applStts" style="width: 180px;">신청상태</label>
-							<input type="checkbox" id="applStts"  name="applStts" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="applDt" style="width: 180px;">신청일</label>
-							<input type="date" id="applDt"  name="applDt" value=""/>
-						</div>
-						<div class="input-group inline">
 							<label for="eqpPrc" style="width: 180px;">비품가격</label>
 							<input type="text" id="eqpPrc"  name="eqpPrc" value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="prchsDt" style="width: 180px;">구매일</label>
 							<input type="date" id="prchsDt"  name="prchsDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">분실상태</label>
-							<input type="checkbox" id="lossStts"  name="lossStts" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="lossRprtDt" style="width: 180px;">분실신고일</label>
-							<input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="lossStts" style="width: 180px;">사용여부</label>

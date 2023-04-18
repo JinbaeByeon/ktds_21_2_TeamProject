@@ -8,6 +8,7 @@ public class IndexController {
 
 	@GetMapping("/index")
 	public String viewIndexPage() {
+		
 		return "index";
 	}
 }

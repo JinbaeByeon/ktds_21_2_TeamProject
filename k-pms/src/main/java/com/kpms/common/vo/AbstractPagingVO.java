@@ -20,7 +20,7 @@ public abstract class AbstractPagingVO extends AbstractVO{
 	protected AbstractPagingVO() {
 		pageNo = 0;
 		viewCnt = 5;
-		pageCnt = 3;
+		pageCnt = 8;
 	}
 
 	public String getStartDt() {

@@ -121,6 +121,9 @@
 				$.post("${context}/api/emp/lgn",data,function(response){
 					console.log(response);
 					if(response.status == "200 OK"){
+						if(response.message=="pwdChng"){
+							alert("비밀번호를 변경한지 90일이 경과하였습니다. 비밀번호를 변경해주세요.");
+						}
 						if(response.redirectURL){
 							location.href="${context}"+response.redirectURL;
 						}

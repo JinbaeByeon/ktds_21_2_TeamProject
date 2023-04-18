@@ -5,13 +5,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.kpms.acslog.service.AcsLogService;
+import com.kpms.acslog.vo.AcsLogVO;
 import com.kpms.emp.vo.EmpVO;
 
 public class SessionInterceptor extends HandlerInterceptorAdapter{
 
 	private static final Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
+	
+	@Autowired
+	private AcsLogService acsLogService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -22,6 +28,16 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 			response.sendRedirect(request.getContextPath() + "/");
 			return false;
 		}
+		
+		AcsLogVO acsLogVO = new AcsLogVO();
+		acsLogVO.setCrtr(user.getEmpId());
+		String acsLog = request.getRequestURL().toString();
+		String qryStr = request.getQueryString();
+		if(qryStr != null) {
+			acsLog += qryStr;
+		}
+		acsLogVO.setAcsLog(acsLog);
+		acsLogService.createAcsLog(acsLogVO);
 		return true;
 	}
 }

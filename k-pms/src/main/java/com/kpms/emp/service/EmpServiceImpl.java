@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
+import com.kpms.common.handler.SessionHandler;
 import com.kpms.common.util.CalendarUtil;
 import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
@@ -82,6 +83,11 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
+	public boolean readPwdChngDtMore90ById(String empId) {
+		return empDAO.readCntPwdChngDtMore90ById(empId) > 0;
+	}
+	
+	@Override
 	public EmpVO readOneEmpByIdAndPwd(EmpVO empVO) {
 		String empId = empVO.getEmpId();
 		if(StringUtil.isEmpty(empVO.getEmpId())) {
@@ -115,6 +121,17 @@ public class EmpServiceImpl implements EmpService {
 			lgnTryLogDAO.createLgnTryLog(empVO);
 		} else {
 			// 로그인 성공
+			if(SessionHandler.get().isAlreadyLogin(empVO.getEmpId())) {
+				throw new APIException(APIStatus.FAIL, "이미 로그인된 ID입니다.");
+			}
+			if(loginData.getEmplmntStts().equals("휴직중")) {
+				throw new APIException(APIStatus.FAIL, "휴직 사원입니다.");
+			} else if(loginData.getEmplmntStts().equals("퇴사예정")) {
+				throw new APIException(APIStatus.FAIL, "퇴사예정 사원입니다.");
+			} else if(loginData.getEmplmntStts().equals("퇴사")) {
+				throw new APIException(APIStatus.FAIL, "퇴사 사원입니다.");
+			}
+			
 			// emp 테이블 로그인 데이터 수정
 			empDAO.updateEmpLgnSucc(empVO);
 			// 로그인 이력 추가
@@ -124,6 +141,7 @@ public class EmpServiceImpl implements EmpService {
 			lgnHstVO.setIp(empVO.getLtstLgnIp());
 			lgnHstDAO.createEmpLgnHst(lgnHstVO);
 		}
+
 		
 		return loginData;
 	}
@@ -133,6 +151,10 @@ public class EmpServiceImpl implements EmpService {
 		return empDAO.readOneEmpByEmpId(empId);
 	}
 
+	@Override
+	public List<EmpVO> readEmpListNoPagination(EmpVO empVO) {
+		return empDAO.readEmpListNoPagination(empVO);
+	}
 	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
 		return empDAO.readEmpList(empVO);

@@ -10,22 +10,22 @@ import org.springframework.stereotype.Repository;
 import com.kpms.pstnlog.vo.PstnLogVO;
 
 @Repository
-public class PstnLogDAOImpl extends SqlSessionDaoSupport implements PstnLogDAO{
+public class PstnLogDAOImpl extends SqlSessionDaoSupport implements PstnLogDAO {
 
 	@Autowired
 	@Override
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
+	
+	@Override
+	public List<PstnLogVO> readAllPstnLogVO(PstnLogVO pstnLogVO) {
+		return getSqlSession().selectList("PstnLog.readAllPstnLogVO", pstnLogVO);
+	}
+	
 	@Override
 	public int createPstnLog(PstnLogVO pstnLogVO) {
 		return getSqlSession().insert("PstnLog.createPstnLog", pstnLogVO);
 	}
 
-	@Override
-	public List<PstnLogVO> readAllPstnLog(PstnLogVO pstnLogVO) {
-		return getSqlSession().selectList("PstnLog.readAllPstnLog", pstnLogVO);
-	}
-
-	
 }
