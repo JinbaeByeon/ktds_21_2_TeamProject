@@ -17,7 +17,7 @@ public class PstnController {
 	@Autowired
 	private PstnService pstnService;
 	
-	@GetMapping("/pstn")  
+	@GetMapping("/pstn/list")  
 	public String viewPstnListPage(Model model, PstnVO pstnVO) {
 		List<PstnVO> pstnList = pstnService.readAllPstn(pstnVO);
 		

@@ -27,7 +27,10 @@
 	<select id="readAllPstnLogVO"
 			parameterType="com.kpms.pstnlog.vo.PstnLogVO"
 			resultMap="pstnLogVOMap">
-		SELECT PL.EMP_ID
+		<include refid="Common.pageHeader"/>
+		SELECT TO_CHAR(PL.CRT_DT, 'YYYYMMDDHH24MISS') || PL.EMP_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY PL.CRT_DT || PL.EMP_ID DESC) RNUM
+			 , PL.EMP_ID
 			 , TO_CHAR(PL.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , PL.CRTR
 			 , TO_CHAR(PL.CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
@@ -48,6 +51,7 @@
 		<if test="empId != null and empId != ''">
 		 WHERE PL.EMP_ID = #{empId}
 		 </if>
+		 <include refid="Common.pageFooter"/>
 	</select>
 	
 	<insert id="createPstnLog"

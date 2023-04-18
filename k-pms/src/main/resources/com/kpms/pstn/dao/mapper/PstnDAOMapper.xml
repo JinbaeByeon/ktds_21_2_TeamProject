@@ -30,7 +30,9 @@
 			parameterType="com.kpms.pstn.vo.PstnVO"
 			resultType="com.kpms.pstn.vo.PstnVO">
 		<include refid="Common.pageHeader" />
-		SELECT PSTN_ID
+		SELECT PSTN_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY PSTN_ID ASC) RNUM
+			 , PSTN_ID
 			 , CRT_DT
 			 , CRTR
 			 , MDFY_DT

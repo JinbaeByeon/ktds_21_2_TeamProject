@@ -63,7 +63,7 @@
 			</div>
 			<div class="grid">
 				<div class="grid-count align-right">
-					총 ${jobLogList.size() > 0 ? jobList.get(0).totalCount : 0}건
+					총 ${jobLogList.size() > 0 ? jobLogList.get(0).totalCount : 0}건
 				</div>
 				<table>
 					<thead>

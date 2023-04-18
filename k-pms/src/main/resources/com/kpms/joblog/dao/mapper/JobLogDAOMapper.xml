@@ -29,7 +29,10 @@
 	<select id="readAllJobLogVO"
 			parameterType="com.kpms.joblog.vo.JobLogVO"
 			resultMap="jobLogVOMap">
-		SELECT JL.EMP_ID
+		<include refid="Common.pageHeader"/>
+		SELECT TO_CHAR(JL.CRT_DT, 'YYYYMMDDHH24MISS') || JL.EMP_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY JL.CRT_DT || JL.EMP_ID DESC) RNUM
+			 , JL.EMP_ID
 	 		 , TO_CHAR(JL.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 	 		 , JL.CRTR
 			 , TO_CHAR(JL.CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
@@ -50,7 +53,7 @@
 		 <if test="empId != null and empId != ''">
 		 WHERE JL.EMP_ID = #{empId}
 		 </if>
-		 
+		<include refid="Common.pageFooter"/>
 	</select>
 
 	<insert id="createJobLog"
