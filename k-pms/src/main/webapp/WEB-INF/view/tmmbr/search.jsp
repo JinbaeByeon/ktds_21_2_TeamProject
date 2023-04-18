@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로젝트 검색</title>
+<title>팀원 검색</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -19,7 +19,7 @@
 			var checkOne = $("#check-one:checked");
 			
 			if (checkOne.length == 0) {
-				alert("프로젝트를 선택하세요");
+				alert("팀원을 선택하세요");
 				return;
 			}
 			
@@ -36,48 +36,46 @@
 </head>
 <body>
 	<div class="search-popup content">
-		<h1>프로젝트 검색</h1>
-		<form>
+		<h1>팀원 검색</h1>
 			<div class="search-group">
-				<label for="prjNm">프로젝트명</label>
-				<input type="text" name="prjNm" class="grow-1 mr-10" value="${prjNm}"/>
+				<label for="search-keyword-nm">팀명</label>
+				<input type="text" id="search-keyword-nm" class="search-input" value="${tmNm}" />
 				<button class="search-btn" id="btn-search">검색</button>
 			</div>
-		</form>
 		<div class="grid">
 			<div class="grid-count align-right">
-						총 ${prjList.size() > 0 ? prjList.size() : 0}건
+						총 ${tmMbrList.size() > 0 ? tmMbrList.size() : 0}건
 			</div>
 			<table>
 				<thead>
 					<tr>
 						<th></th>
-						<th>프로젝트명</th>
-						<th>고객사</th>
-						<th>프로젝트 상태</th>
+						<th>직원ID</th>
+						<th>이름</th>
+						<th>팀명</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${not empty prjList}">
-							<c:forEach items="${prjList}"
-										var="prj">
-								<tr data-prjid="${prj.prjId}"
-									data-prjnm="${prj.prjNm}"
-									data-cstmr="${prj.cstmr}"
-									data-prjstts="${prj.prjStts}" >
+						<c:when test="${not empty tmMbrList}">
+							<c:forEach items="${tmMbrList}"
+										var="tmmbr">
+								<tr data-empid="${tmmbr.empId}"
+									data-fnm="${tmmbr.empVO.fNm}"
+									data-lnm="${tmmbr.empVO.lNm}"
+									data-tmnm="${tmmbr.tmVO.tmNm}" >
 									<td>
-										<input type="radio" id="check-one" name="check-one" value="${prj.prjId}" />
+										<input type="checkbox" id="all_check" name="all_check" value="${tmNm}" />
 									</td>
-									<td>${prj.prjNm}</td>
-									<td>${prj.cstmr}</td>
-									<td>${prj.prjStts}</td>
+									<td>${tmmbr.empId}</td>
+									<td>${tmmbr.empVO.fNm} ${tmmbr.empVO.lNm}</td>
+									<td>${tmmbr.tmVO.tmNm}</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="4">검색된 프로젝트가 없습니다.</td>
+								<td colspan="4">검색된 팀원이 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

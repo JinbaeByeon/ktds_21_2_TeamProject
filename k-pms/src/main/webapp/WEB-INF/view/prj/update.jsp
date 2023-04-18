@@ -59,7 +59,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tmMbr/search", "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/tmmbr/search", "팀원검색", "width=500, height=500")
 		});
 		
 		$("#save-btn").click(function() {
