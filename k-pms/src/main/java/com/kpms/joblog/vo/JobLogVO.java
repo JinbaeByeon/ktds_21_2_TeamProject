@@ -1,15 +1,23 @@
 package com.kpms.joblog.vo;
 
+import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.emp.vo.EmpVO;
+import com.kpms.job.vo.JobVO;
+
 /**
  * JOB_LOG
  */
-public class JobLogVO {
+public class JobLogVO extends AbstractPagingVO {
 
 	private String empId;
 	private String chngDt;
 	private String prvsJobId;
 	private String chngJobId;
 	private String chngRsn;
+	
+	private EmpVO empVO;
+	private JobVO prvsJobNmVO;
+	private JobVO chngJobNmVO;
 
 	public String getEmpId() {
 		return empId;
@@ -49,6 +57,30 @@ public class JobLogVO {
 
 	public void setChngRsn(String chngRsn) {
 		this.chngRsn = chngRsn;
+	}
+
+	public EmpVO getEmpVO() {
+		return empVO;
+	}
+
+	public void setEmpVO(EmpVO empVO) {
+		this.empVO = empVO;
+	}
+
+	public JobVO getPrvsJobNmVO() {
+		return prvsJobNmVO;
+	}
+
+	public void setPrvsJobNmVO(JobVO prvsJobNmVO) {
+		this.prvsJobNmVO = prvsJobNmVO;
+	}
+
+	public JobVO getChngJobNmVO() {
+		return chngJobNmVO;
+	}
+
+	public void setChngJobNmVO(JobVO chngJobNmVO) {
+		this.chngJobNmVO = chngJobNmVO;
 	}
 
 }

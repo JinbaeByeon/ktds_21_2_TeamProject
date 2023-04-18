@@ -1,4 +1,4 @@
-package com.kpms.pstnlog.dao;
+package com.kpms.joblog.dao;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kpms.pstnlog.vo.PstnLogVO;
+import com.kpms.joblog.vo.JobLogVO;
 
 @Repository
-public class PstnLogDAOImpl extends SqlSessionDaoSupport implements PstnLogDAO {
+public class JobLogDAOImpl extends SqlSessionDaoSupport implements JobLogDAO {
 
 	@Autowired
 	@Override
@@ -19,13 +19,13 @@ public class PstnLogDAOImpl extends SqlSessionDaoSupport implements PstnLogDAO {
 	}
 	
 	@Override
-	public List<PstnLogVO> readAllPstnLogVO(PstnLogVO pstnLogVO) {
-		return getSqlSession().selectList("PstnLog.readAllPstnLogVO", pstnLogVO);
+	public List<JobLogVO> readAllJobLogVO(JobLogVO jobLogVO) {
+		return getSqlSession().selectList("JobLog.readAllJobLogVO", jobLogVO);
 	}
 	
 	@Override
-	public int createPstnLog(PstnLogVO pstnLogVO) {
-		return getSqlSession().insert("PstnLog.createPstnLog", pstnLogVO);
+	public int createJobLog(JobLogVO jobLogVO) {
+		return getSqlSession().insert("JobLog.createJobLog", jobLogVO);
 	}
 
 }
