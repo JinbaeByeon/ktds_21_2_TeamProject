@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="KnwRpl">
+
+
+	<insert id="createNewKnwRpl"
+			parameterType="com.kpms.knwrpl.vo.KnwRplVO">
+		INSERT INTO KNW_RPL
+		 (RPL_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, CNT
+		, KNW_ID
+		, PRCDNC_RPL_ID)
+		VALUES
+		 ('KR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_KNW_RPL_PK.NEXTVAL, 5, '0')
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, 'Y'
+		, 'N'
+		, #{cnt}
+		, #{knwId}
+		, #{prcdncRplId})
+	</insert>
+
+	
+	<update id="updateOneKnwRpl"
+			parameterType="com.kpms.knwrpl.vo.KnwRplVO">
+		UPDATE KNW_RPL
+		   SET MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		     , CNT = #{cnt}
+		 WHERE RPL_ID = #{rplId}
+	</update>
+	
+	<update id="deleteOneKnwRpl"
+			parameterType="string">
+		UPDATE KNW_RPL
+		   SET DEL_YN = 'Y'
+		 WHERE RPL_ID = #{rplId}
+	</update>
+</mapper>

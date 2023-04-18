@@ -43,6 +43,7 @@ public class KnwController {
 	public String viewKnwDetailPage(@PathVariable String knwId, Model model) {
 		KnwVO knwVO = knwService.readOneKnwByKnwId(knwId);
 		model.addAttribute("knwVO", knwVO);
+		model.addAttribute("prjVO", knwVO.getPrjVO());
 		
 		return "knw/detail";
 	}

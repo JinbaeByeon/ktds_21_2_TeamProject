@@ -35,7 +35,7 @@ public class KnwDAOImpl extends SqlSessionDaoSupport implements KnwDAO {
 
 	@Override
 	public int updateOneKnw(KnwVO knwVO) {
-		return getSqlSession().update("knw.updateOneKnw", knwVO);
+		return getSqlSession().update("Knw.updateOneKnw", knwVO);
 	}
 
 	@Override

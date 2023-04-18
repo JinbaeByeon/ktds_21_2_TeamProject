@@ -39,7 +39,7 @@ public class KnwServiceImpl implements KnwService {
 
 	@Override
 	public boolean updateOneKnw(KnwVO knwVO) {
-		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
+		boolean isSuccess = knwDAO.updateOneKnw(knwVO) > 0;
 
 		if (!isSuccess) {
 			throw new APIArgsException("400", "제목과 내용은 필수값입니다.");

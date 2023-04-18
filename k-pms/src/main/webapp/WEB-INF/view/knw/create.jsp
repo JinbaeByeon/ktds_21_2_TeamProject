@@ -29,6 +29,8 @@
 
 				$("#save_btn").click(
 						function() {
+							
+							if()
 							$.post("${context}/api/knw/create", $("#create-form").serialize(), function(response) {
 								if (response.status == "200 OK") {
 									location.href = "${context}/knw/list";
