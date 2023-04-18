@@ -21,10 +21,10 @@ public class UploadHandler {
 	@Autowired
 //	private FileDAO fileDAO;
 	
-	@Value("${upload.profile.path:C:/naver-movie-admin/files/profiles}")
+	@Value("${upload.profile.path:C:/kpms/files/profiles}")
 	private String profilePath;
 
-	@Value("${upload.path:C:/naver-movie-admin/files}")
+	@Value("${upload.path:C:/kpms/files}")
 	private String uploadPath;
 	
 	public String getUploadPath() {

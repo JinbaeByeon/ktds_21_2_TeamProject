@@ -17,6 +17,7 @@ h1{
 	margin:0;
 	padding:0;
 }
+
 *{
 	font-size:12pt;
 	color:#333;
@@ -102,7 +103,7 @@ h1{
 	color:#FFF;
 	border:none;
 	border-radius: 3px;
-	font-size: 10px;
+	font-size: 15px;
 	padding:5px;
 }
 
@@ -456,6 +457,15 @@ img.profile{
 	height: 300px;
 }
 
+.mt-5 {
+	margin-top: 5px;
+}
+.mb-5 {
+	margin-bottom: 5px;
+}
+.mr-5 {
+	margin-right: 5px;
+}
 
 .ml-10 {
 	margin-left: 10px;
@@ -497,19 +507,35 @@ input::-webkit-inner-spin-button {
 
 .detail > .header{
 	margin:0;
+	margin-bottom: 10px;
 	padding:5px;
 	background-color: #666;
+	position: fixed;
+	width: 100%;
 }
 
 .detail > .header > h1{
 	color: #eee;
 }
 
+.detail > .basic.info {
+	padding-top: 40px;
+}
+
+.detail > .emp.info {
+	padding-top: 10px;
+}
+
+.detail > .info > h1 {
+	display: inline-block;
+	padding: 5px;
+}
 
 .detail > .info > ul {
 	padding: 0;
 	display: flex;
 	flex-direction: column;
+	margin: 0;
 }
 .detail > .info > ul > li {
 	width: 100%;
@@ -520,16 +546,28 @@ input::-webkit-inner-spin-button {
 	height: 40px;
 	text-align: center;
 }
+.detail > .info > ul > li > .column.profile {
+	height: 52px;
+}
+.detail > .info > ul > li > .column.profile > .left {
+	line-height: 50px;
+}
 
 .detail > .info > ul > li > .column > div {
-	border: 1px solid #eee;
 	display: inline-block;
 }
 .detail > .info > ul > li > .column > .left {
+	border: 1px solid #ddd;
 	width: 30%;
 	line-height: 38px;
+	background-color: #eee;
 }
 .detail > .info > ul > li > .column > .right {
+	border: 1px solid #eee;
 	width: 68%;
 	line-height: 38px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
+

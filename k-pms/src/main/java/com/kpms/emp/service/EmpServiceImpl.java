@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.handler.SessionHandler;
+import com.kpms.common.handler.UploadHandler;
 import com.kpms.common.util.CalendarUtil;
 import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
@@ -27,10 +29,11 @@ public class EmpServiceImpl implements EmpService {
 	private LgnHstDAO lgnHstDAO;
 	@Autowired
 	private LgnTryLogDAO lgnTryLogDAO;
-	
+	@Autowired
+	UploadHandler uploadHandler;
 	
 	@Override
-	public boolean createOneEmp(EmpVO empVO) {
+	public boolean createOneEmp(EmpVO empVO, MultipartFile uploadFile) {
 		
 		if(empDAO.readOneEmpByEmpId(empVO.getEmpId()) != null) {
 			throw new APIException(APIStatus.FAIL, "이미 사용중인 ID입니다.");
@@ -72,6 +75,9 @@ public class EmpServiceImpl implements EmpService {
 		if(StringUtil.isEmpty(empVO.getBrthdy())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "생년월일은 필수 값입니다.");
 		}
+		
+		uploadHandler.uploadProfile(uploadFile, empVO);
+		empVO.setPrflPht(empVO.getFileName());
 		
 		String defaultPwd = empVO.getEmpId();
 		String salt = SHA256Util.generateSalt();

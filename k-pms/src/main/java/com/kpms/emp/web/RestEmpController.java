@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
@@ -31,9 +32,9 @@ public class RestEmpController {
 		if(user == null) {
 			throw new APIException(APIStatus.DISMATCH, "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
-
+		
 		session.setAttribute("__USER__", user);
-		SessionHandler.get().setSession(empVO.getEmpId(), session);
+		SessionHandler.get().setSession(user.getEmpId(), session);
 		
 		if(empService.readPwdChngDtMore90ById(empVO.getEmpId())) {
 			return new APIResponseVO(APIStatus.OK,"pwdChng","/index");
@@ -43,7 +44,7 @@ public class RestEmpController {
 	}
 	
 	@PostMapping("/api/emp/rgst")
-	public APIResponseVO doRegistEmp(EmpVO empVO, @SessionAttribute("__USER__") EmpVO user) {
+	public APIResponseVO doRegistEmp(EmpVO empVO, @SessionAttribute("__USER__") EmpVO user, MultipartFile uploadFile) {
 		
 		if(empVO.getDepId()==null) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "부서를 입력하세요.");
@@ -51,7 +52,7 @@ public class RestEmpController {
 		
 		empVO.setCrtr(user.getEmpId());
 		empVO.setMdfyr(user.getEmpId());
-		if (empService.createOneEmp(empVO)) {
+		if (empService.createOneEmp(empVO,uploadFile)) {
 			return new APIResponseVO(APIStatus.OK,"/emp/list");
 		}
 		return new APIResponseVO(APIStatus.FAIL,"사원 등록 실패","왜실패햇지","");

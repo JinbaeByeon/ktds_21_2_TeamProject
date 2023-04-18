@@ -1,6 +1,6 @@
 package com.kpms.emp.vo;
 
-import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.common.vo.AbstractFileVO;
 import com.kpms.dep.vo.DepVO;
 import com.kpms.job.vo.JobVO;
 import com.kpms.pstn.vo.PstnVO;
@@ -8,7 +8,7 @@ import com.kpms.pstn.vo.PstnVO;
 /**
  * EMP
  */
-public class EmpVO extends AbstractPagingVO{
+public class EmpVO extends AbstractFileVO{
 	private String empId;
 	private String fNm;
 	private String brthdy;
