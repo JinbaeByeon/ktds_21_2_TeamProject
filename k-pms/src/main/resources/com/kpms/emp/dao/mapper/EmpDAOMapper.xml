@@ -337,6 +337,12 @@
 		UPDATE EMP
 		   SET MDFY_DT = SYSDATE,
 			   MDFYR = #{mdfyr},
+		<choose>
+			<when test="pwd != null and pwd != ''">
+			   PWD = #{pwd},
+			   PWD_SALT = #{pwdSalt}
+			</when>
+			<otherwise>
 			   F_NM = #{fNm},
 			   BRTHDY = #{brthdy},
 			   EML = #{eml},
@@ -344,6 +350,8 @@
 			   PRFL_PHT = #{prflPht},
 			   ADDRSS = #{addrss},
 			   L_NM = #{lNm}
+			</otherwise>
+		</choose>
 		 WHERE EMP_ID = #{empId}
 		   AND DEL_YN = 'N'
 	</update>

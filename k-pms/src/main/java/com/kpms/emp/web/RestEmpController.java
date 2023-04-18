@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -16,7 +17,9 @@ import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.handler.SessionHandler;
 import com.kpms.common.util.CalendarUtil;
+import com.kpms.common.util.StringUtil;
 import com.kpms.emp.service.EmpService;
+import com.kpms.emp.vo.EmpPwdVO;
 import com.kpms.emp.vo.EmpVO;
 
 @RestController
@@ -58,4 +61,45 @@ public class RestEmpController {
 		return new APIResponseVO(APIStatus.FAIL,"사원 등록 실패","왜실패햇지","");
 	}
 
+	@PostMapping("/api/emp/update")
+	public APIResponseVO doUpdateEmp(EmpVO empVO, @SessionAttribute("__USER__") EmpVO user, MultipartFile uploadFile) {
+		if(empVO.getDepId()==null) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "부서를 입력하세요.");
+		}
+		if(empVO.getJobId()==0) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "직무를 입력하세요.");
+		}
+		if(empVO.getPstnId()==0) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "직급을 입력하세요.");
+		}
+		
+		empVO.setMdfyr(user.getEmpId());
+		if (empService.updateOneEmp(empVO,uploadFile)) {
+			return new APIResponseVO(APIStatus.OK,"/emp/list");
+		}
+		return new APIResponseVO(APIStatus.FAIL,"사원 수정 실패","");
+	}
+	
+	@PostMapping("/api/emp/update/password")
+	public APIResponseVO doUpdatePwdEmp(EmpPwdVO empPwdVO) {
+		if(empService.updateEmpPwd(empPwdVO)) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+
+		return new APIResponseVO(APIStatus.FAIL,"비밀번호 변경 실패","");
+	}
+	
+
+	@GetMapping("/api/emp/reset/password")
+	public APIResponseVO doResetPwdEmp(String empId, @SessionAttribute("__USER__") EmpVO user) {
+		EmpVO empVO = new EmpVO();
+		empVO.setEmpId(empId);
+		empVO.setMdfyr(user.getEmpId());
+		
+		if(empService.updateEmpPwdReset(empVO)) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+
+		return new APIResponseVO(APIStatus.FAIL,"비밀번호 변경 실패","");
+	}
 }

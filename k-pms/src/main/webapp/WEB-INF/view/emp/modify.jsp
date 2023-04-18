@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>홈페이지</title>
+	<title>회원정보수정</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
@@ -18,6 +18,13 @@
 		var pstnWindow;
 		
 		$().ready(function(){
+			$(".remove-btn").click(function(e){
+				e.preventDefault();
+				var div = $(this).closest("div");
+				div.siblings(".btn-add").show();
+				div.remove();
+			});
+				
 			$("img.profile").click(function(e){
 				$("#prflPht").click();
 			});
@@ -63,10 +70,10 @@
 			});
 			
 			// 사원 등록
-			$("#new_btn").click(function(e){
+			$("#save_btn").click(function(e){
 				e.preventDefault();
 				var ajaxUtil = new AjaxUtil();
-				ajaxUtil.upload("#create-form","${context}/api/emp/rgst",function(response){
+				ajaxUtil.upload("#create-form","${context}/api/emp/update",function(response){
 					if(response.status == "200 OK"){
 						if(response.redirectURL){
 							location.href="${context}"+response.redirectURL;
@@ -166,103 +173,123 @@
 		<div>
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-				<div class="path"> 임직원관리 > 임직원등록</div>
+				<div class="path"> 사원 관리 > 사원 정보 수정</div>
 				
 				<h1>임직원 등록</h1>
 				<div>
 					<form id="create-form" enctype="multipart/form-data">
 						<div class="create-group">
 							<label for="prflPht">프로필 사진</label>
-							<img class="profile" src="${context}/img/base_profile.png"/>
+							<c:if test="${not empty empVO.prflPht}">
+								<img src="${context}/emp/prfl/${empVO.prflPht}/" class="profile"/>
+							</c:if>
+							<c:if test="${empty empVO.prflPht}">
+								<img src="${context}/img/base_profile.png" class="profile"/>
+							</c:if>
 							<input type="file" id="prflPht" name="prflPht"/>
 						</div>
 						<div class="create-group">
 							<label for="empId" class="required">ID</label>
-							<input type="text" id="empId" name="empId"/>
+							<input type="text" id="empId" name="empId" value="${empVO.empId}" disabled/>
 						</div>
 						<div class="create-group">
 							<div class="mr-10p">
 								<label for="fNm" class="required">이름</label>
-								<input type="text" id="fNm" name="fNm"/>
+								<input type="text" id="fNm" name="fNm" value="${empVO.fNm}"/>
 							</div>
 							<div class="right-item">
 								<label for="lNm">성</label>
-								<input type="text" id="lNm" name="lNm"/>
+								<input type="text" id="lNm" name="lNm" value="${empVO.lNm}"/>
 							</div>
 						</div>
 						<div class="create-group">
 							<label for="eml" class="required">이메일</label>
-							<input type="email" id="eml" name="eml"/>
+							<input type="email" id="eml" name="eml" value="${empVO.eml}"/>
 						</div>
 						<div class="create-group">
 							<label for="phn" class="required">휴대폰 번호</label>
-							<input type="text" id="phn" name="phn"/>
+							<input type="text" id="phn" name="phn" value="${empVO.phn}"/>
 						</div>
 						<div class="create-group">
 							<label for="pstCd" class="required">주소</label>
 							<div class="addrss-group">
 								<div class="grow-1">
-									<input type="text" id="pstCd" name="pstCd" readonly="readonly"/>
+									<input type="text" id="pstCd" name="pstCd" readonly value="${empVO.pstCd}"/>
 									<button class='fs-12'>우편번호</button>
 								</div>
 								<div class="grow-1">
-									<input type="text" id="addrss" name="addrss" readonly="readonly"/>
+									<input type="text" id="addrss" name="addrss" readonly value="${empVO.addrss}"/>
 								</div>
 								<div class="grow-1">
-									<input type="text" id="dtlAddrss" name="dtlAddrss"/>
+									<input type="text" id="dtlAddrss" name="dtlAddrss" value="${empVO.dtlAddrss}"/>
 								</div>
 							</div>
 						</div>
 						<div class="create-group">
 							<label for="brthdy" class="required">생년월일</label>
-							<input type="date" id="brthdy" name="brthdy"/>
+							<input type="date" id="brthdy" name="brthdy" value="${empVO.brthdy}"/>
 						</div>
 						<div class="create-group">
 							<label for="emplmntStts" class="required">재직상태</label>
 							<select id="emplmntStts" name="emplmntStts">
 								<option>선택</option>
-								<option value="재직중">재직중</option>
-								<option value="휴직중">휴직중</option>
-								<option value="퇴사예정">퇴사예정</option>
-								<option value="퇴사">퇴사</option>
+								<option value="재직중" ${empVO.emplmntStts=="재직중" ? "selected":""}>재직중</option>
+								<option value="휴직중" ${empVO.emplmntStts=="휴직중" ? "selected":""}>휴직중</option>
+								<option value="퇴사예정" ${empVO.emplmntStts=="퇴사예정" ? "selected":""}>퇴사예정</option>
+								<option value="퇴사" ${empVO.emplmntStts=="퇴사" ? "selected":""}>퇴사</option>
 							</select>
 						</div>
 						<div class="create-group">
 							<div class="mr-10p">
 								<label for="hrDt" class="required">입사일</label>
-								<input type="date" id="hrDt" name="hrDt"/>
+								<input type="date" id="hrDt" name="hrDt" value="${empVO.hrDt}"/>
 							</div>
 							<div class="right-item">
 								<label for="hrPrd">입사연차</label>
-								<input type="number" id="hrPrd" name="hrPrd" min="0" max="99" value="0"/>
+								<input type="number" id="hrPrd" name="hrPrd" min="0" max="99" value="${empVO.hrPrd}"/>
 							</div>
 						</div>
 						
 						<div class="create-group">
 							<label class="required">직급</label>
-							<div class="mr-10p">
-								<button id="btn-add-pstn" class="btn-add">+</button>
+							<div>
+								<button id="btn-add-pstn" class="btn-add" hidden="true">+</button>
+								<div class='pstn-item ml-10'>
+									<input type='hidden' name='pstnId' value="${empVO.pstnId}"/>
+									<span>${empVO.pstn.pstnNm}</span>
+									<button class="remove-btn">X</button>
+								</div>
 							</div>
 							<div class="right-item">
 								<label for="pstnPrd">직급연차</label>
-								<input type="number" id="pstnPrd" value="0" name="pstnPrd" min="0" max="99"/>
+								<input type="number" id="pstnPrd" name="pstnPrd" min="0" max="99" value="${empVO.pstnPrd}"/>
 							</div>
 						</div>
 						<div class="create-group">
 							<label class="required">직무</label>
 							<div>
-								<button id="btn-add-job" class="btn-add">+</button>
+								<button id="btn-add-job" class="btn-add" hidden="true">+</button>
+								<div class='job-item ml-10'>
+									<input type='hidden' name='jobId' value="${empVO.jobId}"/>
+									<span>${empVO.job.jobNm}</span>
+									<button class="remove-btn">X</button>
+								</div>
 							</div>
 						</div>
 						<div class="create-group">
 							<label class="required">부서</label>
 							<div>
-								<button id="btn-add-dep" class="btn-add">+</button>
+								<button id="btn-add-dep" class="btn-add" hidden="true">+</button>
+								<div class='dep-item ml-10'>
+									<input type='hidden' name='depId' value="${empVO.depId}"/>
+									<span>${empVO.dep.depNm}</span>
+									<button class="remove-btn">X</button>
+								</div>
 							</div>
 						</div>
 						<div class="create-group">
 							<label for="admnYn">관리자여부</label>
-							<input type="checkbox" id="admnYn" name="admnYn" value= "Y" checked/>
+							<input type="checkbox" id="admnYn" name="admnYn" value= "Y" ${empVO.admnYn == "Y" ? "checked" : ""}/>
 						</div>
 						<div class="create-group">
 							<label for="admnPwd" class="required">관리자 비밀번호</label>
@@ -272,7 +299,7 @@
 					</form>
 				</div>
 				<div class="align-right">
-					<button id="new_btn" class="btn-primary">등록</button>
+					<button id="save_btn" class="btn-primary">저장</button>
 				</div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>

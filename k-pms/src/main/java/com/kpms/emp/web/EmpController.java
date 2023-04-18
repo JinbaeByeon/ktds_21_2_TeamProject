@@ -71,6 +71,19 @@ public class EmpController {
 	public String viewEmpCreatePage() {
 		return "emp/create";
 	}
+	
+	@GetMapping("/emp/modify/{empId}")
+	public String viewEmpModifyPage(@PathVariable String empId, Model model) {
+		EmpVO empVO = empService.readOneEmpByEmpId(empId);
+		model.addAttribute("empVO",empVO);
+		return "emp/modify";
+	}
+	@GetMapping("/emp/modify/password/{empId}")
+	public String viewEmpPwdModifyPage(@PathVariable String empId, Model model) {
+		EmpVO empVO = empService.readOneEmpByEmpId(empId);
+		model.addAttribute("empVO",empVO);
+		return "emp/modifyPwd";
+	}
 
 	@GetMapping("/emp/admin/list")
 	public String viewAdminListPage(Model model, EmpVO empVO) {

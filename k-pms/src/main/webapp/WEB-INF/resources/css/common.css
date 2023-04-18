@@ -39,6 +39,7 @@ h1{
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
 
 .align-center{
@@ -441,6 +442,9 @@ img.profile{
 .create-group > div{
 	display: flex;
 }
+.create-group > div.column{
+	flex-direction: column;
+}
 
 .create-group > .right-item {
 	position: absolute;
@@ -455,6 +459,10 @@ img.profile{
 	flex-grow: 1;	
 	margin: 10px;
 	height: 300px;
+}
+
+.m-10 {
+	margin: 10px;
 }
 
 .mt-5 {
@@ -571,3 +579,29 @@ input::-webkit-inner-spin-button {
 	text-overflow: ellipsis;
 }
 
+.notice-pwd {
+	margin: 0;
+	margin-left: 10px;
+	margin-bottom: 3px;
+	color: #888;
+	font-size: 10px;
+	height: fit-content;
+}
+
+.btn-group {
+	display: flex;
+	position: relative;
+}
+.btn-group > div {
+	padding: 10px;
+	margin: 10px;
+	border-radius: 5px;
+}
+
+.btn-group > .btn-apply {
+	background-color: #2d3650c9;
+	color: #eee;
+}
+.btn-group > .btn-none {
+	background-color: #eee;
+}

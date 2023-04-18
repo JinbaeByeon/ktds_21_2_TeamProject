@@ -10,7 +10,10 @@
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
-			
+			$("#modify_btn").click(function(e){
+				opener.location.href= "${context}/emp/modify/${empVO.empId}";
+				window.close();
+			});
 		});
 	
 	</script>
@@ -154,7 +157,7 @@
 			</div>
 			
 			<div class="align-right mt-5 mb-5 mr-5">
-				<button id="new_btn" class="btn-primary">수정</button>
+				<button id="modify_btn" class="btn-primary">수정</button>
 			</div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>
