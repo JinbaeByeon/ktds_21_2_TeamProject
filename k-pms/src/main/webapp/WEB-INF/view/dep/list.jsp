@@ -177,7 +177,11 @@
 	});
 		 function movePage(pageNo) {
 			var queryString = "?depNm=" + $("#search-keyword").val();
-			queryString += "&tmNm=" + $("#search-tmNm-keyword").val();
+			queryString += "&tmSearchVO.tmNm=" + $("#search-tmNm-keyword").val();
+			queryString += "&lNm=" + $("#search-hdLNm-keyword").val();
+			queryString += "&fNm=" + $("#search-hdFNm-keyword").val();
+			queryString += "&tmSearchVO.lNm=" + $("#search-tmLNm-keyword").val();
+			queryString += "&tmSearchVO.fNm=" + $("#search-tmFNm-keyword").val();
 			queryString += "&pageNo=" + pageNo;
 			location.href = "${context}/dep/list" + queryString;
 		} 
@@ -194,7 +198,15 @@
 					<label for="search-keyword">부서명</label>
 					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
 					<label for="search-tmNm-keyword">팀명</label>
-					<input type="text" id="search-tmNm-keyword" class="search-input" value="${depVO.tmNm}"/>
+					<input type="text" id="search-tmNm-keyword" class="search-input" value="${depVO.tmSearchVO.tmNm}"/>
+					<label for="search-hdLNm-keyword">부서장 성</label>
+					<input type="text" id="search-hdLNm-keyword" class="search-input" value="${depVO.lNm}"/>
+					<label for="search-hdFNm-keyword">부서장 이름</label>
+					<input type="text" id="search-hdFNm-keyword" class="search-input" value="${depVO.fNm}"/>
+					<label for="search-tmLNm-keyword">팀장 성</label>
+					<input type="text" id="search-tmLNm-keyword" class="search-input" value="${depVO.tmSearchVO.lNm}"/>
+					<label for="search-tmFNm-keyword">팀장 이름</label>
+					<input type="text" id="search-tmFNm-keyword" class="search-input" value="${depVO.tmSearchVO.fNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">
@@ -210,6 +222,7 @@
 								<th>부서ID</th>
 								<th>부서명</th>
 								<th>부서장ID</th>
+								<th>부서장 성명</th>
 								<th>부서생성일</th>
 								<th>사용여부</th>
 								<th>등록자</th>
@@ -232,16 +245,15 @@
 											data-crtr="${dep.crtr}"
 											data-crtdt="${dep.crtDt}"
 											data-mdfyr="${dep.mdfyr}"
-											data-mdfydt="${dep.mdfyDt}"
-											data-crtrnm="${dep.crtrEmpVO.fNm}"
-											data-mdfynm="${dep.mdfyrEmpVO.fNm}">
+											data-mdfydt="${dep.mdfyDt}">
 											<td>
 												<input type="checkbox" class="check_idx" value="${dep.depId}"/>
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${dep.rnum}</td>
 											<td>${dep.depId}</td>
 											<td><a href="${context}/dep/detail/${dep.depId}">${dep.depNm}</a></td>
 											<td>${dep.depHdId}</td>
+											<td>${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
 											<td>${dep.crtr}(${dep.crtrEmpVO.lNm}${dep.crtrEmpVO.fNm})</td>
@@ -253,7 +265,7 @@
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="10" class="no-items">
+										<td colspan="11" class="no-items">
 											등록된 부서가 없습니다.
 										</td>
 									</tr>

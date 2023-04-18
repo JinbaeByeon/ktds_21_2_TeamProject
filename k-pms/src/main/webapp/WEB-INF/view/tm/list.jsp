@@ -49,10 +49,10 @@
 	$().ready(function() {
 		
 		
-			$("#new_btn").click(function() {
+		$("#new_btn").click(function() {
 			
-				location.href = "${context}/tm/create"
-			});
+			location.href = "${context}/tm/create"
+		});
 		
 		$("#delete_btn").click(function() {
 			var tmId =$("#tmId").val()
@@ -61,7 +61,7 @@
 				return;
 			}
 			
-			if (!confirm("정말 삭제하시겠습니까?")) { <!-- 사용자에게 확인  확인시 예를 누르면 false값이 return으로 온다.-->
+			if (!confirm("정말 삭제하시겠습니까?")) { 
 				return;
 			}
 			
@@ -130,6 +130,8 @@
 		 function movePage(pageNo) {
 			var queryString = "?tmNm=" + $("#search-keyword").val();
 			queryString += "&depIdDepVO.depNm=" + $("#search-depNm-keyword").val();
+			queryString += "&tmMbrVO.empVO.lNm=" + $("#search-mbrLNm-keyword").val();
+			queryString += "&tmMbrVO.empVO.fNm=" + $("#search-mbrFNm-keyword").val();
 			queryString += "&pageNo=" + pageNo;
 			location.href = "${context}/tm/list" + queryString;
 			
@@ -149,6 +151,10 @@
 					<input type="text" id="search-keyword" class="search-input" value="${tmVO.tmNm}"/>
 					<label for="search-depNm-keyword">부서명</label>
 					<input type="text" id="search-depNm-keyword" class="search-input" value="${tmVO.depIdDepVO.depNm}"/>
+					<label for="search-tmMbrNm-keyword">팀원 성</label>
+					<input type="text" id="search-mbrLNm-keyword" class="search-input" value="${tmVO.tmMbrVO.empVO.lNm}"/>
+					<label for="search-tmMbrNm-keyword">팀원 이름</label>
+					<input type="text" id="search-mbrFNm-keyword" class="search-input" value="${tmVO.tmMbrVO.empVO.fNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				<div class="grid">
@@ -166,6 +172,7 @@
 								<th>팀ID</th>
 								<th>팀명</th>
 								<th>팀장ID</th>
+								<th>팀장 성명</th>
 								<th>팀생성일</th>
 								<th>사용여부</th>
 								<th>등록자</th>
@@ -194,12 +201,13 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${tm.tmId}"/>
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${tm.rnum}</td>
 											<td>${tm.depId}</td>
 											<td>${tm.depIdDepVO.depNm}</td>
 											<td>${tm.tmId}</td>
 											<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
 											<td>${tm.tmHdId}</td>
+											<td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
 											<td>${tm.tmCrtDt}</td>
 											<td>${tm.useYn}</td>
 											<td>${tm.crtr}</td>

@@ -19,6 +19,18 @@
 			<result property="fNm" column="MDFYR_E_F_NM"/>
 			<result property="lNm" column="MDFYR_E_L_NM"/>
 		</association>
+		<association property="hdNmEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="DEP_HD_ID"/>
+			<result property="fNm" column="HD_EMP_F_NM"/>
+			<result property="lNm" column="HD_EMP_L_NM"/>
+		</association>
+		<association property="tmNmEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="TM_HD_ID"/>
+			<result property="fNm" column="TM_HD_EMP_F_NM"/>
+			<result property="lNm" column="TM_HD_EMP_L_NM"/>
+		</association>
 		<collection property="tmList"
 					 ofType="com.kpms.tm.vo.TmVO">
 			<id property="tmId" column="TM_ID"/>
@@ -32,6 +44,7 @@
 			resultMap="depVOMap" >
 		<include refid="Common.pageHeader" />
 		SELECT D.DEP_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY D.DEP_ID ASC) RNUM
 		     , D.DEP_ID
 			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , D.CRTR
@@ -47,21 +60,42 @@
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
 			 , MDFYR_E.L_NM MDFYR_E_L_NM
 			 , T.TM_NM
+			 , HD_EMP.F_NM HD_EMP_F_NM
+			 , HD_EMP.L_NM HD_EMP_L_NM
+			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
+			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
 		  FROM DEP D
 	     INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
 		    ON D.MDFYR = MDFYR_E.EMP_ID
+		  LEFT OUTER JOIN EMP HD_EMP
+		    ON D.DEP_HD_ID = HD_EMP.EMP_ID
 		  LEFT JOIN TM T
-		 	ON D.DEP_ID = T.DEP_ID 
+		 	ON D.DEP_ID = T.DEP_ID
+		  LEFT JOIN EMP TM_HD_EMP
+		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE D.DEL_YN = 'N'
 		<if test='depNm != null and depNm != ""'>
 		   AND D.DEP_NM LIKE '%' || #{depNm} || '%'
 		</if>
-		<if test='tmNm != null and tmNm != ""'>
-		   AND T.TM_NM LIKE '%' || #{tmNm} || '%'
+		<if test='lNm != null and lNm != ""'>
+		   AND HD_EMP.L_NM LIKE '%' || #{lNm} || '%'
+	    </if>
+		<if test='fNm != null and fNm != ""'>
+		   AND HD_EMP.F_NM LIKE '%' || #{fNm} || '%'
 		</if>
-		 ORDER BY D.DEP_ID ASC
+		<if test='tmSearchVO != null'>
+			<if test='tmSearchVO.tmNm != null and tmSearchVO.tmNm != ""'>
+		   AND T.TM_NM LIKE '%' || #{tmSearchVO.tmNm} || '%'
+			</if>
+			<if test='tmSearchVO.lNm != null and tmSearchVO.lNm != ""'>
+		   AND TM_HD_EMP.L_NM LIKE '%' || #{tmSearchVO.lNm} || '%'
+		   </if>
+		   	<if test='tmSearchVO.fNm != null and tmSearchVO.fNm != ""'>
+		   AND TM_HD_EMP.F_NM LIKE '%' || #{tmSearchVO.fNm} || '%'
+		   </if>
+		</if>
 		<include refid="Common.pageFooter" />
 	</select>
 	
@@ -104,6 +138,12 @@
 			<result property="tmNm" column="TM_NM"/>
 			<result property="tmHdId" column="TM_HD_ID"/>
 			<result property="tmCrtDt" column="TM_CRT_DT"/>
+			<association property="tmHdEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+				<id property="empId" column="TM_HD_ID"/>
+				<result property="fNm" column="TM_HD_EMP_F_NM"/>
+				<result property="lNm" column="TM_HD_EMP_L_NM"/>
+			</association>
 		</collection>
 		<collection property="empList"
 					 ofType="com.kpms.emp.vo.EmpVO">
@@ -140,11 +180,15 @@
 			 , E.EML
 			 , E.PHN
 			 , E.PSTN_PRD
+			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
+			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
 		  FROM DEP D
 		 INNER JOIN TM T
 		    ON D.DEP_ID = T.DEP_ID
 		 INNER JOIN EMP E
 		 	ON D.DEP_ID = E.DEP_ID
+		 INNER JOIN EMP TM_HD_EMP
+		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE D.DEP_ID = #{_parameter}
 		   AND D.DEL_YN = 'N'
 	</select>
