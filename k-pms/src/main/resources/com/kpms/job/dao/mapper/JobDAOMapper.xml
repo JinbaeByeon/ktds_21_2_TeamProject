@@ -9,6 +9,7 @@
 			resultType="com.kpms.job.vo.JobVO">
 			<include refid="Common.pageHeader"></include>
 		SELECT JOB_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY CRT_DT || JOB_ID DESC) RNUM
 			 , JOB_ID
 			 , TO_CHAR(CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , CRTR
