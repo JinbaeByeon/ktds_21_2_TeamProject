@@ -1,7 +1,6 @@
 package com.kpms.eqp.vo;
 
 import com.kpms.common.vo.AbstractPagingVO;
-import com.kpms.common.vo.AbstractVO;
 
 /**
  * EQP
@@ -12,12 +11,22 @@ public class EqpVO extends AbstractPagingVO {
 	private String eqpNm;
 	private String eqpTp;
 	private String applStts;
+	private String applId;
 	private String eqpPrc;
 	private String prchsDt;
 	private String lossStts;
 	private String lossRprtDt;
 	private String applDt;
 
+	private String searchMode;
+
+	public String getApplId() {
+		return applId;
+	}
+
+	public void setApplId(String applId) {
+		this.applId = applId;
+	}
 
 	public void setEqpId(String eqpId) {
 		this.eqpId = eqpId;
@@ -89,6 +98,14 @@ public class EqpVO extends AbstractPagingVO {
 
 	public String getApplDt() {
 		return this.applDt;
+	}
+
+	public String getSearchMode() {
+		return searchMode;
+	}
+
+	public void setSearchMode(String searchMode) {
+		this.searchMode = searchMode;
 	}
 
 }

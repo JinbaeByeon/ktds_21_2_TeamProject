@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
-<c:set scope="request" var="selected" value="eqp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +13,25 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
+		
+		$("li.nav-item.eqp").addClass("active");
+		$("li.nav-item").children("a").mouseover(function(){
+			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
+			if($(this).attr("class")!="nav-item eqp"){
+				$("li.nav-item.eqp").removeClass("active");
+			}
+			$(this).closest("li.nav-item").addClass("active");
+		});
+		$(".nav").mouseleave(function(){
+			$(this).find(".active").removeClass("active");
+			$("li.nav-item.eqp").addClass("active");
+		});
+		$(".sub-item").mouseenter(function(){
+			$(this).addClass("active");
+		});
+		
+		
 		$(".grid > table > tbody > tr").click(function(){
 			
 			$("#isModify").val("true"); //수정모드
@@ -30,7 +48,7 @@
 			$("#applStts").val(data.applstts);
 			$("#eqpPrc").val(data.eqpprc);
 			$("#prchsDt").val(data.prchsdt);
-			$("#lossStts").val(data.lossstts);
+			$("#lossStts").prop("checked", data.lossstts == "Y");
 			$("#lossRprtDt").val(data.lossrprtdt);
 			$("#applDt").val(data.appldt);
 			
@@ -83,7 +101,7 @@
 			var ajaxUtil = new AjaxUtil();
 			if($("#isModify").val() == "false"){
 				// 신규등록	
-				ajaxUtil.upload("#detail_form","${context}/api/eqp/create",function(response){
+				ajaxUtil.upload("#detail_form","${context}/eqp/create",function(response){
 					if(response.status == "200 OK"){
 						location.reload(); //새로고침
 					}	
@@ -93,6 +111,15 @@
 				});
 			}
 			else {
+				
+				if($("#applDt").val() != "" && $("#applDt").val() != null && $("#applDt").val() < $("#prchsDt").val()){
+					alert("신청일은 구매일 이후로 선택해야합니다.");
+					return;
+				}
+				else if($("#lossRprtDt").val() != "" && $("#lossRprtDt").val() != null && $("#lossRprtDt").val() < $("#prchsDt").val()){
+					alert("분실신고일은 구매일 이후로 선택해야합니다.")
+					return;
+				}
 				//수정
 				ajaxUtil.upload("#detail_form","${context}/api/eqp/update",function(response){
 					if(response.status == "200 OK"){
@@ -107,7 +134,7 @@
 		
 		$("#search-btn").click(function(){
 			var eqpNm =$("#search-keyword").val();
-			location.href = "${context}/eqp/list?eqpNm=" + eqpNm;
+			location.href = "${context}/eqp/rent?eqpNm=" + eqpNm;
 			/* movePage(0) */
 			
 		})
@@ -145,6 +172,59 @@
 				}
 			});
 		});
+		
+		$("#applSttsType").change(function(){
+			
+			var applStts =$("#applSttsType").val();
+			console.log(applStts);
+			location.href = "${context}/eqp/rent?applStts=" + applStts;
+		});
+		
+		$("#apply_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/apply", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		$("#refuse_all_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("신청할 비품이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/eqp/refuse", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		
 	});
 	
 	function movePage(pageNo) {
@@ -152,7 +232,7 @@
 		// 입력값
 		var eqpNm = $("#search-keyword").val();
 		// URL 요청
-		location.href = "${context}/eqp/list?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+		location.href = "${context}/eqp/rent?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
@@ -162,7 +242,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 비품관리</div>
+				<div class="path"> 대여 관리</div>
 				<div class="search-group">
 					<label for="search-keyword">비품명</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
@@ -180,10 +260,21 @@
 								<th>비품ID</th>
 								<th>비품명</th>
 								<th>비품종류</th>
+								<th>
+									<select id="applSttsType" name="applSttsType">
+										<option value="">선택</option>
+										<option value="대여신청">대여신청</option>
+										<option value="대여취소">대여취소</option>
+										<option value="대여중">대여중</option>
+										<option value="변경신청">변경신청</option>
+									</select>
+								</th>
+								<th>신청자명</th>
+								<th>신청일</th>
+								<th>분실상태</th>
+								<th>분실신고일</th>
 								<th>비품가격</th>
 								<th>구매일</th>
-								<th>신청상태</th>
-								<th>분실상태</th>
 								<th>등록자</th>
 								<th>등록일</th>
 								<th>수정자</th>
@@ -202,6 +293,7 @@
 											data-eqpnm="${eqp.eqpNm}"
 											data-eqptp="${eqp.eqpTp}"
 											data-applstts="${eqp.applStts}"
+											data-applid="${eqp.applId}"
 											data-appldt="${eqp.applDt}"
 											data-eqpprc="${eqp.eqpPrc}"
 											data-prchsdt="${eqp.prchsDt}"
@@ -220,10 +312,13 @@
 											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
+											<td>${eqp.applStts}</td>
+											<td>${eqp.applId}</td>
+											<td>${eqp.applDt}</td>
+											<td>${eqp.lossStts}</td>
+											<td>${eqp.lossRprtDt}</td>
 											<td>${eqp.eqpPrc}</td>
 											<td>${eqp.prchsDt}</td>
-											<td>${eqp.applStts}</td>
-											<td>${eqp.lossStts}</td>
 											<td>${eqp.crtr}</td>
 											<td>${eqp.crtDt}</td>
 											<td>${eqp.mdfyr}</td>
@@ -244,6 +339,8 @@
 						</tbody>
 					</table>
 					<div class="align-right mt-10">
+						<button id="apply_all_btn" class="apply-delete">승인</button>
+						<button id="refuse_all_btn" class="refuse-delete">반려</button>
 						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					<c:import url="../include/pagenate.jsp">
@@ -277,6 +374,14 @@
 							</select>
 						</div>
 						<div class="input-group inline">
+							<label for="applStts" style="width: 180px;">신청상태</label>
+							<input type="text" id="applStts"  name="applStts" value="" />
+						</div>
+						<div class="input-group inline">
+							<label for="applDt" style="width: 180px;">신청일</label>
+							<input type="date" id="applDt"  name="applDt" value=""/>
+						</div>
+						<div class="input-group inline">
 							<label for="eqpPrc" style="width: 180px;">비품가격</label>
 							<input type="text" id="eqpPrc"  name="eqpPrc" value=""/>
 						</div>
@@ -285,7 +390,15 @@
 							<input type="date" id="prchsDt"  name="prchsDt" value=""/>
 						</div>
 						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">사용여부</label>
+							<label for="lossStts" style="width: 180px;">분실상태</label>
+							<input type="checkbox" id="lossStts"  name="lossStts" value="Y"/>
+						</div>
+						<div class="input-group inline">
+							<label for="lossRprtDt" style="width: 180px;">분실신고일</label>
+							<input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
+						</div>
+						<div class="input-group inline">
+							<label for="useYn" style="width: 180px;">사용여부</label>
 							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
 						</div>
 						
