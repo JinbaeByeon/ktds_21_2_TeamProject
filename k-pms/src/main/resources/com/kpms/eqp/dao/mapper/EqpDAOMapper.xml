@@ -67,7 +67,9 @@
 			parameterType="com.kpms.eqp.vo.EqpVO"
 			resultMap="eqpVOMap">
 		<include refid="Common.pageHeader" />
-		SELECT E.EQP_ID
+		SELECT E.EQP_ID PK_COL
+			 , E.EQP_ID
+			 , DENSE_RANK() OVER(ORDER BY E.CRT_DT || E.EQP_ID DESC) RNUM
 			 , E.CRT_DT
 			 , E.CRTR
 			 , E.MDFY_DT

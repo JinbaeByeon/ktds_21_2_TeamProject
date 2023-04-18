@@ -287,9 +287,9 @@ function movePage(pageNo) {
 										<td>${eqp.lossRprtDt}</td>
 										<td>${eqp.eqpPrc}</td>
 										<td>${eqp.prchsDt}</td>
-										<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm} ${eqp.crtrEmpVO.lNm})</td>
+										<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm}${eqp.crtrEmpVO.lNm})</td>
 										<td>${eqp.crtDt}</td>
-										<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm} ${eqp.mdfyrEmpVO.lNm})</td>
+										<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
 										<td>${eqp.mdfyDt}</td>
 										<td>${eqp.useYn}</td>
 										<td>${eqp.delYn}</td>
@@ -329,16 +329,11 @@ function movePage(pageNo) {
 					</div>
 					<div class="input-group inline">
 						<label for="eqpNm" style="width: 180px;">비품명</label>
-						<input type="text" id="eqpNm"  name="eqpNm" value=""/>
+						<input type="text" id="eqpNm"  name="eqpNm" disabled value=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="eqpTp" style="width: 180px;">비품종류</label>
-						<select id="eqpTp"  name="eqpTp" >
-							<option>선택</option>
-							<option>공기구</option>
-							<option>사무용품</option>
-							<option>소모품</option>
-						</select>
+						<input type="text" id="eqpTp"  name="eqpTp" disabled value=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="applStts" style="width: 180px;">신청상태</label>
@@ -352,24 +347,24 @@ function movePage(pageNo) {
 					</div>
 					<div class="input-group inline">
 						<label for="applDt" style="width: 180px;">신청일</label>
-						<input type="date" id="applDt"  name="applDt" value=""/>
+						<input type="date" id="applDt"  name="applDt" disabled value=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="eqpPrc" style="width: 180px;">비품가격</label>
-						<input type="text" id="eqpPrc"  name="eqpPrc" value=""/>
+						<input type="text" id="eqpPrc"  name="eqpPrc" disabled value=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="prchsDt" style="width: 180px;">구매일</label>
-						<input type="date" id="prchsDt"  name="prchsDt" value=""/>
+						<input type="date" id="prchsDt"  name="prchsDt" disabled value=""/>
 					</div>
 					<div class="input-group inline">
 	
 						<label for="lossStts" style="width: 180px;">분실상태</label>
-						<input type="checkbox" id="lossStts"  name="lossStts" value="Y"/>
+						<input type="checkbox" id="lossStts"  name="lossStts" disabled value="Y"/>
 					</div>
 					<div class="input-group inline">
 						<label for="lossRprtDt" style="width: 180px;">분실신고일</label>
-						<input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
+						<input type="date" id="lossRprtDt"  name="lossRprtDt" disabled value=""/>
 					</div>
 					<div class="input-group inline">
 						<label for="lossStts" style="width: 180px;">사용여부</label>

@@ -60,7 +60,6 @@ public class EqpController {
 	@GetMapping("/eqp/log")  
 	public String viewEqpLogPage(EqpLogVO eqpLogVO, Model model) {
 		List<EqpLogVO> eqpLogList = eqpLogService.readAllEqpLog(eqpLogVO);
-		
 		model.addAttribute("eqpLogList", eqpLogList);
 		model.addAttribute("eqpLogVO", eqpLogVO);
 		

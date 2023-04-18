@@ -227,9 +227,9 @@
 											<td>${eqp.prchsDt}</td>
 											<td>${eqp.applStts}</td>
 											<td>${eqp.lossStts}</td>
-											<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm} ${eqp.crtrEmpVO.lNm})</td>
+											<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm}${eqp.crtrEmpVO.lNm})</td>
 											<td>${eqp.crtDt}</td>
-											<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm} ${eqp.mdfyrEmpVO.lNm})</td>
+											<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
 											<td>${eqp.mdfyDt}</td>
 											<td>${eqp.useYn}</td>
 											<td>${eqp.delYn}</td>
