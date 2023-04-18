@@ -22,7 +22,11 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	public int createOneEmp(EmpVO empVO) {
 		return getSqlSession().insert("Emp.createOneEmp",empVO);
 	}
-
+	
+	@Override
+	public int readCntPwdChngDtMore90ById(String empId) {
+		return getSqlSession().selectOne("Emp.readCntPwdChngDtMore90ById",empId);
+	}
 	@Override
 	public String readSaltById(String empId) {
 		return getSqlSession().selectOne("Emp.readSaltById",empId);

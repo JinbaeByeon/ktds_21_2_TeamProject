@@ -26,39 +26,108 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">부서관리 > 부서 상세조회</div>
 					<div>	
-						<div>
-							부서명: ${depVO.depNm}
+						<div class="create-group">
+							<label for="depNm">부서명</label>
+							<input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/>
 						</div>
-						<div>
-							부서ID: ${depVO.depId}
+							<div class="create-group">
+								<label for="depId">부서ID</label>
+								<input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/>
+							</div>
+						<div class="create-group">
+							<label for="depHdId">부서장ID</label>
+							<input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/>
 						</div>
-						<div>
-							부서장ID: ${depVO.depHdId}
-						</div>
-						<div>
-							부서 생성일: ${depVO.depCrtDt}
-						</div>
-					</div>
-					<div>
-						<div>
-							팀명: ${tmVO.tmNm}
-						</div>
-						<div>
-							팀ID: ${tmVO.tmId}
-						</div>
-						<div>
-							팀명: ${tmVO.tmNm}
-						</div>
-						<div>
-							팀장ID: ${tmVO.tmHdId}
-						</div>
-						<div>
-							팀생성일: ${tmVO.tmCrtDt}
+						<div class="create-group">
+							<label for="depCrtDt">부서 생성일</label>
+							<input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/>
 						</div>
 					</div>
+					
+					<div class="grid">
 						
-					
-					
+						<div class="grid-count align-right">
+						 총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>순번</th>
+									<th>팀ID</th>
+									<th>팀명</th>
+									<th>팀장ID</th>
+									<th>팀생성일</th>
+								</tr>
+							</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${not empty depVO.tmList}">
+									<c:forEach items="${depVO.tmList}"
+												var="tm"
+												varStatus="index">
+											<tr>
+												<td>${index.index + 1}</td>
+												<td>${tm.tmId}</td>
+												<td>${tm.tmNm}</td>
+												<td>${tm.tmHdId}</td>
+												<td>${tm.tmCrtDt}</td>
+											</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="5" class="no-items">
+											등록된 팀이 없습니다.
+										</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+						
+					<div class="grid-count align-right">
+						 총 ${depVO.empList.size() > 0 ? depVO.empList.size() : 0}건
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th>순번</th>
+								<th>직원ID</th>
+								<th>이름</th>
+								<th>생년월일</th>
+								<th>이메일</th>
+								<th>전화번호</th>
+								<th>직급연차</th>
+							</tr>
+						</thead>
+					<tbody>
+						<c:choose>								
+							<c:when test="${not empty depVO.empList}">
+								<c:forEach items="${depVO.empList}"
+											var="emp"
+											varStatus="index">
+										<tr>
+											<td>${index.index + 1}</td>
+											<td>${emp.empId}</td>
+											<td>${emp.lNm}${emp.fNm}</td>
+											<td>${emp.brthdy}</td>
+											<td>${emp.eml}</td>
+											<td>${emp.phn}</td>
+											<td>${emp.pstnPrd}</td>
+										</tr>
+								</c:forEach>
+						    </c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="7" class="no-items">
+										등록된 부서원이 없습니다.
+									</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+			</div>			
 		</div>
 	</div>
 </body>

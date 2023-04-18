@@ -1,16 +1,19 @@
 package com.kpms.lgnhst.vo;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.emp.vo.EmpVO;
 
 /**
  * LGN_HST
  */
-public class LgnHstVO extends AbstractVO{
+public class LgnHstVO extends AbstractPagingVO{
 	
 	private String hstId;
 	private String ip;
 	private String act;
-
+	
+	private EmpVO emp;
+	
 	public void setHstId(String hstId) {
 		this.hstId = hstId;
 	}
@@ -33,6 +36,14 @@ public class LgnHstVO extends AbstractVO{
 
 	public String getAct() {
 		return this.act;
+	}
+
+	public EmpVO getEmp() {
+		return emp;
+	}
+
+	public void setEmp(EmpVO emp) {
+		this.emp = emp;
 	}
 
 }

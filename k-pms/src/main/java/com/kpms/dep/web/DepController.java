@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kpms.dep.service.DepService;
 import com.kpms.dep.vo.DepVO;
-import com.kpms.tm.vo.TmVO;
+import com.kpms.dep.vo.DeptSearchVO;
 
 @Controller
 public class DepController {
@@ -20,29 +20,27 @@ public class DepController {
 	private DepService depService;
 	
 	@GetMapping("/dep/list")
-	public String viewDepListPage(DepVO depVO, Model model) {
+	public String viewDepListPage(DeptSearchVO deptSearchVO, Model model) {
 		
-		List<DepVO> depList = depService.readAllDepVO(depVO);
+		List<DepVO> depList = depService.readAllDepVO(deptSearchVO);
 		
 		model.addAttribute("depList", depList);
-		model.addAttribute("depVO", depVO);
+		model.addAttribute("depVO", deptSearchVO);
 		
-		if(!depList.isEmpty()) {
-			model.addAttribute("lastPage",depList.get(0).getLastPage());
-	      }
-	      model.addAttribute("gnrNm", depVO.getDepNm());
-	      model.addAttribute("pageNo", depVO.getPageNo());
-	      model.addAttribute("viewCnt", depVO.getViewCnt());
-	      model.addAttribute("pageCnt", depVO.getPageCnt());
+		if (!depList.isEmpty()) {
+			model.addAttribute("lastPage", depList.get(0).getLastPage());
+		}
+		model.addAttribute("pageNo", deptSearchVO.getPageNo());
+		model.addAttribute("viewCnt", deptSearchVO.getViewCnt());
+		model.addAttribute("pageCnt", deptSearchVO.getPageCnt());
 		
 		return "dep/list";
 	}
 	
 	@GetMapping("/dep/detail/{depId}")
-	public String viewDetailPage(@PathVariable String depId, TmVO tmVO, Model model) {
+	public String viewDetailPage(@PathVariable String depId, Model model) {
 		DepVO depVO = depService.readOneDepVOByDepId(depId);
 		model.addAttribute("depVO", depVO);
-		model.addAttribute("tmVO", tmVO);
 		
 		return "dep/detail";
 	}

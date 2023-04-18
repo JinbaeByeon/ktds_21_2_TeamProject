@@ -41,12 +41,13 @@ public class RestTmController {
 		}
 	}
 	
-	@PostMapping("/api/tm/update")
+	@PostMapping("/api/tm/update/{tmId}")
 	public APIResponseVO doUpadateTm(TmVO tmVO, DepVO depVO,
-						 @SessionAttribute("__USER__") EmpVO empVO) {
+						 @SessionAttribute("__USER__") EmpVO empVO,
+						 @PathVariable String tmId) {
 		tmVO.setCrtr(empVO.getEmpId());
 		tmVO.setMdfyr(empVO.getEmpId());
-		tmVO.setTmHdId("1");
+		tmVO.setTmHdId(tmVO.getTmHdId());
 		tmVO.setDepId(depVO.getDepId());
 
 		String tmNm = tmVO.getTmNm();
@@ -58,7 +59,7 @@ public class RestTmController {
 		boolean updateResult = tmService.updateOneTm(tmVO);
 		
 		if (updateResult) {
-			return new APIResponseVO(APIStatus.OK);
+			return new APIResponseVO(APIStatus.OK, "/tm/detail/" + tmVO.getTmId());
 		}
 		else {
 			return new APIResponseVO(APIStatus.FAIL, "팀을 수정할 수 없습니다.", "500", "");
@@ -84,7 +85,7 @@ public class RestTmController {
 			return new APIResponseVO(APIStatus.OK);
 		}
 		else {
-			return new APIResponseVO(APIStatus.FAIL);
+			return new APIResponseVO(APIStatus.FAIL,  "팀을 삭제할 수 없습니다.");
 		}
 	}
 }

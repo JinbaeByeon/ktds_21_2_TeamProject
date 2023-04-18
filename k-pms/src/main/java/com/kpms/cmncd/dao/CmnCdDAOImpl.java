@@ -24,6 +24,16 @@ public class CmnCdDAOImpl extends SqlSessionDaoSupport implements CmnCdDAO {
 	}
 	
 	@Override
+	public List<CmnCdVO> readCmnCdType(CmnCdVO cmnCdVO) {
+		return getSqlSession().selectList("CmnCd.readCmnCdType", cmnCdVO);
+	}
+	
+	@Override
+	public List<CmnCdVO> readCmnCdNameByPrcdncCdId(String prcdncCdId) {
+		return getSqlSession().selectList("CmnCd.readCmnCdNameByPrcdncCdId", prcdncCdId);
+	}
+	
+	@Override
 	public int createOneCmnCd(CmnCdVO cmnCdVO) {
 		return getSqlSession().insert("CmnCd.createOneCmnCd", cmnCdVO);
 	}

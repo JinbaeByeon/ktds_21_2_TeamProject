@@ -22,6 +22,15 @@ public class KnwController {
 		List<KnwVO> knwList = knwService.readAllKnw(knwVO);
 		
 		model.addAttribute("knwList", knwList);
+		model.addAttribute("knwVO", knwVO);
+		
+		if(!knwList.isEmpty()) {
+			model.addAttribute("lastPage", knwList.get(0).getLastPage());
+		}
+		
+		model.addAttribute("pageNo", knwVO.getPageNo());
+		model.addAttribute("viewCnt", knwVO.getViewCnt());
+		model.addAttribute("pageCnt", knwVO.getPageCnt());
 		return "knw/list";
 	}
 	

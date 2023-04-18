@@ -13,6 +13,8 @@ import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
+import com.kpms.common.handler.SessionHandler;
+import com.kpms.common.util.CalendarUtil;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpVO;
 
@@ -29,10 +31,13 @@ public class RestEmpController {
 		if(user == null) {
 			throw new APIException(APIStatus.DISMATCH, "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
+
 		session.setAttribute("__USER__", user);
+		SessionHandler.get().setSession(empVO.getEmpId(), session);
 		
-		
-		
+		if(empService.readPwdChngDtMore90ById(empVO.getEmpId())) {
+			return new APIResponseVO(APIStatus.OK,"pwdChng","/index");
+		}
 		return new APIResponseVO(APIStatus.OK,"/index");
 
 	}
