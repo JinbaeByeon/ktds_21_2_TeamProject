@@ -13,6 +13,7 @@
 	
 	$().ready(function(){
 		
+		
 		$("#cancel_btn").click(function() {
 			window.close();	
 		});
@@ -38,7 +39,7 @@
 		
 		$(".grid > table > tbody > tr").click(function() {
 			var data = $(this).data();
-			tmMbr = location.replace("/tmmbr/search?tmNm=" + data.tmnm);
+			tmMbr = location.replace("${context}/prj/list");
 
 		});
 		
