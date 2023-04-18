@@ -1,6 +1,7 @@
 package com.kpms.eqp.vo;
 
 import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.emp.vo.EmpVO;
 
 /**
  * EQP
@@ -19,6 +20,27 @@ public class EqpVO extends AbstractPagingVO {
 	private String applDt;
 
 	private String searchMode;
+
+	private EmpVO crtrEmpVO;
+	private EmpVO mdfyrEmpVO;
+	
+	
+	
+	public EmpVO getCrtrEmpVO() {
+		return crtrEmpVO;
+	}
+
+	public void setCrtrEmpVO(EmpVO crtrEmpVO) {
+		this.crtrEmpVO = crtrEmpVO;
+	}
+
+	public EmpVO getMdfyrEmpVO() {
+		return mdfyrEmpVO;
+	}
+
+	public void setMdfyrEmpVO(EmpVO mdfyrEmpVO) {
+		this.mdfyrEmpVO = mdfyrEmpVO;
+	}
 
 	public String getApplId() {
 		return applId;

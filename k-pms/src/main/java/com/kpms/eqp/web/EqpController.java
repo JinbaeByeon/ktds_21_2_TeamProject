@@ -64,6 +64,14 @@ public class EqpController {
 		model.addAttribute("eqpLogList", eqpLogList);
 		model.addAttribute("eqpLogVO", eqpLogVO);
 		
+		if (!eqpLogList.isEmpty()) {
+			model.addAttribute("lastPage", eqpLogList.get(0).getLastPage());
+		}
+		model.addAttribute("stts", eqpLogVO.getStts());
+		model.addAttribute("eqpId", eqpLogVO.getEqpId());
+		model.addAttribute("pageNo", eqpLogVO.getPageNo());
+		model.addAttribute("viewCnt", eqpLogVO.getViewCnt());
+		model.addAttribute("pageCnt", eqpLogVO.getPageCnt());
 
 		return "eqp/log";
 	}

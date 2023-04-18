@@ -423,7 +423,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${eqp.eqpId}">
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${eqp.rnum}</td>
 											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
@@ -434,9 +434,9 @@
 											<td>${eqp.lossRprtDt}</td>
 											<td>${eqp.eqpPrc}</td>
 											<td>${eqp.prchsDt}</td>
-											<td>${eqp.crtr}</td>
+											<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm} ${eqp.crtrEmpVO.lNm})</td>
 											<td>${eqp.crtDt}</td>
-											<td>${eqp.mdfyr}</td>
+											<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm} ${eqp.mdfyrEmpVO.lNm})</td>
 											<td>${eqp.mdfyDt}</td>
 											<td>${eqp.useYn}</td>
 											<td>${eqp.delYn}</td>

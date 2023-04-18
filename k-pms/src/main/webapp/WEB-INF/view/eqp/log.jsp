@@ -38,121 +38,21 @@
 			
 		});
 		
-		$("#new_btn").click(function(){
-			$("#isModify").val("false"); //등록모드
-			
-			$("#eqpId").val("");
-			$("#eqpNm").val("");
-			$("#crtr").val("");
-			$("#crtDt").val("");
-			$("#mdfyr").val("");
-			$("#mdfyDt").val("");
-			$("#eqpTp").val("");
-			$("#applStts").val("");
-			$("#eqpPrc").val("");
-			$("#prchsDt").val("");
-			$("#lossStts").val("");
-			$("#lossRprtDt").val("");
-			$("#applDt").val("");
-			
-			$("#useYn").prop("checked", false);
-		});
-		
-		$("#delete_btn").click(function(){
-			var eqpId = $("#eqpId").val();
-			if(eqpId == ""){
-				alert("선택된 비품이 없습니다.");
-				return;
-			}
-			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			}
-			
-			$.get("${context}/api/eqp/delete/" + eqpId, function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			})
-		});
-					
-		$("#save_btn").click(function(){
-			var ajaxUtil = new AjaxUtil();
-			if($("#isModify").val() == "false"){
-				// 신규등록	
-				ajaxUtil.upload("#detail_form","${context}/api/eqp/create",function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-					}	
-					else{
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
-			else {
-				//수정
-				ajaxUtil.upload("#detail_form","${context}/api/eqp/update",function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-					}	
-					else{
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
-		});
-		
 		$("#search-btn").click(function(){
 			var eqpNm =$("#search-keyword").val();
-			location.href = "${context}/eqp/list?eqpNm=" + eqpNm;
+			location.href = "${context}/eqp/log?eqpId=" + eqpId;
 			/* movePage(0) */
 			
 		})
 		
-		
-		$("#all_check").change(function(){
-			$(".check_idx").prop("checked", $(this).prop("checked"));
-		});
-		$(".check_idx").change(function(){
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
-		
-		$("#delete_all_btn").click(function(){
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 비품이 없습니다.");
-				return;
-			}
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/eqp/delete", form.serialize(), function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
 	});
 	
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var eqpNm = $("#search-keyword").val();
+		var eqpId = $("#search-keyword").val();
 		// URL 요청
-		location.href = "${context}/eqp/list?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+		location.href = "${context}/eqp/log?eqpId=" + eqpId + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
@@ -174,7 +74,6 @@
 					<table>
 						<thead>
 							<tr>
-								<th><input type="checkbox" id="all_check"/></th>
 								<th>순번</th>
 								<th>로그ID</th>
 								<th>비품ID</th>
@@ -196,15 +95,12 @@
 											data-stts="${eqpLog.stts}"
 											data-crtr="${eqpLog.crtr}"
 											data-crtdt="${eqpLog.crtDt}">
-											<td>
-												<input type="checkbox" class="check_idx" value="${eqp.eqpId}">
-											</td>
-											<td>${index.index + 1}</td>
+											<td>${eqpLog.rnum}</td>
 											<td>${eqpLog.logId}</td>
 											<td>${eqpLog.eqpId}</td>
 											<td>${eqpLog.empId}</td>
 											<td>${eqpLog.stts}</td>
-											<td>${eqpLog.crtr}</td>
+											<td>${eqpLog.crtr}(${eqpLog.crtrEmpVO.fNm} ${eqpLog.crtrEmpVO.lNm})</td>
 											<td>${eqpLog.crtDt}</td>
 										</tr>
 									</c:forEach>

@@ -4,6 +4,19 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="EqpLog">
 	
+	<resultMap id="eqpLogVOMap" 
+				type="com.kpms.eqplog.vo.EqpLogVO"
+				autoMapping="true">
+		<id property="eqpId" column="EQP_ID"/>
+		<association property="crtrEmpVO" 
+					   javaType="com.kpms.emp.vo.EmpVO"
+					  autoMapping="true" >
+			<id property="empId" column="CRTR" />
+			<result property="fNm" column="CRTR_EL_F_NM"/>
+			<result property="lNm" column="CRTR_EL_L_NM"/>
+		</association>	
+	</resultMap>
+	
 	<insert id="createEqpLog"
 			parameterType="com.kpms.eqplog.vo.EqpLogVO">
 		INSERT INTO EQP_LOG
@@ -24,14 +37,20 @@
 	
 	<select id="readAllEqpLog"
 			parameterType="com.kpms.eqplog.vo.EqpLogVO"
-			resultType="com.kpms.eqplog.vo.EqpLogVO">
-		SELECT LOG_ID
-			 , CRT_DT
-			 , CRTR
-			 , EMP_ID
-			 , EQP_ID
-			 , STTS
-		  FROM EQP_LOG
+			resultMap="eqpLogVOMap">
+		<include refid="Common.pageHeader" />
+		SELECT EL.LOG_ID
+			 , EL.CRT_DT
+			 , EL.CRTR
+			 , EL.EMP_ID
+			 , EL.EQP_ID
+			 , EL.STTS
+			 , CRTR_EL.L_NM CRTR_EL_L_NM
+			 , CRTR_EL.F_NM CRTR_EL_F_NM
+		  FROM EQP_LOG EL
+		 INNER JOIN EMP CRTR_EL
+		 	ON EL.CRTR = CRTR_EL.EMP_ID
+		 <include refid="Common.pageFooter" />
 	</select>
 	
 
