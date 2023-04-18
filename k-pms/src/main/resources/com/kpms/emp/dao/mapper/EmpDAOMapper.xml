@@ -194,7 +194,7 @@
 			   E.PHN,
 			   E.PSTN_PRD,
 			   E.PRFL_PHT,
-			   TO_CHAR(E.HR_DT,
+			   TO_CHAR(E.HR_DT,'YYYY-MM-DD HH24:MI:SS') HR_DT,
 			   E.HR_PRD,
 			   E.ADDRSS,
 			   E.EMPLMNT_STTS,

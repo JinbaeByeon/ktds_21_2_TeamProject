@@ -45,15 +45,15 @@
 				<div class="path">팀관리 > 팀 상세조회</div>
 					<div>
 						<div class="create-group">
-							<label for="tmNm">부서명</label>
+							<label for="tmNm">팀명</label>
 							<input type="text" id="tmNm" name="tmNm" value="${tmVO.tmNm}" readonly/>
 						</div>
 						<div class="create-group">
-							<label for="tmId">부서ID</label>
+							<label for="tmId">팀ID</label>
 							<input type="text" id="tmId" name="tmId" value="${tmVO.tmId}" readonly/>
 						</div>
 						<div class="create-group">
-							<label for="tmHdId">부서장ID</label>
+							<label for="tmHdId">팀장ID</label>
 							<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" readonly/>
 						</div>
 						<div class="create-group">

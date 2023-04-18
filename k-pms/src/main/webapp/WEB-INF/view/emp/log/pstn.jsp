@@ -18,10 +18,10 @@
 			$("#fNm").val(data.fnm);
 			$("#lNm").val(data.lnm);
 			$("#prvsPstnId").val(data.prvspstnid);
-			$("#prvsPstnId").val(data.prvspstnid);
+			$("#prvsPstnNm").val(data.prvspstnid);
 			$("#chngPstnId").val(data.chngpstnid);
-			$("#chngDt").val(data.chngdt);
 			$("#chngPstnNm").val(data.chngpstnnm);
+			$("#chngDt").val(data.chngdt);
 			$("#chngRsn").val(data.chngrsn);
 			$("#crtDt").val(data.crtdt);
 			$("#crtr").val(data.crtr);
