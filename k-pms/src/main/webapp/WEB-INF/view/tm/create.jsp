@@ -35,11 +35,7 @@
 		itemSpan.text(message.depnm);
 		itemDiv.append(itemSpan);
 		
-		var itemRemoveBtn = $("<button>X</button>");
-		itemRemoveBtn.click(function() {
-			$(this).closest("." + message.depid).remove();
-		});
-		itemDiv.append(itemRemoveBtn);
+		$("#depId").attr("class", message.depid);
 		
 		depItems.append(itemDiv);
 		
@@ -79,8 +75,11 @@
 		$(".tmMbr").append("<tr id="+ message.empid +"></tr>");
 		$(".tmMbr").find("#" + message.empid).append("<td>" + message.empid + "</td>");
 		$(".tmMbr").find("#" + message.empid).append("<td>" + message.lnm + message.fnm + "</td>");
+		$(".tmMbr").find("#" + message.empid).append("<td>" + message.brthdy + "</td>");
+		$(".tmMbr").find("#" + message.empid).append("<td>" + message.eml + "</td>");
+		$(".tmMbr").find("#" + message.empid).append("<td>" + message.phn + "</td>");
+		$(".tmMbr").find("#" + message.empid).append("<td>" + message.pstnPrd + "</td>");
 		
-	
 	}
 	
 	$().ready(function() {
@@ -102,7 +101,7 @@
 			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
-		$("#list-btn").click(function() {
+		$("#list-btn").click(function(response) {
 			location.href = "${context}/tm/list"
 		});
 		
@@ -133,7 +132,7 @@
 						<button id="addDepIdBtn" class="btn-dep">등록</button>
 						<div class="items">
 							<div class='dep-item'>
-								<input type='text' name='depId' id= "depId" readonly="readonly"/>
+								<input type='text' class="" name='depId' id= "depId" readonly="readonly"/>
 								<span id="depNm"></span>
 							</div>
 						</div>
@@ -173,6 +172,10 @@
 										<tr>
 											<th>직원ID</th>
 											<th>이름</th>
+											<th>생년월일</th>
+											<th>이메일</th>
+											<th>전화번호</th>
+											<th>직급연차</th>
 										</tr>
 									</thead>
 									<tbody class="tmMbr">

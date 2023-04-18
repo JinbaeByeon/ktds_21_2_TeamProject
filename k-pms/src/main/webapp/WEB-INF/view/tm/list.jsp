@@ -48,44 +48,11 @@
 	
 	$().ready(function() {
 		
-		$(".grid > table > tbody > tr").click(function() {
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			$("#depId").val(data.depid);
-			$("#depNm").text(data.depnm);
-			$("#tmId").val(data.tmid);
-			$("#tmNm").val(data.tmnm);
-			$("#tmHdId").val(data.tmhdid);
-			$("#tmCrtDt").val(data.tmcrtdt);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
-		});
 		
 			$("#new_btn").click(function() {
 			
 				location.href = "${context}/tm/create"
-				
-			/* $("#isModify").val("false"); //등록모드
-			
-			$("#depId").val("");
-			$("depNm").val("");
-			$("#tmId").val("");
-			$("#tmNm").val("");
-			$("#tmHdId").val("");
-			$("#tmCrtDt").val("");
-			$("#crtr").val("");
-			$("#crtDt").val("");
-			$("#mdfyr").val("");
-			$("#mdfyDt").val("");
-			
-			$("#useYn").prop("checked", false); */
-		});
+			});
 		
 		$("#delete_btn").click(function() {
 			var tmId =$("#tmId").val()
@@ -107,32 +74,6 @@
 				}
 			});
 		})
-		
-		$("#save_btn").click(function() {
-			var ajaxUtil = new AjaxUtil();
-			if($("#isModify").val() == "false") {
-				//신규등록
-				ajaxUtil.upload("#detail_form","${context}/api/tm/create",function(response){
-					if (response.status == "200 OK") {
-						location.reload(); //새로고침
-					}
-					else {
-						alert(response.errorCode + " / " + response.message);
-					}
-				});
-			}
-			else {
-				//수정
-				ajaxUtil.upload("#detail_form","${context}/api/tm/update",function(response){
-					if (response.status == "200 OK") {
-						location.reload(); //새로고침
-					}
-					else {
-						alert(response.errorCode + " / " + response.message);
-					}
-				});
-			}
-		});
 		
 		$("#search-btn").click(function() {
 			 movePage(0);
@@ -291,62 +232,8 @@
 					
 				</div>
 				
-				<div class="grid-detail">
-					<form id="detail_form">
-						<!--
-						isModify == true => 수정 (update)
-						isModify == false => 등록 (insert)	
-						-->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline">
-							<div class="create-group">
-								<label for="addDepIdBtn" style="width: 180px;">부서ID</label> 
-								<button id="addDepIdBtn" class="btn-dep">등록</button>
-								<div class="items">
-									<div class='dep-item'>
-										<input type='text' name='depId' id= "depId" readonly="readonly"/>
-										<span id="depNm"></span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="input-group inline">
-							<label for="tmId" style="width: 180px;">팀ID</label><input type="text" id="tmId" name="tmId" readonly value="" />
-						</div>
-						<div class="input-group inline">
-							<label for="tmNm" style="width: 180px;">팀명</label><input type="text" id="tmNm" name="tmNm" value=""/>
-						</div>
-						<div class="input-group inline">
-							<div class="create-group">
-								<label for="tmHdId" style="width: 180px;">팀장ID</label>
-								<input type="text" id="tmHdId" name="tmHdId" readonly value=" " />
-								<button id="addTmHeadBtn" class="btn-tm">등록</button>
-								<div class="items"></div>
-							</div>
-						</div>
-						<div class="input-group inline">
-							<label for="tmCrtDt" style="width: 180px;">팀생성일</label><input type="date" id="tmCrtDt" name="tmCrtDt" />
-						</div>
-						<div class="input-group inline">
-							<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="crtr" style="width: 180px;">등록자</label><input type="text" id="crtr" disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="crtDt" style="width: 180px;">등록일</label><input type="text" id="crtDt" disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyr" style="width: 180px;">수정자</label><input type="text" id="mdfyr" disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyDt" style="width: 180px;">수정일</label><input type="text" id="mdfyDt" disabled value=""/>
-						</div>
-					</form>
-				</div>
 				<div class="align-right">
 					<button id="new_btn" class="btn-primary">신규</button>
-					<button id="save_btn" class="btn-primary">저장</button>
 					<button id="delete_btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />

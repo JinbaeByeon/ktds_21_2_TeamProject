@@ -52,6 +52,13 @@ public class TmController {
 		return "tm/detail";
 	}
 	
+	@GetMapping("/tm/update/{tmId}")
+	public String viewUpdatePage(@PathVariable String tmId, Model model) {
+		TmVO tmVO = tmService.readOneTmVOByTmId(tmId);
+		model.addAttribute("tmVO", tmVO);
+		return "tm/update";
+	}
+	
 	@GetMapping("/tm/search")
 	public String viewTmSearchPage(@RequestParam(required = false) String tmNm,
 									Model model) {

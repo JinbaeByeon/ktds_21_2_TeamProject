@@ -6,7 +6,7 @@
 	<artifactId>k-pms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<build>
+	<build> 
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
