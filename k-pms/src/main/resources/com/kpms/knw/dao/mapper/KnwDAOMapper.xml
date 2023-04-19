@@ -41,10 +41,12 @@
 	</resultMap>
 	
 	<select id="readAllKnw"
-			parameterType="com.kpms.knw.vo.KnwVO"
+			parameterType="com.kpms.knw.vo.KnwSearchVO"
 			resultMap="knwVOMap">
 		<include refid="Common.pageHeader" />
-		SELECT K.KNW_ID
+		SELECT K.KNW_ID PK_COL
+		     , DENSE_RANK() OVER(ORDER BY K.CRT_DT || K.KNW_ID DESC) RNUM
+		     , K.KNW_ID
              , TO_CHAR(K.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
              , K.CRTR
              , TO_CHAR(K.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
@@ -61,15 +63,14 @@
          INNER JOIN PRJ P
             ON K.PRJ_ID = P.PRJ_ID
          WHERE K.DEL_YN = 'N'
-         <if test='ttl != null and ttl != ""'>
-           AND K.TTL LIKE '%' || #{ttl} || '%'
-         </if>
-         <if test='prjId != null and prjId != ""'>
-           AND K.PRJ_ID LIKE '%' || #{prjId} || '%'
-         </if>
-         <if test='prjVO != null and prjVO.prjNm != null and prjVO.prjNm != ""'>
-           AND P.PRJ_NM LIKE '%' || #{prjVO.prjNm} || '%'
-         </if>
+         <choose>
+         	<when test='searchOption == "제목"'>
+           AND K.TTL LIKE '%' || #{searchKeyword} || '%'
+         	</when>
+         	<when test='searchOption == "프로젝트명"'>
+           AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
+         	</when>
+         </choose>
          <include refid="Common.pageFooter" />
 	</select>
 	
@@ -94,6 +95,7 @@
 			<result property="crtDt" column="KR_CRT_DT" />
 			<result property="mdfyr" column="KR_MDFYR" />
 			<result property="mdfyDt" column="KR_MDFY_DT" />
+			<result property="delYn" column="KR_DEL_YN" />
 		</collection>
 	</resultMap>
 	
@@ -126,13 +128,14 @@
              , KR.MDFYR KR_MDFYR
              , TO_CHAR(KR.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') KR_MDFY_DT
              , KR.PRCDNC_RPL_ID
-             , KR.USE_YN
 		  FROM KNW K
 		  LEFT JOIN PRJ P
 			ON K.PRJ_ID = P.PRJ_ID
 		  LEFT JOIN KNW_RPL KR
 		    ON K.KNW_ID = KR.KNW_ID
 		 WHERE K.KNW_ID = #{_parameter}
+		   AND (KR.DEL_YN IS NULL OR KR.DEL_YN = 'N') 
+		   
 		 START WITH KR.PRCDNC_RPL_ID IS NULL
        CONNECT BY PRIOR KR.RPL_ID = KR.PRCDNC_RPL_ID
 		 

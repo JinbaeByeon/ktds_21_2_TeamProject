@@ -16,7 +16,9 @@
 		parameterType="com.kpms.cmncd.vo.CmnCdVO"
 		resultMap="cmnCdVOMap">
 		<include refid="Common.pageHeader" />
-		SELECT CD.CD_ID
+		SELECT CD.CD_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY CD.CRT_DT || CD.CD_ID DESC) RNUM
+			 , CD.CD_ID
 			 , TO_CHAR(CD.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , CD.CRTR
 			 , TO_CHAR(CD.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
@@ -27,23 +29,20 @@
 			 , CD.PRCDNC_CD_ID
 			 , PRCDNC_CD.CD_NM PRCDNCD_CD_NM
 		  FROM CMN_CD CD
-		 LEFT JOIN (SELECT *
-		 			  FROM CMN_CD
-		 			 WHERE DEL_YN = 'N') PRCDNC_CD
+		 LEFT JOIN CMN_CD PRCDNC_CD
 		    ON CD.PRCDNC_CD_ID = PRCDNC_CD.CD_ID
 	     WHERE CD.DEL_YN = 'N'
-		<if test='cdNm != null and cdNm != ""'>
-		   AND CD.CD_NM LIKE '%' || #{cdNm} || '%'
-		</if>
-		<if test='prcdncCdId != null and prcdncCdId !="" '>
-		   AND CD.PRCDNC_CD_ID LIKE '%' || #{prcdncCdId} || '%'
-		</if>
+	     <if test='searchOption != null and searchOption != ""'>
+		   AND CD.PRCDNC_CD_ID LIKE '%' || #{searchOption} || '%'
+	     </if>
+	     <if test='searchKeyword != null and searchKeyword != ""'>
+		   AND CD.CD_NM LIKE '%' || #{searchKeyword} || '%'
+	     </if>
 		ORDER BY CD.CD_ID DESC
 		<include refid="Common.pageFooter" />
 	</select>
 	
 	<select id="readCmnCdType"
-			parameterType="com.kpms.cmncd.vo.CmnCdVO"
 			resultType="com.kpms.cmncd.vo.CmnCdVO">
 		SELECT CD_NM
 			 , CD_ID

@@ -65,7 +65,7 @@
 				<form id="create-form">
 					<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 					<div class="create-group">
-						<label for="">프로젝트명</label>
+						<label for="">프로젝트 등록</label>
 						<div>
 							<div class="grid">
 								<input type="hidden" id="prjId" name="prjId" />

@@ -45,6 +45,6 @@
 			parameterType="string">
 		UPDATE KNW_RPL
 		   SET DEL_YN = 'Y'
-		 WHERE RPL_ID = #{rplId}
+		 WHERE RPL_ID = #{_parameter}
 	</update>
 </mapper>

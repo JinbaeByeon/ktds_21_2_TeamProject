@@ -31,7 +31,8 @@ public class RestKnwRplController {
 	}
 	
 	@PostMapping("/api/knwrpl/update")
-	public APIResponseVO doUpdateKnwRpl(KnwRplVO knwRplVO) {
+	public APIResponseVO doUpdateKnwRpl(KnwRplVO knwRplVO, @SessionAttribute("__USER__") EmpVO empVO) {
+		knwRplVO.setMdfyr(empVO.getEmpId());
 		boolean updateResult = knwRplService.updateOneKnwRpl(knwRplVO);
 		if(updateResult) {
 			return new APIResponseVO(APIStatus.OK, "/knw/detail/" + knwRplVO.getKnwId());

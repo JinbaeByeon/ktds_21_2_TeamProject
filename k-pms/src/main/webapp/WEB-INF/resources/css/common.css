@@ -533,3 +533,23 @@ input::-webkit-inner-spin-button {
 	width: 68%;
 	line-height: 38px;
 }
+
+
+
+/* 대댓글 */
+
+.reply > ul {
+	display: inline-block;	
+}
+
+.reply > .x-btn {
+	display: inline-block;	
+}
+
+.reply > .update-btn {
+	display: inline-block;
+}
+
+
+
+

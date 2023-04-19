@@ -108,8 +108,10 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var queryString = "?prcdncCdId=" + $("#cdTypes").val();
-		queryString += "&cdNm=" + $("#cdName").val();
+		var searchOption = $("#cdTypes").val();
+		var searchKeyword = $("#cdName").val();
+		var queryString = "?searchOption=" + searchOption;
+		queryString += "&searchKeyword=" + searchKeyword;
 		queryString += "&pageNo=" + pageNo;
 		
 		// URL 요청
@@ -128,13 +130,13 @@
 			<div class="search-group">
 				<label for="search-keyword">코드유형</label>
 				<select id="cdTypes">
-					<option value="%">전체</option>
+					<option value="">전체</option>
 					<c:forEach items="${cmnCdTypeList}" var="cmnCdType">
-						<option value="${cmnCdType.cdId}">${cmnCdType.cdNm}</option>
+						<option value="${cmnCdType.cdId}" ${cmnCdType.cdId eq cmnCdSearchVO.searchOption ? "selected" : ""} >${cmnCdType.cdNm}</option>
 					</c:forEach>
 				</select>
 				<label for="search-keyword">코드명</label>
-					<input type="text" id="cdName" name="cdName" />
+					<input type="text" id="cdName" name="cdName" value="${cmnCdSearchVO.searchKeyword}" />
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>
