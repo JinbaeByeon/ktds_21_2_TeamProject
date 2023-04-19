@@ -35,7 +35,7 @@ public class SndMsgServiceImpl implements SndMsgService {
 	}
 
 	@Override
-	public boolean deleteSndMsgBySelectedMsgId(List<Integer> msgId) {
+	public boolean deleteSndMsgBySelectedMsgId(List<String> msgId) {
 		return sndMsgDAO.deleteSndMsgBySelectedMsgId(msgId) > 0;
 	}
 	

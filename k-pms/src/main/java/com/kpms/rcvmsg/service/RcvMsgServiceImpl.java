@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kpms.rcvmsg.dao.RcvMsgDAO;
+import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
 
 @Service
@@ -15,7 +16,7 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 	private RcvMsgDAO rcvMsgDAO;
 	
 	@Override
-	public List<RcvMsgVO> readAllRcvMsgVO(RcvMsgVO rcvMsgVO) {
+	public List<RcvMsgVO> readAllRcvMsgVO(MsgSearchVO rcvMsgVO) {
 		return rcvMsgDAO.readAllRcvMsgVO(rcvMsgVO);
 	}
 	
@@ -31,8 +32,13 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 
 
 	@Override
-	public boolean deleteRcvMsgBySelectedMsgId(List<Integer> msgId) {
+	public boolean deleteRcvMsgBySelectedMsgId(List<String> msgId) {
 		return rcvMsgDAO.deleteRcvMsgBySelectedMsgId(msgId) > 0;
+	}
+
+	@Override
+	public boolean updateRcvMsgReadByRcvMsgIdList(List<String> rcvMsgIdList) {
+		return rcvMsgDAO.updateRcvMsgReadByRcvMsgIdList(rcvMsgIdList) > 0;
 	}
 
 }

@@ -61,13 +61,12 @@
 	});
 	
 	function movePage(pageNo) {
-		// 전송
-		// 입력값
-		var queryString = "?ttl=" + $("#ttl").val();
-		queryString += "&prjId=" + $("#prjId").val();
-		queryString += "&prjVO.prjNm=" + $("#prjNm").val();
+		var searchOption = $("#searchOption").val();
+		var searchKeyword = $("#searchKeyword").val();
+		var queryString = "?searchOption=" + searchOption;
+		queryString += "&searchKeyword=" + searchKeyword;
 		queryString += "&pageNo=" + pageNo;
-		// URL 요청
+		
 		location.href = "${context}/knw/list" + queryString;
 
 	}
@@ -82,18 +81,20 @@
 			<jsp:include page="../include/content.jsp" />
 
 			<div class="search-group">
-				<label for="search-keyword">제목</label>
-				<input type="text" id="ttl" class="search-input" value="${knw.ttl}" placeholder="지식관리 제목으로 검색" />
-				<label for="search-keyword">프로젝트명</label>
-				<input type="text" id="prjNm" class="search-input" value="${knw.prjVO.prjNm}" placeholder="프로젝트명으로 검색"/>
-				<input type="hidden" id="prjId" class="search-input" value="${knw.prjId}" placeholder="프로젝트ID로 검색"/>
+				<select id="searchOption">
+					<option>전체</option>
+					<option value="제목" ${searchOption eq "제목" ? "selected" : ""}>제목</option>
+					<option value="프로젝트명" ${searchOption eq "프로젝트명" ? "selected" : ""}>프로젝트명</option>
+				</select>
+				<input type="text" id="searchKeyword" class="search-input" value="${searchKeyword}" placeholder="검색" />
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>
 			</div>  
 			<div class="grid">
-				<div class="grid-count align-right">총 ${knwList.size() > 0 ? knwList.size() : 0}
-					건</div>
+				<div class="grid-count align-right">
+					총 ${knwList.size() > 0 ? totalCount : 0} 건
+				</div>
 				<table>
 					<thead>
 						<tr>
@@ -143,6 +144,12 @@
 					</tbody>
 				</table>
 			</div>
+			<c:import url="../include/pagenate.jsp">
+				<c:param name="pageNo" value="${pageNo}" />
+				<c:param name="pageCnt" value="${pageCnt}" />
+				<c:param name="lastPage" value="${lastPage}" />
+				<c:param name="path" value="${context}/knw" />
+			</c:import>
 			<div class="align-right">
 				<button id="new_btn" class="btn-primary">신규</button>
 				<button id="delete_btn" class="btn-delete">삭제</button>

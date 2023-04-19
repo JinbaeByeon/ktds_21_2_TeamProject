@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+
+	var tmMbr;
+	
 	$().ready(function(){
 		
 		$("#cancel_btn").click(function() {
@@ -29,7 +32,18 @@
 			});
 		});
 		
+		$("#plz_btn").click(function() {
+			window.open("${context}/tmmbr/search")
+		});
+		
+		$(".grid > table > tbody > tr").click(function() {
+			var data = $(this).data();
+			tmMbr = location.replace("/tmmbr/search?tmNm=" + data.tmnm);
+
+		});
+		
 	});
+
 </script>
 </head>
 <body>
@@ -45,6 +59,7 @@
 		<div class="grid">
 			<div class="grid-count align-right">
 						총 ${tmList.size() > 0 ? tmList.size() : 0}건
+						
 			</div>
 			<table>
 				<thead>
@@ -80,8 +95,9 @@
 			</table>
 		</div>
 		<div class="align-right">
-					<button id="cancel_btn" class="btn-delete">취소</button>
-					<button id="regist_btn" class="btn-primary">등록</button>
+			<button id="cancel_btn" class="btn-delete">취소</button>
+			<button id="regist_btn" class="btn-primary">등록</button>
+			<button id="plz_btn" class="btn-primary">제발</button>
 		</div>
 	</div>
 </body>

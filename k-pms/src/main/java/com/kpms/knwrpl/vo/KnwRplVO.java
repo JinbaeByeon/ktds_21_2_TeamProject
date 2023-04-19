@@ -1,14 +1,26 @@
 package com.kpms.knwrpl.vo;
 
+import com.kpms.common.vo.AbstractVO;
+
 /**
  * KNW_RPL
  */
-public class KnwRplVO {
+public class KnwRplVO extends AbstractVO {
+
+	private int depth;
 
 	private String rplId;
 	private String cnt;
 	private String knwId;
 	private String prcdncRplId;
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
 
 	public String getRplId() {
 		return rplId;

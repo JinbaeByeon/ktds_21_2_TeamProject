@@ -18,6 +18,24 @@
 		var pstnWindow;
 		
 		$().ready(function(){
+			$("img.profile").click(function(e){
+				$("#prflPht").click();
+			});
+			$("#prflPht").change(function(){
+				var file = $(this)[0].files;
+
+				var fileReader = new FileReader();
+				console.log(file);
+				if(file.length > 0 && file[0].size > 0){
+					fileReader.onload = function(data){
+						$('img.profile').attr("src",data.target.result);
+					}
+					fileReader.readAsDataURL(file[0]);
+				} else{
+					$('img.profile').attr("src","${context}/img/base_profile.png");
+				}
+			});
+			
 			// 카카오 주소 검색 api
 			$(".addrss-group").find("button").click(function(e){
 				e.preventDefault();
@@ -56,7 +74,7 @@
 					} else{
 						alert(response.errorCode + " / " + response.message);
 					}
-				});
+				},{"prflPht":"uploadFile"});
 			});
 			$(".btn-add").click(function(e){
 				e.preventDefault();
@@ -155,7 +173,7 @@
 					<form id="create-form" enctype="multipart/form-data">
 						<div class="create-group">
 							<label for="prflPht">프로필 사진</label>
-							<img class="profile" src=""/>
+							<img class="profile" src="${context}/img/base_profile.png"/>
 							<input type="file" id="prflPht" name="prflPht"/>
 						</div>
 						<div class="create-group">
@@ -221,7 +239,7 @@
 						</div>
 						
 						<div class="create-group">
-							<label for="btn-add-pstn" class="required">직급</label>
+							<label class="required">직급</label>
 							<div class="mr-10p">
 								<button id="btn-add-pstn" class="btn-add">+</button>
 							</div>
@@ -231,13 +249,13 @@
 							</div>
 						</div>
 						<div class="create-group">
-							<label for="btn-add-job" class="required">직무</label>
+							<label class="required">직무</label>
 							<div>
 								<button id="btn-add-job" class="btn-add">+</button>
 							</div>
 						</div>
 						<div class="create-group">
-							<label for="btn-add-dep" class="required">부서</label>
+							<label class="required">부서</label>
 							<div>
 								<button id="btn-add-dep" class="btn-add">+</button>
 							</div>

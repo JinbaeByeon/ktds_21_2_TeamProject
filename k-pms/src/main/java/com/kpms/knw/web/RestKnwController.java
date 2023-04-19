@@ -26,7 +26,6 @@ public class RestKnwController {
 	public APIResponseVO doCreateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO) {
 		knwVO.setCrtr(empVO.getEmpId());
 		knwVO.setMdfyr(empVO.getEmpId());
-		knwVO.setPrjId("PRJ-20230410-00004");   // TODO 임시값 /prj/search 완성되면 바꾸기
 
 		boolean isSuccess = knwService.createOneKnw(knwVO);
 

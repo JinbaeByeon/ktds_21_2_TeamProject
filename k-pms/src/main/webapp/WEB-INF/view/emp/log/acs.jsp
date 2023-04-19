@@ -13,13 +13,22 @@
 	<jsp:include page="../../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
-			
+			$(".search-option").change(function(){
+				movePage(0);
+			});
 		});
 		
 		function movePage(pageNo) {
 			var empId = $("#empId").val();
-			var qryStr = "&crtr=" + empId;
-			qryStr += "&pageNo=" + pageNo;
+			var fNm = $("#fNm").val();
+			var searchType = $(".search-option").val();
+			var qryStr = "searchType=" + searchType;
+			qryStr +=  "&pageNo=" + pageNo;
+			if(fNm=="undefined"){
+				qryStr +=  "&emp.fNm=" + fNm;
+			} else if(empId=="undefined"){
+				qryStr +=  "&crtr=" + empId;
+			}
 			location.href = "${context}/emp/log/acs?"  + qryStr;
 		}
 	</script>
@@ -33,14 +42,23 @@
 			<div class="path"> 임직원 관리 > 화면접근이력 조회</div>
 			<form>
 				<div class="search-group">
-					<label for="">ID</label>
-					<input type="text" id="empId" name="crtr" class="grow-1 mr-10" value="${empId}"/>
+					<select class="search-option" name="searchType">
+						<option ${searchType== "ID" ? "selected" : ""}>ID</option>
+						<option ${searchType== "이름" ? "selected" : ""}>이름</option>
+					</select>
+					<c:if test="${searchType== 'ID'}">
+						<input type="text" id="empId" name="crtr" class="grow-1 mr-10" value="${acsLogVO.crtr}"/>
+					</c:if>
+					<c:if test="${searchType== '이름'}">
+						<input type="text" id="fNm" name="emp.fNm" class="grow-1 mr-10" value="${acsLogVO.emp.fNm}"/>
+					</c:if>
+					
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 			</form>
 			<div class="grid">
 				<div class="grid-count align-right">
-					총 ${acsLogList.size()}건
+					총 ${acsLogList.size() > 0? acsLogList.get(0).totalCount : 0}건
 				</div>
 				<table>
 					<thead>
