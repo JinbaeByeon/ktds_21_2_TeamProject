@@ -4,21 +4,64 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="RcvMsg">
 
+	<resultMap id="rcvMsgVOMap"
+			   type="com.kpms.rcvmsg.vo.RcvMsgVO"
+			   autoMapping="true">
+			<id property="msgId" column="MSG_ID"/>
+			<id property="crtDt" column="CRT_DT"/>
+			<association property="sndMsgVO"
+		   				javaType="com.kpms.sndmsg.vo.SndMsgVO">
+				<id property="msgId" column="SND_MSG_ID"/>
+			   	<result property="ttl" column="TTL"/>
+			   	<result property="attch" column="ATTCH"/>
+				<association property="sndEmpVO"
+			 			  javaType="com.kpms.emp.vo.EmpVO">
+				 	<id property="empId" column="EMP_ID"/>
+				 	<result property="fNm" column="SE_F_NM"/>
+				 	<result property="lNm" column="SE_L_NM"/>
+				</association>
+			</association>
+			<association property="rcvrEmpVO"
+		 			  javaType="com.kpms.emp.vo.EmpVO">
+			 	<id property="empId" column="EMP_ID"/>
+			 	<result property="fNm" column="RE_F_NM"/>
+			 	<result property="lNm" column="RE_L_NM"/>
+			</association>
+	</resultMap>
+	
 	<select id="readAllRcvMsgVO"
-			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO"
-			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
-		SELECT MSG_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , SND_MSG_ID
-			 , RCVR
-			 , RD_YN
-		  FROM RCV_MSG
-		 WHERE RCVR = #{rcvr}
+			parameterType="com.kpms.rcvmsg.vo.MsgSearchVO"
+			resultMap="rcvMsgVOMap">
+		<include refid="Common.pageHeader"/>
+		SELECT RM.MSG_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY RM.CRT_DT || RM.MSG_ID DESC) RNUM
+			 , RM.MSG_ID
+			 , RM.CRT_DT
+			 , RM.CRTR
+			 , RM.USE_YN
+			 , RM.DEL_YN
+			 , RM.SND_MSG_ID
+			 , RM.RCVR
+			 , RM.RD_YN
+			 , SM.TTL
+			 , SM.ATTCH
+			 , RCV_E.F_NM  RE_F_NM
+			 , RCV_E.L_NM  RE_L_NM
+			 , SND_E.F_NM  SE_F_NM 
+			 , SND_E.L_NM  SE_L_NM
+		  FROM (SELECT *
+		  		  FROM RCV_MSG
+				 WHERE RCVR = #{empId}) RM
+		 INNER JOIN SND_MSG SM
+		    ON SM.MSG_ID = RM.SND_MSG_ID
+		 INNER JOIN EMP SND_E
+		 	ON SND_E.EMP_ID = SM.CRTR
+		 INNER JOIN EMP RCV_E
+		 	ON RCV_E.EMP_ID = RM.RCVR
+	 	<if test="fNm != null and fNm != ''">
+		 WHERE SND_E.F_NM LIKE '%' || #{fNm} || '%'
+		</if>
+		<include refid="Common.pageFooter"/>
 	</select>
 	
 	<insert id="createOneRcvMsg"
@@ -55,9 +98,22 @@
 	</update>
 	
 	<update id="deleteRcvMsgBySelectedMsgId"
-			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO">
+			parameterType="arraylist">
 		UPDATE RCV_MSG
 		   SET DEL_YN = 'Y'
 		 WHERE MSG_ID IN
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+		  #{msgId}
+		 </foreach>
+	</update>
+	
+	<update id="updateRcvMsgReadByRcvMsgIdList"
+			parameterType="arraylist">
+		UPDATE RCV_MSG
+		   SET RD_YN='Y'
+		 WHERE MSG_ID IN
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+		  #{msgId}
+		 </foreach>
 	</update>
 </mapper>
