@@ -14,6 +14,6 @@ public interface SndMsgDAO {
 	
 	public int deleteOneSndMsg(String msgId);
 	
-	public int deleteSndMsgBySelectedMsgId(List<Integer> msgId);
+	public int deleteSndMsgBySelectedMsgId(List<String> msgId);
 
 }

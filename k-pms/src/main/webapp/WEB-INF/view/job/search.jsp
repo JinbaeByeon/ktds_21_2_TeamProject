@@ -76,7 +76,7 @@
 							<c:forEach items="${jobList}" var="job">
 								<tr data-jobid="${job.jobId}"
 									data-jobnm="${job.jobNm}">
-									<td>  
+									<td class="check"> 
 										<input type="radio" name="check_idx" class="check_idx" value="${job.jobId}"/>
 									</td>
 									<td>${job.jobNm}</td>
