@@ -15,7 +15,7 @@
 <script type="text/javascript">	
 	$().ready(function() {
 		$.get("${context}/api/cmncd/list/002", function(response) {
-			var prjSttsInput = $(document).find("#prjStts");
+			var prjStts = $("#prjStts");
 			var sttsNm
 			
 			for (var i in response.data) {
@@ -25,7 +25,7 @@
 			}
 			
 			var sttsInput = $("<input type='text' id='prjStts' name='prjStts' value='" + sttsNm + "' readonly/>");
-			prjSttsInput.after(sttsInput);
+			prjStts.after(sttsInput);
 		});
 		
 		$("#modify-btn").click(function() {
@@ -139,7 +139,17 @@
 													<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 													<td>${ptm.tmMbrVO.empVO.fNm}</td>
 													<td>${ptm.tmMbrVO.empVO.lNm}</td>
-													<td>${ptm.prjPstn}</td>
+													<td>
+														<c:if test="${ptm.prjPstn=='PM'}">
+															총책임자
+														</c:if>
+														<c:if test="${ptm.prjPstn=='PL'}">
+															부책임자
+														</c:if>
+														<c:if test="${ptm.prjPstn=='TM'}">
+															팀원
+														</c:if>
+													</td>
 												</tr>
 											</c:forEach>
 										</c:when>
@@ -153,7 +163,6 @@
 							</table>
 						</div>
 					</div>
-						
 						
 							<label for="req">요구사항</label>
 							<div class="grid-count align-right">

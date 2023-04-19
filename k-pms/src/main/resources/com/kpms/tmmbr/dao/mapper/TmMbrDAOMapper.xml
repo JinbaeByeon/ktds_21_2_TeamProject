@@ -16,7 +16,6 @@
 		</association>
 	</resultMap>
 
-
 	<select id="readAllTmMbrVO"
 			parameterType="string"
 			resultMap="TmMbrVOMap">
@@ -40,8 +39,8 @@
 		 WHERE TM.DEL_YN = 'N'
 		   AND T.DEL_YN = 'N'
 		   AND E.DEL_YN = 'N'
-		  <if test='tmNm != null and tmNm != ""'>
-		   AND T.TM_NM LIKE '%' || #{_parameter} || '%'
+		  <if test='tmId != null and tmId != ""'>
+		   AND TM.TM_ID LIKE '%' || #{tmId} || '%'
 		  </if>
 		 ORDER BY TM.EMP_ID ASC
 	</select>
