@@ -9,6 +9,9 @@ public class DeptSearchVO extends AbstractPagingVO {
 	private String fNm;
 	private String lNm;
 	
+	private String searchOption;
+	private String searchKeyword;
+	
 	private TmSearchVO tmSearchVO;
 
 	public String getDepNm() {
@@ -33,6 +36,22 @@ public class DeptSearchVO extends AbstractPagingVO {
 
 	public void setlNm(String lNm) {
 		this.lNm = lNm;
+	}
+	
+	public String getSearchOption() {
+		return searchOption;
+	}
+
+	public void setSearchOption(String searchOption) {
+		this.searchOption = searchOption;
+	}
+
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
 	}
 
 	public TmSearchVO getTmSearchVO() {

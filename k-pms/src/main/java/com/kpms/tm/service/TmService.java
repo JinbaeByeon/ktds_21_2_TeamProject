@@ -2,11 +2,12 @@ package com.kpms.tm.service;
 
 import java.util.List;
 
+import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
 
 public interface TmService {
 
-	public List<TmVO> readAllTmVO(TmVO tmVO);
+	public List<TmVO> readAllTmVO(TmSearchVO tmSearchVO);
 	
 	public List<TmVO> readAllTmVONopagination(String tmNm);
 	

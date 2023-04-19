@@ -76,26 +76,26 @@
 		  LEFT JOIN EMP TM_HD_EMP
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE D.DEL_YN = 'N'
-		<if test='depNm != null and depNm != ""'>
-		   AND D.DEP_NM LIKE '%' || #{depNm} || '%'
-		</if>
-		<if test='lNm != null and lNm != ""'>
-		   AND HD_EMP.L_NM LIKE '%' || #{lNm} || '%'
-	    </if>
-		<if test='fNm != null and fNm != ""'>
-		   AND HD_EMP.F_NM LIKE '%' || #{fNm} || '%'
-		</if>
-		<if test='tmSearchVO != null'>
-			<if test='tmSearchVO.tmNm != null and tmSearchVO.tmNm != ""'>
-		   AND T.TM_NM LIKE '%' || #{tmSearchVO.tmNm} || '%'
-			</if>
-			<if test='tmSearchVO.lNm != null and tmSearchVO.lNm != ""'>
-		   AND TM_HD_EMP.L_NM LIKE '%' || #{tmSearchVO.lNm} || '%'
-		   </if>
-		   	<if test='tmSearchVO.fNm != null and tmSearchVO.fNm != ""'>
-		   AND TM_HD_EMP.F_NM LIKE '%' || #{tmSearchVO.fNm} || '%'
-		   </if>
-		</if>
+		<choose>
+			<when test='searchOption == "depNm"'>
+		   AND D.DEP_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "hdLnm"'>
+		   AND HD_EMP.L_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "hdFnm"'>
+		   AND HD_EMP.F_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmNm"'>
+		   AND T.TM_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmLnm"'>
+		   AND TM_HD_EMP.L_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmFnm"'>
+		   AND TM_HD_EMP.F_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+		</choose>
 		<include refid="Common.pageFooter" />
 	</select>
 	

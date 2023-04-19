@@ -130,7 +130,7 @@
 		});
 		
 		$("#search-btn").click(function() {
-			 movePage(0) 
+			movePage(0);
 		});
 		
 		$("#all_check").change(function() {
@@ -176,15 +176,16 @@
 		
 	});
 		 function movePage(pageNo) {
-			var queryString = "?depNm=" + $("#search-keyword").val();
-			queryString += "&tmSearchVO.tmNm=" + $("#search-tmNm-keyword").val();
-			queryString += "&lNm=" + $("#search-hdLNm-keyword").val();
-			queryString += "&fNm=" + $("#search-hdFNm-keyword").val();
-			queryString += "&tmSearchVO.lNm=" + $("#search-tmLNm-keyword").val();
-			queryString += "&tmSearchVO.fNm=" + $("#search-tmFNm-keyword").val();
-			queryString += "&pageNo=" + pageNo;
+			var searchOption = $("#search-option").val();
+			var searchKeyword = $("#search-keyword").val();
+			var queryString = "?pageNo=" + pageNo;
+			queryString += "&searchOption=" + searchOption;
+			queryString += "&searchKeyword=" + searchKeyword;
+			
 			location.href = "${context}/dep/list" + queryString;
-		} 
+		}
+		 
+		 
 </script>
 </head>
 <body>
@@ -194,21 +195,20 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">부서관리 > 부서 목록</div>
-				<div class="search-group">
-					<label for="search-keyword">부서명</label>
-					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
-					<label for="search-tmNm-keyword">팀명</label>
-					<input type="text" id="search-tmNm-keyword" class="search-input" value="${depVO.tmSearchVO.tmNm}"/>
-					<label for="search-hdLNm-keyword">부서장 성</label>
-					<input type="text" id="search-hdLNm-keyword" class="search-input" value="${depVO.lNm}"/>
-					<label for="search-hdFNm-keyword">부서장 이름</label>
-					<input type="text" id="search-hdFNm-keyword" class="search-input" value="${depVO.fNm}"/>
-					<label for="search-tmLNm-keyword">팀장 성</label>
-					<input type="text" id="search-tmLNm-keyword" class="search-input" value="${depVO.tmSearchVO.lNm}"/>
-					<label for="search-tmFNm-keyword">팀장 이름</label>
-					<input type="text" id="search-tmFNm-keyword" class="search-input" value="${depVO.tmSearchVO.fNm}"/>
-					<button class="btn-search" id="search-btn">검색</button>
-				</div>
+			<div class="search-group">
+				<label for="search-option">검색 옵션</label> 
+				<select id="search-option" class="search-input">
+					<option value="depNm" ${depVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
+					<option value="tmNm" ${depVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
+					<option value="hdLnm" ${depVO.searchOption eq "hdLnm" ? "selected": ""}>부서장 성</option>
+					<option value="hdFnm" ${depVO.searchOption eq "hdFnm" ? "selected": ""}>부서장 이름</option>
+					<option value="tmLnm" ${depVO.searchOption eq "tmLnm" ? "selected": ""}>팀장 성</option>
+					<option value="tmFnm" ${depVO.searchOption eq "tmFnm" ? "selected": ""}>팀장 이름</option>
+				</select> 
+				<label for="search-keyword">검색어</label> 
+				<input type="text" id="search-keyword" class="search-input" />
+				<button class="btn-search" id="search-btn">검색</button>
+			</div>
 				<div class="grid">
 					
 					<div class="grid-count align-right">
@@ -222,7 +222,7 @@
 								<th>부서ID</th>
 								<th>부서명</th>
 								<th>부서장ID</th>
-								<th>부서장 성명</th>
+								<th>부서장명</th>
 								<th>부서생성일</th>
 								<th>사용여부</th>
 								<th>등록자</th>
