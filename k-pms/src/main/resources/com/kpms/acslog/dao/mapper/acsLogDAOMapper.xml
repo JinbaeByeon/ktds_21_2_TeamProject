@@ -44,11 +44,14 @@
 			 , E.L_NM
 		  FROM (SELECT *
 		  		  FROM ACS_LOG
-		  		 <if test="crtr != null and crtr != ''">
+		  		<if test="crtr != null and crtr != ''">
 		  		 WHERE CRTR = #{crtr}
-		  		 </if>) AL
+		  		</if>) AL
 		  JOIN EMP E
 		 	ON E.EMP_ID = AL.CRTR
+		<if test="emp != null and emp.fNm != null and emp.fNm != ''">
+		 WHERE E.F_NM LIKE '%' || #{emp.fNm} || '%'
+		</if>
 		<include refid="Common.pageFooter"/>
 	</select>
 </mapper>

@@ -15,7 +15,6 @@
 		
 		$().ready(function(){
 			
-			// 사원 등록
 			$(".btn-apply").click(function(e){
 				e.preventDefault();
 				var ajaxUtil = new AjaxUtil();

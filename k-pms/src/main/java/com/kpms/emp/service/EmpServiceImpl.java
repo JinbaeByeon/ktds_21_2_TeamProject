@@ -12,9 +12,11 @@ import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.handler.SessionHandler;
 import com.kpms.common.handler.UploadHandler;
+import com.kpms.common.service.MailService;
 import com.kpms.common.util.CalendarUtil;
 import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
+import com.kpms.common.vo.MailVO;
 import com.kpms.emp.dao.EmpDAO;
 import com.kpms.emp.vo.EmpPwdVO;
 import com.kpms.emp.vo.EmpVO;
@@ -32,6 +34,8 @@ public class EmpServiceImpl implements EmpService {
 	private LgnTryLogDAO lgnTryLogDAO;
 	@Autowired
 	UploadHandler uploadHandler;
+	@Autowired
+	MailService mailService;
 	
 	@Override
 	public boolean createOneEmp(EmpVO empVO, MultipartFile uploadFile) {
@@ -49,8 +53,8 @@ public class EmpServiceImpl implements EmpService {
 		if (StringUtil.isEmpty(empVO.getEmpId())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "ID는 필수 값입니다.");
 		}
-		if (StringUtil.isExceedLength(empVO.getEmpId(), 10)) {
-			throw new APIArgsException(APIStatus.OVER_LEN_ARG, "ID는 10글자까지 입력할 수 있습니다.");
+		if (StringUtil.isExceedLength(empVO.getEmpId(), 20)) {
+			throw new APIArgsException(APIStatus.OVER_LEN_ARG, "ID는 20글자까지 입력할 수 있습니다.");
 		}
 		
 		if (StringUtil.isEmpty(empVO.getEml())) {
@@ -80,11 +84,22 @@ public class EmpServiceImpl implements EmpService {
 		uploadHandler.uploadProfile(uploadFile, empVO);
 		empVO.setPrflPht(empVO.getFileName());
 		
-		String defaultPwd = empVO.getEmpId();
+		String randomPwd = StringUtil.getRandomPassword(10);
+		
+		MailVO mailVO = new MailVO();
+		mailVO.setFrom("ktds21b@gmail.com");
+		mailVO.setTo(empVO.getEml());
+		mailVO.setSubject("KPMS 로그인 비밀번호 발송");
+		
+		String content = "아이디: " +empVO.getEmpId() +"\n";
+		content +="비밀번호: " +randomPwd;
+		mailVO.setContent(content);
+		mailService.sendMail(mailVO);
+		
 		String salt = SHA256Util.generateSalt();
 		empVO.setPwdSalt(salt);
-		defaultPwd = SHA256Util.getEncrypt(defaultPwd, salt);
-		empVO.setPwd(defaultPwd);
+		randomPwd = SHA256Util.getEncrypt(randomPwd, salt);
+		empVO.setPwd(randomPwd);
 		
 		return empDAO.createOneEmp(empVO) > 0;
 	}
@@ -232,8 +247,8 @@ public class EmpServiceImpl implements EmpService {
 		if(newPwd.length() < 10) {
 			throw new APIArgsException(APIStatus.FAIL, "비밀번호의 길이가 10자 미만입니다.");
 		}
-		if(!newPwd.matches("[a-zA-Z0-9-_]*$")) {
-			throw new APIArgsException(APIStatus.FAIL, "비밀번호는 영문자, 특수문자, 숫자를 포함해야합니다.");
+		if(!newPwd.matches("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{10,20}$")) {
+			throw new APIArgsException(APIStatus.FAIL, "비밀번호는 10글자 이상의 영문자, 특수문자, 숫자를 포함한 값이어야 합니다.");
 		}
 		if(!StringUtil.isMatchTo(newPwd, newPwdCnfrm)) {
 			throw new APIArgsException(APIStatus.DISMATCH, "비밀번호 확인 값이 일치하지 않습니다.");
@@ -251,12 +266,21 @@ public class EmpServiceImpl implements EmpService {
 			throw new APIArgsException(APIStatus.DISMATCH, "일치하는 ID가 존재하지 않습니다.");
 		}
 		
-		String defaultPwd = "1234";
+		String randomPwd = StringUtil.getRandomPassword(10);
+		
+		MailVO mailVO = new MailVO();
+		mailVO.setTo(empVO.getEml());
+		mailVO.setSubject("KPMS 로그인 비밀번호 발송 메일입니다.");
+		
+		String content = "아이디: " +empVO.getEmpId() +"\n";
+		content +="비밀번호: " +randomPwd;
+		mailVO.setContent(content);
+		mailService.sendMail(mailVO);
 		
 		String salt = SHA256Util.generateSalt();
 		empVO.setPwdSalt(salt);
-		defaultPwd = SHA256Util.getEncrypt(defaultPwd, salt);
-		empVO.setPwd(defaultPwd);
+		randomPwd = SHA256Util.getEncrypt(randomPwd, salt);
+		empVO.setPwd(randomPwd);
 		return empDAO.updateOneEmp(empVO) > 0;
 	}
 	

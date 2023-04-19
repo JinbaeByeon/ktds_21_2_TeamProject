@@ -55,7 +55,7 @@ public class EmpController {
 	}
 	
 	@GetMapping("/emp/list")
-	public String viewEmpListPage(Model model, EmpVO empVO) {
+	public String viewEmpListPage(Model model, EmpVO empVO, String searchType) {
 		List<EmpVO> empList = empService.readEmpList(empVO);
 		model.addAttribute("empList",empList);
 		if(!empList.isEmpty()) {
@@ -64,6 +64,11 @@ public class EmpController {
 		model.addAttribute("pageNo",empVO.getPageNo());
 		model.addAttribute("pageCnt",empVO.getPageCnt());
 		model.addAttribute("viewCnt",empVO.getViewCnt());
+		model.addAttribute("empVO",empVO);
+		if(searchType==null) {
+			searchType= "ID";
+		}
+		model.addAttribute("searchType",searchType);
 		return "emp/list";
 	}
 	

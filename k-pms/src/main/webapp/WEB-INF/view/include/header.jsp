@@ -5,6 +5,7 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
+		var empId = "${sessionScope.__USER__.empId}";
 		<c:if test="${not empty selected}">
 			$("li.nav-item.${selected}").addClass("active");
 		</c:if>
@@ -23,6 +24,20 @@
 		});
 		$(".sub-item").mouseenter(function(){
 			$(this).addClass("active");
+		});
+		$("#my-info").click(function(){
+			var menu = $(this).children(".my-menu");
+			if(menu.is(':visible')){
+				menu.hide();
+			} else{
+				menu.show();
+			}
+		});
+		$("#my-info").find(".menu-item.info").click(function(){
+			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=500");
+		});
+		$("#my-info").find(".menu-item.chng-pwd").click(function(){
+			window.open("${context}/emp/modify/password/"+empId,"비밀번호 변경","width=500,height=500");
 		});
 	});
 </script>
@@ -78,6 +93,13 @@
 		</li>
 	</ul>
 	<div class="inline profile">
-		${sessionScope.__USER__.fNm} <a href="${context}/emp/lgt">(Logout)</a>
+		<div id="my-info">
+			${sessionScope.__USER__.fNm}
+			<div class="my-menu" hidden>
+				<div class="menu-item info">회원정보</div>
+				<div class="menu-item chng-pwd">비밀번호 변경</div>
+			</div>
+		</div>
+		<a href="${context}/emp/lgt">(Logout)</a>
 	</div>
 </div>

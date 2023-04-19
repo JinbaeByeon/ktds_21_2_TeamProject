@@ -211,11 +211,42 @@ h1{
 	color: #f009;
 }
 
-.main-layout > .header > .profile {
+#my-info {
+	margin:0;
+	margin-right: 5px;
 	color: #EEE;
+	position: relative;
+	cursor: pointer;
+}
+
+#my-info > .my-menu {
+	background-color: #eee;
+	margin-top: 10px;
+	height: 64px;
+	width: 120px;
+	border: 2px solid #888;
+	border-radius: 5px;
+	font-weight: bold;
+	position: absolute;
+	left: -20px;
+	cursor: pointer;
+}
+#my-info > .my-menu > .menu-item {
+	padding: 5px;
+	border-bottom: 2px solid #888;
+}
+#my-info > .my-menu > .menu-item:last-child{
+	border-bottom: none;
+}
+#my-info > .my-menu > .menu-item:hover {
+	background-color: #777;
+}
+
+.main-layout > .header > .profile {
 	position: absolute;
 	right:10px;
 	top:10px;
+	display: flex;
 }
 
 .inline{
@@ -261,7 +292,7 @@ h1{
 	right:0px;
 	overflow: auto;
 	padding:10px;
-	
+	z-index: -1;
 }
 
 
@@ -359,7 +390,9 @@ h1{
 	magin-top: 0px;
 	margin-bottom: 0px;
 }
-
+.search-group > .search-option {
+	margin-right: 10px;
+}
 .search-group .btn-search {
 	background-color: rgb(55, 141, 240);
 	border-radius: 3px;
@@ -602,6 +635,7 @@ input::-webkit-inner-spin-button {
 	background-color: #2d3650c9;
 	color: #eee;
 }
-.btn-group > .btn-none {
+.btn-group > .btn-close {
 	background-color: #eee;
+	border: 1px solid #888;
 }

@@ -316,6 +316,9 @@
 		  FROM (SELECT *
 		  		  FROM EMP
 				 WHERE DEL_YN = 'N'
+				<if test="empId != null and empId != ''">
+				   AND EMP_ID = #{empId}
+				</if>
 				<if test="fNm != null and fNm != ''">
 				   AND F_NM LIKE '%' || #{fNm} || '%'
 				</if>) E
