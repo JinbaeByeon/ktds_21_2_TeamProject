@@ -37,6 +37,7 @@
 			resultType="com.kpms.prj.vo.PrjVO">
 		<include refid="Common.pageHeader" />
 		SELECT P.PRJ_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY P.CRT_DT || P.PRJ_ID DESC) RNUM
 			 , P.PRJ_ID
 			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , P.CRTR

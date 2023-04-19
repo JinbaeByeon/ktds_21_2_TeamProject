@@ -57,13 +57,13 @@ public class TmVO extends AbstractPagingVO {
 	public void setDepIdDepVO(DepVO depIdDepVO) {
 		this.depIdDepVO = depIdDepVO;
 	}
+
 	public List<TmMbrVO> getTmMbrList() {
 		return tmMbrList;
 	}
 	public void setTmMbrList(List<TmMbrVO> tmMbrList) {
 		this.tmMbrList = tmMbrList;
 	}
-	
 
 
 }
