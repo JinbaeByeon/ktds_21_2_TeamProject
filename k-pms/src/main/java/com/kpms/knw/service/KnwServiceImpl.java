@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.knw.dao.KnwDAO;
+import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
 
 @Service
@@ -28,8 +29,8 @@ public class KnwServiceImpl implements KnwService {
 	}
 
 	@Override
-	public List<KnwVO> readAllKnw(KnwVO knwVO) {
-		return knwDAO.readAllKnw(knwVO);
+	public List<KnwVO> readAllKnw(KnwSearchVO knwSearchVO) {
+		return knwDAO.readAllKnw(knwSearchVO);
 	}
 	
 	@Override
@@ -39,7 +40,7 @@ public class KnwServiceImpl implements KnwService {
 
 	@Override
 	public boolean updateOneKnw(KnwVO knwVO) {
-		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
+		boolean isSuccess = knwDAO.updateOneKnw(knwVO) > 0;
 
 		if (!isSuccess) {
 			throw new APIArgsException("400", "제목과 내용은 필수값입니다.");

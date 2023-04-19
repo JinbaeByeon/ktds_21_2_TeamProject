@@ -2,12 +2,13 @@ package com.kpms.cmncd.dao;
 
 import java.util.List;
 
+import com.kpms.cmncd.vo.CmnCdSearchVO;
 import com.kpms.cmncd.vo.CmnCdVO;
 
 public interface CmnCdDAO {
 	
-	public List<CmnCdVO> readAllCmnCd(CmnCdVO cmnCdVO);
-	public List<CmnCdVO> readCmnCdType(CmnCdVO cmnCdVO);
+	public List<CmnCdVO> readAllCmnCd(CmnCdSearchVO cmnCdSearchVO);
+	public List<CmnCdVO> readCmnCdType();
 	public List<CmnCdVO> readCmnCdNameByPrcdncCdId(String prcdncCdId);
 	public int createOneCmnCd(CmnCdVO cmnCdVO);
 	public int updateOneCmnCd(CmnCdVO cmnCdVO);
