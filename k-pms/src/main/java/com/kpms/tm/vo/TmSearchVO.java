@@ -1,25 +1,21 @@
-package com.kpms.dep.vo;
+package com.kpms.tm.vo;
 
 import com.kpms.common.vo.AbstractPagingVO;
-import com.kpms.tm.vo.TmSearchVO;
 
-public class DeptSearchVO extends AbstractPagingVO {
-
-	private String depNm;
+public class TmSearchVO extends AbstractPagingVO {
+	private String tmNm;
 	private String fNm;
 	private String lNm;
-	
+
 	private String searchOption;
 	private String searchKeyword;
-	
-	private TmSearchVO tmSearchVO;
 
-	public String getDepNm() {
-		return depNm;
+	public String getTmNm() {
+		return tmNm;
 	}
 
-	public void setDepNm(String depNm) {
-		this.depNm = depNm;
+	public void setTmNm(String tmNm) {
+		this.tmNm = tmNm;
 	}
 
 	public String getfNm() {
@@ -37,7 +33,7 @@ public class DeptSearchVO extends AbstractPagingVO {
 	public void setlNm(String lNm) {
 		this.lNm = lNm;
 	}
-	
+
 	public String getSearchOption() {
 		return searchOption;
 	}
@@ -54,12 +50,4 @@ public class DeptSearchVO extends AbstractPagingVO {
 		this.searchKeyword = searchKeyword;
 	}
 
-	public TmSearchVO getTmSearchVO() {
-		return tmSearchVO;
-	}
-
-	public void setTmSearchVO(TmSearchVO tmSearchVO) {
-		this.tmSearchVO = tmSearchVO;
-	}
-	
 }

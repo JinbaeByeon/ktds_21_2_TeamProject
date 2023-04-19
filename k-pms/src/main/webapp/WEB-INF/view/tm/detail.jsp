@@ -19,12 +19,11 @@
 		});
 		
 		$("#delete-btn").click(function() {
-			var prjId = $("#tmId").val();
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
 			
-			$.get("${context}/api/tm/delete/" + tmId, function(response) {
+			$.get("${context}/api/tm/delete/" + $("#tmId").val(), function(response) {
 				if (response.status == "200 OK") {
 					location.href = "${context}/tm/list"
 				}
