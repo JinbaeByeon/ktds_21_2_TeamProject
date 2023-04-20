@@ -15,7 +15,23 @@
 		var detailWindow;
 		
 		$().ready(function(){
+			$("#pwd-reset").click(function(){
+				
+				$.get("${context}/api/emp/reset/password/"+,function(){
+					
+				});
+			});
 			
+			$("#pstn-change").click(function(){
+				
+			});
+			$("#job-change").click(function(){
+				
+			});
+			$("#dep-change").click(function(){
+				
+			});
+
 			$(".search-option").change(function(){
 				movePage(0);
 			});
@@ -88,8 +104,16 @@
 				</div>
 			</form>
 			<div class="grid">
-				<div class="grid-count align-right">
-					총 ${empList.size()}건
+				<div class="grid-count">
+					<div class="align-left left">
+						<button id="pwd-reset">비밀번호 초기화</button>
+						<button id="pstn-change">직급 변경</button>
+						<button id="job-change">직무 변경</button>
+						<button id="dep-change">부서 변경</button>
+					</div>
+					<div class="align-right right">
+						총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건
+					</div>
 				</div>
 				<table>
 					<thead>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Prj">
+	<resultMap id="prjVOMap" type="com.kpms.prj.vo.PrjVO" autoMapping="true">
+		<id property="prjId" column="PRJ_ID" />
+		<collection property="ptmList" ofType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
+			<id property="prjTmMbrId" column="TM_MBR_ID" />
+			<result property="tmMbrId" column="TM_MBR_ID" />
+			<result property="prjPstn" column="PRJ_PSTN" />
+			<association property="tmMbrVO" javaType="com.kpms.tmmbr.vo.TmMbrVO">
+				<id property="tmMbrId" column="TM_MBR_ID" />
+				<association property="empVO" javaType="com.kpms.emp.vo.EmpVO">
+					<id property="empId" column="EMP_ID" />
+					<result property="fNm" column="F_NM" />
+					<result property="lNm" column="L_NM" />
+				</association>
+				<association property="tmVO" javaType="com.kpms.tm.vo.TmVO">
+					<id property="tmId" column="TM_ID" />
+					<result property="tmNm" column="TM_NM" />
+				</association>
+			</association>
+		</collection>
+		<collection property="reqList" ofType="com.kpms.req.vo.ReqVO" autoMapping="true">
+			<id property="reqId" column="REQ_ID" />
+		</collection>
+		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO"  autoMapping="true">
+			<id property="knwId" column="KNW_ID"/>
+			<result property="crtDt" column="KNW_CRT_DT" />
+			<result property="crtr" column="KNW_CRTR" />
+		</collection>
+	</resultMap>
+
+	<select id="readAllPrjVO"
+			parameterType="com.kpms.prj.vo.PrjVO"
+			resultType="com.kpms.prj.vo.PrjVO">
+		<include refid="Common.pageHeader" />
+		SELECT P.PRJ_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY P.CRT_DT || P.PRJ_ID DESC) RNUM
+			 , P.PRJ_ID
+			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , P.CRTR
+			 , TO_CHAR(P.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , P.MDFYR
+			 , P.USE_YN
+			 , P.DEL_YN
+			 , P.PRJ_NM
+			 , P.CSTMR
+			 , TO_CHAR(P.STRT_DT, 'YYYY-MM-DD') STRT_DT
+			 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
+			 , P.PRJ_STTS
+		  FROM PRJ P
+		 WHERE P.DEL_YN = 'N'
+		 <if test='prjNm != null and prjNm != ""'>
+		   AND P.PRJ_NM LIKE '%' || #{prjNm} || '%'
+		 </if>
+		 <if test='cstmr != null and cstmr != ""'>
+		   AND P.CSTMR LIKE '%' || #{cstmr} || '%'
+		 </if>
+		 ORDER BY P.PRJ_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllPrjVONoPagination"
+			parameterType="string"
+			resultType="com.kpms.prj.vo.PrjVO">
+		SELECT P.PRJ_ID
+			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , P.CRTR
+			 , TO_CHAR(P.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , P.MDFYR
+			 , P.USE_YN
+			 , P.DEL_YN
+			 , P.PRJ_NM
+			 , P.CSTMR
+			 , TO_CHAR(P.STRT_DT, 'YYYY-MM-DD') STRT_DT
+			 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
+			 , P.PRJ_STTS
+		  FROM PRJ P
+		 WHERE P.DEL_YN = 'N'
+		   AND P.PRJ_NM LIKE '%' || #{prjNm} || '%'
+		 ORDER BY P.PRJ_ID ASC
+	</select>
+	
+	<select id="readOnePrjVOByPrjId"
+			parameterType="string"
+			resultMap="prjVOMap">
+		SELECT PRK.PRJ_ID
+			 , PRK.CRT_DT
+			 , PRK.CRTR
+			 , PRK.MDFY_DT
+			 , PRK.MDFYR
+			 , PRK.USE_YN
+			 , PRK.DEL_YN
+			 , PRK.PRJ_NM
+			 , PRK.CSTMR
+			 , PRK.STRT_DT
+			 , PRK.END_DT
+			 , PRK.PRJ_STTS
+			 , PTM.TM_MBR_ID
+			 , TM.EMP_ID
+			 , T.TM_ID 
+			 , T.TM_NM
+			 , E.F_NM 
+			 , E.L_NM 
+			 , PTM.PRJ_PSTN
+			 , PRK.REQ_ID
+			 , PRK.REQ_STRT_DT
+			 , PRK.EXPCT_END_DT
+			 , PRK.MN_DVLPR
+			 , PRK.TSK_STTS
+			 , PRK.PRCS_STTS 
+			 , PRK.PRRTY 
+			 , PRK.KNW_ID
+			 , PRK.TTL
+			 , PRK.KNW_CRT_DT 
+			 , PRK.KNW_CRTR
+			 , PRK.VW_CNT
+		  FROM (SELECT P.PRJ_ID
+					 , P.CRT_DT
+					 , P.CRTR
+					 , P.MDFY_DT
+					 , P.MDFYR
+					 , P.USE_YN
+					 , P.DEL_YN
+					 , P.PRJ_NM
+					 , P.CSTMR
+					 , TO_CHAR(P.STRT_DT, 'YYYY-MM-DD') STRT_DT
+					 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
+					 , P.PRJ_STTS
+					 , R.REQ_ID
+					 , R.STRT_DT REQ_STRT_DT
+					 , R.EXPCT_END_DT
+					 , R.MN_DVLPR
+					 , R.TSK_STTS
+					 , R.PRCS_STTS 
+					 , R.PRRTY 
+					 , K.KNW_ID
+					 , K.TTL
+					 , K.CRT_DT KNW_CRT_DT
+					 , K.CRTR KNW_CRTR
+					 , K.VW_CNT
+		  		  FROM (SELECT *
+				  		  FROM PRJ
+						 WHERE PRJ_ID = #{_parameter}
+						   AND DEL_YN = 'N') P
+			      LEFT JOIN (SELECT *
+			      			   FROM REQ
+			      			  WHERE DEL_YN = 'N') R
+				    ON P.PRJ_ID = R.PRJ_ID 
+				  LEFT JOIN (SELECT *
+			      			   FROM KNW
+			      			  WHERE DEL_YN = 'N') K
+				    ON P.PRJ_ID = K.PRJ_ID) PRK
+		  JOIN PRJ_TM_MBR PTM
+		    ON PRK.PRJ_ID = PTM.PRJ_ID
+		  JOIN TM_MBR TM
+		    ON PTM.TM_MBR_ID  = TM.TM_MBR_ID
+		  JOIN TM T 
+		    ON TM.TM_ID = T.TM_ID 
+		  JOIN EMP E
+		    ON TM.EMP_ID = E.EMP_ID
+		 WHERE PTM.DEL_YN ='N'
+		   AND TM.DEL_YN = 'N'
+		   AND E.DEL_YN = 'N'
+	</select>
+	
+	<insert id="createOnePrj"
+			parameterType="com.kpms.prj.vo.PrjVO">
+		<selectKey keyProperty="prjId"
+					resultType="string"
+					order="BEFORE"> 
+		SELECT 'PRJ-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRJ_PK.NEXTVAL, '5', 0)
+		  FROM DUAL
+		</selectKey>
+		INSERT INTO PRJ
+		      (PRJ_ID
+		     , CRT_DT
+		     , CRTR
+		     , MDFY_DT
+		     , MDFYR
+		     , USE_YN
+		     , DEL_YN
+		     , PRJ_NM
+		     , CSTMR
+		     , STRT_DT
+		     , END_DT
+		     , PRJ_STTS)
+	   VALUES
+	   	      (#{prjId}
+	   	     , SYSDATE
+	   	     , #{crtr}
+	   	     , SYSDATE
+	   	     , #{mdfyr}
+	   	     , NVL(#{useYn}, 'N')
+	   	     , 'N'
+	   	     , #{prjNm}
+	   	     , #{cstmr}
+	   	     , TO_DATE(#{strtDt}, 'YYYY-MM-DD')
+	   	     , TO_DATE(#{endDt}, 'YYYY-MM-DD')
+	   	     , #{prjStts})
+	</insert>
+	
+	<update id="updateOnePrj"
+			parameterType="com.kpms.prj.vo.PrjVO">
+		UPDATE PRJ
+		   SET MDFY_DT = SYSDATE
+		   	 , MDFYR = #{mdfyr}
+		   	 , USE_YN = NVL(#{useYn}, 'N')
+		   	<if test='prjNm != null and prjNm != ""'>
+		   	 , PRJ_NM = #{prjNm}
+		   	</if>
+		   	<if test='cstmr != null and cstmr != ""'>
+		   	 , CSTMR = #{cstmr}
+		   	</if>
+		   	<if test='strtDt != null and strtDt != ""'>
+		   	 , STRT_DT = #{strtDt}
+		   	</if>
+		   	<if test='endDt != null and endDt != ""'>
+		   	 , END_DT = #{endDt}
+		   	</if>
+		   	<if test='prjStts != null and prjStts != ""'>
+		   	 , PRJ_STTS =#{prjStts}
+		   	</if>
+		 WHERE PRJ_ID = #{prjId}
+	</update>
+	
+	<update id="deleteOnePrjByPrjId"
+			parameterType="string">
+		UPDATE PRJ
+		   SET DEL_YN = 'Y' 
+		 WHERE PRJ_ID = #{_parameter}		
+	</update>
+	
+	<update id="deletePrjByPrjList"
+			parameterType="arrayList">
+		UPDATE PRJ
+		   SET DEL_YN = 'Y' 
+		 WHERE PRJ_ID IN
+		<foreach item="prjId" collection="list" open="(" close=")" separator=",">
+			#{prjId}
+		</foreach>
+	</update>
+</mapper>
