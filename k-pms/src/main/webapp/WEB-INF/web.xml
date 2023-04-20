@@ -51,4 +51,8 @@
 		<session-timeout>20</session-timeout>
 	</session-config>
 	
+	<listener>
+		<listener-class>com.kpms.common.listener.SessionListener</listener-class>
+	</listener>
+	
 </web-app>

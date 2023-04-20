@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
 
 @Repository
@@ -19,8 +20,8 @@ public class TmDAOImpl extends SqlSessionDaoSupport implements TmDAO {
 	}
 
 	@Override
-	public List<TmVO> readAllTmVO(TmVO tmVO) {
-		return getSqlSession().selectList("Tm.readAllTmVO", tmVO);
+	public List<TmVO> readAllTmVO(TmSearchVO tmSearchVO) {
+		return getSqlSession().selectList("Tm.readAllTmVO", tmSearchVO);
 	}
 
 	@Override

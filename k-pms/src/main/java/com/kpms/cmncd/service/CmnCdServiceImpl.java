@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kpms.cmncd.dao.CmnCdDAO;
+import com.kpms.cmncd.vo.CmnCdSearchVO;
 import com.kpms.cmncd.vo.CmnCdVO;
 import com.kpms.common.exception.APIException;
 
@@ -16,13 +17,13 @@ public class CmnCdServiceImpl implements CmnCdService {
 	private CmnCdDAO cmnCdDAO;
 	
 	@Override
-	public List<CmnCdVO> readAllCmnCd(CmnCdVO cmnCdVO) {
-		return cmnCdDAO.readAllCmnCd(cmnCdVO);
+	public List<CmnCdVO> readAllCmnCd(CmnCdSearchVO cmnCdSearchVO) {
+		return cmnCdDAO.readAllCmnCd(cmnCdSearchVO);
 	}
 	
 	@Override
-	public List<CmnCdVO> readCmnCdType(CmnCdVO cmnCdVO) {
-		return cmnCdDAO.readCmnCdType(cmnCdVO);
+	public List<CmnCdVO> readCmnCdType() {
+		return cmnCdDAO.readCmnCdType();
 	}
 	
 	@Override

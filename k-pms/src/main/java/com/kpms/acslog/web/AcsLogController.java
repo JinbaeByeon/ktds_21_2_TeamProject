@@ -17,18 +17,21 @@ public class AcsLogController {
 	private AcsLogService acsLogService;
 	
 	@GetMapping("/emp/log/acs")
-	public String viewAcsLogPage(Model model, AcsLogVO acsLogVO) {
+	public String viewAcsLogPage(Model model, AcsLogVO acsLogVO,String searchType) {
 		acsLogVO.setViewCnt(15);
 		List<AcsLogVO> acsLogList = acsLogService.readAllAcsLog(acsLogVO);
 		model.addAttribute("acsLogList",acsLogList);
 		if(!acsLogList.isEmpty()) {
 			model.addAttribute("lastPage",acsLogList.get(0).getLastPage());
 		}
-		model.addAttribute("empId",acsLogVO.getCrtr());
+		model.addAttribute("acsLogVO",acsLogVO);
 		model.addAttribute("viewCnt",acsLogVO.getViewCnt());
 		model.addAttribute("pageCnt",acsLogVO.getPageCnt());
 		model.addAttribute("pageNo",acsLogVO.getPageNo());
-		
+		if(searchType==null) {
+			searchType= "ID";
+		}
+		model.addAttribute("searchType",searchType);
 		return "emp/log/acs";
 	}
 }

@@ -15,6 +15,7 @@
 <script type="text/javascript">	
 	
 	var tmHd;
+	var tmMbr;
 	
 	function addHdEmpFn(message) {
 		
@@ -52,12 +53,12 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			gnr = window.open("${context}/tmMbr/search", "팀원검색", "width=500, height=500")
+			var depId = $("#depId").val();
+			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#save-btn").click(function() {
 			var tmId = $("#tmId").val();
-			console.log(tmId);
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.href = "${context}" + response.redirectURL;
@@ -112,7 +113,7 @@
 							<button id="addTmHeadBtn" class="btn-tm">등록</button>
 							<div class="items">
 								<div class='head-item'>
-									<input type="text" id="tmHdId" name="tmHdId" readonly value=" " />
+									<input type="text" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
 									<span id="tmHdNm"></span>						
 								</div>
 							</div>

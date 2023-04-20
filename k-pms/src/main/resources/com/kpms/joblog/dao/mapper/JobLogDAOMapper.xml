@@ -18,9 +18,9 @@
 			 <association property="prvsJobNmVO"
 			 			  javaType="com.kpms.job.vo.JobVO">
 			 	<id property="jobId" column="PRVS_JOB_ID"/>
-			 	<result property="jobNm" column="PRVS_JOBNM"/>
+			 	<result property="jobNm" column="PRVS_JOBNM"/> 
 			 </association>
-			<association property="chngJobNmVO"
+			<association property="chngJobNmVO"																	
 						 javaType="com.kpms.job.vo.JobVO">
 				<id property="jobId" column="CHNG_JOB_ID"/>
 				<result property="jobNm" column="CHNG_JOBNM"/>	

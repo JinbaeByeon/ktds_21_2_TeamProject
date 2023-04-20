@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kpms.cmncd.vo.CmnCdSearchVO;
 import com.kpms.cmncd.vo.CmnCdVO;
 
 @Repository
@@ -19,13 +20,13 @@ public class CmnCdDAOImpl extends SqlSessionDaoSupport implements CmnCdDAO {
 	}
 
 	@Override
-	public List<CmnCdVO> readAllCmnCd(CmnCdVO cmnCdVO) {
-		return getSqlSession().selectList("CmnCd.readAllCmnCd", cmnCdVO);
+	public List<CmnCdVO> readAllCmnCd(CmnCdSearchVO cmnCdSearchVO) {
+		return getSqlSession().selectList("CmnCd.readAllCmnCd", cmnCdSearchVO);
 	}
 	
 	@Override
-	public List<CmnCdVO> readCmnCdType(CmnCdVO cmnCdVO) {
-		return getSqlSession().selectList("CmnCd.readCmnCdType", cmnCdVO);
+	public List<CmnCdVO> readCmnCdType() {
+		return getSqlSession().selectList("CmnCd.readCmnCdType");
 	}
 	
 	@Override

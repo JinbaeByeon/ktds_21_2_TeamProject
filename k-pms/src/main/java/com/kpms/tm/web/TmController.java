@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kpms.tm.service.TmService;
+import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
 
 @Controller
@@ -20,20 +21,20 @@ public class TmController {
 	
 	
 	@GetMapping("/tm/list")
-	public String viewTmListPage(TmVO tmVO, Model model) {
+	public String viewTmListPage(TmSearchVO tmSearchVO, Model model) {
 		
-		List<TmVO> tmList = tmService.readAllTmVO(tmVO);
+		List<TmVO> tmList = tmService.readAllTmVO(tmSearchVO);
 		
 		model.addAttribute("tmList", tmList);
-		model.addAttribute("tmVO", tmVO);
+		model.addAttribute("tmVO", tmSearchVO);
 		
 		if(!tmList.isEmpty()) {
 			model.addAttribute("lastPage",tmList.get(0).getLastPage());
 	      }
-	      model.addAttribute("tmNm", tmVO.getTmNm());
-	      model.addAttribute("pageNo", tmVO.getPageNo());
-	      model.addAttribute("viewCnt", tmVO.getViewCnt());
-	      model.addAttribute("pageCnt", tmVO.getPageCnt());
+	      model.addAttribute("tmNm", tmSearchVO.getTmNm());
+	      model.addAttribute("pageNo", tmSearchVO.getPageNo());
+	      model.addAttribute("viewCnt", tmSearchVO.getViewCnt());
+	      model.addAttribute("pageCnt", tmSearchVO.getPageCnt());
 		
 		return "tm/list";
 	}

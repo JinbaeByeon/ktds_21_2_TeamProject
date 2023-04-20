@@ -17,6 +17,7 @@ h1{
 	margin:0;
 	padding:0;
 }
+
 *{
 	font-size:12pt;
 	color:#333;
@@ -38,6 +39,7 @@ h1{
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
 
 .align-center{
@@ -102,7 +104,7 @@ h1{
 	color:#FFF;
 	border:none;
 	border-radius: 3px;
-	font-size: 10px;
+	font-size: 15px;
 	padding:5px;
 }
 
@@ -209,11 +211,42 @@ h1{
 	color: #f009;
 }
 
-.main-layout > .header > .profile {
+#my-info {
+	margin:0;
+	margin-right: 5px;
 	color: #EEE;
+	position: relative;
+	cursor: pointer;
+}
+
+#my-info > .my-menu {
+	background-color: #eee;
+	margin-top: 10px;
+	height: 64px;
+	width: 120px;
+	border: 2px solid #888;
+	border-radius: 5px;
+	font-weight: bold;
+	position: absolute;
+	left: -20px;
+	cursor: pointer;
+}
+#my-info > .my-menu > .menu-item {
+	padding: 5px;
+	border-bottom: 2px solid #888;
+}
+#my-info > .my-menu > .menu-item:last-child{
+	border-bottom: none;
+}
+#my-info > .my-menu > .menu-item:hover {
+	background-color: #777;
+}
+
+.main-layout > .header > .profile {
 	position: absolute;
 	right:10px;
 	top:10px;
+	display: flex;
 }
 
 .inline{
@@ -259,7 +292,7 @@ h1{
 	right:0px;
 	overflow: auto;
 	padding:10px;
-	
+	z-index: -1;
 }
 
 
@@ -270,9 +303,24 @@ h1{
 	margin-bottom: 10px;
 }
 
-.content .grid > grid-count {
+.content .grid > .grid-count {
 	font-size:11px;
-	
+	position: relative;
+	height: 30px;
+}
+
+.content .grid > .grid-count > .left{
+	display: inline-block;
+	width: 40%;
+	position: absolute;
+	bottom: 5px;
+}
+.content .grid > .grid-count > .right{
+	display: inline-block;
+	width: 59%;
+	position: absolute;
+	bottom: 5px;
+	right: 0;
 }
 
 .content .grid > table{
@@ -357,7 +405,9 @@ h1{
 	magin-top: 0px;
 	margin-bottom: 0px;
 }
-
+.search-group > .search-option {
+	margin-right: 10px;
+}
 .search-group .btn-search {
 	background-color: rgb(55, 141, 240);
 	border-radius: 3px;
@@ -403,9 +453,8 @@ input[type=file]{
 }
 
 img.profile{
-	border-radius:50%;
-	width:50px;
-	height:50px;
+	height:15px;
+	padding-top: 5px;
 }
 
 
@@ -440,6 +489,9 @@ img.profile{
 .create-group > div{
 	display: flex;
 }
+.create-group > div.column{
+	flex-direction: column;
+}
 
 .create-group > .right-item {
 	position: absolute;
@@ -456,6 +508,19 @@ img.profile{
 	height: 300px;
 }
 
+.m-10 {
+	margin: 10px;
+}
+
+.mt-5 {
+	margin-top: 5px;
+}
+.mb-5 {
+	margin-bottom: 5px;
+}
+.mr-5 {
+	margin-right: 5px;
+}
 
 .ml-10 {
 	margin-left: 10px;
@@ -497,19 +562,35 @@ input::-webkit-inner-spin-button {
 
 .detail > .header{
 	margin:0;
+	margin-bottom: 10px;
 	padding:5px;
 	background-color: #666;
+	position: fixed;
+	width: 100%;
 }
 
 .detail > .header > h1{
 	color: #eee;
 }
 
+.detail > .basic.info {
+	padding-top: 40px;
+}
+
+.detail > .emp.info {
+	padding-top: 10px;
+}
+
+.detail > .info > h1 {
+	display: inline-block;
+	padding: 5px;
+}
 
 .detail > .info > ul {
 	padding: 0;
 	display: flex;
 	flex-direction: column;
+	margin: 0;
 }
 .detail > .info > ul > li {
 	width: 100%;
@@ -520,16 +601,75 @@ input::-webkit-inner-spin-button {
 	height: 40px;
 	text-align: center;
 }
+.detail > .info > ul > li > .column.profile {
+	height: 52px;
+}
+.detail > .info > ul > li > .column.profile > .left {
+	line-height: 50px;
+}
 
 .detail > .info > ul > li > .column > div {
-	border: 1px solid #eee;
 	display: inline-block;
 }
 .detail > .info > ul > li > .column > .left {
+	border: 1px solid #ddd;
 	width: 30%;
 	line-height: 38px;
+	background-color: #eee;
 }
 .detail > .info > ul > li > .column > .right {
+	border: 1px solid #eee;
 	width: 68%;
 	line-height: 38px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
+
+.notice-pwd {
+	margin: 0;
+	margin-left: 10px;
+	margin-bottom: 3px;
+	color: #888;
+	font-size: 10px;
+	height: fit-content;
+}
+
+.btn-group {
+	display: flex;
+	position: relative;
+}
+.btn-group > div {
+	padding: 10px;
+	margin: 10px;
+	border-radius: 5px;
+}
+
+.btn-group > .btn-apply {
+	background-color: #2d3650c9;
+	color: #eee;
+}
+.btn-group > .btn-close {
+	background-color: #eee;
+	border: 1px solid #888;
+}
+
+
+
+/* 대댓글 */
+
+.reply > ul {
+	display: inline-block;	
+}
+
+.reply > .x-btn {
+	display: inline-block;	
+}
+
+.reply > .update-btn {
+	display: inline-block;
+}
+
+
+
+

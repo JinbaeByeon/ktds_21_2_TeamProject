@@ -26,8 +26,10 @@
 		$(".check_idx").change(function(){
 			checkIndex();
 		});
-		
-		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+		$(".check_idx").click(function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
+		});
+		$(".grid > table > tbody > tr > td").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
