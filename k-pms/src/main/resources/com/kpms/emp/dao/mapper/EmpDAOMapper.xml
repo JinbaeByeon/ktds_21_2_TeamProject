@@ -33,6 +33,11 @@
 			<id property="pstnId" column="PSTN_ID" />
 			<result property="pstnNm" column="PSTN_NM" />
 		</association>
+		<association property="emplmntSttsVO" 
+					 javaType="com.kpms.cmncd.vo.CmnCdVO">
+			<id property="cdId" column="EMPLMNT_STTS" />
+			<result property="cdNm" column="CD_NM" />
+		</association>
 	</resultMap>
 	
 	<insert id="createOneEmp"
@@ -218,7 +223,8 @@
 			   ME.L_NM MDFYR_L_NM,
 			   J.JOB_NM,
 			   D.DEP_NM,
-			   P.PSTN_NM
+			   P.PSTN_NM,
+			   CMCD.CD_NM
 		  FROM (SELECT *
 		  		  FROM EMP
 				 WHERE DEL_YN = 'N'
@@ -233,6 +239,8 @@
 		  	ON J.JOB_ID = E.JOB_ID
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
+		  JOIN CMN_CD CMCD
+		  	ON CMCD.CD_ID = E.EMPLMNT_STTS
 	</select>
 	
 	<select id="readEmpListNoPagination"
@@ -312,7 +320,8 @@
 			   ME.L_NM MDFYR_L_NM,
 			   J.JOB_NM,
 			   D.DEP_NM,
-			   P.PSTN_NM
+			   P.PSTN_NM,
+			   CMCD.CD_NM
 		  FROM (SELECT *
 		  		  FROM EMP
 				 WHERE DEL_YN = 'N'
@@ -321,6 +330,9 @@
 				</if>
 				<if test="fNm != null and fNm != ''">
 				   AND F_NM LIKE '%' || #{fNm} || '%'
+				</if>
+				<if test="emplmntStts != null and emplmntStts != ''">
+				   AND EMPLMNT_STTS = #{emplmntStts}
 				</if>) E
 		  JOIN EMP CE
 		  	ON CE.EMP_ID = E.CRTR
@@ -332,6 +344,8 @@
 		  	ON J.JOB_ID = E.JOB_ID
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
+		  JOIN CMN_CD CMCD
+		  	ON CMCD.CD_ID = E.EMPLMNT_STTS
 		<include refid="Common.pageFooter"/>
 	</select>
 	

@@ -16,8 +16,25 @@
 		var depWindow;
 		var jobWindow;
 		var pstnWindow;
-		
+		var emplmntSttsData;
 		$().ready(function(){
+			$.get("${context}/api/cmncd/list/001", function(response) {
+				var emplmntSttsSelect = $("#emplmntStts-select");
+				emplmntSttsData = response.data;
+				for (var i in emplmntSttsData) {
+					var cdNm = emplmntSttsData[i].cdNm;
+					var option = $("<option value='" + emplmntSttsData[i].cdId + "'></option>");
+					option.append(cdNm);
+					emplmntSttsSelect.append(option)
+					if(emplmntSttsData[i].cdId=="${empVO.emplmntStts}"){
+						emplmntSttsSelect.val(emplmntSttsData[i].cdId);
+					}
+				}
+			});
+			$().find("#emplmntStts-select").val("${empVO.emplmntStts}").prop("selected",true);
+			$("#emplmntStts-select").change(function(e){
+				movePage(${pageNo});
+			});
 			$("#pwd-reset").click(function(){
 				if(!confirm("해당 사원들의 비밀번호를 초기화하시겠습니까?")){
 					return;
@@ -73,14 +90,13 @@
 			var empId = $("#empId").val();
 			var fNm = $("#fNm").val();
 			var searchType = $(".search-option").val();
+			var emplmntStts = $("#emplmntStts-select").val();
 			var qryStr = "searchType=" + searchType;
 			qryStr +=  "&pageNo=" + pageNo;
-			if(fNm=="undefined"){
-				qryStr +=  "&fNm=" + fNm;
-			} else if(empId=="undefined"){
-				qryStr +=  "&empId=" + empId;
+			if(emplmntStts != "default"){
+				qryStr += "&emplmntStts="+emplmntStts;
 			}
-			
+
 			location.href = "${context}/emp/list?"  + qryStr;
 		}
 		function addPstnFn(pstnData){
@@ -182,13 +198,24 @@
 					</div>
 				</div>
 				<table>
+				<colgroup>
+				    <col width="15px"/>
+				    <col width="10%"/>
+				    <col width="10%"/>
+				    <col width="10%"/>
+				    <col width="10%"/>
+				</colgroup>
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>ID</th>
 							<th>이름</th>
 							<th>생성일</th>
-							<th>재직상태</th>
+							<th>
+								<select id="emplmntStts-select">
+									<option value="default">재직상태</option>
+								</select>
+							</th>
 							<th>관리자여부</th>
 							<th>직급</th>
 							<th>직무</th>
@@ -221,7 +248,7 @@
 										<td>${emp.empId}</td>
 										<td>${emp.fNm} ${emp.lNm}</td>
 										<td>${emp.crtDt}</td>
-										<td>${emp.emplmntStts}</td>
+										<td>${emp.emplmntSttsVO.cdNm}</td>
 										<td>
 											<c:if test="${emp.admnYn=='Y'}">
 												<span>관리자</span>
