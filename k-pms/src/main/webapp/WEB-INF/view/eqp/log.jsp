@@ -124,13 +124,9 @@
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	                  <c:param name="path" value="${context}/eqp"/>
 	               	</c:import>
-					
 				</div>	
-				<div class="grid-detail">
-					
-				</div>
+				
 				<div class="align-right">
-					
 				</div>		
 			<jsp:include page="../include/footer.jsp" />
 		</div>

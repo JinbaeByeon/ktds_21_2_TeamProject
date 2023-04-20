@@ -97,7 +97,6 @@
 		 WHERE E.DEL_YN = 'N'
 		 <choose>
 		 	<when test='searchMode == "list"'>
-		   AND E.APPL_STTS IS NULL
 		   AND E.LOSS_STTS = 'N'
 		 	</when>
 		 	<when test='searchMode == "rent"'>
