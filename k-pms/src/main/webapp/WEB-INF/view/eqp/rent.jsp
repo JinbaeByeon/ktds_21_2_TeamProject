@@ -467,11 +467,6 @@
 							<button id="lost_all_btn" class="btn-lost">분실신청</button>
 							<button id="return_all_btn" class="btn-return">반납신청</button>
 						</c:if>
-					<!-- 	<button id="no_lost_all_btn" class="btn-no-lost">분실신청취소</button>
-						<button id="lost_all_btn" class="btn-lost">분실신청</button>
-						<button id="return_all_btn" class="btn-return">반납신청</button>
-						<button id="no_return_all_btn" class="btn-no-return">반납취소</button>
-						<button id="no_apply_all_btn" class="btn-no-apply">대여신청취소</button> -->
 						<button id="apply_all_btn" class="btn-apply">승인</button>
 						<button id="refuse_all_btn" class="btn-refuse">반려</button>
 						<button id="delete_all_btn" class="btn-delete">삭제</button>

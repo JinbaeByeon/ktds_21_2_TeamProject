@@ -17,7 +17,7 @@
 		$().ready(function(){
 			$("#pwd-reset").click(function(){
 				
-				$.get("${context}/api/emp/reset/password/"+,function(){
+				$.get("${context}/api/emp/reset/password/"+ function(){
 					
 				});
 			});
