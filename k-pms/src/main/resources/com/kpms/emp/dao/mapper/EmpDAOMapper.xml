@@ -350,9 +350,13 @@
 			   BRTHDY = #{brthdy},
 			   EML = #{eml},
 			   PHN = #{phn},
-			   PRFL_PHT = #{prflPht},
 			   ADDRSS = #{addrss},
-			   L_NM = #{lNm}
+			   DTL_ADDRSS =#{dtlAddrss},
+			   PST_CD = #{pstCd},
+			   L_NM = #{lNm},
+			<if test="prflPht != null and prflPht != ''">
+			   PRFL_PHT = #{prflPht}
+			</if>
 			</otherwise>
 		</choose>
 		 WHERE EMP_ID = #{empId}

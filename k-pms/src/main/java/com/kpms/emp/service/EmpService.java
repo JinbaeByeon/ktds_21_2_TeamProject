@@ -30,4 +30,5 @@ public interface EmpService {
 
 	public boolean updateEmpPwdReset(EmpVO empVO);
 
+	public String readSaltById(String empId);
 }

@@ -16,7 +16,7 @@ import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.handler.SessionHandler;
-import com.kpms.common.util.CalendarUtil;
+import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpPwdVO;
@@ -47,22 +47,16 @@ public class RestEmpController {
 	}
 	
 	@PostMapping("/api/emp/rgst")
-	public APIResponseVO doRegistEmp(EmpVO empVO, @SessionAttribute("__USER__") EmpVO user, MultipartFile uploadFile) {
-		
-		if(empVO.getDepId()==null) {
-			throw new APIArgsException(APIStatus.MISSING_ARG, "부서를 입력하세요.");
+	public APIResponseVO doRegistEmp(EmpVO empVO
+			, @SessionAttribute("__USER__") EmpVO user
+			, String admnPwd
+			, MultipartFile uploadFile) {
+		String empId = user.getEmpId();
+		String salt = empService.readSaltById(empId);
+		admnPwd = SHA256Util.getEncrypt(admnPwd, salt);
+		if(!StringUtil.isMatchTo(admnPwd, user.getPwd())) {
+			throw new APIArgsException(APIStatus.DISMATCH, "관리자 비밀번호가 일치하지 않습니다.");
 		}
-		
-		empVO.setCrtr(user.getEmpId());
-		empVO.setMdfyr(user.getEmpId());
-		if (empService.createOneEmp(empVO,uploadFile)) {
-			return new APIResponseVO(APIStatus.OK,"/emp/list");
-		}
-		return new APIResponseVO(APIStatus.FAIL,"사원 등록 실패","왜실패햇지","");
-	}
-
-	@PostMapping("/api/emp/update")
-	public APIResponseVO doUpdateEmp(EmpVO empVO, @SessionAttribute("__USER__") EmpVO user, MultipartFile uploadFile) {
 		if(empVO.getDepId()==null) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "부서를 입력하세요.");
 		}
@@ -71,6 +65,26 @@ public class RestEmpController {
 		}
 		if(empVO.getPstnId()==0) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "직급을 입력하세요.");
+		}
+		
+		empVO.setCrtr(empId);
+		empVO.setMdfyr(empId);
+		if (empService.createOneEmp(empVO,uploadFile)) {
+			return new APIResponseVO(APIStatus.OK,"/emp/list");
+		}
+		return new APIResponseVO(APIStatus.FAIL,"사원 등록 실패","왜실패햇지","");
+	}
+
+	@PostMapping("/api/emp/update")
+	public APIResponseVO doUpdateEmp(EmpVO empVO
+			, @SessionAttribute("__USER__") EmpVO user
+			, String admnPwd
+			, MultipartFile uploadFile) {
+		String empId = user.getEmpId();
+		String salt = empService.readSaltById(empId);
+		admnPwd = SHA256Util.getEncrypt(admnPwd, salt);
+		if(!StringUtil.isMatchTo(admnPwd, user.getPwd())) {
+			throw new APIArgsException(APIStatus.DISMATCH, "관리자 비밀번호가 일치하지 않습니다.");
 		}
 		
 		empVO.setMdfyr(user.getEmpId());

@@ -269,6 +269,7 @@ public class EmpServiceImpl implements EmpService {
 		String randomPwd = StringUtil.getRandomPassword(10);
 		
 		MailVO mailVO = new MailVO();
+		mailVO.setFrom("ktds21b@gmail.com");
 		mailVO.setTo(empVO.getEml());
 		mailVO.setSubject("KPMS 로그인 비밀번호 발송 메일입니다.");
 		
@@ -292,6 +293,10 @@ public class EmpServiceImpl implements EmpService {
 	@Override
 	public boolean createLgnHst(LgnHstVO lgnHst) {
 		return lgnHstDAO.createEmpLgnHst(lgnHst) > 0;
+	}
+	@Override
+	public String readSaltById(String empId) {
+		return empDAO.readSaltById(empId);
 	}
 	
 }

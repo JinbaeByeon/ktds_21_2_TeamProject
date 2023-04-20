@@ -229,68 +229,7 @@
 							<label for="brthdy" class="required">생년월일</label>
 							<input type="date" id="brthdy" name="brthdy" value="${empVO.brthdy}"/>
 						</div>
-						<div class="create-group">
-							<label for="emplmntStts" class="required">재직상태</label>
-							<select id="emplmntStts" name="emplmntStts">
-								<option>선택</option>
-								<option value="재직중" ${empVO.emplmntStts=="재직중" ? "selected":""}>재직중</option>
-								<option value="휴직중" ${empVO.emplmntStts=="휴직중" ? "selected":""}>휴직중</option>
-								<option value="퇴사예정" ${empVO.emplmntStts=="퇴사예정" ? "selected":""}>퇴사예정</option>
-								<option value="퇴사" ${empVO.emplmntStts=="퇴사" ? "selected":""}>퇴사</option>
-							</select>
-						</div>
-						<div class="create-group">
-							<div class="mr-10p">
-								<label for="hrDt" class="required">입사일</label>
-								<input type="date" id="hrDt" name="hrDt" value="${empVO.hrDt}"/>
-							</div>
-							<div class="right-item">
-								<label for="hrPrd">입사연차</label>
-								<input type="number" id="hrPrd" name="hrPrd" min="0" max="99" value="${empVO.hrPrd}"/>
-							</div>
-						</div>
 						
-						<div class="create-group">
-							<label class="required">직급</label>
-							<div>
-								<button id="btn-add-pstn" class="btn-add" hidden="true">+</button>
-								<div class='pstn-item ml-10'>
-									<input type='hidden' name='pstnId' value="${empVO.pstnId}"/>
-									<span>${empVO.pstn.pstnNm}</span>
-									<button class="remove-btn">X</button>
-								</div>
-							</div>
-							<div class="right-item">
-								<label for="pstnPrd">직급연차</label>
-								<input type="number" id="pstnPrd" name="pstnPrd" min="0" max="99" value="${empVO.pstnPrd}"/>
-							</div>
-						</div>
-						<div class="create-group">
-							<label class="required">직무</label>
-							<div>
-								<button id="btn-add-job" class="btn-add" hidden="true">+</button>
-								<div class='job-item ml-10'>
-									<input type='hidden' name='jobId' value="${empVO.jobId}"/>
-									<span>${empVO.job.jobNm}</span>
-									<button class="remove-btn">X</button>
-								</div>
-							</div>
-						</div>
-						<div class="create-group">
-							<label class="required">부서</label>
-							<div>
-								<button id="btn-add-dep" class="btn-add" hidden="true">+</button>
-								<div class='dep-item ml-10'>
-									<input type='hidden' name='depId' value="${empVO.depId}"/>
-									<span>${empVO.dep.depNm}</span>
-									<button class="remove-btn">X</button>
-								</div>
-							</div>
-						</div>
-						<div class="create-group">
-							<label for="admnYn">관리자여부</label>
-							<input type="checkbox" id="admnYn" name="admnYn" value= "Y" ${empVO.admnYn == "Y" ? "checked" : ""}/>
-						</div>
 						<div class="create-group">
 							<label for="admnPwd" class="required">관리자 비밀번호</label>
 							<input type="password" id="admnPwd" name="admnPwd"/>
