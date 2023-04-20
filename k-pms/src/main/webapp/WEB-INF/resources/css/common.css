@@ -538,18 +538,16 @@ input::-webkit-inner-spin-button {
 
 /* 대댓글 */
 
-.reply > ul {
-	display: inline-block;	
+.reply {
+	position: relative;
 }
 
-.reply > .x-btn {
-	display: inline-block;	
-}
-
-.reply > .update-btn {
+.reply > * {
 	display: inline-block;
 }
 
-
-
+.reply > .info {
+	position: absolute;
+	right: 0px;
+}
 

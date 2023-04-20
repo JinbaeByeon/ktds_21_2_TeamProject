@@ -49,8 +49,7 @@
 				$("#addPrj").click(
 						function(event) {
 							event.preventDefault();
-							gnr = window.open("${context}/prj/search",
-									"프로젝트 검색", "width=500, height=500");
+							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
 						});
 
 				$("#deletePrj").click(function(event) {
@@ -64,44 +63,37 @@
 				$(".submit").click(
 						function(event) {
 							event.preventDefault();
-							var commentForm = $(this).closest(
-									".form-commentInfo");
-							$.post("${context}/api/knwrpl/create", commentForm
-									.serialize(), function(response) {
+							var commentForm = $(this).closest(".form-commentInfo");
+							$.post("${context}/api/knwrpl/create", commentForm.serialize(), function(response) {
 								console.log(response);
 								if (response.status == "200 OK") {
 									location.reload();
 								} else {
-									alert(response.errorCode + " / "
-											+ response.message);
+									alert(response.errorCode + " / " + response.message);
 								}
 							});
 						});
 
-				$(".replyCnt").click(function() {
+				$(".reply-btn").click(function() {
 					event.preventDefault();
-					$(this).closest(".reply").find(".form-commentInfo").show();
+					$(this).closest(".reply").closest(".comment").find(".form-commentInfo").show();
 				});
 
 				$(".update-btn").click(
 						function() {
-							$(this).closest(".reply").find(
-									".form-updateComment").show();
+							$(this).closest(".reply").closest(".comment").find(".form-updateComment").show();
 						});
 
 				$(".update-submit").click(
 						function() {
 							event.preventDefault();
-							var commentForm = $(this).closest(
-									".form-updateComment");
-							$.post("${context}/api/knwrpl/update", commentForm
-									.serialize(), function(response) {
+							var commentForm = $(this).closest(".form-updateComment");
+							$.post("${context}/api/knwrpl/update", commentForm.serialize(), function(response) {
 								console.log(response);
 								if (response.status == "200 OK") {
 									location.reload();
 								} else {
-									alert(response.errorCode + " / "
-											+ response.message);
+									alert(response.errorCode + " / " + response.message);
 								}
 							});
 						});
@@ -178,27 +170,24 @@
 				<input type="hidden" name="knwId" value="${knwVO.knwId}" /> <input
 					type="text" class="cnt" name="cnt" placeholder="댓글을 입력해 주세요." />
 				<button class="submit">등록</button>
+				<hr>
 			</form>
 
 			<div id="comments">
 				<c:if test="${not empty knwVO.rplList}">
 					<c:forEach items="${knwVO.rplList}" var="rplVO">
-						<div class="reply">
-							<input class="replyId" type="hidden" value="${rplVO.rplId}" />
-							<ul>
-								<li class="replyCnt" style="margin-left: ${rplVO.depth * 30}px;">${rplVO.cnt}</li>
-								<li>${rplVO.crtr}</li>
-								<li>${rplVO.crtDt}</li>
-							</ul>
-							<div class="update-btn">
+						<div class="comment">
+							<input class="rplId" type="hidden" value="${rplVO.rplId}" />
+							<div class="reply">
+								<p class="cnt" style="margin-left: ${rplVO.depth * 30}px;">${rplVO.cnt}</p>
+								<button class="reply-btn">답글</button>
 								<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
-									<button>수정</button>
+									<button class="update-btn">수정</button>
 								</c:if>
-							</div>
-							<div class="x-btn">
 								<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
 									<button>&#10006;</button>
 								</c:if>
+								<p class="info" >${rplVO.crtr} ${rplVO.crtDt} </p>
 							</div>
 							<form class="form-commentInfo" hidden="true">
 								<input type="hidden" name="knwId" value="${knwVO.knwId}" /> <input
@@ -213,6 +202,7 @@
 									value="${rplVO.cnt}" />
 								<button class="update-submit">완료</button>
 							</form>
+							<hr>
 						</div>
 					</c:forEach>
 				</c:if>
