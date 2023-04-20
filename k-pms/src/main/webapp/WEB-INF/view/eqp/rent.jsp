@@ -13,7 +13,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
+		$("#applSttsType").val("${eqpVO.applStts}").prop("selected", true);
 		
 		$("li.nav-item.eqp").addClass("active");
 		$("li.nav-item").children("a").mouseover(function(){
@@ -175,7 +175,7 @@
 		
 		$("#applSttsType").change(function(){
 			
-			var applStts =$("#applSttsType").val();
+			var applStts = $("#applSttsType").val();
 			console.log(applStts);
 			location.href = "${context}/eqp/rent?applStts=" + applStts;
 		});
@@ -356,7 +356,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 대여 관리</div>
+				<div class="path">대여 관리</div>
 				<div class="search-group">
 					<label for="search-keyword">비품명</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
@@ -454,11 +454,24 @@
 						</tbody>
 					</table>
 					<div class="align-right mt-10">
+						<c:if test="${applStts eq '분실신청'}">
+							<button id="no_lost_all_btn" class="btn-no-lost">분실신청취소</button>
+						</c:if>
+						<c:if test="${applStts eq '대여신청'}">
+							<button id="no_apply_all_btn" class="btn-no-apply">대여신청취소</button>
+						</c:if>
+						<c:if test="${applStts eq '반납신청'}">
+							<button id="no_return_all_btn" class="btn-no-return">반납취소</button>
+						</c:if>
+						<c:if test="${applStts eq '대여중'}">
+							<button id="lost_all_btn" class="btn-lost">분실신청</button>
+							<button id="return_all_btn" class="btn-return">반납신청</button>
+						</c:if>
+					<!-- 	<button id="no_lost_all_btn" class="btn-no-lost">분실신청취소</button>
 						<button id="lost_all_btn" class="btn-lost">분실신청</button>
-						<button id="no_lost_all_btn" class="btn-no-lost">분실신청취소</button>
-						<button id="no_apply_all_btn" class="btn-no-apply">대여신청취소</button>
 						<button id="return_all_btn" class="btn-return">반납신청</button>
 						<button id="no_return_all_btn" class="btn-no-return">반납취소</button>
+						<button id="no_apply_all_btn" class="btn-no-apply">대여신청취소</button> -->
 						<button id="apply_all_btn" class="btn-apply">승인</button>
 						<button id="refuse_all_btn" class="btn-refuse">반려</button>
 						<button id="delete_all_btn" class="btn-delete">삭제</button>

@@ -23,9 +23,95 @@ public class EqpVO extends AbstractPagingVO {
 
 	private EmpVO crtrEmpVO;
 	private EmpVO mdfyrEmpVO;
-	
-	
-	
+
+	public String getEqpId() {
+		return eqpId;
+	}
+
+	public void setEqpId(String eqpId) {
+		this.eqpId = eqpId;
+	}
+
+	public String getEqpNm() {
+		return eqpNm;
+	}
+
+	public void setEqpNm(String eqpNm) {
+		this.eqpNm = eqpNm;
+	}
+
+	public String getEqpTp() {
+		return eqpTp;
+	}
+
+	public void setEqpTp(String eqpTp) {
+		this.eqpTp = eqpTp;
+	}
+
+	public String getApplStts() {
+		return applStts;
+	}
+
+	public void setApplStts(String applStts) {
+		this.applStts = applStts;
+	}
+
+	public String getApplId() {
+		return applId;
+	}
+
+	public void setApplId(String applId) {
+		this.applId = applId;
+	}
+
+	public String getEqpPrc() {
+		return eqpPrc;
+	}
+
+	public void setEqpPrc(String eqpPrc) {
+		this.eqpPrc = eqpPrc;
+	}
+
+	public String getPrchsDt() {
+		return prchsDt;
+	}
+
+	public void setPrchsDt(String prchsDt) {
+		this.prchsDt = prchsDt;
+	}
+
+	public String getLossStts() {
+		return lossStts;
+	}
+
+	public void setLossStts(String lossStts) {
+		this.lossStts = lossStts;
+	}
+
+	public String getLossRprtDt() {
+		return lossRprtDt;
+	}
+
+	public void setLossRprtDt(String lossRprtDt) {
+		this.lossRprtDt = lossRprtDt;
+	}
+
+	public String getApplDt() {
+		return applDt;
+	}
+
+	public void setApplDt(String applDt) {
+		this.applDt = applDt;
+	}
+
+	public String getSearchMode() {
+		return searchMode;
+	}
+
+	public void setSearchMode(String searchMode) {
+		this.searchMode = searchMode;
+	}
+
 	public EmpVO getCrtrEmpVO() {
 		return crtrEmpVO;
 	}
@@ -40,94 +126,6 @@ public class EqpVO extends AbstractPagingVO {
 
 	public void setMdfyrEmpVO(EmpVO mdfyrEmpVO) {
 		this.mdfyrEmpVO = mdfyrEmpVO;
-	}
-
-	public String getApplId() {
-		return applId;
-	}
-
-	public void setApplId(String applId) {
-		this.applId = applId;
-	}
-
-	public void setEqpId(String eqpId) {
-		this.eqpId = eqpId;
-	}
-
-	public String getEqpId() {
-		return this.eqpId;
-	}
-
-	public void setEqpNm(String eqpNm) {
-		this.eqpNm = eqpNm;
-	}
-
-	public String getEqpNm() {
-		return this.eqpNm;
-	}
-
-	public void setEqpTp(String eqpTp) {
-		this.eqpTp = eqpTp;
-	}
-
-	public String getEqpTp() {
-		return this.eqpTp;
-	}
-
-	public void setApplStts(String applStts) {
-		this.applStts = applStts;
-	}
-
-	public String getApplStts() {
-		return this.applStts;
-	}
-
-	public void setEqpPrc(String eqpPrc) {
-		this.eqpPrc = eqpPrc;
-	}
-
-	public String getEqpPrc() {
-		return this.eqpPrc;
-	}
-
-	public void setPrchsDt(String prchsDt) {
-		this.prchsDt = prchsDt;
-	}
-
-	public String getPrchsDt() {
-		return this.prchsDt;
-	}
-
-	public void setLossStts(String lossStts) {
-		this.lossStts = lossStts;
-	}
-
-	public String getLossStts() {
-		return this.lossStts;
-	}
-
-	public void setLossRprtDt(String lossRprtDt) {
-		this.lossRprtDt = lossRprtDt;
-	}
-
-	public String getLossRprtDt() {
-		return this.lossRprtDt;
-	}
-
-	public void setApplDt(String applDt) {
-		this.applDt = applDt;
-	}
-
-	public String getApplDt() {
-		return this.applDt;
-	}
-
-	public String getSearchMode() {
-		return searchMode;
-	}
-
-	public void setSearchMode(String searchMode) {
-		this.searchMode = searchMode;
 	}
 
 }
