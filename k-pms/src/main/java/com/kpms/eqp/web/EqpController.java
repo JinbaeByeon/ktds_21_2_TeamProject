@@ -11,12 +11,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kpms.eqp.service.EqpService;
 import com.kpms.eqp.vo.EqpVO;
+import com.kpms.eqplog.service.EqpLogService;
+import com.kpms.eqplog.vo.EqpLogVO;
 
 @Controller
 public class EqpController {
 	
 	@Autowired
 	private EqpService eqpService;
+	
+	@Autowired
+	private EqpLogService eqpLogService;
+	
 	// 비품등록
 	@GetMapping("/eqp/{searchMode}")
 	public String viewEqpListPage(@PathVariable String searchMode, Model model, EqpVO eqpVO) {
@@ -50,7 +56,23 @@ public class EqpController {
 		return "eqp/search";
 	}
 	
-	
+	@GetMapping("/eqp/log")  
+	public String viewEqpLogPage(EqpLogVO eqpLogVO, Model model) {
+		List<EqpLogVO> eqpLogList = eqpLogService.readAllEqpLog(eqpLogVO);
+		model.addAttribute("eqpLogList", eqpLogList);
+		model.addAttribute("eqpLogVO", eqpLogVO);
+		
+		if (!eqpLogList.isEmpty()) {
+			model.addAttribute("lastPage", eqpLogList.get(0).getLastPage());
+		}
+		model.addAttribute("stts", eqpLogVO.getStts());
+		model.addAttribute("eqpId", eqpLogVO.getEqpId());
+		model.addAttribute("pageNo", eqpLogVO.getPageNo());
+		model.addAttribute("viewCnt", eqpLogVO.getViewCnt());
+		model.addAttribute("pageCnt", eqpLogVO.getPageCnt());
+
+		return "eqp/log";
+	}
 	
 
 	

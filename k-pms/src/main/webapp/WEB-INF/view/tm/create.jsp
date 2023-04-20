@@ -27,7 +27,7 @@
 		
 		var itemDiv = depItems.find(".dep-item");
 			
-		var itemId = itemDiv.find("#depId")
+		var itemId = itemDiv.find("#depId");
 		itemId.val(message.depid);
 		itemDiv.append(itemId);
 		
@@ -40,7 +40,7 @@
 		depItems.append(itemDiv);
 		
 		depId.close();
-		
+		$(".hide").removeClass("hide");
 	}
 	
 	function addHdEmpFn(message) {
@@ -82,7 +82,6 @@
 	}
 	
 	$().ready(function() {
-		
 		$("#addDepIdBtn").click(function(event) {
 			event.preventDefault();
 			depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
@@ -93,7 +92,6 @@
 			var depId = $("#depId").val();
 			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
 		});
-		
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
@@ -138,30 +136,30 @@
 							</div>
 						</div>
 					</div>
-						<div class="create-group">
-							<label for="tmId" style="width: 180px;">팀ID</label><input type="text" id="tmId" name="tmId" readonly value="" />
-						</div>
-						<div class="create-group">
-							<label for="tmNm" style="width: 180px;">팀명</label><input type="text" id="tmNm" name="tmNm" value=""/>
-						</div>
-							<div class="create-group">
-								<label for="addTmHeadBtn" style="width: 180px;">팀장ID</label>
-								<button id="addTmHeadBtn" class="btn-tm">등록</button>
-								<div class="items">
-									<div class='head-item'>
-										<input type="text" id="tmHdId" name="tmHdId" readonly value=" " />
-										<span id="tmHdNm"></span>						
-									</div>
-								</div>
+					<div class="create-group hide">
+						<label for="tmId" style="width: 180px;">팀ID</label><input type="text" id="tmId" name="tmId" readonly value="" />
+					</div>
+					<div class="create-group hide">
+						<label for="tmNm" style="width: 180px;">팀명</label><input type="text" id="tmNm" name="tmNm" value=""/>
+					</div>
+					<div class="create-group hide">
+						<label for="addTmHeadBtn" style="width: 180px;">팀장ID</label>
+						<button id="addTmHeadBtn" class="btn-tm">등록</button>
+						<div class="items">
+							<div class='head-item'>
+								<input type="text" id="tmHdId" name="tmHdId" readonly value=" " />
+								<span id="tmHdNm"></span>						
 							</div>
-						<div class="create-group">
-							<label for="tmCrtDt" style="width: 180px;">팀생성일</label><input type="date" id="tmCrtDt" name="tmCrtDt" />
 						</div>
-						<div class="create-group">
-							<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
-						</div>
-					
-						<div class="create-group">
+					</div>
+					<div class="create-group hide">
+						<label for="tmCrtDt" style="width: 180px;">팀생성일</label><input type="date" id="tmCrtDt" name="tmCrtDt" />
+					</div>
+					<div class="create-group hide">
+						<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
+					</div>
+				
+					<div class="create-group hide">
 							<div>
 								<label for="addTmMbrBtn">팀원</label>
 								<button id="addTmMbrBtn" class="btn-primary">추가</button>
@@ -184,7 +182,7 @@
 								</table>
 							</div>
 						</div>
-					</form>	
+				</form>	
 				<div class="align-right">
 					<button id="list-btn" class="btn-primary">목록</button>
 					<button id="save-btn" class="btn-primary">저장</button>
