@@ -86,5 +86,10 @@ public class DepServiceImpl implements DepService {
 		return isSuccess; 
 	}
 
+	@Override
+	public List<DepVO> readAllDepToTmMbr(DepVO depVO) {
+		return depDAO.readAllDepToTmMbr(depVO);
+	}
+
 	
 }
