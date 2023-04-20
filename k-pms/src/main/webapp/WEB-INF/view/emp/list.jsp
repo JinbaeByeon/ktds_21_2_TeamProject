@@ -15,15 +15,68 @@
 		var detailWindow;
 		
 		$().ready(function(){
-			$(".grid > table > tbody > tr").click(function() {
-				var empId = $(this).data("empid");
-				detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=500,height=500");
+			$("#pwd-reset").click(function(){
+				
+				$.get("${context}/api/emp/reset/password/"+,function(){
+					
+				});
 			});
+			
+			$("#pstn-change").click(function(){
+				
+			});
+			$("#job-change").click(function(){
+				
+			});
+			$("#dep-change").click(function(){
+				
+			});
+
+			$(".search-option").change(function(){
+				movePage(0);
+			});
+			
+			$(".grid > table > tbody > tr > td").not(".check").click(function() {
+				var empId = $(this).closest("tr").data("empid");
+				detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=500");
+			});
+			
+			$("#all_check").change(function(){
+				$(".check_idx").prop("checked", $(this).prop("checked"));
+			});
+			
+			function checkIndex(){
+				var count = $(".check_idx").length;
+				var checkCount = $(".check_idx:checked").length;
+				$("#all_check").prop("checked", count == checkCount);
+			}
+			
+			$(".check_idx").change(function(){
+				checkIndex();
+			});
+			$(".check_idx").click(function(e){
+				$(this).prop("checked",$(this).prop("checked")==false);
+			});
+			$(".grid > table > tbody > tr > td.check").click(function(){
+				console.log("!!!");
+				var check_idx = $(this).closest("tr").find(".check_idx");
+				check_idx.prop("checked",check_idx.prop("checked")==false);
+				checkIndex();
+			});
+			
 		});
 		function movePage(pageNo) {
 			var empId = $("#empId").val();
-			var qryStr = "crtr=" + empId;
+			var fNm = $("#fNm").val();
+			var searchType = $(".search-option").val();
+			var qryStr = "searchType=" + searchType;
 			qryStr +=  "&pageNo=" + pageNo;
+			if(fNm=="undefined"){
+				qryStr +=  "&fNm=" + fNm;
+			} else if(empId=="undefined"){
+				qryStr +=  "&empId=" + empId;
+			}
+			
 			location.href = "${context}/emp/list?"  + qryStr;
 		}
 	</script>
@@ -37,19 +90,35 @@
 			<div class="path"> 사원 관리 > 사원 조회</div>
 			<form>
 				<div class="search-group">
-					<label for="">ID</label>
-					<input type="text" id="empId" name="crtr" class="grow-1 mr-10" value="${empId}"/>
+					<select class="search-option" name="searchType">
+						<option ${searchType== "ID" ? "selected" : ""}>ID</option>
+						<option ${searchType== "이름" ? "selected" : ""}>이름</option>
+					</select>
+					<c:if test="${searchType== 'ID'}">
+						<input type="text" id="empId" name="empId" class="grow-1 mr-10" value="${empVO.empId}"/>
+					</c:if>
+					<c:if test="${searchType== '이름'}">
+						<input type="text" id="fNm" name="fNm" class="grow-1 mr-10" value="${empVO.fNm}"/>
+					</c:if>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 			</form>
 			<div class="grid">
-				<div class="grid-count align-right">
-					총 ${empList.size()}건
+				<div class="grid-count">
+					<div class="align-left left">
+						<button id="pwd-reset">비밀번호 초기화</button>
+						<button id="pstn-change">직급 변경</button>
+						<button id="job-change">직무 변경</button>
+						<button id="dep-change">부서 변경</button>
+					</div>
+					<div class="align-right right">
+						총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건
+					</div>
 				</div>
 				<table>
 					<thead>
 						<tr>
-							<th>순번</th>
+							<th><input type="checkbox" id="all_check"/></th>
 							<th>ID</th>
 							<th>이름</th>
 							<th>생성일</th>
@@ -80,7 +149,9 @@
 									    data-jobid="${emp.jobId}"
 									    data-depid="${emp.depId}"
 									    data-lgncnt="${emp.lgnCnt}">
-										<td>${index.index}</td>
+										<td class="check">
+											<input type="checkbox" class="check_idx" value="${emp.empId}">
+										</td>
 										<td>${emp.empId}</td>
 										<td>${emp.fNm} ${emp.lNm}</td>
 										<td>${emp.crtDt}</td>

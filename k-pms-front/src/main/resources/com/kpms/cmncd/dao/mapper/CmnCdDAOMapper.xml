@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CmnCd">
+
+	<resultMap id="cmnCdVOMap" type="com.kpms.cmncd.vo.CmnCdVO" autoMapping="true">
+		<id property="cdId" column="CD_ID" />
+		<association property="prcdCmnCdVO"
+					 javaType="com.kpms.cmncd.vo.CmnCdVO">
+			<id property="cdId" column="PRCDNC_CD_ID" />
+			<result property="cdNm" column="PRCDNCD_CD_NM" />
+		</association>
+	</resultMap>
+	<select id="readAllCmnCd"
+		parameterType="com.kpms.cmncd.vo.CmnCdVO"
+		resultMap="cmnCdVOMap">
+		<include refid="Common.pageHeader" />
+		SELECT CD.CD_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY CD.CRT_DT || CD.CD_ID DESC) RNUM
+			 , CD.CD_ID
+			 , TO_CHAR(CD.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , CD.CRTR
+			 , TO_CHAR(CD.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , CD.MDFYR
+			 , CD.USE_YN
+			 , CD.DEL_YN
+			 , CD.CD_NM
+			 , CD.PRCDNC_CD_ID
+			 , PRCDNC_CD.CD_NM PRCDNCD_CD_NM
+		  FROM CMN_CD CD
+		 LEFT JOIN CMN_CD PRCDNC_CD
+		    ON CD.PRCDNC_CD_ID = PRCDNC_CD.CD_ID
+	     WHERE CD.DEL_YN = 'N'
+	     <if test='searchOption != null and searchOption != ""'>
+		   AND CD.PRCDNC_CD_ID LIKE '%' || #{searchOption} || '%'
+	     </if>
+	     <if test='searchKeyword != null and searchKeyword != ""'>
+		   AND CD.CD_NM LIKE '%' || #{searchKeyword} || '%'
+	     </if>
+		ORDER BY CD.CD_ID DESC
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readCmnCdType"
+			resultType="com.kpms.cmncd.vo.CmnCdVO">
+		SELECT CD_NM
+			 , CD_ID
+		  FROM CMN_CD
+		 WHERE PRCDNC_CD_ID IS NULL
+	</select>
+	
+	<select id="readCmnCdNameByPrcdncCdId"
+			parameterType="string"
+			resultType="com.kpms.cmncd.vo.CmnCdVO">
+		SELECT CD_NM
+			 , CD_ID
+		  FROM CMN_CD
+		 WHERE PRCDNC_CD_ID = #{_parameter}
+	</select>
+
+	<insert id="createOneCmnCd"
+		parameterType="com.kpms.cmncd.vo.CmnCdVO">
+		INSERT INTO CMN_CD
+		(CD_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, CD_NM
+		, PRCDNC_CD_ID)
+		VALUES
+		(#{cdId}
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{cdNm}
+		, NVL(#{prcdncCdId}, NULL))
+	</insert>
+
+	<update id="updateOneCmnCd"
+		parameterType="com.kpms.cmncd.vo.CmnCdVO">
+		UPDATE CMN_CD
+		SET MDFY_DT = SYSDATE
+		, MDFYR = #{mdfyr}
+		, USE_YN = #{useYn}
+		, CD_NM = #{cdNm}
+		, PRCDNC_CD_ID = #{prcdncCdId}
+		WHERE CD_ID = #{cdId}
+	</update>
+
+	<update id="deleteOneCmnCdByCdId" parameterType="string">
+		UPDATE CMN_CD
+		SET DEL_YN = 'Y'
+		WHERE CD_ID = #{cdId}
+	</update>
+
+</mapper>

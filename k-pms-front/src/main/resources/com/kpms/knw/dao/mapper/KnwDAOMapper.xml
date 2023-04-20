@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Knw">
+
+	<insert id="createOneKnw"
+			parameterType="com.kpms.knw.vo.KnwVO">
+		INSERT INTO KNW
+		 (KNW_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, TTL
+		, CNTNT
+		, VW_CNT
+		, PRJ_ID)
+		VALUES
+		 ('KNW-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_KNW_PK.NEXTVAL, 5, '0')
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{ttl}
+		, #{cntnt}
+		, '0'
+		, #{prjId})
+	</insert>
+	
+	<resultMap id="knwVOMap" type="com.kpms.knw.vo.KnwVO" autoMapping="true">
+		<id property="knwId" column="KNW_ID" />
+		<association property="prjVO" javaType="com.kpms.prj.vo.PrjVO">
+			<id property="prjId" column="PRJ_ID" />
+			<result property="prjNm" column="PRJ_NM" />
+		</association>
+	</resultMap>
+	
+	<select id="readAllKnw"
+			parameterType="com.kpms.knw.vo.KnwSearchVO"
+			resultMap="knwVOMap">
+		<include refid="Common.pageHeader" />
+		SELECT K.KNW_ID PK_COL
+		     , DENSE_RANK() OVER(ORDER BY K.CRT_DT || K.KNW_ID DESC) RNUM
+		     , K.KNW_ID
+             , TO_CHAR(K.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+             , K.CRTR
+             , TO_CHAR(K.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+             , K.MDFYR
+             , K.USE_YN
+             , K.DEL_YN
+             , K.TTL
+             , K.CNTNT
+             , K.VW_CNT
+             , K.PRJ_ID
+             , P.PRJ_ID P_PRJ_ID
+             , P.PRJ_NM 
+          FROM KNW K
+         INNER JOIN PRJ P
+            ON K.PRJ_ID = P.PRJ_ID
+         WHERE K.DEL_YN = 'N'
+         <choose>
+         	<when test='searchOption == "제목"'>
+           AND K.TTL LIKE '%' || #{searchKeyword} || '%'
+         	</when>
+         	<when test='searchOption == "프로젝트명"'>
+           AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
+         	</when>
+         </choose>
+         <include refid="Common.pageFooter" />
+	</select>
+	
+	<resultMap id="oneKnwVOMap"
+			   type="com.kpms.knw.vo.KnwVO">
+		<id property="knwId" column="KNW_ID" />
+		<result property="ttl" column="TTL" />
+		<result property="cntnt" column="CNTNT" />
+		<association property="prjVO"
+					 javaType="com.kpms.prj.vo.PrjVO">
+			<id property="prjId" column="P_PRJ_ID" />
+			<result property="prjNm" column="PRJ_NM" />
+			<result property="cstmr" column="CSTMR" />
+			<result property="prjStts" column="PRJ_STTS" />
+		</association>
+		<collection property="rplList" ofType="com.kpms.knwrpl.vo.KnwRplVO">
+			<id property="rplId" column="RPL_ID" />
+			<result property="depth" column="DEPTH" />
+			<result property="cnt" column="CNT" />
+			<result property="prcdncRplId" column="PRCDNC_RPL_ID" />
+			<result property="crtr" column="KR_CRTR" />
+			<result property="crtDt" column="KR_CRT_DT" />
+			<result property="mdfyr" column="KR_MDFYR" />
+			<result property="mdfyDt" column="KR_MDFY_DT" />
+			<result property="delYn" column="KR_DEL_YN" />
+		</collection>
+	</resultMap>
+	
+	
+	<select id="readOneKnwByKnwId"
+			parameterType="string"
+			resultMap="oneKnwVOMap">	
+			
+		SELECT LEVEL - 1 DEPTH
+		     , K.KNW_ID
+		     , TO_CHAR(K.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+		     , K.CRTR
+		     , TO_CHAR(K.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+		     , K.MDFYR
+		     , K.USE_YN
+		     , K.DEL_YN
+		     , K.TTL
+		     , K.CNTNT
+		     , K.VW_CNT
+		     , K.PRJ_ID
+		     , P.PRJ_ID P_PRJ_ID
+		     , P.PRJ_NM
+		     , P.CSTMR
+		     , P.PRJ_STTS
+		     , KR.KNW_ID KR_KNW_ID
+		     , KR.RPL_ID
+             , KR.CNT
+             , KR.CRTR KR_CRTR
+             , TO_CHAR(KR.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') KR_CRT_DT
+             , KR.MDFYR KR_MDFYR
+             , TO_CHAR(KR.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') KR_MDFY_DT
+             , KR.PRCDNC_RPL_ID
+		  FROM KNW K
+		  LEFT JOIN PRJ P
+			ON K.PRJ_ID = P.PRJ_ID
+		  LEFT JOIN KNW_RPL KR
+		    ON K.KNW_ID = KR.KNW_ID
+		 WHERE K.KNW_ID = #{_parameter}
+		   AND (KR.DEL_YN IS NULL OR KR.DEL_YN = 'N') 
+		   
+		 START WITH KR.PRCDNC_RPL_ID IS NULL
+       CONNECT BY PRIOR KR.RPL_ID = KR.PRCDNC_RPL_ID
+		 
+	</select>
+	
+	<update id="updateOneKnw"
+			parameterType="com.kpms.knw.vo.KnwVO">
+		UPDATE KNW
+		   SET MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		     , TTL = #{ttl}
+		     , CNTNT = #{cntnt}
+		     , PRJ_ID = #{prjId}
+		 WHERE KNW_ID = #{knwId}
+	</update>
+
+	<update id="deleteOneKnw"
+			parameterType="string">
+		UPDATE KNW
+		   SET DEL_YN = 'Y'
+		 WHERE KNW_ID = #{knwId}
+	</update>
+	
+	<update id="deleteKnwBySelectedKnwId"
+			parameterType="arraylist">
+		UPDATE KNW
+		   SET DEL_YN = 'Y'
+		 WHERE KNW_ID IN
+		 <foreach collection="list" item="knwId" open="( " close=" )" separator=", ">
+			#{knwId}
+		</foreach>
+	</update>
+
+</mapper>

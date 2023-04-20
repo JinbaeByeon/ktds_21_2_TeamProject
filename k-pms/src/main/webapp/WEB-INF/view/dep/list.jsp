@@ -130,7 +130,7 @@
 		});
 		
 		$("#search-btn").click(function() {
-			 movePage(0) 
+			movePage(0);
 		});
 		
 		$("#all_check").change(function() {
@@ -176,11 +176,16 @@
 		
 	});
 		 function movePage(pageNo) {
-			var queryString = "?depNm=" + $("#search-keyword").val();
-			queryString += "&tmNm=" + $("#search-tmNm-keyword").val();
-			queryString += "&pageNo=" + pageNo;
+			var searchOption = $("#search-option").val();
+			var searchKeyword = $("#search-keyword").val();
+			var queryString = "?pageNo=" + pageNo;
+			queryString += "&searchOption=" + searchOption;
+			queryString += "&searchKeyword=" + searchKeyword;
+			
 			location.href = "${context}/dep/list" + queryString;
-		} 
+		}
+		 
+		 
 </script>
 </head>
 <body>
@@ -190,13 +195,20 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">부서관리 > 부서 목록</div>
-				<div class="search-group">
-					<label for="search-keyword">부서명</label>
-					<input type="text" id="search-keyword" class="search-input" value="${depVO.depNm}"/>
-					<label for="search-tmNm-keyword">팀명</label>
-					<input type="text" id="search-tmNm-keyword" class="search-input" value="${depVO.tmNm}"/>
-					<button class="btn-search" id="search-btn">검색</button>
-				</div>
+			<div class="search-group">
+				<label for="search-option">검색 옵션</label> 
+				<select id="search-option" class="search-input">
+					<option value="depNm" ${depVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
+					<option value="tmNm" ${depVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
+					<option value="hdLnm" ${depVO.searchOption eq "hdLnm" ? "selected": ""}>부서장 성</option>
+					<option value="hdFnm" ${depVO.searchOption eq "hdFnm" ? "selected": ""}>부서장 이름</option>
+					<option value="tmLnm" ${depVO.searchOption eq "tmLnm" ? "selected": ""}>팀장 성</option>
+					<option value="tmFnm" ${depVO.searchOption eq "tmFnm" ? "selected": ""}>팀장 이름</option>
+				</select> 
+				<label for="search-keyword">검색어</label> 
+				<input type="text" id="search-keyword" class="search-input" />
+				<button class="btn-search" id="search-btn">검색</button>
+			</div>
 				<div class="grid">
 					
 					<div class="grid-count align-right">
@@ -210,6 +222,7 @@
 								<th>부서ID</th>
 								<th>부서명</th>
 								<th>부서장ID</th>
+								<th>부서장명</th>
 								<th>부서생성일</th>
 								<th>사용여부</th>
 								<th>등록자</th>
@@ -232,16 +245,15 @@
 											data-crtr="${dep.crtr}"
 											data-crtdt="${dep.crtDt}"
 											data-mdfyr="${dep.mdfyr}"
-											data-mdfydt="${dep.mdfyDt}"
-											data-crtrnm="${dep.crtrEmpVO.fNm}"
-											data-mdfynm="${dep.mdfyrEmpVO.fNm}">
+											data-mdfydt="${dep.mdfyDt}">
 											<td>
 												<input type="checkbox" class="check_idx" value="${dep.depId}"/>
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${dep.rnum}</td>
 											<td>${dep.depId}</td>
 											<td><a href="${context}/dep/detail/${dep.depId}">${dep.depNm}</a></td>
 											<td>${dep.depHdId}</td>
+											<td>${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
 											<td>${dep.crtr}(${dep.crtrEmpVO.lNm}${dep.crtrEmpVO.fNm})</td>
@@ -253,7 +265,7 @@
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="10" class="no-items">
+										<td colspan="11" class="no-items">
 											등록된 부서가 없습니다.
 										</td>
 									</tr>
