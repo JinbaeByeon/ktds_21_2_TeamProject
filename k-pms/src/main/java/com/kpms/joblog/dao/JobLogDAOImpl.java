@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kpms.emp.vo.EmpChngJobVO;
 import com.kpms.joblog.vo.JobLogVO;
 
 @Repository
@@ -24,8 +25,8 @@ public class JobLogDAOImpl extends SqlSessionDaoSupport implements JobLogDAO {
 	}
 	
 	@Override
-	public int createJobLog(JobLogVO jobLogVO) {
-		return getSqlSession().insert("JobLog.createJobLog", jobLogVO);
+	public int createJobLog(EmpChngJobVO empChngJobVO) {
+		return getSqlSession().insert("JobLog.createJobLog", empChngJobVO);
 	}
 
 }
