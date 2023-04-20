@@ -23,7 +23,7 @@
 			return;
 		}
 
-		var tmMbrTr = $("<tr class='tmMbr-tr'></tr>");
+		var tmMbrTr = $("<tr class='tmMbr-tr '" + message.tmmbrid + "></tr>");
 		
 		var len = tmMbrItems.find(".tmmbr-item").length;
 		var itemId = $("<input type='hidden' name='ptmList[" + len + "].tmMbrId' class='tmmbr-item'/>");
@@ -90,21 +90,48 @@
 			orgPstn = $(this).val();
 		}).change(function () {
 			var chngPstn = $(this).val();
+			var pstnList = $(".pstn");
+			if(chngPstn=="PM"){
+				var cntPM = 0;
+				pstnList.each(function(){
+					if($(this).val()=="PM"){
+						++cntPM;
+					}
+				});
+				if(cntPM > 1){
+					alert("총책임자는 1명만 가능합니다.");
+					$(this).val("DEFAULT");
+					return;
+				}
+			}
+			if(chngPstn=="PL"){
+				var cntPL = 0;
+				pstnList.each(function(){
+					if($(this).val()=="PL"){
+						++cntPL;
+					}
+				});
+				if(cntPL > 2){
+					alert("부책임자는 2명만 가능합니다.");
+					$(this).val("DEFAULT");
+					return;
+				}
+			}
 			
 			var tr = $(this).closest("td").closest(".tmMbr-tr");
 			var index = $(this).data("index");
 			if (orgPstn == chngPstn) {
-				tr.find("input.mdfy").remove();
+				tr.children(".mdfy").remove();
 			}
 			else {
-				var modifiedDom = tr.find("input.mdfy");
+				var modifiedDom = tr.children(".mdfy");
 				if (modifiedDom.length == 0) {
 					var modified = $("<input type='hidden' class='mdfy' name='ptmList[" + index + "].modified' />")
-					modified.val(tr.find("button").data("prjid"));
+					modified.val($(this).data("prjtmmbrid"));
 					tr.append(modified);	 
 				}
 			}
-			console.log(orgPstn, chngPstn)
+			/* console.log(orgPstn, chngPstn) */
 		});
 		
 		$("#save-btn").click(function() {
@@ -194,20 +221,21 @@
 								</thead>
 								<tbody class="tmMbrAddTbody">
 									<c:forEach items="${prjVO.ptmList}" var="ptm" varStatus="index">
-										<tr class="tmMbr-tr">
+										<tr class="tmMbr-tr ${ptm.tmMbrId}">
 											<input type="hidden" name="ptmList[${index.index}].tmMbrId" class="tmmbr-item" value="${ptm.prjTmMbrId}">
 											<td>${ptm.tmMbrVO.empVO.empId}</td>
 											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 											<td>${ptm.tmMbrVO.empVO.fNm}</td>
 											<td>${ptm.tmMbrVO.empVO.lNm}</td>
 											<td>
-												<select class="pstn ${ptm.prjTmMbrId}" name="ptmList[${index.index}].prjPstn" >
+												<select class="pstn ${ptm.prjTmMbrId}" name="ptmList[${index.index}].prjPstn" data-index="${index.index}" data-prjtmmbrid="${ptm.prjTmMbrId}">
+													<option value="DEFAULT">==선택==</option>
 													<option value="PM" ${ptm.prjPstn eq 'PM' ? 'selected' : ''}>총책임자</option>
 													<option value="PL" ${ptm.prjPstn eq 'PL' ? 'selected' : ''}>부책임자</option>
 													<option value="TM" ${ptm.prjPstn eq 'TM' ? 'selected' : ''}>팀원</option>
 												</select>
 											</td>
-											<td><button class="del-ptm-btn" data-index="${index.index}" data-prjtmmbrid="${ptm.prjTmMbrId}" data-prjid="${ptm.prjId}">X</button></td>
+											<td><button class="del-ptm-btn" data-index="${index.index}" data-prjtmmbrid="${ptm.prjTmMbrId}">X</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>

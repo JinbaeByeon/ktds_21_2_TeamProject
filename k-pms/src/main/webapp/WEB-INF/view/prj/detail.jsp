@@ -181,7 +181,7 @@
 									</thead>
 									<tbody>
 										<c:choose>
-											<c:when test="${not empty prjVO.reqList}">
+											<c:when test="${not empty prjVO.reqList.get(0).reqId}">
 												<c:forEach items="${prjVO.reqList}" var="req">
 													<tr>
 														<td>${req.prrty}</td>
@@ -217,7 +217,7 @@
 									</thead>
 									<tbody>
 										<c:choose>
-											<c:when test="${not empty prjVO.knwList}">
+											<c:when test="${not empty prjVO.knwList.get(0).knwId}">
 												<c:forEach items="${prjVO.knwList}" var="knw">
 													<tr>
 														<td>${knw.ttl}</td>

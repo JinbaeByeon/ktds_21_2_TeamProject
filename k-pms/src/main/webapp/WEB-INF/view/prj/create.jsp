@@ -23,7 +23,7 @@
 			return;
 		}
 
-		var tmMbrTr = $("<tr class='tmMbr-tr'></tr>");
+		var tmMbrTr = $("<tr class='tmMbr-tr '" + message.tmmbrid + "></tr>");
 		
 		var len = tmMbrItems.find(".tmmbr-item").length;
 		var itemId = $("<input type='hidden' name='ptmList[" + len + "].tmMbrId' class='tmmbr-item'/>");
