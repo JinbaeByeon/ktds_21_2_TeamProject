@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Req">
+	
+	<insert id="createNewReq"
+			parameterType="com.kpms.req.vo.ReqVO">
+		INSERT INTO REQ
+		 (REQ_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, DTL_REQ
+		, STRT_DT
+		, EXPCT_END_DT
+		, ATTCH
+		, PRJ_ID
+		, MN_DVLPR
+		, TST_RSLT
+		, TSK_STTS
+		, PRCS_STTS
+		, PRRTY
+		, REQ_TTL)
+		VALUES
+		 ('RQ-' + TO_CHAR(SYSDATE, 'YYYYMMDD') + '-' + LPAD(SEQ_REQ_PK.NEXTVAL, 5, 0)
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, N)
+		, NVL(#{delYn}, N)
+		, #{dtlReq}
+		, #{strtDt}
+		, #{expctEndDt}
+		, #{attch}
+		, #{prjId}
+		, #{mnDvlpr}
+		, #{tstRslt}
+		, #{tskStts}
+		, #{prcsStts}
+		, #{prrty}
+		, #{reqTtl})
+	</insert>
+
+	<select id="readAllReq"
+			parameterType="com.kpms.req.vo.ReqVO"
+			resultMap="resultMap">
+		SELECT REQ_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , DTL_REQ
+			 , STRT_DT
+			 , EXPCT_END_DT
+			 , ATTCH
+			 , PRJ_ID
+			 , MN_DVLPR
+			 , TST_RSLT
+			 , TSK_STTS
+			 , PRCS_STTS
+			 , PRRTY
+			 , REQ_TTL
+		  FROM REQ
+	</select>
+
+	<select id="readReqByReqId"
+			parameterType="string"
+			resultMap="resultMap">
+		SELECT REQ_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , DTL_REQ
+			 , STRT_DT
+			 , EXPCT_END_DT
+			 , ATTCH
+			 , PRJ_ID
+			 , MN_DVLPR
+			 , TST_RSLT
+			 , TSK_STTS
+			 , PRCS_STTS
+			 , PRRTY
+			 , REQ_TTL
+		  FROM REQ
+		 WHERE REQ_ID = #{_parameter}
+	</select>
+	
+	<update id="updateReq"
+			parameterType="com.kpms.req.vo.ReqVO">
+		UPDATE REQ
+		   SET MDFY_DT=SYSDATE
+		     , MDFYR=#{mdfyr}
+		     , USE_YN=NVL(#{useYn}, N)
+		     , DTL_REQ=#{dtlReq}
+		     , STRT_DT=#{strtDt}
+		     , EXPCT_END_DT=#{expctEndDt}
+		     , ATTCH=#{attch}
+		     , PRJ_ID=#{prjId}
+		     , MN_DVLPR=#{mnDvlpr}
+		     , TST_RSLT=#{tstRslt}
+		     , TSK_STTS=#{tskStts}
+		     , PRCS_STTS=#{prcsStts}
+		     , PRRTY=#{prrty}
+		     , REQ_TTL=#{reqTtl}
+		 WHERE REQ_ID=#{reqId}
+	</update>
+
+	<update id="deleteReqByReqId"
+			parameterType="string">
+			UPDATE REQ
+		   SET DEL_YN='Y'
+		 WHERE REQ_ID=#{_parameter}
+	</update>
+
+	<update id="deleteReqBySelectedReqId"
+			parameterType="arraylist">
+			UPDATE REQ
+		   SET DEL_YN='Y'
+		 WHERE REQ_ID IN
+		 <foreach collection="list" item="reqId" open="(" close=")" separator=", ">
+		 	#{reqId}
+		 </foreach>
+	</update>
+	
+	
+</mapper>
