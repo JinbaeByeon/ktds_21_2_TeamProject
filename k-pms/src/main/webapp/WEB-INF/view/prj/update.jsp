@@ -23,7 +23,7 @@
 			return;
 		}
 
-		var tmMbrTr = $("<tr class='tmMbr-tr '" + message.tmmbrid + "></tr>");
+		var tmMbrTr = $("<tr class='tmMbr-tr'></tr>");
 		
 		var len = tmMbrItems.find(".tmmbr-item").length;
 		var itemId = $("<input type='hidden' name='ptmList[" + len + "].tmMbrId' class='tmmbr-item'/>");
@@ -36,7 +36,7 @@
 		td += "<td>" + message.tmnm + "</td>"
 		td += "<td>" + message.fnm + "</td>"
 		td += "<td>" + message.lnm + "</td>"
-		td += "<td><select class='pstn " +  message.tmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value=''>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
+		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
 		var rmbtn = $("<td><button>X</button></td>")
 		
@@ -86,9 +86,9 @@
 			
 		});
 		
-		$(".pstn").focus(function() {
+		$(document).on("focus", ".pstn", function() {
 			orgPstn = $(this).val();
-		}).change(function () {
+		}).on("change", ".pstn", function () {
 			var chngPstn = $(this).val();
 			var pstnList = $(".pstn");
 			if(chngPstn=="PM"){
@@ -221,7 +221,7 @@
 								</thead>
 								<tbody class="tmMbrAddTbody">
 									<c:forEach items="${prjVO.ptmList}" var="ptm" varStatus="index">
-										<tr class="tmMbr-tr ${ptm.tmMbrId}">
+										<tr class="tmMbr-tr">
 											<input type="hidden" name="ptmList[${index.index}].tmMbrId" class="tmmbr-item" value="${ptm.prjTmMbrId}">
 											<td>${ptm.tmMbrVO.empVO.empId}</td>
 											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>

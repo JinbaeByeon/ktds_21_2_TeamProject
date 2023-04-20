@@ -10,7 +10,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-
+		
 		$("#search-btn").click(function() {
 			location.href = "${context}/tm/search?tmNm=" + $("#searh-tmNm").val();
 		});
@@ -50,53 +50,35 @@
 </head>
 <body>
 	<div class="search-popup content">
-		<h1>팀원 검색</h1>
-			<div class="search-group">
-				<label for="searh-tmNm">팀명</label>
-				<input type="text" id="searh-tmNm" name="tmVO.tmNm" class="grow-1 mr-10" value="${tmNm}"/>
-				<button class="btn-search" id="search-btn">검색</button>
-			</div>
-			<div>
-				<h3>${tmNm}팀</h3>
-			</div>
+		<h1>팀원 추가</h1>
+
 		<div class="grid">
 			<div class="grid-count align-right">
 						총 ${tmMbrList.size() > 0 ? tmMbrList.size() : 0}건
 			</div>
+			
 			<table>
+				<caption>팀</caption>
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="all_check" /></th>
-						<th>직원ID</th>
-						<th>성</th>
-						<th>이름</th>
+						<th>팀ID</th>
 						<th>팀명</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${not empty tmMbrList}">
-							<c:forEach items="${tmMbrList}"
-										var="tmmbr">
-								<tr data-tmmbrid="${tmmbr.tmMbrId}"
-									data-empid="${tmmbr.empId}"
-									data-tmid="${tmmbr.tmId}"
-									data-fnm="${tmmbr.empVO.fNm}"
-									data-lnm="${tmmbr.empVO.lNm}"
-									data-tmnm="${tmmbr.tmVO.tmNm}" >
-									<td>
-										<input type="checkbox" class="check-idx" value="${tmmbr.tmId}" />
-									</td>
-									<td>${tmmbr.empId}</td>
-									<td>${tmmbr.empVO.fNm}</td>
-									<td>${tmmbr.empVO.lNm}</td>
-									<td>${tmmbr.tmVO.tmNm}</td>
+						<c:when test="${not empty tmList}">
+							<c:forEach items="${tmList}" var="tm">
+								<tr data-tmid="${tm.tmId}"
+									data-tmnm="${tm.tmNm}">
+									<td>${tm.tmNm}</td>
+									<td>${tm.tmId}</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="5">검색된 팀원이 없습니다.</td>
+								<td colspan="2">검색된 팀이 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

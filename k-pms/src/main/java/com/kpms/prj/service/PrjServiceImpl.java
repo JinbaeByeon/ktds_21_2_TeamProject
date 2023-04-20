@@ -134,9 +134,7 @@ public class PrjServiceImpl implements PrjService {
 						prjTmMbrDAO.updateOnePrjTmMbr(ptm);
 					}
 					else if (ptm.getDeleted() != null && ptm.getDeleted().length() > 0) {
-						if (StringUtil.isNull(ptm.getTmMbrId())) {
-							continue;
-						}
+						
 						prjTmMbrDAO.deleteOnePrjTmMbrByPrjTmMbrId(ptm.getDeleted());
 					}
 				}

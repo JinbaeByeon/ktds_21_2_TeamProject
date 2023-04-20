@@ -23,7 +23,7 @@
 			return;
 		}
 
-		var tmMbrTr = $("<tr class='tmMbr-tr '" + message.tmmbrid + "></tr>");
+		var tmMbrTr = $("<tr class='tmMbr-tr " + message.tmmbrid + "'></tr>");
 		
 		var len = tmMbrItems.find(".tmmbr-item").length;
 		var itemId = $("<input type='hidden' name='ptmList[" + len + "].tmMbrId' class='tmmbr-item'/>");
@@ -65,7 +65,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/search", "팀 검색", "width=500, height=500")
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=500, height=500")
 		});
 		
 		
@@ -79,6 +79,39 @@
 					alert(response.errorCode + "/" + response.message);
 				}	
 			});
+		});
+		
+		$(document).on("focus", ".pstn", function() {
+			orgPstn = $(this).val();
+		}).on("change", ".pstn", function() {
+			var chngPstn = $(this).val();
+			var pstnList = $(".pstn");
+			if(chngPstn=="PM"){
+				var cntPM = 0;
+				pstnList.each(function(){
+					if($(this).val()=="PM"){
+						++cntPM;
+					}
+				});
+				if(cntPM > 1){
+					alert("총책임자는 1명만 가능합니다.");
+					$(this).val("DEFAULT");
+					return;
+				}
+			}
+			if(chngPstn=="PL"){
+				var cntPL = 0;
+				pstnList.each(function(){
+					if($(this).val()=="PL"){
+						++cntPL;
+					}
+				});
+				if(cntPL > 2){
+					alert("부책임자는 2명만 가능합니다.");
+					$(this).val("DEFAULT");
+					return;
+				}
+			}
 		});
 		
 	});

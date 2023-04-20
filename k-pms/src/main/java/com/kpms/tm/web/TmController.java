@@ -71,4 +71,15 @@ public class TmController {
 		
 		return "tm/search";
 	}
+	
+	@GetMapping("/tm/allsearch")
+	public String viewTmandTmMbrSearchPage(String tmNm, Model model) {
+		model.addAttribute("tmNm", tmNm);
+		if (tmNm != null && tmNm.length() > 0) {
+			List<TmVO> tmList = tmService.readAllTmVONopagination(tmNm);
+			model.addAttribute("tmList", tmList);
+		}
+		
+		return "tm/allsearch";
+	}
 }
