@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PrjTmMbr">
+	<insert id="createNewPrjTmMbr"
+			parameterType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
+		MERGE INTO PRJ_TM_MBR
+		 USING DUAL
+		    ON (PRJ_ID = #{prjId}
+		   AND TM_MBR_ID = #{tmMbrId})
+		  WHEN MATCHED THEN
+			   UPDATE
+			   SET DEL_YN = 'N'
+				 , MDFY_DT = SYSDATE
+				 , MDFYR = #{mdfyr}
+		  WHEN NOT MATCHED THEN
+			INSERT (PRJ_TM_MBR_ID
+			     , CRT_DT
+			     , CRTR
+			     , MDFY_DT
+			     , MDFYR
+			     , USE_YN
+			     , DEL_YN
+			     , PRJ_PSTN
+			     , PRJ_ID
+			     , TM_MBR_ID)
+		   VALUES  
+		   		  ('PTM-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRJ_TM_MBR_PK.NEXTVAL, '5', 0)
+		         , SYSDATE
+		         , #{crtr}
+		         , SYSDATE
+		         , #{mdfyr}
+		         , NVL(#{useYn}, 'N')
+		         , 'N'
+		         , #{prjPstn}
+		         , #{prjId}
+		         , #{tmMbrId})
+	</insert>
+	
+	<update id="deleteOnePrjTmMbrByPrjTmMbrId"
+			parameterType="string">
+		UPDATE PRJ_TM_MBR
+	       SET DEL_YN = 'Y' 
+		 WHERE PRJ_TM_MBR_ID = #{_parameter}
+	</update>
+	
+	<update id="updateOnePrjTmMbr"
+			parameterType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
+		UPDATE PRJ_TM_MBR
+	       SET PRJ_PSTN = #{prjPstn}
+		 WHERE PRJ_TM_MBR_ID = #{prjTmMbrId}
+	</update>
+	
+</mapper>

@@ -6,7 +6,7 @@
 	<resultMap id="prjVOMap" type="com.kpms.prj.vo.PrjVO" autoMapping="true">
 		<id property="prjId" column="PRJ_ID" />
 		<collection property="ptmList" ofType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
-			<id property="prjTmMbrId" column="TM_MBR_ID" />
+			<id property="prjTmMbrId" column="PRJ_TM_MBR_ID" />
 			<result property="tmMbrId" column="TM_MBR_ID" />
 			<result property="prjPstn" column="PRJ_PSTN" />
 			<association property="tmMbrVO" javaType="com.kpms.tmmbr.vo.TmMbrVO">
@@ -105,6 +105,7 @@
 			 , E.F_NM 
 			 , E.L_NM 
 			 , PTM.PRJ_PSTN
+			 , PTM.PRJ_TM_MBR_ID
 			 , PRK.REQ_ID
 			 , PRK.REQ_STRT_DT
 			 , PRK.EXPCT_END_DT
