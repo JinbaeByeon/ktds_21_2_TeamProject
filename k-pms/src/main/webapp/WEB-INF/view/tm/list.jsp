@@ -59,7 +59,6 @@
 		});
 		
 		$("#all_check").change(function() {
-		/* 	console.log($(this).prop("checked")); */
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		

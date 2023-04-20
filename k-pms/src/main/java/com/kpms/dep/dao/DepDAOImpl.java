@@ -55,6 +55,11 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 		return getSqlSession().update("Dep.deleteDepBySelectedDepId", depId);
 	}
 
+	@Override
+	public List<DepVO> readAllDepToTmMbr(DepVO depVO) {
+		return getSqlSession().selectList("Dep.readAllDepToTmMbr", depVO);
+	}
+
 	
 
 }

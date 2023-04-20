@@ -20,7 +20,7 @@
 	function addHdEmpFn(message) {
 		
 		var depHdIdItems = $("#addDepHeadBtn").closest(".create-group").find(".items");
-		if (depHdIdItems.find("." + message.empid	).length > 0) {
+		if (depHdIdItems.find("." + message.empid).length > 0) {
 			alert(message.lnm + message.fnm + "은(는) 이미 추가된 부서장입니다.");
 			return;
 		}
@@ -112,7 +112,6 @@
 		$("#save_btn").click(function() {
 			var ajaxUtil = new AjaxUtil();
 			if($("#isModify").val() == "false") {
-				//신규등록
 				ajaxUtil.upload("#detail_form","${context}/api/dep/create",function(response){
 					if (response.status == "200 OK") {
 						location.reload(); //새로고침
@@ -123,7 +122,6 @@
 				});
 			}
 			else {
-				//수정
 				ajaxUtil.upload("#detail_form","${context}/api/dep/update",function(response){
 					if (response.status == "200 OK") {
 						location.reload(); //새로고침
