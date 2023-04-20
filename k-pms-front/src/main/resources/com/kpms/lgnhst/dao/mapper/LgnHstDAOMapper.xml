@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LgnHst">
+	
+	<resultMap id="lgnHstMap" 
+			   type="com.kpms.lgnhst.vo.LgnHstVO"
+			   autoMapping="true">
+		<id property="hstId" column="HST_ID" />
+		<association property="emp" 
+					 javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="EMP_ID" />
+			<result property="fNm" column="F_NM" />
+			<result property="lNm" column="L_NM" />
+		</association>
+	</resultMap>
+	
+	<select id="readAllLgnHst"
+			parameterType="com.kpms.lgnhst.vo.LgnHstVO"
+			resultMap="lgnHstMap">
+		<include refid="Common.pageHeader"/>
+		SELECT LH.HST_ID PK_COL,
+			   DENSE_RANK() OVER(ORDER BY LH.CRT_DT || LH.HST_ID DESC) RNUM,
+			   LH.HST_ID,
+			   TO_CHAR(LH.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
+			   LH.CRTR,
+			   LH.IP,
+			   LH.ACT,
+			   E.F_NM,
+			   E.L_NM
+		  FROM (SELECT *
+		  		  FROM LGN_HST
+		  		 <if test="crtr != null and crtr != ''">
+		  		 WHERE CRTR = #{crtr}
+		  		 </if>) LH
+		  JOIN EMP E
+		  	ON E.EMP_ID = LH.CRTR
+		<include refid="Common.pageFooter"/>
+	</select>
+	
+	<insert id="createEmpLgnHst"
+			parameterType="com.kpms.lgnhst.vo.LgnHstVO">
+		INSERT INTO LGN_HST
+		(HST_ID,
+		 CRT_DT,
+		 CRTR,
+		 IP,
+		 ACT)
+		VALUES
+		('LH-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_LGN_HST_PK.NEXTVAL,5,'0'),
+		 SYSDATE,
+		 #{crtr},
+		 #{ip},
+		 #{act})
+	</insert>
+	
+</mapper>
