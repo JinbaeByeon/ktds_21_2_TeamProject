@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.tm.dao.TmDAO;
+import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
 
 @Service
@@ -17,8 +18,8 @@ public class TmServiceImpl implements TmService {
 	private TmDAO tmDAO;
 
 	@Override
-	public List<TmVO> readAllTmVO(TmVO tmVO) {
-		return tmDAO.readAllTmVO(tmVO);
+	public List<TmVO> readAllTmVO(TmSearchVO tmSearchVO) {
+		return tmDAO.readAllTmVO(tmSearchVO);
 	}
 
 	@Override
@@ -34,21 +35,17 @@ public class TmServiceImpl implements TmService {
 	@Override
 	public boolean createOneTm(TmVO tmVO) {
 		
-//		int tmCreateCount = tmDAO.createOneTm(tmVO);
-//		if (tmCreateCount > 0) {
-//			
-//			List<EmpVO> empList = depVO.getEmpList();
-//			if (empList == null || empList.isEmpty()) {
-//				throw new APIArgsException("404", "팀장을 선택하세요.");
-//			}
-//			for (EmpVO emp: empList) {
-//				empDAO.createOneEmp(emp);
-//			}
-//		}
-//		
-//		return tmCreateCount > 0;
+		if (tmVO.getDepId() == null || tmVO.getDepId().trim().length() == 0) {
+			throw new APIArgsException("400", "부서아이디가 누락되었습니다.");
+		}
 		if (tmVO.getTmNm() == null || tmVO.getTmNm().trim().length() == 0) {
 			throw new APIArgsException("400", "팀명이 누락되었습니다.");
+		}
+		if (tmVO.getTmHdId() == null || tmVO.getTmHdId().trim().length() == 0) {
+			throw new APIArgsException("400", "팀장이 누락되었습니다.");
+		}
+		if (tmVO.getTmCrtDt() == null || tmVO.getTmCrtDt().trim().length() == 0) {
+			throw new APIArgsException("400", "팀생성일이 누락되었습니다.");
 		}
 		
 		return tmDAO.createOneTm(tmVO) > 0;

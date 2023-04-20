@@ -17,11 +17,12 @@ public class SndMsgController {
 	private SndMsgService sndMsgService;
 	
 	@GetMapping("/sndmsg/list")
-	public String viewSndMsgListPage(Model model, SndMsgVO sndMsgVO) {
+	public String viewSndMsgListPage(Model model, SndMsgVO sndMsgVO, String searchRcvr) {
 		List<SndMsgVO> sndMsgList = sndMsgService.readAllSndMsgVO(sndMsgVO);
 		
 		model.addAttribute("sndMsgList", sndMsgList);
 		model.addAttribute("sndMsgVO", sndMsgVO);
+		model.addAttribute("searchRcvr", searchRcvr);
 		
 		return "sndmsg/list";
 	}

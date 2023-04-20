@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로젝트 생성</title>
+<title>팀 생성</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	
@@ -71,29 +71,29 @@
 	
 	function addEmpFn(message) {
 		
-		console.log(message);
 		$(".tmMbr").append("<tr id="+ message.empid +"></tr>");
 		$(".tmMbr").find("#" + message.empid).append("<td>" + message.empid + "</td>");
 		$(".tmMbr").find("#" + message.empid).append("<td>" + message.lnm + message.fnm + "</td>");
-		$(".tmMbr").find("#" + message.empid).append("<td>" + message.brthdy + "</td>");
+	 	$(".tmMbr").find("#" + message.empid).append("<td>" + message.brthdy + "</td>");
 		$(".tmMbr").find("#" + message.empid).append("<td>" + message.eml + "</td>");
 		$(".tmMbr").find("#" + message.empid).append("<td>" + message.phn + "</td>");
 		$(".tmMbr").find("#" + message.empid).append("<td>" + message.pstnPrd + "</td>");
-		
+		 
 	}
 	
 	$().ready(function() {
-		
-		$("#addTmHeadBtn").click(function(event) {
-			event.preventDefault(); 
-			var depId = $("#depId").val();
-			var tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
-		});
 		
 		$("#addDepIdBtn").click(function(event) {
 			event.preventDefault();
 			depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
 		});
+		
+		$("#addTmHeadBtn").click(function(event) {
+			event.preventDefault(); 
+			var depId = $("#depId").val();
+			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
+		});
+		
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
@@ -109,12 +109,13 @@
 			var ajaxUtil = new AjaxUtil();
 			ajaxUtil.upload("#create_form","${context}/api/tm/create",function(response){
 				if (response.status == "200 OK") {
-					location.reload(); //새로고침
+					location.href = "${context}/tm/list"
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
 				}
 			});
+			
 		});
 	});
 </script>

@@ -91,6 +91,12 @@
 				<li><a href="${context}/job/list">직무 관리</a></li>
 			</ul>
 		</li>
+		<li class="nav-item msg">
+			<a href="${context}/rcvmsg/list">쪽지</a>
+			<ul class="sub-item">
+				<li><a href="${context}/sndmsg/send">쪽지보내기</a></li>
+			</ul>
+		</li>
 	</ul>
 	<div class="inline profile">
 		<div id="my-info">

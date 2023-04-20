@@ -27,12 +27,11 @@
 
 		
 		$(".trRemoveBtn").click(function() {
-			$(this).closest("." + message.tmid).remove();
+			console.log($(this).closest("." + message.tmid))
+			$(this).closest('tr').remove();
 		});
 		
 		tmItems.append(tmTr);
-
-		
 	}
 	
 	$().ready(function() {
@@ -54,7 +53,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tmMbr/search", "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/tmmbr/search", "팀원검색", "width=500, height=500")
 		});
 		
 		$("#save-btn").click(function() {
@@ -107,7 +106,7 @@
 						<div>
 							<button id="addTmBtn" class="btn-primary">추가</button>
 						</div>
-						<div class="tm-grid">
+						<div class="grid">
 							<table>
 								<thead>
 									<tr>
@@ -126,7 +125,7 @@
 							<button id="addTmMbrBtn" class="btn-primary">추가</button>
 							<div class="items"></div>
 						</div>
-						<div class="tmMbr-grid">
+						<div class="grid">
 							<table>
 								<thead>
 									<tr>

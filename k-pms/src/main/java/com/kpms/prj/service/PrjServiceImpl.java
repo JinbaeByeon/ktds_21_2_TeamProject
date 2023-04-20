@@ -48,16 +48,51 @@ public class PrjServiceImpl implements PrjService {
 		if (StringUtil.isEmpty(prjVO.getCstmr())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "고객사명은 필수 값입니다.");
 		}
+
+		if (StringUtil.isEmpty(prjVO.getStrtDt())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "시작일은 필수 값입니다.");
+		}
+		
+		if (StringUtil.isEmpty(prjVO.getEndDt())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "종료일은 필수 값입니다.");
+		}
 		
 		if (StringUtil.isEmpty(prjVO.getPrjStts())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 상태는 필수 값입니다.");
 		}
 		
+		if (prjVO.getPtmList() == null || prjVO.getPtmList().isEmpty()) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "팀원은 필수 값입니다.");
+		}
 		return prjDAO.createOnePrj(prjVO) > 0;
 	}
 
 	@Override
 	public boolean updateOnePrj(PrjVO prjVO) {
+		if (StringUtil.isEmpty(prjVO.getPrjNm())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트명은 필수 값입니다.");
+		}
+
+		if (StringUtil.isEmpty(prjVO.getCstmr())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "고객사명은 필수 값입니다.");
+		}
+
+		if (StringUtil.isEmpty(prjVO.getStrtDt())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "시작일은 필수 값입니다.");
+		}
+		
+		if (StringUtil.isEmpty(prjVO.getEndDt())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "종료일은 필수 값입니다.");
+		}
+		
+		if (StringUtil.isEmpty(prjVO.getPrjStts())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 상태는 필수 값입니다.");
+		}
+		
+		/*
+		 * if (prjVO.getPtmList() == null || prjVO.getPtmList().isEmpty()) { throw new
+		 * APIArgsException(APIStatus.MISSING_ARG, "팀원은 필수 값입니다."); }
+		 */
 		return prjDAO.updateOnePrj(prjVO) > 0;
 	}
 

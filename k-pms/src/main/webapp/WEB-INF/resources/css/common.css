@@ -306,9 +306,24 @@ h1{
 	margin-bottom: 10px;
 }
 
-.content .grid > grid-count {
+.content .grid > .grid-count {
 	font-size:11px;
-	
+	position: relative;
+	height: 30px;
+}
+
+.content .grid > .grid-count > .left{
+	display: inline-block;
+	width: 40%;
+	position: absolute;
+	bottom: 5px;
+}
+.content .grid > .grid-count > .right{
+	display: inline-block;
+	width: 59%;
+	position: absolute;
+	bottom: 5px;
+	right: 0;
 }
 
 .content .grid > table{
@@ -441,9 +456,8 @@ input[type=file]{
 }
 
 img.profile{
-	border-radius:50%;
-	width:50px;
-	height:50px;
+	height:15px;
+	padding-top: 5px;
 }
 
 
@@ -642,3 +656,23 @@ input::-webkit-inner-spin-button {
 	background-color: #eee;
 	border: 1px solid #888;
 }
+
+
+
+/* 대댓글 */
+
+.reply > ul {
+	display: inline-block;	
+}
+
+.reply > .x-btn {
+	display: inline-block;	
+}
+
+.reply > .update-btn {
+	display: inline-block;
+}
+
+
+
+

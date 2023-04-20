@@ -56,6 +56,7 @@
 									<th>팀ID</th>
 									<th>팀명</th>
 									<th>팀장ID</th>
+									<th>팀장 성명</th>
 									<th>팀생성일</th>
 								</tr>
 							</thead>
@@ -68,15 +69,16 @@
 											<tr>
 												<td>${index.index + 1}</td>
 												<td>${tm.tmId}</td>
-												<td>${tm.tmNm}</td>
+												<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
 												<td>${tm.tmHdId}</td>
+												<td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
 												<td>${tm.tmCrtDt}</td>
 											</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="5" class="no-items">
+										<td colspan="6" class="no-items">
 											등록된 팀이 없습니다.
 										</td>
 									</tr>

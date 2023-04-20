@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
 
 @Repository
@@ -24,8 +25,8 @@ public class KnwDAOImpl extends SqlSessionDaoSupport implements KnwDAO {
 	}
 
 	@Override
-	public List<KnwVO> readAllKnw(KnwVO knwVO) {
-		return getSqlSession().selectList("Knw.readAllKnw", knwVO);
+	public List<KnwVO> readAllKnw(KnwSearchVO knwSearchVO) {
+		return getSqlSession().selectList("Knw.readAllKnw", knwSearchVO);
 	}
 	
 	@Override
@@ -35,7 +36,7 @@ public class KnwDAOImpl extends SqlSessionDaoSupport implements KnwDAO {
 
 	@Override
 	public int updateOneKnw(KnwVO knwVO) {
-		return getSqlSession().update("knw.updateOneKnw", knwVO);
+		return getSqlSession().update("Knw.updateOneKnw", knwVO);
 	}
 
 	@Override

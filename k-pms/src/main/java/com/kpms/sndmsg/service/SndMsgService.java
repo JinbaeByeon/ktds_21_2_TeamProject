@@ -14,6 +14,6 @@ public interface SndMsgService {
 	
 	public boolean deleteOneSndMsg(String msgId);
 	
-	public boolean deleteSndMsgBySelectedMsgId(List<Integer> msgId);
+	public boolean deleteSndMsgBySelectedMsgId(List<String> msgId);
 	
 }

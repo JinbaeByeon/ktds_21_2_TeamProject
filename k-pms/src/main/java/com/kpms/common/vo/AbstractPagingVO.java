@@ -1,13 +1,6 @@
 package com.kpms.common.vo;
 
-import java.util.Calendar;
-
-import com.kpms.common.util.CalendarUtil;
-
-
 public abstract class AbstractPagingVO extends AbstractVO{
-	private String startDt;
-	private String endDt;
 	
 	private int pageNo;
 	private int viewCnt;
@@ -21,22 +14,6 @@ public abstract class AbstractPagingVO extends AbstractVO{
 		pageNo = 0;
 		viewCnt = 5;
 		pageCnt = 8;
-	}
-
-	public String getStartDt() {
-		return startDt;
-	}
-
-	public void setStartDt(String startDt) {
-		this.startDt = startDt;
-	}
-
-	public String getEndDt() {
-		return endDt;
-	}
-
-	public void setEndDt(String endDt) {
-		this.endDt = endDt;
 	}
 
 	public int getPageNo() {
@@ -94,19 +71,5 @@ public abstract class AbstractPagingVO extends AbstractVO{
 	public void setRnum(int rnum) {
 		this.rnum = rnum;
 	}
-	
-	public void setPeriod() {
-		// Calendar
-		Calendar cal = Calendar.getInstance();
-		
-		if(endDt == null) {
-			setEndDt(CalendarUtil.getDate(cal));
-		}
-		if(startDt == null) {
-			cal.add(Calendar.MONTH, -1);
-			setStartDt(CalendarUtil.getDate(cal));
-		}
-	}
-
 	
 }

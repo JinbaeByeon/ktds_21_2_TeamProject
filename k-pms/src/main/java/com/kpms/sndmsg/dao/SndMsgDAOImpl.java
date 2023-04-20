@@ -39,7 +39,7 @@ public class SndMsgDAOImpl extends SqlSessionDaoSupport implements SndMsgDAO {
 	}
 
 	@Override
-	public int deleteSndMsgBySelectedMsgId(List<Integer> msgId) {
+	public int deleteSndMsgBySelectedMsgId(List<String> msgId) {
 		return getSqlSession().update("SndMsg.deleteSndMsgBySelectedMsgId", msgId);
 	}
 }
