@@ -345,14 +345,27 @@
 			   PWD = #{pwd},
 			   PWD_SALT = #{pwdSalt}
 			</when>
+			<when test="pstnId != null and pstnId != ''">
+			   PSTN_ID = #{pstnId}
+			</when>
+			<when test="jobId != null and jobId != ''">
+			   JOB_ID = #{jobId}
+			</when>
+			<when test="depId != null and depId != ''">
+			   DEP_ID = #{depId}
+			</when>
 			<otherwise>
 			   F_NM = #{fNm},
 			   BRTHDY = #{brthdy},
 			   EML = #{eml},
 			   PHN = #{phn},
-			   PRFL_PHT = #{prflPht},
 			   ADDRSS = #{addrss},
-			   L_NM = #{lNm}
+			   DTL_ADDRSS =#{dtlAddrss},
+			   PST_CD = #{pstCd},
+			   L_NM = #{lNm},
+			<if test="prflPht != null and prflPht != ''">
+			   PRFL_PHT = #{prflPht}
+			</if>
 			</otherwise>
 		</choose>
 		 WHERE EMP_ID = #{empId}
@@ -388,6 +401,36 @@
 		   SET LGN_CNT = 0
 		   	 , FAIL_DT = ''
 		 WHERE EMP_ID = #{empId}
+	</update>
+	<update id="updateEmpPstn"
+			parameterType="com.kpms.emp.vo.EmpChngPstnVO">
+		UPDATE EMP
+		   SET PSTN_ID = #{pstnId}
+		   	 , MDFYR = #{mdfyr}
+		 WHERE EMP_ID IN
+		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
+		  #{empId}
+		 </foreach>
+	</update>
+	<update id="updateEmpJob"
+			parameterType="com.kpms.emp.vo.EmpChngJobVO">
+		UPDATE EMP
+		   SET JOB_ID = #{jobId}
+		   	 , MDFYR = #{mdfyr}
+		 WHERE EMP_ID IN
+		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
+		  #{empId}
+		 </foreach>
+	</update>
+	<update id="updateEmpDep"
+			parameterType="com.kpms.emp.vo.EmpChngDepVO">
+		UPDATE EMP
+		   SET DEP_ID = #{depId}
+		   	 , MDFYR = #{mdfyr}
+		 WHERE EMP_ID IN
+		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
+		  #{empId}
+		 </foreach>
 	</update>
 	
 </mapper>

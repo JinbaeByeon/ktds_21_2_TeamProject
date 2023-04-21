@@ -5,42 +5,42 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kpms.cmncd.dao.CmnCdDAO;
-import com.kpms.cmncd.vo.CmnCdVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.util.StringUtil;
 import com.kpms.prj.dao.PrjDAO;
 import com.kpms.prj.vo.PrjVO;
+import com.kpms.prjtmmbr.dao.PrjTmMbrDAO;
+import com.kpms.prjtmmbr.vo.PrjTmMbrVO;
 
 @Service
 public class PrjServiceImpl implements PrjService {
-	
+
 	@Autowired
 	private PrjDAO prjDAO;
-	
+
 	@Autowired
-	private CmnCdDAO cmnCdDAO;
+	private PrjTmMbrDAO prjTmMbrDAO;
 
 	@Override
 	public List<PrjVO> readAllPrjVO(PrjVO prjVO) {
 		return prjDAO.readAllPrjVO(prjVO);
 	}
-	
+
 	@Override
 	public List<PrjVO> readAllPrjVONoPagination(String prjNm) {
 		return prjDAO.readAllPrjVONoPagination(prjNm);
 	}
-	
+
 	@Override
 	public PrjVO readOnePrjVOByPrjId(String prjId) {
 		return prjDAO.readOnePrjVOByPrjId(prjId);
 	}
-	
+
 	@Override
 	public boolean createOnePrj(PrjVO prjVO) {
-		
+
 		if (StringUtil.isEmpty(prjVO.getPrjNm())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트명은 필수 값입니다.");
 		}
@@ -52,19 +52,36 @@ public class PrjServiceImpl implements PrjService {
 		if (StringUtil.isEmpty(prjVO.getStrtDt())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "시작일은 필수 값입니다.");
 		}
-		
+
 		if (StringUtil.isEmpty(prjVO.getEndDt())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "종료일은 필수 값입니다.");
 		}
-		
+
 		if (StringUtil.isEmpty(prjVO.getPrjStts())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 상태는 필수 값입니다.");
 		}
-		
+
 		if (prjVO.getPtmList() == null || prjVO.getPtmList().isEmpty()) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "팀원은 필수 값입니다.");
 		}
-		return prjDAO.createOnePrj(prjVO) > 0;
+
+		int prjCreateCount = prjDAO.createOnePrj(prjVO);
+		if (prjCreateCount > 0) {
+			List<PrjTmMbrVO> ptmList = prjVO.getPtmList();
+			if (ptmList == null || ptmList.isEmpty()) {
+				throw new APIArgsException("404", "팀원을 추가해주세요");
+			}
+			for (PrjTmMbrVO ptm : ptmList) {
+				if (StringUtil.isNull(ptm.getTmMbrId())) {
+					continue;
+				}
+				ptm.setPrjId(prjVO.getPrjId());
+				ptm.setCrtr(prjVO.getCrtr());
+				ptm.setMdfyr(prjVO.getMdfyr());
+				prjTmMbrDAO.createNewPrjTmMbr(ptm);
+			}
+		}
+		return prjCreateCount > 0;
 	}
 
 	@Override
@@ -80,20 +97,52 @@ public class PrjServiceImpl implements PrjService {
 		if (StringUtil.isEmpty(prjVO.getStrtDt())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "시작일은 필수 값입니다.");
 		}
-		
+
 		if (StringUtil.isEmpty(prjVO.getEndDt())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "종료일은 필수 값입니다.");
 		}
-		
+
 		if (StringUtil.isEmpty(prjVO.getPrjStts())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 상태는 필수 값입니다.");
 		}
-		
-		/*
-		 * if (prjVO.getPtmList() == null || prjVO.getPtmList().isEmpty()) { throw new
-		 * APIArgsException(APIStatus.MISSING_ARG, "팀원은 필수 값입니다."); }
-		 */
-		return prjDAO.updateOnePrj(prjVO) > 0;
+
+		if (prjVO.getPtmList() == null || prjVO.getPtmList().isEmpty()) {
+			 throw new APIArgsException(APIStatus.MISSING_ARG, "팀원은 필수 값입니다.");
+		}
+		 
+		 int prjUpdateCount = prjDAO.updateOnePrj(prjVO);
+			if (prjUpdateCount > 0) {
+				List<PrjTmMbrVO> ptmList = prjVO.getPtmList();
+				if (ptmList == null || ptmList.isEmpty()) {
+					throw new APIArgsException("404", "팀원을 추가해주세요");
+				}
+				for (PrjTmMbrVO ptm : ptmList) {
+					if (ptm.getAdded() != null && ptm.getAdded().equals("true")) {
+						if (StringUtil.isNull(ptm.getTmMbrId())) {
+							continue;
+						}
+						ptm.setPrjId(prjVO.getPrjId());
+						ptm.setCrtr(prjVO.getCrtr());
+						ptm.setMdfyr(prjVO.getMdfyr());
+						prjTmMbrDAO.createNewPrjTmMbr(ptm);
+					}
+					if (ptm.getModified() != null && ptm.getModified().length() > 0) {
+						if (StringUtil.isNull(ptm.getTmMbrId())) {
+							continue;
+						}
+						ptm.setPrjId(ptm.getModified());
+						prjTmMbrDAO.updateOnePrjTmMbr(ptm);
+					}
+					if (ptm.getDeleted() != null && ptm.getDeleted().length() > 0) {
+						if (StringUtil.isNull(ptm.getTmMbrId())) {
+							continue;
+						}
+						prjTmMbrDAO.deleteOnePrjTmMbrByPrjTmMbrId(ptm.getDeleted());
+					}
+				}
+			}
+		 
+		return prjUpdateCount > 0;
 	}
 
 	@Override
@@ -109,5 +158,5 @@ public class PrjServiceImpl implements PrjService {
 		}
 		return isSuccess;
 	}
-	
+
 }

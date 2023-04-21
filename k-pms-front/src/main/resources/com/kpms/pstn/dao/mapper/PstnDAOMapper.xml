@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Pstn">
+	
+	<insert id="createNewPstn"
+			parameterType="com.kpms.pstn.vo.PstnVO">
+		INSERT INTO PSTN
+		 (PSTN_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, PSTN_NM)
+		VALUES
+		 (SEQ_PSTN_PK.NEXTVAL
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'Y')
+		, 'N'
+		, #{pstnNm})
+	</insert>
+	
+	<select id="readAllPstn"
+			parameterType="com.kpms.pstn.vo.PstnVO"
+			resultType="com.kpms.pstn.vo.PstnVO">
+		<include refid="Common.pageHeader" />
+		SELECT PSTN_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY PSTN_ID ASC) RNUM
+			 , PSTN_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , PSTN_NM
+		  FROM PSTN
+		 WHERE DEL_YN = 'N'
+		 <if test="pstnNm != null and pstnNm != ''">
+		   AND PSTN_NM LIKE '%' || #{pstnNm} || '%'
+		 </if>
+		 ORDER BY PSTN_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllPstnNoPagination"
+			parameterType="string"
+			resultType="com.kpms.pstn.vo.PstnVO">
+		SELECT PSTN_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , PSTN_NM
+		  FROM PSTN
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND PSTN_NM LIKE '%' || #{pstnNm} || '%'
+		 ORDER BY PSTN_ID ASC
+	</select>
+	
+	<update id="updateNewPstn"
+			parameterType="com.kpms.pstn.vo.PstnVO">
+		UPDATE PSTN
+		   SET MDFY_DT= SYSDATE
+		     , MDFYR= #{mdfyr}
+		     , USE_YN= NVL(#{useYn}, 'Y')
+		     , PSTN_NM= #{pstnNm}
+		 WHERE PSTN_ID= #{pstnId}
+		
+	</update>
+	
+	<update id="deletePstnByPstnId"
+			parameterType="_int">
+		UPDATE PSTN
+		   SET DEL_YN= 'Y'
+		 WHERE PSTN_ID= #{pstnId}
+	</update>
+	
+	<update id="deletePstnBySelectedPstnId"
+			parameterType="arraylist">
+		UPDATE PSTN
+		   SET DEL_YN= 'Y'
+		 WHERE PSTN_ID IN
+		 <foreach collection="list" item="pstnId" open="(" close=")" separator=", ">
+		 	#{pstnId}
+		 </foreach>
+	</update>
+</mapper>

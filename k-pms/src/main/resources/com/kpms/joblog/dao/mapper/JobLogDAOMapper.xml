@@ -18,12 +18,12 @@
 			 <association property="prvsJobNmVO"
 			 			  javaType="com.kpms.job.vo.JobVO">
 			 	<id property="jobId" column="PRVS_JOB_ID"/>
-			 	<result property="jobNm" column="PRVS_JOBNM"/> 
+			 	<result property="jobNm" column="PRVS_JOB_NM"/> 
 			 </association>
 			<association property="chngJobNmVO"																	
 						 javaType="com.kpms.job.vo.JobVO">
 				<id property="jobId" column="CHNG_JOB_ID"/>
-				<result property="jobNm" column="CHNG_JOBNM"/>	
+				<result property="jobNm" column="CHNG_JOB_NM"/>	
 			</association>
 	</resultMap>
 	<select id="readAllJobLogVO"
@@ -37,9 +37,9 @@
 	 		 , JL.CRTR
 			 , TO_CHAR(JL.CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
 			 , JL.PRVS_JOB_ID
-			 , J.JOB_NM PRVS_JOBNM
+			 , J.JOB_NM PRVS_JOB_NM
 			 , JL.CHNG_JOB_ID
-			 , JB.JOB_NM CHNG_JOBNM
+			 , JB.JOB_NM CHNG_JOB_NM
 			 , JL.CHNG_RSN
 			 , E.F_NM
 			 , E.L_NM
@@ -57,23 +57,27 @@
 	</select>
 
 	<insert id="createJobLog"
-			parameterType="com.kpms.joblog.vo.JobLogVO">
+			parameterType="com.kpms.emp.vo.EmpChngJobVO">
 		INSERT INTO JOB_LOG
-				   (EMP_ID
-				  , CRT_DT
-				  , CRTR
-				  , CHNG_DT
-				  , PRVS_JOB_ID
-				  , CHNG_JOB_ID
-				  , CHNG_RSN)
-			VALUES
-				  (#{empId}
-				 , SYSDATE
-				 , #{crtr}
-				 , SYSDATE
-				 , #{prvsJobId}
-				 , #{chngJobId}
-				 , #{chngRsn})
+		(EMP_ID,
+		 PRVS_JOB_ID,
+		 CRT_DT,
+		 CHNG_DT,
+		 CRTR,
+		 CHNG_JOB_ID,
+		 CHNG_RSN)
+		SELECT EMP_ID
+			 , JOB_ID
+			 , SYSDATE
+			 , SYSDATE
+			 , #{mdfyr}
+			 , #{jobId}
+			 , #{chngRsn}
+		  FROM EMP
+		 WHERE EMP_ID IN
+		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
+		  #{empId}
+		 </foreach>
 	</insert>
 	
 </mapper>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dep">
+	 <resultMap id="depVOMap" 
+				type="com.kpms.dep.vo.DepVO"
+				autoMapping="true">
+		<id property="depId" column="DEP_ID"/>
+		<association property="crtrEmpVO" 
+					   javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="CRTR" />
+			<result property="fNm" column="CRTR_E_F_NM"/>
+			<result property="lNm" column="CRTR_E_L_NM"/>
+		</association>	
+		<association property="mdfyrEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="MDFYR"/>
+			<result property="fNm" column="MDFYR_E_F_NM"/>
+			<result property="lNm" column="MDFYR_E_L_NM"/>
+		</association>
+		<association property="hdNmEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="DEP_HD_ID"/>
+			<result property="fNm" column="HD_EMP_F_NM"/>
+			<result property="lNm" column="HD_EMP_L_NM"/>
+		</association>
+		<association property="tmNmEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="TM_HD_ID"/>
+			<result property="fNm" column="TM_HD_EMP_F_NM"/>
+			<result property="lNm" column="TM_HD_EMP_L_NM"/>
+		</association>
+		<collection property="tmList"
+					 ofType="com.kpms.tm.vo.TmVO">
+			<id property="tmId" column="TM_ID"/>
+			<result property="depId" column="DEP_ID"/>
+			<result property="tmNm" column="TM_NM"/>
+		</collection>
+	</resultMap> 
+
+	<select id="readAllDepVO"
+			parameterType="com.kpms.dep.vo.DeptSearchVO"
+			resultMap="depVOMap" >
+		<include refid="Common.pageHeader" />
+		SELECT D.DEP_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY D.DEP_ID ASC) RNUM
+		     , D.DEP_ID
+			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , D.CRTR
+			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , D.MDFYR
+			 , D.USE_YN
+			 , D.DEL_YN
+			 , D.DEP_NM
+			 , D.DEP_HD_ID
+			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
+			 , CRTR_E.F_NM CRTR_E_F_NM
+			 , CRTR_E.L_NM CRTR_E_L_NM
+			 , MDFYR_E.F_NM MDFYR_E_F_NM
+			 , MDFYR_E.L_NM MDFYR_E_L_NM
+			 , T.TM_NM
+			 , HD_EMP.F_NM HD_EMP_F_NM
+			 , HD_EMP.L_NM HD_EMP_L_NM
+			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
+			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
+		  FROM DEP D
+	     INNER JOIN EMP CRTR_E
+		 	ON D.CRTR = CRTR_E.EMP_ID
+		 INNER JOIN EMP MDFYR_E
+		    ON D.MDFYR = MDFYR_E.EMP_ID
+		  LEFT OUTER JOIN EMP HD_EMP
+		    ON D.DEP_HD_ID = HD_EMP.EMP_ID
+		  LEFT JOIN TM T
+		 	ON D.DEP_ID = T.DEP_ID
+		  LEFT JOIN EMP TM_HD_EMP
+		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
+		 WHERE D.DEL_YN = 'N'
+		<choose>
+			<when test='searchOption == "depNm"'>
+		   AND D.DEP_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "hdLnm"'>
+		   AND HD_EMP.L_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "hdFnm"'>
+		   AND HD_EMP.F_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmNm"'>
+		   AND T.TM_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmLnm"'>
+		   AND TM_HD_EMP.L_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmFnm"'>
+		   AND TM_HD_EMP.F_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+		</choose>
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllDepVONopagination"
+			parameterType="string"
+			resultType="com.kpms.dep.vo.DepVO">
+		SELECT D.DEP_ID
+			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , D.CRTR
+			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , D.MDFYR
+			 , D.USE_YN
+			 , D.DEL_YN
+			 , D.DEP_NM
+			 , D.DEP_HD_ID
+			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
+			 , CRTR_E.F_NM CRTR_E_F_NM
+			 , CRTR_E.L_NM CRTR_E_L_NM
+			 , MDFYR_E.F_NM MDFYR_E_F_NM
+			 , MDFYR_E.L_NM MDFYR_E_L_NM 
+		  FROM DEP D
+		 INNER JOIN EMP CRTR_E
+		 	ON D.CRTR = CRTR_E.EMP_ID
+		 INNER JOIN EMP MDFYR_E
+		    ON D.MDFYR = MDFYR_E.EMP_ID 
+		 WHERE D.DEL_YN = 'N'
+		   AND D.USE_YN = 'Y'
+		   AND D.DEP_NM LIKE '%' || #{_parameter} || '%'
+		 ORDER BY D.DEP_ID ASC
+	</select>
+	
+	<resultMap id="tmVOMap" 
+				type="com.kpms.dep.vo.DepVO"
+				autoMapping="true">
+		<id property="depId" column="DEP_ID"/>
+		<collection property="tmList"
+					 ofType="com.kpms.tm.vo.TmVO">
+			<id property="tmId" column="TM_ID"/>
+			<result property="depId" column="DEP_ID"/>
+			<result property="tmNm" column="TM_NM"/>
+			<result property="tmHdId" column="TM_HD_ID"/>
+			<result property="tmCrtDt" column="TM_CRT_DT"/>
+			<association property="tmHdEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+				<id property="empId" column="TM_HD_ID"/>
+				<result property="fNm" column="TM_HD_EMP_F_NM"/>
+				<result property="lNm" column="TM_HD_EMP_L_NM"/>
+			</association>
+		</collection>
+		<collection property="empList"
+					 ofType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="EMP_ID"/>
+			<result property="fNm" column="F_NM"/>
+			<result property="lNm" column="L_NM"/>
+			<result property="brthdy" column="BRTHDY"/>
+			<result property="eml" column="EML"/>
+			<result property="phn" column="PHN"/>
+			<result property="pstnPrd" column="PSTN_PRD"/>
+		</collection>
+	</resultMap>
+	
+	<select id="readOneDepVOByDepId"
+			parameterType="string"
+			resultMap="tmVOMap">
+		SELECT D.DEP_ID
+			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , D.CRTR
+			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , D.MDFYR
+			 , D.USE_YN
+			 , D.DEP_NM
+			 , D.DEP_HD_ID
+			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
+			 , T.TM_ID
+			 , T.TM_NM
+			 , T.TM_HD_ID
+			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
+			 , E.EMP_ID
+			 , E.F_NM
+			 , E.L_NM
+			 , E.BRTHDY
+			 , E.EML
+			 , E.PHN
+			 , E.PSTN_PRD
+			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
+			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
+		  FROM DEP D
+		 INNER JOIN TM T
+		    ON D.DEP_ID = T.DEP_ID
+		 INNER JOIN EMP E
+		 	ON D.DEP_ID = E.DEP_ID
+		 INNER JOIN EMP TM_HD_EMP
+		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
+		 WHERE D.DEP_ID = #{_parameter}
+		   AND D.DEL_YN = 'N'
+	</select>
+
+	<insert id="createOneDep"
+			parameterType="com.kpms.dep.vo.DepVO">
+		INSERT INTO DEP
+		 (DEP_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, DEP_NM
+		, DEP_HD_ID
+		, DEP_CRT_DT)
+	 	VALUES
+	 	 ('DEP-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_DEP_PK.NEXTVAL, 5, '0')
+	 	, SYSDATE
+	 	, #{crtr}
+	 	, SYSDATE
+	 	, #{mdfyr}
+	 	, NVL(#{useYn}, 'N')
+	 	, 'N'
+	 	, #{depNm}
+	 	, #{depHdId}
+	 	, TO_DATE(#{depCrtDt}, 'YYYY-MM-DD'))
+	</insert>
+	
+	<update id="updateOneDepByDepId"
+			parameterType="com.kpms.dep.vo.DepVO">
+		UPDATE DEP
+		   SET MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		     , DEP_NM = #{depNm}
+		     , DEP_HD_ID = #{depHdId}
+		     , DEP_CRT_DT = TO_DATE(#{depCrtDt}, 'YYYY-MM-DD')
+		    <if test = 'useYn != null and useYn != ""'>
+		     , USE_YN = NVL(#{useYn}, 'N')	
+		    </if>
+		 WHERE DEP_ID = #{depId}
+	</update>
+	
+	<update id="deleteOneDepByDepId"
+			parameterType="string">
+	 	UPDATE DEP
+		   SET DEL_YN = 'Y'
+		 WHERE DEP_ID = #{_parameter}
+	</update>
+	
+	<update id="deleteDepBySelectedDepId"
+			parameterType="arraylist">
+		UPDATE DEP
+		   SET DEL_YN = 'Y'
+		 WHERE DEP_ID IN
+		 <foreach collection="list" item="depId" open="(" close=")" separator=", ">
+		 	#{depId}
+		 </foreach>
+	</update>
+</mapper>

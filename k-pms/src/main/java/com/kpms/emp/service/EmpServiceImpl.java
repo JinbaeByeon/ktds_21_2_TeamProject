@@ -17,12 +17,18 @@ import com.kpms.common.util.CalendarUtil;
 import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
 import com.kpms.common.vo.MailVO;
+import com.kpms.deplog.dao.DepLogDAO;
 import com.kpms.emp.dao.EmpDAO;
+import com.kpms.emp.vo.EmpChngDepVO;
+import com.kpms.emp.vo.EmpChngJobVO;
+import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpPwdVO;
 import com.kpms.emp.vo.EmpVO;
+import com.kpms.joblog.dao.JobLogDAO;
 import com.kpms.lgnhst.dao.LgnHstDAO;
 import com.kpms.lgnhst.vo.LgnHstVO;
 import com.kpms.lgntrylog.dao.LgnTryLogDAO;
+import com.kpms.pstnlog.dao.PstnLogDAO;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -33,9 +39,16 @@ public class EmpServiceImpl implements EmpService {
 	@Autowired
 	private LgnTryLogDAO lgnTryLogDAO;
 	@Autowired
-	UploadHandler uploadHandler;
+	private PstnLogDAO pstnLogDAO;
 	@Autowired
-	MailService mailService;
+	private JobLogDAO jobLogDAO;
+	@Autowired
+	private DepLogDAO depLogDAO;
+	
+	@Autowired
+	private UploadHandler uploadHandler;
+	@Autowired
+	private MailService mailService;
 	
 	@Override
 	public boolean createOneEmp(EmpVO empVO, MultipartFile uploadFile) {
@@ -261,27 +274,33 @@ public class EmpServiceImpl implements EmpService {
 		return empDAO.updateOneEmp(empVO) > 0;
 	}
 	@Override
-	public boolean updateEmpPwdReset(EmpVO empVO) {
-		if(empDAO.readOneEmpByEmpId(empVO.getEmpId())==null) {
-			throw new APIArgsException(APIStatus.DISMATCH, "일치하는 ID가 존재하지 않습니다.");
+	public boolean updateEmpPwdReset(List<String> empIdList, String mdfyr) {
+		int cntUpdate = 0;
+		for(String empId : empIdList) {
+			EmpVO empVO = empDAO.readOneEmpByEmpId(empId);
+			if(empVO ==null) {
+				throw new APIArgsException(APIStatus.DISMATCH, "일치하는 ID가 존재하지 않습니다.");
+			}
+			
+			String randomPwd = StringUtil.getRandomPassword(10);
+			
+			MailVO mailVO = new MailVO();
+			mailVO.setFrom("ktds21b@gmail.com");
+			mailVO.setTo(empVO.getEml());
+			mailVO.setSubject("KPMS 로그인 비밀번호 발송 메일입니다.");
+			
+			String content = "아이디: " +empVO.getEmpId() +"\n";
+			content +="비밀번호: " +randomPwd;
+			mailVO.setContent(content);
+			mailService.sendMail(mailVO);
+			
+			String salt = SHA256Util.generateSalt();
+			empVO.setPwdSalt(salt);
+			randomPwd = SHA256Util.getEncrypt(randomPwd, salt);
+			empVO.setPwd(randomPwd);
+			cntUpdate += empDAO.updateOneEmp(empVO);
 		}
-		
-		String randomPwd = StringUtil.getRandomPassword(10);
-		
-		MailVO mailVO = new MailVO();
-		mailVO.setTo(empVO.getEml());
-		mailVO.setSubject("KPMS 로그인 비밀번호 발송 메일입니다.");
-		
-		String content = "아이디: " +empVO.getEmpId() +"\n";
-		content +="비밀번호: " +randomPwd;
-		mailVO.setContent(content);
-		mailService.sendMail(mailVO);
-		
-		String salt = SHA256Util.generateSalt();
-		empVO.setPwdSalt(salt);
-		randomPwd = SHA256Util.getEncrypt(randomPwd, salt);
-		empVO.setPwd(randomPwd);
-		return empDAO.updateOneEmp(empVO) > 0;
+		return cntUpdate > 0;
 	}
 	
 	@Override
@@ -292,6 +311,34 @@ public class EmpServiceImpl implements EmpService {
 	@Override
 	public boolean createLgnHst(LgnHstVO lgnHst) {
 		return lgnHstDAO.createEmpLgnHst(lgnHst) > 0;
+	}
+	@Override
+	public String readSaltById(String empId) {
+		return empDAO.readSaltById(empId);
+	}
+
+	@Override
+	public boolean updateEmpPstn(EmpChngPstnVO empChngPstnVO) {
+		int cntEmpList = empChngPstnVO.getEmpIdList().size();
+		pstnLogDAO.createPstnLog(empChngPstnVO);
+		
+		return empDAO.updateEmpPstn(empChngPstnVO) == cntEmpList;
+	}
+
+	@Override
+	public boolean updateEmpJob(EmpChngJobVO empChngJobVO) {
+		int cntEmpList = empChngJobVO.getEmpIdList().size();
+		jobLogDAO.createJobLog(empChngJobVO);
+		
+		return empDAO.updateEmpJob(empChngJobVO) == cntEmpList;
+	}
+
+	@Override
+	public boolean updateEmpDep(EmpChngDepVO empChngDepVO) {
+		int cntEmpList = empChngDepVO.getEmpIdList().size();
+		depLogDAO.createDepLog(empChngDepVO);
+		
+		return empDAO.updateEmpDep(empChngDepVO) == cntEmpList;
 	}
 	
 }

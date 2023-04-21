@@ -11,6 +11,8 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+
+		
 		$("#cancel-btn").click(function() {
 			window.close();
 		});
@@ -65,7 +67,8 @@
 								<tr data-prjid="${prj.prjId}"
 									data-prjnm="${prj.prjNm}"
 									data-cstmr="${prj.cstmr}"
-									data-prjstts="${prj.prjStts}" >
+									data-prjstts="${prj.prjStts}"
+									class="prjtr">
 									<td>
 										<input type="radio" id="check-one" name="check-one" value="${prj.prjId}" />
 									</td>

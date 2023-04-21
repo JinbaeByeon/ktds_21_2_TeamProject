@@ -20,7 +20,7 @@
 	function addHdEmpFn(message) {
 		
 		var depHdIdItems = $("#addDepHeadBtn").closest(".create-group").find(".items");
-		if (depHdIdItems.find("." + message.empid	).length > 0) {
+		if (depHdIdItems.find("." + message.empid).length > 0) {
 			alert(message.lnm + message.fnm + "은(는) 이미 추가된 부서장입니다.");
 			return;
 		}
@@ -49,6 +49,7 @@
 	$().ready(function() {
 		
 		$(".grid > table > tbody > tr").click(function() {
+			$(".hide").removeClass("hide");
 			$("#isModify").val("true"); //수정모드
 			
 			var data = $(this).data();
@@ -66,7 +67,12 @@
 			
 		});
 		
-			$("#new_btn").click(function() {
+		$("#new_btn").click(function() {
+			$("#addDepHeadBtn").closest("div").addClass("hide");
+			$("#crtr").closest("div").addClass("hide");
+			$("#crtDt").closest("div").addClass("hide");
+			$("#mdfyr").closest("div").addClass("hide");
+			$("#mdfyDt").closest("div").addClass("hide");
 			
 			$("#isModify").val("false"); //등록모드
 			
@@ -106,7 +112,6 @@
 		$("#save_btn").click(function() {
 			var ajaxUtil = new AjaxUtil();
 			if($("#isModify").val() == "false") {
-				//신규등록
 				ajaxUtil.upload("#detail_form","${context}/api/dep/create",function(response){
 					if (response.status == "200 OK") {
 						location.reload(); //새로고침
@@ -117,7 +122,6 @@
 				});
 			}
 			else {
-				//수정
 				ajaxUtil.upload("#detail_form","${context}/api/dep/update",function(response){
 					if (response.status == "200 OK") {
 						location.reload(); //새로고침
@@ -287,10 +291,6 @@
 				
 				<div class="grid-detail">
 					<form id="detail_form">
-						<!--
-						isModify == true => 수정 (update)
-						isModify == false => 등록 (insert)	
-						-->
 						<input type="hidden" id="isModify" value="false" />
 						<div class="input-group inline">
 							<label for="depId" style="width: 180px;">부서ID</label><input type="text" id="depId" name="depId" readonly value="" />
@@ -299,8 +299,8 @@
 							<label for="depNm" style="width: 180px;">부서명</label><input type="text" id="depNm" name="depNm" value=""/>
 						</div>
 						<div class="input-group inline">
-							<div class="create-group">
-								<label for="addDepHeadBtn" style="width: 180px;">부서장ID</label>
+							<div class="create-group hide">
+								<label for="addDepHeadBtn" id="vk" style="width: 180px;">부서장ID</label>
 								<button id="addDepHeadBtn" class="btn-p">등록</button>
 								<div class="items">
 									<div class='head-item'>
@@ -316,16 +316,16 @@
 						<div class="input-group inline">
 							<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
 						</div>
-						<div class="input-group inline">
+						<div class="input-group inline hide">
 							<label for="crtr" style="width: 180px;">등록자</label><input type="text" id="crtr" disabled value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="input-group inline hide">
 							<label for="crtDt" style="width: 180px;">등록일</label><input type="text" id="crtDt" disabled value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="input-group inline hide">
 							<label for="mdfyr" style="width: 180px;">수정자</label><input type="text" id="mdfyr" disabled value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="input-group inline hide">
 							<label for="mdfyDt" style="width: 180px;">수정일</label><input type="text" id="mdfyDt" disabled value=""/>
 						</div>
 					</form>

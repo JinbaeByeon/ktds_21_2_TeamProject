@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Tm">
+	
+	<resultMap id="tmVOMap" 
+				type="com.kpms.tm.vo.TmVO"
+				autoMapping="true">
+		<id property="tmId" column="TM_ID"/>
+		<association property="tmHdEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="TM_HD_ID" />
+			<result property="fNm" column="TM_HD_F_NM"/>
+			<result property="lNm" column="TM_HD_L_NM"/>
+		</association>
+		<association property="depIdDepVO"
+					  javaType="com.kpms.dep.vo.DepVO">
+			<id property="depId" column="DEP_ID" />
+			<result property="depNm" column="DEP_NM"/>
+		</association>
+		<association property="tmMbrVO"
+					 javaType="com.kpms.tmmbr.vo.TmMbrVO">
+			<id property="tmMbrId" column="TM_MBR_ID"/>
+			<result property="tmId" column="TM_ID"/>
+			<result property="empId" column="EMP_ID"/>
+			<association property="empVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+				<id property="empId" column="EMP_ID"/>
+				<result property="fNm" column="TM_MBR_F_NM"/>
+				<result property="lNm" column="TM_MBR_L_NM"/>
+			</association>
+		</association>
+	</resultMap>
+	
+	<select id="readAllTmVO"
+			parameterType="com.kpms.tm.vo.TmSearchVO"
+			resultMap="tmVOMap">
+		<include refid="Common.pageHeader" />
+		SELECT T.TM_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY T.TM_ID ASC) RNUM
+			 , T.TM_ID
+			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , T.CRTR
+			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , T.MDFYR
+			 , T.USE_YN
+			 , T.DEL_YN
+			 , T.TM_NM
+			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
+			 , T.DEP_ID
+			 , T.TM_HD_ID
+			 , D.DEP_NM DEP_NM
+			 , E.L_NM TM_MBR_L_NM
+			 , E.F_NM TM_MBR_F_NM
+			 , TM_HD_EMP.L_NM TM_HD_L_NM
+			 , TM_HD_EMP.F_NM TM_HD_F_NM
+		  FROM TM T
+		 INNER JOIN DEP D
+		 	ON T.DEP_ID = D.DEP_ID
+		  LEFT OUTER JOIN TM_MBR M
+		    ON T.TM_ID = M.TM_ID
+		  FULL OUTER JOIN EMP E
+		    ON M.EMP_ID = E.EMP_ID
+		  LEFT OUTER JOIN EMP TM_HD_EMP
+		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
+		 WHERE T.DEL_YN = 'N'
+		<choose>
+			<when test='searchOption == "depNm"'>
+		   AND D.DEP_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmNm"'>
+		   AND T.TM_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "hdLnm"'>
+		   AND TM_HD_EMP.L_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "hdFnm"'>
+		   AND TM_HD_EMP.F_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "mbrLNm"'>
+		   AND E.L_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "mbrFNm"'>
+		   AND E.F_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+		</choose>
+		<include refid="Common.pageFooter" />
+	</select>
+	
+	<select id="readAllTmVONopagination"
+			parameterType="string"
+			resultType="com.kpms.tm.vo.TmVO">
+		SELECT T.TM_ID
+			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , T.CRTR
+			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , T.MDFYR
+			 , T.USE_YN
+			 , T.DEL_YN
+			 , T.TM_NM
+			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
+			 , T.DEP_ID
+			 , T.TM_HD_ID
+		  FROM TM T
+		 WHERE T.DEL_YN = 'N'
+		   AND T.USE_YN = 'Y'
+		   AND T.TM_NM LIKE '%' || #{_parameter} || '%'
+		 ORDER BY T.TM_ID ASC
+	</select>
+	
+	<resultMap id="tmMbrVOMap" 
+				type="com.kpms.tm.vo.TmVO"
+				autoMapping="true">
+		<id property="tmId" column="TM_ID"/>
+		<association property="depIdDepVO"
+					  javaType="com.kpms.dep.vo.DepVO">
+			<id property="depId" column="DEP_ID" />
+			<result property="depNm" column="DEP_NM"/>
+		</association>
+		<collection property="tmMbrList"
+					 ofType="com.kpms.tmmbr.vo.TmMbrVO">
+			<id property="tmMbrId" column="TM_MBR_ID"/>
+			<result property="tmId" column="TM_ID"/>
+			<result property="empId" column="EMP_ID"/>
+			<association property="empVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+				<id property="empId" column="EMP_ID"/>
+				<result property="fNm" column="F_NM"/>
+				<result property="lNm" column="L_NM"/>
+				<result property="brthdy" column="BRTHDY"/>
+				<result property="eml" column="EML"/>
+				<result property="phn" column="PHN"/>
+				<result property="pstnPrd" column="PSTN_PRD"/>
+			</association>
+		</collection>
+	</resultMap>
+	
+	<select id="readOneTmVOByTmId"
+			parameterType="string"
+			resultMap="tmMbrVOMap">
+		SELECT T.TM_ID
+			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , T.CRTR
+			 , TO_CHAR(T.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , T.MDFYR
+			 , T.USE_YN
+			 , T.DEL_YN
+			 , T.TM_NM
+			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
+			 , T.DEP_ID
+			 , T.TM_HD_ID
+			 , D.DEP_NM
+			 , E.EMP_ID
+			 , E.F_NM
+			 , E.L_NM
+			 , E.BRTHDY
+			 , E.EML
+			 , E.PHN
+			 , E.PSTN_PRD
+		  FROM TM T
+		 INNER JOIN DEP D
+		 	ON T.DEP_ID = D.DEP_ID
+		 INNER JOIN TM_MBR M
+		    ON T.TM_ID = M.TM_ID
+		 INNER JOIN EMP E
+		    ON M.EMP_ID = E.EMP_ID
+		 WHERE T.TM_ID = #{_parameter}
+		   AND T.DEL_YN = 'N'
+	</select>
+	
+	<insert id="createOneTm"
+			parameterType="com.kpms.tm.vo.TmVO">
+		INSERT INTO TM
+		 (TM_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, TM_NM
+		, TM_CRT_DT
+		, DEP_ID
+		, TM_HD_ID)
+		VALUES
+		 ('TM-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_TM_PK.NEXTVAL, 5, '0')
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{tmNm}
+		, TO_DATE(#{tmCrtDt}, 'YYYY-MM-DD')
+		, #{depId}
+		, #{tmHdId})
+	</insert>
+	
+	<update id="updateOneTm"
+			parameterType="com.kpms.tm.vo.TmVO">
+		UPDATE TM
+		   SET MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
+		     , TM_NM = #{tmNm}
+		     , TM_CRT_DT = TO_DATE(#{tmCrtDt}, 'YYYY-MM-DD')
+		     , DEP_ID = #{depId}
+		     , TM_HD_ID = #{tmHdId}
+		    <if test = 'useYn != null and useYn != ""'>
+		     , USE_YN = NVL(#{useYn}, 'N')	
+		    </if>
+		 WHERE TM_ID = #{tmId}
+	</update>
+
+	<update id="deleteOneTmByTmId"
+			parameterType="string">
+		UPDATE TM
+		   SET DEL_YN = 'Y'
+		 WHERE TM_ID = #{_parameter}
+	</update>	
+	
+	<update id="deleteTmBySelectedTmId"
+			parameterType="arraylist">
+		UPDATE TM
+		   SET DEL_YN = 'Y'
+		 WHERE TM_ID IN
+		 <foreach collection="list" item="tmId" open="(" close=")" separator=", ">
+		 	#{tmId}
+		 </foreach>
+	</update>
+	
+</mapper>
