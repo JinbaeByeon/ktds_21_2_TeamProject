@@ -473,7 +473,7 @@ img.profile{
 .create-group label {
 	display: inline-block;
 	background-color: #e3e3e3;	
-	width: 130px;
+	min-width: 130px;
 	padding: 10px;
 	font-size: 13px;
 }
@@ -491,6 +491,7 @@ img.profile{
 
 .create-group > div{
 	display: flex;
+	flex-direction: column;
 }
 .create-group > div.column{
 	flex-direction: column;
@@ -682,4 +683,22 @@ input::-webkit-inner-spin-button {
 	position: absolute;
 	margin-top: 5px;
 	right: 10px;
+}
+
+#userList {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#userList > .user {
+	display: flex;
+}
+
+#userList > .user > .rcvr {
+	height: 20px;
+	margin: 10px;
+	margin-right: 0;
+}
+#userList > .user > .btn-delete {
+	height: 20px;
 }

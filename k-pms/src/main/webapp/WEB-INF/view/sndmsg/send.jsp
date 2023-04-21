@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set var="empId " value="${sessionScope.__USER__.empId}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,13 +12,55 @@
 <script type="text/javascript">
 	$().ready(function() {
 		$("#my_pc").click(function() {
-			movePage(0)
+			
 		});
+		
+		$("#rcvr").keydown(function(e){
+			if(e.keyCode == 13){
+				e.preventDefault();
+			}
+		})
+		$("#rcvr").keyup(function(e){
+			if(e.keyCode == 32 || e.keyCode == 13){
+				e.preventDefault();
+				createUser($(this).val().replace(" ",""));
+				$(this).val("");
+				return;
+			}
+			if(!(e.keyCode >= 37 && e.keyCode <= 40)) {
+				var inputVal = $(this).val();
+				$(this).val(inputVal.replace(/[^a-zA-Z0-9]/gi,''));
+			}
+		})
+		$("#send_btn").click(function(){
+			var ajaxUtil = new AjaxUtil();
+			ajaxUtil.upload("#create-form","${context}/api/sndmsg/snd",function(response){
+				if (response.status != "200 OK") {
+					alert(response.errorCode + " / " + response.message);
+				}
+				if(response.redirectURL){
+					location.href = "${context}" + response.redirectURL;
+				}
+			});
+		});
+		function createUser(empId){
+			if(empId ==null || empId == ''){
+				return;
+			}
+			var userDiv = $("<div class='user'></div>");
+			$("#userList").append(userDiv);
+			
+			var rcvr = $("<div class='rcvr'>"+empId+"</div>");
+			userDiv.append(rcvr);
+			var btnDelete = $("<button class='btn-delete'>x</button>");
+			btnDelete.click(function(e){
+				e.preventDefault();
+				$(this).closest(".user").remove();
+			});
+			userDiv.append(btnDelete);
+			
+		}
 	});
-	function movePage(pageNo) {
-		var 
-		location
-	}
 	 //내피씨연동ㅇㄹㅇ널ㄷㄴㄷㄹㄴ두래너리나ㅢㅡㄱㄴ르힏
 	 
 </script>
@@ -30,9 +73,15 @@
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path">쪽지 > 쪽지보내기</div>
 			<form id="create-form">
+				<input type="hidden" name="crtr" value="${empId}"/>
 				<div class="create-group">
 					<label for="rcvr">받는사람</label>
-					<input type="text" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
+					<div>
+						<div id="userList"></div>
+						<div>
+							<input type="text" id="rcvr" name="rcvMsgVO.rcvr" value="${sndMsgVO.crtr}"/>
+						</div>
+					</div>
 				</div>
 				<div class="create-group">
 					<label for="title">제목</label> 
@@ -47,7 +96,7 @@
 				</div>
 			</form>
 			<div class="align-right">
-				<button id="new_btn" class="btn-primary">전송</button>
+				<button id="send_btn" class="btn-primary">전송</button>
 			</div>
 		</div>
 	</div>
