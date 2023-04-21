@@ -1,10 +1,21 @@
 package com.kpms.req.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.common.api.vo.APIResponseVO;
+import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIException;
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.req.service.ReqService;
+import com.kpms.req.vo.ReqVO;
 
 @Controller
 public class RestReqController {
@@ -12,21 +23,60 @@ public class RestReqController {
 	@Autowired
 	private ReqService reqService;
 	
-	@GetMapping("")
-	public String viewReqListPage() {
+	
+	@PostMapping("/api/req/create")
+	public APIResponseVO doCreateReq(ReqVO reqVO,
+								@SessionAttribute("__USER__") EmpVO empVO) {
+		reqVO.setCrtr(empVO.getEmpId());
+		reqVO.setMdfyr(empVO.getEmpId());
 		
-		return "";
+		boolean createResult = reqService.createNewReq(reqVO);
+		if(createResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			throw new APIException(APIStatus.FAIL, "실패했어ㅜ");
+		}
 	}
 	
-	@GetMapping("")
-	public String viewReqCreatePage() {
+	@PostMapping("/api/req/update")	
+	public APIResponseVO doUpdateReq(ReqVO reqVO,
+									  @SessionAttribute("__USER__") EmpVO empVO) {
+		reqVO.setMdfyr(empVO.getEmpId());
 		
-		return "";
+		boolean updateResult = reqService.updateReq(reqVO);
+		
+		if(updateResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			throw new APIException(APIStatus.FAIL, "실패했어");
+		}
 	}
 	
-	@GetMapping("")
-	public String viewReqDetailPage() {
+	@GetMapping("/api/req/delete/{reqId}")
+	public APIResponseVO doDeleteReq(@PathVariable String reqId) {
 		
-		return "";
+		boolean deleteResult = reqService.deleteReqByReqId(reqId);
+		
+		if(deleteResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL);
+		}
 	}
+	
+	@PostMapping("/api/req/delete")
+	public APIResponseVO doDeleteReqBySelectedReqId(@RequestParam List<String> reqId) {
+		boolean deleteResult = reqService.deleteReqBySelectedReqId(reqId);
+		
+		if(deleteResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL);
+		}
+	}
+	
 }

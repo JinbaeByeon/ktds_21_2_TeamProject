@@ -1,6 +1,9 @@
 package com.kpms.req.vo;
 
 import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.prj.vo.PrjVO;
+import com.kpms.reqcnfr.vo.ReqCnfrVO;
+import com.kpms.reqtstr.vo.ReqTstrVO;
 
 /**
  * REQ
@@ -54,10 +57,39 @@ public class ReqVO extends AbstractPagingVO {
 	/**
 	 * 요구사항 제목
 	 */
+	private String reqCnfrNm;
+	
 	private String reqTtl;
-
+	private PrjVO reqPrjVO;
+	private ReqCnfrVO reqCnfVO;
+	private ReqTstrVO reqTstVO;
 	
 	
+	
+	public String getReqCnfrNm() {
+		return reqCnfrNm;
+	}
+	public void setReqCnfrNm(String reqCnfrNm) {
+		this.reqCnfrNm = reqCnfrNm;
+	}
+	public PrjVO getReqPrjVO() {
+		return reqPrjVO;
+	}
+	public void setReqPrjVO(PrjVO reqPrjVO) {
+		this.reqPrjVO = reqPrjVO;
+	}
+	public ReqCnfrVO getReqCnfVO() {
+		return reqCnfVO;
+	}
+	public void setReqCnfVO(ReqCnfrVO reqCnfVO) {
+		this.reqCnfVO = reqCnfVO;
+	}
+	public ReqTstrVO getReqTstVO() {
+		return reqTstVO;
+	}
+	public void setReqTstVO(ReqTstrVO reqTstVO) {
+		this.reqTstVO = reqTstVO;
+	}
 	public String getReqId() {
 		return reqId;
 	}

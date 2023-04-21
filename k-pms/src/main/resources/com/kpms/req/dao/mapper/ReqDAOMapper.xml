@@ -4,6 +4,31 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Req">
 	
+	<resultMap id="reqVOMap" 
+				type="com.kpms.req.vo.ReqVO"
+				autoMapping="true">
+		<id property="reqId" column="REQ_ID"/>
+		<association property="reqPrjVO" 
+					   javaType="com.kpms.prj.vo.PrjVO"
+					  autoMapping="true" >
+			<id property="prjId" column="PJ" />
+			<result property="prjNm" column="PJ_PRJ_NM"/>
+		</association>	
+		<association property="reqTstVO"
+					  javaType="com.kpms.reqtstr.vo.ReqTstrVO"
+					  autoMapping="true">
+			<id property="reqId" column="TST"/>
+			<result property="tstrId" column="TST_TSTR_ID"/>
+			<association property="tstrEmpVO" 
+					   javaType="com.kpms.emp.vo.EmpVO"
+					  autoMapping="true" >
+			<id property="empId" column="TSTR" />
+			<result property="fNm" column="TSTR_E_F_NM"/>
+			<result property="lNm" column="TSTR_E_L_NM"/>
+		</association>	
+		</association>
+	</resultMap>
+	
 	<insert id="createNewReq"
 			parameterType="com.kpms.req.vo.ReqVO">
 		INSERT INTO REQ
@@ -24,18 +49,19 @@
 		, TSK_STTS
 		, PRCS_STTS
 		, PRRTY
-		, REQ_TTL)
+		, REQ_TTL
+		, REQ_CNFR_NM)
 		VALUES
-		 ('RQ-' + TO_CHAR(SYSDATE, 'YYYYMMDD') + '-' + LPAD(SEQ_REQ_PK.NEXTVAL, 5, 0)
+		 ('RQ-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_REQ_PK.NEXTVAL, 5, 0)
 		, SYSDATE
 		, #{crtr}
 		, SYSDATE
 		, #{mdfyr}
-		, NVL(#{useYn}, N)
-		, NVL(#{delYn}, N)
+		, NVL(#{useYn}, 'N')
+		, 'N'
 		, #{dtlReq}
-		, #{strtDt}
-		, #{expctEndDt}
+		, TO_DATE(#{strtDt}, 'YYYY-MM-DD')
+		, TO_DATE(#{expctEndDt}, 'YYYY-MM-DD')
 		, #{attch}
 		, #{prjId}
 		, #{mnDvlpr}
@@ -43,36 +69,48 @@
 		, #{tskStts}
 		, #{prcsStts}
 		, #{prrty}
-		, #{reqTtl})
+		, #{reqTtl}
+		, #{reqCnfrNm})
 	</insert>
 
 	<select id="readAllReq"
 			parameterType="com.kpms.req.vo.ReqVO"
-			resultMap="resultMap">
-		SELECT REQ_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , DTL_REQ
-			 , STRT_DT
-			 , EXPCT_END_DT
-			 , ATTCH
-			 , PRJ_ID
-			 , MN_DVLPR
-			 , TST_RSLT
-			 , TSK_STTS
-			 , PRCS_STTS
-			 , PRRTY
-			 , REQ_TTL
-		  FROM REQ
+			resultMap="reqVOMap">
+		SELECT R.REQ_ID
+			 , R.CRT_DT
+			 , R.CRTR
+			 , R.MDFY_DT
+			 , R.MDFYR
+			 , R.USE_YN
+			 , R.DEL_YN
+			 , R.DTL_REQ
+			 , TO_CHAR(R.STRT_DT, 'YYYY-MM-DD') STRT_DT
+			 , TO_CHAR(R.EXPCT_END_DT, 'YYYY-MM-DD') EXPCT_END_DT
+			 , R.ATTCH
+			 , R.PRJ_ID
+			 , R.MN_DVLPR
+			 , R.TST_RSLT
+			 , R.TSK_STTS
+			 , R.PRCS_STTS
+			 , R.PRRTY
+			 , R.REQ_TTL
+			 , R.REQ_CNFR_NM
+			 , PJ.PRJ_NM PJ_PRJ_NM
+			 , TST.TSTR_ID TST_TSTR_ID
+			 , TSTR_E.L_NM TSTR_E_L_NM
+			 , TSTR_E.F_NM TSTR_E_F_NM
+		  FROM REQ R
+		 INNER JOIN PRJ PJ
+		 	ON R.PRJ_ID = PJ.PRJ_ID 
+		  LEFT JOIN REQ_TSTR TST 
+		  	ON R.REQ_ID = TST.REQ_ID
+		  LEFT JOIN EMP TSTR_E
+		 	ON TST.TSTR_ID = TSTR_E.EMP_ID
 	</select>
 
 	<select id="readReqByReqId"
 			parameterType="string"
-			resultMap="resultMap">
+			resultMap="reqVOMap">
 		SELECT REQ_ID
 			 , CRT_DT
 			 , CRTR
