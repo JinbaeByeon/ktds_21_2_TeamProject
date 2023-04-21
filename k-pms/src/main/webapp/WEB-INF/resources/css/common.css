@@ -218,7 +218,9 @@ h1{
 	position: relative;
 	cursor: pointer;
 }
-
+#my-info:hover {
+	font-weight: bold;
+}
 #my-info > .my-menu {
 	background-color: #eee;
 	margin-top: 10px;
@@ -240,6 +242,7 @@ h1{
 }
 #my-info > .my-menu > .menu-item:hover {
 	background-color: #777;
+	color: #eee;
 }
 
 .main-layout > .header > .profile {
@@ -311,13 +314,13 @@ h1{
 
 .content .grid > .grid-count > .left{
 	display: inline-block;
-	width: 40%;
+	width: auto;
 	position: absolute;
 	bottom: 5px;
 }
 .content .grid > .grid-count > .right{
 	display: inline-block;
-	width: 59%;
+	width: auto;
 	position: absolute;
 	bottom: 5px;
 	right: 0;

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PstnLog">
+
+	<resultMap id="pstnLogVOMap" type="com.kpms.pstnlog.vo.PstnLogVO" autoMapping="true">
+			 <id property="empId" column="EMP_ID"/>
+			 <id property="chngDt" column="CHNG_DT"/>
+			 <association property="empVO"
+			 			  javaType="com.kpms.emp.vo.EmpVO">
+			 	<id property="empId" column="EMP_ID"/>
+			 	<result property="fNm" column="F_NM"/>
+			 	<result property="lNm" column="L_NM"/>
+			 </association>
+			 <association property="prvsPstnNmVO"
+			 			  javaType="com.kpms.pstn.vo.PstnVO">
+			 	<id property="pstnId" column="PRVS_PSTNNM"/>
+			 	<result property="pstnNm" column="PRVS_JOBNM"/>	  
+			 </association>
+			 <association property="chngPstnNmVO"
+			 			  javaType="com.kpms.pstn.vo.PstnVO">
+			 	<id property="pstnId" column="CHNG_PSTNNM"/>
+			 	<result property="pstnNm" column="CHNG_JOBNM"/>	  
+			 </association>
+	</resultMap>
+	<select id="readAllPstnLogVO"
+			parameterType="com.kpms.pstnlog.vo.PstnLogVO"
+			resultMap="pstnLogVOMap">
+		<include refid="Common.pageHeader"/>
+		SELECT TO_CHAR(PL.CRT_DT, 'YYYYMMDDHH24MISS') || PL.EMP_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY PL.CRT_DT || PL.EMP_ID DESC) RNUM
+			 , PL.EMP_ID
+			 , TO_CHAR(PL.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , PL.CRTR
+			 , TO_CHAR(PL.CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
+			 , PL.PRVS_PSTN_ID
+			 , P.PSTN_NM PRVS_PSTNNM
+			 , PL.CHNG_PSTN_ID
+			 , PT.PSTN_NM CHNG_PSTNNM
+			 , PL.CHNG_RSN
+			 , E.F_NM
+			 , E.L_NM
+		  FROM PSTN_LOG PL
+		 INNER JOIN PSTN P
+		    ON P.PSTN_ID = PL.PRVS_PSTN_ID
+		 INNER JOIN PSTN PT
+		    ON PT.PSTN_ID = PL.CHNG_PSTN_ID
+		 INNER JOIN EMP E
+		    ON E.EMP_ID = PL.EMP_ID
+		<if test="empId != null and empId != ''">
+		 WHERE PL.EMP_ID = #{empId}
+		 </if>
+		 <include refid="Common.pageFooter"/>
+	</select>
+	
+	<insert id="createPstnLog"
+			parameterType="com.kpms.pstnlog.vo.PstnLogVO">
+		INSERT INTO PSTN_LOG
+				   (EMP_ID
+				  , CRT_DT
+				  , CRTR
+				  , CHNG_DT
+				  , PRVS_PSTN_ID
+				  , CHNG_PSTN_ID
+				  , CHNG_RSN)
+			VALUES
+				  (#{empId}
+				 , SYSDATE
+				 , #{crtr}
+				 , SYSDATE
+				 , #{prvsPstnId}
+				 , #{chngPstnId}
+				 , #{chngRsn})
+		
+	</insert>
+	
+</mapper>

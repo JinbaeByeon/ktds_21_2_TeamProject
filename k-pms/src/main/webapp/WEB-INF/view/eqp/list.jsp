@@ -6,6 +6,8 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="eqp"/>
+<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -171,6 +173,7 @@
 				
 				<div class="grid">
 					<div class="grid-count align-right">
+						총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건
 					</div>
 					<table>
 						<thead>
@@ -216,7 +219,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${eqp.eqpId}">
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${eqp.rnum}</td>
 											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
@@ -224,9 +227,9 @@
 											<td>${eqp.prchsDt}</td>
 											<td>${eqp.applStts}</td>
 											<td>${eqp.lossStts}</td>
-											<td>${eqp.crtr}</td>
+											<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm}${eqp.crtrEmpVO.lNm})</td>
 											<td>${eqp.crtDt}</td>
-											<td>${eqp.mdfyr}</td>
+											<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
 											<td>${eqp.mdfyDt}</td>
 											<td>${eqp.useYn}</td>
 											<td>${eqp.delYn}</td>

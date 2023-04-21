@@ -15,8 +15,8 @@ public class TmMbrServiceImpl implements TmMbrService {
 	private TmMbrDAO tmMbrDAO;
 
 	@Override
-	public List<TmMbrVO> readAllTmMbrVO(String tmNm) {
-		return tmMbrDAO.readAllTmMbrVO(tmNm);
+	public List<TmMbrVO> readAllTmMbrVO(String tmId) {
+		return tmMbrDAO.readAllTmMbrVO(tmId);
 	}
 
 }
