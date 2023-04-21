@@ -447,4 +447,14 @@
 		 </foreach>
 	</update>
 	
+	<update id="updateEmpEmplmnt"
+			parameterType="com.kpms.emp.vo.EmpChngEmplmntVO">
+		UPDATE EMP
+		   SET EMPLMNT_STTS = #{emplmntStts}
+		   	 , MDFYR = #{mdfyr}
+		 WHERE EMP_ID IN
+		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
+		  #{empId}
+		 </foreach>
+	</update>
 </mapper>

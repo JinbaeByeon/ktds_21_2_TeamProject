@@ -33,7 +33,7 @@
 			});
 			$().find("#emplmntStts-select").val("${empVO.emplmntStts}").prop("selected",true);
 			$("#emplmntStts-select").change(function(e){
-				movePage(${pageNo});
+				movePage(0);
 			});
 			$("#pwd-reset").click(function(){
 				if(!confirm("해당 사원들의 비밀번호를 초기화하시겠습니까?")){
@@ -84,7 +84,37 @@
 				check_idx.prop("checked",check_idx.prop("checked")==false);
 				checkIndex();
 			});
-			
+			$("#search-btn").click(function(e){
+				e.preventDefault();
+				movePage(0);
+			});
+			$("#btn-return").click(function(e){
+				chngEmplmntStss("001_01");
+			});
+			$("#btn-leave").click(function(e){
+				chngEmplmntStss("001_02");
+			});
+			$("#btn-exResign").click(function(e){
+				chngEmplmntStss("001_03");
+			});
+			$("#btn-resign").click(function(e){
+				chngEmplmntStss("001_04");
+			});
+			function chngEmplmntStss(val){
+				var form = $("<form></form>");
+				
+				$(".check_idx:checked").each(function() {
+					form.append("<input type='hidden' name='empIdList' value='"+ $(this).val() +"'>");
+				});
+				form.append("<input type='hidden' name='emplmntStts' value='"+val+"'>");
+				$.post("${context}/api/emp/update/emplmntStts",form.serialize(), function(response) {
+					if (response.status == "200 OK") {
+						location.reload();
+					} else {
+						alert(response.errorCode + "/" + response.message);
+					}
+				});
+			}
 		});
 		function movePage(pageNo) {
 			var empId = $("#empId").val();
@@ -96,6 +126,13 @@
 			if(emplmntStts != "default"){
 				qryStr += "&emplmntStts="+emplmntStts;
 			}
+			if(empId != null && empId != ''){
+				qryStr += "&empId="+empId;
+			}
+			if(fNm != null && fNm != ''){
+				qryStr += "&fNm="+fNm;
+			}
+
 
 			location.href = "${context}/emp/list?"  + qryStr;
 		}
@@ -279,6 +316,20 @@
 					
 					</tbody>
 				</table>
+				<div class="emplmntStts">
+					<c:if test="${empVO.emplmntStts== '001_01'}">
+						<button id="btn-exResign">퇴사예정</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_03'}">
+						<button id="btn-resign">퇴사</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_01'}">
+						<button id="btn-leave">휴직</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_02'}">
+						<button id="btn-return">복직</button>
+					</c:if>
+				</div>
 				<c:import url="../include/pagenate.jsp">
                   <c:param name="pageNo" value="${pageNo}"/>
                   <c:param name="pageCnt" value="${pageCnt}"/>

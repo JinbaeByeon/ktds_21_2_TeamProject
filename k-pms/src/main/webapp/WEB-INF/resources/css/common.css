@@ -678,4 +678,8 @@ input::-webkit-inner-spin-button {
 	display: none;
 }
 
-
+.emplmntStts {
+	position: absolute;
+	margin-top: 5px;
+	right: 10px;
+}
