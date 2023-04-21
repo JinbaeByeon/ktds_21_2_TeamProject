@@ -127,7 +127,6 @@
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
-							<th>조회여부</th>
 							<th>수신자</th>
 							<th>제목</th>
 							<th>내용</th>
@@ -140,17 +139,15 @@
 							<c:when test="${not empty sndMsgList}">
 								<c:forEach items="${sndMsgList}"
 										   var="sndMsg">
-									<tr data-rdyn="${sndMsg.rdYn}"
-										data-crtr="${sndMsg.crtr}"
+									<tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
 										data-ttl="${sndMsg.ttl}"
-										data-crtr="${sndMsg.cntnt}"
+										data-cntnt="${sndMsg.cntnt}"
 										data-attch="${sndMsg.attch}"
 										data-crtdt="${sndMsg.crtDt}">
 										<td>
 											<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
 										</td>
-										<td>${sndMsg.rdYn}</td>
-										<td>${sndMsg.crtr}</td>
+										<td>${sndMsg.rcvMsgVO.get(0).rcvr}</td>
 										<td>${sndMsg.ttl}</td>
 										<td>${sndMsg.cntnt}</td>
 										<td>${sndMsg.attch}</td>

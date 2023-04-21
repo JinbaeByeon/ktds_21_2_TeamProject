@@ -2,14 +2,14 @@ package com.kpms.sndmsg.vo;
 
 import java.util.List;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
 
 /**
  * SND_MSG
  */
-public class SndMsgVO extends AbstractVO {
+public class SndMsgVO extends AbstractPagingVO {
 
 	private String msgId;
 	private String ttl;

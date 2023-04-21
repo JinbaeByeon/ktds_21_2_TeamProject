@@ -31,17 +31,18 @@
 		});
 		
 		$("#delete_btn").click(function() {
-			var msgId = $("#msgId").val();
-			if (msgId == "") {
-				alert("선택된 쪽지가 없습니다.");
-				return;
-			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
+			});
 			
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
 			
-			$.get("${context}/api/msg/delete" + msgId, function(response) {
+			$.post("${context}/api/rcvmsg/delete",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
 				}
@@ -59,7 +60,7 @@
 				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
 			});
 			
-			$.post("${context}/api/rcvmsg/update/",form.serialize(), function(response) {
+			$.post("${context}/api/rcvmsg/update",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
 				} else {
@@ -69,20 +70,58 @@
 		});
 		
 		$("#reply_btn").click(function() {
+			// 1. 체크된 VALUE(rcvmsg.msgid)를 가져온다.
+			// 2. location.href = "${context}/sndmsg/send/"+rcvmsg.msgid;
 			
-		});
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/rcvmsg/send/",form.serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.reload();
+				} else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		}); // 안에있는내용도 같이 보내기
 		
 		$("#search-btn").click(function() {
 			movePage(0)
 		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
+			checkBtn();
 		});
 		
 		function checkIndex() {
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
+			checkBtn();
+		}
+		
+		function checkBtn(){
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
+			if(checkCount == 0) {
+				$("#read_btn").attr("disabled", true);
+				$("#reply_btn").attr("disabled", true);
+				$("#delete_btn").attr("disabled", true);
+			}
+			else if (checkCount == 1) {
+				$("#read_btn").attr("disabled", false);
+				$("#reply_btn").attr("disabled", false);
+				$("#delete_btn").attr("disabled", false);
+			}
+			else if (checkCount >= 2) {
+				$("#read_btn").attr("disabled", false);
+				$("#reply_btn").attr("disabled", true);
+				$("#delete_btn").attr("disabled", false);
+			}
 		}
 		
 		$(".check_idx").change(function() {
@@ -114,13 +153,13 @@
 			});
 		});
 	});
-		function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			var fNm=$("#search-keyword").val();
-			// URL 요청
-			location.href= "${context}/rcvmsg/list?fNm=" + fNm + "&pageNo=" + pageNo;
-		}
+	function movePage(pageNo) {
+		// 전송
+		// 입력 값
+		var fNm=$("#search-keyword").val();
+		// URL 요청
+		location.href= "${context}/rcvmsg/list?fNm=" + fNm + "&pageNo=" + pageNo;
+	}
 </script>
 </head>
 <body>
@@ -133,14 +172,14 @@
 			<div class="search-group">
 				<label for="search-keyword">발신자명</label>
 				<input type="text" id="search-keyword" class="search-input" value="${rcvMsgVO.fNm}"/>
-				<button class="btn-search" id="search-btn">&#128269</button>
+				<button class="btn-search" id="search-btn">&#128269;</button>
 			</div>
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">
-						<button id="read_btn" class="btn-delete">읽음</button>
-						<button id="reply_btn" class="btn-delete">답장</button>
-						<button id="delete_btn" class="btn-delete">삭제</button>
+						<button id="read_btn" class="btn-read" disabled>읽음</button>
+						<button id="reply_btn" class="btn-reply" onClick="location.href="${context}/sndmsg/send" disabled>답장</button>
+						<button id="delete_btn" class="btn-del" disabled>삭제</button>
 					</div>
 					<div class="align-right right">
 						총 ${rcvList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건

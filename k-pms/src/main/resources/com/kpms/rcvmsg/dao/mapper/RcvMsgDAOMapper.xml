@@ -8,7 +8,6 @@
 			   type="com.kpms.rcvmsg.vo.RcvMsgVO"
 			   autoMapping="true">
 			<id property="msgId" column="MSG_ID"/>
-			<id property="crtDt" column="CRT_DT"/>
 			<association property="sndMsgVO"
 		   				javaType="com.kpms.sndmsg.vo.SndMsgVO">
 				<id property="msgId" column="SND_MSG_ID"/>
@@ -45,23 +44,35 @@
 			 , RM.RD_YN
 			 , SM.TTL
 			 , SM.ATTCH
-			 , RCV_E.F_NM  RE_F_NM
-			 , RCV_E.L_NM  RE_L_NM
 			 , SND_E.F_NM  SE_F_NM 
 			 , SND_E.L_NM  SE_L_NM
 		  FROM (SELECT *
 		  		  FROM RCV_MSG
-				 WHERE RCVR = #{empId}) RM
+				 WHERE RCVR = #{empId}
+				   AND DEL_YN = 'N') RM
 		 INNER JOIN SND_MSG SM
 		    ON SM.MSG_ID = RM.SND_MSG_ID
 		 INNER JOIN EMP SND_E
 		 	ON SND_E.EMP_ID = SM.CRTR
-		 INNER JOIN EMP RCV_E
-		 	ON RCV_E.EMP_ID = RM.RCVR
 	 	<if test="fNm != null and fNm != ''">
 		 WHERE SND_E.F_NM LIKE '%' || #{fNm} || '%'
 		</if>
 		<include refid="Common.pageFooter"/>
+	</select>
+	
+	<select id="readOneSndMsgVO"
+			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO"
+			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
+		SELECT MSG_ID
+			 , CRT_DT
+			 , CRTR
+			 , USE_YN
+			 , DEL_YN
+			 , SND_MSG_ID
+			 , RCVR
+			 , RD_YN
+		  FROM RCV_MSG
+		
 	</select>
 	
 	<insert id="createOneRcvMsg"
