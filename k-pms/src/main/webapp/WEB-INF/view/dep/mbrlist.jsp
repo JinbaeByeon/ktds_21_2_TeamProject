@@ -105,7 +105,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			var depId = $(".active").data("depid").val(); //depId val 받아오기 필요
+			var depId = $("#depId").val(); //depId val 받아오기 필요
 			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
