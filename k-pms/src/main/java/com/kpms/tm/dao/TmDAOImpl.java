@@ -23,6 +23,11 @@ public class TmDAOImpl extends SqlSessionDaoSupport implements TmDAO {
 	public List<TmVO> readAllTmVO(TmSearchVO tmSearchVO) {
 		return getSqlSession().selectList("Tm.readAllTmVO", tmSearchVO);
 	}
+	
+	@Override
+	public List<TmVO> readAllTmVOAndTmMbrVO(String tmId) {
+		return getSqlSession().selectList("Tm.readAllTmVOAndTmMbrVO", tmId);
+	}
 
 	@Override
 	public List<TmVO> readAllTmVONopagination(String tmNm) {

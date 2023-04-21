@@ -11,6 +11,8 @@ public interface TmDAO {
 	
 	public List<TmVO> readAllTmVONopagination(String tmNm);
 	
+	public List<TmVO> readAllTmVOAndTmMbrVO(String tmId);
+	
 	public TmVO readOneTmVOByTmId(String tmId);
 	
 	public int createOneTm(TmVO tmVO);

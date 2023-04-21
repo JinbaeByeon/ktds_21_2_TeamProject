@@ -18,9 +18,6 @@ public class TmMbrController {
 	@Autowired
 	private TmMbrService tmMbrService;
 	
-	@Autowired
-	private TmService tmService;
-	
 	@GetMapping("/tmmbr/search")
 	public String viewTmMbrSearchPage(TmVO tmVO, Model model) {
 		List<TmMbrVO> tmMbrList = tmMbrService.readAllTmMbrVO(tmVO.getTmId());
@@ -28,16 +25,6 @@ public class TmMbrController {
 		model.addAttribute("tmNm", tmVO.getTmNm());
 		
 		return "tmmbr/search";
-	}
-	
-	@GetMapping("/tmmbr/allsearch")
-	public String viewTmAndTmMbrSearchPage(TmVO tmVO, Model model) {
-		List<TmVO> tmList = tmService.readAllTmVONopagination(tmVO.getTmNm());
-		List<TmMbrVO> tmMbrList = tmMbrService.readAllTmMbrVO(tmVO.getTmId());
-		model.addAttribute("tmMbrList", tmMbrList);
-		model.addAttribute("tmList", tmList);
-		
-		return "tmmbr/allsearch";
 	}
 
 }
