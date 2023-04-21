@@ -72,7 +72,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/search", "팀 검색", "width=500, height=500");
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=500, height=500");
 		});
 		
 		$(".del-ptm-btn").click(function(){
