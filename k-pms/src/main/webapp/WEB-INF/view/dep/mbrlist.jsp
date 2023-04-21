@@ -17,12 +17,17 @@
 	
 	$().ready(function() {
 		
-		$(".grid > table > tbody > tr").click(function() {
-			var data = $(this).data();
-			
-		});
+		function tmlist() {
+			$.ajax({
+				type: "post",
+				url: "${context}/api/dep/mbrlist"
+				success: function(result) {
+					
+				}
+			})
+		}
 		
-	}
+	});
 		 
 </script>
 </head>
@@ -57,7 +62,7 @@
 											data-depnm="${dep.depNm}">
 											<td>${index.index + 1}</td>
 											<td>${dep.depId}</td>
-											<td>${dep.depNm}</td>
+											<td><a href="${context}/dep/mbrlist/"></a>${dep.depNm}</td>
 											<td>${dep.depHdId}</td>
 											<td>${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}</td>
 										</tr>
