@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.util.Random"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set var="date" value="<%= new Random().nextInt() %>" />
-<c:set scope="request" var="selected" value="dep"/>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,16 +11,97 @@
 <script type="text/javascript">
 	
 	$().ready(function() {
-		
-		function tmlist() {
-			$.ajax({
-				type: "post",
-				url: "${context}/api/dep/mbrlist"
-				success: function(result) {
+		$(".dep-tbody tr").click(function() {
+			$(".dep-tbody").find("tr").removeClass("active");
+			$(this).toggleClass("active");
+			var activeDepId = $(".active").data("depid");
+			
+			$(".tm-tbody").find("tr").remove();
+			
+			$.get("${context}/api/tm/list/" + activeDepId, function(response) {
+				for (var i in response.data) {
+					var tmId = response.data[i].tmId;
+					var depId = response.data[i].depId;
+					var tmNm = response.data[i].tmNm;
+					var tmHdId = response.data[i].tmHdId;
+					var lNm = response.data[i].tmHdEmpVO.lNm;
+					var fNm = response.data[i].tmHdEmpVO.fNm;
 					
+					var tr = $("<tr class=" + tmId + "></tr>");
+					var td = "<td>" + tmId + "</td>"
+					td += "<td>" + tmNm + "</td>"
+					td += "<td>" + tmHdId + "</td>"
+					td += "<td>" + lNm + "</td>"
+					td += "<td>" + fNm + "</td>"
+					
+					$(".tm-tbody").append(tr);
+					tr.append(td);
+				}
+			});
+		});
+		
+		$(document).on("click", ".tm-tbody tr", function() {
+			$(".tm-tbody").find("tr").removeClass("active");
+			$(this).addClass("active");
+			var activeTmId = $(".active").data("tmid");
+			
+			$(".tmmbr-tbody").find("tr").remove();
+
+			$.get("${context}/api/tmmbr/list/" + activeTmId, function(response) {
+				for (var i in response.data) {
+					var tmMbrId = response.data[i].tmMbrId;
+					var tmId = response.data[i].tmId;
+					var empId = response.data[i].empId;
+					var fNm = response.data[i].empVO.fNm;
+					var lNm = response.data[i].empVO.lNm;
+					
+					var tr = $("<tr class=" + tmId + "></tr>");
+					var td = "<td><input type='checkbox' class='check-idx' value=" + tmMbrId + " /></td>"
+					td += "<td>" + empId + "</td>"
+					td += "<td>" + fNm + "</td>"
+					td += "<td>" + lNm + "</td>"
+					
+					$(".tmmbr-tbody").append(tr);
+					tr.append(td);
 				}
 			})
-		}
+
+		});
+		
+		$("#search-btn").click(function() {
+			location.href = "${context}/tm/search?tmNm=" + $("#searh-tmNm").val();
+		});
+		
+		$("#all_check").change(function() {
+			$(".check-idx").prop("checked", $(this).prop("checked"));
+			
+		});
+		
+		$(".check-idx").change(function() {
+			var count = $(".check-idx").length;
+			var checkCount = $(".check-idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
+		});
+		
+		$("#cancel-btn").click(function() {
+			window.close();
+		});
+		
+		$("#regist-btn").click(function() {
+			var checkOne = $(".check-idx:checked");
+			
+			if (checkOne.length == 0) {
+				alert("팀원을 선택하세요");
+				return;
+			}
+			
+			checkOne.each(function() {
+				var each = $(this).closest("tr").data();
+				console.log(each);
+				opener.addTmMbrFn(each);
+			});
+			window.close();
+		});
 		
 	});
 		 
@@ -42,7 +118,7 @@
 					<div class="grid-count align-right">
 						 총 ${depList.size() > 0 ? depList.size() : 0}건  
 					</div>
-					<table>
+					<table class="scroll-table">
 						<thead>
 							<tr>
 								<th>순번</th>
@@ -52,7 +128,7 @@
 								<th>부서장명</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="dep-tbody">
 							<c:choose>
 								<c:when test="${not empty depList}">
 									<c:forEach items="${depList}"
@@ -62,7 +138,7 @@
 											data-depnm="${dep.depNm}">
 											<td>${index.index + 1}</td>
 											<td>${dep.depId}</td>
-											<td><a href="${context}/dep/mbrlist/"></a>${dep.depNm}</td>
+											<td>${dep.depNm}</td>
 											<td>${dep.depHdId}</td>
 											<td>${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}</td>
 										</tr>
@@ -76,74 +152,41 @@
 					<div class="grid-count align-right">
 					 총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
 					</div>
-						<table>
+						<table class="scroll-table">
 							<thead>
 								<tr>
-									<th>순번</th>
 									<th>팀ID</th>
 									<th>팀명</th>
 									<th>팀장ID</th>
-									<th>팀장 성명</th>
+									<th>팀장 성</th>
+									<th>팀장 이름</th>
 								</tr>
 							</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty depVO.tmList}">
-									<c:forEach items="${depVO.tmList}"
-												var="tm"
-												varStatus="index">
-											<tr data-depid="${tm.depId}"
-												data-tmid="${tm.tmId}"
-												data-tmnm="${tm.tmNm}">
-												<td>${index.index + 1}</td>
-												<td>${tm.tmId}</td>
-												<td>${tm.tmNm}</td>
-												<td>${tm.tmHdId}</td>
-												<td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
-											</tr>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</tbody>
+						<tbody class="tm-tbody"></tbody>
 					</table>
-					<div class="grid">	
-						<div class="grid-count align-right">
-							 총 ${depVO.empList.size() > 0 ? depVO.empList.size() : 0}건
-						</div>
-					<table>
+				</div>
+				<div class="grid">	
+					<div class="grid-count align-right">
+						 총 ${depVO.empList.size() > 0 ? depVO.empList.size() : 0}건
+					</div>
+					<table class="scroll-table">
 						<thead>
 							<tr>
-								<th>순번</th>
+								<th class="input"><input type="checkbox" id="all_check" /></th>
 								<th>직원ID</th>
+								<th>성</th>
 								<th>이름</th>
-								<th>생년월일</th>
-								<th>이메일</th>
-								<th>전화번호</th>
-								<th>직급연차</th>
 							</tr>
 						</thead>
-						<tbody>
-							<c:choose>								
-								<c:when test="${not empty depVO.empList}">
-									<c:forEach items="${depVO.empList}"
-												var="emp"
-												varStatus="index">
-										<tr>
-											<td>${index.index + 1}</td>
-											<td>${emp.empId}</td>
-											<td>${emp.lNm}${emp.fNm}</td>
-											<td>${emp.brthdy}</td>
-											<td>${emp.eml}</td>
-											<td>${emp.phn}</td>
-											<td>${emp.pstnPrd}</td>
-										</tr>
-									</c:forEach>
-							    </c:when>
-							</c:choose>
-						</tbody>
+						<tbody class="tmmbr-tbody"></tbody>
 					</table>
-					</div>
-				</div>			
+				</div>	
+			
+		<div class="align-right">
+			<button id="regist-btn" class="btn-primary">등록</button>
+			<button id="cancel-btn" class="btn-delete">취소</button>
+		</div>
+						
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

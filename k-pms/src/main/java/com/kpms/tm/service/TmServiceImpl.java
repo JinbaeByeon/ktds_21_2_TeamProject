@@ -23,8 +23,8 @@ public class TmServiceImpl implements TmService {
 	}
 
 	@Override
-	public List<TmVO> readAllTmVONopagination(String tmNm) {
-		return tmDAO.readAllTmVONopagination(tmNm);
+	public List<TmVO> readAllTmVONopagination(String depId) {
+		return tmDAO.readAllTmVONopagination(depId);
 	}
 
 	@Override

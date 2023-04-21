@@ -90,7 +90,7 @@
 	
 	<select id="readAllTmVONopagination"
 			parameterType="string"
-			resultType="com.kpms.tm.vo.TmVO">
+			resultMap="tmVOMap">
 		SELECT T.TM_ID
 			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , T.CRTR
@@ -102,10 +102,18 @@
 			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
 			 , T.DEP_ID
 			 , T.TM_HD_ID
+			 , TM_HD_EMP.L_NM TM_HD_L_NM
+			 , TM_HD_EMP.F_NM TM_HD_F_NM
 		  FROM TM T
+		  LEFT OUTER JOIN TM_MBR M
+		    ON T.TM_ID = M.TM_ID
+		  FULL OUTER JOIN EMP E
+		    ON M.EMP_ID = E.EMP_ID
+		  LEFT OUTER JOIN EMP TM_HD_EMP
+		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE T.DEL_YN = 'N'
 		   AND T.USE_YN = 'Y'
-		   AND T.TM_NM LIKE '%' || #{_parameter} || '%'
+		   AND T.DEP_ID LIKE '%' || #{_parameter} || '%'
 		 ORDER BY T.TM_ID ASC
 	</select>
 	

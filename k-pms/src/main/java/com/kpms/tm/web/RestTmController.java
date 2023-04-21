@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.common.api.vo.APIDataResponseVO;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
@@ -88,5 +89,14 @@ public class RestTmController {
 			return new APIResponseVO(APIStatus.FAIL,  "팀을 삭제할 수 없습니다.");
 		}
 	}
+	
+	@GetMapping("/api/tm/list/{depId}")
+	public APIResponseVO readTmList(@PathVariable String depId) {
+		List<TmVO> tmList = tmService.readAllTmVONopagination(depId);
+		return new APIDataResponseVO(APIStatus.OK, tmList);
+	}
+	
+	
+	
 	
 }
