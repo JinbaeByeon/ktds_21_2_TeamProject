@@ -16,7 +16,8 @@
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).toggleClass("active");
 			var activeTmId = $(".active").data("tmid");
-			console.log(activeTmId)
+			
+			$(".tmmbr-tbody").find("tr").remove();
 
 			$.get("${context}/api/tmmbr/list/" + activeTmId, function(response) {
 				for (var i in response.data) {
