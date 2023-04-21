@@ -11,10 +11,12 @@
 <script type="text/javascript">
 	
 	$().ready(function() {
+		var activeDepId = ""
+		
 		$(".dep-tbody tr").click(function() {
 			$(".dep-tbody").find("tr").removeClass("active");
 			$(this).toggleClass("active");
-			var activeDepId = $(".active").data("depid");
+			activeDepId = $(".active").data("depid");
 			
 			$(".tm-tbody").find("tr").remove();
 			
@@ -24,8 +26,8 @@
 					var depId = response.data[i].depId;
 					var tmNm = response.data[i].tmNm;
 					var tmHdId = response.data[i].tmHdId;
-					var lNm = response.data[i].tmHdEmpVO.lNm;
-					var fNm = response.data[i].tmHdEmpVO.fNm;
+					var lNm = (response.data[i].tmHdEmpVO.lNm == null) ? "" : response.data[i].tmHdEmpVO.lNm;
+					var fNm = (response.data[i].tmHdEmpVO.fNm == null) ? "" : response.data[i].tmHdEmpVO.fNm;
 					
 					var tr = $("<tr data-tmid='" + tmId + "'></tr>");
 					var td = "<td>" + tmId + "</td>"
@@ -105,7 +107,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			var depId = $("#depId").val(); //depId val 받아오기 필요
+			var depId = activeDepId;
 			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
