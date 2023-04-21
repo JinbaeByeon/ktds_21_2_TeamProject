@@ -27,7 +27,7 @@
 					var lNm = response.data[i].tmHdEmpVO.lNm;
 					var fNm = response.data[i].tmHdEmpVO.fNm;
 					
-					var tr = $("<tr class=" + tmId + "></tr>");
+					var tr = $("<tr data-tmid='" + tmId + "'></tr>");
 					var td = "<td>" + tmId + "</td>"
 					td += "<td>" + tmNm + "</td>"
 					td += "<td>" + tmHdId + "</td>"
@@ -43,7 +43,8 @@
 		$(document).on("click", ".tm-tbody tr", function() {
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).addClass("active");
-			var activeTmId = $(".active").data("tmid");
+			console.log($(".tm-tbody .active").data());
+			var activeTmId = $(".tm-tbody .active").data("tmid");
 			
 			$(".tmmbr-tbody").find("tr").remove();
 
@@ -52,16 +53,17 @@
 					var tmMbrId = response.data[i].tmMbrId;
 					var tmId = response.data[i].tmId;
 					var empId = response.data[i].empId;
-					var fNm = response.data[i].empVO.fNm;
-					var lNm = response.data[i].empVO.lNm;
+					var fNm = (response.data[i].empVO.fNm == null) ? "" : response.data[i].empVO.fNm;
+					var lNm = (response.data[i].empVO.lNm == null) ? "" : response.data[i].empVO.lNm;
+					var tmNm = response.data[i].tmVO.tmNm;
 					
-					var tr = $("<tr class=" + tmId + "></tr>");
+					var tr = $("<tr data-tmmbrid='" + tmMbrId + "'data-empid='" + empId + "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" + lNm + "'data-tmnm='" + tmNm + "'></tr>");
 					var td = "<td><input type='checkbox' class='check-idx' value=" + tmMbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
 					td += "<td>" + fNm + "</td>"
 					td += "<td>" + lNm + "</td>"
 					
-					$(".tmmbr-tbody").append(tr);
+					$(".tmmbr-tbody").append(tr);	
 					tr.append(td);
 				}
 			})
