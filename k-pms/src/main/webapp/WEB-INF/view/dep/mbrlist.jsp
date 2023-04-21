@@ -31,8 +31,7 @@
 					var td = "<td>" + tmId + "</td>"
 					td += "<td>" + tmNm + "</td>"
 					td += "<td>" + tmHdId + "</td>"
-					td += "<td>" + lNm + "</td>"
-					td += "<td>" + fNm + "</td>"
+					td += "<td>" + lNm + fNm + "</td>"
 					
 					$(".tm-tbody").append(tr);
 					tr.append(td);
@@ -56,22 +55,23 @@
 					var fNm = (response.data[i].empVO.fNm == null) ? "" : response.data[i].empVO.fNm;
 					var lNm = (response.data[i].empVO.lNm == null) ? "" : response.data[i].empVO.lNm;
 					var tmNm = response.data[i].tmVO.tmNm;
+					var jobNm = response.data[i].empVO.job.jobNm;
+					var pstnNm = response.data[i].empVO.pstn.pstnNm;
 					
-					var tr = $("<tr data-tmmbrid='" + tmMbrId + "'data-empid='" + empId + "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" + lNm + "'data-tmnm='" + tmNm + "'></tr>");
+					var tr = $("<tr data-tmmbrid='" + tmMbrId + "'data-empid='" + empId 
+							+ "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" 
+							+ lNm + "'data-tmnm='" + tmNm + "' data-jobnm='" + jobNm + "' data-pstnnm='" + pstnNm + "'></tr>");
 					var td = "<td><input type='checkbox' class='check-idx' value=" + tmMbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
-					td += "<td>" + fNm + "</td>"
-					td += "<td>" + lNm + "</td>"
+					td += "<td>" + pstnNm + "</td>"
+					td += "<td>" + lNm + fNm + "</td>"
+					td += "<td>" + jobNm + "</td>"
 					
 					$(".tmmbr-tbody").append(tr);	
 					tr.append(td);
 				}
 			})
 
-		});
-		
-		$("#search-btn").click(function() {
-			location.href = "${context}/tm/search?tmNm=" + $("#searh-tmNm").val();
 		});
 		
 		$("#all_check").change(function() {
@@ -85,8 +85,8 @@
 			$("#all_check").prop("checked", count == checkCount);
 		});
 		
-		$("#cancel-btn").click(function() {
-			window.close();
+		$("#delete-btn").click(function() {
+
 		});
 		
 		$("#regist-btn").click(function() {
@@ -99,10 +99,14 @@
 			
 			checkOne.each(function() {
 				var each = $(this).closest("tr").data();
-				console.log(each);
 				opener.addTmMbrFn(each);
 			});
-			window.close();
+		});
+		
+		$("#addTmMbrBtn").click(function(event) {
+			event.preventDefault();
+			var depId = $(".active").data("depid").val(); //depId val 받아오기 필요
+			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
 	});
@@ -160,8 +164,7 @@
 									<th>팀ID</th>
 									<th>팀명</th>
 									<th>팀장ID</th>
-									<th>팀장 성</th>
-									<th>팀장 이름</th>
+									<th>팀장 성명</th>
 								</tr>
 							</thead>
 						<tbody class="tm-tbody"></tbody>
@@ -176,18 +179,20 @@
 							<tr>
 								<th class="input"><input type="checkbox" id="all_check" /></th>
 								<th>직원ID</th>
-								<th>성</th>
-								<th>이름</th>
+								<th>직급</th>
+								<th>직원명</th>
+								<th>직무명</th>
 							</tr>
 						</thead>
 						<tbody class="tmmbr-tbody"></tbody>
 					</table>
 				</div>	
 			
-		<div class="align-right">
-			<button id="regist-btn" class="btn-primary">등록</button>
-			<button id="cancel-btn" class="btn-delete">취소</button>
-		</div>
+				<div class="align-right">
+					<button id="addTmMbrBtn" class="btn-tmMbr">신규</button>
+					<button id="regist-btn" class="btn-primary">등록</button>
+					<button id="delete-btn" class="btn-delete">삭제</button>
+				</div>
 						
 			<jsp:include page="../include/footer.jsp" />
 		</div>
