@@ -27,7 +27,7 @@ public class RestTmController {
 	
 	@PostMapping("/api/tm/create")
 	public APIResponseVO doCreateTm(TmVO tmVO,
-			 @SessionAttribute("__USER__") EmpVO empVO) {
+				@SessionAttribute("__USER__") EmpVO empVO) {
 		
 		tmVO.setCrtr(empVO.getEmpId());
 		tmVO.setMdfyr(empVO.getEmpId());
@@ -35,7 +35,7 @@ public class RestTmController {
 		boolean createResult = tmService.createOneTm(tmVO);
 		
 		if (createResult) {
-			return new APIResponseVO(APIStatus.OK);
+			return new APIDataResponseVO(APIStatus.OK, tmVO.getTmId());
 		}
 		else {
 			return new APIResponseVO(APIStatus.FAIL, "팀을 등록할 수 없습니다.", "500", "");
@@ -58,6 +58,25 @@ public class RestTmController {
 		}
 		
 		boolean updateResult = tmService.updateOneTm(tmVO);
+		
+		if (updateResult) {
+			return new APIResponseVO(APIStatus.OK, "/tm/detail/" + tmVO.getTmId());
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL, "팀을 수정할 수 없습니다.", "500", "");
+		}
+	}
+	
+	@PostMapping("/api/tm/updates/{tmId}")
+	public APIResponseVO doUpadateTmMbr(TmVO tmVO, DepVO depVO,
+						 @SessionAttribute("__USER__") EmpVO empVO,
+						 @PathVariable String tmId) {
+		tmVO.setCrtr(empVO.getEmpId());
+		tmVO.setMdfyr(empVO.getEmpId());
+		tmVO.setTmHdId(tmVO.getTmHdId());
+		tmVO.setDepId(depVO.getDepId());
+		
+		boolean updateResult = tmService.updateOneTmAndTmMbr(tmVO);
 		
 		if (updateResult) {
 			return new APIResponseVO(APIStatus.OK, "/tm/detail/" + tmVO.getTmId());

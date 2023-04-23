@@ -164,7 +164,7 @@
 			
 			$.post("${context}/api/dep/delete", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
-					location.reload(); //새로고침
+					location.reload();
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);

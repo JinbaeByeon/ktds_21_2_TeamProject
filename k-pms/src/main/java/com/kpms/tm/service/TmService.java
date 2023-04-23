@@ -17,6 +17,8 @@ public interface TmService {
 	
 	public boolean updateOneTm(TmVO tmVO);
 	
+	public boolean updateOneTmAndTmMbr(TmVO tmVO);
+	
 	public boolean deleteOneTmByTmId(String tmId);
 	
 	public boolean deleteTmBySelectedTmId(List<String> tmId);

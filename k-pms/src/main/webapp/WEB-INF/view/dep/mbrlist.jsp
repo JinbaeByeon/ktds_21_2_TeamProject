@@ -10,10 +10,74 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	
+	var empId;
+	var empIds = [];
+	var tmMbr;
+		
+	function addEmpFn(message) {
+	
+	    var empItems = $(document).find(".tmMbr-tbody");
+	    empId = message.empid;
+	
+	    if (empItems.find("." + empId).length > 0) {
+	        tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
+	        return;
+	    }
+	
+	    var nextIndex = empIds.length;
+	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
+	    itemId.val(empId);
+	
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
+	
+	    var td = "<td>" + empId + "</td>"
+	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+	
+	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
+	
+	    rmbtn.click(function() {
+	        var empTrToRemove = $(this).closest(".emp-tr");
+	        var empIndexToRemove = empTrToRemove.data("index");
+	        empIds.splice(empIndexToRemove, 1);
+	        empTrToRemove.remove();
+	        $(".emp-tr[data-index]").each(function(i, tr) {
+	            $(tr).data("index", i);
+	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
+	        });
+	    });
+	
+	    empItems.append(empTr);
+	    empTr.append(itemId);
+	    empTr.append(td);
+	    empTr.append(rmbtn);
+	
+	    empIds.push(empId);
+	
+	}
+	
+	function createTmmbr(tmId, empId) {
+	    $.ajax({
+	        url: "${context}/api/tmmbr/create",
+	        type: "POST",
+	        data: {tmId: tmId, empId: empId},
+	        success: function(response) {
+	            if (response.status == "200 OK") {
+	            } 
+	            else {
+	            	alert(response.errorCode + " / " + response.message);
+	            }
+	        }
+	    });
+	}
+	
 	$().ready(function() {
 		var activeDepId = ""
+		var activeTmId = ""
 		
 		$(".dep-tbody tr").click(function() {
+			activeTmId = "";
+			$(".tmMbr-tbody").empty();
+			 $("#tmMbr-count").text("총 0건");
 			$(".dep-tbody").find("tr").removeClass("active");
 			$(this).toggleClass("active");
 			activeDepId = $(".active").data("depid");
@@ -38,6 +102,10 @@
 					$(".tm-tbody").append(tr);
 					tr.append(td);
 				}
+			}).done(function() {
+				var tmCount = $(".tm-tbody tr").length;
+				$("#tm-count").text("총 " + tmCount + "건");
+			    $(".tm-tbody tr:first-child").click();
 			});
 		});
 		
@@ -45,9 +113,9 @@
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).addClass("active");
 			console.log($(".tm-tbody .active").data());
-			var activeTmId = $(".tm-tbody .active").data("tmid");
+			activeTmId = $(".tm-tbody .active").data("tmid");
 			
-			$(".tmmbr-tbody").find("tr").remove();
+			$(".tmMbr-tbody").find("tr").remove();
 
 			$.get("${context}/api/tmmbr/list/" + activeTmId, function(response) {
 				for (var i in response.data) {
@@ -69,10 +137,13 @@
 					td += "<td>" + lNm + fNm + "</td>"
 					td += "<td>" + jobNm + "</td>"
 					
-					$(".tmmbr-tbody").append(tr);	
+					$(".tmMbr-tbody").append(tr);	
 					tr.append(td);
 				}
-			})
+			}).done(function() {
+				 var tmMbrCount = $(".tmMbr-tbody tr").length;
+				 $("#tmMbr-count").text("총 " + tmMbrCount + "건");
+			});
 
 		});
 		
@@ -88,27 +159,56 @@
 		});
 		
 		$("#delete-btn").click(function() {
-
-		});
-		
-		$("#regist-btn").click(function() {
-			var checkOne = $(".check-idx:checked");
-			
-			if (checkOne.length == 0) {
-				alert("팀원을 선택하세요");
-				return;
-			}
-			
-			checkOne.each(function() {
-				var each = $(this).closest("tr").data();
-				opener.addTmMbrFn(each);
-			});
+		    var checkLen = $(".check-idx:checked").length;
+		    if (checkLen == 0) {
+		        alert("팀원이 선택되지 않았습니다.");
+		        return;
+		    }
+		    if (confirm("선택된 팀원을 삭제 하시겠습니까?")) {
+		    	$(".check-idx:checked").each(function() {
+		            var tmMbrId = $(this).val();
+		            
+		            $.get("${context}/api/tmmbr/delete/" + tmMbrId, function(response) {
+		            	if (response.status == "200 OK") {
+		            		 $(".tmMbr-tbody").find("tr[data-tmmbrid='" + tmMbrId + "']").remove();
+		            	}
+		            	else {
+		            		alert(response.errorCode + "/" + response.message);
+		            	}
+		            });
+		        });
+		    	
+		        $("#all_check").prop("checked", false);
+		    }
 		});
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
+			if (activeTmId == "") {
+				alert("팀을 선택해주세요.");
+				return;
+			}
 			var depId = activeDepId;
 			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
+		});
+		
+		$("#regist-btn").click(function() {
+			var tmId = activeTmId;
+			$.post("${context}/api/tm/updates/" + tmId, $("#create_form").serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.href = "${context}" + response.redirectURL;
+					
+					empIds.forEach(function(empId) {
+			    		
+				    	createTmmbr(tmId, empId);
+				    		
+				    });
+					
+				}
+				else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
 		});
 		
 	});
@@ -122,76 +222,75 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">팀원 조회 및 등록</div>
-				<div class="grid">
-					<div class="grid-count align-right">
-						 총 ${depList.size() > 0 ? depList.size() : 0}건  
-					</div>
-					<table class="scroll-table">
-						<thead>
-							<tr>
-								<th>순번</th>
-								<th>부서ID</th>
-								<th>부서명</th>
-								<th>부서장ID</th>
-								<th>부서장명</th>
-							</tr>
-						</thead>
-						<tbody class="dep-tbody">
-							<c:choose>
-								<c:when test="${not empty depList}">
-									<c:forEach items="${depList}"
-												var="dep"
-												varStatus="index">
-										<tr data-depid="${dep.depId}"
-											data-depnm="${dep.depNm}">
-											<td>${index.index + 1}</td>
-											<td>${dep.depId}</td>
-											<td>${dep.depNm}</td>
-											<td>${dep.depHdId}</td>
-											<td>${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-							</c:choose>
-						</tbody>
-					</table>
-				</div>
-				<div class="grid">
-					<div class="grid-count align-right">
-					 총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
-					</div>
+				<form id="create_form" enctype="multipart/form-data">
+						<div>
+							 총 ${depList.size() > 0 ? depList.size() : 0}건  
+						</div>
 						<table class="scroll-table">
 							<thead>
+								<tr><th colspan=5 class="table-title">- 부서</th></tr>
 								<tr>
-									<th>팀ID</th>
-									<th>팀명</th>
-									<th>팀장ID</th>
-									<th>팀장 성명</th>
+									<th>순번</th>
+									<th>부서ID</th>
+									<th>부서명</th>
+									<th>부서장ID</th>
+									<th>부서장명</th>
 								</tr>
 							</thead>
-						<tbody class="tm-tbody"></tbody>
-					</table>
-				</div>
-				<div class="grid">	
-					<div class="grid-count align-right">
-						 총 ${depVO.empList.size() > 0 ? depVO.empList.size() : 0}건
-					</div>
-					<table class="scroll-table">
-						<thead>
-							<tr>
-								<th class="input"><input type="checkbox" id="all_check" /></th>
-								<th>직원ID</th>
-								<th>직급</th>
-								<th>직원명</th>
-								<th>직무명</th>
-							</tr>
-						</thead>
-						<tbody class="tmmbr-tbody"></tbody>
-					</table>
-				</div>	
-			
+							<tbody class="dep-tbody">
+								<c:choose>
+									<c:when test="${not empty depList}">
+										<c:forEach items="${depList}"
+													var="dep"
+													varStatus="index">
+											<tr data-depid="${dep.depId}"
+												data-depnm="${dep.depNm}">
+												<td>${index.index + 1}</td>
+												<td>${dep.depId}</td>
+												<td>${dep.depNm}</td>
+												<td>${dep.depHdId}</td>
+												<td>${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}</td>
+											</tr>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td colspan="5">검색된 부서가 없습니다.</td>
+										</tr>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+						<div id="tm-count"></div>
+							<table class="scroll-table">
+								<thead>
+									<tr><th colspan=4 class="table-title">- 팀</th></tr>
+									<tr>
+										<th>팀ID</th>
+										<th>팀명</th>
+										<th>팀장ID</th>
+										<th>팀장 성명</th>
+									</tr>
+								</thead>
+							<tbody class="tm-tbody"></tbody>
+						</table>
+						<div id="tmMbr-count"></div>
+							<table class="scroll-table">
+								<thead>
+									<tr><th colspan=5 class="table-title">- 팀원</th></tr>
+									<tr>
+										<th class="input"><input type="checkbox" id="all_check" /></th>
+										<th>직원ID</th>
+										<th>직급</th>
+										<th>직원명</th>
+										<th>직무명</th>
+									</tr>
+								</thead>
+								<tbody class="tmMbr-tbody"></tbody>
+							</table>
+				</form>
 				<div class="align-right">
-					<button id="addTmMbrBtn" class="btn-tmMbr">신규</button>
+					<button id="addTmMbrBtn" class="btn-primary">추가</button>
 					<button id="regist-btn" class="btn-primary">등록</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>

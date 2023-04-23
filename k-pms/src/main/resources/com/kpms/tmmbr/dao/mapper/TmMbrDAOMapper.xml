@@ -58,4 +58,45 @@
 		  </if>
 		 ORDER BY TM.EMP_ID ASC
 	</select>
+	
+	<insert id="createOneTmMbr"
+			parameterType="com.kpms.tmmbr.vo.TmMbrVO">
+		INSERT INTO TM_MBR
+		 (TM_MBR_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, TM_ID
+		, EMP_ID)
+		VALUES
+		 ('MBR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_TM_MBR_PK.NEXTVAL, 5, '0')
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{tmId}
+		, #{empId})
+	</insert>
+	
+	<update id="deleteOneTmMbrByTmMbrId"
+			parameterType="string">
+		UPDATE TM_MBR
+		   SET DEL_YN = 'Y'
+		 WHERE TM_MBR_ID = #{_parameter}		
+	</update>
+	
+	<update id="deleteTmMbrBySelectedTmMbrId"
+			parameterType="arraylist">
+		UPDATE TM_MBR
+		   SET DEL_YN = 'Y'
+		 WHERE TM_MBR_ID IN
+		 <foreach collection="list" item="tmMbrId" open="(" close=")" separator=", ">
+		 	#{tmMbrId}
+		 </foreach>		
+	</update>
 </mapper>

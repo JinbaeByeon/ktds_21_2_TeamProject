@@ -71,7 +71,7 @@
 		$("#delete_all_btn").click(function() {
 			var checkLen = $(".check_idx:checked").length;
 			if (checkLen == 0) {
-				alert("삭제할 부서가 없습니다.");
+				alert("삭제할 팀이 없습니다.");
 				return;
 			}
 			

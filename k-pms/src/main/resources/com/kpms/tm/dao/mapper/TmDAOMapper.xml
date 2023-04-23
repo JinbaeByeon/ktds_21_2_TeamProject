@@ -126,6 +126,12 @@
 			<id property="depId" column="DEP_ID" />
 			<result property="depNm" column="DEP_NM"/>
 		</association>
+		<association property="tmHdEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="TM_HD_ID"/>
+			<result property="fNm" column="TM_HD_EMP_F_NM"/>
+			<result property="lNm" column="TM_HD_EMP_L_NM"/>
+		</association>
 		<collection property="tmMbrList"
 					 ofType="com.kpms.tmmbr.vo.TmMbrVO">
 			<id property="tmMbrId" column="TM_MBR_ID"/>
@@ -140,6 +146,16 @@
 				<result property="eml" column="EML"/>
 				<result property="phn" column="PHN"/>
 				<result property="pstnPrd" column="PSTN_PRD"/>
+				<association property="job"
+					  javaType="com.kpms.job.vo.JobVO">
+					<id property="jobId" column="JOB_ID"/>
+					<result property="jobNm" column="JOB_NM"/>
+				</association>
+				<association property="pstn"
+						  javaType="com.kpms.pstn.vo.PstnVO">
+					<id property="pstnId" column="PSTN_ID"/>
+					<result property="pstnNm" column="PSTN_NM"/>
+				</association>
 			</association>
 		</collection>
 	</resultMap>
@@ -166,6 +182,11 @@
 			 , E.EML
 			 , E.PHN
 			 , E.PSTN_PRD
+			 , M.TM_MBR_ID
+			 , J.JOB_NM 
+			 , P.PSTN_NM 
+			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
+			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
 		  FROM TM T
 		 INNER JOIN DEP D
 		 	ON T.DEP_ID = D.DEP_ID
@@ -173,12 +194,25 @@
 		    ON T.TM_ID = M.TM_ID
 		 INNER JOIN EMP E
 		    ON M.EMP_ID = E.EMP_ID
+		 INNER JOIN JOB J
+		    ON E.JOB_ID = J.JOB_ID 
+		 INNER JOIN PSTN P
+		    ON E.PSTN_ID = P.PSTN_ID
+		 INNER JOIN EMP TM_HD_EMP
+		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE T.TM_ID = #{_parameter}
 		   AND T.DEL_YN = 'N'
+		   AND M.DEL_YN = 'N'
 	</select>
 	
 	<insert id="createOneTm"
 			parameterType="com.kpms.tm.vo.TmVO">
+		<selectKey keyProperty="tmId"
+					resultType="string"
+					order="BEFORE"> 	
+		SELECT 'TM-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_TM_PK.NEXTVAL, 5, '0')
+		  FROM DUAL
+		</selectKey>
 		INSERT INTO TM
 		 (TM_ID
 		, CRT_DT
@@ -192,7 +226,7 @@
 		, DEP_ID
 		, TM_HD_ID)
 		VALUES
-		 ('TM-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_TM_PK.NEXTVAL, 5, '0')
+		 (#{tmId}
 		, SYSDATE
 		, #{crtr}
 		, SYSDATE
@@ -217,6 +251,14 @@
 		    <if test = 'useYn != null and useYn != ""'>
 		     , USE_YN = NVL(#{useYn}, 'N')	
 		    </if>
+		 WHERE TM_ID = #{tmId}
+	</update>
+	
+	<update id="updateOneTmAndTmMbr"
+			parameterType="com.kpms.tm.vo.TmVO">
+		UPDATE TM
+		   SET MDFY_DT = SYSDATE
+		     , MDFYR = #{mdfyr}
 		 WHERE TM_ID = #{tmId}
 	</update>
 
