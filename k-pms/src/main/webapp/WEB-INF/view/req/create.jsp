@@ -77,7 +77,7 @@
 				// 신규등록	
 				ajaxUtil.upload("#detail_form","${context}/api/req/create",function(response){
 					if(response.status == "200 OK"){
-						location.reload(); //새로고침
+						location.href = "${context}/req/list";
 					}	
 					else{
 						alert(response.errorCode + "/" + response.message);
@@ -180,86 +180,6 @@
 			<jsp:include page="../include/reqSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 요구사항 등록</div>
-				<div class="search-group">
-					<label for="search-keyword">요구사항ID</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${reqVO.reqId}"/>
-					<button class="btn-search" id="search-btn">검색</button>
-				</div>
-					<div class="grid">
-					<div class="grid-count align-right">
-						총 ${reqList.size() > 0 ? reqList.get(0).totalCount : 0}건
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th><input type="checkbox" id="all_check"/></th>
-								<th>순번</th>
-								<th>요구사항ID</th>
-								<th>요구사항제목</th>
-								<th>진행상태</th>
-								<th>일정상태</th>
-								<th>시작일</th>
-								<th>종료예정일</th>
-								<th>프로젝트ID</th>
-								<th>우선순위</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty reqList}">
-									<c:forEach items="${reqList}"
-											   var="req"
-											   varStatus="index">
-										<tr data-reqid="${req.reqId}"
-											data-reqttl="${req.reqTtl}"
-											data-strtdt="${req.strtDt}"
-											data-expctEndDt="${req.expctEndDt}"
-											data-eqpprc="${req.prjId}"
-											data-prchsdt="${req.prrty}"
-											data-prcsStts="${req.prcsStts}"
-											data-tskStts="${req.tskStts}"
-											data-useyn="${req.useYn}"
-											data-crtr="${req.crtr}"
-											data-crtdt="${req.crtDt}"
-											data-mdfyr="${req.mdfyr}"
-											data-mdfydt="${req.mdfyDt}"
-											data-delyn="${req.delYn}">
-											<td>
-												<input type="checkbox" class="check_idx" value="${req.reqId}">
-											</td>
-											<td>${req.rnum}</td>
-											<td class="detail_value">${req.reqId}</td>
-											<td class="detail_path">${req.reqTtl}</td>
-											<td>${req.prcsStts}</td>
-											<td>${req.tskStts}</td>
-											<td>${req.strtDt}</td>
-											<td>${req.expctEndDt}</td>
-											<td>${req.prjId}</td>
-											<td>${req.prrty}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="10" class="no-items">
-											등록된 요구사항이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-					<div class="align-right mt-10">
-						<button id="delete_all_btn" class="btn-delete">삭제</button>
-					</div>
-					<c:import url="../include/pagenate.jsp">
-	                  <c:param name="pageNo" value="${pageNo}"/>
-	                  <c:param name="pageCnt" value="${pageCnt}"/>
-	                  <c:param name="lastPage" value="${lastPage}"/>
-	                  <c:param name="path" value="${context}/req"/>
-	               	</c:import>
-					
-				</div>	
 				<div class="grid-detail">
 					<form id="detail_form" >
 						<!-- isModify == true => 수정(update) -->

@@ -38,6 +38,7 @@
 			$("#prcsStts").val(data.prcsstts);
 			$("#prrty").val(data.prrty);
 			$("#reqTtl").val(data.reqttl);
+			$("#reqCnfrNm").val(data.reqcnfrnm);
 			
 			$("#useYn").prop("checked", data.useyn == "Y");
 			
@@ -175,16 +176,7 @@
 			<jsp:include page="../include/reqSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 상세 정보</div>
-				<div class="search-group">
-					<label for="search-keyword">요구사항ID</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${reqVO.reqId}"/>
-					<button class="btn-search" id="search-btn">검색</button>
-				</div>
-				
 				<div class="grid">
-					<div class="grid-count align-right">
-						총 ${reqList.size() > 0 ? reqList.get(0).totalCount : 0}건
-					</div>
 					<table>
 						<thead>
 							<tr>
@@ -210,15 +202,20 @@
 											data-reqttl="${req.reqTtl}"
 											data-strtdt="${req.strtDt}"
 											data-expctenddt="${req.expctEndDt}"
-											data-eqpprc="${req.prjId}"
-											data-prchsdt="${req.prrty}"
-											data-prcsstts="${req.prcsStts}"
+											data-attch="${req.attch}"
+											data-mndvlpr="${req.mnDvlpr}"
+											data-prjid="${req.prjId}"
+											data-prrty="${req.prrty}"
+											data-tstrslt="${req.tstRslt}"
 											data-tskstts="${req.tskStts}"
+											data-prcsstts="${req.prcsStts}"
 											data-useyn="${req.useYn}"
 											data-crtr="${req.crtr}"
 											data-crtdt="${req.crtDt}"
 											data-mdfyr="${req.mdfyr}"
 											data-mdfydt="${req.mdfyDt}"
+											data-dtlreq="${req.dtlReq}"
+											data-reqcnfrnm="${req.reqCnfrNm}"
 											data-delyn="${req.delYn}">
 											<td>
 												<input type="checkbox" class="check_idx" value="${req.reqId}">
@@ -248,13 +245,6 @@
 					<div class="align-right mt-10">
 						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
-					<c:import url="../include/pagenate.jsp">
-	                  <c:param name="pageNo" value="${pageNo}"/>
-	                  <c:param name="pageCnt" value="${pageCnt}"/>
-	                  <c:param name="lastPage" value="${lastPage}"/>
-	                  <c:param name="path" value="${context}/req"/>
-	               	</c:import>
-					
 				</div>	
 				<div class="grid-detail">
 					<form id="detail_form" >
@@ -288,7 +278,17 @@
 						</div>
 						<div class="input-group inline">
 							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<input type="text" id="prjId"  name="prjId" value="${req.prjId}"/>
+							<input type="text" id="prjId"  name="prjId" value=""/>
+							<button id="prj_search">검색</button>
+						</div>
+						<div class="input-group inline">
+							<label for="prjId" style="width: 180px;">담당개발자</label>
+							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
+							<button id="prj_search">검색</button>
+						</div>
+						<div class="input-group inline">
+							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
+							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
@@ -310,25 +310,21 @@
 							</select>
 						</div>
 						<div class="input-group inline">
+							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
+							<select id="tstRslt"  name="tstRslt" >
+								<option value="22">선택</option>
+								<option value="222">합격</option>
+								<option value="2222">불합격</option>
+								<option value="22222">보류</option>
+							</select>
+						</div>
+						<div class="input-group inline">
 							<label for="lossStts" style="width: 180px;">사용여부</label>
 							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
 						</div>
-						
 						<div class="input-group inline">
-							<label for="crtr" style="width: 180px;">등록자</label>
-							<input type="text" id="crtr"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="crtDt" style="width: 180px;">등록일</label>
-							<input type="text" id="crtDt"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyr" style="width: 180px;">수정자</label>
-							<input type="text" id="mdfyr"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyDt" style="width: 180px;">수정일</label>
-							<input type="text" id="mdfyDt"  disabled value=""/>
+							<label for="dtlReq" style="width: 180px;">내용</label>
+							<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
 						</div>
 					</form>		
 				</div>

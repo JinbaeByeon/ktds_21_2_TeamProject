@@ -146,7 +146,7 @@
 		UPDATE REQ
 		   SET MDFY_DT=SYSDATE
 		     , MDFYR=#{mdfyr}
-		     , USE_YN=NVL(#{useYn}, N)
+		     , USE_YN=NVL(#{useYn}, 'N')
 		     , DTL_REQ=#{dtlReq}
 		     , STRT_DT=#{strtDt}
 		     , EXPCT_END_DT=#{expctEndDt}
