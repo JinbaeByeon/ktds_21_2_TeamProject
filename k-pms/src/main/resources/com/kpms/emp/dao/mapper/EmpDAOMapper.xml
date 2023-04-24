@@ -475,4 +475,11 @@
 		 </foreach>
 	</update>
 	
+	<update id="deleteEmpByDepId"
+			parameterType="string">
+		UPDATE EMP
+		   SET DEL_YN = 'Y'
+		 WHERE DEP_ID = #{_parameter} 
+	</update>
+	
 </mapper>

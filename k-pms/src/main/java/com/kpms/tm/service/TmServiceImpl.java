@@ -85,6 +85,11 @@ public class TmServiceImpl implements TmService {
 		if (!isSuccess) {
 			throw new APIException("500", "삭제에 실패했습니다. 요청건수:("+tmId.size() +"건), 삭제건수:("+delCount+"건)");
 		}
+		else {
+			for (String tmid : tmId) {
+				tmMbrDAO.deleteTmMbrByTmId(tmid);
+			}
+		}
 		
 		return isSuccess;
 	}

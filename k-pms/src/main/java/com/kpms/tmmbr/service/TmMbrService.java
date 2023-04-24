@@ -13,5 +13,5 @@ public interface TmMbrService {
 	public boolean deleteOneTmMbrByTmMbrId(String tmMbrId);
 	
 	public boolean deleteTmMbrBySelectedTmMbrId(List<String> tmMbrId);
-
+	
 }

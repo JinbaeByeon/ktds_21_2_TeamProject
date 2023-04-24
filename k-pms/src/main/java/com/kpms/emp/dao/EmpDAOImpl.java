@@ -103,4 +103,9 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 		return getSqlSession().update("Emp.updateEmpDep",empChngDepVO);
 	}
 
+	@Override
+	public int deleteEmpByDepId(String depId) {
+		return getSqlSession().update("Emp.deleteEmpByDepId", depId);
+	}
+
 }

@@ -56,8 +56,15 @@ public class TmDAOImpl extends SqlSessionDaoSupport implements TmDAO {
 	}
 
 	@Override
+	public int deleteTmByDepId(String depId) {
+		return getSqlSession().update("Tm.deleteTmByDepId", depId);
+	}
+	
+	@Override
 	public int deleteTmBySelectedTmId(List<String> tmId) {
 		return getSqlSession().update("Tm.deleteTmBySelectedTmId", tmId);
 	}
+
+	
 
 }

@@ -15,5 +15,7 @@ public interface TmMbrDAO {
 	public int deleteTmMbrByTmId(String tmId);
 	
 	public int deleteTmMbrBySelectedTmMbrId(List<String> tmMbrId);
+	
+	public int deleteTmMbrByDepId(String depId);
 
 }

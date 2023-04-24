@@ -269,6 +269,13 @@
 		 WHERE TM_ID = #{_parameter}
 	</update>	
 	
+	<update id="deleteTmByDepId"
+			parameterType="string">
+		UPDATE TM T
+		   SET DEL_YN = 'Y'
+		 WHERE DEP_ID = #{_parameter}
+	</update>	
+	
 	<update id="deleteTmBySelectedTmId"
 			parameterType="arraylist">
 		UPDATE TM T

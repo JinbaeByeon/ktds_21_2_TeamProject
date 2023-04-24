@@ -8,6 +8,7 @@
 		<association property="tmVO" javaType="com.kpms.tm.vo.TmVO">
 			<id property="tmId" column="TM_ID" />
 			<result property="tmNm" column="TM_NM" />
+			<result property="depId" column="DEP_ID" />
 		</association>
 		<association property="empVO" javaType="com.kpms.emp.vo.EmpVO">
 			<id property="empId" column="EMP_ID" />
@@ -105,5 +106,14 @@
 		 <foreach collection="list" item="tmMbrId" open="(" close=")" separator=", ">
 		 	#{tmMbrId}
 		 </foreach>		
+	</update>
+	
+	<update id="deleteTmMbrByDepId"
+			parameterType="string">
+		UPDATE TM_MBR TM
+		   SET TM.DEL_YN = 'Y'
+		 WHERE TM.TM_ID IN (SELECT T.TM_ID
+		 					  FROM TM T
+		 					 WHERE T.DEP_ID = #{_parameter})
 	</update>
 </mapper>
