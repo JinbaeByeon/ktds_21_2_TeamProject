@@ -18,7 +18,7 @@ public class ReqController {
 	
 	@GetMapping("/req/{searchMode}")
 	public String viewReqListPage(@PathVariable String searchMode, Model model, ReqVO reqVO) {
-		
+		reqVO.setSearchMode(searchMode);
 		List<ReqVO> reqList= reqService.readAllReq(reqVO);
 		
 		model.addAttribute("reqList", reqList);

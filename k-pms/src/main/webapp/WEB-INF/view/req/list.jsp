@@ -75,7 +75,7 @@
 			
 		})
 		
-		$("#detail_path").click(function(){
+		$(".detail_path").click(function(){
 			var reqId =$(this).closest("tr").data("reqid");
 			location.href = "${context}/req/detail?reqId=" + reqId;
 			
@@ -118,7 +118,7 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var eqpNm = $("#search-keyword").val();
+		var reqId = $("#search-keyword").val();
 		// URL 요청
 		location.href = "${context}/req/list?reqId=" + reqId + "&pageNo=" + pageNo;
 	}
@@ -180,8 +180,8 @@
 												<input type="checkbox" class="check_idx" value="${req.reqId}">
 											</td>
 											<td>${req.rnum}</td>
-											<td id="detail_value">${req.reqId}</td>
-											<td id="detail_path">${req.reqTtl}</td>
+											<td class="detail_value">${req.reqId}</td>
+											<td class="detail_path">${req.reqTtl}</td>
 											<td>${req.prcsStts}</td>
 											<td>${req.tskStts}</td>
 											<td>${req.strtDt}</td>
@@ -209,7 +209,7 @@
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
-	                  <c:param name="path" value="${context}/eqp"/>
+	                  <c:param name="path" value="${context}/req"/>
 	               	</c:import>
 				</div>	
 			<jsp:include page="../include/footer.jsp" />

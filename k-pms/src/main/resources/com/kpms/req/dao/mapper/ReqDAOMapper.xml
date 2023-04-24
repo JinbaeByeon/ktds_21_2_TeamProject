@@ -76,7 +76,10 @@
 	<select id="readAllReq"
 			parameterType="com.kpms.req.vo.ReqVO"
 			resultMap="reqVOMap">
-		SELECT R.REQ_ID
+		<include refid="Common.pageHeader" />
+		SELECT R.REQ_ID PK_COL 
+			 , R.REQ_ID
+			 , DENSE_RANK() OVER(ORDER BY R.CRT_DT || R.REQ_ID DESC) RNUM
 			 , R.CRT_DT
 			 , R.CRTR
 			 , R.MDFY_DT
@@ -106,6 +109,11 @@
 		  	ON R.REQ_ID = TST.REQ_ID
 		  LEFT JOIN EMP TSTR_E
 		 	ON TST.TSTR_ID = TSTR_E.EMP_ID
+		 WHERE R.DEL_YN = 'N'
+		  <if test="reqId != null and reqId != ''">
+		   AND R.REQ_ID LIKE '%' || #{reqId} || '%'
+		 </if>
+		 <include refid="Common.pageFooter" />
 	</select>
 
 	<select id="readReqByReqId"

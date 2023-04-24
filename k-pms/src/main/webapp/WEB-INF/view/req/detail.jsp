@@ -121,6 +121,9 @@
 			
 		})
 		
+		$("#back-btn").click(function(){
+			location.href = "${context}/req/list";
+		})
 		
 		$("#all_check").change(function(){
 			$(".check_idx").prop("checked", $(this).prop("checked"));
@@ -159,7 +162,7 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var eqpNm = $("#search-keyword").val();
+		var reqId = $("#search-keyword").val();
 		// URL 요청
 		location.href = "${context}/req/detail?reqId=" + reqId + "&pageNo=" + pageNo;
 	}
@@ -249,7 +252,7 @@
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
-	                  <c:param name="path" value="${context}/eqp"/>
+	                  <c:param name="path" value="${context}/req"/>
 	               	</c:import>
 					
 				</div>	
@@ -333,6 +336,7 @@
 					<button id="new_btn" class="btn-primary">신규</button>
 					<button id="save_btn" class="btn-primary">저장</button>
 					<button id="delete_btn" class="btn-delete">삭제</button>
+					<button id="back-btn" class="btn-delete">뒤로가기</button>
 				</div>		
 			<jsp:include page="../include/footer.jsp" />
 		</div>

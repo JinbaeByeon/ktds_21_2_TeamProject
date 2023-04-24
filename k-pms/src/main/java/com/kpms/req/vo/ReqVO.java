@@ -10,6 +10,7 @@ import com.kpms.reqtstr.vo.ReqTstrVO;
  */
 public class ReqVO extends AbstractPagingVO {
 
+	private String searchMode;
 	/**
 	 * 요구사항ID
 	 */
@@ -66,6 +67,12 @@ public class ReqVO extends AbstractPagingVO {
 	
 	
 	
+	public String getSearchMode() {
+		return searchMode;
+	}
+	public void setSearchMode(String searchMode) {
+		this.searchMode = searchMode;
+	}
 	public String getReqCnfrNm() {
 		return reqCnfrNm;
 	}
