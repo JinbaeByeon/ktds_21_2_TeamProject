@@ -287,6 +287,14 @@ h1{
 	padding-bottom: 10px;
 }
 
+.main-layout > div > .side-menu	> .menu-list > .line {
+	border-bottom: 1px solid #fff;
+	display: block;
+    margin: 0px 8px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
 .main-layout > div > .content {
 	position:fixed;
 	top:90px;
