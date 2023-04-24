@@ -10,9 +10,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-
 		$("#search-btn").click(function() {
-			location.href = "${context}/prjtmmbr/search?nm=" + $("#search-prjTmMbrNm").val();
+		var prjId = $("#search-prjId").val();
+			location.href = "${context}/prjtmmbr/search?prjId=" + prjId + "&nm=" + $("#search-prjTmMbrNm").val();
 		});
 		
 		$("#all_check").change(function() {
@@ -52,6 +52,7 @@
 	<div class="search-popup content">
 		<h1>프로젝트 팀원 검색</h1>
 			<div class="search-group">
+			<input type="hidden" id="search-prjId" value="${prjTmMbrSearchVO.prjId}"/>
 				<label for="search-prjTmMbrNm">프로젝트 팀원명</label>
 				<input type="text" id="search-prjTmMbrNm" class="grow-1 mr-10" value="${prjTmMbrSearchVO.nm}"/>
 				<button class="btn-search" id="search-btn">검색</button>

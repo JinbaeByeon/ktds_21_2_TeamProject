@@ -56,7 +56,7 @@
 		   AND PTM_E.NM LIKE '%' || #{nm} || '%'
 		  </if>
 		  <if test='prjId != null and prjId != ""'>
-		   AND PTM.PRJ_ID = LIKE '%' || #{prjId} || '%'
+		   AND PTM.PRJ_ID LIKE '%' || #{prjId} || '%'
 		  </if>
 	</select>
 	

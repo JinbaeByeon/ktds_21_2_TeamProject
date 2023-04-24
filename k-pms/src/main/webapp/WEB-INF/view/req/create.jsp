@@ -115,6 +115,12 @@
 			window.open("${context}/prj/search",
 					"프로젝트 검색", "width=500, height=500");
 		});
+
+		$("#prjtmmbr_search").click(function(event){
+			event.preventDefault();
+			var open = window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
+					"프로젝트팀원 검색", "width=500, height=500");
+		});
 		
 		
 		$("#all_check").change(function(){
@@ -292,7 +298,7 @@
 						<div class="input-group inline">
 							<label for="prjId" style="width: 180px;">담당개발자</label>
 							<input type="text" id="mnDvlpr"  name="mnDvlpr" value="${req.mnDvlpr}"/>
-							<button id="prj_search">검색</button>
+							<button id="prjtmmbr_search">검색</button>
 						</div>
 						<div class="input-group inline">
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
