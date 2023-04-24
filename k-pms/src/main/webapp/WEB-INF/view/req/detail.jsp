@@ -232,6 +232,10 @@
 							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
 						<div class="input-group inline">
+							<label for="attch" style="width: 180px;">첨부파일</label>
+							<input type="text" id="attch"  name="attch" value=""/>
+						</div>
+						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
 							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
 							<select id="prcsStts-select"  name="prcsStts" ></select>
@@ -251,7 +255,7 @@
 							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
 						</div>
 						<div class="input-group inline">
-							<label for="dtlReq" style="width: 180px;">내용</label>
+							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
 							<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
 						</div>
 					</form>		

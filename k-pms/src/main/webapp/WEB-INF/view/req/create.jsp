@@ -279,6 +279,10 @@
 							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
 						<div class="input-group inline">
+							<label for="attch" style="width: 180px;">첨부파일</label>
+							<input type="text" id="attch"  name="attch" value=""/>
+						</div>
+						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
 							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
 							<select id="prcsStts-select"  name="prcsStts" ></select>
