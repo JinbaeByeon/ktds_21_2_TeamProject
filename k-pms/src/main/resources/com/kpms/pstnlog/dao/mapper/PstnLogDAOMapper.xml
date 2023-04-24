@@ -15,13 +15,13 @@
 			 </association>
 			 <association property="prvsPstnNmVO"
 			 			  javaType="com.kpms.pstn.vo.PstnVO">
-			 	<id property="pstnId" column="PRVS_PSTNNM"/>
-			 	<result property="pstnNm" column="PRVS_JOBNM"/>	  
+			 	<id property="pstnId" column="PRVS_PSTN_ID"/>
+			 	<result property="pstnNm" column="PRVS_PSTN_NM"/>	  
 			 </association>
 			 <association property="chngPstnNmVO"
 			 			  javaType="com.kpms.pstn.vo.PstnVO">
-			 	<id property="pstnId" column="CHNG_PSTNNM"/>
-			 	<result property="pstnNm" column="CHNG_JOBNM"/>	  
+			 	<id property="pstnId" column="CHNG_PSTN_ID"/>
+			 	<result property="pstnNm" column="CHNG_PSTN_NM"/>	  
 			 </association>
 	</resultMap>
 	<select id="readAllPstnLogVO"
@@ -35,9 +35,9 @@
 			 , PL.CRTR
 			 , TO_CHAR(PL.CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
 			 , PL.PRVS_PSTN_ID
-			 , P.PSTN_NM PRVS_PSTNNM
+			 , P.PSTN_NM PRVS_PSTN_NM
 			 , PL.CHNG_PSTN_ID
-			 , PT.PSTN_NM CHNG_PSTNNM
+			 , PT.PSTN_NM CHNG_PSTN_NM
 			 , PL.CHNG_RSN
 			 , E.F_NM
 			 , E.L_NM
@@ -55,24 +55,27 @@
 	</select>
 	
 	<insert id="createPstnLog"
-			parameterType="com.kpms.pstnlog.vo.PstnLogVO">
+			parameterType="com.kpms.emp.vo.EmpChngPstnVO">
 		INSERT INTO PSTN_LOG
-				   (EMP_ID
-				  , CRT_DT
-				  , CRTR
-				  , CHNG_DT
-				  , PRVS_PSTN_ID
-				  , CHNG_PSTN_ID
-				  , CHNG_RSN)
-			VALUES
-				  (#{empId}
-				 , SYSDATE
-				 , #{crtr}
-				 , SYSDATE
-				 , #{prvsPstnId}
-				 , #{chngPstnId}
-				 , #{chngRsn})
-		
+		(EMP_ID,
+		 PRVS_PSTN_ID,
+		 CRT_DT,
+		 CHNG_DT,
+		 CRTR,
+		 CHNG_PSTN_ID,
+		 CHNG_RSN)
+		SELECT EMP_ID
+			 , PSTN_ID
+			 , SYSDATE
+			 , SYSDATE
+			 , #{mdfyr}
+			 , #{pstnId}
+			 , #{chngRsn}
+		  FROM EMP
+		 WHERE EMP_ID IN
+		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
+		  #{empId}
+		 </foreach>
 	</insert>
 	
 </mapper>

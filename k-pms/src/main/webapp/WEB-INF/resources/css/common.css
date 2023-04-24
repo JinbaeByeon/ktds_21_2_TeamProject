@@ -725,5 +725,8 @@ input::-webkit-inner-spin-button {
 
 
 
+.hide {
+	display: none;
+}
 
 

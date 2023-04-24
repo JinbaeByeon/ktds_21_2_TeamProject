@@ -25,13 +25,8 @@ public class TmDAOImpl extends SqlSessionDaoSupport implements TmDAO {
 	}
 	
 	@Override
-	public List<TmVO> readAllTmVOAndTmMbrVO(String tmId) {
-		return getSqlSession().selectList("Tm.readAllTmVOAndTmMbrVO", tmId);
-	}
-
-	@Override
-	public List<TmVO> readAllTmVONopagination(String tmNm) {
-		return getSqlSession().selectList("Tm.readAllTmVONopagination", tmNm);
+	public List<TmVO> readAllTmVONopagination(String depId) {
+		return getSqlSession().selectList("Tm.readAllTmVONopagination", depId);
 	}
 
 	@Override
@@ -49,6 +44,12 @@ public class TmDAOImpl extends SqlSessionDaoSupport implements TmDAO {
 		return getSqlSession().update("Tm.updateOneTm", tmVO);
 	}
 
+
+	@Override
+	public int updateOneTmAndTmMbr(TmVO tmVO) {
+		return getSqlSession().update("Tm.updateOneTmAndTmMbr", tmVO);
+	}
+	
 	@Override
 	public int deleteOneTmByTmId(String tmId) {
 		return getSqlSession().update("Tm.deleteOneTmByTmId", tmId);
@@ -59,5 +60,4 @@ public class TmDAOImpl extends SqlSessionDaoSupport implements TmDAO {
 		return getSqlSession().update("Tm.deleteTmBySelectedTmId", tmId);
 	}
 
-	
 }

@@ -23,7 +23,7 @@
 				for (var i in response.data) {
 					var tmmbrId = response.data[i].tmMbrId;
 					var tmId = response.data[i].tmId;
-					var empId = response.data[i].empId
+					var empId = response.data[i].empId;
 					var fNm = (response.data[i].empVO.fNm == null) ? "" : response.data[i].empVO.fNm;
 					var lNm = (response.data[i].empVO.lNm == null) ? "" : response.data[i].empVO.lNm;
 					var tmNm = response.data[i].tmVO.tmNm;

@@ -13,23 +13,28 @@
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		var detailWindow;
+		var depWindow;
+		var jobWindow;
+		var pstnWindow;
 		
 		$().ready(function(){
 			$("#pwd-reset").click(function(){
-				
-				$.get("${context}/api/emp/reset/password/"+ function(){
-					
-				});
+				if(!confirm("해당 사원들의 비밀번호를 초기화하시겠습니까?")){
+					return;
+				}
+				var data;
+				data.url = '/api/emp/reset/password';
+				postCheckIdx(data);
 			});
 			
 			$("#pstn-change").click(function(){
-				
+				pstnWindow = window.open("${context}/pstn/search","직급 변경","width=500,height=500");
 			});
 			$("#job-change").click(function(){
-				
+				jobWindow = window.open("${context}/job/search","직무 변경","width=500,height=500");
 			});
 			$("#dep-change").click(function(){
-				
+				depWindow = window.open("${context}/dep/search","부서 변경","width=500,height=500");
 			});
 
 			$(".search-option").change(function(){
@@ -58,7 +63,6 @@
 				$(this).prop("checked",$(this).prop("checked")==false);
 			});
 			$(".grid > table > tbody > tr > td.check").click(function(){
-				console.log("!!!");
 				var check_idx = $(this).closest("tr").find(".check_idx");
 				check_idx.prop("checked",check_idx.prop("checked")==false);
 				checkIndex();
@@ -78,6 +82,68 @@
 			}
 			
 			location.href = "${context}/emp/list?"  + qryStr;
+		}
+		function addPstnFn(pstnData){
+			pstnData.name='pstnId';
+			pstnData.id = pstnData.pstnid;
+			pstnData.url = '/api/emp/update/pstn';
+			pstnData.rsn = pstnWindow.prompt("변경사유를 입력하세요.");
+			pstnData.window = pstnWindow;
+			if(!postCheckIdx(pstnData)){
+				return;
+			}
+			pstnWindow.close();
+		}
+		
+		function addJobFn(jobData){
+			jobData.name='jobId';
+			jobData.id = jobData.jobid;
+			jobData.url = '/api/emp/update/job';
+			jobData.rsn = jobWindow.prompt("변경사유를 입력하세요.");
+			jobData.window = jobWindow;
+			if(!postCheckIdx(jobData)){
+				return;
+			}
+			jobWindow.close();
+		}
+		
+		function addDepFn(depData){
+			depData.name='depId';
+			depData.id = depData.depid;
+			depData.url = '/api/emp/update/dep';
+			depData.rsn = depWindow.prompt("변경사유를 입력하세요.");
+			depData.window = depWindow;
+			if(!postCheckIdx(depData)){
+				return;
+			};
+			depWindow.close();
+		}
+		function postCheckIdx(data){
+			console.log(data.rsn);
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				form.append("<input type='hidden' name='empIdList' value='"+ $(this).val() +"'>");
+			});
+			if(data != null){
+				form.append("<input type='hidden' name='"+data.name+"' value='"+ data.id +"'>");
+				if(data.rsn == null){
+					return false;
+				}
+				if(data.rsn == '') {
+					data.window.alert("변경사유를 입력하지 않았습니다.");
+					return false;
+				}
+				form.append("<input type='hidden' name='chngRsn' value='"+ data.rsn +"'>");
+			}
+			$.post("${context}"+data.url,form.serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.reload();
+				} else {
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+			return true;
 		}
 	</script>
 </head>
