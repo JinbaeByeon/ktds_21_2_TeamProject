@@ -33,6 +33,11 @@ public class PrjTmMbrDAOImpl extends SqlSessionDaoSupport implements PrjTmMbrDAO
 	public int deleteOnePrjTmMbrByPrjTmMbrId(String prjTmMbrId) {
 		return getSqlSession().update("PrjTmMbr.deleteOnePrjTmMbrByPrjTmMbrId", prjTmMbrId);
 	}
+	
+	@Override
+	public int deletePrjTmMbrByPrjId(String prjId) {
+		return getSqlSession().update("PrjTmMbr.deletePrjTmMbrByPrjId", prjId);
+	}
 
 	@Override
 	public int updateOnePrjTmMbr(PrjTmMbrVO prjTmMbrVO) {

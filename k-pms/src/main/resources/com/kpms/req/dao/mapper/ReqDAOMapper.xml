@@ -193,5 +193,11 @@
 		 </foreach>
 	</update>
 	
+	<update id="deleteReqByPrjId"
+			parameterType="string">
+		UPDATE REQ
+		   SET DEL_YN='Y'
+		 WHERE prjId = #{_parameter}
+	</update>
 	
 </mapper>

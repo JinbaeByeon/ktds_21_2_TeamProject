@@ -8,5 +8,6 @@ import com.kpms.prjtmmbr.vo.PrjTmMbrVO;
 public interface PrjTmMbrService {
 	
 	public List<PrjTmMbrVO> readAllPrjTmMbrVO(PrjTmMbrSearchVO prjTmMbrSearchVO);
+	public int deleteOnePrjTmMbrByPrjTmMbrId(String prjTmMbrId);
 
 }

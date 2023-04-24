@@ -12,5 +12,6 @@ public interface ReqDAO {
 	public int updateReq(ReqVO reqVO);
 	public int deleteReqByReqId(String reqId);
 	public int deleteReqBySelectedReqId(List<String> reqId);
+	public int deleteReqByPrjId(String prjId);
 	
 }

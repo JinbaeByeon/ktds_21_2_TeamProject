@@ -102,6 +102,13 @@
 		 WHERE PRJ_TM_MBR_ID = #{_parameter}
 	</update>
 	
+	<update id="deletePrjTmMbrByPrjId"
+			parameterType="string">
+		UPDATE PRJ_TM_MBR
+	       SET DEL_YN = 'Y' 
+		 WHERE PRJ_ID = #{_parameter}
+	</update>
+	
 	<update id="updateOnePrjTmMbr"
 			parameterType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
 		UPDATE PRJ_TM_MBR
