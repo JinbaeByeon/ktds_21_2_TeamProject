@@ -13,6 +13,7 @@ public interface RcvMsgDAO {
 	public SndMsgVO readOneSndMsgVO(String rcvmsgId);
 	
 	public int createOneRcvMsg(RcvMsgVO rcvMsgVO);
+	public int createRcvMsg(SndMsgVO sndMsgVO);
 	
 	public int deleteOneRcvMsg(String msgId);
 	

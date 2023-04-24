@@ -481,7 +481,7 @@ img.profile{
 .create-group label {
 	display: inline-block;
 	background-color: #e3e3e3;	
-	width: 130px;
+	min-width: 130px;
 	padding: 10px;
 	font-size: 13px;
 }
@@ -499,6 +499,7 @@ img.profile{
 
 .create-group > div{
 	display: flex;
+	flex-direction: column;
 }
 .create-group > div.column{
 	flex-direction: column;
@@ -686,4 +687,41 @@ input::-webkit-inner-spin-button {
 	display: none;
 }
 
+.emplmntStts {
+	position: absolute;
+	margin-top: 5px;
+	right: 10px;
+}
 
+#userList {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#userList > .user {
+	display: flex;
+    background-color: #d0edff;
+    border-radius: 14px;
+    padding: 5px;
+    margin: 3px 0;
+    margin-left: 10px;
+}
+
+#userList > .user > .rcvr {
+	height: 20px;
+	margin: 0;
+	margin-left: 5px;
+	line-height: 17px
+}
+#userList > .user > .btn-delete {
+	margin: 0;
+    border: none;
+    background-color: #d0edff;
+    color: #888;
+    font-size: 17px;
+    padding: 0 5px;
+}
+
+#search-emp {
+	margin: 10px 0;
+}

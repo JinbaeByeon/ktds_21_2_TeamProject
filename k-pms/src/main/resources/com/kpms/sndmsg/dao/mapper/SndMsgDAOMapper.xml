@@ -76,6 +76,10 @@
 	
 	<insert id="createOneSndMsg"
 			parameterType="com.kpms.sndmsg.vo.SndMsgVO">
+		<selectKey keyProperty="msgId" resultType="String" order="BEFORE">
+			SELECT SEQ_SND_MSG_PK.NEXTVAL
+			  FROM DUAL
+		</selectKey>
 		INSERT INTO SND_MSG
 				   (MSG_ID
 				 , CRT_DT
@@ -86,7 +90,7 @@
 				 , CNTNT
 				 , ATTCH)
 		   VALUES
-		   		  (SEQ_SND_MSG_PK.NEXTVAL
+		   		  (#{msgId}
 		   		 , SYSDATE
 		   		 , #{crtr}
 		   		 , NVL(#{useYn}, 'N')

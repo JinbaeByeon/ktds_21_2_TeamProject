@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIException;
+import com.kpms.rcvmsg.dao.RcvMsgDAO;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.sndmsg.dao.SndMsgDAO;
 import com.kpms.sndmsg.vo.SndMsgVO;
@@ -14,7 +17,9 @@ public class SndMsgServiceImpl implements SndMsgService {
 
 	@Autowired
 	private SndMsgDAO sndMsgDAO;
-
+	@Autowired
+	private RcvMsgDAO rcvMsgDAO;
+	
 	@Override
 	public List<SndMsgVO> readAllSndMsgVO(MsgSearchVO msgSearchVO) {
 		return sndMsgDAO.readAllSndMsgVO(msgSearchVO);
@@ -22,7 +27,13 @@ public class SndMsgServiceImpl implements SndMsgService {
 
 	@Override
 	public boolean createOneSndMsg(SndMsgVO sndMsgVO) {
-		return false;
+		if(sndMsgDAO.createOneSndMsg(sndMsgVO) == 0) {
+			throw new APIException(APIStatus.FAIL, "쪽지 발신을 실패하였습니다.");
+		}
+		if(rcvMsgDAO.createRcvMsg(sndMsgVO) == 0) {
+			throw new APIException(APIStatus.FAIL, "쪽지 발신을 실패하였습니다.");
+		}
+		return true;
 	}
 
 	@Override

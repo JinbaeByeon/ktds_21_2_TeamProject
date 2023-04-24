@@ -3,6 +3,7 @@ package com.kpms.emp.dao;
 import java.util.List;
 
 import com.kpms.emp.vo.EmpChngDepVO;
+import com.kpms.emp.vo.EmpChngEmplmntVO;
 import com.kpms.emp.vo.EmpChngJobVO;
 import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpVO;
@@ -33,5 +34,7 @@ public interface EmpDAO {
 	public int updateEmpJob(EmpChngJobVO empChngJobVO);
 	public int updateEmpPstn(EmpChngPstnVO empChngPstnVO);
 	public int updateEmpDep(EmpChngDepVO empChngDepVO);
+
+	public int updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO);
 
 }

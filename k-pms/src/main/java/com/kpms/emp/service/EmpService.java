@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kpms.emp.vo.EmpChngDepVO;
+import com.kpms.emp.vo.EmpChngEmplmntVO;
 import com.kpms.emp.vo.EmpChngJobVO;
 import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpPwdVO;
@@ -40,4 +41,6 @@ public interface EmpService {
 	public boolean updateEmpJob(EmpChngJobVO empChngJobVO);
 
 	public boolean updateEmpDep(EmpChngDepVO empChngDepVO);
+
+	public boolean updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO);
 }

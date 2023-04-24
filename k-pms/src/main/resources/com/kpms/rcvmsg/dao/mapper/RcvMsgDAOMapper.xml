@@ -105,6 +105,31 @@
 			 	 , #{rcvr}
 			 	 , 'N')
 	</insert>
+	<insert id="createRcvMsg"
+			parameterType="com.kpms.sndmsg.vo.SndMsgVO">
+		INSERT INTO RCV_MSG
+		 (MSG_ID
+		, CRT_DT
+		, CRTR
+		, USE_YN
+		, DEL_YN
+		, SND_MSG_ID
+		, RCVR
+		, RD_YN)
+		SELECT SEQ_RCV_MSG_PK.NEXTVAL
+			 , SYSDATE
+			 , #{crtr}
+			 , 'Y'
+			 , 'N'
+			 , #{msgId}
+			 , EMP_ID RCVR
+			 , 'N'
+		  FROM EMP
+		 WHERE EMP_ID IN
+		<foreach collection="rcvMsgVO" item="rcvMsg" open="(" close=")" separator=", ">
+		 #{rcvMsg.rcvr}
+		</foreach>
+	</insert>
 	
 	<update id="deleteOneRcvMsg"
 			parameterType="_int">
