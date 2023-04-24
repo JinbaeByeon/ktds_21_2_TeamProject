@@ -16,7 +16,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		
 		var data2 = "${reqVO.reqId}";
 		console.log(data2);
 		$("#isModify").val("true");	
@@ -52,10 +51,12 @@
 				else {
 					isSelected = "";
 				}
+				console.log($("#original-prcsStts").val());
 				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
 				option.append(cdNm);
 				$("#prcsStts-select").append(option)
 			}
+		
 		});
 		
 		$.get("${context}/api/cmncd/list/003", function(response) {
@@ -111,8 +112,6 @@
 			$("#prcsStts").val("");
 			$("#prrty").val("");
 			$("#reqTtl").val("");
-			
-			
 			$("#useYn").prop("checked", false);
 		});
 		
@@ -234,17 +233,17 @@
 						</div>
 						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqOneVO.prcsStts}"/>
+							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
 							<select id="prcsStts-select"  name="prcsStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqOneVO.tskStts}"/>
+							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
 							<select id="tskStts-select"  name="tskStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqOneVO.tstRslt}"/>
+							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
 							<select id="tstRslt-select"  name="tstRslt" ></select>
 						</div>
 						<div class="input-group inline">
