@@ -152,7 +152,7 @@
 		  LEFT JOIN EMP TSTR_E
 		 	ON TST.TSTR_ID = TSTR_E.EMP_ID
 		 WHERE R.DEL_YN = 'N'
-		   AND REQ_ID = #{_parameter}
+		   AND R.REQ_ID = #{_parameter}
 	</select>
 	
 	<update id="updateReq"
@@ -172,6 +172,7 @@
 		     , PRCS_STTS=#{prcsStts}
 		     , PRRTY=#{prrty}
 		     , REQ_TTL=#{reqTtl}
+		     , REQ_CNFR_NM=#{reqCnfrNm}
 		 WHERE REQ_ID=#{reqId}
 	</update>
 

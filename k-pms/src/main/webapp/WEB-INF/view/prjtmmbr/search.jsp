@@ -20,7 +20,7 @@
 		});
 		
 		$("#regist-btn").click(function() {
-			var checkOne = $("#check-one:checked");
+			var checkOne = $(".check-idx:checked");
 			
 			if (checkOne.length == 0) {
 				alert("팀원을 선택하세요");

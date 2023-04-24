@@ -16,33 +16,30 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
+		
+		var data2 = "${reqOneVO.reqId}";
+		console.log(data2);
+		$("#isModify").val("true");	
+		$("#reqId").val("${reqOneVO.reqId}");
+		$("#dtlReq").val("${reqOneVO.dtlReq}");
+		$("#crtr").val("${reqOneVO.crtr}");
+		$("#crtDt").val("${reqOneVO.crtDt}");
+		$("#mdfyr").val("${reqOneVO.mdfyr}");
+		$("#mdfyDt").val("${reqOneVO.mdfyDt}");
+		$("#strtDt").val("${reqOneVO.strtDt}");
+		$("#expctEndDt").val("${reqOneVO.expctEndDt}");
+		$("#attch").val("${reqOneVO.attch}");
+		$("#prjId").val("${reqOneVO.prjId}");
+		$("#mnDvlpr").val("${reqOneVO.mnDvlpr}");
+		$("#tstRslt").val("${reqOneVO.tstRslt}");
+		$("#tskStts").val("${reqOneVO.tskStts}");
+		$("#prcsStts").val("${reqOneVO.prcsStts}");
+		$("#prrty").val("${reqOneVO.prrty}");
+		$("#reqTtl").val("${reqOneVO.reqTtl}");
+		$("#reqCnfrNm").val("${reqOneVO.reqCnfrNm}");
+		
+		$("#useYn").prop("checked", "${reqOneVO.useYn}" == "Y");
 			
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			
-			$("#reqId").val(data.reqid);
-			$("#dtlReq").val(data.dtlreq);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#strtDt").val(data.strtdt);
-			$("#expctEndDt").val(data.expctenddt);
-			$("#attch").val(data.attch);
-			$("#prjId").val(data.prjid);
-			$("#mnDvlpr").val(data.mndvlpr);
-			$("#tstRslt").val(data.tstrslt);
-			$("#tslStts").val(data.tslstts);
-			$("#prcsStts").val(data.prcsstts);
-			$("#prrty").val(data.prrty);
-			$("#reqTtl").val(data.reqttl);
-			$("#reqCnfrNm").val(data.reqcnfrnm);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
-		});
 		
 		$("#new_btn").click(function(){
 			$("#isModify").val("false"); //등록모드
@@ -59,7 +56,7 @@
 			$("#prjId").val("");
 			$("#mnDvlpr").val("");
 			$("#tstRslt").val("");
-			$("#tslStts").val("");
+			$("#tskStts").val("");
 			$("#prcsStts").val("");
 			$("#prrty").val("");
 			$("#reqTtl").val("");
@@ -91,81 +88,45 @@
 					
 		$("#save_btn").click(function(){
 			var ajaxUtil = new AjaxUtil();
-			if($("#isModify").val() == "false"){
-				// 신규등록	
-				ajaxUtil.upload("#detail_form","${context}/api/req/create",function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-					}	
-					else{
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
-			else {
-				//수정
-				ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-					}	
-					else{
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
-		});
-		
-		$("#search-btn").click(function(){
-			var reqId =$("#search-keyword").val();
-			location.href = "${context}/req/list?reqId=" + reqId;
-			/* movePage(0) */
-			
-		})
-		
-		$("#back-btn").click(function(){
-			location.href = "${context}/req/list";
-		})
-		
-		$("#all_check").change(function(){
-			$(".check_idx").prop("checked", $(this).prop("checked"));
-		});
-		$(".check_idx").change(function(){
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
-		
-		$("#delete_all_btn").click(function(){
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 요구사항이 없습니다.");
-				return;
-			}
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='reqId' value='" + $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/req/delete", form.serialize(), function(response){
+			ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
 				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
+					alert("저장되었습니다.");
+					location.href = "${context}/req/list";
+				}	
 				else{
 					alert(response.errorCode + "/" + response.message);
 				}
 			});
 		});
+		
+		$("#back-btn").click(function(){
+			location.href = "${context}/req/list";
+		});
+		
+		$("#prj_search").click(function(event){
+			event.preventDefault();
+			window.open("${context}/prj/search",
+					"프로젝트 검색", "width=500, height=500");
+		});
+
+		$("#prjtmmbr_search").click(function(event){
+			event.preventDefault();
+			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
+					"프로젝트팀원 검색", "width=500, height=500");
+		});
+		
 	});
-	
-	function movePage(pageNo) {
-		// 전송
-		// 입력값
-		var reqId = $("#search-keyword").val();
-		// URL 요청
-		location.href = "${context}/req/detail?reqId=" + reqId + "&pageNo=" + pageNo;
+
+	function addPrjFn(data) {
+		
+		$("#prjId").val(data.prjid);
+		
+	}
+
+	function addPrjTmMbrFn(data) {
+		
+		$("#mnDvlpr").val(data.empid);
+		
 	}
 </script>
 </head>
@@ -176,76 +137,6 @@
 			<jsp:include page="../include/reqSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 상세 정보</div>
-				<div class="grid">
-					<table>
-						<thead>
-							<tr>
-								<th><input type="checkbox" id="all_check"/></th>
-								<th>순번</th>
-								<th>요구사항ID</th>
-								<th>요구사항제목</th>
-								<th>진행상태</th>
-								<th>일정상태</th>
-								<th>시작일</th>
-								<th>종료예정일</th>
-								<th>프로젝트ID</th>
-								<th>우선순위</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty reqOneVO}">
-									<c:forEach items="${reqOneVO}"
-											   var="req"
-											   varStatus="index">
-										<tr data-reqid="${req.reqId}"
-											data-reqttl="${req.reqTtl}"
-											data-strtdt="${req.strtDt}"
-											data-expctenddt="${req.expctEndDt}"
-											data-attch="${req.attch}"
-											data-mndvlpr="${req.mnDvlpr}"
-											data-prjid="${req.prjId}"
-											data-prrty="${req.prrty}"
-											data-tstrslt="${req.tstRslt}"
-											data-tskstts="${req.tskStts}"
-											data-prcsstts="${req.prcsStts}"
-											data-useyn="${req.useYn}"
-											data-crtr="${req.crtr}"
-											data-crtdt="${req.crtDt}"
-											data-mdfyr="${req.mdfyr}"
-											data-mdfydt="${req.mdfyDt}"
-											data-dtlreq="${req.dtlReq}"
-											data-reqcnfrnm="${req.reqCnfrNm}"
-											data-delyn="${req.delYn}">
-											<td>
-												<input type="checkbox" class="check_idx" value="${req.reqId}">
-											</td>
-											<td>${req.rnum}</td>
-											<td>${req.reqId}</td>
-											<td>${req.reqTtl}</td>
-											<td>${req.prcsStts}</td>
-											<td>${req.tskStts}</td>
-											<td>${req.strtDt}</td>
-											<td>${req.expctEndDt}</td>
-											<td>${req.prjId}</td>
-											<td>${req.prrty}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="15" class="no-items">
-											등록된 비품이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-					<div class="align-right mt-10">
-						<button id="delete_all_btn" class="btn-delete">삭제</button>
-					</div>
-				</div>	
 				<div class="grid-detail">
 					<form id="detail_form" >
 						<!-- isModify == true => 수정(update) -->
@@ -284,7 +175,7 @@
 						<div class="input-group inline">
 							<label for="prjId" style="width: 180px;">담당개발자</label>
 							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
-							<button id="prj_search">검색</button>
+							<button id="prjtmmbr_search">검색</button>
 						</div>
 						<div class="input-group inline">
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
@@ -329,10 +220,8 @@
 					</form>		
 				</div>
 				<div class="align-right">
-					<button id="new_btn" class="btn-primary">신규</button>
 					<button id="save_btn" class="btn-primary">저장</button>
-					<button id="delete_btn" class="btn-delete">삭제</button>
-					<button id="back-btn" class="btn-delete">뒤로가기</button>
+					<button id="back-btn" class="btn-delete">뒤로</button>
 				</div>		
 			<jsp:include page="../include/footer.jsp" />
 		</div>

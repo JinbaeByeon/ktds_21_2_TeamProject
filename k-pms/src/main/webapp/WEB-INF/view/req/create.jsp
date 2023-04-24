@@ -170,13 +170,6 @@
 		
 	}
 	
-	function movePage(pageNo) {
-		// 전송
-		// 입력값
-		var reqId = $("#search-keyword").val();
-		// URL 요청
-		location.href = "${context}/req/create?reqId=" + reqId + "&pageNo=" + pageNo;
-	}
 </script>
 </head>
 <body>

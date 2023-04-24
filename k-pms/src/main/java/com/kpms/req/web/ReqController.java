@@ -38,15 +38,14 @@ public class ReqController {
 		return "req/" + searchMode;
 	}
 
-	
-	 @GetMapping("/req/detail") 
-	 public String viewReqDetailPage(Model model, String reqId) {
+	 @GetMapping("/req/detail/{reqId}") 
+	 public String viewReqDetailPage(@PathVariable String reqId, Model model) {
 	  
 		 ReqVO reqOneVO = reqService.readReqByReqId(reqId);
 		 model.addAttribute("reqOneVO", reqOneVO);
 		 model.addAttribute("reqId", reqId);
 		 
-		 return "req/detail/{reqId}"; 
+		 return "req/detail"; 
 	 }
 	 
 }

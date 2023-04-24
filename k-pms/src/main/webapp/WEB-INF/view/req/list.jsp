@@ -34,7 +34,7 @@
 			$("#prjId").val(data.prjid);
 			$("#mnDvlpr").val(data.mndvlpr);
 			$("#tstRslt").val(data.tstrslt);
-			$("#tslStts").val(data.tslstts);
+			$("#tskStts").val(data.tskstts);
 			$("#prcsStts").val(data.prcsstts);
 			$("#prrty").val(data.prrty);
 			$("#reqTtl").val(data.reqttl);
@@ -71,13 +71,12 @@
 		$("#search-btn").click(function(){
 			var reqId =$("#search-keyword").val();
 			location.href = "${context}/req/list?reqId=" + reqId;
-			/* movePage(0) */
 			
 		})
 		
 		$(".detail_path").click(function(){
 			var reqId =$(this).closest("tr").data("reqid");
-			location.href = "${context}/req/detail?reqId=" + reqId;
+			location.href = "${context}/req/detail/" + reqId;
 			
 		});
 		
