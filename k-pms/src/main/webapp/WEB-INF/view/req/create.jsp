@@ -118,7 +118,7 @@
 
 		$("#prjtmmbr_search").click(function(event){
 			event.preventDefault();
-			var open = window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
+			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
 					"프로젝트팀원 검색", "width=500, height=500");
 		});
 		
@@ -161,6 +161,12 @@
 	function addPrjFn(data) {
 		
 		$("#prjId").val(data.prjid);
+		
+	}
+
+	function addPrjTmMbrFn(data) {
+		
+		$("#mnDvlpr").val(data.empid);
 		
 	}
 	

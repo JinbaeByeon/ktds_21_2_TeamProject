@@ -15,22 +15,12 @@
 			location.href = "${context}/prjtmmbr/search?prjId=" + prjId + "&nm=" + $("#search-prjTmMbrNm").val();
 		});
 		
-		$("#all_check").change(function() {
-			$(".check-idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check-idx").change(function() {
-			var count = $(".check-idx").length;
-			var checkCount = $(".check-idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
 		$("#cancel-btn").click(function() {
 			window.close();
 		});
 		
 		$("#regist-btn").click(function() {
-			var checkOne = $(".check-idx:checked");
+			var checkOne = $("#check-one:checked");
 			
 			if (checkOne.length == 0) {
 				alert("팀원을 선택하세요");
@@ -40,7 +30,7 @@
 			checkOne.each(function() {
 				var each = $(this).closest("tr").data();
 				console.log(each);
-				opener.addTmMbrFn(each);
+				opener.addPrjTmMbrFn(each);
 			});
 			window.close();
 		});
@@ -64,7 +54,7 @@
 			<table>
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="all_check" /></th>
+						<th></th>
 						<th>직원ID</th>
 						<th>성</th>
 						<th>이름</th>
@@ -83,7 +73,7 @@
 									data-lnm="${ptm.tmMbrVO.empVO.lNm}"
 									data-prjpstn="${ptm.prjPstn}" >
 									<td>
-										<input type="checkbox" class="check-idx" value="${tmmbr.tmId}" />
+										<input type="radio" class="check-idx" name="check-one" value="${ptm.prjTmMbrId}" />
 									</td>
 									<td>${ptm.tmMbrVO.empId}</td>
 									<td>${ptm.tmMbrVO.empVO.fNm}</td>
