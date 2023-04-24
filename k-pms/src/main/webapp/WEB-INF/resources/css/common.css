@@ -505,6 +505,7 @@ img.profile{
 	flex-direction: column;
 }
 
+
 .create-group > .right-item {
 	position: absolute;
 	left: 450px;
@@ -744,6 +745,14 @@ input::-webkit-inner-spin-button {
 	right: 10px;
 }
 
+
+#search-emp {
+	margin: 10px 0;
+}
+
+
+/* 쪽지 전송 */
+
 #userList {
 	display: flex;
 	flex-wrap: wrap;
@@ -773,6 +782,53 @@ input::-webkit-inner-spin-button {
     padding: 0 5px;
 }
 
-#search-emp {
-	margin: 10px 0;
+.create-group input[type=text].underBar {
+	border: none;
+	border-bottom: 1px solid #ddd;
 }
+
+.create-group .msg-cntnt{
+	border: 1px solid #ccc;
+}
+.create-group > .file_area{
+	width: 85%;	
+}
+
+.create-group > .file_area > .file_upload > button{
+	margin-bottom: 0;
+}
+
+.create-group > .file_area .file_drag{
+	margin: 10px;
+    padding: 17px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.create-group > .file_area .file_attachment{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 10px;
+}
+.create-group > .file_area .file_attachment > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#file_list > li {
+	display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
