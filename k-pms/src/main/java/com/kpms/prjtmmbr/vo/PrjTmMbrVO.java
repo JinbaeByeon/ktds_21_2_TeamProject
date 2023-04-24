@@ -17,6 +17,8 @@ public class PrjTmMbrVO extends AbstractPagingVO{
 	private String deleted;
 	private String modified;
 	
+	private TmMbrVO tmMbrVO;
+
 	public String getAdded() {
 		return added;
 	}
@@ -41,7 +43,6 @@ public class PrjTmMbrVO extends AbstractPagingVO{
 		this.deleted = deleted;
 	}
 
-	private TmMbrVO tmMbrVO;
 	
 	public TmMbrVO getTmMbrVO() {
 		return tmMbrVO;

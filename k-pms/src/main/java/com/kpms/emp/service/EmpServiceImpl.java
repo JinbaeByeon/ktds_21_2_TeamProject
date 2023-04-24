@@ -20,6 +20,7 @@ import com.kpms.common.vo.MailVO;
 import com.kpms.deplog.dao.DepLogDAO;
 import com.kpms.emp.dao.EmpDAO;
 import com.kpms.emp.vo.EmpChngDepVO;
+import com.kpms.emp.vo.EmpChngEmplmntVO;
 import com.kpms.emp.vo.EmpChngJobVO;
 import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpPwdVO;
@@ -344,5 +345,10 @@ public class EmpServiceImpl implements EmpService {
 		
 		return empDAO.updateEmpDep(empChngDepVO) == cntEmpList;
 	}
-
+	@Override
+	public boolean updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO) {
+		int cntEmpList = empChngEmplmntVO.getEmpIdList().size();
+		
+		return empDAO.updateEmpEmplmnt(empChngEmplmntVO) == cntEmpList;
+	}
 }

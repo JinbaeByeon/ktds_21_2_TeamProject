@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kpms.emp.vo.EmpChngDepVO;
+import com.kpms.emp.vo.EmpChngEmplmntVO;
 import com.kpms.emp.vo.EmpChngJobVO;
 import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpVO;
@@ -108,4 +109,9 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 		return getSqlSession().update("Emp.deleteEmpByDepId", depId);
 	}
 
+	
+	@Override
+	public int updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO) {
+		return getSqlSession().update("Emp.updateEmpEmplmnt",empChngEmplmntVO);
+	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
+import com.kpms.sndmsg.vo.SndMsgVO;
 
 @Repository
 public class RcvMsgDAOImpl extends SqlSessionDaoSupport implements RcvMsgDAO {
@@ -25,10 +26,19 @@ public class RcvMsgDAOImpl extends SqlSessionDaoSupport implements RcvMsgDAO {
 	}
 
 	@Override
+	public SndMsgVO readOneSndMsgVO(String rcvmsgId) {
+		return getSqlSession().selectOne("RcvMsg.readOneSndMsgVO", rcvmsgId);
+	}
+	
+	@Override
 	public int createOneRcvMsg(RcvMsgVO rcvMsgVO) {
 		return getSqlSession().insert("RcvMsg.createOneRcvMsg", rcvMsgVO);
 	}
-
+	@Override
+	public int createRcvMsg(SndMsgVO sndMsgVO) {
+		return getSqlSession().insert("RcvMsg.createRcvMsg", sndMsgVO);
+	}
+	
 	@Override
 	public int deleteOneRcvMsg(String msgId) {
 		return getSqlSession().update("RcvMsg.deleteOneRcvMsg", msgId);
@@ -44,5 +54,5 @@ public class RcvMsgDAOImpl extends SqlSessionDaoSupport implements RcvMsgDAO {
 	public int updateRcvMsgReadByRcvMsgIdList(List<String> rcvMsgIdList) {
 		return getSqlSession().update("RcvMsg.updateRcvMsgReadByRcvMsgIdList", rcvMsgIdList);
 	}
-	
+
 }

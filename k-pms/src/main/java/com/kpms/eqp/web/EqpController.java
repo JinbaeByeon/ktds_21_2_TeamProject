@@ -37,6 +37,7 @@ public class EqpController {
 		}
 		model.addAttribute("applStts", eqpVO.getApplStts());
 		model.addAttribute("eqpNm", eqpVO.getEqpNm());
+		
 		model.addAttribute("pageNo", eqpVO.getPageNo());
 		model.addAttribute("viewCnt", eqpVO.getViewCnt());
 		model.addAttribute("pageCnt", eqpVO.getPageCnt());

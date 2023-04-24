@@ -22,6 +22,7 @@ import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpChngDepVO;
+import com.kpms.emp.vo.EmpChngEmplmntVO;
 import com.kpms.emp.vo.EmpChngJobVO;
 import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpPwdVO;
@@ -148,4 +149,17 @@ public class RestEmpController {
 
 		return new APIResponseVO(APIStatus.FAIL,"부서 변경 실패","");
 	}
+	
+	@PostMapping("/api/emp/update/emplmntStts")
+	public APIResponseVO doUpdateEmpDep(EmpChngEmplmntVO empChngEmplmntVO
+			, @SessionAttribute("__USER__") EmpVO user) {
+		empChngEmplmntVO.setMdfyr(user.getEmpId());
+		if(empService.updateEmpEmplmnt(empChngEmplmntVO)) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+
+		return new APIResponseVO(APIStatus.FAIL,"재직상태 변경 실패","");
+	}
+	
+	
 }

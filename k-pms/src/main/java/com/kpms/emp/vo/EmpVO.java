@@ -1,5 +1,6 @@
 package com.kpms.emp.vo;
 
+import com.kpms.cmncd.vo.CmnCdVO;
 import com.kpms.common.vo.AbstractFileVO;
 import com.kpms.dep.vo.DepVO;
 import com.kpms.job.vo.JobVO;
@@ -43,6 +44,7 @@ public class EmpVO extends AbstractFileVO{
 	private PstnVO pstn;
 	private TmMbrVO tmMbr;
 	
+	private CmnCdVO emplmntSttsVO;
 	
 	public String getEmpId() {
 		return empId;
@@ -284,6 +286,13 @@ public class EmpVO extends AbstractFileVO{
 		this.pstn = pstn;
 	}
 
+	public CmnCdVO getEmplmntSttsVO() {
+		return emplmntSttsVO;
+	}
+
+	public void setEmplmntSttsVO(CmnCdVO emplmntSttsVO) {
+		this.emplmntSttsVO = emplmntSttsVO;
+	}
 	public TmMbrVO getTmMbr() {
 		return tmMbr;
 	}
