@@ -692,13 +692,28 @@ input::-webkit-inner-spin-button {
 
 #userList > .user {
 	display: flex;
+    background-color: #d0edff;
+    border-radius: 14px;
+    padding: 5px;
+    margin: 3px 0;
+    margin-left: 10px;
 }
 
 #userList > .user > .rcvr {
 	height: 20px;
-	margin: 10px;
-	margin-right: 0;
+	margin: 0;
+	margin-left: 5px;
+	line-height: 17px
 }
 #userList > .user > .btn-delete {
-	height: 20px;
+	margin: 0;
+    border: none;
+    background-color: #d0edff;
+    color: #888;
+    font-size: 17px;
+    padding: 0 5px;
+}
+
+#search-emp {
+	margin: 10px 0;
 }

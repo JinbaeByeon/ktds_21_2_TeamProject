@@ -33,7 +33,7 @@ public class SndMsgServiceImpl implements SndMsgService {
 		if(rcvMsgDAO.createRcvMsg(sndMsgVO) == 0) {
 			throw new APIException(APIStatus.FAIL, "쪽지 발신을 실패하였습니다.");
 		}
-		return false;
+		return true;
 	}
 
 	@Override
