@@ -54,6 +54,7 @@
 				<thead>
 					<tr>
 						<th></th>
+						<th>프로젝트ID</th>
 						<th>프로젝트명</th>
 						<th>고객사</th>
 						<th>프로젝트 상태</th>
@@ -72,6 +73,7 @@
 									<td>
 										<input type="radio" id="check-one" name="check-one" value="${prj.prjId}" />
 									</td>
+									<td>${prj.prjId}</td>
 									<td>${prj.prjNm}</td>
 									<td>${prj.cstmr}</td>
 									<td>${prj.prjStts}</td>

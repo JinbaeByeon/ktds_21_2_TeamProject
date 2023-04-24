@@ -61,6 +61,19 @@ public class TmController {
 		return "tm/update";
 	}
 	
+	@GetMapping("/tm/search")
+	public String viewTmSearchPage(@RequestParam(required = false) String tmNm,
+									Model model) {
+		model.addAttribute("tmNm", tmNm);
+		if (tmNm != null && tmNm.length() > 0) {
+			List<TmVO> tmList = tmService.readAllTmVONopagination(tmNm);
+			model.addAttribute("tmList", tmList);
+		}
+		
+		return "tm/search";
+	}
+	
+	
 	@GetMapping("/tm/allsearch")
 	public String viewTmMbrAndTmSearchPage(String tmNm, Model model) {
 		List<TmVO> tmList = tmService.readAllTmVONopagination(tmNm);

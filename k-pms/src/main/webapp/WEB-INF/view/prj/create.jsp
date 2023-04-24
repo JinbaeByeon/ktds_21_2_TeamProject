@@ -50,7 +50,6 @@
 	}
 	
 	$().ready(function() {
-		
 
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			
@@ -60,6 +59,20 @@
 				option.append(cdNm);
 				$("#prjStts-select").append(option)
 			}
+		});
+		
+		$("#strtDt, #endDt").change(function() {
+			var startDt = $("#strtDt").val();
+			var endDt = $("#endDt").val();
+			var intStrtDt = parseInt(startDt.split("-").join(""));
+			var intEndDt = parseInt(endDt.split("-").join(""));
+			if (intStrtDt > intEndDt) {
+				alert("시작일과 종료일을 확인해주세요.");
+				$("#strtDt").val("");
+				$("#endDt").val("");
+				return;
+			}
+			
 		});
 		
 		
@@ -140,7 +153,7 @@
 					</div>
 					<div class="create-group">
 						<label for="endDt" required>종료일</label>
-						<input type="date" id="endDt" name="endDt" value=""/>
+						<input type="date" id="endDt" name="endDtz" value=""/>
 					</div>
 					<div class="create-group">
 						<label for="prjStts" required>프로젝트 상태</label>
