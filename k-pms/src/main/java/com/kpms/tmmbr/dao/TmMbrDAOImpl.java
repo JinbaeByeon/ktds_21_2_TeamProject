@@ -19,8 +19,8 @@ public class TmMbrDAOImpl extends SqlSessionDaoSupport implements TmMbrDAO {
 	}
 	
 	@Override
-	public List<TmMbrVO> readAllTmMbrVO(String tmNm) {
-		return getSqlSession().selectList("TmMbr.readAllTmMbrVO", tmNm);
+	public List<TmMbrVO> readAllTmMbrVO(String tmId) {
+		return getSqlSession().selectList("TmMbr.readAllTmMbrVO", tmId);
 	}
 
 }

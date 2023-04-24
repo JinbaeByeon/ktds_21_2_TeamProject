@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PrjTmMbr">
+	<resultMap id="prjTmMbrVOMap" type="com.kpms.prjtmmbr.vo.PrjTmMbrVO" autoMapping="true">
+		<id property="prjTmMbrId" column="PRJ_TM_MBR_ID" />
+		<association property="tmMbrVO" javaType="com.kpms.tmmbr.vo.TmMbrVO">
+			<id property="tmMbrId" column="TM_MBR_ID" />
+			<result property="empId" column="EMP_ID" />
+			<result property="delYn" column="DEL_YN" />
+			<association property="empVO" javaType="com.kpms.emp.vo.EmpVO">
+				<id property="empId" column="EMP_ID" />
+				<result property="fNm" column="PTM_F_NM" />
+				<result property="lNm" column="PTM_L_NM" />
+				<result property="delYn" column="DEL_YN" />
+			</association>
+			<association property="tmVO" javaType="com.kpms.tm.vo.TmVO">
+				<id property="tmId" column="TM_ID" />
+				<result property="tmNm" column="TM_NM" />
+				<result property="delYn" column="DEL_YN" />
+			</association>
+		</association>
+	</resultMap>
+	
+	<select id="readAllPrjTmMbrVO"
+			parameterType="com.kpms.prjtmmbr.vo.PrjTmMbrSearchVO"
+			resultMap="prjTmMbrVOMap">
+		SELECT PTM.PRJ_TM_MBR_ID
+			 , PTM.USE_YN
+			 , PTM.DEL_YN
+			 , PTM.PRJ_PSTN
+			 , PTM.PRJ_ID
+			 , PTM.TM_MBR_ID
+			 , TM.EMP_ID 
+			 , T.TM_NM
+			 , PTM_E.F_NM PTM_F_NM 
+			 , PTM_E.L_NM PTM_L_NM
+		  FROM PRJ_TM_MBR PTM
+		 INNER JOIN TM_MBR TM
+		    ON PTM.TM_MBR_ID = TM.TM_MBR_ID
+		 INNER JOIN TM T
+		    ON TM.TM_ID = T.TM_ID	
+		 INNER JOIN (SELECT E.EMP_ID
+		 	  			  , E.DEL_YN
+		 	  			  , E.L_NM
+		 	  			  , E.F_NM
+		                  , E.L_NM || E.F_NM NM
+		  			   FROM EMP E) PTM_E 
+		    ON TM.EMP_ID = PTM_E.EMP_ID 
+		 WHERE PTM.DEL_YN = 'N'
+		   AND TM.DEL_YN = 'N'
+		   AND T.DEL_YN = 'N'
+		   AND PTM_E.DEL_YN = 'N'
+		  <if test='nm != null and nm != ""'>
+		   AND PTM_E.NM LIKE '%' || #{nm} || '%'
+		  </if>
+		  <if test='prjId != null and prjId != ""'>
+		   AND PTM.PRJ_ID LIKE '%' || #{prjId} || '%'
+		  </if>
+	</select>
+	
+	<insert id="createNewPrjTmMbr"
+			parameterType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
+		MERGE INTO PRJ_TM_MBR
+		 USING DUAL
+		    ON (PRJ_ID = #{prjId}
+		   AND TM_MBR_ID = #{tmMbrId})
+		  WHEN MATCHED THEN
+			   UPDATE
+			   SET DEL_YN = 'N'
+				 , MDFY_DT = SYSDATE
+				 , MDFYR = #{mdfyr}
+		  WHEN NOT MATCHED THEN
+			INSERT (PRJ_TM_MBR_ID
+			     , CRT_DT
+			     , CRTR
+			     , MDFY_DT
+			     , MDFYR
+			     , USE_YN
+			     , DEL_YN
+			     , PRJ_PSTN
+			     , PRJ_ID
+			     , TM_MBR_ID)
+		   VALUES  
+		   		  ('PTM-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRJ_TM_MBR_PK.NEXTVAL, '5', 0)
+		         , SYSDATE
+		         , #{crtr}
+		         , SYSDATE
+		         , #{mdfyr}
+		         , NVL(#{useYn}, 'N')
+		         , 'N'
+		         , #{prjPstn}
+		         , #{prjId}
+		         , #{tmMbrId})
+	</insert>
+	
+	<update id="deleteOnePrjTmMbrByPrjTmMbrId"
+			parameterType="string">
+		UPDATE PRJ_TM_MBR
+	       SET DEL_YN = 'Y' 
+		 WHERE PRJ_TM_MBR_ID = #{_parameter}
+	</update>
+	
+	<update id="updateOnePrjTmMbr"
+			parameterType="com.kpms.prjtmmbr.vo.PrjTmMbrVO">
+		UPDATE PRJ_TM_MBR
+	       SET PRJ_PSTN = #{prjPstn}
+		 WHERE PRJ_TM_MBR_ID = #{prjTmMbrId}
+	</update>
+	
+</mapper>

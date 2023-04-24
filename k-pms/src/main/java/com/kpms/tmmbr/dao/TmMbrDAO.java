@@ -6,6 +6,6 @@ import com.kpms.tmmbr.vo.TmMbrVO;
 
 public interface TmMbrDAO {
 	
-	public List<TmMbrVO> readAllTmMbrVO(String tmNm);
+	public List<TmMbrVO> readAllTmMbrVO(String tmId);
 
 }

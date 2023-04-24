@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,40 +9,17 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-
-	var tmMbr;
-	
 	$().ready(function(){
 		
 		$("#cancel_btn").click(function() {
 			window.close();	
 		});
-		
-		$("#regist_btn").click(function() {
-			
-			var checkbox = $(".check_idx:checked");
-			if (checkbox.length == 0) {
-				alert("팀을 선택하세요");
-				return;
-			}
-			
-			checkbox.each(function() {
-				var each = $(this).closest("tr").data();
-				console.log(each);
-				opener.addTmFn(each);
-			});
-		});
-		
-		$("#plz_btn").click(function() {
-			window.open("${context}/tmmbr/search")
-		});
-		
-		$(".grid > table > tbody > tr").click(function() {
+	
+		$(".grid tbody tr").click(function() {
 			var data = $(this).data();
-			tmMbr = location.replace("/tmmbr/search?tmNm=" + data.tmnm);
-
+			location.href = "${context}/tmmbr/search?tmId=" + data.tmid + "&tmNm="+data.tmnm;
 		});
-		
+	
 	});
 
 </script>
@@ -51,7 +29,7 @@
 		<h1>팀 검색</h1>
 		<form>
 			<div class="search-group">
-				<label for="">팀명</label>
+				<label for="tmNm">팀명</label>
 				<input type="text" name="tmNm" class="grow-1 mr-10" value="${tmNm}"/>
 				<button class="btn-search" id="btn-search-btn">검색</button>
 			</div>
@@ -64,9 +42,6 @@
 			<table>
 				<thead>
 					<tr>
-						<th>
-							<input type="checkbox" />
-						</th>
 						<th>팀명</th>
 						<th>팀ID</th>
 					</tr>
@@ -77,9 +52,6 @@
 							<c:forEach items="${tmList}" var="tm">
 								<tr data-tmid="${tm.tmId}"
 									data-tmnm="${tm.tmNm}">
-									<td>
-										<input type="checkbox" name="check_idx" class="check_idx" value="${tm.tmId}" />
-									</td>
 									<td>${tm.tmNm}</td>
 									<td>${tm.tmId}</td>
 								</tr>
@@ -87,7 +59,7 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="3">검색된 팀이 없습니다.</td>
+								<td colspan="2">검색된 팀이 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
@@ -96,8 +68,6 @@
 		</div>
 		<div class="align-right">
 			<button id="cancel_btn" class="btn-delete">취소</button>
-			<button id="regist_btn" class="btn-primary">등록</button>
-			<button id="plz_btn" class="btn-primary">제발</button>
 		</div>
 	</div>
 </body>
