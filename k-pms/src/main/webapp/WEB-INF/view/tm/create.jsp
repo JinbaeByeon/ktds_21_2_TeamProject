@@ -16,12 +16,14 @@
 	var depId;
 	var tmHd;
 	var tmMbr;
+	var empId;
+	var empIds = [];
 	
 	function addDepFn(message) {
 		
 		var depItems = $("#addDepIdBtn").closest(".create-group").find(".items");
 		if (depItems.find("." + message.depid).length > 0) {
-			alert(message.depnm + "은(는) 이미 추가된 부서입니다."); 
+			depId.alert(message.depnm + "은(는) 이미 추가된 부서입니다."); 
 			return;
 		}
 		
@@ -47,7 +49,7 @@
 			
 		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
 		if (tmHdIdItems.find("." + message.empid).length > 0) {
-			alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
+			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
 			
@@ -61,8 +63,7 @@
 		itemSpan.text(message.lnm + message.fnm);
 		itemDiv.append(itemSpan);
 			
-		$("#tmHdId").val(message.empid);
-		$("#tmHdNm").text(message.lnm + message.fnm);
+		$("#tmHdId").attr("class", message.empid);
 			
 		tmHdIdItems.append(itemDiv);
 			
@@ -70,16 +71,63 @@
 	}
 	
 	function addEmpFn(message) {
-		
-		$(".tmMbr").append("<tr id="+ message.empid +"></tr>");
-		$(".tmMbr").find("#" + message.empid).append("<td>" + message.empid + "</td>");
-		$(".tmMbr").find("#" + message.empid).append("<td>" + message.lnm + message.fnm + "</td>");
-	 	$(".tmMbr").find("#" + message.empid).append("<td>" + message.brthdy + "</td>");
-		$(".tmMbr").find("#" + message.empid).append("<td>" + message.eml + "</td>");
-		$(".tmMbr").find("#" + message.empid).append("<td>" + message.phn + "</td>");
-		$(".tmMbr").find("#" + message.empid).append("<td>" + message.pstnPrd + "</td>");
-		 
+
+	    var empItems = $(document).find(".tmMbr-tbody");
+	    empId = message.empid;
+
+	    if (empItems.find("." + empId).length > 0) {
+	        tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
+	        return;
+	    }
+
+	    var nextIndex = empIds.length;
+	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
+	    itemId.val(empId);
+
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
+
+	    var td = "<td>" + empId + "</td>"
+	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+
+	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
+
+	    rmbtn.click(function() {
+	        var empTrToRemove = $(this).closest(".emp-tr");
+	        var empIndexToRemove = empTrToRemove.data("index");
+	        empIds.splice(empIndexToRemove, 1);
+	        empTrToRemove.remove();
+	        $(".emp-tr[data-index]").each(function(i, tr) {
+	            $(tr).data("index", i);
+	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
+	        });
+	    });
+
+	    empItems.append(empTr);
+	    empTr.append(itemId);
+	    empTr.append(td);
+	    empTr.append(rmbtn);
+
+	    empIds.push(empId);
+
 	}
+
+	
+	function createTmmbr(tmId, empId) {
+	    $.ajax({
+	        url: "${context}/api/tmmbr/create",
+	        type: "POST",
+	        data: {tmId: tmId, empId: empId},
+	        success: function(response) {
+	            if (response.status == "200 OK") {
+	                location.href = "${context}/tm/list";
+	            } 
+	            else {
+	            	alert(response.errorCode + " / " + response.message);
+	            }
+	        }
+	    });
+	}
+
 	
 	$().ready(function() {
 		$("#addDepIdBtn").click(function(event) {
@@ -104,17 +152,26 @@
 		});
 		
 		$("#save-btn").click(function() {
-			var ajaxUtil = new AjaxUtil();
-			ajaxUtil.upload("#create_form","${context}/api/tm/create",function(response){
-				if (response.status == "200 OK") {
-					location.href = "${context}/tm/list"
-				}
-				else {
-					alert(response.errorCode + " / " + response.message);
-				}
+			  var ajaxUtil = new AjaxUtil();
+			    
+			  ajaxUtil.upload("#create_form","${context}/api/tm/create",function(response){
+			    if (response.status == "200 OK") {
+			    	var tmId = response.data;
+			    	console.log(tmId);
+				   	
+			    	empIds.forEach(function(empId) {
+			    		
+			    	createTmmbr(tmId, empId);
+			    		
+			    	});
+			    } 
+			    else {
+			      alert(response.errorCode + " / " + response.message);
+			    }
+				
+			  });
+			  
 			});
-			
-		});
 	});
 </script>
 </head>
@@ -122,7 +179,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/prjSidemenu.jsp" />
+			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 팀 생성</div>
 				<form id="create_form" enctype="multipart/form-data">
@@ -147,7 +204,7 @@
 						<button id="addTmHeadBtn" class="btn-tm">등록</button>
 						<div class="items">
 							<div class='head-item'>
-								<input type="text" id="tmHdId" name="tmHdId" readonly value=" " />
+								<input type="text" class="" id="tmHdId" name="tmHdId" readonly value=" " />
 								<span id="tmHdNm"></span>						
 							</div>
 						</div>
@@ -177,7 +234,7 @@
 											<th>직급연차</th>
 										</tr>
 									</thead>
-									<tbody class="tmMbr">
+									<tbody class="tmMbr-tbody">
 									</tbody>
 								</table>
 							</div>
@@ -185,7 +242,7 @@
 				</form>	
 				<div class="align-right">
 					<button id="list-btn" class="btn-primary">목록</button>
-					<button id="save-btn" class="btn-primary">저장</button>
+					<button id="save-btn" class="btn-primary">등록</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />			

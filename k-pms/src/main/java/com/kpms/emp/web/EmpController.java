@@ -19,6 +19,7 @@ import com.kpms.common.handler.SessionHandler;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.lgnhst.vo.LgnHstVO;
+import com.kpms.tmmbr.vo.TmMbrVO;
 
 @Controller
 public class EmpController {
@@ -122,6 +123,15 @@ public class EmpController {
 		return "emp/searchHd";
 	}
 	
+	@GetMapping("emp/search/mbr")
+	public String viewSearchTmMbrPage(Model model, EmpVO empVO) {
+		List<EmpVO> empList = empService.readEmpOnTmMbrListNoPagination(empVO);
+		model.addAttribute("empList", empList);
+		model.addAttribute("depId",empVO.getDepId());
+		model.addAttribute("fNm",empVO.getfNm());
+		
+		return "emp/searchMbr";
+	}
 
 	@GetMapping("/emp/prfl/{fileNm}/")
 	public void downloadPrflPctr(@PathVariable String fileNm

@@ -21,7 +21,7 @@ public class RcvMsgController {
 	private RcvMsgService rcvMsgService;
 	
 	@GetMapping("/rcvmsg/list")
-	public String viewRcvMsgListPage(Model model, MsgSearchVO rcvMsgVO, @SessionAttribute("__USER__") EmpVO user) {
+	public String viewRcvMsgListPage(Model model, MsgSearchVO rcvMsgVO, @SessionAttribute("__USER__") EmpVO user, String searchType) {
 		rcvMsgVO.setEmpId(user.getEmpId());
 		List<RcvMsgVO> rcvMsgList = rcvMsgService.readAllRcvMsgVO(rcvMsgVO);
 		
@@ -33,7 +33,11 @@ public class RcvMsgController {
 		model.addAttribute("pageNo",rcvMsgVO.getPageNo());
 		model.addAttribute("pageCnt",rcvMsgVO.getPageCnt());
 		model.addAttribute("viewCnt",rcvMsgVO.getViewCnt());
-		
+
+		if(searchType == null) {
+			searchType = "ID";
+		}
+		model.addAttribute("searchType", searchType);
 		return "rcvmsg/list";
 	}
 	

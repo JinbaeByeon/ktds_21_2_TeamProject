@@ -89,8 +89,11 @@
 			});
 		}); // 안에있는내용도 같이 보내기
 		
-		$("#search-btn").click(function() {
-			movePage(0)
+		$("#search-btn").click(function(e) {
+			// 자동 get 요청 막음
+			/* e.preventDefault(); */
+			// 내가 보내고 싶은 방식으로 보내기
+			movePage(0);
 		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
@@ -154,11 +157,22 @@
 		});
 	});
 	function movePage(pageNo) {
+		var searchType = $("#searchType").val();
 		// 전송
 		// 입력 값
-		var fNm=$("#search-keyword").val();
+		
+		if(searchType == "ID") {
+			var empId = $("#searchBar").val();
+			location.href= "${context}/rcvmsg/list?searchType=ID&sndEmpId=" + empId + "&pageNo=" + pageNo;
+		}
+		else if(searchType == "발신자명") {
+			var nm = $("#searchBar").val();
+			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo;
+		}
+		
 		// URL 요청
-		location.href= "${context}/rcvmsg/list?fNm=" + fNm + "&pageNo=" + pageNo;
+		
+		
 	}
 </script>
 </head>
@@ -169,16 +183,20 @@
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path">쪽지 > 받은쪽지함</div>
-			<div class="search-group">
-				<label for="search-keyword">발신자명</label>
-				<input type="text" id="search-keyword" class="search-input" value="${rcvMsgVO.fNm}"/>
-				<button class="btn-search" id="search-btn">&#128269;</button>
-			</div>
+			<form>
+				<div class="search-group">
+					<select class="search-option" id="searchType" name="searchType">
+						<option value="id" ${searchType eq "id" ? "selected" : ""}>ID</option>
+						<option value="sndrNm" ${searchType eq "sndrNm" ? "selected" : ""}>발신자명</option>
+					</select>
+					<input type="text" id="searchKeyword" name="searchKeyword" class="grow-1 mr-10" value="${rcvMsgVO.searchKeyword}"/>
+				</div>
+			</form>
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">
 						<button id="read_btn" class="btn-read" disabled>읽음</button>
-						<button id="reply_btn" class="btn-reply" onClick="location.href="${context}/sndmsg/send" disabled>답장</button>
+						<button id="reply_btn" class="btn-reply" onclick="location.href='${context}/sndmsg/send'" disabled>답장</button>
 						<button id="delete_btn" class="btn-del" disabled>삭제</button>
 					</div>
 					<div class="align-right right">
@@ -219,7 +237,7 @@
 									</td>
 									<td>${rcvMsg.sndMsgVO.ttl}</td>
 									<td>${rcvMsg.sndMsgVO.attch}</td>
-									<td>${rcvMsg.crtr}</td>
+									<td>${rcvMsg.crtr} (${rcvMsg.sndMsgVO.sndEmpVO.lNm} ${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
 									<td>${rcvMsg.crtDt}</td>
 									</tr>
 								</c:forEach>

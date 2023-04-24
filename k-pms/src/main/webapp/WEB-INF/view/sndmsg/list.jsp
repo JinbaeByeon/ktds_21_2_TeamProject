@@ -88,7 +88,7 @@
 				form.append("<input type='hidden' name='msgId' value='"+ $(this).val() +"'>");
 			});
 			
-			$.post("${context}/api/job/delete", form.serialize(), function(response) {
+			$.post("${context}/api/sndmsg/delete", form.serialize(), function(response) {
 				location.reload(); // 새로고침
 			});
 		});
@@ -96,9 +96,9 @@
 		function movePage(pageNo) {
 			// 전송
 			// 입력 값
-			var searchRcvr=$("#search-keyword").val();
+			var keyword=$("#search-keyword").val();
 			// URL 요청
-			location.href= "${context}/msg/list?searchRcvr=" + searchRcvr + "&pageNo=" + pageNo;
+			location.href= "${context}/sndmsg/list?searchKeyword=" + keyword + "&pageNo=" + pageNo;
 		}
 </script>
 </head>
@@ -111,7 +111,7 @@
 			<div class="path">쪽지 > 보낸쪽지함</div>
 			<div class="search-group">
 				<label for="search-keyword">수신자명</label>					
-				<input type="text" id="search-keyword" class="search-input" value="${searchRcvr}"/>
+				<input type="text" id="search-keyword" class="search-input" value="${sndMsgVO.searchKeyword}"/>
 				<button class="btn-search" id="search-btn">&#128269</button>
 			</div>
 			<div class="grid">
@@ -147,7 +147,7 @@
 										<td>
 											<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
 										</td>
-										<td>${sndMsg.rcvMsgVO.get(0).rcvr}</td>
+										<td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm} ${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 										<td>${sndMsg.ttl}</td>
 										<td>${sndMsg.cntnt}</td>
 										<td>${sndMsg.attch}</td>

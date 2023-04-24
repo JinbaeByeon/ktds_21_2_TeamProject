@@ -46,4 +46,9 @@ public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO{
 	public int deleteReqBySelectedReqId(List<String> reqId) {
 		return getSqlSession().update("Req.deleteReqBySelectedReqId", reqId);
 	}
+	
+	@Override
+	public int deleteReqByPrjId(String prjId) {
+		return getSqlSession().update("Req.deleteReqByPrjId", prjId);
+	}
 }

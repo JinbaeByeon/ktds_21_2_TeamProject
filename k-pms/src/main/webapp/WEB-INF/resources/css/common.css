@@ -287,6 +287,14 @@ h1{
 	padding-bottom: 10px;
 }
 
+.main-layout > div > .side-menu	> .menu-list > .line {
+	border-bottom: 1px solid #fff;
+	display: block;
+    margin: 0px 8px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
 .main-layout > div > .content {
 	position:fixed;
 	top:90px;
@@ -743,13 +751,28 @@ input::-webkit-inner-spin-button {
 
 #userList > .user {
 	display: flex;
+    background-color: #d0edff;
+    border-radius: 14px;
+    padding: 5px;
+    margin: 3px 0;
+    margin-left: 10px;
 }
 
 #userList > .user > .rcvr {
 	height: 20px;
-	margin: 10px;
-	margin-right: 0;
+	margin: 0;
+	margin-left: 5px;
+	line-height: 17px
 }
 #userList > .user > .btn-delete {
-	height: 20px;
+	margin: 0;
+    border: none;
+    background-color: #d0edff;
+    color: #888;
+    font-size: 17px;
+    padding: 0 5px;
+}
+
+#search-emp {
+	margin: 10px 0;
 }

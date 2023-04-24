@@ -11,5 +11,6 @@ public interface PrjTmMbrDAO {
 	public int createNewPrjTmMbr(PrjTmMbrVO prjTmMbrVO);
 	public int deleteOnePrjTmMbrByPrjTmMbrId(String prjTmMbrId);
 	public int updateOnePrjTmMbr(PrjTmMbrVO prjTmMbrVO);
+	public int deletePrjTmMbrByPrjId(String prjId);
 	
 }

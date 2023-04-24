@@ -19,5 +19,10 @@ public class PrjTmMbrServiceImpl implements PrjTmMbrService {
 	public List<PrjTmMbrVO> readAllPrjTmMbrVO(PrjTmMbrSearchVO prjTmMbrSearchVO) {
 		return prjTmMbrDAO.readAllPrjTmMbrVO(prjTmMbrSearchVO);
 	}
+	
+	@Override
+	public int deleteOnePrjTmMbrByPrjTmMbrId(String prjTmMbrId) {
+		return prjTmMbrDAO.deleteOnePrjTmMbrByPrjTmMbrId(prjTmMbrId);
+	}
 
 }
