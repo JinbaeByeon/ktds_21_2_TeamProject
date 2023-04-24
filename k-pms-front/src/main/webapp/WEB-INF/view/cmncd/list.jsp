@@ -13,7 +13,6 @@
 <script type="text/javascript">
 	$().ready(
 			function() {
-
 				
 				$("table > tbody > tr").click(function() {
 					$("#isModify").val("true"); // 수정모드

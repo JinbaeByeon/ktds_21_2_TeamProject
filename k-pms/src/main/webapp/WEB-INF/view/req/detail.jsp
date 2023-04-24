@@ -17,29 +17,80 @@
 <script type="text/javascript">
 	$().ready(function(){
 		
-		var data2 = "${reqOneVO.reqId}";
+		var data2 = "${reqVO.reqId}";
 		console.log(data2);
 		$("#isModify").val("true");	
-		$("#reqId").val("${reqOneVO.reqId}");
-		$("#dtlReq").val("${reqOneVO.dtlReq}");
-		$("#crtr").val("${reqOneVO.crtr}");
-		$("#crtDt").val("${reqOneVO.crtDt}");
-		$("#mdfyr").val("${reqOneVO.mdfyr}");
-		$("#mdfyDt").val("${reqOneVO.mdfyDt}");
-		$("#strtDt").val("${reqOneVO.strtDt}");
-		$("#expctEndDt").val("${reqOneVO.expctEndDt}");
-		$("#attch").val("${reqOneVO.attch}");
-		$("#prjId").val("${reqOneVO.prjId}");
-		$("#mnDvlpr").val("${reqOneVO.mnDvlpr}");
-		$("#tstRslt").val("${reqOneVO.tstRslt}");
-		$("#tskStts").val("${reqOneVO.tskStts}");
-		$("#prcsStts").val("${reqOneVO.prcsStts}");
-		$("#prrty").val("${reqOneVO.prrty}");
-		$("#reqTtl").val("${reqOneVO.reqTtl}");
-		$("#reqCnfrNm").val("${reqOneVO.reqCnfrNm}");
+		$("#reqId").val("${reqVO.reqId}");
+		$("#dtlReq").val("${reqVO.dtlReq}");
+		$("#crtr").val("${reqVO.crtr}");
+		$("#crtDt").val("${reqVO.crtDt}");
+		$("#mdfyr").val("${reqVO.mdfyr}");
+		$("#mdfyDt").val("${reqVO.mdfyDt}");
+		$("#strtDt").val("${reqVO.strtDt}");
+		$("#expctEndDt").val("${reqVO.expctEndDt}");
+		$("#attch").val("${reqVO.attch}");
+		$("#prjId").val("${reqVO.prjId}");
+		$("#mnDvlpr").val("${reqVO.mnDvlpr}");
+		$("#tstRslt").val("${reqVO.tstRslt}");
+		$("#tskStts").val("${reqVO.tskStts}");
+		$("#prcsStts").val("${reqVO.prcsStts}");
+		$("#prrty").val("${reqVO.prrty}");
+		$("#reqTtl").val("${reqVO.reqTtl}");
+		$("#reqCnfrNm").val("${reqVO.reqCnfrNm}");
 		
-		$("#useYn").prop("checked", "${reqOneVO.useYn}" == "Y");
+		$("#useYn").prop("checked", "${reqVO.useYn}" == "Y");
+		
+		
+		$.get("${context}/api/cmncd/list/004", function(response) {
+			var isSelected
 			
+			for (var i in response.data) {
+				var cdNm = response.data[i].cdNm;
+				if ($("#original-prcsStts").val() == response.data[i].cdId) {
+					isSelected = "selected";
+				}
+				else {
+					isSelected = "";
+				}
+				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
+				option.append(cdNm);
+				$("#prcsStts-select").append(option)
+			}
+		});
+		
+		$.get("${context}/api/cmncd/list/003", function(response) {
+			var isSelected;
+			
+			for (var i in response.data) {
+				var cdNm = response.data[i].cdNm;
+				if ($("#original-tskStts").val() == response.data[i].cdId) {
+					isSelected = "selected";
+				}
+				else {
+					isSelected = "";
+				}
+				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
+				option.append(cdNm);
+				$("#tskStts-select").append(option)
+			}
+		});
+		
+		$.get("${context}/api/cmncd/list/008", function(response) {
+			var isSelected;
+			
+			for (var i in response.data) {
+				var cdNm = response.data[i].cdNm;
+				if ($("#original-tstRslt").val() == response.data[i].cdId) {
+					isSelected = "selected";
+				}
+				else {
+					isSelected = "";
+				}
+				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
+				option.append(cdNm);
+				$("#tstRslt-select").append(option)
+			}
+		});
 		
 		$("#new_btn").click(function(){
 			$("#isModify").val("false"); //등록모드
@@ -183,31 +234,18 @@
 						</div>
 						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<select id="prcsStts"  name="prcsStts" >
-								<option value="004">선택</option>
-								<option value="004_01">접수</option>
-								<option value="004_02">분석</option>
-								<option value="004_03">처리중</option>
-								<option value="004_04">처리완료</option>
-							</select>
+							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqOneVO.prcsStts}"/>
+							<select id="prcsStts-select"  name="prcsStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<select id="tskStts"  name="tskStts" >
-								<option value="003">선택</option>
-								<option value="003_01">대기중</option>
-								<option value="003_02">진행중</option>
-								<option value="003_03">연기 필요</option>
-							</select>
+							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqOneVO.tskStts}"/>
+							<select id="tskStts-select"  name="tskStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<select id="tstRslt"  name="tstRslt" >
-								<option value="22">선택</option>
-								<option value="222">합격</option>
-								<option value="2222">불합격</option>
-								<option value="22222">보류</option>
-							</select>
+							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqOneVO.tstRslt}"/>
+							<select id="tstRslt-select"  name="tstRslt" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="lossStts" style="width: 180px;">사용여부</label>

@@ -41,8 +41,8 @@ public class ReqController {
 	 @GetMapping("/req/detail/{reqId}") 
 	 public String viewReqDetailPage(@PathVariable String reqId, Model model) {
 	  
-		 ReqVO reqOneVO = reqService.readReqByReqId(reqId);
-		 model.addAttribute("reqOneVO", reqOneVO);
+		 ReqVO reqVO = reqService.readReqByReqId(reqId);
+		 model.addAttribute("reqVO", reqVO);
 		 model.addAttribute("reqId", reqId);
 		 
 		 return "req/detail"; 

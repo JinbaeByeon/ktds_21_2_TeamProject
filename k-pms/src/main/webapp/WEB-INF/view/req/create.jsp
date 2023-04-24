@@ -156,6 +156,48 @@
 				}
 			});
 		});
+		
+		$.get("${context}/api/cmncd/list/004", function(response) {
+			var prcsStts = $("#prcsStts");
+			var sttsNm
+			
+			for (var i in response.data) {
+				if ($("#prcsStts").val() == response.data[i].cdId) {
+					sttsNm = response.data[i].cdNm;
+				}
+			}
+			
+			var sttsInput = $("<input type='text' id='prcsStts' name='prcsStts' value='" + sttsNm + "' readonly/>");
+			prcsStts.after(sttsInput);
+		});
+		
+		$.get("${context}/api/cmncd/list/003", function(response) {
+			var tskStts = $("#tskStts");
+			var sttsNm
+			
+			for (var i in response.data) {
+				if ($("#tskStts").val() == response.data[i].cdId) {
+					sttsNm = response.data[i].cdNm;
+				}
+			}
+			
+			var sttsInput = $("<input type='text' id='tskStts' name='tskStts' value='" + sttsNm + "' readonly/>");
+			tskStts.after(sttsInput);
+		});
+		
+		$.get("${context}/api/cmncd/list/008", function(response) {
+			var tstRslt = $("#tstRslt");
+			var sttsNm
+			
+			for (var i in response.data) {
+				if ($("#tstRslt").val() == response.data[i].cdId) {
+					sttsNm = response.data[i].cdNm;
+				}
+			}
+			
+			var sttsInput = $("<input type='text' id='tstRslt' name='tstRslt' value='" + sttsNm + "' readonly/>");
+			tstRslt.after(sttsInput);
+		});
 	});
 	
 	function addPrjFn(data) {
@@ -225,31 +267,18 @@
 						</div>
 						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<select id="prcsStts"  name="prcsStts" >
-								<option value="004">선택</option>
-								<option value="004_01">접수</option>
-								<option value="004_02">분석</option>
-								<option value="004_03">처리중</option>
-								<option value="004_04">처리완료</option>
-							</select>
+							<input type="hidden" id="prcsStts"  name="prcsStts" value="${req.prcsStts}"/>
+							<select id="prcsStts"  name="prcsStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<select id="tskStts"  name="tskStts" >
-								<option value="003">선택</option>
-								<option value="003_01">대기중</option>
-								<option value="003_02">진행중</option>
-								<option value="003_03">연기 필요</option>
-							</select>
+							<input type="hidden" id="tskStts"  name="tskStts" value="${req.tskStts}"/>
+							<select id="tskStts"  name="tskStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<select id="tstRslt"  name="tstRslt" >
-								<option value="22">선택</option>
-								<option value="222">합격</option>
-								<option value="2222">불합격</option>
-								<option value="22222">보류</option>
-							</select>
+							<input type="hidden" id="tstRslt"  name="tstRslt" value="${req.tstRslt}"/>
+							<select id="tstRslt"  name="tstRslt" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="lossStts" style="width: 180px;">사용여부</label>
