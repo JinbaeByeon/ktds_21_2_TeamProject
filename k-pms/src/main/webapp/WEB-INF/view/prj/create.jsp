@@ -23,7 +23,7 @@
 			return;
 		}
 
-		var tmMbrTr = $("<tr class='tmMbr-tr'></tr>");
+		var tmMbrTr = $("<tr class='tmMbr-tr " + message.tmmbrid + "'></tr>");
 		
 		var len = tmMbrItems.find(".tmmbr-item").length;
 		var itemId = $("<input type='hidden' name='ptmList[" + len + "].tmMbrId' class='tmmbr-item'/>");
@@ -34,7 +34,7 @@
 		td += "<td>" + message.tmnm + "</td>"
 		td += "<td>" + message.fnm + "</td>"
 		td += "<td>" + message.lnm + "</td>"
-		td += "<td><select class='pstn " +  message.tmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value=''>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
+		td += "<td><select class='pstn " +  message.tmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
 		var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
 		
@@ -65,7 +65,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/search", "팀 검색", "width=500, height=500")
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=500, scrollbars = no");
 		});
 		
 		
@@ -79,6 +79,39 @@
 					alert(response.errorCode + "/" + response.message);
 				}	
 			});
+		});
+		
+		$(document).on("focus", ".pstn", function() {
+			orgPstn = $(this).val();
+		}).on("change", ".pstn", function() {
+			var chngPstn = $(this).val();
+			var pstnList = $(".pstn");
+			if(chngPstn=="PM"){
+				var cntPM = 0;
+				pstnList.each(function(){
+					if($(this).val()=="PM"){
+						++cntPM;
+					}
+				});
+				if(cntPM > 1){
+					alert("총책임자는 1명만 가능합니다.");
+					$(this).val("DEFAULT");
+					return;
+				}
+			}
+			if(chngPstn=="PL"){
+				var cntPL = 0;
+				pstnList.each(function(){
+					if($(this).val()=="PL"){
+						++cntPL;
+					}
+				});
+				if(cntPL > 2){
+					alert("부책임자는 2명만 가능합니다.");
+					$(this).val("DEFAULT");
+					return;
+				}
+			}
 		});
 		
 	});

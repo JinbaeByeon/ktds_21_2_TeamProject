@@ -5,28 +5,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부서 검색 페이지</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		
+		$(".grid > table > tbody > tr").click(function(){
+			$(this).find(".radio_idx").prop("checked",true);
+		});
 		
 		$("#cancel_btn").click(function() {
 			window.close();	
 		});
 		
 		$("#regist_btn").click(function() {
-			
-			var checkbox = $(".check_idx:checked");
-			if (checkbox.length == 0) {
+			var radiobox = $(".radio_idx:checked");
+			if (radiobox.length == 0) {
 				alert("부서를 선택하세요");
 				return;
 			}
 			
-			checkbox.each(function() {
-				var each = $(this).closest("tr").data();
-				console.log(each);
+				var each = radiobox.closest("tr").data();
 				opener.addDepFn(each);
-			});
 		});
 		
 	});
@@ -39,7 +39,7 @@
 			<div class="search-group">
 				<label for="">부서명</label>
 				<input type="text" name="depNm" class="grow-1 mr-10" value="${depNm}"/>
-				<button class="btn-search" id="btn-search-btn">검색</button>
+				<button class="btn-search" id="search-btn">검색</button>
 			</div>
 		</form>
 		<div class="grid">
@@ -63,7 +63,7 @@
 								<tr data-depid="${dep.depId}"
 									data-depnm="${dep.depNm}">
 									<td>
-										<input type="radio" name="check_idx" class="check_idx" value="${dep.depId}" />
+										<input type="radio" name="radio_idx" class="radio_idx" value="${dep.depId}" />
 									</td>
 									<td>${dep.depNm}</td>
 									<td>${dep.depId}</td>
@@ -80,8 +80,8 @@
 			</table>
 		</div>
 		<div class="align-right">
-					<button id="cancel_btn" class="btn-delete">취소</button>
-					<button id="regist_btn" class="btn-primary">등록</button>
+			<button id="cancel_btn" class="btn-delete">취소</button>
+			<button id="regist_btn" class="btn-primary">등록</button>
 		</div>
 	</div>
 </body>

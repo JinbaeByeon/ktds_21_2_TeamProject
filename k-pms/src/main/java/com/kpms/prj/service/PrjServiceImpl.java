@@ -126,17 +126,15 @@ public class PrjServiceImpl implements PrjService {
 						ptm.setMdfyr(prjVO.getMdfyr());
 						prjTmMbrDAO.createNewPrjTmMbr(ptm);
 					}
-					if (ptm.getModified() != null && ptm.getModified().length() > 0) {
+					else if (ptm.getModified() != null && ptm.getModified().length() > 0) {
 						if (StringUtil.isNull(ptm.getTmMbrId())) {
 							continue;
 						}
-						ptm.setPrjId(ptm.getModified());
+						ptm.setPrjTmMbrId(ptm.getModified());
 						prjTmMbrDAO.updateOnePrjTmMbr(ptm);
 					}
-					if (ptm.getDeleted() != null && ptm.getDeleted().length() > 0) {
-						if (StringUtil.isNull(ptm.getTmMbrId())) {
-							continue;
-						}
+					else if (ptm.getDeleted() != null && ptm.getDeleted().length() > 0) {
+						
 						prjTmMbrDAO.deleteOnePrjTmMbrByPrjTmMbrId(ptm.getDeleted());
 					}
 				}

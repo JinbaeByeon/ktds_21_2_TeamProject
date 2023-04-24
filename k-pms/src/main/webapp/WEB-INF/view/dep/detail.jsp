@@ -15,6 +15,10 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		$("#list-btn").click(function(response) {
+			location.href = "${context}/dep/list"
+		});
+		
 	});
 </script>
 </head>
@@ -39,13 +43,17 @@
 							<input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/>
 						</div>
 						<div class="create-group">
+							<label for="depHdNm">부서장성명</label>
+							<input type="text" id="depHdNm" name="depHdNm" value="${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}" readonly/>
+						</div>
+						<div class="create-group">
 							<label for="depCrtDt">부서 생성일</label>
 							<input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/>
 						</div>
 					</div>
 					
 					<div class="grid">
-						
+						<div>소속 팀</div>
 						<div class="grid-count align-right">
 						 총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
 						</div>
@@ -86,7 +94,7 @@
 							</c:choose>
 						</tbody>
 					</table>
-						
+					<div>소속 부서원</div>
 					<div class="grid-count align-right">
 						 총 ${depVO.empList.size() > 0 ? depVO.empList.size() : 0}건
 					</div>
@@ -94,8 +102,10 @@
 						<thead>
 							<tr>
 								<th>순번</th>
+								<th>직급</th>
 								<th>직원ID</th>
 								<th>이름</th>
+								<th>직무</th>
 								<th>생년월일</th>
 								<th>이메일</th>
 								<th>전화번호</th>
@@ -110,8 +120,10 @@
 											varStatus="index">
 										<tr>
 											<td>${index.index + 1}</td>
+											<td>${emp.pstn.pstnNm}</td>
 											<td>${emp.empId}</td>
 											<td>${emp.lNm}${emp.fNm}</td>
+											<td>${emp.job.jobNm}</td>
 											<td>${emp.brthdy}</td>
 											<td>${emp.eml}</td>
 											<td>${emp.phn}</td>
@@ -121,7 +133,7 @@
 						    </c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="7" class="no-items">
+									<td colspan="9" class="no-items">
 										등록된 부서원이 없습니다.
 									</td>
 								</tr>
@@ -129,7 +141,11 @@
 						</c:choose>
 					</tbody>
 				</table>
-			</div>			
+			</div>
+			<div class="align-right">
+					<button id="list-btn" class="btn-primary">목록</button>
+			</div>
+			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>
 </body>
