@@ -10,12 +10,17 @@ import com.kpms.common.exception.APIException;
 import com.kpms.tm.dao.TmDAO;
 import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
+import com.kpms.tmmbr.dao.TmMbrDAO;
+import com.kpms.tmmbr.vo.TmMbrVO;
 
 @Service
 public class TmServiceImpl implements TmService {
 
 	@Autowired
 	private TmDAO tmDAO;
+	
+	@Autowired
+	private TmMbrDAO tmMbrDAO;
 
 	@Override
 	public List<TmVO> readAllTmVO(TmSearchVO tmSearchVO) {
@@ -64,7 +69,12 @@ public class TmServiceImpl implements TmService {
 	
 	@Override
 	public boolean deleteOneTmByTmId(String tmId) {
-		return tmDAO.deleteOneTmByTmId(tmId) > 0;
+		int delCount = tmDAO.deleteOneTmByTmId(tmId);
+		if (delCount > 0) {
+			tmMbrDAO.deleteTmMbrByTmId(tmId);
+		}
+		
+		return delCount > 0;
 	}
 
 	@Override

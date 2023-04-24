@@ -34,9 +34,16 @@ public class TmMbrDAOImpl extends SqlSessionDaoSupport implements TmMbrDAO {
 	}
 
 	@Override
+	public int deleteTmMbrByTmId(String tmId) {
+		return getSqlSession().update("TmMbr.deleteTmMbrByTmId", tmId);
+	}
+	
+	@Override
 	public int deleteTmMbrBySelectedTmMbrId(List<String> tmMbrId) {
 		return getSqlSession().update("TmMbr.deleteTmMbrBySelectedTmMbrId", tmMbrId);
 	}
+
+	
 
 
 }
