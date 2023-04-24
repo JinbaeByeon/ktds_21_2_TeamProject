@@ -1,25 +1,102 @@
 package com.kpms.req.vo;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.prj.vo.PrjVO;
+import com.kpms.reqcnfr.vo.ReqCnfrVO;
+import com.kpms.reqtstr.vo.ReqTstrVO;
 
 /**
  * REQ
  */
-public class ReqVO extends AbstractVO {
+public class ReqVO extends AbstractPagingVO {
 
+	private String searchMode;
+	/**
+	 * 요구사항ID
+	 */
 	private String reqId;
+	/**
+	 * 상세요구사항
+	 */
 	private String dtlReq;
+	/**
+	 * 시작일
+	 */
 	private String strtDt;
+	/**
+	 * 종료예정일
+	 */
 	private String expctEndDt;
+	/**
+	 * 첨부파일
+	 */
 	private String attch;
+	/**
+	 * 프로젝트ID
+	 */
 	private String prjId;
+	/**
+	 * 담당개발자
+	 */
 	private String mnDvlpr;
+	/**
+	 * 테스트결과
+	 */
 	private String tstRslt;
+	/**
+	 * 일정상태
+	 */
 	private String tskStts;
+	/**
+	 * 요구사항 진행상태
+	 */
 	private String prcsStts;
+	/**
+	 * 우선순위
+	 */
 	private String prrty;
+	/**
+	 * 요구사항 제목
+	 */
+	private String reqCnfrNm;
+	
 	private String reqTtl;
-
+	private PrjVO reqPrjVO;
+	private ReqCnfrVO reqCnfVO;
+	private ReqTstrVO reqTstVO;
+	
+	
+	
+	public String getSearchMode() {
+		return searchMode;
+	}
+	public void setSearchMode(String searchMode) {
+		this.searchMode = searchMode;
+	}
+	public String getReqCnfrNm() {
+		return reqCnfrNm;
+	}
+	public void setReqCnfrNm(String reqCnfrNm) {
+		this.reqCnfrNm = reqCnfrNm;
+	}
+	public PrjVO getReqPrjVO() {
+		return reqPrjVO;
+	}
+	public void setReqPrjVO(PrjVO reqPrjVO) {
+		this.reqPrjVO = reqPrjVO;
+	}
+	public ReqCnfrVO getReqCnfVO() {
+		return reqCnfVO;
+	}
+	public void setReqCnfVO(ReqCnfrVO reqCnfVO) {
+		this.reqCnfVO = reqCnfVO;
+	}
+	public ReqTstrVO getReqTstVO() {
+		return reqTstVO;
+	}
+	public void setReqTstVO(ReqTstrVO reqTstVO) {
+		this.reqTstVO = reqTstVO;
+	}
 	public String getReqId() {
 		return reqId;
 	}

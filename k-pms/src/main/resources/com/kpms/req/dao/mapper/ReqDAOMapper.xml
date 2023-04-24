@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Req">
+	
+	<resultMap id="reqVOMap" 
+				type="com.kpms.req.vo.ReqVO"
+				autoMapping="true">
+		<id property="reqId" column="REQ_ID"/>
+		<association property="reqPrjVO" 
+					   javaType="com.kpms.prj.vo.PrjVO"
+					  autoMapping="true" >
+			<id property="prjId" column="PJ" />
+			<result property="prjNm" column="PJ_PRJ_NM"/>
+		</association>	
+		<association property="reqTstVO"
+					  javaType="com.kpms.reqtstr.vo.ReqTstrVO"
+					  autoMapping="true">
+			<id property="reqId" column="TST"/>
+			<result property="tstrId" column="TST_TSTR_ID"/>
+			<association property="tstrEmpVO" 
+					   javaType="com.kpms.emp.vo.EmpVO"
+					  autoMapping="true" >
+			<id property="empId" column="TSTR" />
+			<result property="fNm" column="TSTR_E_F_NM"/>
+			<result property="lNm" column="TSTR_E_L_NM"/>
+		</association>	
+		</association>
+	</resultMap>
+	
+	<insert id="createNewReq"
+			parameterType="com.kpms.req.vo.ReqVO">
+		INSERT INTO REQ
+		 (REQ_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, DTL_REQ
+		, STRT_DT
+		, EXPCT_END_DT
+		, ATTCH
+		, PRJ_ID
+		, MN_DVLPR
+		, TST_RSLT
+		, TSK_STTS
+		, PRCS_STTS
+		, PRRTY
+		, REQ_TTL
+		, REQ_CNFR_NM)
+		VALUES
+		 ('RQ-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_REQ_PK.NEXTVAL, 5, 0)
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{dtlReq}
+		, TO_DATE(#{strtDt}, 'YYYY-MM-DD')
+		, TO_DATE(#{expctEndDt}, 'YYYY-MM-DD')
+		, #{attch}
+		, #{prjId}
+		, #{mnDvlpr}
+		, #{tstRslt}
+		, #{tskStts}
+		, #{prcsStts}
+		, #{prrty}
+		, #{reqTtl}
+		, #{reqCnfrNm})
+	</insert>
+
+	<select id="readAllReq"
+			parameterType="com.kpms.req.vo.ReqVO"
+			resultMap="reqVOMap">
+		<include refid="Common.pageHeader" />
+		SELECT R.REQ_ID PK_COL 
+			 , R.REQ_ID
+			 , DENSE_RANK() OVER(ORDER BY R.CRT_DT || R.REQ_ID DESC) RNUM
+			 , R.CRT_DT
+			 , R.CRTR
+			 , R.MDFY_DT
+			 , R.MDFYR
+			 , R.USE_YN
+			 , R.DEL_YN
+			 , R.DTL_REQ
+			 , TO_CHAR(R.STRT_DT, 'YYYY-MM-DD') STRT_DT
+			 , TO_CHAR(R.EXPCT_END_DT, 'YYYY-MM-DD') EXPCT_END_DT
+			 , R.ATTCH
+			 , R.PRJ_ID
+			 , R.MN_DVLPR
+			 , R.TST_RSLT
+			 , R.TSK_STTS
+			 , R.PRCS_STTS
+			 , R.PRRTY
+			 , R.REQ_TTL
+			 , R.REQ_CNFR_NM
+			 , PJ.PRJ_NM PJ_PRJ_NM
+			 , TST.TSTR_ID TST_TSTR_ID
+			 , TSTR_E.L_NM TSTR_E_L_NM
+			 , TSTR_E.F_NM TSTR_E_F_NM
+		  FROM REQ R
+		 INNER JOIN PRJ PJ
+		 	ON R.PRJ_ID = PJ.PRJ_ID 
+		  LEFT JOIN REQ_TSTR TST 
+		  	ON R.REQ_ID = TST.REQ_ID
+		  LEFT JOIN EMP TSTR_E
+		 	ON TST.TSTR_ID = TSTR_E.EMP_ID
+		 WHERE R.DEL_YN = 'N'
+		  <if test="reqId != null and reqId != ''">
+		   AND R.REQ_ID LIKE '%' || #{reqId} || '%'
+		 </if>
+		 <include refid="Common.pageFooter" />
+	</select>
+
+	<select id="readReqByReqId"
+			parameterType="string"
+			resultMap="reqVOMap">
+		SELECT REQ_ID
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , DTL_REQ
+			 , STRT_DT
+			 , EXPCT_END_DT
+			 , ATTCH
+			 , PRJ_ID
+			 , MN_DVLPR
+			 , TST_RSLT
+			 , TSK_STTS
+			 , PRCS_STTS
+			 , PRRTY
+			 , REQ_TTL
+		  FROM REQ
+		 WHERE REQ_ID = #{_parameter}
+	</select>
+	
+	<update id="updateReq"
+			parameterType="com.kpms.req.vo.ReqVO">
+		UPDATE REQ
+		   SET MDFY_DT=SYSDATE
+		     , MDFYR=#{mdfyr}
+		     , USE_YN=NVL(#{useYn}, N)
+		     , DTL_REQ=#{dtlReq}
+		     , STRT_DT=#{strtDt}
+		     , EXPCT_END_DT=#{expctEndDt}
+		     , ATTCH=#{attch}
+		     , PRJ_ID=#{prjId}
+		     , MN_DVLPR=#{mnDvlpr}
+		     , TST_RSLT=#{tstRslt}
+		     , TSK_STTS=#{tskStts}
+		     , PRCS_STTS=#{prcsStts}
+		     , PRRTY=#{prrty}
+		     , REQ_TTL=#{reqTtl}
+		 WHERE REQ_ID=#{reqId}
+	</update>
+
+	<update id="deleteReqByReqId"
+			parameterType="string">
+			UPDATE REQ
+		   SET DEL_YN='Y'
+		 WHERE REQ_ID=#{_parameter}
+	</update>
+
+	<update id="deleteReqBySelectedReqId"
+			parameterType="arraylist">
+			UPDATE REQ
+		   SET DEL_YN='Y'
+		 WHERE REQ_ID IN
+		 <foreach collection="list" item="reqId" open="(" close=")" separator=", ">
+		 	#{reqId}
+		 </foreach>
+	</update>
+	
+	
+</mapper>
