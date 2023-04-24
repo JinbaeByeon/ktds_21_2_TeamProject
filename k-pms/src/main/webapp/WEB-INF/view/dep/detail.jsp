@@ -15,6 +15,10 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
+		$("#list-btn").click(function(response) {
+			location.href = "${context}/dep/list"
+		});
+		
 	});
 </script>
 </head>
@@ -137,7 +141,11 @@
 						</c:choose>
 					</tbody>
 				</table>
-			</div>			
+			</div>
+			<div class="align-right">
+					<button id="list-btn" class="btn-primary">목록</button>
+			</div>
+			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>
 </body>

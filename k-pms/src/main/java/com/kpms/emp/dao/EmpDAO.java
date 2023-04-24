@@ -19,6 +19,7 @@ public interface EmpDAO {
 	public EmpVO readOneEmpByEmpId(String empId);
 	
 	public List<EmpVO> readEmpListNoPagination(EmpVO empVO);
+	public List<EmpVO> readEmpOnTmMbrListNoPagination(EmpVO empVO);
 	public List<EmpVO> readEmpList(EmpVO empVO);
 	
 	public int updateOneEmp(EmpVO empVO);

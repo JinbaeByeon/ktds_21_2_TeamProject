@@ -191,6 +191,10 @@ public class EmpServiceImpl implements EmpService {
 		return empDAO.readEmpListNoPagination(empVO);
 	}
 	@Override
+	public List<EmpVO> readEmpOnTmMbrListNoPagination(EmpVO empVO) {
+		return empDAO.readEmpOnTmMbrListNoPagination(empVO);
+	}
+	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
 		return empDAO.readEmpList(empVO);
 	}
@@ -340,5 +344,5 @@ public class EmpServiceImpl implements EmpService {
 		
 		return empDAO.updateEmpDep(empChngDepVO) == cntEmpList;
 	}
-	
+
 }

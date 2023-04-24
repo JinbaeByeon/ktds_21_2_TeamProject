@@ -264,15 +264,15 @@
 
 	<update id="deleteOneTmByTmId"
 			parameterType="string">
-		UPDATE TM
+		UPDATE TM T
 		   SET DEL_YN = 'Y'
 		 WHERE TM_ID = #{_parameter}
 	</update>	
 	
 	<update id="deleteTmBySelectedTmId"
 			parameterType="arraylist">
-		UPDATE TM
-		   SET DEL_YN = 'Y'
+		UPDATE TM T
+		   SET T.DEL_YN = 'Y'
 		 WHERE TM_ID IN
 		 <foreach collection="list" item="tmId" open="(" close=")" separator=", ">
 		 	#{tmId}

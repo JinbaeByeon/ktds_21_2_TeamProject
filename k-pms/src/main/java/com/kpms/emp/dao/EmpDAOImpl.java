@@ -55,6 +55,12 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	public List<EmpVO> readEmpListNoPagination(EmpVO empVO) {
 		return getSqlSession().selectList("Emp.readEmpListNoPagination",empVO);
 	}
+
+	@Override
+	public List<EmpVO> readEmpOnTmMbrListNoPagination(EmpVO empVO) {
+		return getSqlSession().selectList("Emp.readEmpOnTmMbrListNoPagination", empVO);
+	}
+	
 	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
 		return getSqlSession().selectList("Emp.readEmpList",empVO);
@@ -96,4 +102,5 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	public int updateEmpDep(EmpChngDepVO empChngDepVO) {
 		return getSqlSession().update("Emp.updateEmpDep",empChngDepVO);
 	}
+
 }

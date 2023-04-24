@@ -21,6 +21,7 @@ public interface EmpService {
 	public EmpVO readOneEmpByEmpId(String empId);
 	
 	public List<EmpVO> readEmpListNoPagination(EmpVO empVO);
+	public List<EmpVO> readEmpOnTmMbrListNoPagination(EmpVO empVO);
 	public List<EmpVO> readEmpList(EmpVO empVO);
 	
 	public boolean updateOneEmp(EmpVO empVO, MultipartFile uploadFile);

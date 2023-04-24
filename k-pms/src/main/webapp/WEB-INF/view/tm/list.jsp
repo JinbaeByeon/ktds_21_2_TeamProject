@@ -175,7 +175,7 @@
 											data-tmhdid="${tm.tmHdId}"
 											data-tmcrtdt="${tm.tmCrtDt}"
 											data-useyn="${tm.useYn}"
-											data-crtr="${tm.crtr}"
+											data-crtr="${tm.crtr}" 
 											data-crtdt="${tm.crtDt}"
 											data-mdfyr="${tm.mdfyr}"
 											data-mdfydt="${tm.mdfyDt}">

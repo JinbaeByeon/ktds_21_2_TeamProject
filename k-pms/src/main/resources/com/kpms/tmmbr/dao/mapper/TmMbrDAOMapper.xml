@@ -77,11 +77,11 @@
 		, #{crtr}
 		, SYSDATE
 		, #{mdfyr}
-		, NVL(#{useYn}, 'N')
+		, 'Y'
 		, 'N'
 		, #{tmId}
 		, #{empId})
-	</insert>
+	</insert> 
 	
 	<update id="deleteOneTmMbrByTmMbrId"
 			parameterType="string">

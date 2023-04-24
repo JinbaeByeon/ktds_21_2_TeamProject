@@ -14,7 +14,7 @@
 	var empIds = [];
 	var tmMbr;
 		
-	function addEmpFn(message) {
+	function addMbrFn(message) {
 	
 	    var empItems = $(document).find(".tmMbr-tbody");
 	    empId = message.empid;
@@ -189,7 +189,7 @@
 				return;
 			}
 			var depId = activeDepId;
-			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + activeTmId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#regist-btn").click(function() {
