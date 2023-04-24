@@ -25,7 +25,7 @@ public class ReqServiceImpl implements ReqService{
 	}
 
 	@Override
-	public List<ReqVO> readReqByReqId(String reqId) {
+	public ReqVO readReqByReqId(String reqId) {
 		return reqDAO.readReqByReqId(reqId);
 	}
 

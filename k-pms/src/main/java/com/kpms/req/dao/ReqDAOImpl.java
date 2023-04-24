@@ -28,7 +28,7 @@ public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO{
 	}
 
 	@Override
-	public List<ReqVO> readReqByReqId(String reqId) {
+	public ReqVO readReqByReqId(String reqId) {
 		return getSqlSession().selectOne("Req.readReqByReqId", reqId);
 	}
 

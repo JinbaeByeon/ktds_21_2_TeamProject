@@ -119,26 +119,40 @@
 	<select id="readReqByReqId"
 			parameterType="string"
 			resultMap="reqVOMap">
-		SELECT REQ_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , DTL_REQ
-			 , STRT_DT
-			 , EXPCT_END_DT
-			 , ATTCH
-			 , PRJ_ID
-			 , MN_DVLPR
-			 , TST_RSLT
-			 , TSK_STTS
-			 , PRCS_STTS
-			 , PRRTY
-			 , REQ_TTL
-		  FROM REQ
-		 WHERE REQ_ID = #{_parameter}
+		SELECT R.REQ_ID PK_COL 
+			 , R.REQ_ID
+			 , DENSE_RANK() OVER(ORDER BY R.CRT_DT || R.REQ_ID DESC) RNUM
+			 , R.CRT_DT
+			 , R.CRTR
+			 , R.MDFY_DT
+			 , R.MDFYR
+			 , R.USE_YN
+			 , R.DEL_YN
+			 , R.DTL_REQ
+			 , TO_CHAR(R.STRT_DT, 'YYYY-MM-DD') STRT_DT
+			 , TO_CHAR(R.EXPCT_END_DT, 'YYYY-MM-DD') EXPCT_END_DT
+			 , R.ATTCH
+			 , R.PRJ_ID
+			 , R.MN_DVLPR
+			 , R.TST_RSLT
+			 , R.TSK_STTS
+			 , R.PRCS_STTS
+			 , R.PRRTY
+			 , R.REQ_TTL
+			 , R.REQ_CNFR_NM
+			 , PJ.PRJ_NM PJ_PRJ_NM
+			 , TST.TSTR_ID TST_TSTR_ID
+			 , TSTR_E.L_NM TSTR_E_L_NM
+			 , TSTR_E.F_NM TSTR_E_F_NM
+		  FROM REQ R
+		 INNER JOIN PRJ PJ
+		 	ON R.PRJ_ID = PJ.PRJ_ID 
+		  LEFT JOIN REQ_TSTR TST 
+		  	ON R.REQ_ID = TST.REQ_ID
+		  LEFT JOIN EMP TSTR_E
+		 	ON TST.TSTR_ID = TSTR_E.EMP_ID
+		 WHERE R.DEL_YN = 'N'
+		   AND REQ_ID = #{_parameter}
 	</select>
 	
 	<update id="updateReq"

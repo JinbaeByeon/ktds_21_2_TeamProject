@@ -194,8 +194,8 @@
 						</thead>
 						<tbody>
 							<c:choose>
-								<c:when test="${not empty reqList}">
-									<c:forEach items="${reqList}"
+								<c:when test="${not empty reqOneVO}">
+									<c:forEach items="${reqOneVO}"
 											   var="req"
 											   varStatus="index">
 										<tr data-reqid="${req.reqId}"
