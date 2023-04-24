@@ -31,6 +31,18 @@ public class RestRcvMsgController {
 		}
 	}
 	
+	@PostMapping("/api/rcvmsg/delete")
+	public APIResponseVO doDeleteRcvMsgBySelectedMsgId(@RequestParam List<String> rcvMsgIdList) {
+		boolean deleteResult = rcvMsgService.deleteRcvMsgBySelectedMsgId(rcvMsgIdList);
+		
+		if(deleteResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL);
+		}
+	}
+	
 	@PostMapping("/api/rcvmsg/update")
 	public APIResponseVO doUpdateRcvMsg(@RequestParam List<String> rcvMsgIdList) {
 		boolean updateResult = rcvMsgService.updateRcvMsgReadByRcvMsgIdList(rcvMsgIdList);

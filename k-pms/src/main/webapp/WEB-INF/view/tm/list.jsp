@@ -59,7 +59,6 @@
 		});
 		
 		$("#all_check").change(function() {
-		/* 	console.log($(this).prop("checked")); */
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		
@@ -221,8 +220,6 @@
 				
 				<div class="align-right">
 					<button id="new_btn" class="btn-primary">신규</button>
-				</div>
-				<div class="align-right mt-10">
 					<button id="delete_all_btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />

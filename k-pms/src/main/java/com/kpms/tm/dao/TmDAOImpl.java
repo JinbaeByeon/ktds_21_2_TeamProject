@@ -59,5 +59,4 @@ public class TmDAOImpl extends SqlSessionDaoSupport implements TmDAO {
 		return getSqlSession().update("Tm.deleteTmBySelectedTmId", tmId);
 	}
 
-	
 }

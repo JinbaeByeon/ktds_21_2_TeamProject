@@ -11,7 +11,7 @@
 <jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		
+
 		$("#search-keyword").keydown(function(e){
 			if(e.keyCode == '13'){
 				movePage(0);
@@ -25,9 +25,9 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력 값
-		var empId =$("#search-keyword").val();
+		var empId=$("#search-keyword").val();
 		// URL 요청
-		location.href= "${context}/emp/log/job?empId=" + empId + "&pageNo=" + pageNo;
+		location.href= "${context}/emp/log/dep?empId=" + empId + "&pageNo=" + pageNo;
 	}
 
 </script>
@@ -38,25 +38,25 @@
 		<div>
 		<jsp:include page="../../include/empSidemenu.jsp"/>
 		<jsp:include page="../../include/content.jsp"/>
-			<div class="path">직무변경이력 > </div>
+			<div class="path">부서변경이력 > </div>
 			<div class="search-group">
 				<label for="search-keyword">직원ID</label>
-				<input type="text" id="search-keyword" class="search-input" value="${jobLogVO.empId}"/>
+				<input type="text" id="search-keyword" class="search-input" value="${depLogVO.empId}"/>
 				<button class="btn-search" id="search-btn">&#128269</button>
 			</div>
 			<div class="grid">
 				<div class="grid-count align-right">
-					총 ${jobLogList.size() > 0 ? jobLogList.get(0).totalCount : 0}건
+					총 ${depLogList.size() > 0 ? depList.get(0).totalCount : 0}건
 				</div>
 				<table>
 					<thead>
 						<tr>
 							<th>직원ID</th>
 							<th>이름</th>
-							<th>이전직무ID</th>
-							<th>이전직무명</th>
-							<th>변경직무ID</th>
-							<th>변경직무명</th>
+							<th>이전부서ID</th>
+							<th>이전부서</th>
+							<th>변경된부서ID</th>
+							<th>변경된부서</th>
 							<th>변경일</th>
 							<th>변경사유</th>
 							<th>생성일</th>
@@ -65,30 +65,30 @@
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${not empty jobLogList}">
-								<c:forEach items="${jobLogList}"
-										   var="jobLog">
-									<tr data-empid="${jobLog.empId}"
-										data-fnm="${jobLog.empVO.fNm}"
-										data-lnm="${jobLog.empVO.lNm}"
-										data-prvsjobid="${jobLog.prvsJobId}"
-										data-prvsjobnm="${jobLog.prvsJobNmVO.jobNm}"
-										data-chngjobid="${jobLog.chngJobId}"
-										data-chngjobnm="${jobLog.chngJobNmVO.jobNm}"
-										data-chngDt="${jobLog.chngDt}"
-										data-chngrsn="${jobLog.chngRsn}"
-										data-crtdt="${jobLog.crtDt}"
-										data-crtr="${jobLog.crtr}">
-									<td>${jobLog.empId}</td>
-									<td>${jobLog.empVO.fNm} ${jobLog.empVO.lNm}</td>
-									<td>${jobLog.prvsJobId}</td>
-									<td>${jobLog.prvsJobNmVO.jobNm}</td>
-									<td>${jobLog.chngJobId}</td>
-									<td>${jobLog.chngJobNmVO.jobNm}</td>
-									<td>${jobLog.chngDt}</td>
-									<td>${jobLog.chngRsn}</td>
-									<td>${jobLog.crtDt}</td>
-									<td>${jobLog.crtr}</td>
+							<c:when test="${not empty depLogList}">
+								<c:forEach items="${depLogList}"
+										   var="depLog">
+									<tr data-empid="${depLog.empId}"
+										data-fnm="${depLog.empVO.fNm}"
+										data-lnm="${depLog.empVO.lNm}"
+										data-prvsdepid="${depLog.prvsDepId}"
+										data-prvsdepnm="${depLog.prvsDepNmVO.depNm}"
+										data-chngdepid="${depLog.chngDepId}"
+										data-chngdepnm="${depLog.chngDepNmVO.depNm}"
+										data-chngDt="${depLog.chngDt}"
+										data-chngrsn="${depLog.chngRsn}"
+										data-crtdt="${depLog.crtDt}"
+										data-crtr="${depLog.crtr}">
+									<td>${depLog.empId}</td>
+									<td>${depLog.empVO.fNm} ${depLog.empVO.lNm}</td>
+									<td>${depLog.prvsDepId}</td>
+									<td>${depLog.prvsDepNmVO.depNm}</td>
+									<td>${depLog.chngDepId}</td>
+									<td>${depLog.chngDepNmVO.depNm}</td>
+									<td>${depLog.chngDt}</td>
+									<td>${depLog.chngRsn}</td>
+									<td>${depLog.crtDt}</td>
+									<td>${depLog.crtr}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -107,9 +107,9 @@
                   <c:param name="pageNo" value="${pageNo}"/>
                   <c:param name="pageCnt" value="${pageCnt}"/>
                   <c:param name="lastPage" value="${lastPage}"/>
-                  <c:param name="path" value="${context}/jobLog"/>
+                  <c:param name="path" value="${context}/depLog"/>
                </c:import>
-               
+            
 			</div>
 		<jsp:include page="../../include/footer.jsp"/>
 		</div>

@@ -12,6 +12,7 @@ import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.service.RcvMsgService;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
+import com.kpms.sndmsg.vo.SndMsgVO;
 
 @Controller
 public class RcvMsgController {
@@ -34,5 +35,14 @@ public class RcvMsgController {
 		model.addAttribute("viewCnt",rcvMsgVO.getViewCnt());
 		
 		return "rcvmsg/list";
+	}
+	
+	@GetMapping("/rcvmsg/send")
+	public String viewMsgSndPage(Model model,String rcvmsgId) {
+		// rcvmsg.msgId -> rcvMsgVO -> sndMsgId -> sndMsgVO;
+		SndMsgVO sndMsgVO = rcvMsgService.readOneSndMsgVO(rcvmsgId);
+		model.addAttribute("sndMsgVO", sndMsgVO);
+		
+		return "sndmsg/send";
 	}
 }
