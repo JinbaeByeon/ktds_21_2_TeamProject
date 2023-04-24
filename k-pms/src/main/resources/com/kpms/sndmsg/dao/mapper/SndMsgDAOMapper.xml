@@ -49,10 +49,12 @@
 				   AND DEL_YN = 'N') SM
 		 INNER JOIN RCV_MSG RM
 		 	ON RM.SND_MSG_ID = SM.MSG_ID
-		 INNER JOIN EMP RCV_E
+		 INNER JOIN  (SELECT E.*
+		 				  , E.L_NM || E.F_NM NM
+		               FROM EMP E) RCV_E
 		 	ON RCV_E.EMP_ID = RM.RCVR
-	 	<if test="fNm != null and fNm != ''">
-		 WHERE RCV_E.F_NM LIKE '%' || #{fNm} || '%'
+	 	<if test="searchKeyword != null and searchKeyword != ''">
+		   WHERE RCV_E.NM LIKE '%' || #{searchKeyword} || '%'
 		</if>
 		<include refid="Common.pageFooter"/>
 	</select>

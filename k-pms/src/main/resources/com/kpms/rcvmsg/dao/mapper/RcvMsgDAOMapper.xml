@@ -52,10 +52,15 @@
 				   AND DEL_YN = 'N') RM
 		 INNER JOIN SND_MSG SM
 		    ON SM.MSG_ID = RM.SND_MSG_ID
-		 INNER JOIN EMP SND_E
+		 INNER JOIN (SELECT E.*
+		 				  , E.L_NM || E.F_NM NM
+		               FROM EMP E
+					<if test='searchType == "id"'>
+					   WHERE E.EMP_ID LIKE '%' || #{searchKeyword} || '%'
+					</if>) SND_E
 		 	ON SND_E.EMP_ID = SM.CRTR
-	 	<if test="fNm != null and fNm != ''">
-		 WHERE SND_E.F_NM LIKE '%' || #{fNm} || '%'
+        <if test='searchType == "sndrNm"'>
+		 WHERE SND_E.NM LIKE '%' || #{searchKeyword} || '%'
 		</if>
 		<include refid="Common.pageFooter"/>
 	</select>
