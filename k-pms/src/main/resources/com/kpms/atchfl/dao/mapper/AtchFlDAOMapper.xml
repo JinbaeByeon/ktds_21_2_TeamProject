@@ -11,12 +11,47 @@
 		, ORG_FL_NM
 		, UUID_FL_NM
 		, FL_SZ
-		, FL_EXT)
+		, FL_EXT,
+		  CRTR,
+		  CRT_DT,
+		  USE_YN,
+		  DEL_YN)
 		VALUES
 		 (#{frgnId}
 		, #{orgFlNm}
 		, #{uuidFlNm}
 		, #{flSz}
-		, #{flExt})
+		, #{flExt}
+		, #{crtr}
+		, SYSDATE
+		, 'Y'
+		, 'N')
+	</insert>
+	
+	<insert id="createNewAtchFls"
+			parameterType="arraylist">
+		INSERT INTO ATCH_FL
+		 (FRGN_ID
+		, ORG_FL_NM
+		, UUID_FL_NM
+		, FL_SZ
+		, FL_EXT,
+		  CRTR,
+		  CRT_DT,
+		  USE_YN,
+		  DEL_YN)
+		<foreach collection="list" item="atchFlVO" separator=" UNION ALL " >
+		SELECT #{atchFlVO.frgnId}
+			, #{atchFlVO.orgFlNm}
+			, #{atchFlVO.uuidFlNm}
+			, #{atchFlVO.flSz}
+			, #{atchFlVO.flExt}
+			, #{atchFlVO.crtr}
+			, SYSDATE
+			, 'Y'
+			, 'N'
+		  FROM DUAL
+		</foreach>
+		
 	</insert>
 </mapper>

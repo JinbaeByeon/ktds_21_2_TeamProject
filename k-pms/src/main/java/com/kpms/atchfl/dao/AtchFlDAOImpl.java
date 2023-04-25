@@ -1,5 +1,7 @@
 package com.kpms.atchfl.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +26,10 @@ public class AtchFlDAOImpl extends SqlSessionDaoSupport implements AtchFlDAO {
 	@Override
 	public int doCreateNewAtchFl(AtchFlVO atchFlVO) {
 		return getSqlSession().insert("AtchFl.doCreateNewAtchFl", atchFlVO);
+	}
+
+	@Override
+	public int createNewAtchFls(List<AtchFlVO> fileList) {
+		return getSqlSession().insert("AtchFl.createNewAtchFls", fileList);
 	}
 }
