@@ -30,17 +30,30 @@
 
 				$("#save_btn").click(
 						function() {
-							console.log($("#create-form").serialize());
-							$.post("${context}/api/knw/update", $(
-									"#create-form").serialize(), function(
-									response) {
-								if (response.status == "200 OK") {
-									location.href = "${context}/knw/list";
-								} else {
-									alert(response.errorCode + " / "
-											+ response.message);
-								}
-							});
+							if($("#ttl").val() == "") {
+								alert("제목 입력은 필수입니다.");
+								return;
+							}
+							else if($("#cntnt").val() == "") {
+								alert("내용 입력은 필수입니다.");
+								return;
+							}
+							else if($("#prjId").val() == "") {
+								alert("프로젝트 선택은 필수입니다.");
+								return;
+							}
+							else {
+								var ajaxUtil = new AjaxUtil();
+								ajaxUtil.upload("#create-form", "${context}/api/knw/update", function(response) {
+									if(response.status == "200 OK") {
+										location.href = "${context}/knw/list";
+									}
+									else {
+										alert("지식 등록에 실패하였습니다.");
+									}
+								},{"upload-file": "uploadFile"});
+							}
+							
 						});
 
 				$("#cancel_btn").click(function() {
@@ -125,6 +138,33 @@
 						});
 					}
 				});
+				
+				$("#file-btn").click(function(event) {
+					event.preventDefault();
+					$("#upload-file").click();
+					
+				});
+				
+				
+				$("#upload-file").change(function() {
+					$("#file-list").empty();
+					$("#file-list").append("<input type='hidden' value='new' />");
+					var fileInput = $(this);
+					for( var i=0; i<fileInput.length; i++ ){
+						if( fileInput[i].files.length > 0 ){
+							for( var j = 0; j < fileInput[i].files.length; j++ ){
+								$("#file-list").append("<li>" + fileInput[i].files[j].name + "</li>");
+							}
+						}
+					}
+					
+				});
+				 
+				$("#file-remove").click(function(event) {
+					event.preventDefault();
+					$("#upload-file").val("");
+					$("#file-list").empty();
+				});
 
 			});
 </script>
@@ -168,8 +208,19 @@
 						</div>
 					</div>
 					<div class="create-group">
+						<input type="hidden" id="create-group-file" />
+						<label for="upload-file">파일첨부<button id="file-btn">등록</button><button id="file-remove">삭제</button></label>
+						<input type='file' id='upload-file' name='upload-file' multiple />
+						<ul id="file-list">
+							<input type="hidden" value="old" />
+							<c:forEach items="${knwVO.flList}" var="flVO">
+								<li>${flVO.orgFlNm}</li>
+							</c:forEach>
+						</ul>
+					</div>
+					<div class="create-group">
 						<label for="ttl">제목</label> <input type="text" id="ttl" name="ttl"
-							value="ttl" />
+							value="${knwVO.ttl}" />
 					</div>
 					<div class="create-group">
 						<label for="cntnt">내용</label>
@@ -193,42 +244,42 @@
 			<div id="comments">
 				<c:if test="${not empty knwVO.rplList}">
 					<c:forEach items="${knwVO.rplList}" var="rplVO">
-						<div class="comment" style="margin-left: ${rplVO.depth * 30}px;">
-							<input class="rplId" type="hidden" name="rplId" value="${rplVO.rplId}" />
-							<div class="reply-info">
-								<p class="crtr-info" >${rplVO.crtr}</p>
-								<p class="crtDt-info">${rplVO.crtDt}</p>
-							</div>
-							<div class="cnt">
-								<form class="form-updateComment">
-									<input class="cnt" type="hidden" name="cnt" value="${rplVO.cnt}"/>
-									<input type="hidden" name="rplId" value="${rplVO.rplId}" />
-									<p class="cnt">${rplVO.cnt}</p>
-									<button class="update-submit" hidden="true">완료</button>
+						<c:if test="${rplVO.knwId ne null}">
+							<div class="comment" style="margin-left: ${rplVO.depth * 30}px;">
+								<input class="rplId" type="hidden" name="rplId" value="${rplVO.rplId}" />
+								<div class="reply-info">
+									<p class="crtr-info" >${rplVO.crtr}</p>
+									<p class="crtDt-info">${rplVO.crtDt}</p>
+								</div>
+								<div class="cnt">
+									<form class="form-updateComment">
+										<input class="cnt" type="hidden" name="cnt" value="${rplVO.cnt}"/>
+										<input type="hidden" name="rplId" value="${rplVO.rplId}" />
+										<p class="cnt">${rplVO.cnt}</p>
+										<button class="update-submit" hidden="true">완료</button>
+									</form>
+								</div>
+								<div class="btns">
+									<button class="reply-btn">답글</button>
+									<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
+										<button class="update-btn">수정</button>
+									</c:if>
+									<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
+										<button class="delete-btn">삭제</button>
+									</c:if>
+								</div>
+								<form class="form-commentInfo" hidden="true">
+									<input type="hidden" name="knwId" value="${knwVO.knwId}" /> <input
+										type="hidden" name="prcdncRplId" value="${rplVO.rplId}" /> <input
+										type="text" class="cnt" name="cnt" placeholder="답글을 입력해 주세요." />
+									<button class="submit">등록</button>
 								</form>
+								<hr />
 							</div>
-							<div class="btns">
-								<button class="reply-btn">답글</button>
-								<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
-									<button class="update-btn">수정</button>
-								</c:if>
-								<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
-									<button class="delete-btn">삭제</button>
-								</c:if>
-							</div>
-							<form class="form-commentInfo" hidden="true">
-								<input type="hidden" name="knwId" value="${knwVO.knwId}" /> <input
-									type="hidden" name="prcdncRplId" value="${rplVO.rplId}" /> <input
-									type="text" class="cnt" name="cnt" placeholder="답글을 입력해 주세요." />
-								<button class="submit">등록</button>
-							</form>
-							<hr />
-						</div>
+						</c:if>
 					</c:forEach>
 				</c:if>
 			</div>
-
-
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

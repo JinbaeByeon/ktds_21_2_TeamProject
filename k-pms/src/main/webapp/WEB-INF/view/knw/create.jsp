@@ -88,24 +88,20 @@
 				
 				$("#upload-file").change(function() {
 					var fileInput = $(this);
-					var fileSize = 0;
 					for( var i=0; i<fileInput.length; i++ ){
 						if( fileInput[i].files.length > 0 ){
 							for( var j = 0; j < fileInput[i].files.length; j++ ){
-								fileSize += fileInput[i].files[j].size;
-								$("#file-list").append("<li>" + fileInput[i].files[j].name 
-										+ "(" + Math.round(fileInput[i].files[j].size / 1_000) / 1_000 + " MB)" + "</li>");
+								$("#file-list").append("<li>" + fileInput[i].files[j].name + "</li>");
 							}
 						}
 					}
-					fileSize = Math.round(fileSize / 1_000) / 1_000;
-					$("#file-size").empty();
-					$("#file-size").append("파일 용량:"+ fileSize +" / 40MB");
 					
 				});
 				 
-				$(".file-remove").click(function(event) {
+				$("#file-remove").click(function(event) {
 					event.preventDefault();
+					$("#upload-file").val("");
+					$("#file-list").empty();
 				});
 				
 				
@@ -150,10 +146,9 @@
 					</div>
 					<div class="create-group">
 						<input type="hidden" id="create-group-file" />
-						<label for="upload-file">파일첨부<button id="file-btn">등록</button></label>
+						<label for="upload-file">파일첨부<button id="file-btn">등록</button><button id="file-remove">삭제</button></label>
 						<input type='file' id='upload-file' name='upload-file' multiple />
 						<ul id="file-list">
-							<li id="file-size">파일 용량: 0 / 40MB</li>
 						</ul>
 					</div>
 					<div class="create-group">

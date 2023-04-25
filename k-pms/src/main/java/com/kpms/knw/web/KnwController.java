@@ -44,7 +44,7 @@ public class KnwController {
 	@GetMapping("/knw/detail/{knwId}")
 	public String viewKnwDetailPage(@PathVariable String knwId, Model model, @SessionAttribute("__USER__") EmpVO empVO) {
 		KnwVO knwVO = knwService.readOneKnwByKnwId(knwId);
-		
+		System.out.println(knwVO.getRplList().get(0).getKnwId());
 		model.addAttribute("knwVO", knwVO);
 		model.addAttribute("prjVO", knwVO.getPrjVO());
 		

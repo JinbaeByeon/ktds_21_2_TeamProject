@@ -27,7 +27,6 @@ public class RestKnwController {
 	public APIResponseVO doCreateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO, @RequestParam List<MultipartFile> uploadFile) {
 		knwVO.setCrtr(empVO.getEmpId());
 		knwVO.setMdfyr(empVO.getEmpId());
-		
 		boolean isSuccess = knwService.createOneKnw(knwVO, uploadFile);
 
 		if (isSuccess) {

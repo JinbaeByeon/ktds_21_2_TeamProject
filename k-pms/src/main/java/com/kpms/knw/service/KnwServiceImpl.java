@@ -39,8 +39,7 @@ public class KnwServiceImpl implements KnwService {
 		}
 		
 		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
-		String knwId = knwVO.getKnwId();
-		uploadHandler.uploadMultiAtchmnt(uploadFile, knwId);
+		uploadHandler.uploadMultiAtchmnt(uploadFile, knwVO);
 		
 		return isSuccess;
 	}
@@ -57,8 +56,7 @@ public class KnwServiceImpl implements KnwService {
 
 	@Override
 	public boolean updateOneKnw(KnwVO knwVO, List<MultipartFile> uploadFile) {
-		String knwId = knwVO.getKnwId();
-		uploadHandler.uploadMultiAtchmnt(uploadFile, knwId);
+		uploadHandler.uploadMultiAtchmnt(uploadFile, knwVO);
 		
 		if (StringUtil.isEmpty(knwVO.getTtl())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "제목은 필수값입니다.");

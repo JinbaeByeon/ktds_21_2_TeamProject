@@ -4,6 +4,6 @@ import com.kpms.atchfl.vo.AtchFlVO;
 
 public interface AtchFlDAO {
 
-	public long doGetGroupId();
 	public int doCreateNewAtchFl(AtchFlVO atchFlVO);
+	public int doDeleteNewAtchFl(AtchFlVO atchFlVO);
 }

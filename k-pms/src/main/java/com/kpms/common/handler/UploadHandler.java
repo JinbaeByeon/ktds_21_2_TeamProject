@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kpms.atchfl.dao.AtchFlDAO;
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.vo.AbstractFileVO;
+import com.kpms.knw.vo.KnwVO;
 
 @Component
 public class UploadHandler {
@@ -79,11 +80,11 @@ public class UploadHandler {
 		}
 	}
 	
-	public void uploadMultiAtchmnt(List<MultipartFile> fileList, String knwId) {
-		fileList.forEach(file ->uploadAtchmnt(file, knwId));
+	public void uploadMultiAtchmnt(List<MultipartFile> fileList, KnwVO knwVO) {
+		fileList.forEach(file ->uploadAtchmnt(file, knwVO));
 	}
 	
-	public void uploadAtchmnt(MultipartFile file, String knwId) {
+	public void uploadAtchmnt(MultipartFile file, KnwVO knwVO) {
 		if(file != null && !file.isEmpty()) {
 			String fileName = UUID.randomUUID().toString();
 			String originFileName = file.getOriginalFilename();
@@ -100,10 +101,12 @@ public class UploadHandler {
 			}
 
 			AtchFlVO fileVO = new AtchFlVO();
-			fileVO.setFrgnId(knwId);
+			fileVO.setFrgnId(knwVO.getKnwId());
 			fileVO.setOrgFlNm(originFileName);
 			fileVO.setUuidFlNm(fileName);
 			fileVO.setFlSz(file.getSize());
+			fileVO.setCrtr(knwVO.getCrtr());
+			fileVO.setMdfyr(knwVO.getMdfyr());
 			
 			String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
 			fileVO.setFlExt(ext);
