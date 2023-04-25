@@ -52,10 +52,13 @@
 		 INNER JOIN  (SELECT E.*
 		 				  , E.L_NM || E.F_NM NM
 		               FROM EMP E) RCV_E
-		 	ON RCV_E.EMP_ID = RM.RCVR
-	 	<if test="searchKeyword != null and searchKeyword != ''">
-		   WHERE RCV_E.NM LIKE '%' || #{searchKeyword} || '%'
-		</if>
+				 ON RCV_E.EMP_ID = RM.RCVR
+			<if test='searchType =="rcvrNm"'>
+			   WHERE RCV_E.NM LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test='searchType == "ID"'>
+	           WHERE RCV_E.EMP_ID LIKE '%' || #{searchKeyword} || '%'
+	         </if>
 		<include refid="Common.pageFooter"/>
 	</select>
 	

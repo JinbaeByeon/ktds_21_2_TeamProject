@@ -20,4 +20,9 @@ public interface RcvMsgService {
 
 	public boolean updateRcvMsgReadByRcvMsgIdList(List<String> rcvMsgIdList);
 
+	public boolean deleteTrashMsg(List<String> rcvMsgIdList);
+	
+	public RcvMsgVO readOneRcvMsg(String msgId);
+
+	public List<RcvMsgVO> readAllDelMsg(MsgSearchVO msgSearchVO);
 }

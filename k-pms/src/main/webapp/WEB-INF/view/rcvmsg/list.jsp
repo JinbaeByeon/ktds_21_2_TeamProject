@@ -10,16 +10,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-	
-		$(".grid > table > tbody > tr").click(function() {
-			var data = $(this).data();
-			$("#msgId").val(data.msgId);
-			$("#sndMsgId").val(data.sndMsgId);
-			$("#rcvr").val(data.rcvr);
-			$("#rdYn").val(data.rdYn);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-		});
 		
 		$("#new_btn").click(function() {
 			$("#msgId").val("");
@@ -89,12 +79,6 @@
 			});
 		}); // 안에있는내용도 같이 보내기
 		
-		$("#search-btn").click(function(e) {
-			// 자동 get 요청 막음
-			/* e.preventDefault(); */
-			// 내가 보내고 싶은 방식으로 보내기
-			movePage(0);
-		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 			checkBtn();
@@ -190,6 +174,7 @@
 						<option value="sndrNm" ${searchType eq "sndrNm" ? "selected" : ""}>발신자명</option>
 					</select>
 					<input type="text" id="searchKeyword" name="searchKeyword" class="grow-1 mr-10" value="${rcvMsgVO.searchKeyword}"/>
+					<button class="btn-search" id="search-btn">&#128269</button>
 				</div>
 			</form>
 			<div class="grid">
@@ -197,7 +182,7 @@
 					<div class="align-left left">
 						<button id="read_btn" class="btn-read" disabled>읽음</button>
 						<button id="reply_btn" class="btn-reply" onclick="location.href='${context}/sndmsg/send'" disabled>답장</button>
-						<button id="delete_btn" class="btn-del" disabled>삭제</button>
+						<button id="delete_btn" class="btn-delete" disabled>삭제</button>
 					</div>
 					<div class="align-right right">
 						총 ${rcvList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건

@@ -65,6 +65,29 @@
 		<include refid="Common.pageFooter"/>
 	</select>
 	
+	<!-- 휴지통 조회 -->
+	<select id="readAllDelMsg"
+			parameterType="com.kpms.rcvmsg.vo.MsgSearchVO"
+			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
+		SELECT R.MSG_ID
+			 , R.CRT_DT
+			 , S.TTL
+			 , R.CRTR EMP_ID
+			 , S.ATTCH
+		  FROM RCV_MSG R
+		 INNER JOIN SND_MSG S
+		 	ON S.MSG_ID = R.SND_MSG_ID
+		 WHERE R.DEL_YN = 'Y'
+		 UNION
+		SELECT MSG_ID
+			 , CRT_DT
+			 , TTL
+			 , CRTR
+			 , ATTCH
+		  FROM SND_MSG 
+		 WHERE DEL_YN = 'Y'
+	</select>
+	
 	<select id="readOneSndMsgVO"
 			parameterType="com.kpms.rcvmsg.vo.RcvMsgVO"
 			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
@@ -157,4 +180,40 @@
 		  #{msgId}
 		 </foreach>
 	</update>
+	
+	<delete id = "deleteTrashMsg"
+			  parameterType="arraylist">
+			DELETE 
+			  FROM RCV_MSG
+			 WHERE MSG_ID EXISTS (SELECT ) IN 
+			 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+		 	 #{msgId}
+			 </foreach> 
+	</delete>
+	
+	<select id="readOneRcvMsg"
+			parameterType="string"
+			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
+		SELECT R.MSG_ID
+			 , S.TTL
+			 , R.CRT_DT
+			 , R.CRTR
+			 , SND_E.NM
+			 , R.USE_YN
+			 , R.DEL_YN
+			 , R.SND_MSG_ID
+			 , R.RCVR
+			 , R.RD_YN
+			 , S.CNTNT
+		  FROM RCV_MSG R
+		 INNER JOIN SND_MSG S
+		    ON R.SND_MSG_ID = S.MSG_ID
+		 INNER JOIN EMP E
+		 	ON R.CRTR = E.CRTR
+		 INNER JOIN (SELECT E.*
+						  , E.L_NM || E.F_NM NM
+				       FROM EMP E)SND_E
+			ON SND_E.EMP_ID = S.CRTR
+		 WHERE R.MSG_ID = #{_parameter}
+	</select>
 </mapper>

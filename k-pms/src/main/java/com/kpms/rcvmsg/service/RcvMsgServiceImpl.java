@@ -46,5 +46,20 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 	public boolean updateRcvMsgReadByRcvMsgIdList(List<String> rcvMsgIdList) {
 		return rcvMsgDAO.updateRcvMsgReadByRcvMsgIdList(rcvMsgIdList) > 0;
 	}
+	//휴지통 삭제
+	@Override
+	public boolean deleteTrashMsg(List<String> rcvMsgIdList) {
+		return rcvMsgDAO.deleteTrashMsg(rcvMsgIdList) > 0;
+	}
+	//디테일
+	@Override
+	public RcvMsgVO readOneRcvMsg(String msgId) {
+		return rcvMsgDAO.readOneRcvMsg(msgId);
+	}
+	//휴지통 조회
+	@Override
+	public List<RcvMsgVO> readAllDelMsg(MsgSearchVO msgSearchVO) {
+		return rcvMsgDAO.readAllDelMsg(msgSearchVO);
+	}
 
 }

@@ -10,16 +10,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-	
-		$(".grid > table > tbody > tr").click(function() {
-			var data = $(this).data();
-			$("#msgId").val(data.msgId);
-			$("#ttl").val(data.ttl);
-			$("#cntnt").val(data.cntnt);
-			$("#attch").val(data.attch);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-		});
 		
 		$("#new_btn").click(function() {
 			$("#msgId").val("");
@@ -51,9 +41,6 @@
 			});
 		});
 		
-		$("#search-btn").click(function() {
-			movePage(0)
-		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
@@ -64,8 +51,8 @@
 			$("#all_check").prop("checked", count == checkCount);
 		}
 		
-		$(".check_idx").chang(function() {
-			checkIndex();
+		$(".check_idx").change(function() {
+			checkIndex(); 
 		});
 		
 		$(".grid > table > tbody > tr > td").not(".check").click(function(){
@@ -93,13 +80,18 @@
 			});
 		});
 	});
-		function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			var keyword=$("#search-keyword").val();
-			// URL 요청
-			location.href= "${context}/sndmsg/list?searchKeyword=" + keyword + "&pageNo=" + pageNo;
+	function movePage(pageNo) {
+		var searchType = $("#searchType").val();
+		alert(searchType);
+		if(searchType == "id") {
+			var empId = $("#searchBar").val();
+			location.href = "${context}/sndmsg/list?searchType=ID$rcvEmpId=" + empId + "$pageNo=" + pageNo;
 		}
+		else if(searchType == "rcvrNm") {
+			var nm = $("#searchBar").val();
+			location.href="${context}/sndmsg/list?searchType=rcvrNm&nm=" + nm + "&pageNo=" + pageNo;
+		}
+	}
 </script>
 </head>
 <body>
@@ -109,11 +101,17 @@
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path">쪽지 > 보낸쪽지함</div>
-			<div class="search-group">
-				<label for="search-keyword">수신자명</label>					
-				<input type="text" id="search-keyword" class="search-input" value="${sndMsgVO.searchKeyword}"/>
-				<button class="btn-search" id="search-btn">&#128269</button>
-			</div>
+			
+			<form>
+				<div class="search-group">
+					<select class="search-option " id="searchType" name="searchType">
+						<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
+						<option value="rcvrNm" ${searchType eq "rcvrNm" ? "selected": ""}>수신자명</option>
+					</select>
+					<input type="text" id="searchKeyword" name="searchKeyword" class="grow-1 mr-10" value="${sndMsgVO.searchKeyword}"/>			
+					<button class="btn-search" id="search-btn">&#128269</button>
+				</div>
+			</form>
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">

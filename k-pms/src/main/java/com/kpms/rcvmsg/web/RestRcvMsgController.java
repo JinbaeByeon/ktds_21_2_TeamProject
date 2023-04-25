@@ -16,41 +16,49 @@ import com.kpms.rcvmsg.service.RcvMsgService;
 @RestController
 public class RestRcvMsgController {
 
-	@Autowired 
+	@Autowired
 	private RcvMsgService rcvMsgService;
-	
+
 	@GetMapping("/api/rcvmsg/delete/{msgId}")
 	public APIResponseVO doDeleteRcvMsg(@PathVariable String msgId) {
 		boolean deleteResult = rcvMsgService.deleteOneRcvMsg(msgId);
-		
-		if(deleteResult) {
+
+		if (deleteResult) {
 			return new APIResponseVO(APIStatus.OK);
-		}
-		else {
+		} else {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
-	
+
 	@PostMapping("/api/rcvmsg/delete")
 	public APIResponseVO doDeleteRcvMsgBySelectedMsgId(@RequestParam List<String> rcvMsgIdList) {
 		boolean deleteResult = rcvMsgService.deleteRcvMsgBySelectedMsgId(rcvMsgIdList);
-		
-		if(deleteResult) {
+
+		if (deleteResult) {
 			return new APIResponseVO(APIStatus.OK);
-		}
-		else {
+		} else {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}
-	
+
+	@PostMapping("api/msg/delete/trash")
+	public APIResponseVO doDeleteTrashMsg(@RequestParam List<String> rcvMsgIdList) {
+		boolean deleteResult = rcvMsgService.deleteTrashMsg(rcvMsgIdList);
+
+		if (deleteResult) {
+			return new APIResponseVO(APIStatus.OK);
+		} else {
+			return new APIResponseVO(APIStatus.FAIL);
+		}
+	}
+
 	@PostMapping("/api/rcvmsg/update")
 	public APIResponseVO doUpdateRcvMsg(@RequestParam List<String> rcvMsgIdList) {
 		boolean updateResult = rcvMsgService.updateRcvMsgReadByRcvMsgIdList(rcvMsgIdList);
-		
-		if(updateResult) {
+
+		if (updateResult) {
 			return new APIResponseVO(APIStatus.OK);
-		}
-		else {
+		} else {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
 	}

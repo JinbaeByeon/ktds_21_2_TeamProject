@@ -10,9 +10,13 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		$("#delete_btn").click(function() {
+		$("#restore_btn").click(function() {
 			var form = $("<form></form>")
 			
+		})
+		
+		$("#delete_btn").click(function() {
+			var form = $("<form></form>")
 			$(".check_idx:checked").each(function() {
 				console.log($(this).val());
 				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
@@ -22,7 +26,7 @@
 				return;
 			}
 			//snd와 rcv같이 삭제할수있는건 어떻게해야하느닞
-			$.post("${context}/api/sndmsg/delete",form.serialize(), function(response) {
+			$.post("${context}/api/msg/delete/trash",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
 				}
@@ -30,33 +34,35 @@
 					alert(response.status == "500");
 				}
 			});
-	});
-		function checkBtn(){
+		});
+		
+		function checkIndex() {
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
-			
-			$("#delete_btn").attr("disabled", true);
-			
-			$("#delete_all_btn").click(function() {
-				var checkLen = $(".check_idx:checked").length;
-				if(checkLen == 0) {
-					alert("삭제할 쪽지가 없습니다.");
-					return;
-				}
-						
-				var form = $("<form></form>")
-				
-				$(".check_idx:checked").each(function() {
-					console.log($(this).val());
-					form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-				});
-				
-				$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
-					location.reload(); // 새로고침
-				});
-			});
+			$("#all_check").prop("checked", count == checkCount);
+			checkBtn();
 		}
-	}
+			
+			
+		$("#delete_all_btn").click(function() {
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("삭제할 쪽지가 없습니다.");
+				return;
+			}
+					
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
+				location.reload(); // 새로고침
+			});
+		});
+	});
 </script>
 </head>
 <body>
@@ -69,9 +75,8 @@
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">
-						<button id="perma_delete_btn" class="btn-perma_delete" disabled>영구삭제</button>
-						<button id="move_btn" class="btn-move" onClick="location.href="
-							${context}/rcv/sndmsg/list" disabled>이동</button>
+						<button id="delete_btn" class="btn-delete" disabled>영구삭제</button>
+						<button id="restore_btn" class="btn-restore" disabled>복원</button>
 					</div>
 					<div class="align-right right">총 ${msgList.size() > 0 ? msgList.get(0).totalCount : 0}건
 					</div>
