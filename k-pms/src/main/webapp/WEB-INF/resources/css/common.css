@@ -671,15 +671,12 @@ input::-webkit-inner-spin-button {
 
 /* 대댓글 */
 
-.reply > ul {
-	display: inline-block;	
+.comment {
+	position: relative;
+	height: 150px;
 }
 
-.reply > .x-btn {
-	display: inline-block;	
-}
-
-.reply > .update-btn {
+.reply-info > * {
 	display: inline-block;
 }
 
@@ -853,6 +850,30 @@ input::-webkit-inner-spin-button {
 }
 
 
+.reply-info > .crtr-info {
+	border-bottom-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
 
+.reply-info > .crtDt-info {
+	position: absolute;
+	right: 0px;
+}
 
+.comment > .btns {
+	position: absolute;
+	bottom: 15px;
+	right: 5px;
+}
+
+.comment > hr {
+	position: absolute;
+    bottom: 0;
+    width: -webkit-fill-available;
+}
+
+.comment > div.cnt p.cnt{
+	margin:0;
+}
 
