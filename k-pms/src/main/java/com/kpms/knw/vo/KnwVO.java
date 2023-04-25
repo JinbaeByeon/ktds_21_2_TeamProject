@@ -2,14 +2,14 @@ package com.kpms.knw.vo;
 
 import java.util.List;
 
-import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.common.vo.AbstractFileVO;
 import com.kpms.knwrpl.vo.KnwRplVO;
 import com.kpms.prj.vo.PrjVO;
 
 /**
  * KNW
  */
-public class KnwVO extends AbstractPagingVO {
+public class KnwVO extends AbstractFileVO {
 
 	private String knwId;
 	private String ttl;
@@ -75,5 +75,6 @@ public class KnwVO extends AbstractPagingVO {
 	public void setRplList(List<KnwRplVO> rplList) {
 		this.rplList = rplList;
 	}
+
 
 }

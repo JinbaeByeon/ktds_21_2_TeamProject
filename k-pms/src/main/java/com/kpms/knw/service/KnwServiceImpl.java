@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
+import com.kpms.common.handler.UploadHandler;
+import com.kpms.common.util.StringUtil;
 import com.kpms.knw.dao.KnwDAO;
 import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
@@ -16,15 +20,28 @@ public class KnwServiceImpl implements KnwService {
 
 	@Autowired
 	private KnwDAO knwDAO;
+	
+	@Autowired
+	UploadHandler uploadHandler;
 
 	@Override
-	public boolean createOneKnw(KnwVO knwVO) {
-		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
+	public boolean createOneKnw(KnwVO knwVO, List<MultipartFile> uploadFile) {
+		
 
-		if (!isSuccess) {
-			throw new APIArgsException("400", "제목과 내용은 필수값입니다.");
+		if (StringUtil.isEmpty(knwVO.getTtl())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "제목은 필수값입니다.");
 		}
-
+		if (StringUtil.isEmpty(knwVO.getCntnt())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "내용은 필수값입니다.");
+		}
+		if(StringUtil.isEmpty(knwVO.getPrjId())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 선택은 필수입니다.");
+		}
+		
+		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
+		String knwId = knwVO.getKnwId();
+		uploadHandler.uploadMultiAtchmnt(uploadFile, knwId);
+		
 		return isSuccess;
 	}
 
@@ -32,19 +49,28 @@ public class KnwServiceImpl implements KnwService {
 	public List<KnwVO> readAllKnw(KnwSearchVO knwSearchVO) {
 		return knwDAO.readAllKnw(knwSearchVO);
 	}
-	
+
 	@Override
 	public KnwVO readOneKnwByKnwId(String KnwId) {
 		return knwDAO.readOneKnwByKnwId(KnwId);
 	}
 
 	@Override
-	public boolean updateOneKnw(KnwVO knwVO) {
-		boolean isSuccess = knwDAO.updateOneKnw(knwVO) > 0;
-
-		if (!isSuccess) {
-			throw new APIArgsException("400", "제목과 내용은 필수값입니다.");
+	public boolean updateOneKnw(KnwVO knwVO, List<MultipartFile> uploadFile) {
+		String knwId = knwVO.getKnwId();
+		uploadHandler.uploadMultiAtchmnt(uploadFile, knwId);
+		
+		if (StringUtil.isEmpty(knwVO.getTtl())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "제목은 필수값입니다.");
 		}
+		if (StringUtil.isEmpty(knwVO.getCntnt())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "내용은 필수값입니다.");
+		}
+		if(StringUtil.isEmpty(knwVO.getPrjId())) {
+			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 선택은 필수입니다.");
+		}
+
+		boolean isSuccess = knwDAO.updateOneKnw(knwVO) > 0;
 
 		return isSuccess;
 	}
