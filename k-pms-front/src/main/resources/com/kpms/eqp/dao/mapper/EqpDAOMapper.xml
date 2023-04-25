@@ -3,6 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Eqp">
+
+	<resultMap id="eqpVOMap" 
+				type="com.kpms.eqp.vo.EqpVO"
+				autoMapping="true">
+		<id property="eqpId" column="EQP_ID"/>
+		<association property="crtrEmpVO" 
+					   javaType="com.kpms.emp.vo.EmpVO"
+					  autoMapping="true" >
+			<id property="empId" column="CRTR" />
+			<result property="fNm" column="CRTR_E_F_NM"/>
+			<result property="lNm" column="CRTR_E_L_NM"/>
+		</association>	
+		<association property="mdfyrEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO"
+					  autoMapping="true">
+			<id property="empId" column="MDFYR"/>
+			<result property="fNm" column="MDFYR_E_F_NM"/>
+			<result property="lNm" column="MDFYR_E_L_NM"/>
+		</association>
+	</resultMap>
 	
 	<insert id="createNewEqp"
 			parameterType="com.kpms.eqp.vo.EqpVO">
@@ -41,82 +61,103 @@
 		, #{lossRprtDt}
 		, #{applDt})
 	</insert>
-		
+
 	
 	<select id="readAllEqp"
 			parameterType="com.kpms.eqp.vo.EqpVO"
-			resultType="com.kpms.eqp.vo.EqpVO">
+			resultMap="eqpVOMap">
 		<include refid="Common.pageHeader" />
-		SELECT EQP_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , EQP_NM
-			 , EQP_TP
-			 , APPL_STTS
-			 , APPL_ID
-			 , EQP_PRC
-			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
-			 , LOSS_STTS
-			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
-			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
-		  FROM EQP
-		 WHERE DEL_YN = 'N'
+		SELECT E.EQP_ID PK_COL
+			 , E.EQP_ID
+			 , DENSE_RANK() OVER(ORDER BY E.CRT_DT || E.EQP_ID DESC) RNUM
+			 , E.CRT_DT
+			 , E.CRTR
+			 , E.MDFY_DT
+			 , E.MDFYR
+			 , E.USE_YN
+			 , E.DEL_YN
+			 , E.EQP_NM
+			 , E.EQP_TP
+			 , E.APPL_STTS
+			 , E.APPL_ID
+			 , E.EQP_PRC
+			 , TO_CHAR(E.PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , E.LOSS_STTS
+			 , TO_CHAR(E.LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(E.APPL_DT, 'YYYY-MM-DD') APPL_DT
+			 , CRTR_E.L_NM CRTR_E_L_NM
+			 , CRTR_E.F_NM CRTR_E_F_NM
+			 , MDFYR_E.L_NM MDFYR_E_L_NM
+			 , MDFYR_E.F_NM MDFYR_E_F_NM
+		  FROM EQP E
+		 INNER JOIN EMP CRTR_E
+		 	ON E.CRTR = CRTR_E.EMP_ID
+		 INNER JOIN EMP MDFYR_E
+		 	ON E.MDFYR = MDFYR_E.EMP_ID
+		 WHERE E.DEL_YN = 'N'
 		 <choose>
+		 	<when test='searchMode == "list"'>
+		   AND E.LOSS_STTS = 'N'
+		 	</when>
 		 	<when test='searchMode == "rent"'>
-  		   AND LOSS_STTS = 'N'
-		   AND APPL_STTS IS NOT NULL
+  		   AND E.LOSS_STTS = 'N'
+		   AND E.APPL_STTS IS NOT NULL
 		 	</when>
 		 	<when test='searchMode == "apply"'>
-  		   AND LOSS_STTS = 'N'
-		   AND APPL_STTS IS NULL
+  		   AND E.LOSS_STTS = 'N'
+		   AND E.APPL_STTS IS NULL
 		 	</when>
 		 	<when test='searchMode == "lost"'>
-  		   AND LOSS_STTS = 'Y'
+  		   AND E.LOSS_STTS = 'Y'
 		 	</when>
 		 	<otherwise>
 		 		<if test="lossStts != null and lossStts != ''">
-		   AND LOSS_STTS LIKE '%' || #{lossStts} || '%'
+		   AND E.LOSS_STTS LIKE '%' || #{lossStts} || '%'
 		 		</if>
 		 	</otherwise>
 		 </choose>
 		 <if test="eqpNm != null and eqpNm != ''">
-		   AND EQP_NM LIKE '%' || #{eqpNm} || '%'
+		   AND E.EQP_NM LIKE '%' || #{eqpNm} || '%'
 		 </if>
 		 <if test="applStts != null and applStts != ''">
-		   AND APPL_STTS LIKE '%' || #{applStts} || '%'
+		   AND E.APPL_STTS LIKE '%' || #{applStts} || '%'
 		 </if>
-		  ORDER BY EQP_ID ASC
+		  ORDER BY E.EQP_ID ASC
 		 <include refid="Common.pageFooter" />
 	</select>
 	
 	<select id="readAllEqpNoPagination"
 			parameterType="string"
-			resultType="com.kpms.eqp.vo.EqpVO">
-		SELECT EQP_ID
-			 , CRT_DT
-			 , CRTR
-			 , MDFY_DT
-			 , MDFYR
-			 , USE_YN
-			 , DEL_YN
-			 , EQP_NM
-			 , EQP_TP
-			 , APPL_STTS
-			 , APPL_ID
-			 , EQP_PRC
-			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
-			 , LOSS_STTS
-			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
-			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
-		  FROM EQP
-		 WHERE DEL_YN = 'N'
-		   AND USE_YN = 'Y'
-		   AND EQP_NM LIKE '%' || #{_parameter} || '%'
-		 ORDER BY EQP_ID ASC
+			resultMap="eqpVOMap">
+		SELECT E.EQP_ID
+			 , E.CRT_DT
+			 , E.CRTR
+			 , E.MDFY_DT
+			 , E.MDFYR
+			 , E.USE_YN
+			 , E.DEL_YN
+			 , E.EQP_NM
+			 , E.EQP_TP
+			 , E.APPL_STTS
+			 , E.APPL_ID
+			 , E.EQP_PRC
+			 , TO_CHAR(E.PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , E.LOSS_STTS
+			 , TO_CHAR(E.LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(E.APPL_DT, 'YYYY-MM-DD') APPL_DT
+			 , CRTR_E.L_NM CRTR_E_L_NM
+			 , CRTR_E.F_NM CRTR_E_F_NM
+			 , MDFYR_E.L_NM MDFYR_E_L_NM
+			 , MDFYR_E.F_NM MDFYR_E_F_NM
+		  FROM EQP E
+		 INNER JOIN EMP CRTR_E
+		 	ON E.CRTR = CRTR_E.EMP_ID
+		 INNER JOIN EMP MDFYR_E
+		 	ON E.MDFYR = MDFYR_E.EMP_ID
+		 WHERE E.DEL_YN = 'N'
+		   AND E.USE_YN = 'Y'
+		   AND E.EQP_NM LIKE '%' || #{_parameter} || '%'
+		 ORDER BY E.EQP_ID ASC
 	</select>
 	
 	<select id="readEqpByEqpId"
@@ -154,6 +195,7 @@
 		   SET APPL_STTS= #{applStts}
 		     , APPL_ID = #{applId}
 		     , APPL_DT= SYSDATE
+		     , LOSS_STTS = NVL(#{lossStts}, 'N')
 		 WHERE EQP_ID= #{eqpId}
 	</update>
 	

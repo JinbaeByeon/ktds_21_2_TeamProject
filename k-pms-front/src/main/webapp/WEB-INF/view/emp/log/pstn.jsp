@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="emp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,24 +11,6 @@
 <jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		
-		$(".grid > table > tbody > tr").click(function() {
-			$("#isModify").val("true");
-			var data = $(this).data();
-			$("#empId").val(data.empid);
-			$("#fNm").val(data.fnm);
-			$("#lNm").val(data.lnm);
-			$("#prvsPstnId").val(data.prvspstnid);
-			$("#prvsPstnNm").val(data.prvspstnid);
-			$("#chngPstnId").val(data.chngpstnid);
-			$("#chngPstnNm").val(data.chngpstnnm);
-			$("#chngDt").val(data.chngdt);
-			$("#chngRsn").val(data.chngrsn);
-			$("#crtDt").val(data.crtdt);
-			$("#crtr").val(data.crtr);
-
-			$("#useYn").prop("checked", data.useyn == "Y");
-		});
 
 		$("#search-keyword").keydown(function(e){
 			if(e.keyCode == '13'){
@@ -39,13 +22,13 @@
 			movePage(0)
 		});
 	});
-		function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			var jobNm=$("#search-keyword").val();
-			// URL 요청
-			location.href= "${context}/emp/log/pstn?pstnNm=" + pstnNm + "&pageNo=" + pageNo;
-		}
+	function movePage(pageNo) {
+		// 전송
+		// 입력 값
+		var empId=$("#search-keyword").val();
+		// URL 요청
+		location.href= "${context}/emp/log/pstn?empId=" + empId + "&pageNo=" + pageNo;
+	}
 
 </script>
 </head>
@@ -53,7 +36,7 @@
 	<div class="main-layout">
 		<jsp:include page="../../include/header.jsp"/>
 		<div>
-		<jsp:include page="../../include/sysSidemenu.jsp"/>
+		<jsp:include page="../../include/empSidemenu.jsp"/>
 		<jsp:include page="../../include/content.jsp"/>
 			<div class="path">직급변경이력 > </div>
 			<div class="search-group">
@@ -83,7 +66,7 @@
 					<tbody>
 						<c:choose>
 							<c:when test="${not empty pstnLogList}">
-								<c:forEach items="${jobList}"
+								<c:forEach items="${pstnLogList}"
 										   var="pstnLog">
 									<tr data-empid="${pstnLog.empId}"
 										data-fnm="${pstnLog.empVO.fNm}"

@@ -20,12 +20,12 @@ public class EqpLogDAOImpl extends SqlSessionDaoSupport implements EqpLogDAO{
 
 	@Override
 	public int createEqpLog(EqpLogVO eqpLogVO) {
-		return getSqlSession().insert("Eqp.createEqpLog", eqpLogVO);
+		return getSqlSession().insert("EqpLog.createEqpLog", eqpLogVO);
 	}
 
 	@Override
 	public List<EqpLogVO> readAllEqpLog(EqpLogVO eqpLogVO) {
-		return getSqlSession().selectList("Eqp.readAllEqpLog", eqpLogVO);
+		return getSqlSession().selectList("EqpLog.readAllEqpLog", eqpLogVO);
 	}
 	
 }

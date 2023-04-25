@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +21,10 @@ import com.kpms.common.handler.SessionHandler;
 import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
 import com.kpms.emp.service.EmpService;
+import com.kpms.emp.vo.EmpChngDepVO;
+import com.kpms.emp.vo.EmpChngEmplmntVO;
+import com.kpms.emp.vo.EmpChngJobVO;
+import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpPwdVO;
 import com.kpms.emp.vo.EmpVO;
 
@@ -114,6 +116,50 @@ public class RestEmpController {
 			return new APIResponseVO(APIStatus.OK);
 		}
 
-		return new APIResponseVO(APIStatus.FAIL,"비밀번호 변경 실패","");
+		return new APIResponseVO(APIStatus.FAIL,"비밀번호 초기화 실패","");
 	}
+
+	@PostMapping("/api/emp/update/pstn")
+	public APIResponseVO doUpdateEmpPstn(EmpChngPstnVO empChngPstnVO
+			, @SessionAttribute("__USER__") EmpVO user) {
+		empChngPstnVO.setMdfyr(user.getEmpId());
+		if(empService.updateEmpPstn(empChngPstnVO)) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+
+		return new APIResponseVO(APIStatus.FAIL,"직급 변경 실패","");
+	}
+	@PostMapping("/api/emp/update/job")
+	public APIResponseVO doUpdateEmpJob(EmpChngJobVO empChngJobVO
+			, @SessionAttribute("__USER__") EmpVO user) {
+		empChngJobVO.setMdfyr(user.getEmpId());
+		if(empService.updateEmpJob(empChngJobVO)) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+
+		return new APIResponseVO(APIStatus.FAIL,"직무 변경 실패","");
+	}
+	@PostMapping("/api/emp/update/dep")
+	public APIResponseVO doUpdateEmpDep(EmpChngDepVO empChngDepVO
+			, @SessionAttribute("__USER__") EmpVO user) {
+		empChngDepVO.setMdfyr(user.getEmpId());
+		if(empService.updateEmpDep(empChngDepVO)) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+
+		return new APIResponseVO(APIStatus.FAIL,"부서 변경 실패","");
+	}
+	
+	@PostMapping("/api/emp/update/emplmntStts")
+	public APIResponseVO doUpdateEmpDep(EmpChngEmplmntVO empChngEmplmntVO
+			, @SessionAttribute("__USER__") EmpVO user) {
+		empChngEmplmntVO.setMdfyr(user.getEmpId());
+		if(empService.updateEmpEmplmnt(empChngEmplmntVO)) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+
+		return new APIResponseVO(APIStatus.FAIL,"재직상태 변경 실패","");
+	}
+	
+	
 }
