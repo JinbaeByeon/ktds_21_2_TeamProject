@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DepLog">
+	
+	<resultMap id="depLogVOMap" type="com.kpms.deplog.vo.DepLogVO" autoMapping="true">
+			 <id property="empId" column="EMP_ID"/>
+			 <id property="chngDt" column="CHNG_DT"/>
+			 <association property="empVO"
+			 			  javaType="com.kpms.emp.vo.EmpVO">
+			 	<id property="empId" column="EMP_ID"/>
+			 	<result property="fNm" column="F_NM"/>
+			 	<result property="lNm" column="L_NM"/>
+			 </association>
+			 <association property="prvsDepNmVO"
+			 			  javaType="com.kpms.dep.vo.DepVO">
+			 	<id property="depId" column="PRVS_DEP_ID"/>
+			 	<result property="depNm" column="PRVS_DEP_NM"/>	  
+			 </association>
+			 <association property="chngDepNmVO"
+			 			  javaType="com.kpms.dep.vo.DepVO">
+			 	<id property="depId" column="CHNG_DEP_ID"/>
+			 	<result property="depNm" column="CHNG_DEP_NM"/>	  
+			 </association>
+	</resultMap>
+	<select id="readAllDepLogVO"
+			parameterType="com.kpms.deplog.vo.DepLogVO"
+			resultMap="depLogVOMap">
+		<include refid="Common.pageHeader"/>
+		SELECT TO_CHAR(DL.CRT_DT, 'YYYYMMDDHH24MISS') || DL.EMP_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY DL.CRT_DT || DL.EMP_ID DESC) RNUM
+			 , DL.EMP_ID
+			 , TO_CHAR(DL.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , DL.CRTR
+			 , TO_CHAR(DL.CHNG_DT, 'YYYY-MM-DD HH24:MI:SS') CHNG_DT
+			 , DL.PRVS_DEP_ID
+			 , PD.DEP_NM PRVS_DEP_NM
+			 , DL.CHNG_DEP_ID
+			 , CD.DEP_NM CHNG_DEP_NM
+			 , DL.CHNG_RSN
+			 , E.F_NM
+			 , E.L_NM
+		  FROM DEP_LOG DL
+		 INNER JOIN DEP PD
+		    ON PD.DEP_ID = DL.PRVS_DEP_ID
+		 INNER JOIN DEP CD
+		    ON CD.DEP_ID = DL.CHNG_DEP_ID
+		 INNER JOIN EMP E
+		    ON E.EMP_ID = DL.EMP_ID
+		<if test="empId != null and empId != ''">
+		 WHERE DL.EMP_ID = #{empId}
+		 </if>
+		 <include refid="Common.pageFooter"/>
+	</select>
+	
+	<insert id="createDepLog"
+			parameterType="com.kpms.emp.vo.EmpChngDepVO">
+		INSERT INTO DEP_LOG
+		(EMP_ID,
+		 PRVS_DEP_ID,
+		 CRT_DT,
+		 CHNG_DT,
+		 CRTR,
+		 CHNG_DEP_ID,
+		 CHNG_RSN)
+		SELECT EMP_ID
+			 , DEP_ID
+			 , SYSDATE
+			 , SYSDATE
+			 , #{mdfyr}
+			 , #{depId}
+			 , #{chngRsn}
+		  FROM EMP
+		 WHERE EMP_ID IN
+		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
+		  #{empId}
+		 </foreach>
+	</insert>
+	
+</mapper>

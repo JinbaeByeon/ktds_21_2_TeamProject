@@ -21,4 +21,6 @@ public interface DepDAO {
 	
 	public int deleteDepBySelectedDepId(List<String> depId);
 	
+	public List<DepVO> readAllDepToTmMbr(DepVO depVO);
+	
 }

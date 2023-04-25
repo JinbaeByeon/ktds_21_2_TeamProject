@@ -505,6 +505,7 @@ img.profile{
 	flex-direction: column;
 }
 
+
 .create-group > .right-item {
 	position: absolute;
 	left: 450px;
@@ -744,12 +745,20 @@ input::-webkit-inner-spin-button {
 	right: 10px;
 }
 
-#userList {
+
+#search-emp {
+	margin: 10px 0;
+}
+
+
+/* 쪽지 전송 */
+
+#user_list {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-#userList > .user {
+#user_list > .user {
 	display: flex;
     background-color: #d0edff;
     border-radius: 14px;
@@ -758,13 +767,13 @@ input::-webkit-inner-spin-button {
     margin-left: 10px;
 }
 
-#userList > .user > .rcvr {
+#user_list > .user > .rcvr {
 	height: 20px;
 	margin: 0;
 	margin-left: 5px;
 	line-height: 17px
 }
-#userList > .user > .btn-delete {
+#user_list > .user > .btn-delete {
 	margin: 0;
     border: none;
     background-color: #d0edff;
@@ -773,6 +782,77 @@ input::-webkit-inner-spin-button {
     padding: 0 5px;
 }
 
-#search-emp {
-	margin: 10px 0;
+.create-group input[type=text].underBar {
+	border: none;
+	border-bottom: 1px solid #ddd;
 }
+
+.create-group .msg-cntnt{
+	border: 1px solid #ccc;
+}
+.create-group > .file_area{
+	width: 85%;	
+}
+
+.create-group > .file_area > .file_upload > button{
+	margin-bottom: 0;
+}
+
+.create-group > .file_area .file_drag{
+	margin: 10px;
+    padding: 17px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.create-group > .file_area .file_attachment{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 10px;
+}
+.create-group > .file_area .file_attachment > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+}
+.create-group > .file_area .file_attachment > div > .remove_all {
+	margin: 0 10px;
+}
+.create-group > .file_area .file_attachment > div > .file_name {
+	flex: 1 1 auto;
+	text-align: left;
+}
+.create-group > .file_area .file_attachment > div > .file_size {
+	padding-right: 20px;
+}
+
+#file_list {
+	padding: 0;
+}
+
+#file_list > li {
+	display: block;
+	display: flex;
+}
+
+#file_list > li > div {
+	display: flex;
+	flex: 1 1 auto;
+} 
+
+#file_list > li > div > .file_name {
+	flex: 1 1 auto;
+	text-align: left;
+}
+
+#file_list > li > div > .remove {
+	margin: 0 10px;
+}
+
+
+
+
+

@@ -36,7 +36,7 @@
 		$("#send_btn").click(function(){
 			var ajaxUtil = new AjaxUtil();
 			var form = $("#create-form");
-			var rcvrList = $("#userList").children(".user").children(".rcvr");
+			var rcvrList = $("#user_list").children(".user").children(".rcvr");
 			var cnt = 0;
 			rcvrList.each(function(e){
 				var rcvr = $(this).text();
@@ -58,6 +58,53 @@
 			e.preventDefault();
 			empWindow = window.open("${context}/emp/search","직원 검색","width=500,height=500");
 		});
+		$("#add_files").click(function(e){
+			e.preventDefault();
+			$("#files").click();
+		})
+		$("#files").change(function(e){
+			var files = $(this)[0].files;
+			if(files != null && files != undefined){
+				for(var i=0;i<files.length;++i){
+					var file = files[i];
+					addFile(file);
+				}
+			}
+			checkFile();
+		});
+		$(".file_drag").on("dragover",function(e){
+			e.preventDefault();
+		});
+		$(".file_drag").on("drop",function(e){
+			e.preventDefault();
+		 	
+			var files = event.dataTransfer.files;
+			if(files != null && files != undefined){
+				for(var i=0;i<files.length;i++){
+					var file = files[i];
+					addFile(file);
+				}
+			}
+			checkFile();
+		});
+		$(".file_attachment").on("dragover",function(e){
+			e.preventDefault();
+		});
+		$(".file_attachment").on("drop",function(e){
+			e.preventDefault();
+		 	
+			var files = event.dataTransfer.files;
+			if(files != null && files != undefined){
+				for(var i=0;i<files.length;i++){
+					var file = files[i];
+					addFile(file);
+				}
+			}
+			checkFile();
+		});
+		$(".file_attachment").find(".remove_all").click(function(e){
+			e.preventDefault();
+		});
 	});
 	function addEmpFn(emp){
 		createUser(emp.empid);
@@ -67,7 +114,7 @@
 			return;
 		}
 		var userDiv = $("<div class='user'></div>");
-		$("#userList").append(userDiv);
+		$("#user_list").append(userDiv);
 		
 		var rcvr = $("<div class='rcvr'>"+empId+"</div>");
 		userDiv.append(rcvr);
@@ -79,7 +126,36 @@
 		userDiv.append(btnDelete);
 		
 	};
-	
+	function addFile(file){
+		var fileList = $("#file_list");
+		
+		var fileNm = file.name;
+		var fileSz = file.size / 1024;
+		fileSz = fileSz.toFixed(2);
+		
+		var li = $("<li></li>");
+		fileList.append(li);
+		var div = $("<div></div>");
+		li.append(div);
+		var fileInput = $("<input type='hidden' name=")
+		var item =  "<span class='remove'>x</span>";
+        item += "<span class='file_name'>"+fileNm+"</span>";
+        if(fileSz < 1000){
+        	item += "<span class='file_size'>"+fileSz+" KB</span>";
+        } else {
+        	fileSz = (fileSz/1024).toFixed(2);
+        	item += "<span class='file_size'>"+fileSz+" MB</span>";
+        }
+        div.append(item);
+		
+	};
+	function checkFile(){
+		var fileList = $("#file_list");
+		if(fileList.length > 0){
+			fileList.closest(".file_attachment").show();
+			$(".file_area").find(".file_drag").hide();
+		}
+	}
 	 //내피씨연동ㅇㄹㅇ널ㄷㄴㄷㄹㄴ두래너리나ㅢㅡㄱㄴ르힏
 	 
 </script>
@@ -96,23 +172,39 @@
 				<div class="create-group">
 					<label for="rcvr">받는사람</label>
 					<div>
-						<div id="userList"></div>
+						<div id="user_list"></div>
 						<div>
-							<input type="text" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
+							<input type="text" class="underBar" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
 							<button id="search-emp">+</button>
 						</div>
 					</div>
 				</div>
 				<div class="create-group">
 					<label for="title">제목</label> 
-					<input type="text" id="title" name="ttl" value="${sndMsgVO.ttl}"/>
+					<input type="text" class="underBar" id="title" name="ttl" value="${sndMsgVO.ttl}"/>
 				</div>
 				<div class="create-group">
-					<label for="file">첨부파일</label> 
-					<input type="file" id="file" name="attch" value="${sndMsg.attch}"/><!-- 이게머지 -->
+					<label for="files">첨부파일</label>
+					<div class="file_area">
+						<div class="file_upload">
+							<button id="add_files">+</button>
+						</div>
+						<div class="align-center">
+							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+							<div class="file_attachment" hidden="hidden">
+								<div>
+									<div class="remove_all">x</div>
+									<div class="file_name">파일명</div>
+									<div class="file_size">용량</div>
+								</div>
+								<ul id="file_list"></ul>
+							</div>
+						</div>
+					</div>
+					<input type="file" id="files" name="attch" multiple/>
 				</div>
 				<div class="create-group">
-					<textarea name="cntnt"></textarea>
+					<textarea name="cntnt" class="msg-cntnt"></textarea>
 				</div>
 			</form>
 			<div class="align-right">
