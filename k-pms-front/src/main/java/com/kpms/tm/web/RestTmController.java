@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.common.api.vo.APIDataResponseVO;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
@@ -26,7 +27,7 @@ public class RestTmController {
 	
 	@PostMapping("/api/tm/create")
 	public APIResponseVO doCreateTm(TmVO tmVO,
-			 @SessionAttribute("__USER__") EmpVO empVO) {
+				@SessionAttribute("__USER__") EmpVO empVO) {
 		
 		tmVO.setCrtr(empVO.getEmpId());
 		tmVO.setMdfyr(empVO.getEmpId());
@@ -34,7 +35,7 @@ public class RestTmController {
 		boolean createResult = tmService.createOneTm(tmVO);
 		
 		if (createResult) {
-			return new APIResponseVO(APIStatus.OK);
+			return new APIDataResponseVO(APIStatus.OK, tmVO.getTmId());
 		}
 		else {
 			return new APIResponseVO(APIStatus.FAIL, "팀을 등록할 수 없습니다.", "500", "");
@@ -66,6 +67,25 @@ public class RestTmController {
 		}
 	}
 	
+	@PostMapping("/api/tm/updates/{tmId}")
+	public APIResponseVO doUpadateTmMbr(TmVO tmVO, DepVO depVO,
+						 @SessionAttribute("__USER__") EmpVO empVO,
+						 @PathVariable String tmId) {
+		tmVO.setCrtr(empVO.getEmpId());
+		tmVO.setMdfyr(empVO.getEmpId());
+		tmVO.setTmHdId(tmVO.getTmHdId());
+		tmVO.setDepId(depVO.getDepId());
+		
+		boolean updateResult = tmService.updateOneTmAndTmMbr(tmVO);
+		
+		if (updateResult) {
+			return new APIResponseVO(APIStatus.OK, "/tm/detail/" + tmVO.getTmId());
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL, "팀을 수정할 수 없습니다.", "500", "");
+		}
+	}
+	
 	@GetMapping("/api/tm/delete/{tmId}")
 	public APIResponseVO doDeleteTm(@PathVariable String tmId) {
 		boolean deleteResult = tmService.deleteOneTmByTmId(tmId);
@@ -88,4 +108,14 @@ public class RestTmController {
 			return new APIResponseVO(APIStatus.FAIL,  "팀을 삭제할 수 없습니다.");
 		}
 	}
+	
+	@GetMapping("/api/tm/list/{depId}")
+	public APIResponseVO readTmList(@PathVariable String depId) {
+		List<TmVO> tmList = tmService.readAllTmVONopagination(depId);
+		return new APIDataResponseVO(APIStatus.OK, tmList);
+	}
+	
+	 
+	
+	
 }

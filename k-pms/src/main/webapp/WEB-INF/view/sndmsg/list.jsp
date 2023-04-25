@@ -10,12 +10,20 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+	
+		$(".grid > table > tbody > tr").click(function() {
+			var data = $(this).data();
+			$("#msgId").val(data.msgId);
+			$("#ttl").val(data.ttl);
+			$("#cntnt").val(data.cntnt);
+			
+			$("#useYn").prop("checked", data.useyn == "Y");
+		});
 		
 		$("#new_btn").click(function() {
 			$("#msgId").val("");
 			$("#ttl").val("");
 			$("#cntnt").val("");
-			$("#attch").val("");
 			
 			$("useYn").prop("checked", false);
 		});
@@ -140,7 +148,6 @@
 									<tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
 										data-ttl="${sndMsg.ttl}"
 										data-cntnt="${sndMsg.cntnt}"
-										data-attch="${sndMsg.attch}"
 										data-crtdt="${sndMsg.crtDt}">
 										<td>
 											<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
@@ -148,7 +155,6 @@
 										<td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm} ${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 										<td>${sndMsg.ttl}</td>
 										<td>${sndMsg.cntnt}</td>
-										<td>${sndMsg.attch}</td>
 										<td>${sndMsg.crtDt}</td>
 									</tr>
 								</c:forEach>

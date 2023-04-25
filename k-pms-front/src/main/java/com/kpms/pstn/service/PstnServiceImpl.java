@@ -19,7 +19,7 @@ public class PstnServiceImpl implements PstnService{
 	public boolean createNewPstn(PstnVO pstnVO) {
 		String pstnNm = pstnVO.getPstnNm();
 		if(pstnNm == null || pstnNm == "") {
-			throw new APIArgsException("404", "Á÷±Þ¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä.");
+			throw new APIArgsException("404", "ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 		}
 		return pstnDAO.createNewPstn(pstnVO) > 0;
 	}

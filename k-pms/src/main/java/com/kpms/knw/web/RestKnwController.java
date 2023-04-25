@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
@@ -23,11 +24,11 @@ public class RestKnwController {
 	private KnwService knwService;
 
 	@PostMapping("/api/knw/create")
-	public APIResponseVO doCreateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO) {
+	public APIResponseVO doCreateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO, @RequestParam List<MultipartFile> uploadFile) {
 		knwVO.setCrtr(empVO.getEmpId());
 		knwVO.setMdfyr(empVO.getEmpId());
-
-		boolean isSuccess = knwService.createOneKnw(knwVO);
+		
+		boolean isSuccess = knwService.createOneKnw(knwVO, uploadFile);
 
 		if (isSuccess) {
 			return new APIResponseVO(APIStatus.OK, "/knw/detail/" + knwVO.getKnwId());
@@ -37,10 +38,10 @@ public class RestKnwController {
 	}
 
 	@PostMapping("/api/knw/update")
-	public APIResponseVO doUpdateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO) {
+	public APIResponseVO doUpdateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO, List<MultipartFile> uploadFile) {
 		knwVO.setMdfyr(empVO.getEmpId());
 
-		boolean isSuccess = knwService.updateOneKnw(knwVO);
+		boolean isSuccess = knwService.updateOneKnw(knwVO, uploadFile);
 
 		if (isSuccess) {
 			return new APIResponseVO(APIStatus.OK);

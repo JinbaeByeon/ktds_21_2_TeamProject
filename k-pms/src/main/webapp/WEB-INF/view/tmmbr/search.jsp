@@ -10,11 +10,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		
-		$("#a-btn").click(function() {
-			location.href = "${context}/tm/search";
-		});
-		
+
 		$("#search-btn").click(function() {
 			location.href = "${context}/tm/search?tmNm=" + $("#searh-tmNm").val();
 		});

@@ -206,7 +206,6 @@
 										   var="rcvMsg">
 									<tr data-rdyn="${rcvMsg.rdYn}"
 										data-ttl="${rcvMsg.sndMsgVO.ttl}"
-										data-attch="${rcvMsg.sndMsgVO.attch}"
 										data-crtr="${rcvMsg.crtr}"
 										data-crtdt="${rcvMsg.crtDt}">
 									<td class="check">
@@ -221,7 +220,6 @@
 										</c:if>
 									</td>
 									<td>${rcvMsg.sndMsgVO.ttl}</td>
-									<td>${rcvMsg.sndMsgVO.attch}</td>
 									<td>${rcvMsg.crtr} (${rcvMsg.sndMsgVO.sndEmpVO.lNm} ${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
 									<td>${rcvMsg.crtDt}</td>
 									</tr>

@@ -23,8 +23,8 @@ public class TmServiceImpl implements TmService {
 	}
 
 	@Override
-	public List<TmVO> readAllTmVONopagination(String tmNm) {
-		return tmDAO.readAllTmVONopagination(tmNm);
+	public List<TmVO> readAllTmVONopagination(String depId) {
+		return tmDAO.readAllTmVONopagination(depId);
 	}
 
 	@Override
@@ -56,6 +56,12 @@ public class TmServiceImpl implements TmService {
 		return tmDAO.updateOneTm(tmVO) > 0; 
 	}
 
+
+	@Override
+	public boolean updateOneTmAndTmMbr(TmVO tmVO) {
+		return tmDAO.updateOneTmAndTmMbr(tmVO) > 0;
+	}
+	
 	@Override
 	public boolean deleteOneTmByTmId(String tmId) {
 		return tmDAO.deleteOneTmByTmId(tmId) > 0;
