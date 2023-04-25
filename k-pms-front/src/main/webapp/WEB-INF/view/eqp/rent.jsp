@@ -388,14 +388,6 @@
 								<th>신청일</th>
 								<th>분실상태</th>
 								<th>분실신고일</th>
-								<th>비품가격</th>
-								<th>구매일</th>
-								<th>등록자</th>
-								<th>등록일</th>
-								<th>수정자</th>
-								<th>수정일</th>
-								<th>사용여부</th>
-								<th>삭제여부</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -432,14 +424,6 @@
 											<td>${eqp.applDt}</td>
 											<td>${eqp.lossStts}</td>
 											<td>${eqp.lossRprtDt}</td>
-											<td>${eqp.eqpPrc}</td>
-											<td>${eqp.prchsDt}</td>
-											<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm}${eqp.crtrEmpVO.lNm})</td>
-											<td>${eqp.crtDt}</td>
-											<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
-											<td>${eqp.mdfyDt}</td>
-											<td>${eqp.useYn}</td>
-											<td>${eqp.delYn}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -467,9 +451,6 @@
 							<button id="lost_all_btn" class="btn-lost">분실신청</button>
 							<button id="return_all_btn" class="btn-return">반납신청</button>
 						</c:if>
-						<button id="apply_all_btn" class="btn-apply">승인</button>
-						<button id="refuse_all_btn" class="btn-refuse">반려</button>
-						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
@@ -479,81 +460,6 @@
 	               	</c:import>
 					
 				</div>	
-				<div class="grid-detail">
-					<form id="detail_form" >
-						<!-- isModify == true => 수정(update) -->
-						<!-- isModify == false => 등록(insert) -->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline">
-							<label for="eqpId" style="width: 180px;">비품 ID</label>
-							<input type="text" id="eqpId"  name="eqpId" value="" readonly />
-						</div>
-						<div class="input-group inline">
-							<label for="eqpNm" style="width: 180px;">비품명</label>
-							<input type="text" id="eqpNm"  name="eqpNm" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="eqpTp" style="width: 180px;">비품종류</label>
-							<select id="eqpTp"  name="eqpTp" >
-								<option>선택</option>
-								<option>공기구</option>
-								<option>사무용품</option>
-								<option>소모품</option>
-							</select>
-						</div>
-						<div class="input-group inline">
-							<label for="applStts" style="width: 180px;">신청상태</label>
-							<input type="text" id="applStts"  name="applStts" value="" />
-						</div>
-						<div class="input-group inline">
-							<label for="applDt" style="width: 180px;">신청일</label>
-							<input type="date" id="applDt"  name="applDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="eqpPrc" style="width: 180px;">비품가격</label>
-							<input type="text" id="eqpPrc"  name="eqpPrc" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prchsDt" style="width: 180px;">구매일</label>
-							<input type="date" id="prchsDt"  name="prchsDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">분실상태</label>
-							<input type="checkbox" id="lossStts"  name="lossStts" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="lossRprtDt" style="width: 180px;">분실신고일</label>
-							<input type="date" id="lossRprtDt"  name="lossRprtDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="useYn" style="width: 180px;">사용여부</label>
-							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
-						</div>
-						
-						<div class="input-group inline">
-							<label for="crtr" style="width: 180px;">등록자</label>
-							<input type="text" id="crtr"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="crtDt" style="width: 180px;">등록일</label>
-							<input type="text" id="crtDt"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyr" style="width: 180px;">수정자</label>
-							<input type="text" id="mdfyr"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyDt" style="width: 180px;">수정일</label>
-							<input type="text" id="mdfyDt"  disabled value=""/>
-						</div>
-						
-					</form>
-				</div>
-				<div class="align-right">
-					<button id="new_btn" class="btn-primary">신규</button>
-					<button id="save_btn" class="btn-primary">저장</button>
-					<button id="delete_btn" class="btn-delete">삭제</button>
-				</div>		
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

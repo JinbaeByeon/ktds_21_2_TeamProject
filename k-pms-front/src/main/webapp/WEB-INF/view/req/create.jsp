@@ -158,46 +158,59 @@
 		});
 		
 		$.get("${context}/api/cmncd/list/004", function(response) {
-			var prcsStts = $("#prcsStts");
-			var sttsNm
+			var isSelected
 			
 			for (var i in response.data) {
-				if ($("#prcsStts").val() == response.data[i].cdId) {
-					sttsNm = response.data[i].cdNm;
+				var cdNm = response.data[i].cdNm;
+				if ($("#original-prcsStts").val() == response.data[i].cdId) {
+					isSelected = "selected";
 				}
+				else {
+					isSelected = "";
+				}
+				console.log($("#original-prcsStts").val());
+				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
+				option.append(cdNm);
+				$("#prcsStts-select").append(option)
 			}
-			
-			var sttsInput = $("<input type='text' id='prcsStts' name='prcsStts' value='" + sttsNm + "' readonly/>");
-			prcsStts.after(sttsInput);
+		
 		});
 		
 		$.get("${context}/api/cmncd/list/003", function(response) {
-			var tskStts = $("#tskStts");
-			var sttsNm
+			var isSelected;
 			
 			for (var i in response.data) {
-				if ($("#tskStts").val() == response.data[i].cdId) {
-					sttsNm = response.data[i].cdNm;
+				var cdNm = response.data[i].cdNm;
+				if ($("#original-tskStts").val() == response.data[i].cdId) {
+					isSelected = "selected";
 				}
+				else {
+					isSelected = "";
+				}
+				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
+				option.append(cdNm);
+				$("#tskStts-select").append(option)
 			}
-			
-			var sttsInput = $("<input type='text' id='tskStts' name='tskStts' value='" + sttsNm + "' readonly/>");
-			tskStts.after(sttsInput);
 		});
 		
 		$.get("${context}/api/cmncd/list/008", function(response) {
-			var tstRslt = $("#tstRslt");
-			var sttsNm
+			var isSelected;
 			
 			for (var i in response.data) {
-				if ($("#tstRslt").val() == response.data[i].cdId) {
-					sttsNm = response.data[i].cdNm;
+				var cdNm = response.data[i].cdNm;
+				if ($("#original-tstRslt").val() == response.data[i].cdId) {
+					isSelected = "selected";
 				}
+				else {
+					isSelected = "";
+				}
+				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
+				option.append(cdNm);
+				$("#tstRslt-select").append(option)
 			}
-			
-			var sttsInput = $("<input type='text' id='tstRslt' name='tstRslt' value='" + sttsNm + "' readonly/>");
-			tstRslt.after(sttsInput);
 		});
+		
+		
 	});
 	
 	function addPrjFn(data) {
@@ -253,12 +266,12 @@
 						</div>
 						<div class="input-group inline">
 							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<input type="text" id="prjId"  name="prjId" value="${req.prjId}"/>
+							<input type="text" id="prjId"  name="prjId" value="${reqVO.prjId}"/>
 							<button id="prj_search">검색</button>
 						</div>
 						<div class="input-group inline">
 							<label for="prjId" style="width: 180px;">담당개발자</label>
-							<input type="text" id="mnDvlpr"  name="mnDvlpr" value="${req.mnDvlpr}"/>
+							<input type="text" id="mnDvlpr"  name="mnDvlpr" value="${reqVO.mnDvlpr}"/>
 							<button id="prjtmmbr_search">검색</button>
 						</div>
 						<div class="input-group inline">
@@ -266,19 +279,23 @@
 							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
 						<div class="input-group inline">
+							<label for="attch" style="width: 180px;">첨부파일</label>
+							<input type="text" id="attch"  name="attch" value=""/>
+						</div>
+						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<input type="hidden" id="prcsStts"  name="prcsStts" value="${req.prcsStts}"/>
-							<select id="prcsStts"  name="prcsStts" ></select>
+							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
+							<select id="prcsStts-select"  name="prcsStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<input type="hidden" id="tskStts"  name="tskStts" value="${req.tskStts}"/>
-							<select id="tskStts"  name="tskStts" ></select>
+							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
+							<select id="tskStts-select"  name="tskStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<input type="hidden" id="tstRslt"  name="tstRslt" value="${req.tstRslt}"/>
-							<select id="tstRslt"  name="tstRslt" ></select>
+							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
+							<select id="tstRslt-select"  name="tstRslt" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="lossStts" style="width: 180px;">사용여부</label>
