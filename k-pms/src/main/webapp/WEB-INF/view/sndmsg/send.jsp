@@ -137,9 +137,15 @@
 		fileList.append(li);
 		var div = $("<div></div>");
 		li.append(div);
-		var item =  "<span class='remove'>x</span>" +
-        "<span class='fileName'>"+fileNm+"</span>" +
-        "<span class='fileSize'>"+fileSz+" KB</span>";
+		var fileInput = $("<input type='hidden' name=")
+		var item =  "<span class='remove'>x</span>";
+        item += "<span class='file_name'>"+fileNm+"</span>";
+        if(fileSz < 1000){
+        	item += "<span class='file_size'>"+fileSz+" KB</span>";
+        } else {
+        	fileSz = (fileSz/1024).toFixed(2);
+        	item += "<span class='file_size'>"+fileSz+" MB</span>";
+        }
         div.append(item);
 		
 	};
@@ -187,7 +193,7 @@
 							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 							<div class="file_attachment" hidden="hidden">
 								<div>
-									<button class="remove_all">x</button>
+									<div class="remove_all">x</div>
 									<div class="file_name">파일명</div>
 									<div class="file_size">용량</div>
 								</div>

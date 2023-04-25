@@ -12,6 +12,7 @@ import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.service.RcvMsgService;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
+import com.kpms.sndmsg.vo.SndMsgVO;
 
 @Controller
 public class RcvMsgController {
@@ -20,7 +21,7 @@ public class RcvMsgController {
 	private RcvMsgService rcvMsgService;
 	
 	@GetMapping("/rcvmsg/list")
-	public String viewRcvMsgListPage(Model model, MsgSearchVO rcvMsgVO, @SessionAttribute("__USER__") EmpVO user) {
+	public String viewRcvMsgListPage(Model model, MsgSearchVO rcvMsgVO, @SessionAttribute("__USER__") EmpVO user, String searchType) {
 		rcvMsgVO.setEmpId(user.getEmpId());
 		List<RcvMsgVO> rcvMsgList = rcvMsgService.readAllRcvMsgVO(rcvMsgVO);
 		
@@ -32,7 +33,20 @@ public class RcvMsgController {
 		model.addAttribute("pageNo",rcvMsgVO.getPageNo());
 		model.addAttribute("pageCnt",rcvMsgVO.getPageCnt());
 		model.addAttribute("viewCnt",rcvMsgVO.getViewCnt());
-		
+
+		if(searchType == null) {
+			searchType = "ID";
+		}
+		model.addAttribute("searchType", searchType);
 		return "rcvmsg/list";
+	}
+	
+	@GetMapping("/rcvmsg/send")
+	public String viewMsgSndPage(Model model,String rcvmsgId) {
+		// rcvmsg.msgId -> rcvMsgVO -> sndMsgId -> sndMsgVO;
+		SndMsgVO sndMsgVO = rcvMsgService.readOneSndMsgVO(rcvmsgId);
+		model.addAttribute("sndMsgVO", sndMsgVO);
+		
+		return "sndmsg/send";
 	}
 }

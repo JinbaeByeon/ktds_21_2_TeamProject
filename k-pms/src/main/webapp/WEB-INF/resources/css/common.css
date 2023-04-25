@@ -753,12 +753,12 @@ input::-webkit-inner-spin-button {
 
 /* 쪽지 전송 */
 
-#userList {
+#user_list {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-#userList > .user {
+#user_list > .user {
 	display: flex;
     background-color: #d0edff;
     border-radius: 14px;
@@ -767,13 +767,13 @@ input::-webkit-inner-spin-button {
     margin-left: 10px;
 }
 
-#userList > .user > .rcvr {
+#user_list > .user > .rcvr {
 	height: 20px;
 	margin: 0;
 	margin-left: 5px;
 	line-height: 17px
 }
-#userList > .user > .btn-delete {
+#user_list > .user > .btn-delete {
 	margin: 0;
     border: none;
     background-color: #d0edff;
@@ -816,17 +816,41 @@ input::-webkit-inner-spin-button {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #eee;
+}
+.create-group > .file_area .file_attachment > div > .remove_all {
+	margin: 0 10px;
+}
+.create-group > .file_area .file_attachment > div > .file_name {
+	flex: 1 1 auto;
+	text-align: left;
+}
+.create-group > .file_area .file_attachment > div > .file_size {
+	padding-right: 20px;
+}
+
+#file_list {
+	padding: 0;
 }
 
 #file_list > li {
 	display: block;
+	display: flex;
 }
 
+#file_list > li > div {
+	display: flex;
+	flex: 1 1 auto;
+} 
 
+#file_list > li > div > .file_name {
+	flex: 1 1 auto;
+	text-align: left;
+}
 
-
-
-
+#file_list > li > div > .remove {
+	margin: 0 10px;
+}
 
 
 
