@@ -16,7 +16,6 @@
 			$("#msgId").val(data.msgId);
 			$("#ttl").val(data.ttl);
 			$("#cntnt").val(data.cntnt);
-			$("#attch").val(data.attch);
 			
 			$("#useYn").prop("checked", data.useyn == "Y");
 		});
@@ -25,7 +24,6 @@
 			$("#msgId").val("");
 			$("#ttl").val("");
 			$("#cntnt").val("");
-			$("#attch").val("");
 			
 			$("useYn").prop("checked", false);
 		});
@@ -142,7 +140,6 @@
 									<tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
 										data-ttl="${sndMsg.ttl}"
 										data-cntnt="${sndMsg.cntnt}"
-										data-attch="${sndMsg.attch}"
 										data-crtdt="${sndMsg.crtDt}">
 										<td>
 											<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
@@ -150,7 +147,6 @@
 										<td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm} ${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 										<td>${sndMsg.ttl}</td>
 										<td>${sndMsg.cntnt}</td>
-										<td>${sndMsg.attch}</td>
 										<td>${sndMsg.crtDt}</td>
 									</tr>
 								</c:forEach>

@@ -814,6 +814,9 @@ input::-webkit-inner-spin-button {
     align-items: center;
     justify-content: center;
     background-color: #eee;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 3px 0;
 }
 .create-group > .file_area .file_attachment > div > .remove_all {
 	margin: 0 10px;

@@ -2,6 +2,7 @@ package com.kpms.common.handler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kpms.atchfl.dao.AtchFlDAO;
 import com.kpms.atchfl.vo.AtchFlVO;
+import com.kpms.common.util.StringUtil;
 import com.kpms.common.vo.AbstractFileVO;
 
 @Component
@@ -79,11 +81,18 @@ public class UploadHandler {
 		}
 	}
 	
-	public void uploadMultiAtchmnt(List<MultipartFile> fileList, String knwId) {
-		fileList.forEach(file ->uploadAtchmnt(file, knwId));
+	public List<AtchFlVO> uploadMultiAtchmnt(List<MultipartFile> fileList, String frgnId) {
+		List<AtchFlVO> list = new ArrayList<>();
+		for(MultipartFile file : fileList) {
+			AtchFlVO attch = uploadAtchmnt(file, frgnId);
+			if(attch != null) {
+				list.add(attch);
+			}
+		}
+		return list;
 	}
 	
-	public void uploadAtchmnt(MultipartFile file, String knwId) {
+	public AtchFlVO uploadAtchmnt(MultipartFile file, String frgnId) {
 		if(file != null && !file.isEmpty()) {
 			String fileName = UUID.randomUUID().toString();
 			String originFileName = file.getOriginalFilename();
@@ -100,16 +109,33 @@ public class UploadHandler {
 			}
 
 			AtchFlVO fileVO = new AtchFlVO();
-			fileVO.setFrgnId(knwId);
+			if(frgnId != null) {
+				fileVO.setFrgnId(frgnId);
+			}
 			fileVO.setOrgFlNm(originFileName);
 			fileVO.setUuidFlNm(fileName);
 			fileVO.setFlSz(file.getSize());
 			
 			String ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
 			fileVO.setFlExt(ext);
-			
-			atchFlDAO.doCreateNewAtchFl(fileVO);
+			return fileVO;
+			/* atchFlDAO.doCreateNewAtchFl(fileVO); */
+		}
+		return null;
+	}
+	public void deleteUploadFiles(List<String> fileNames) {
+		if(!fileNames.isEmpty()) {
+			for(String fileName : fileNames) {
+				deleteUploadFile(fileName);
+			}
 		}
 	}
-	
+	public void deleteUploadFile(String fileName) {
+		if(!StringUtil.isEmpty(fileName)) {
+			File file = new File(atchmntPath,fileName);
+			if(file.exists()) {
+				file.delete();
+			}
+		}
+	}
 }
