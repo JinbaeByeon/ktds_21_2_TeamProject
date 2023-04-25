@@ -177,9 +177,8 @@
 		
 		var uuidNm = file.uuidFlNm;
 		var fileNm = file.orgFlNm;
-		var ext = fileNm.substring(fileNm.lastIndexOf("."));
-		var fileSz = file.flSz / 1024;
-		fileSz = fileSz.toFixed(2);
+		var ext = fileNm.substring(fileNm.lastIndexOf(".")+1);
+		var fileSz = file.flSz;
 		
 		var li = $("<li data-uuid='"+uuidNm +
 					 "' data-org='"+fileNm + 
@@ -201,6 +200,7 @@
 		});
 		
         var nm = "<span class='file_name'>"+fileNm+"</span>";
+        fileSz = (fileSz / 1024).toFixed(2);
         var sz;
         if(fileSz < 1000){
         	sz = "<span class='file_size'>"+fileSz+" KB</span>";

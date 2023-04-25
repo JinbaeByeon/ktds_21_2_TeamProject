@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Issu">
+	<insert id="createOneIssu"
+			parameterType="com.kpms.issu.vo.IssuVO">
+		INSERT INTO ISSU
+		(ISSU_ID,
+		 CRT_DT,
+		 CRTR,
+		 MDFY_DT,
+		 MDFYR,
+		 USE_YN,
+		 DEL_YN,
+		 REQ_ID,
+		 ISSU_TTL,
+		 ISSU_CNTNT,
+		 VW_CNT,
+		 DFFCLTY,
+		 DTL_CNTNT,
+		 MN_TM_MBR_ID,
+		 STTS)
+		VALUES
+		(SEQ_ISSU_PK.NEXTVAL,
+		 SYSDATE,
+		 #{crtr},
+		 SYSDATE,
+		 #{mdfyr},
+		 'Y',
+		 'N',
+		 #{reqId},
+		 #{issuTtl},
+		 #{issuCntnt},
+		 0,
+		 #{dffclty},
+		 #{dtlCntnt},
+		 #{mnTmMbrId},
+		 '')
+	</insert>
+	
+	<select id="readOneIssu"
+			parameterType="string"
+			resultType="com.kpms.issu.vo.IssuVO">
+		SELECT ISSU_ID,
+			   CRT_DT,
+			   CRTR,
+			   MDFY_DT,
+			   MDFYR,
+			   USE_YN,
+			   REQ_ID,
+			   ISSU_TTL,
+			   ISSU_CNTNT,
+			   VW_CNT,
+			   DFFCLTY,
+			   DTL_CNTNT,
+			   MN_TM_MBR_ID,
+			   STTS
+		  FROM ISSU
+		 WHERE ISSU_ID = #{_parameter}
+		   AND DEL_YN = 'N'
+	</select>
+	<select id="readIssuList"
+			parameterType="com.kpms.issu.vo.IssuVO"
+			resultType="com.kpms.issu.vo.IssuVO">
+		<include refid="Common.pageHeader"/>
+		SELECT ISSU_ID PK_COL,
+			   DENSE_RANK() OVER(ORDER BY CRT_DT || ISSU_ID DESC) RNUM,
+			   ISSU_ID,
+			   CRT_DT,
+			   CRTR,
+			   MDFY_DT,
+			   MDFYR,
+			   USE_YN,
+			   DEL_YN,
+			   REQ_ID,
+			   ISSU_TTL,
+			   ISSU_CNTNT,
+			   VW_CNT,
+			   DFFCLTY,
+			   DTL_CNTNT,
+			   MN_TM_MBR_ID,
+			   STTS
+		  FROM (SELECT *
+		  		  FROM ISSU
+		  		 WHERE DEL_YN = 'N'
+		 	/*조건 추가*/)
+		<include refid="Common.pageFooter"/>
+	</select>
+	
+	<update id="updateOneIssu"
+			parameterType="com.kpms.issu.vo.IssuVO">
+		UPDATE ISSU
+		   SET MDFY_DT = SYSDATE,
+			   MDFYR = #{mdfyr},
+			   ISSU_TTL = #{issuTtl},
+			   ISSU_CNTNT = #{issuCntnt},
+			   DFFCLTY = #{dffclty},
+			   DTL_CNTNT = #{dtlCntnt},
+			   MN_TM_MBR_ID = #{mnTmMbrId},
+			   STTS = #{stts}
+		 WHERE ISSU_ID = #{issuId}
+	</update>
+	<update id="updateIssuVwCnt"
+			parameterType="string">
+		UPDATE ISSU
+		   SET VW_CNT = VW_CNT+1
+		 WHERE ISSU_ID = #{_parameter}
+	</update>
+	
+	<update id="deleteOneIssu"
+			parameterType="string">
+		UPDATE ISSU
+		   SET DEL_YN = 'Y'
+		 WHERE ISSU_ID = #{_parameter}
+	</update>
+	
+</mapper>
