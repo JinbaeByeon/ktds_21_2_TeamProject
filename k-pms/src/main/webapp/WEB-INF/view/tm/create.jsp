@@ -48,12 +48,9 @@
 	
 	function addHdEmpFn(message) {
 		
-		for (i = 0; i < empIds.length; i++) {
-			if(empIds[i] === tmHdId) {
-				empIds.splice(i, 1);
-				i--;
-			}
-		}
+	
+		empIds = [];
+		$(".emp-tr").remove();
 		
 		tmHdId = message.empid;
 		
@@ -65,13 +62,35 @@
 			
 		var itemDiv = tmHdIdItems.find(".head-item");
 			
-		var itemId = itemDiv.find("#tmHdId")
+		var itemId = itemDiv.find("#tmHdId");
 		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
 		var itemSpan = itemDiv.find("span");
 		itemSpan.text(message.lnm + message.fnm);
 		itemDiv.append(itemSpan);
+		
+		var empTr = $(".emp-hd-tr");  
+	    if (empTr.length > 0) {
+	    	
+	        var td = empTr.find("td");
+	        empTr.attr("class", "emp-hd-tr " + tmHdId);
+	        td.eq(0).text(tmHdId);
+	        td.eq(1).text(message.pstnnm);
+	        td.eq(2).text(message.lnm + message.fnm);
+	        td.eq(3).text(message.jobnm);
+	        td.eq(4).text(message.phn);
+	    } else {
+	    	var empTr = $("<tr class='emp-hd-tr " + tmHdId + "'></tr>");
+	        var td = "<td>" + tmHdId + "</td>"
+	        td += "<td>" + message.pstnnm + "</td>"
+	        td += "<td>" + message.lnm  + message.fnm + "</td>"
+	        td += "<td>" + message.jobnm + "</td>"
+	        td += "<td>" + message.phn + "</td>"
+
+	        empTr.append(td);
+	        $(".tmMbr-tbody").append(empTr);
+	    }
 			
 		$("#tmHdId").attr("class", tmHdId);
 			
@@ -82,7 +101,7 @@
 	}
 	
 	function addMbrFn(message) {
-
+		
 	    var empItems = $(document).find(".tmMbr-tbody");
 	    empId = message.empid;
 
@@ -115,7 +134,7 @@
 	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
 	        });
 	    });
-
+		
 	    empItems.append(empTr);
 	    empTr.append(itemId);
 	    empTr.append(td);
@@ -133,7 +152,6 @@
 	        data: {tmId: tmId, empId: empId},
 	        success: function(response) {
 	            if (response.status == "200 OK") {
-	                location.href = "${context}/tm/list";
 	            } 
 	            else {
 	            	alert(response.errorCode + " / " + response.message);
@@ -176,7 +194,9 @@
 			    		
 			    	createTmmbr(tmId, empId);
 			    		
+			    	location.href = "${context}/tm/detail/" + tmId;
 			    	});
+			    	
 			    } 
 			    else {
 			      alert(response.errorCode + " / " + response.message);

@@ -22,12 +22,13 @@
 	
 	function addHdEmpFn(message) {
 		
-		for (i = 0; i < empIds.length; i++) {
+		/* for (i = 0; i < empIds.length; i++) {
 			if(empIds[i] === tmHdId) {
 				empIds.splice(i, 1);
 				i--;
 			}
-		}
+		} */
+		
 		
 		tmHdId = message.empid;
 		
@@ -36,10 +37,10 @@
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
-			
+		
 		var itemDiv = tmHdIdItems.find(".head-item");
-			
-		var itemId = itemDiv.find("#tmHdId")
+		
+		var itemId = itemDiv.find("#tmHdId");
 		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
@@ -47,6 +48,38 @@
 		itemSpan.text(message.lnm + message.fnm);
 		itemDiv.append(itemSpan);
 			
+		var hdTr = $(".tmHd-tr");
+		if (hdTr.length > 0) {
+			
+			var td = hdTr.find("td");
+			hdTr.attr("class", "tmHd-tr " + tmHdId);
+	        td.eq(0).text();
+	        td.eq(1).text("팀장");
+	        td.eq(2).text(message.pstnnm);
+	        td.eq(3).text(tmHdId);
+	        td.eq(4).text(message.lnm + message.fnm);
+	        td.eq(5).text(message.jobnm);
+	        td.eq(6).text(message.brthdy);
+	        td.eq(7).text(message.eml);
+	        td.eq(8).text(message.phn);
+	        td.eq(9).text(message.pstnprd);
+		} else {
+	    	var hdTr = $("<tr class='tm-hd-tr " + tmHdId + "'></tr>");
+	        var td = "<td>"+""+"</td>"
+	        td += "<td>" + 팀장 + "</td>"
+	        td += "<td>" + message.pstnnm + "</td>"
+		    td += "<td>" + tmHdId + "</td>"
+		    td += "<td>" + message.lnm  + message.fnm + "</td>"
+		    td += "<td>" + message.jobnm + "</td>"
+		    td += "<td>" + message.brthdy + "</td>"
+		    td += "<td>" + message.eml + "</td>"
+		    td += "<td>" + message.phn + "</td>"
+		    td += "<td>" + message.pstnprd + "</td>"
+
+	        hdTr.append(td);
+	        $(".tmMbr-tbody").append(hdTr);
+	    }
+		
 		$("#tmHdId").val(tmHdId);
 		$("#tmHdNm").text(message.lnm + message.fnm);
 			
@@ -261,6 +294,7 @@
 									<thead>
 										<tr>
 											<th><input type="checkbox" id="all_check" /></th>
+											<th>팀 직책</th>
 											<th>직급</th>
 											<th>직원ID</th>
 											<th>이름</th>
@@ -272,27 +306,42 @@
 										</tr>
 									</thead>
 									<tbody class="tmMbr-tbody">
+										<tr class="tmHd-tr">
+											<td></td>
+											<td>팀장</td>
+											<td>${tmHdEmpVO.pstn.pstnNm}</td>
+											<td>${tmHdEmpVO.empId}</td>
+											<td>${tmHdEmpVO.lNm}${tmHdEmpVO.fNm}</td>
+											<td>${tmHdEmpVO.job.jobNm}</td>
+											<td>${tmHdEmpVO.brthdy}</td>
+											<td>${tmHdEmpVO.eml}</td>
+											<td>${tmHdEmpVO.phn}</td>
+											<td>${tmHdEmpVO.pstnPrd}</td>
+										</tr>
 										<c:choose>
 											<c:when test="${not empty tmVO.tmMbrList}">
 												<c:forEach items="${tmVO.tmMbrList}" 
 															var="tmMbr">
-													<tr>
-														<td>
-															<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
-														</td>
-														<td>${tmMbr.empVO.pstn.pstnNm}</td>
-														<td>${tmMbr.empId}</td>
-														<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
-														<td>${tmMbr.empVO.job.jobNm}</td>
-														<td>${tmMbr.empVO.brthdy}</td>
-														<td>${tmMbr.empVO.eml}</td>
-														<td>${tmMbr.empVO.phn}</td>
-														<td>${tmMbr.empVO.pstnPrd}</td>
-													</tr>
+													<c:if test="${tmMbr.empId != tmVO.tmHdId}">
+														<tr>
+															<td>
+																<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
+															</td>
+															<td>팀원</td>
+															<td>${tmMbr.empVO.pstn.pstnNm}</td>
+															<td>${tmMbr.empId}</td>
+															<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
+															<td>${tmMbr.empVO.job.jobNm}</td>
+															<td>${tmMbr.empVO.brthdy}</td>
+															<td>${tmMbr.empVO.eml}</td>
+															<td>${tmMbr.empVO.phn}</td>
+															<td>${tmMbr.empVO.pstnPrd}</td>
+														</tr>
+													</c:if>
 												</c:forEach>
 											</c:when>
 										<c:otherwise>
-											<td colspan="9" class="no-items">
+											<td colspan="10" class="no-items">
 												등록된 팀원이 없습니다.
 											</td>
 										</c:otherwise>

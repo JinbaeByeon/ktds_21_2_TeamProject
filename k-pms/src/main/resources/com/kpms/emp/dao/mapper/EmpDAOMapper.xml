@@ -259,6 +259,7 @@
 			   E.PRFL_PHT,
 			   E.EMPLMNT_STTS,
 			   E.DEP_ID,
+			   E.BRTHDY,
 			   J.JOB_NM,
 			   D.DEP_NM,
 			   P.PSTN_NM
