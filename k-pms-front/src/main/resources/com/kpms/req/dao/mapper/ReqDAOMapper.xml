@@ -113,41 +113,16 @@
 		  <if test="reqId != null and reqId != ''">
 		   AND R.REQ_ID LIKE '%' || #{reqId} || '%'
 		 </if>
-		  <if test="prjId != null and prjId != ''">
+		<!--   <if test="prjId != null and prjId != ''">
 		   AND R.PRJ_ID LIKE '%' || #{prjId} || '%'
-		 </if>
+		 </if> -->
 		 <include refid="Common.pageFooter" />
 	</select>
-	<select id="readPrjIdByEmpId"
-			parameterType="com.kpms.req.vo.ReqVO"
-			resultMap="reqVOMap">
-		<include refid="Common.pageHeader" />
-		SELECT R.REQ_ID PK_COL 
-			 , R.REQ_ID
-			 , DENSE_RANK() OVER(ORDER BY R.CRT_DT || R.REQ_ID DESC) RNUM
-			 , R.CRT_DT
-			 , R.CRTR
-			 , R.MDFY_DT
-			 , R.MDFYR
-			 , R.USE_YN
-			 , R.DEL_YN
-			 , R.DTL_REQ
-			 , TO_CHAR(R.STRT_DT, 'YYYY-MM-DD') STRT_DT
-			 , TO_CHAR(R.EXPCT_END_DT, 'YYYY-MM-DD') EXPCT_END_DT
-			 , R.ATTCH
-			 , R.PRJ_ID
-			 , R.MN_DVLPR
-			 , R.TST_RSLT
-			 , R.TSK_STTS
-			 , R.PRCS_STTS
-			 , R.PRRTY
-			 , R.REQ_TTL
-			 , R.REQ_CNFR_NM
-			 , PJ.PRJ_NM PJ_PRJ_NM
-			 , TST.TSTR_ID TST_TSTR_ID
-			 , TSTR_E.L_NM TSTR_E_L_NM
-			 , TSTR_E.F_NM TSTR_E_F_NM
-		  FROM REQ R
+<!-- 	<select id="readPrjIdByEmpId"
+			parameterType="string"
+			resultMap="">
+		SELECT PRJ_ID
+		  FROM R
 		 INNER JOIN PRJ PJ
 		 	ON R.PRJ_ID = PJ.PRJ_ID 
 		  LEFT JOIN REQ_TSTR TST 
@@ -161,8 +136,7 @@
 		  <if test="prjId != null and prjId != ''">
 		   AND R.PRJ_ID LIKE '%' || #{prjId} || '%'
 		 </if>
-		 <include refid="Common.pageFooter" />
-	</select>
+	</select> -->
 	<select id="readReqByReqId"
 			parameterType="string"
 			resultMap="reqVOMap">
