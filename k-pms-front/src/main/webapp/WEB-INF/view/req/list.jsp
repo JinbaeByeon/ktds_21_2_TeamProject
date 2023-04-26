@@ -16,32 +16,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
-			
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			
-			$("#reqId").val(data.reqid);
-			$("#dtlReq").val(data.dtlreq);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#strtDt").val(data.strtdt);
-			$("#expctEndDt").val(data.expctenddt);
-			$("#attch").val(data.attch);
-			$("#prjId").val(data.prjid);
-			$("#mnDvlpr").val(data.mndvlpr);
-			$("#tstRslt").val(data.tstrslt);
-			$("#tskStts").val(data.tskstts);
-			$("#prcsStts").val(data.prcsstts);
-			$("#prrty").val(data.prrty);
-			$("#reqTtl").val(data.reqttl);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
-		});
 		
 		$("#delete_btn").click(function(){
 			var reqId = $("#reqId").val();
@@ -159,8 +133,7 @@
 							<c:choose>
 								<c:when test="${not empty reqList}">
 									<c:forEach items="${reqList}"
-											   var="req"
-											   varStatus="index">
+											   var="req">
 										<tr data-reqid="${req.reqId}"
 											data-reqttl="${req.reqTtl}"
 											data-strtdt="${req.strtDt}"

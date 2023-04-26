@@ -92,17 +92,51 @@
 				$("#tstRslt-select").append(option)
 			}
 		});
-		
-		$("#update_btn").click(function(){
+					
+		$("#save_btn").click(function(){
+			var ajaxUtil = new AjaxUtil();
 			var reqId = $("#reqId").val();
-			location.href = "${context}/req/update/" + reqId;
+			ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
+				if(response.status == "200 OK"){
+					alert("저장되었습니다.");
+					location.href = "${context}/req/detail/" + reqId;
+				}	
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
 		});
 		
 		$("#back-btn").click(function(){
-			location.href = "${context}/req/list";
+			var reqId = $("#reqId").val();
+			location.href = "${context}/req/detail/" + reqId;
 		});
+		
+		$("#prj_search").click(function(event){
+			event.preventDefault();
+			window.open("${context}/prj/search",
+					"프로젝트 검색", "width=500, height=500");
+		});
+
+		$("#prjtmmbr_search").click(function(event){
+			event.preventDefault();
+			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
+					"프로젝트팀원 검색", "width=500, height=500");
+		});
+		
 	});
 
+	function addPrjFn(data) {
+		
+		$("#prjId").val(data.prjid);
+		
+	}
+
+	function addPrjTmMbrFn(data) {
+		
+		$("#mnDvlpr").val(data.empid);
+		
+	}
 </script>
 </head>
 <body>
@@ -119,118 +153,67 @@
 						<input type="hidden" id="isModify" value="false" />
 						<div class="input-group inline">
 							<label for="reqId" style="width: 180px;">요구사항 ID</label>
-							<input type="text" id="reqId"  name="reqId" value="" readonly />
+							<input type="text" id="reqId"  name="reqId" disabled value=""  />
 						</div>
 						<div class="input-group inline">
 							<label for="reqTtl" style="width: 180px;">제목</label>
-							<input type="text" id="reqTtl"  name="reqTtl" value="" readonly />
+							<input type="text" id="reqTtl"  name="reqTtl" disabled value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="prrty" style="width: 180px;">우선순위</label>
-							<input type="text" id="prrty"  name="prrty" value="" readonly/>
+							<input type="text" id="prrty"  name="prrty" disabled value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="strtDt" style="width: 180px;">시작일</label>
-							<input type="date" id="strtDt"  name="strtDt" value="" readonly/>
+							<input type="date" id="strtDt"  name="strtDt" disabled value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<input type="date" id="expctEndDt"  name="expctEndDt" value="" readonly/>
+							<input type="date" id="expctEndDt"  name="expctEndDt" disabled value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<input type="text" id="prjId"  name="prjId" value="" readonly />
+							<input type="text" id="prjId"  name="prjId" disabled value=""/>
+							<button id="prj_search">검색</button>
 						</div>
 						<div class="input-group inline">
 							<label for="prjId" style="width: 180px;">담당개발자</label>
-							<input type="text" id="mnDvlpr"  name="mnDvlpr" value="" readonly/>
+							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
+							<button id="prjtmmbr_search">검색</button>
 						</div>
 						<div class="input-group inline">
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value="" readonly/>
+							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" disabled value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="attch" style="width: 180px;">첨부파일</label>
-							<input type="text" id="attch"  name="attch" value="" readonly/>
+							<input type="text" id="attch"  name="attch" value=""/>
 						</div>
 						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}" readonly/>
-							<select name="option" onFocus="this.initialSelect = this.selectedIndex;" onChange="this.selectedIndex = this.initialSelect;" id="prcsStts-select"  name="prcsStts" ></select>
+							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
+							<select id="prcsStts-select"  name="prcsStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}" readonly/>
-							<select name="option" onFocus="this.initialSelect = this.selectedIndex;" onChange="this.selectedIndex = this.initialSelect;" id="tskStts-select"  name="tskStts" ></select>
+							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
+							<select id="tskStts-select"  name="tskStts" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}" readonly/>
-							<select name="option" onFocus="this.initialSelect = this.selectedIndex;" onChange="this.selectedIndex = this.initialSelect;" id="tstRslt-select"  name="tstRslt" ></select>
+							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
+							<select id="tstRslt-select"  name="tstRslt" ></select>
 						</div>
 						<div class="input-group inline">
 							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
-							<textarea id="dtlReq" name="dtlReq"  readonly>${req.dtlReq}</textarea>
+							<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
 						</div>
 					</form>		
 				</div>
 				<div class="align-right">
-					<button id="update_btn" class="btn-primary">수정</button>
+					<button id="save_btn" class="btn-primary">저장</button>
 					<button id="back-btn" class="btn-delete">뒤로</button>
-				</div>	
-				<div>
-				<div>이슈잇슈
-					<button>추가</button>
-					<button>삭제</button>
-				</div>	
-				<table>
-					<thead>
-						<tr>
-							<th>직원ID</th>
-							<th>팀</th>
-							<th>성</th>
-							<th>이름</th>
-							<th>권한</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:choose>
-							<c:when test="${not empty reqList}">
-								<c:forEach items="${reqList}"
-										   var="req">
-									<tr data-reqid="${req.reqId}"
-										data-reqttl="${req.reqTtl}"
-										data-rsltcdnm="${req.rsltCdNm}"
-										data-useyn="${req.useYn}"
-										data-crtr="${req.crtr}"
-										data-crtdt="${req.crtDt}"
-										data-mdfyr="${req.mdfyr}"
-										data-mdfydt="${req.mdfyDt}"
-										data-delyn="${req.delYn}">
-										<td>
-											<input type="checkbox" class="check_idx" value="${req.reqId}">
-										</td>
-										<td>${req.rnum}</td>
-										<td>${req.prcsCdNm}</td>
-										<td>${req.tskCdNm}</td>
-										<td>${req.strtDt}</td>
-										<td>${req.expctEndDt}</td>
-										<td>${req.prjId}</td>
-										<td>${req.prrty}</td>
-									</tr>
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<tr>
-									<td colspan="10" class="no-items">
-										등록된 이슈가 없습니다.
-									</td>
-								</tr>
-							</c:otherwise>
-						</c:choose>
-					</tbody>
-				</table>
-				</div>
+				</div>		
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

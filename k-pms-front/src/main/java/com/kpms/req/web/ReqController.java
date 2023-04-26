@@ -53,4 +53,14 @@ public class ReqController {
 		 return "req/detail"; 
 	 }
 	 
+	 @GetMapping("/req/update/{reqId}") 
+	 public String viewReqUpdatePage(@PathVariable String reqId, Model model, @SessionAttribute("__USER__") EmpVO empVO) {
+		 
+		 ReqVO reqVO = reqService.readReqByReqId(reqId);
+		 model.addAttribute("reqVO", reqVO);
+		 model.addAttribute("reqId", reqId);
+		 
+		 return "req/update"; 
+	 }
+	 
 }
