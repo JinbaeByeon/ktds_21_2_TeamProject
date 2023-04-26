@@ -169,6 +169,9 @@
 											data-prchsdt="${req.prrty}"
 											data-prcsstts="${req.prcsStts}"
 											data-tskstts="${req.tskStts}"
+											data-tskcdnm="${req.tskCdNm}"
+											data-prcscdnm="${req.prcsCdNm}"
+											data-rsltcdnm="${req.rsltCdNm}"
 											data-useyn="${req.useYn}"
 											data-crtr="${req.crtr}"
 											data-crtdt="${req.crtDt}"
@@ -181,8 +184,8 @@
 											<td>${req.rnum}</td>
 											<td class="detail_value">${req.reqId}</td>
 											<td class="detail_path">${req.reqTtl}</td>
-											<td>${req.prcsStts}</td>
-											<td>${req.tskStts}</td>
+											<td>${req.prcsCdNm}</td>
+											<td>${req.tskCdNm}</td>
 											<td>${req.strtDt}</td>
 											<td>${req.expctEndDt}</td>
 											<td>${req.prjId}</td>

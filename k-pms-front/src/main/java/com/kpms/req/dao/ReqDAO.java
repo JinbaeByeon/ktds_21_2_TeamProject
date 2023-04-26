@@ -8,7 +8,6 @@ public interface ReqDAO {
 
 	public int createNewReq(ReqVO reqVO);
 	public List<ReqVO> readAllReq(ReqVO reqVO);
-	public List<String> readPrjIdByEmpId(String empId);
 	
 	public ReqVO readReqByReqId(String reqId);
 	public int updateReq(ReqVO reqVO);

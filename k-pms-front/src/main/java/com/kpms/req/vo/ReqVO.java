@@ -4,6 +4,7 @@ import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.prj.vo.PrjVO;
 import com.kpms.reqcnfr.vo.ReqCnfrVO;
 import com.kpms.reqtstr.vo.ReqTstrVO;
+import com.kpms.tmmbr.vo.TmMbrVO;
 
 /**
  * REQ
@@ -59,16 +60,43 @@ public class ReqVO extends AbstractPagingVO {
 	 * 요구사항 제목
 	 */
 	private String reqCnfrNm;
-	
 	private String reqTtl;
 	
-	
+	private String rsltCdNm;
+	private String tskCdNm;
+	private String prcsCdNm;
+
+	private TmMbrVO tmMbrVO;
 	private PrjVO reqPrjVO;
 	private ReqCnfrVO reqCnfVO;
 	private ReqTstrVO reqTstVO;
 	
 	
 	
+	public String getRsltCdNm() {
+		return rsltCdNm;
+	}
+	public void setRsltCdNm(String rsltCdNm) {
+		this.rsltCdNm = rsltCdNm;
+	}
+	public String getTskCdNm() {
+		return tskCdNm;
+	}
+	public void setTskCdNm(String tskCdNm) {
+		this.tskCdNm = tskCdNm;
+	}
+	public String getPrcsCdNm() {
+		return prcsCdNm;
+	}
+	public void setPrcsCdNm(String prcsCdNm) {
+		this.prcsCdNm = prcsCdNm;
+	}
+	public TmMbrVO getTmMbrVO() {
+		return tmMbrVO;
+	}
+	public void setTmMbrVO(TmMbrVO tmMbrVO) {
+		this.tmMbrVO = tmMbrVO;
+	}
 	public String getSearchMode() {
 		return searchMode;
 	}

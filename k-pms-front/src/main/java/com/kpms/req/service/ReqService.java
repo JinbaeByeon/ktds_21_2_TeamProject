@@ -8,7 +8,6 @@ public interface ReqService {
 
 	public boolean createNewReq(ReqVO reqVO);
 	public List<ReqVO> readAllReq(ReqVO reqVO);
-	public List<String> readPrjIdByEmpId(String empId);
 	public ReqVO readReqByReqId(String reqId);
 	public boolean updateReq(ReqVO reqVO);
 	public boolean deleteReqByReqId(String reqId);

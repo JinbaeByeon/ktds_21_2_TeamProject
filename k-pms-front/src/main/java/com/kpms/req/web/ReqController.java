@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.req.service.ReqService;
 import com.kpms.req.vo.ReqVO;
+import com.kpms.tmmbr.vo.TmMbrVO;
 
 @Controller
 public class ReqController {
@@ -20,19 +21,21 @@ public class ReqController {
 	private ReqService reqService;
 
 	@GetMapping("/req/{searchMode}")
-	public String viewReqListPage(@PathVariable String searchMode, Model model, ReqVO reqVO, @SessionAttribute("__USER__") EmpVO empVO) {
+	public String viewReqListPage(@PathVariable String searchMode, Model model, ReqVO reqVO, TmMbrVO tmMbrVO , @SessionAttribute("__USER__") EmpVO empVO) {
 		reqVO.setSearchMode(searchMode);
+		
+		String empId = empVO.getEmpId();
+		tmMbrVO.setEmpId(empId);
+		reqVO.setTmMbrVO(tmMbrVO);
+		
 		List<ReqVO> reqList = reqService.readAllReq(reqVO);
-
+		
 		model.addAttribute("reqList", reqList);
 		model.addAttribute("reqVO", reqVO);
-
 		if (!reqList.isEmpty()) {
 			model.addAttribute("lastPage", reqList.get(0).getLastPage());
 		}
-
 		model.addAttribute("reqId", reqVO.getReqId());
-
 		model.addAttribute("pageNo", reqVO.getPageNo());
 		model.addAttribute("viewCnt", reqVO.getViewCnt());
 		model.addAttribute("pageCnt", reqVO.getPageCnt());

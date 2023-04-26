@@ -62,6 +62,9 @@ public class ReqVO extends AbstractPagingVO {
 	
 	private String reqTtl;
 	
+	private String rsltCdNm;
+	private String tskCdNm;
+	private String prcsCdNm;
 	
 	private PrjVO reqPrjVO;
 	private ReqCnfrVO reqCnfVO;
@@ -69,6 +72,24 @@ public class ReqVO extends AbstractPagingVO {
 	
 	
 	
+	public String getRsltCdNm() {
+		return rsltCdNm;
+	}
+	public void setRsltCdNm(String rsltCdNm) {
+		this.rsltCdNm = rsltCdNm;
+	}
+	public String getTskCdNm() {
+		return tskCdNm;
+	}
+	public void setTskCdNm(String tskCdNm) {
+		this.tskCdNm = tskCdNm;
+	}
+	public String getPrcsCdNm() {
+		return prcsCdNm;
+	}
+	public void setPrcsCdNm(String prcsCdNm) {
+		this.prcsCdNm = prcsCdNm;
+	}
 	public String getSearchMode() {
 		return searchMode;
 	}
