@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kpms.atchfl.dao.AtchFlDAO;
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.req.dao.ReqDAO;
 import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
@@ -14,16 +16,31 @@ public class ReqServiceImpl implements ReqService {
 
 	@Autowired
 	private ReqDAO reqDAO;
+	@Autowired
+	private AtchFlDAO atchFlDAO;
 
 	@Override
 	public boolean createNewReq(ReqVO reqVO) {
-		return reqDAO.createNewReq(reqVO) > 0;
+		reqDAO.createNewReq(reqVO);
+		
+		List<AtchFlVO> fileList = reqVO.getAtchFlList();
+		
+		if(!fileList.isEmpty()) {
+			fileList.forEach(file-> {
+				file.setCrtr(reqVO.getCrtr());
+				file.setFrgnId(reqVO.getReqId());
+			});
+			if (atchFlDAO.createNewAtchFls(fileList) == 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
 	public List<ReqVO> readAllReqSearch(ReqSearchVO reqSearchVO) {
 		return reqDAO.readAllReqSearch(reqSearchVO);
-	}
+	}	
 
 	@Override
 	public List<ReqVO> readAllReq(ReqVO reqVO) {
@@ -37,7 +54,19 @@ public class ReqServiceImpl implements ReqService {
 
 	@Override
 	public boolean updateReq(ReqVO reqVO) {
-		return reqDAO.updateReq(reqVO) > 0;
+		reqDAO.updateReq(reqVO);
+		List<AtchFlVO> fileList = reqVO.getAtchFlList();
+		
+		if(!fileList.isEmpty()) {
+			fileList.forEach(file-> {
+				file.setCrtr(reqVO.getCrtr());
+				file.setFrgnId(reqVO.getReqId());
+			});
+			if (atchFlDAO.createNewAtchFls(fileList) == 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

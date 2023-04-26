@@ -9,7 +9,6 @@ import com.kpms.atchfl.dao.AtchFlDAO;
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIException;
-import com.kpms.common.handler.UploadHandler;
 import com.kpms.rcvmsg.dao.RcvMsgDAO;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.sndmsg.dao.SndMsgDAO;

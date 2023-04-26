@@ -1,5 +1,8 @@
 package com.kpms.req.vo;
 
+import java.util.List;
+
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.prj.vo.PrjVO;
 import com.kpms.reqcnfr.vo.ReqCnfrVO;
@@ -70,8 +73,15 @@ public class ReqVO extends AbstractPagingVO {
 	private ReqCnfrVO reqCnfVO;
 	private ReqTstrVO reqTstVO;
 	
+	private List<AtchFlVO> atchFlList;	
 	
 	
+	public List<AtchFlVO> getAtchFlList() {
+		return atchFlList;
+	}
+	public void setAtchFlList(List<AtchFlVO> atchFlList) {
+		this.atchFlList = atchFlList;
+	}
 	public String getRsltCdNm() {
 		return rsltCdNm;
 	}
