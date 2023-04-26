@@ -15,6 +15,11 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+
+		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+			var issuId = $(this).closest("tr").data("issuid");
+			location.href="${context}/issu/detail/"+issuId;
+		});
 		
 		$("#delete_btn").click(function(){
 			var issuId = $("#issuId").val();
@@ -41,24 +46,26 @@
 			location.href = "${context}/issu/create" 
 		});
 		
-		$("#search-btn").click(function(){
-			var issuId =$("#search-keyword").val();
-			location.href = "${context}/issu/list?issuId=" + issuId;
-		})
-		
-		$(".detail_path").click(function(){
-			var issuId =$(this).closest("tr").data("issuid");
-			location.href = "${context}/issu/detail/" + issuId;
-			
-		});
-		
 		$("#all_check").change(function(){
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
-		$(".check_idx").change(function(){
+
+		function checkIndex(){
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
+		}
+
+		$(".grid > table > tbody > tr > td.check").click(function(){
+			var check_idx = $(this).closest("tr").find(".check_idx");
+			check_idx.prop("checked",check_idx.prop("checked")==false);
+			checkIndex();
+		});
+		$(".check_idx").change(function(){
+			checkIndex();
+		});
+		$(".check_idx").click(function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
 		});
 		
 		
@@ -149,7 +156,7 @@
 											data-mntmmbrid="${issu.mnTmMbrId}"
 											data-stts="${issu.stts}"
 											data-crtdt="${issu.crtDt}">
-											<td>
+											<td class="check">
 												<input type="checkbox" class="check_idx" value="${issu.issuId}">
 											</td>
 											<td>${issu.rnum}</td>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kpms.common.api.vo.APIResponseVO;
@@ -26,9 +27,17 @@ public class RestIssuController {
 	}
 	
 	@PostMapping("/api/issu/delete")
-	public APIResponseVO doDeleteIssu(List<String> issuId) {
+	public APIResponseVO doDeleteIssu(@RequestParam List<String> issuId) {
 		
 		if(issuService.deleteIssu(issuId)) {
+			return new APIResponseVO(APIStatus.OK,"/issu/list");
+		}
+		return new APIResponseVO(APIStatus.FAIL);
+	}
+
+	@PostMapping("/api/issu/update")
+	public APIResponseVO doUpdateIssu(IssuVO issuVO) {
+		if(issuService.updateOneIssu(issuVO)) {
 			return new APIResponseVO(APIStatus.OK,"/issu/list");
 		}
 		return new APIResponseVO(APIStatus.FAIL);

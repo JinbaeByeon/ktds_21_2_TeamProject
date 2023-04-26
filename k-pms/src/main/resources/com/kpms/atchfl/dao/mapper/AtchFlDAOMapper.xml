@@ -52,6 +52,12 @@
 			, 'N'
 		  FROM DUAL
 		</foreach>
-		
 	</insert>
+	
+	<delete id="deleteAtchFlsByFrgnId"
+			parameterType="string">
+		DELETE 
+		  FROM ATCH_FL
+		 WHERE FRGN_ID = #{_parameter}
+	</delete>
 </mapper>

@@ -9,4 +9,5 @@ public interface AtchFlDAO {
 	public long doGetGroupId();
 	public int doCreateNewAtchFl(AtchFlVO atchFlVO);
 	public int createNewAtchFls(List<AtchFlVO> fileList);
+	public int deleteAtchFlsByFrgnId(String frgnId);
 }

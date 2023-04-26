@@ -1,5 +1,8 @@
 package com.kpms.issu.vo;
 
+import java.util.List;
+
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.vo.AbstractPagingVO;
 
 /**
@@ -16,6 +19,8 @@ public class IssuVO extends AbstractPagingVO {
 	private String dtlCntnt;
 	private String mnTmMbrId;
 	private String stts;
+	
+	private List<AtchFlVO> atchFlList;
 
 
 	public void setIssuId(String issuId) {
@@ -88,6 +93,14 @@ public class IssuVO extends AbstractPagingVO {
 
 	public String getStts() {
 		return this.stts;
+	}
+
+	public List<AtchFlVO> getAtchFlList() {
+		return atchFlList;
+	}
+
+	public void setAtchFlList(List<AtchFlVO> atchFlList) {
+		this.atchFlList = atchFlList;
 	}
 
 }
