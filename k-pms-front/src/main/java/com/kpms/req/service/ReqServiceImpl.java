@@ -43,4 +43,9 @@ public class ReqServiceImpl implements ReqService{
 	public boolean deleteReqBySelectedReqId(List<String> reqId) {
 		return reqDAO.deleteReqBySelectedReqId(reqId) > 0;
 	}
+
+	@Override
+	public List<String> readPrjIdByEmpId(String empId) {
+		return reqDAO.readPrjIdByEmpId(empId);
+	}
 }
