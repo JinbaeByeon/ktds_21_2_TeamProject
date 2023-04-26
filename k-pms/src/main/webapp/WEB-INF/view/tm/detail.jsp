@@ -18,6 +18,10 @@
 			location.href = "${context}/tm/update/" + $("#tmId").val();
 		});
 		
+		$("#list-btn").click(function(response) {
+			location.href = "${context}/tm/list"
+		});
+		
 		$("#delete-btn").click(function() {
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
@@ -115,6 +119,7 @@
 					</table>
 				</div>
 				<div class="align-right">
+					<button id="list-btn" class="btn-primary">목록</button>
 					<button id="modify-btn" class="btn-primary">수정</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>

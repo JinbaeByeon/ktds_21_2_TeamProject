@@ -295,6 +295,7 @@
 			   E.PRFL_PHT,
 			   E.EMPLMNT_STTS,
 			   E.DEP_ID,
+			   E.BRTHDY,
 			   J.JOB_NM,
 			   D.DEP_NM,
 			   P.PSTN_NM 
@@ -487,13 +488,6 @@
 		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
 		  #{empId}
 		 </foreach>
-	</update>
-	
-	<update id="deleteEmpByDepId"
-			parameterType="string">
-		UPDATE EMP
-		   SET DEL_YN = 'Y'
-		 WHERE DEP_ID = #{_parameter} 
 	</update>
 	
 	<update id="updateEmpEmplmnt"

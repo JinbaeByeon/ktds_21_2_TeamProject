@@ -76,26 +76,25 @@ public class DepServiceImpl implements DepService {
 	public boolean deleteOneDepByDepId(String depId) {
 		int delCount = depDAO.deleteOneDepByDepId(depId);
 		if (delCount > 0) {
-			empDAO.deleteEmpByDepId(depId);
 			tmDAO.deleteTmByDepId(depId);
 			tmMbrDAO.deleteTmMbrByDepId(depId);
 		}
 		
-		return delCount > 0;
+		return depDAO.deleteOneDepByDepId(depId) > 0;
 	}
 
 	@Override
 	public boolean deleteDepBySelectedDepId(List<String> depId) {
 		
 		int delCount = depDAO.deleteDepBySelectedDepId(depId);
+		
 		boolean isSuccess = delCount == depId.size();
 		
 		if (!isSuccess) {
-			throw new APIException("500", "삭제에 실패했습니다. 요청건수:("+depId.size() +"건), 삭제건수:("+delCount+"건)");
+			throw new APIException("400", "프로젝트를 진행중인 소속팀이 존재합니다.");
 		}
 		else {
 			for (String depid : depId) {
-				empDAO.deleteEmpByDepId(depid);
 				tmDAO.deleteTmByDepId(depid);
 				tmMbrDAO.deleteTmMbrByDepId(depid);
 			}

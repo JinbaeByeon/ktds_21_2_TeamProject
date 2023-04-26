@@ -17,12 +17,22 @@
 	var tmHd;
 	var tmMbr;
 	var empId;
+	var tmHdId;
 	var empIds = [];
 	
 	function addHdEmpFn(message) {
 		
+		for (i = 0; i < empIds.length; i++) {
+			if(empIds[i] === tmHdId) {
+				empIds.splice(i, 1);
+				i--;
+			}
+		}
+		
+		tmHdId = message.empid;
+		
 		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
-		if (tmHdIdItems.find("." + message.empid).length > 0) {
+		if (tmHdIdItems.find("." + tmHdId).length > 0) {
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
@@ -30,19 +40,20 @@
 		var itemDiv = tmHdIdItems.find(".head-item");
 			
 		var itemId = itemDiv.find("#tmHdId")
-		itemId.val(message.empid);
+		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
 		var itemSpan = itemDiv.find("span");
 		itemSpan.text(message.lnm + message.fnm);
 		itemDiv.append(itemSpan);
 			
-		$("#tmHdId").val(message.empid);
+		$("#tmHdId").val(tmHdId);
 		$("#tmHdNm").text(message.lnm + message.fnm);
 			
 		tmHdIdItems.append(itemDiv);
 			
 		tmHd.close();
+		empIds.push(tmHdId);
 	}
 	
 	function addMbrFn(message) {
@@ -61,8 +72,15 @@
 
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
 
-	    var td = "<td>" + empId + "</td>"
+	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    td += "<td>" + message.pstnnm + "</td>"
+	    td += "<td>" + empId + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+	    td += "<td>" + message.jobnm + "</td>"
+	    td += "<td>" + message.brthdy + "</td>"
+	    td += "<td>" + message.eml + "</td>"
+	    td += "<td>" + message.phn + "</td>"
+	    td += "<td>" + message.pstnprd + "</td>"
 
 	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
 
@@ -106,7 +124,7 @@
 		$("#addTmHeadBtn").click(function(event) {
 			event.preventDefault(); 
 			var depId = $("#depId").val();
-			var tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
+			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
 		});
 		
 		$("#addTmMbrBtn").click(function(event) {
@@ -125,7 +143,6 @@
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.href = "${context}" + response.redirectURL;
-					
 					empIds.forEach(function(empId) {
 			    		
 				    	createTmmbr(tmId, empId);
@@ -244,7 +261,6 @@
 									<thead>
 										<tr>
 											<th><input type="checkbox" id="all_check" /></th>
-											<th>순번</th>
 											<th>직급</th>
 											<th>직원ID</th>
 											<th>이름</th>
@@ -259,13 +275,11 @@
 										<c:choose>
 											<c:when test="${not empty tmVO.tmMbrList}">
 												<c:forEach items="${tmVO.tmMbrList}" 
-															var="tmMbr"
-															varStatus="index">
+															var="tmMbr">
 													<tr>
 														<td>
 															<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
 														</td>
-														<td>${index.index + 1}</td>
 														<td>${tmMbr.empVO.pstn.pstnNm}</td>
 														<td>${tmMbr.empId}</td>
 														<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
@@ -278,7 +292,7 @@
 												</c:forEach>
 											</c:when>
 										<c:otherwise>
-											<td colspan="10" class="no-items">
+											<td colspan="9" class="no-items">
 												등록된 팀원이 없습니다.
 											</td>
 										</c:otherwise>

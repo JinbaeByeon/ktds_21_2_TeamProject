@@ -17,6 +17,7 @@
 	var tmHd;
 	var tmMbr;
 	var empId;
+	var tmHdId;
 	var empIds = [];
 	
 	function addDepFn(message) {
@@ -46,9 +47,18 @@
 	}
 	
 	function addHdEmpFn(message) {
-			
+		
+		for (i = 0; i < empIds.length; i++) {
+			if(empIds[i] === tmHdId) {
+				empIds.splice(i, 1);
+				i--;
+			}
+		}
+		
+		tmHdId = message.empid;
+		
 		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
-		if (tmHdIdItems.find("." + message.empid).length > 0) {
+		if (tmHdIdItems.find("." + tmHdId).length > 0) {
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
@@ -56,21 +66,22 @@
 		var itemDiv = tmHdIdItems.find(".head-item");
 			
 		var itemId = itemDiv.find("#tmHdId")
-		itemId.val(message.empid);
+		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
 		var itemSpan = itemDiv.find("span");
 		itemSpan.text(message.lnm + message.fnm);
 		itemDiv.append(itemSpan);
 			
-		$("#tmHdId").attr("class", message.empid);
+		$("#tmHdId").attr("class", tmHdId);
 			
 		tmHdIdItems.append(itemDiv);
 			
 		tmHd.close();
+		empIds.push(tmHdId);
 	}
 	
-	function addEmpFn(message) {
+	function addMbrFn(message) {
 
 	    var empItems = $(document).find(".tmMbr-tbody");
 	    empId = message.empid;
@@ -87,7 +98,10 @@
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
 
 	    var td = "<td>" + empId + "</td>"
+	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+	    td += "<td>" + message.jobnm + "</td>"
+	    td += "<td>" + message.phn + "</td>"
 
 	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
 
@@ -127,7 +141,6 @@
 	        }
 	    });
 	}
-
 	
 	$().ready(function() {
 		$("#addDepIdBtn").click(function(event) {
@@ -136,7 +149,7 @@
 		});
 		
 		$("#addTmHeadBtn").click(function(event) {
-			event.preventDefault(); 
+			event.preventDefault();
 			var depId = $("#depId").val();
 			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
 		});
@@ -144,7 +157,7 @@
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#list-btn").click(function(response) {
@@ -227,11 +240,11 @@
 									<thead>
 										<tr>
 											<th>직원ID</th>
-											<th>이름</th>
-											<th>생년월일</th>
-											<th>이메일</th>
+											<th>직급</th>
+											<th>성명</th>
+											<th>직무</th>
 											<th>전화번호</th>
-											<th>직급연차</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody class="tmMbr-tbody">
@@ -243,7 +256,6 @@
 				<div class="align-right">
 					<button id="list-btn" class="btn-primary">목록</button>
 					<button id="save-btn" class="btn-primary">등록</button>
-					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

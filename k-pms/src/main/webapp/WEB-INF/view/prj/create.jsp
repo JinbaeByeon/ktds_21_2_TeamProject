@@ -153,7 +153,7 @@
 					</div>
 					<div class="create-group">
 						<label for="endDt" required>종료일</label>
-						<input type="date" id="endDt" name="endDtz" value=""/>
+						<input type="date" id="endDt" name="endDt" value=""/>
 					</div>
 					<div class="create-group">
 						<label for="prjStts" required>프로젝트 상태</label>

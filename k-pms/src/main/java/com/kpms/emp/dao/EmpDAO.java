@@ -36,8 +36,6 @@ public interface EmpDAO {
 	public int updateEmpPstn(EmpChngPstnVO empChngPstnVO);
 	public int updateEmpDep(EmpChngDepVO empChngDepVO);
 	
-	public int deleteEmpByDepId(String depId);
-
 	public int updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO);
 
 }

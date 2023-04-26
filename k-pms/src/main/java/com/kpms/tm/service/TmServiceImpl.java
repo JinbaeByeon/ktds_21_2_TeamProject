@@ -1,5 +1,6 @@
 package com.kpms.tm.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import com.kpms.tm.dao.TmDAO;
 import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
 import com.kpms.tmmbr.dao.TmMbrDAO;
-import com.kpms.tmmbr.vo.TmMbrVO;
 
 @Service
 public class TmServiceImpl implements TmService {
@@ -73,6 +73,9 @@ public class TmServiceImpl implements TmService {
 		if (delCount > 0) {
 			tmMbrDAO.deleteTmMbrByTmId(tmId);
 		}
+		else {
+			throw new APIArgsException("400", "프로젝트를 진행중인 팀이 존재합니다.");
+		}
 		
 		return delCount > 0;
 	}
@@ -80,10 +83,14 @@ public class TmServiceImpl implements TmService {
 	@Override
 	public boolean deleteTmBySelectedTmId(List<String> tmId) {
 		int delCount = tmDAO.deleteTmBySelectedTmId(tmId);
+		String tmInprj = "";
+		for (String tm : tmDAO.readTmInPrj(tmId)) {
+			tmInprj += tm;
+		}
 		boolean isSuccess = delCount == tmId.size();
 		
 		if (!isSuccess) {
-			throw new APIException("500", "삭제에 실패했습니다. 요청건수:("+tmId.size() +"건), 삭제건수:("+delCount+"건)");
+			throw new APIException("400", "프로젝트를 진행중인 팀이 존재합니다." + tmInprj);
 		}
 		else {
 			for (String tmid : tmId) {

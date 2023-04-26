@@ -308,18 +308,41 @@
 	
 	<update id="deleteOneDepByDepId"
 			parameterType="string">
-	 	UPDATE DEP
-		   SET DEL_YN = 'Y'
-		 WHERE DEP_ID = #{_parameter}
+			
+		UPDATE DEP
+	       SET DEL_YN = 'Y' 
+	  	 WHERE DEP_ID = #{_parameter}
+	       AND DEP_ID IN  (SELECT DEP_ID 
+					         FROM TM T
+					        WHERE TM_ID IN (SELECT DISTINCT TM_ID
+						                      FROM TM_MBR 
+						                     WHERE TM_MBR_ID IN (SELECT DISTINCT TM_MBR_ID 
+						                                           FROM PRJ_TM_MBR 
+						                                          WHERE PRJ_ID IN (SELECT PRJ_ID
+						                                                             FROM PRJ 
+						                                                            WHERE PRJ_STTS = '002_09'))
+						                        OR TM_MBR_ID NOT IN (SELECT TM_MBR_ID
+						                     						   FROM PRJ_TM_MBR)))	
 	</update>
 	
 	<update id="deleteDepBySelectedDepId"
 			parameterType="arraylist">
-		UPDATE DEP
-		   SET DEL_YN = 'Y'
-		 WHERE DEP_ID IN
-		 <foreach collection="list" item="depId" open="(" close=")" separator=", ">
-		 	#{depId}
-		 </foreach>
+				UPDATE DEP
+			       SET DEL_YN = 'Y' 
+			  	 WHERE DEP_ID IN <foreach collection="list" item="depId" open="(" close=")" separator=", ">
+								 	#{depId}
+								 </foreach>
+			       AND DEP_ID IN  (SELECT DEP_ID 
+							         FROM TM T
+							        WHERE TM_ID IN (SELECT DISTINCT TM_ID
+								                      FROM TM_MBR 
+								                     WHERE TM_MBR_ID IN (SELECT DISTINCT TM_MBR_ID 
+								                                           FROM PRJ_TM_MBR 
+								                                          WHERE PRJ_ID IN (SELECT PRJ_ID
+								                                                             FROM PRJ 
+								                                                            WHERE PRJ_STTS = '002_09'))
+								                        OR TM_MBR_ID NOT IN (SELECT TM_MBR_ID
+								                     						   FROM PRJ_TM_MBR)))	
+		 
 	</update>
 </mapper>

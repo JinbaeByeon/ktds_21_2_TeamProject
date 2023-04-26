@@ -55,7 +55,6 @@
 						<th></th>
 						<th>이름</th>
 						<th>성</th>
-						<th>팀명?</th>
 						<th>부서ID</th>
 					</tr>
 				</thead>
@@ -65,13 +64,18 @@
 							<c:forEach items="${empList}" var="emp">
 								<tr data-empid = "${emp.empId}"
 									data-fnm = "${emp.fNm}"
-									data-lnm = "${emp.lNm}">
+									data-lnm = "${emp.lNm}"
+									data-pstnnm = "${emp.pstn.pstnNm}"
+									data-jobnm = "${emp.job.jobNm}"
+									data-phn = "${emp.phn}"
+									data-brthdy = "${emp.brthdy}"
+									data-eml = "${emp.eml}"
+									data-pstnprd = "${emp.pstnPrd}">
 									<td>
 										<input type="radio" name ="radio_idx" class="radio_idx" value="${emp.empId}" />
 									</td>
 									<td>${emp.fNm}</td>
 									<td>${emp.lNm}</td>
-									<td>팀명 넣을까? </td>
 									<td>${emp.depId} </td>
 								</tr>
 							</c:forEach>

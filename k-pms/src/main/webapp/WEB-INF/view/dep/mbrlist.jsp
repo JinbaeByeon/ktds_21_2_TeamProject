@@ -30,10 +30,11 @@
 	
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
 	
-	    var td = "<td>" + empId + "</td>"
-	    td += "<td>" + message.pstnId + "</td>"
+	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    td += "<td>" + empId + "</td>"
+	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
-	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+	    td += "<td>" + message.jobnm + "</td>"
 	
 	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
 	
