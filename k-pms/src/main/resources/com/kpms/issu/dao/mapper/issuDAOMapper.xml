@@ -22,11 +22,11 @@
 		 MN_TM_MBR_ID,
 		 STTS)
 		VALUES
-		(SEQ_ISSU_PK.NEXTVAL,
+		('IS-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_ISSU_PK.NEXTVAL,5,'0') ,
 		 SYSDATE,
 		 #{crtr},
 		 SYSDATE,
-		 #{mdfyr},
+		 #{crtr},
 		 'Y',
 		 'N',
 		 #{reqId},
@@ -114,5 +114,12 @@
 		   SET DEL_YN = 'Y'
 		 WHERE ISSU_ID = #{_parameter}
 	</update>
-	
+	<update id="deleteIssu"
+			parameterType="arraylist">
+		UPDATE ISSU
+		   SET DEL_YN = 'Y'
+		 WHERE ISSU_ID IN
+		 <foreach collection="list" item="issuId" open="(" close=")" separator=", ">
+		 </foreach>
+	</update>
 </mapper>

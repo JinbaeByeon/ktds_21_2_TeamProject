@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kpms.req.dao.ReqDAO;
+import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
 
 @Service
-public class ReqServiceImpl implements ReqService{
+public class ReqServiceImpl implements ReqService {
 
 	@Autowired
 	private ReqDAO reqDAO;
@@ -17,6 +18,11 @@ public class ReqServiceImpl implements ReqService{
 	@Override
 	public boolean createNewReq(ReqVO reqVO) {
 		return reqDAO.createNewReq(reqVO) > 0;
+	}
+
+	@Override
+	public List<ReqVO> readAllReqSearch(ReqSearchVO reqSearchVO) {
+		return reqDAO.readAllReqSearch(reqSearchVO);
 	}
 
 	@Override

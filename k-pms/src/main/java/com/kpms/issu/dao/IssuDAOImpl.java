@@ -46,5 +46,8 @@ public class IssuDAOImpl extends SqlSessionDaoSupport implements IssuDAO {
 	public int deleteOneIssu(String issuId) {
 		return getSqlSession().update("Issu.deleteOneIssu",issuId);
 	}
-
+	@Override
+	public int deleteIssu(List<String> issuId) {
+		return getSqlSession().update("Issu.deleteIssu",issuId);
+	}
 }

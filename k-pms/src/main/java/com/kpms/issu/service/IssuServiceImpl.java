@@ -43,5 +43,8 @@ public class IssuServiceImpl implements IssuService {
 	public boolean deleteOneIssu(String issuId) {
 		return issuDAO.deleteOneIssu(issuId) > 0;
 	}
-
+	@Override
+	public boolean deleteIssu(List<String> issuId) {
+		return issuDAO.deleteIssu(issuId) > 0;
+	}
 }

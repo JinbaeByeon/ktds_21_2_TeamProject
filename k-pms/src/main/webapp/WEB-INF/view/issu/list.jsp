@@ -6,7 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="prj"/>
-<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 
 <!DOCTYPE html>
 <html>
@@ -110,8 +109,14 @@
 				</div>
 				
 				<div class="grid">
-					<div class="grid-count align-right">
-						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
+					<div class="grid-count">
+						<div class="align-left left">
+							<button id="delete_all_btn">삭제</button>
+							<button id="create_btn">추가</button>
+						</div>
+						<div class="align-right right">
+							총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
+						</div>
 					</div>
 					<table>
 						<thead>
@@ -152,7 +157,6 @@
 											<td>${issu.issuTtl}</td>
 											<td>${issu.crtr}</td>
 											<td>${issu.issuCntnt}</td>
-											<td>${issu.prcsStts}</td>
 											<td>${issu.vwCnt}</td>
 											<td>${issu.dffclty}</td>
 											<td>${issu.mnTmMbrId}</td>
@@ -171,10 +175,6 @@
 							</c:choose>
 						</tbody>
 					</table>
-					<div class="align-right mt-10">
-						<button id="create_btn" class="btn-primary">추가</button>
-						<button id="delete_all_btn" class="btn-delete">삭제</button>
-					</div>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>

@@ -15,4 +15,6 @@ public interface IssuDAO {
 	public int updateIssuVwCnt(String issuId);
 	
 	public int deleteOneIssu(String issuId);
+
+	public int deleteIssu(List<String> issuId);
 }
