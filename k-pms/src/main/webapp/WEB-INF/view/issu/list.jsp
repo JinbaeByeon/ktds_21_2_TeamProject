@@ -16,37 +16,11 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
-			
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			
-			$("#reqId").val(data.reqid);
-			$("#dtlReq").val(data.dtlreq);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#strtDt").val(data.strtdt);
-			$("#expctEndDt").val(data.expctenddt);
-			$("#attch").val(data.attch);
-			$("#prjId").val(data.prjid);
-			$("#mnDvlpr").val(data.mndvlpr);
-			$("#tstRslt").val(data.tstrslt);
-			$("#tskStts").val(data.tskstts);
-			$("#prcsStts").val(data.prcsstts);
-			$("#prrty").val(data.prrty);
-			$("#reqTtl").val(data.reqttl);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
-		});
 		
 		$("#delete_btn").click(function(){
-			var reqId = $("#reqId").val();
-			if(reqId == ""){
-				alert("선택된 요구사항이 없습니다.");
+			var issuId = $("#issuId").val();
+			if(issuId == ""){
+				alert("선택된 이슈가 없습니다.");
 				return;
 			}
 			
@@ -54,7 +28,7 @@
 				return;
 			}
 			
-			$.get("${context}/api/req/delete/" + reqId, function(response){
+			$.get("${context}/api/issu/delete/" + issuId, function(response){
 				if(response.status == "200 OK"){
 					location.reload(); //새로고침
 				}
@@ -65,18 +39,17 @@
 		});
 					
 		$("#create_btn").click(function(){
-			location.href = "${context}/req/create" 
+			location.href = "${context}/issu/create" 
 		});
 		
 		$("#search-btn").click(function(){
-			var reqId =$("#search-keyword").val();
-			location.href = "${context}/req/list?reqId=" + reqId;
-			
+			var issuId =$("#search-keyword").val();
+			location.href = "${context}/issu/list?issuId=" + issuId;
 		})
 		
 		$(".detail_path").click(function(){
-			var reqId =$(this).closest("tr").data("reqid");
-			location.href = "${context}/req/detail/" + reqId;
+			var issuId =$(this).closest("tr").data("issuid");
+			location.href = "${context}/issu/detail/" + issuId;
 			
 		});
 		
@@ -93,17 +66,17 @@
 		$("#delete_all_btn").click(function(){
 			var checkLen = $(".check_idx:checked").length;
 			if(checkLen == 0) {
-				alert("삭제할 요구사항이 없습니다.");
+				alert("삭제할 이슈가 없습니다.");
 				return;
 			}
 			var form = $("<form></form>")
 			
 			$(".check_idx:checked").each(function(){
 				console.log($(this).val());
-				form.append("<input type='hidden' name='reqId' value='" + $(this).val() +"'>");
+				form.append("<input type='hidden' name='issuId' value='" + $(this).val() +"'>");
 			});
 			
-			$.post("${context}/api/req/delete", form.serialize(), function(response){
+			$.post("${context}/api/issu/delete", form.serialize(), function(response){
 				if(response.status == "200 OK"){
 					location.reload(); //새로고침
 				}
@@ -117,9 +90,9 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var reqId = $("#search-keyword").val();
+		var issuId = $("#search-keyword").val();
 		// URL 요청
-		location.href = "${context}/req/list?reqId=" + reqId + "&pageNo=" + pageNo;
+		location.href = "${context}/issu/list?issuId=" + issuId + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
@@ -129,71 +102,69 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 요구사항</div>
+				<div class="path"> 이슈</div>
 				<div class="search-group">
-					<label for="search-keyword">요구사항ID</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${reqVO.reqId}"/>
+					<label for="search-keyword">이슈ID</label>
+					<input type="text" id="search-keyword" class="search-input"  value="${issuVO.issuId}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				
 				<div class="grid">
 					<div class="grid-count align-right">
-						총 ${reqList.size() > 0 ? reqList.get(0).totalCount : 0}건
+						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
 					</div>
 					<table>
 						<thead>
 							<tr>
 								<th><input type="checkbox" id="all_check"/></th>
 								<th>순번</th>
-								<th>요구사항ID</th>
-								<th>요구사항제목</th>
-								<th>진행상태</th>
-								<th>일정상태</th>
-								<th>시작일</th>
-								<th>종료예정일</th>
-								<th>프로젝트ID</th>
-								<th>우선순위</th>
+								<th>이슈ID</th>
+								<th>이슈제목</th>
+								<th>등록팀원</th>
+								<th>이슈내용</th>
+								<th>조회수</th>
+								<th>난이도</th>
+								<th>담당팀원</th>
+								<th>관리상태</th>
+								<th>등록일</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:choose>
-								<c:when test="${not empty reqList}">
-									<c:forEach items="${reqList}"
-											   var="req"
+								<c:when test="${not empty issuList}">
+									<c:forEach items="${issuList}"
+											   var="issu"
 											   varStatus="index">
-										<tr data-reqid="${req.reqId}"
-											data-reqttl="${req.reqTtl}"
-											data-strtdt="${req.strtDt}"
-											data-expctenddt="${req.expctEndDt}"
-											data-eqpprc="${req.prjId}"
-											data-prchsdt="${req.prrty}"
-											data-prcsstts="${req.prcsStts}"
-											data-tskstts="${req.tskStts}"
-											data-useyn="${req.useYn}"
-											data-crtr="${req.crtr}"
-											data-crtdt="${req.crtDt}"
-											data-mdfyr="${req.mdfyr}"
-											data-mdfydt="${req.mdfyDt}"
-											data-delyn="${req.delYn}">
+										<tr data-issuid="${issu.issuId}"
+											data-issuttl="${issu.issuTtl}"
+											data-crtr="${issu.crtr}"
+											data-issucntnt="${issu.issuCntnt}"
+											data-vwcnt="${issu.vwCnt}"
+											data-dffclty="${issu.dffclty}"
+											data-mntmmbrid="${issu.mnTmMbrId}"
+											data-stts="${issu.stts}"
+											data-crtdt="${issu.crtDt}">
 											<td>
-												<input type="checkbox" class="check_idx" value="${req.reqId}">
+												<input type="checkbox" class="check_idx" value="${issu.issuId}">
 											</td>
-											<td>${req.rnum}</td>
-											<td class="detail_value">${req.reqId}</td>
-											<td class="detail_path">${req.reqTtl}</td>
-											<td>${req.prcsStts}</td>
-											<td>${req.tskStts}</td>
-											<td>${req.strtDt}</td>
-											<td>${req.expctEndDt}</td>
-											<td>${req.prjId}</td>
-											<td>${req.prrty}</td>
+											<td>${issu.rnum}</td>
+											<td>${issu.issuId}</td>
+											<td>${issu.issuTtl}</td>
+											<td>${issu.crtr}</td>
+											<td>${issu.issuCntnt}</td>
+											<td>${issu.prcsStts}</td>
+											<td>${issu.vwCnt}</td>
+											<td>${issu.dffclty}</td>
+											<td>${issu.mnTmMbrId}</td>
+											<td>${issu.stts}</td>
+											<td>${issu.crtDt}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="10" class="no-items">
-											등록된 요구사항이 없습니다.
+										<td colspan="12" class="no-items">
+											등록된 이슈가 없습니다.
 										</td>
 									</tr>
 								</c:otherwise>
@@ -208,7 +179,6 @@
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
-	                  <c:param name="path" value="${context}/req"/>
 	               	</c:import>
 				</div>	
 			<jsp:include page="../include/footer.jsp" />

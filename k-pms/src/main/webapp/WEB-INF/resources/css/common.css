@@ -277,6 +277,7 @@ h1{
 	color: #FFF;
 	padding-top : 10px;
 	padding-left: 10px;
+	display: block;
 }
 
 .main-layout > div > .side-menu	> .menu-list > .menu-item > a:hover {

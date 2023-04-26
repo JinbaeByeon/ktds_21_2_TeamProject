@@ -54,11 +54,17 @@
 				
 				var fileNm = $(this).data("org");
 				var uuidNm = $(this).data("uuid");
+				var fileSz = $(this).data("sz");
+				var ext = $(this).data("ext");
 				
 				var inputOrgNm = $("<input type='hidden' name='atchFlList["+cnt+"].orgFlNm' value='"+fileNm+"'/>");
 				form.append(inputOrgNm);
-				var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt++ +"].uuidFlNm' value='"+uuidNm+"'/>");
+				var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
 				form.append(inputUuid);
+				var inputSz = $("<input type='hidden' name='atchFlList["+cnt+"].flSz' value='"+parseInt(fileSz)+"'/>");
+				form.append(inputSz);
+				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
+				form.append(inputExt);
 			});
 			
 			ajaxUtil.upload("#create-form","${context}/api/sndmsg/snd",function(response){
@@ -171,10 +177,13 @@
 		
 		var uuidNm = file.uuidFlNm;
 		var fileNm = file.orgFlNm;
-		var fileSz = file.flSz / 1024;
-		fileSz = fileSz.toFixed(2);
+		var ext = fileNm.substring(fileNm.lastIndexOf(".")+1);
+		var fileSz = file.flSz;
 		
-		var li = $("<li data-uuid='"+uuidNm+"' data-org='"+fileNm+"'></li>");
+		var li = $("<li data-uuid='"+uuidNm +
+					 "' data-org='"+fileNm + 
+					 "' data-sz='"+fileSz+
+					 "' data-ext='"+ext+"'></li>");
 		fileList.append(li);
 		var div = $("<div></div>");
 		li.append(div);
@@ -191,6 +200,7 @@
 		});
 		
         var nm = "<span class='file_name'>"+fileNm+"</span>";
+        fileSz = (fileSz / 1024).toFixed(2);
         var sz;
         if(fileSz < 1000){
         	sz = "<span class='file_size'>"+fileSz+" KB</span>";
