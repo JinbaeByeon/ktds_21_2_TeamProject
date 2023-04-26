@@ -53,6 +53,12 @@ public class RestReqController {
 		}
 	}
 	
+	@PostMapping("/api/req/file")
+	public void doDeleteFiles(@RequestParam String[] fileNames) {
+		System.out.println(fileNames.length);
+		uploadHandler.deleteUploadFiles(Arrays.asList(fileNames));
+	}
+	
 	@PostMapping("/api/req/update")	
 	public APIResponseVO doUpdateReq(ReqVO reqVO,
 									  @SessionAttribute("__USER__") EmpVO empVO) {

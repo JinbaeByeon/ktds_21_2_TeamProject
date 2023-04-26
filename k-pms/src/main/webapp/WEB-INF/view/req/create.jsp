@@ -78,7 +78,8 @@
 			var fileList = $(".file_attachment").find("li");
 			console.log(fileList);
 			fileList.each(function(){
-				var form = $("#detail-form");
+				alert("!!");
+				var form = $("#detail_form");
 				
 				var fileNm = $(this).data("org");
 				var uuidNm = $(this).data("uuid");
@@ -225,7 +226,7 @@
 				var fileNm = $(this).data("uuid");
 				fileNames.push(fileNm);
 			});
-			ajaxUtil.deleteFile(fileNames, "${context}/api/req/delete", function(response) {
+			ajaxUtil.deleteFile(fileNames, "${context}/api/req/file", function(response) {
 				$("#file_list").find("li").remove();
 				fileCnt=0;
 				checkFile();
@@ -324,7 +325,7 @@
 		remove.click(function(e){
 			var item = $(this).closest("li");
 			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/req/delete", function(response) {
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/req/file", function(response) {
 				item.remove();
 				--fileCnt;
 				checkFile();

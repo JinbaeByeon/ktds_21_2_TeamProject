@@ -16,8 +16,11 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		checkFile();
+		
 		var data2 = "${reqVO.reqId}";
 		console.log(data2);
+		
 		$("#isModify").val("true");	
 		$("#reqId").val("${reqVO.reqId}");
 		$("#dtlReq").val("${reqVO.dtlReq}");
@@ -165,6 +168,73 @@
 					"프로젝트팀원 검색", "width=500, height=500");
 		});
 		
+		$("#add_files").click(function(e){
+			e.preventDefault();
+			$("#files").click();
+		});
+		$("#files").change(function(e){
+			var files = $(this)[0].files;
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+			$(this).value='';
+		});
+		$(".file_drag").on("dragover",function(e){
+			e.preventDefault();
+		});
+		$(".file_drag").on("drop",function(e){
+			e.preventDefault();
+		 	
+			var files = event.dataTransfer.files;
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+		});
+		$(".file_attachment").on("dragover",function(e){
+			e.preventDefault();
+		});
+		$(".file_attachment").on("drop",function(e){
+			e.preventDefault();
+		 	
+			var files = event.dataTransfer.files;
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+		});
+		$(".file_attachment").find(".remove_all").click(function(e){
+			e.preventDefault();
+			var fileList = $(this).closest(".file_attachment").find("ul").children("li");
+			console.log(fileList);
+			var fileNames = [];
+			fileList.each(function(){
+				var fileNm = $(this).data("uuid");
+				fileNames.push(fileNm);
+			});
+			ajaxUtil.deleteFile(fileNames, "${context}/api/req/file", function(response) {
+				$("#file_list").find("li").remove();
+				fileCnt=0;
+				checkFile();
+				$("#files").val("");
+			});
+		});
 	});
 
 	function addPrjFn(data) {
@@ -178,6 +248,62 @@
 		$("#mnDvlpr").val(data.empid);
 		
 	}
+	
+	var fileCnt=${reqVO.atchFlList.size() > 0 ? reqVO.atchFlList.size() : 0};
+	
+	function addFile(file){
+		var fileList = $("#file_list");
+		
+		var uuidNm = file.uuidFlNm;
+		var fileNm = file.orgFlNm;
+		var ext = fileNm.substring(fileNm.lastIndexOf(".")+1);
+		var fileSz = file.flSz;
+		
+		var li = $("<li data-uuid='"+uuidNm +
+					 "' data-org='"+fileNm + 
+					 "' data-sz='"+fileSz+
+					 "' data-ext='"+ext+"'></li>");
+		fileList.append(li);
+		var div = $("<div></div>");
+		li.append(div);
+		
+		var remove =  $("<span class='remove'>x</span>");
+		remove.click(function(e){
+			var item = $(this).closest("li");
+			
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/req/file", function(response) {
+				item.remove();
+				--fileCnt;
+				checkFile();
+			});
+		});
+		
+        var nm = "<span class='file_name'>"+fileNm+"</span>";
+        fileSz = (fileSz / 1024).toFixed(2);
+        var sz;
+        if(fileSz < 1000){
+        	sz = "<span class='file_size'>"+fileSz+" KB</span>";
+        } else {
+        	fileSz = (fileSz/1024).toFixed(2);
+        	sz = "<span class='file_size'>"+fileSz+" MB</span>";
+        }
+        div.append(remove);
+        div.append(nm);
+        div.append(sz);
+        ++fileCnt;
+	};
+	
+	function checkFile(){
+		var fileList = $("#file_list");
+		console.log(fileCnt);
+		if(fileCnt > 0){
+			fileList.closest(".file_attachment").show();
+			$(".file_area").find(".file_drag").hide();
+		} else {
+			fileList.closest(".file_attachment").hide();
+			$(".file_area").find(".file_drag").show();
+		}
+	};
 </script>
 </head>
 <body>
@@ -231,9 +357,45 @@
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
 							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
-						<div class="input-group inline">
-							<label for="attch" style="width: 180px;">첨부파일</label>
-							<input type="text" id="attch"  name="attch" value=""/>
+						<div class="create-group">
+							<label for="files" >첨부파일</label>
+							<div class="file_area">
+								<div class="file_upload">
+									<button id="add_files">+</button>
+								</div>
+								<div class="align-center">
+									<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+									<div class="file_attachment" hidden="hidden">
+										<div>
+											<div class="remove_all">x</div>
+											<div class="file_name">파일명</div>
+											<div class="file_size">용량</div>
+										</div>
+										<ul id="file_list">
+											<c:if test="${not empty reqVO.atchFlList}">
+											<c:forEach items="${reqVO.atchFlList}" var="atchFl">
+												<li data-uuid='${atchFl.uuidFlNm}'
+													data-org='${atchFl.orgFlNm}'
+													data-sz='${atchFl.flSz}'
+													data-ext='${atchFl.flExt}'>
+													<div>
+														<span class='remove'>x</span>
+														<span class='file_name'>${atchFl.orgFlNm}</span>
+														<c:if test="${atchFl.flSz < 1024*1024}">
+															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+														</c:if>
+														<c:if test="${atchFl.flSz >= 1024*1024}">
+															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+														</c:if>
+													</div>
+												</li>
+											</c:forEach>
+										</c:if>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<input type="file" id="files" multiple/>
 						</div>
 						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>

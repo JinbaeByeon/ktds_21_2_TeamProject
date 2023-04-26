@@ -136,7 +136,6 @@
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
 		});
-		
 		$("#delete_all_btn").click(function() {
 			var checkLen = $(".check_idx:checked").length;
 			if(checkLen == 0) {
