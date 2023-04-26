@@ -141,15 +141,16 @@
 		});
 	});
 	function movePage(pageNo) {
+		
 		var searchType = $("#searchType").val();
 		// 전송
 		// 입력 값
 		
-		if(searchType == "ID") {
+		if(searchType == "id") {
 			var empId = $("#searchBar").val();
 			location.href= "${context}/rcvmsg/list?searchType=ID&sndEmpId=" + empId + "&pageNo=" + pageNo;
 		}
-		else if(searchType == "발신자명") {
+		else if(searchType == "sndrNm") {
 			var nm = $("#searchBar").val();
 			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo;
 		}
@@ -168,7 +169,7 @@
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path">쪽지 > 받은쪽지함</div>
 			<form>
-				<div class="search-group">
+				<div class="search-group">name은 뭐냐. 아니다. controller로 넘어가는 form 내의 input의 name은 controller에서의 파라미터 명과 같아야함
 					<select class="search-option" id="searchType" name="searchType">
 						<option value="id" ${searchType eq "id" ? "selected" : ""}>ID</option>
 						<option value="sndrNm" ${searchType eq "sndrNm" ? "selected" : ""}>발신자명</option>
@@ -194,7 +195,6 @@
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>조회여부</th>
 							<th>제목</th>
-							<th>첨부파일</th>
 							<th>발신인</th>
 							<th>발신일</th>
 						</tr>

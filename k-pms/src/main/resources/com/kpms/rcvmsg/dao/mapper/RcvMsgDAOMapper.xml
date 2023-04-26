@@ -19,12 +19,12 @@
 				 	<result property="lNm" column="SE_L_NM"/>
 				</association>
 			</association>
-			<association property="rcvrEmpVO"
-		 			  javaType="com.kpms.emp.vo.EmpVO">
-			 	<id property="empId" column="EMP_ID"/>
-			 	<result property="fNm" column="RE_F_NM"/>
-			 	<result property="lNm" column="RE_L_NM"/>
-			</association>
+				<association property="rcvrEmpVO"
+			 			  javaType="com.kpms.emp.vo.EmpVO">
+				 	<id property="empId" column="EMP_ID"/>
+				 	<result property="fNm" column="F_NM"/>
+				 	<result property="lNm" column="L_NM"/>
+				</association>
 	</resultMap>
 	
 	<select id="readAllRcvMsgVO"
@@ -66,24 +66,32 @@
 	<!-- 휴지통 조회 -->
 	<select id="readAllDelMsg"
 			parameterType="com.kpms.rcvmsg.vo.MsgSearchVO"
-			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
+			resultMap="rcvMsgVOMap">
 		SELECT R.MSG_ID
 			 , R.CRT_DT
 			 , S.TTL
-			 , R.CRTR EMP_ID
+			 , R.CRTR
 			 , S.ATTCH
+			 , E.F_NM
+			 , E.L_NM
 		  FROM RCV_MSG R
 		 INNER JOIN SND_MSG S
 		 	ON S.MSG_ID = R.SND_MSG_ID
+		 INNER JOIN EMP E
+		    ON R.CRTR = E.EMP_ID
 		 WHERE R.DEL_YN = 'Y'
 		 UNION
-		SELECT MSG_ID
-			 , CRT_DT
-			 , TTL
-			 , CRTR
-			 , ATTCH
-		  FROM SND_MSG 
-		 WHERE DEL_YN = 'Y'
+		SELECT S.MSG_ID
+			 , S.CRT_DT
+			 , S.TTL
+			 , S.CRTR
+			 , S.ATTCH
+			 , E.F_NM
+			 , E.L_NM
+		  FROM SND_MSG S
+		 INNER JOIN EMP E
+		    ON E.EMP_ID = S.CRTR
+		 WHERE S.DEL_YN = 'Y'
 	</select>
 	
 	<select id="readOneSndMsgVO"
@@ -183,7 +191,7 @@
 			  parameterType="arraylist">
 			DELETE 
 			  FROM RCV_MSG
-			 WHERE MSG_ID EXISTS (SELECT ) IN 
+			 WHERE MSG_ID IN 
 			 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
 		 	 #{msgId}
 			 </foreach> 

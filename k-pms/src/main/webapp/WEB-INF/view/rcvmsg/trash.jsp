@@ -12,17 +12,21 @@
 	$().ready(function() {
 		$("#restore_btn").click(function() {
 			var form = $("<form></form>")
-			
 		})
 		
 		$("#delete_btn").click(function() {
 			var form = $("<form></form>")
-			$(".check_idx:checked").each(function() {
+			var checkIdx = $(".check_idx:checked");
+			if(checkIdx.length == 0){
+				alert("체크된 메시지가 없습니다.");
+				return;
+			}
+			
+			checkIdx.each(function() {
 				console.log($(this).val());
 				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
 			});
-			
-			if(!confirm("휴지통의 쪽지를 지우면 지워진 쪽지들은 복구할 수 없습니다. 쪽지를 삭제하시겠습니까?")) {
+			if(!confirm("휴지통의 쪽지를 지우면 지워진 쪽지들은 복구할 수 없습니다.\n쪽지를 삭제하시겠습니까?")) {
 				return;
 			}
 			//snd와 rcv같이 삭제할수있는건 어떻게해야하느닞
@@ -75,8 +79,8 @@
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">
-						<button id="delete_btn" class="btn-delete" disabled>영구삭제</button>
-						<button id="restore_btn" class="btn-restore" disabled>복원</button>
+						<button id="delete_btn" class="btn-delete">영구삭제</button>
+						<button id="restore_btn" class="btn-restore">복원</button>
 					</div>
 					<div class="align-right right">총 ${msgList.size() > 0 ? msgList.get(0).totalCount : 0}건
 					</div>
@@ -86,7 +90,6 @@
 						<tr>
 							<th><input type="checkbox" id="all_check" /></th>
 							<th>제목</th>
-							<th>첨부파일</th>
 							<th>발신인</th>
 							<th>발신일</th>
 						</tr>
@@ -96,14 +99,12 @@
 							<c:when test="${not empty rcvMsgList}">
 								<c:forEach items="${rcvMsgList}" var="rcvMsg">
 									<tr data-ttl="${rcvMsg.sndMsgVO.ttl}"
-										data-attch="${rcvMsg.sndMsgVO.attch}"
 										data-crtr="${rcvMsg.crtr}" data-crtdt="${rcvMsg.crtDt}">
 										<td class="check"><input type="checkbox"
 											class="check_idx" value="${rcvMsg.msgId}" /></td>
 										<td>${rcvMsg.sndMsgVO.ttl}</td>
-										<td>${rcvMsg.sndMsgVO.attch}</td>
-										<td>${rcvMsg.crtr}(${rcvMsg.sndMsgVO.sndEmpVO.lNm}
-											${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
+										<td>${rcvMsg.crtr}(${rcvMsg.rcvrEmpVO.lNm}
+											${rcvMsg.rcvrEmpVO.fNm})</td>
 										<td>${rcvMsg.crtDt}</td>
 									</tr>
 								</c:forEach>
