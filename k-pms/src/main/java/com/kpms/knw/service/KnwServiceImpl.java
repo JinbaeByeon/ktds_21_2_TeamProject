@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kpms.atchfl.dao.AtchFlDAO;
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
@@ -20,7 +22,8 @@ public class KnwServiceImpl implements KnwService {
 
 	@Autowired
 	private KnwDAO knwDAO;
-	
+	@Autowired
+	private AtchFlDAO atchFlDAO;
 	@Autowired
 	UploadHandler uploadHandler;
 
@@ -39,7 +42,12 @@ public class KnwServiceImpl implements KnwService {
 		}
 		
 		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
-		uploadHandler.uploadMultiAtchmnt(uploadFile, knwVO);
+		List<AtchFlVO> fileList = uploadHandler.uploadMultiAtchmnt(uploadFile, knwVO.getKnwId());
+		
+		fileList.forEach(file->{
+			file.setCrtr(knwVO.getCrtr());
+			atchFlDAO.createNewAtchFl(file);
+		});
 		
 		return isSuccess;
 	}
@@ -56,7 +64,7 @@ public class KnwServiceImpl implements KnwService {
 
 	@Override
 	public boolean updateOneKnw(KnwVO knwVO, List<MultipartFile> uploadFile) {
-		uploadHandler.uploadMultiAtchmnt(uploadFile, knwVO);
+		uploadHandler.uploadMultiAtchmnt(uploadFile, knwVO.getKnwId());
 		
 		if (StringUtil.isEmpty(knwVO.getTtl())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "제목은 필수값입니다.");

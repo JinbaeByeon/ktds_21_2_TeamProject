@@ -10,163 +10,288 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-	
-	function addPrjFn(data) {
+	var fileCnt = 0;
+	function addFile(file) {
+		var fileList = $("#file_list");
 
-		$("#prjId").val("");
-		$("#prjNm").empty();
-		$("#cstmr").empty();
-		$("#prjStts").empty();
+		var uuidNm = file.uuidFlNm;
+		var fileNm = file.orgFlNm;
+		var fileSz = file.flSz / 1024;
+		fileSz = fileSz.toFixed(2);
 
-		$("#prjId").val(data.prjid);
-		$("#prjNm").append(data.prjnm);
-		$("#cstmr").append(data.cstmr);
-		$("#prjStts").append(data.prjstts);
+		var li = $("<li data-uuid='"+uuidNm+"' data-org='"+fileNm+"'></li>");
+		fileList.append(li);
+		var div = $("<div></div>");
+		li.append(div);
 
+		var remove = $("<span class='remove'>x</span>");
+		remove.click(function(e) {
+			var item = $(this).closest("li");
+
+			ajaxUtil.deleteFile([ item.data("uuid") ],
+					"${context}/api/sndmsg/delete", function(response) {
+						item.remove();
+						--fileCnt;
+						checkFile();
+					});
+		});
+
+		var nm = "<span class='file_name'>" + fileNm + "</span>";
+		var sz;
+		if (fileSz < 1000) {
+			sz = "<span class='file_size'>" + fileSz + " KB</span>";
+		} else {
+			fileSz = (fileSz / 1024).toFixed(2);
+			sz = "<span class='file_size'>" + fileSz + " MB</span>";
+		}
+		div.append(remove);
+		div.append(nm);
+		div.append(sz);
+		++fileCnt;
+	};
+	function checkFile() {
+		var fileList = $("#file_list");
+		console.log(fileCnt);
+		if (fileCnt > 0) {
+			fileList.closest(".file_attachment").show();
+			$(".file_area").find(".file_drag").hide();
+		} else {
+			fileList.closest(".file_attachment").hide();
+			$(".file_area").find(".file_drag").show();
+		}
 	}
 
-	$().ready(
-			function() {
+	$()
+			.ready(
+					function() {
 
-				$("#save_btn").click(
-						function() {
-							if($("#ttl").val() == "") {
-								alert("제목 입력은 필수입니다.");
-								return;
+						$("#save_btn")
+								.click(
+										function() {
+											if ($("#ttl").val() == "") {
+												alert("제목 입력은 필수입니다.");
+												return;
+											} else if ($("#cntnt").val() == "") {
+												alert("내용 입력은 필수입니다.");
+												return;
+											} else if ($("#prjId").val() == "") {
+												alert("프로젝트 선택은 필수입니다.");
+												return;
+											} else {
+												var fileList = $(".file_attachment").find("li");
+												
+												cnt=0;
+												fileList.each(function(){
+													var form = $("#create-form");
+													
+													var fileNm = $(this).data("org");
+													var uuidNm = $(this).data("uuid");
+													
+													var inputOrgNm = $("<input type='hidden' name='atchFlList["+cnt+"].orgFlNm' value='"+fileNm+"'/>");
+													form.append(inputOrgNm);
+													var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt++ +"].uuidFlNm' value='"+uuidNm+"'/>");
+													form.append(inputUuid);
+												});
+
+												var ajaxUtil = new AjaxUtil();
+												ajaxUtil
+														.upload(
+																"#create-form",
+																"${context}/api/knw/update",
+																function(
+																		response) {
+																	if (response.status == "200 OK") {
+																		location.href = "${context}/knw/list";
+																	} else {
+																		alert("지식 등록에 실패하였습니다.");
+																	}
+																},
+																{
+																	"upload-file" : "uploadFile"
+																});
+											}
+
+										});
+
+						$("#cancel_btn").click(function() {
+							location.href = "${context}/knw/list"
+						});
+
+						$("#addPrj")
+								.click(
+										function(event) {
+											event.preventDefault();
+											gnr = window.open(
+													"${context}/prj/search",
+													"프로젝트 검색",
+													"width=500, height=500");
+										});
+
+						$("#deletePrj").click(function(event) {
+							event.preventDefault();
+							$("#prjId").val("");
+							$("#prjNm").empty();
+							$("#cstmr").empty();
+							$("#prjStts").empty();
+						});
+
+						$(".submit")
+								.click(
+										function(event) {
+											event.preventDefault();
+											var commentForm = $(this).closest(
+													".form-commentInfo");
+											$
+													.post(
+															"${context}/api/knwrpl/create",
+															commentForm
+																	.serialize(),
+															function(response) {
+																console
+																		.log(response);
+																if (response.status == "200 OK") {
+																	location
+																			.reload();
+																} else {
+																	alert(response.errorCode
+																			+ " / "
+																			+ response.message);
+																}
+															});
+										});
+
+						$(".reply-btn")
+								.click(
+										function() {
+											event.preventDefault();
+											var that = $(this).closest(".btns")
+													.closest(".comment")
+													.find(".form-commentInfo");
+											console.log(that.attr("style"));
+											if (that.attr("style") == "display: block;") {
+												that.hide();
+											} else {
+												that.show();
+											}
+										});
+
+						$(".update-btn").click(
+								function() {
+									var updateForm = $(this).closest(".btns")
+											.closest(".comment").find(".cnt")
+											.find("form");
+									updateForm.find("input.cnt").attr("type",
+											"text");
+									updateForm.find("button").attr("hidden",
+											false);
+									updateForm.find("p").remove();
+								});
+
+						$(".update-submit")
+								.click(
+										function() {
+											event.preventDefault();
+											var result = confirm("정말 수정하시겠습니까?")
+											if (result) {
+												var commentForm = $(this)
+														.closest(
+																".form-updateComment");
+												$
+														.post(
+																"${context}/api/knwrpl/update",
+																commentForm
+																		.serialize(),
+																function(
+																		response) {
+																	console
+																			.log(response);
+																	if (response.status == "200 OK") {
+																		location
+																				.reload();
+																	} else {
+																		alert(response.errorCode
+																				+ " / "
+																				+ response.message);
+																	}
+																});
+											}
+										});
+
+						$(".delete-btn").click(
+								function() {
+									var result = confirm("정말 삭제하시겠습니까?")
+									if (result) {
+										var replyId = $(this).closest(".btns")
+												.closest(".comment").find(
+														".rplId").val();
+										$(this).closest(".btns").closest(
+												".comment").hide();
+										$.post("${context}/api/knwrpl/delete/"
+												+ replyId, function(response) {
+											if (response.status == "200 OK") {
+											} else {
+												alert(response.errorCode
+														+ " / "
+														+ response.message);
+											}
+										});
+									}
+								});
+
+						$("#add_files").click(function(e){
+							e.preventDefault();
+							$("#files").click();
+						})
+						$("#files").change(function(e){
+							var files = $(this)[0].files;
+							if(files){
+								ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+									for(var i=0;i < response.data.length; i++){
+										var file = response.data[i];
+										addFile(file);
+									}
+									checkFile();
+								});
 							}
-							else if($("#cntnt").val() == "") {
-								alert("내용 입력은 필수입니다.");
-								return;
-							}
-							else if($("#prjId").val() == "") {
-								alert("프로젝트 선택은 필수입니다.");
-								return;
-							}
-							else {
+							$(this).value='';
+						});
+						$(".file_drag").on("dragover",function(e){
+							e.preventDefault();
+						});
+						$(".file_drag").on("drop",function(e){
+							e.preventDefault();
+						 	
+							var files = event.dataTransfer.files;
+							if(files){
 								var ajaxUtil = new AjaxUtil();
-								ajaxUtil.upload("#create-form", "${context}/api/knw/update", function(response) {
-									if(response.status == "200 OK") {
-										location.href = "${context}/knw/list";
+								ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+									for(var i=0;i < response.data.length; i++){
+										var file = response.data[i];
+										addFile(file);
 									}
-									else {
-										alert("지식 등록에 실패하였습니다.");
-									}
-								},{"upload-file": "uploadFile"});
+									checkFile();
+								});
 							}
-							
 						});
-
-				$("#cancel_btn").click(function() {
-					location.href = "${context}/knw/list"
-				});
-
-				$("#addPrj").click(
-						function(event) {
-							event.preventDefault();
-							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
+						$(".file_attachment").on("dragover",function(e){
+							e.preventDefault();
 						});
-
-				$("#deletePrj").click(function(event) {
-					event.preventDefault();
-					$("#prjId").val("");
-					$("#prjNm").empty();
-					$("#cstmr").empty();
-					$("#prjStts").empty();
-				});
-
-				$(".submit").click(
-						function(event) {
-							event.preventDefault();
-							var commentForm = $(this).closest(".form-commentInfo");
-							$.post("${context}/api/knwrpl/create", commentForm.serialize(), function(response) {
-								console.log(response);
-								if (response.status == "200 OK") {
-									location.reload();
-								} else {
-									alert(response.errorCode + " / " + response.message);
-								}
-							});
-						});
-
-				$(".reply-btn").click(function() {
-					event.preventDefault();
-					var that = $(this).closest(".btns").closest(".comment").find(".form-commentInfo");
-					console.log(that.attr("style"));
-					if(that.attr("style") == "display: block;") {
-						that.hide();
-					}
-					else {
-						that.show();
-					}
-				});
-
-				$(".update-btn").click(
-						function() {
-							var updateForm = $(this).closest(".btns").closest(".comment").find(".cnt").find("form");
-							updateForm.find("input.cnt").attr("type", "text");
-							updateForm.find("button").attr("hidden", false);
-							updateForm.find("p").remove();
-						});
-
-				$(".update-submit").click(
-						function() {
-							event.preventDefault();
-							var result = confirm("정말 수정하시겠습니까?")
-							if(result) {
-								var commentForm = $(this).closest(".form-updateComment");
-								$.post("${context}/api/knwrpl/update", commentForm.serialize(), function(response) {
-									console.log(response);
-									if (response.status == "200 OK") {
-										location.reload();
-									} else {
-										alert(response.errorCode + " / " + response.message);
+						$(".file_attachment").on("drop",function(e){
+							e.preventDefault();
+						 	
+							var files = event.dataTransfer.files;
+							if(files){
+								ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+									for(var i=0;i < response.data.length; i++){
+										var file = response.data[i];
+										addFile(file);
 									}
+									checkFile();
 								});
 							}
 						});
 
-				$(".delete-btn").click(function() {
-					var result = confirm("정말 삭제하시겠습니까?")
-					if(result) {
-						var replyId = $(this).closest(".btns").closest(".comment").find(".rplId").val();
-						$(this).closest(".btns").closest(".comment").hide();
-						$.post("${context}/api/knwrpl/delete/" + replyId, function(response) {
-							if (response.status == "200 OK") {
-							} else {
-								alert(response.errorCode + " / " + response.message);
-							}
-						});
-					}
-				});
-				
-				$("#file-btn").click(function(event) {
-					event.preventDefault();
-					$("#upload-file").click();
-					
-				});
-				
-				
-				$("#upload-file").change(function() {
-					$("#file-list").empty();
-					$("#file-list").append("<input type='hidden' value='new' />");
-					var fileInput = $(this);
-					for( var i=0; i<fileInput.length; i++ ){
-						if( fileInput[i].files.length > 0 ){
-							for( var j = 0; j < fileInput[i].files.length; j++ ){
-								$("#file-list").append("<li>" + fileInput[i].files[j].name + "</li>");
-							}
-						}
-					}
-					
-				});
-				 
-				$("#file-remove").click(function(event) {
-					event.preventDefault();
-					$("#upload-file").val("");
-					$("#file-list").empty();
-				});
-
-			});
+					});
 </script>
 </head>
 <body>
@@ -176,7 +301,7 @@
 			<jsp:include page="../include/cmnCdSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 
-			<h1>지식 관리 등록</h1>
+			<h1></h1>
 			<div>
 				<form id="create-form">
 					<input type="hidden" name="knwId" value="${knwVO.knwId}" />
@@ -208,15 +333,24 @@
 						</div>
 					</div>
 					<div class="create-group">
-						<input type="hidden" id="create-group-file" />
-						<label for="upload-file">파일첨부<button id="file-btn">등록</button><button id="file-remove">삭제</button></label>
-						<input type='file' id='upload-file' name='upload-file' multiple />
-						<ul id="file-list">
-							<input type="hidden" value="old" />
-							<c:forEach items="${knwVO.flList}" var="flVO">
-								<li>${flVO.orgFlNm}</li>
-							</c:forEach>
-						</ul>
+						<label for="files">첨부파일</label>
+						<div class="file_area">
+							<div class="file_upload">
+								<button id="add_files">+</button>
+							</div>
+							<div class="align-center">
+								<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+								<div class="file_attachment" hidden="hidden">
+									<div>
+										<div class="remove_all">x</div>
+										<div class="file_name">파일명</div>
+										<div class="file_size">용량</div>
+									</div>
+									<ul id="file_list"></ul>
+								</div>
+							</div>
+						</div>
+						<input type="file" id="files" multiple />
 					</div>
 					<div class="create-group">
 						<label for="ttl">제목</label> <input type="text" id="ttl" name="ttl"
@@ -246,15 +380,17 @@
 					<c:forEach items="${knwVO.rplList}" var="rplVO">
 						<c:if test="${rplVO.knwId ne null}">
 							<div class="comment" style="margin-left: ${rplVO.depth * 30}px;">
-								<input class="rplId" type="hidden" name="rplId" value="${rplVO.rplId}" />
+								<input class="rplId" type="hidden" name="rplId"
+									value="${rplVO.rplId}" />
 								<div class="reply-info">
-									<p class="crtr-info" >${rplVO.crtr}</p>
+									<p class="crtr-info">${rplVO.crtr}</p>
 									<p class="crtDt-info">${rplVO.crtDt}</p>
 								</div>
 								<div class="cnt">
 									<form class="form-updateComment">
-										<input class="cnt" type="hidden" name="cnt" value="${rplVO.cnt}"/>
-										<input type="hidden" name="rplId" value="${rplVO.rplId}" />
+										<input class="cnt" type="hidden" name="cnt"
+											value="${rplVO.cnt}" /> <input type="hidden" name="rplId"
+											value="${rplVO.rplId}" />
 										<p class="cnt">${rplVO.cnt}</p>
 										<button class="update-submit" hidden="true">완료</button>
 									</form>

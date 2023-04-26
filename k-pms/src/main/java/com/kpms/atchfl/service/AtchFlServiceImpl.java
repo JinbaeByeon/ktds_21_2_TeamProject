@@ -13,8 +13,8 @@ public class AtchFlServiceImpl implements AtchFlService {
 	private AtchFlDAO atchFlDAO;
 
 	@Override
-	public boolean doCreateNewAtchFl(AtchFlVO atchFlVO) {
-		return atchFlDAO.doCreateNewAtchFl(atchFlVO) > 0;
+	public boolean createNewAtchFl(AtchFlVO atchFlVO) {
+		return atchFlDAO.createNewAtchFl(atchFlVO) > 0;
 	}
 	
 	

@@ -1,5 +1,6 @@
 package com.kpms.knw.web;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kpms.atchfl.vo.AtchFlVO;
+import com.kpms.common.api.vo.APIDataResponseVO;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.handler.UploadHandler;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.knw.service.KnwService;
 import com.kpms.knw.vo.KnwVO;
@@ -22,6 +26,8 @@ public class RestKnwController {
 
 	@Autowired
 	private KnwService knwService;
+	@Autowired
+	private UploadHandler uploadHandler;
 
 	@PostMapping("/api/knw/create")
 	public APIResponseVO doCreateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO, @RequestParam List<MultipartFile> uploadFile) {
@@ -70,6 +76,20 @@ public class RestKnwController {
 		} else {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
+	}
+	
+	@PostMapping("/api/knw/upload")
+	public APIDataResponseVO doUploadFiles(@RequestParam MultipartFile[] uploadFile) {
+		
+		List<AtchFlVO> fileList = uploadHandler.uploadMultiAtchmnt(Arrays.asList(uploadFile), null);
+		
+		return new APIDataResponseVO(APIStatus.OK, fileList);
+	}
+	
+	@PostMapping("/api/knw/delfiles")
+	public void doDeleteFiles(@RequestParam String[] fileNames) {
+		System.out.println(fileNames.length);
+		uploadHandler.deleteUploadFiles(Arrays.asList(fileNames));
 	}
 
 }

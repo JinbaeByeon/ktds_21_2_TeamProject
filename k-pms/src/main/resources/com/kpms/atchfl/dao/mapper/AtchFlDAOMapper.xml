@@ -14,8 +14,6 @@
 		, FL_EXT
 		, CRTR
 		, CRT_DT
-		, MDFYR
-		, MDFY_DT
 		, USE_YN
 		, DEL_YN)
 		VALUES
@@ -26,8 +24,6 @@
 		, #{flExt}
 		, #{crtr}
 		, SYSDATE
-		, #{mdfyr}
-		, SYSDATE
 		, 'Y'
 		, 'N')
 	</insert>
@@ -35,9 +31,7 @@
 	<update id="doDeleteNewAtchFl"
 			parameterType="com.kpms.atchfl.vo.AtchFlVO">
 		UPDATE KPMS.ATCH_FL
-		   SET MDFYR = #{mdfyr}
-		     , MDFY_DT = SYSDATE
-		     , DEL_YN = 'Y'
+		   SET DEL_YN = 'Y'
 		 WHERE FRGN_ID = #{frgnId}
 	</update>
 </mapper>
