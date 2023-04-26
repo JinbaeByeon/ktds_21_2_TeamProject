@@ -277,6 +277,7 @@ h1{
 	color: #FFF;
 	padding-top : 10px;
 	padding-left: 10px;
+	display: block;
 }
 
 .main-layout > div > .side-menu	> .menu-list > .menu-item > a:hover {
@@ -880,3 +881,8 @@ input::-webkit-inner-spin-button {
 	margin:0;
 }
 
+div.button_btm {
+	position: absolute;
+	right: 0;
+	margin-right: 10px;
+}

@@ -1,50 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="context" value="${pageContext.request.contextPath}"/>
+<%@page import="java.util.Random"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="prj"/>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="../include/stylescript.jsp"/>
+<jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-	var empWindow;
 	var ajaxUtil = new AjaxUtil();
-	
-	$().ready(function() {
-		$("#my_pc").click(function() {
-			
+	var reqWindow;
+	function addReqFn(req){
+		reqWindow.close();
+		var reqId = $("#reqId");
+		reqId.val(req.reqid);
+		var reqTtl = $("#reqTtl");
+		reqTtl.text(req.reqttl);
+	}
+	$().ready(function(){
+		var empId = '${sessionScope.__USER__.empId}';
+		$("#reqId").click(function(e){
+			reqWindow = window.open("${context}/req/search/req?empId="+empId,"요구사항 검색","width=500,height=500");
 		});
 		
-		$("#rcvr").keydown(function(e){
-			if(e.keyCode == 13){
-				e.preventDefault();
-			}
-		})
-		$("#rcvr").keyup(function(e){
-			if(e.keyCode == 32 || e.keyCode == 13){
-				e.preventDefault();
-				createUser($(this).val().replace(" ",""));
-				$(this).val("");
-				return;
-			}
-			if(!(e.keyCode >= 37 && e.keyCode <= 40)) {
-				var inputVal = $(this).val();
-				$(this).val(inputVal.replace(/[^a-zA-Z0-9]/gi,''));
-			}
-		})
-		$("#send_btn").click(function(){
+		$("#delete_btn").click(function(){
+			location.href = "${context}/issu/list";
+		});
+		
+		$("#all_check").change(function(){
+			$(".check_idx").prop("checked", $(this).prop("checked"));
+		});
+		
+		$(".check_idx").change(function(){
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
+		});
+		
+		$("#new_btn").click(function(){
 			var form = $("#create-form");
-			
-			// 수신 사원
-			var rcvrList = $("#user_list").children(".user").children(".rcvr");
-			var cnt = 0;
-			rcvrList.each(function(e){
-				var rcvr = $(this).text();
-				var input = $("<input type='hidden' name='rcvMsgVO[" + cnt++ + "].rcvr' value = '" + rcvr + "'/>")
-				form.append(input);
-			});
 			
 			var fileList = $(".file_attachment").find("li");
 			
@@ -67,7 +67,7 @@
 				form.append(inputExt);
 			});
 			
-			ajaxUtil.upload("#create-form","${context}/api/sndmsg/snd",function(response){
+			ajaxUtil.upload("#create-form","${context}/api/issu/create",function(response){
 				if (response.status != "200 OK") {
 					alert(response.errorCode + " / " + response.message);
 				}
@@ -77,10 +77,6 @@
 			});
 		});
 		
-		$("#search-emp").click(function(e){
-			e.preventDefault();
-			empWindow = window.open("${context}/emp/search","직원 검색","width=500,height=500");
-		});
 		$("#add_files").click(function(e){
 			e.preventDefault();
 			$("#files").click();
@@ -88,7 +84,7 @@
 		$("#files").change(function(e){
 			var files = $(this)[0].files;
 			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -107,7 +103,7 @@
 			var files = event.dataTransfer.files;
 			if(files){
 				var ajaxUtil = new AjaxUtil();
-				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -124,7 +120,7 @@
 		 	
 			var files = event.dataTransfer.files;
 			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -142,7 +138,7 @@
 				var fileNm = $(this).data("uuid");
 				fileNames.push(fileNm);
 			});
-			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile(fileNames, "${context}/api/atchfl/delete", function(response) {
 				$("#file_list").find("li").remove();
 				fileCnt=0;
 				checkFile();
@@ -150,27 +146,6 @@
 			});
 		});
 	});
-	
-	function addEmpFn(emp){
-		createUser(emp.empid);
-	};
-	function createUser(empId){
-		if(empId ==null || empId == ''){
-			return;
-		}
-		var userDiv = $("<div class='user'></div>");
-		$("#user_list").append(userDiv);
-		
-		var rcvr = $("<div class='rcvr'>"+empId+"</div>");
-		userDiv.append(rcvr);
-		var btnDelete = $("<button class='btn-delete'>x</button>");
-		btnDelete.click(function(e){
-			e.preventDefault();
-			$(this).closest(".user").remove();
-		});
-		userDiv.append(btnDelete);
-		
-	};
 	var fileCnt=0;
 	function addFile(file){
 		var fileList = $("#file_list");
@@ -192,7 +167,7 @@
 		remove.click(function(e){
 			var item = $(this).closest("li");
 			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/atchfl/delete", function(response) {
 				item.remove();
 				--fileCnt;
 				checkFile();
@@ -224,58 +199,70 @@
 			$(".file_area").find(".file_drag").show();
 		}
 	}
-	 
+	
 </script>
 </head>
 <body>
 	<div class="main-layout">
-		<jsp:include page="../include/header.jsp"/>
+		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/msgSidemenu.jsp"/>
-			<jsp:include page="../include/content.jsp"/>
-			<div class="path">쪽지 > 쪽지보내기</div>
-			<form id="create-form">
-				<div class="create-group">
-					<label for="rcvr">받는사람</label>
-					<div>
-						<div id="user_list"></div>
-						<div>
-							<input type="text" class="underBar" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
-							<button id="search-emp">+</button>
-						</div>
+			<jsp:include page="../include/prjSidemenu.jsp"/>
+			<jsp:include page="../include/content.jsp" />
+				<div class="path"> 이슈 등록</div>
+				<form id="create-form">
+				<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
+					<div class="create-group">
+						<label for="issuTtl">제목</label> 
+						<input type="text" id="issuTtl" name="issuTtl" class="grow-1"/>
 					</div>
-				</div>
-				<div class="create-group">
-					<label for="title">제목</label> 
-					<input type="text" class="underBar" id="title" name="ttl" value="${sndMsgVO.ttl}"/>
-				</div>
-				<div class="create-group">
-					<label for="files">첨부파일</label>
-					<div class="file_area">
-						<div class="file_upload">
-							<button id="add_files">+</button>
-						</div>
-						<div class="align-center">
-							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
-							<div class="file_attachment" hidden="hidden">
-								<div>
-									<div class="remove_all">x</div>
-									<div class="file_name">파일명</div>
-									<div class="file_size">용량</div>
+					<div class="create-group">
+						<label for="issuCntnt">설명</label>
+						<input type="text" id="issuCntnt" name="issuCntnt" class="grow-1"/>
+					</div>
+					<div class="create-group">
+						<label for="reqId">요구사항ID</label>
+						<input type="text" id="reqId" name="reqId" readonly/>
+						<span id="reqTtl"></span>
+					</div>
+					<div class="create-group">
+						<label for="dffclty">난이도</label> 
+						<select id="dffclty" name="dffclty">
+							<option>상</option>
+							<option>중</option>
+							<option>하</option>
+						</select>
+					</div>
+					<div class="create-group">
+						<label for="files">첨부파일</label>
+						<div class="file_area">
+							<div class="file_upload">
+								<button id="add_files">+</button>
+							</div>
+							<div class="align-center">
+								<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+								<div class="file_attachment" hidden="hidden">
+									<div>
+										<div class="remove_all">x</div>
+										<div class="file_name">파일명</div>
+										<div class="file_size">용량</div>
+									</div>
+									<ul id="file_list"></ul>
 								</div>
-								<ul id="file_list"></ul>
 							</div>
 						</div>
+						<input type="file" id="files" multiple/>
 					</div>
-					<input type="file" id="files" multiple/>
-				</div>
-				<div class="create-group">
-					<textarea name="cntnt" class="msg-cntnt"></textarea>
-				</div>
-			</form>
-			<div class="align-right">
-				<button id="new_btn" class="btn-primary">전송</button>
-			</div>
+					<div class="create-group">
+						<label for="dtlCntnt">상세내용</label>
+						<textarea name="dtlCntnt" id="dtlCntnt"></textarea>
+					</div>
+				</form>
+					
+				<div class="align-right">
+					<button id="new_btn" class="btn-primary">등록</button>
+					<button id="delete_btn" class="btn-delete">취소</button>
+				</div>		
+			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
 </body>

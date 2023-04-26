@@ -133,7 +133,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/cmnCdSidemenu.jsp" />
+			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 
 			<h1>지식 관리 등록</h1>
