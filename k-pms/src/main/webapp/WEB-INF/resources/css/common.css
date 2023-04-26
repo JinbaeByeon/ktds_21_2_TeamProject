@@ -277,6 +277,7 @@ h1{
 	color: #FFF;
 	padding-top : 10px;
 	padding-left: 10px;
+	display: block;
 }
 
 .main-layout > div > .side-menu	> .menu-list > .menu-item > a:hover {
@@ -671,15 +672,12 @@ input::-webkit-inner-spin-button {
 
 /* 대댓글 */
 
-.reply > ul {
-	display: inline-block;	
+.comment {
+	position: relative;
+	height: 150px;
 }
 
-.reply > .x-btn {
-	display: inline-block;	
-}
-
-.reply > .update-btn {
+.reply-info > * {
 	display: inline-block;
 }
 
@@ -817,6 +815,9 @@ input::-webkit-inner-spin-button {
     align-items: center;
     justify-content: center;
     background-color: #eee;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 3px 0;
 }
 .create-group > .file_area .file_attachment > div > .remove_all {
 	margin: 0 10px;
@@ -853,6 +854,35 @@ input::-webkit-inner-spin-button {
 }
 
 
+.reply-info > .crtr-info {
+	border-bottom-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
 
+.reply-info > .crtDt-info {
+	position: absolute;
+	right: 0px;
+}
 
+.comment > .btns {
+	position: absolute;
+	bottom: 15px;
+	right: 5px;
+}
 
+.comment > hr {
+	position: absolute;
+    bottom: 0;
+    width: -webkit-fill-available;
+}
+
+.comment > div.cnt p.cnt{
+	margin:0;
+}
+
+div.button_btm {
+	position: absolute;
+	right: 0;
+	margin-right: 10px;
+}

@@ -61,8 +61,8 @@
 	});
 	
 	function movePage(pageNo) {
-		var searchOption = $("#searchOption").val();
-		var searchKeyword = $("#searchKeyword").val();
+		var searchOption = $("#search-option").val();
+		var searchKeyword = $("#search-keyword").val();
 		var queryString = "?searchOption=" + searchOption;
 		queryString += "&searchKeyword=" + searchKeyword;
 		queryString += "&pageNo=" + pageNo;
@@ -77,23 +77,23 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/cmnCdSidemenu.jsp" />
+			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 
 			<div class="search-group">
-				<select id="searchOption">
-					<option>전체</option>
-					<option value="제목" ${searchOption eq "제목" ? "selected" : ""}>제목</option>
-					<option value="프로젝트명" ${searchOption eq "프로젝트명" ? "selected" : ""}>프로젝트명</option>
+				<select id="search-option">
+					<option value="">전체</option>
+					<option value="제목" ${knwSearchVO.searchOption eq "제목" ? "selected" : ""}>제목</option>
+					<option value="프로젝트명" ${knwSearchVO.searchOption eq "프로젝트명" ? "selected" : ""}>프로젝트명</option>
 				</select>
-				<input type="text" id="searchKeyword" class="search-input" value="${searchKeyword}" placeholder="검색" />
+				<input type="text" id="search-keyword" class="search-input" value="${knwSearchVO.searchKeyword}" placeholder="검색" />
 				<div class="search-keyword1">
 					<button class="btn-search" id="search-btn">&#128269;</button>
 				</div>
 			</div>  
 			<div class="grid">
 				<div class="grid-count align-right">
-					총 ${knwList.size() > 0 ? totalCount : 0} 건
+					총 ${knwList.size() > 0 ? knwList.get(0).totalCount : 0} 건
 				</div>
 				<table>
 					<thead>

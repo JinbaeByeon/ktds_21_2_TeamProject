@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	
 	function addPrjFn(data) {
 
 		$("#prjId").val("");
@@ -49,8 +50,7 @@
 				$("#addPrj").click(
 						function(event) {
 							event.preventDefault();
-							gnr = window.open("${context}/prj/search",
-									"프로젝트 검색", "width=500, height=500");
+							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
 						});
 
 				$("#deletePrj").click(function(event) {
@@ -64,57 +64,66 @@
 				$(".submit").click(
 						function(event) {
 							event.preventDefault();
-							var commentForm = $(this).closest(
-									".form-commentInfo");
-							$.post("${context}/api/knwrpl/create", commentForm
-									.serialize(), function(response) {
+							var commentForm = $(this).closest(".form-commentInfo");
+							$.post("${context}/api/knwrpl/create", commentForm.serialize(), function(response) {
 								console.log(response);
 								if (response.status == "200 OK") {
 									location.reload();
 								} else {
-									alert(response.errorCode + " / "
-											+ response.message);
+									alert(response.errorCode + " / " + response.message);
 								}
 							});
 						});
 
-				$(".replyCnt").click(function() {
+				$(".reply-btn").click(function() {
 					event.preventDefault();
-					$(this).closest(".reply").find(".form-commentInfo").show();
+					var that = $(this).closest(".btns").closest(".comment").find(".form-commentInfo");
+					console.log(that.attr("style"));
+					if(that.attr("style") == "display: block;") {
+						that.hide();
+					}
+					else {
+						that.show();
+					}
 				});
 
 				$(".update-btn").click(
 						function() {
-							$(this).closest(".reply").find(
-									".form-updateComment").show();
+							var updateForm = $(this).closest(".btns").closest(".comment").find(".cnt").find("form");
+							updateForm.find("input.cnt").attr("type", "text");
+							updateForm.find("button").attr("hidden", false);
+							updateForm.find("p").remove();
 						});
 
 				$(".update-submit").click(
 						function() {
 							event.preventDefault();
-							var commentForm = $(this).closest(
-									".form-updateComment");
-							$.post("${context}/api/knwrpl/update", commentForm
-									.serialize(), function(response) {
-								console.log(response);
-								if (response.status == "200 OK") {
-									location.reload();
-								} else {
-									alert(response.errorCode + " / "
-											+ response.message);
-								}
-							});
+							var result = confirm("정말 수정하시겠습니까?")
+							if(result) {
+								var commentForm = $(this).closest(".form-updateComment");
+								$.post("${context}/api/knwrpl/update", commentForm.serialize(), function(response) {
+									console.log(response);
+									if (response.status == "200 OK") {
+										location.reload();
+									} else {
+										alert(response.errorCode + " / " + response.message);
+									}
+								});
+							}
 						});
 
-				$(".x-btn").click(function() {
-					var replyId = $(this).closest(".reply").find(".replyId").val();
-					$.post("${context}/api/knwrpl/delete/" + replyId, function(response) {
-						if (response.status == "200 OK") {
-							location.reload();
-						} else {
-							alert(response.errorCode + " / " + response.message);
-						}
-					});
+				$(".delete-btn").click(function() {
+					var result = confirm("정말 삭제하시겠습니까?")
+					if(result) {
+						var replyId = $(this).closest(".btns").closest(".comment").find(".rplId").val();
+						$(this).closest(".btns").closest(".comment").hide();
+						$.post("${context}/api/knwrpl/delete/" + replyId, function(response) {
+							if (response.status == "200 OK") {
+							} else {
+								alert(response.errorCode + " / " + response.message);
+							}
+						});
+					}
 				});
 
 			});
@@ -124,7 +133,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/cmnCdSidemenu.jsp" />
+			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 
 			<h1>지식 관리 등록</h1>
@@ -178,26 +187,33 @@
 				<input type="hidden" name="knwId" value="${knwVO.knwId}" /> <input
 					type="text" class="cnt" name="cnt" placeholder="댓글을 입력해 주세요." />
 				<button class="submit">등록</button>
+				<hr>
 			</form>
 
 			<div id="comments">
 				<c:if test="${not empty knwVO.rplList}">
 					<c:forEach items="${knwVO.rplList}" var="rplVO">
-						<div class="reply">
-							<input class="replyId" type="hidden" value="${rplVO.rplId}" />
-							<ul>
-								<li class="replyCnt" style="margin-left: ${rplVO.depth * 30}px;">${rplVO.cnt}</li>
-								<li>${rplVO.crtr}</li>
-								<li>${rplVO.crtDt}</li>
-							</ul>
-							<div class="update-btn">
-								<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
-									<button>수정</button>
-								</c:if>
+						<div class="comment" style="margin-left: ${rplVO.depth * 30}px;">
+							<input class="rplId" type="hidden" name="rplId" value="${rplVO.rplId}" />
+							<div class="reply-info">
+								<p class="crtr-info" >${rplVO.crtr}</p>
+								<p class="crtDt-info">${rplVO.crtDt}</p>
 							</div>
-							<div class="x-btn">
+							<div class="cnt">
+								<form class="form-updateComment">
+									<input class="cnt" type="hidden" name="cnt" value="${rplVO.cnt}"/>
+									<input type="hidden" name="rplId" value="${rplVO.rplId}" />
+									<p class="cnt">${rplVO.cnt}</p>
+									<button class="update-submit" hidden="true">완료</button>
+								</form>
+							</div>
+							<div class="btns">
+								<button class="reply-btn">답글</button>
 								<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
-									<button>&#10006;</button>
+									<button class="update-btn">수정</button>
+								</c:if>
+								<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
+									<button class="delete-btn">삭제</button>
 								</c:if>
 							</div>
 							<form class="form-commentInfo" hidden="true">
@@ -206,13 +222,7 @@
 									type="text" class="cnt" name="cnt" placeholder="답글을 입력해 주세요." />
 								<button class="submit">등록</button>
 							</form>
-							<form class="form-updateComment" hidden="true">
-								<input type="hidden" name="knwId" value="${knwVO.knwId}" /> <input
-									type="hidden" name="rplId" value="${rplVO.rplId}" /> <input
-									type="text" class="cnt" name="cnt" placeholder="${rplVO.cnt}"
-									value="${rplVO.cnt}" />
-								<button class="update-submit">완료</button>
-							</form>
+							<hr />
 						</div>
 					</c:forEach>
 				</c:if>

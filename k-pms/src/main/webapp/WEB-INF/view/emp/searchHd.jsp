@@ -55,7 +55,6 @@
 						<th></th>
 						<th>이름</th>
 						<th>성</th>
-						<th>팀명?</th>
 						<th>부서ID</th>
 					</tr>
 				</thead>
@@ -71,7 +70,6 @@
 									</td>
 									<td>${emp.fNm}</td>
 									<td>${emp.lNm}</td>
-									<td>팀명 넣을까? </td>
 									<td>${emp.depId} </td>
 								</tr>
 							</c:forEach>

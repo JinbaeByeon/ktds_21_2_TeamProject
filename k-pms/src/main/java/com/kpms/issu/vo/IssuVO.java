@@ -1,19 +1,18 @@
 package com.kpms.issu.vo;
 
-import com.kpms.common.vo.AbstractVO;
+import com.kpms.common.vo.AbstractPagingVO;
 
 /**
  * ISSU
  */
-public class IssuVO extends AbstractVO {
+public class IssuVO extends AbstractPagingVO {
 
 	private String issuId;
-	private String rqrId;
+	private String reqId;
 	private String issuTtl;
 	private String issuCntnt;
 	private int vwCnt;
 	private String dffclty;
-	private String attch;
 	private String dtlCntnt;
 	private String mnTmMbrId;
 	private String stts;
@@ -27,12 +26,12 @@ public class IssuVO extends AbstractVO {
 		return this.issuId;
 	}
 
-	public void setRqrId(String rqrId) {
-		this.rqrId = rqrId;
+	public String getReqId() {
+		return reqId;
 	}
 
-	public String getRqrId() {
-		return this.rqrId;
+	public void setReqId(String reqId) {
+		this.reqId = reqId;
 	}
 
 	public void setIssuTtl(String issuTtl) {
@@ -65,14 +64,6 @@ public class IssuVO extends AbstractVO {
 
 	public String getDffclty() {
 		return this.dffclty;
-	}
-
-	public void setAttch(String attch) {
-		this.attch = attch;
-	}
-
-	public String getAttch() {
-		return this.attch;
 	}
 
 	public void setDtlCntnt(String dtlCntnt) {
