@@ -30,10 +30,10 @@ public class RestKnwController {
 	private UploadHandler uploadHandler;
 
 	@PostMapping("/api/knw/create")
-	public APIResponseVO doCreateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO, @RequestParam List<MultipartFile> uploadFile) {
+	public APIResponseVO doCreateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO) {
 		knwVO.setCrtr(empVO.getEmpId());
 		knwVO.setMdfyr(empVO.getEmpId());
-		boolean isSuccess = knwService.createOneKnw(knwVO, uploadFile);
+		boolean isSuccess = knwService.createOneKnw(knwVO);
 
 		if (isSuccess) {
 			return new APIResponseVO(APIStatus.OK, "/knw/detail/" + knwVO.getKnwId());
@@ -43,13 +43,12 @@ public class RestKnwController {
 	}
 
 	@PostMapping("/api/knw/update")
-	public APIResponseVO doUpdateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO, List<MultipartFile> uploadFile) {
+	public APIResponseVO doUpdateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO) {
 		knwVO.setMdfyr(empVO.getEmpId());
-
-		boolean isSuccess = knwService.updateOneKnw(knwVO, uploadFile);
+		boolean isSuccess = knwService.updateOneKnw(knwVO);
 
 		if (isSuccess) {
-			return new APIResponseVO(APIStatus.OK);
+			return new APIResponseVO(APIStatus.OK, "/knw/detail/" + knwVO.getKnwId());
 		} else {
 			return new APIResponseVO(APIStatus.FAIL);
 		}
@@ -79,9 +78,9 @@ public class RestKnwController {
 	}
 	
 	@PostMapping("/api/knw/upload")
-	public APIDataResponseVO doUploadFiles(@RequestParam MultipartFile[] uploadFile) {
+	public APIDataResponseVO doUploadFiles(@RequestParam List<MultipartFile> uploadFile) {
 		
-		List<AtchFlVO> fileList = uploadHandler.uploadMultiAtchmnt(Arrays.asList(uploadFile), null);
+		List<AtchFlVO> fileList = uploadHandler.uploadMultiAtchmnt(uploadFile, null);
 		
 		return new APIDataResponseVO(APIStatus.OK, fileList);
 	}

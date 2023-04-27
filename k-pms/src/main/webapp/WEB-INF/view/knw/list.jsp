@@ -79,7 +79,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-
+			<div class="path"> 프로젝트관리 > 프로젝트 목록</div>
 			<div class="search-group">
 				<select id="search-option">
 					<option value="">전체</option>

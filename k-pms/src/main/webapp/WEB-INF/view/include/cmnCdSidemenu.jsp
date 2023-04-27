@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
 <div class="side-menu inline bg-gray">
 	<ul class="menu-list">
-		<li class="menu-item active-item" >ABC</li>
-		<li class="menu-item" >ABC</li>
-		<li class="menu-item" >ABC</li>
-		<li class="menu-item" >ABC</li>	
+		<li class="menu-item" ><a href="${context}/cmncd/list">공통코드 관리</a></li>
 	</ul>
 </div>

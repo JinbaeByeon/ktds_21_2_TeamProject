@@ -102,7 +102,7 @@
 			<result property="mdfyDt" column="KR_MDFY_DT" />
 			<result property="delYn" column="KR_DEL_YN" />
 		</collection>
-		<collection property="flList" ofType="com.kpms.atchfl.vo.AtchFlVO" autoMapping="true">
+		<collection property="atchFlList" ofType="com.kpms.atchfl.vo.AtchFlVO" autoMapping="true">
 			<id property="uuidFlNm" column="UUID_FL_NM" />
 		</collection>
 	</resultMap>
@@ -163,7 +163,6 @@
 		     , TTL = #{ttl}
 		     , CNTNT = #{cntnt}
 		     , PRJ_ID = #{prjId}
-		     , ATCHMNT = #{atchmnt}
 		 WHERE KNW_ID = #{knwId}
 	</update>
 

@@ -20,7 +20,7 @@ public class KnwVO extends AbstractFileVO {
 
 	private PrjVO prjVO; // 프로젝트에 대한 정보(프로젝트 이름, 상태)
 	private List<KnwRplVO> rplList; // 지식관리 댓글
-	private List<AtchFlVO> flList; // 첨부 파일
+	private List<AtchFlVO> atchFlList; // 첨부 파일
 
 	public String getKnwId() {
 		return knwId;
@@ -78,12 +78,12 @@ public class KnwVO extends AbstractFileVO {
 		this.rplList = rplList;
 	}
 
-	public List<AtchFlVO> getFlList() {
-		return flList;
+	public List<AtchFlVO> getAtchFlList() {
+		return atchFlList;
 	}
 
-	public void setFlList(List<AtchFlVO> flList) {
-		this.flList = flList;
+	public void setAtchFlList(List<AtchFlVO> atchFlList) {
+		this.atchFlList = atchFlList;
 	}
 
 }

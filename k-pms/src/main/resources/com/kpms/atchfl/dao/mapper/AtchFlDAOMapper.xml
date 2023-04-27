@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AtchFl">
 
-	<insert id="doCreateNewAtchFl"
+	<insert id="createNewAtchFl"
 			parameterType="com.kpms.atchfl.vo.AtchFlVO">
 		INSERT INTO ATCH_FL
 		 (FRGN_ID
@@ -55,10 +55,10 @@
 		
 	</insert>
 	
-	<update id="doDeleteNewAtchFl"
-			parameterType="com.kpms.atchfl.vo.AtchFlVO">
+	<update id="deleteNewAtchFl"
+			parameterType="string">
 		UPDATE KPMS.ATCH_FL
 		   SET DEL_YN = 'Y'
-		 WHERE FRGN_ID = #{frgnId}
+		 WHERE FRGN_ID = #{_parameter}
 	</update>
 </mapper>

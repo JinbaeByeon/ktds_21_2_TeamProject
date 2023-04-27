@@ -126,7 +126,7 @@
 		<div>
 			<jsp:include page="../include/cmnCdSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-
+			<div class="path"> 시스템 관리 > 공통코드 관리</div>
 			<div class="search-group">
 				<label for="search-keyword">코드유형</label>
 				<select id="cdTypes">
