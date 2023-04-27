@@ -52,13 +52,12 @@
 			, 'N'
 		  FROM DUAL
 		</foreach>
-		
 	</insert>
 	
-	<update id="deleteNewAtchFl"
+	<delete id="deleteAtchFlsByFrgnId"
 			parameterType="string">
-		UPDATE KPMS.ATCH_FL
-		   SET DEL_YN = 'Y'
+		DELETE 
+		  FROM ATCH_FL
 		 WHERE FRGN_ID = #{_parameter}
-	</update>
+	</delete>
 </mapper>

@@ -6,7 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="prj"/>
-<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 
 <!DOCTYPE html>
 <html>
@@ -16,6 +15,11 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+
+		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+			var issuId = $(this).closest("tr").data("issuid");
+			location.href="${context}/issu/detail/"+issuId;
+		});
 		
 		$("#delete_btn").click(function(){
 			var issuId = $("#issuId").val();
@@ -42,24 +46,26 @@
 			location.href = "${context}/issu/create" 
 		});
 		
-		$("#search-btn").click(function(){
-			var issuId =$("#search-keyword").val();
-			location.href = "${context}/issu/list?issuId=" + issuId;
-		})
-		
-		$(".detail_path").click(function(){
-			var issuId =$(this).closest("tr").data("issuid");
-			location.href = "${context}/issu/detail/" + issuId;
-			
-		});
-		
 		$("#all_check").change(function(){
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
-		$(".check_idx").change(function(){
+
+		function checkIndex(){
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
+		}
+
+		$(".grid > table > tbody > tr > td.check").click(function(){
+			var check_idx = $(this).closest("tr").find(".check_idx");
+			check_idx.prop("checked",check_idx.prop("checked")==false);
+			checkIndex();
+		});
+		$(".check_idx").change(function(){
+			checkIndex();
+		});
+		$(".check_idx").click(function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
 		});
 		
 		
@@ -110,8 +116,14 @@
 				</div>
 				
 				<div class="grid">
-					<div class="grid-count align-right">
-						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
+					<div class="grid-count">
+						<div class="align-left left">
+							<button id="delete_all_btn">삭제</button>
+							<button id="create_btn">추가</button>
+						</div>
+						<div class="align-right right">
+							총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
+						</div>
 					</div>
 					<table>
 						<thead>
@@ -144,7 +156,7 @@
 											data-mntmmbrid="${issu.mnTmMbrId}"
 											data-stts="${issu.stts}"
 											data-crtdt="${issu.crtDt}">
-											<td>
+											<td class="check">
 												<input type="checkbox" class="check_idx" value="${issu.issuId}">
 											</td>
 											<td>${issu.rnum}</td>
@@ -152,7 +164,6 @@
 											<td>${issu.issuTtl}</td>
 											<td>${issu.crtr}</td>
 											<td>${issu.issuCntnt}</td>
-											<td>${issu.prcsStts}</td>
 											<td>${issu.vwCnt}</td>
 											<td>${issu.dffclty}</td>
 											<td>${issu.mnTmMbrId}</td>
@@ -171,10 +182,6 @@
 							</c:choose>
 						</tbody>
 					</table>
-					<div class="align-right mt-10">
-						<button id="create_btn" class="btn-primary">추가</button>
-						<button id="delete_all_btn" class="btn-delete">삭제</button>
-					</div>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>

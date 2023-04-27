@@ -16,4 +16,6 @@ public interface IssuService {
 	public boolean updateIssuVwCnt(String issuId);
 	
 	public boolean deleteOneIssu(String issuId);
+
+	public boolean deleteIssu(List<String> issuId);
 }

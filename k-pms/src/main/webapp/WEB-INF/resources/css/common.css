@@ -882,3 +882,8 @@ input::-webkit-inner-spin-button {
 	margin:0;
 }
 
+div.button_btm {
+	position: absolute;
+	right: 0;
+	margin-right: 10px;
+}

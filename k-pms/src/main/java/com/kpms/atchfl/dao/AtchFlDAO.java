@@ -9,4 +9,5 @@ public interface AtchFlDAO {
 	public int createNewAtchFl(AtchFlVO atchFlVO);
 	public int deleteNewAtchFl(String frgnId);
 	public int createNewAtchFls(List<AtchFlVO> fileList);
+	public int deleteAtchFlsByFrgnId(String frgnId);
 }
