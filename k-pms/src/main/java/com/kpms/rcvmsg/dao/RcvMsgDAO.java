@@ -26,4 +26,6 @@ public interface RcvMsgDAO {
 	public RcvMsgVO readOneRcvMsg(String msgId);
 	
 	public List<RcvMsgVO> readAllDelMsg(MsgSearchVO msgSearchVO);
+	
+	public int restoreRcvMsg(List<String> rcvMsgIdList);
 }

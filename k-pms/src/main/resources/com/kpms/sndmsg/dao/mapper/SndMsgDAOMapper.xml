@@ -116,4 +116,30 @@
 		  #{msgId}
 		 </foreach>
 	</update>
+	
+	<delete id = "deleteTrashMsg"
+			parameterType="arraylist">
+		DELETE 
+		  FROM SND_MSG
+		 WHERE MSG_ID IN 
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+	 	 #{msgId}
+		 </foreach> 
+	</delete>
+	
+	<select id="readOneSndMsgByRcvMsgId"
+			parameterType="string"
+			resultType="com.kpms.sndmsg.vo.SndMsgVO">
+		SELECT CRT_DT,
+			   CRTR,
+			   USE_YN,
+			   DEL_YN,
+			   TTL,
+			   CNTNT,
+			   ATTCH
+		  FROM SND_MSG
+		 WHERE MSG_ID = (SELECT SND_MSG_ID
+		 				   FROM RCV_MSG
+		 				  WHERE MSG_ID = #{_parameter})
+	</select>
 </mapper>

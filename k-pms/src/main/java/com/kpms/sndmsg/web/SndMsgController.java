@@ -41,8 +41,14 @@ public class SndMsgController {
 		return "sndmsg/list";
 	} 
 
-	@GetMapping("/sndmsg/send") // 이게필요한지
-	public String viewMsgSndPage(Model model, SndMsgVO sndMsgVO) {
+	@GetMapping("/sndmsg/send")
+	public String viewMsgSndPage(Model model, String sndMsgId) {
+		if(sndMsgId != null) {
+			SndMsgVO sndMsgVO = sndMsgService.readOneSndMsgByRcvMsgId(sndMsgId);
+			sndMsgVO.setTtl("RE: " + sndMsgVO.getTtl());
+			sndMsgVO.setCntnt("\n-----Original Message-----\n" + sndMsgVO.getCntnt());
+			model.addAttribute("sndMsgVO", sndMsgVO);
+		}
 		
 		return "sndmsg/send";
 	}

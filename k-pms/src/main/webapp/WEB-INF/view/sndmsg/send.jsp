@@ -13,9 +13,6 @@
 	var ajaxUtil = new AjaxUtil();
 	
 	$().ready(function() {
-		$("#my_pc").click(function() {
-			
-		});
 		
 		$("#rcvr").keydown(function(e){
 			if(e.keyCode == 13){
@@ -142,7 +139,7 @@
 				var fileNm = $(this).data("uuid");
 				fileNames.push(fileNm);
 			});
-			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete/file", function(response) {
 				$("#file_list").find("li").remove();
 				fileCnt=0;
 				checkFile();
@@ -192,7 +189,7 @@
 		remove.click(function(e){
 			var item = $(this).closest("li");
 			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete/file", function(response) {
 				item.remove();
 				--fileCnt;
 				checkFile();
@@ -224,6 +221,7 @@
 			$(".file_area").find(".file_drag").show();
 		}
 	}
+	 //내피씨연동ㅇㄹㅇ널ㄷㄴㄷㄹㄴ두래너리나ㅢㅡㄱㄴ르힏
 	 
 </script>
 </head>
@@ -235,6 +233,7 @@
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path">쪽지 > 쪽지보내기</div>
 			<form id="create-form">
+				<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
 				<div class="create-group">
 					<label for="rcvr">받는사람</label>
 					<div>
@@ -270,11 +269,11 @@
 					<input type="file" id="files" multiple/>
 				</div>
 				<div class="create-group">
-					<textarea name="cntnt" class="msg-cntnt"></textarea>
+					<textarea name="cntnt" class="msg-cntnt">${sndMsgVO.cntnt}</textarea>
 				</div>
 			</form>
 			<div class="align-right">
-				<button id="new_btn" class="btn-primary">전송</button>
+				<button id="send_btn" class="btn-primary">전송</button>
 			</div>
 		</div>
 	</div>

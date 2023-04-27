@@ -56,7 +56,12 @@ public class RcvMsgController {
 		
 		List<RcvMsgVO> rcvMsgList = rcvMsgService.readAllDelMsg(msgSearchVO);
 		model.addAttribute("rcvMsgList", rcvMsgList);
-		
+		if(!rcvMsgList.isEmpty()) {
+			model.addAttribute("lastPage",rcvMsgList.get(0).getLastPage());
+		}
+		model.addAttribute("pageNo",msgSearchVO.getPageNo());
+		model.addAttribute("pageCnt",msgSearchVO.getPageCnt());
+		model.addAttribute("viewCnt",msgSearchVO.getViewCnt());
 		return "rcvmsg/trash";
 	}
 	

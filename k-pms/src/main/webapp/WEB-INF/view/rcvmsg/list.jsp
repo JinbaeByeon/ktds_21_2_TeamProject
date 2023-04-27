@@ -61,23 +61,13 @@
 		
 		$("#reply_btn").click(function() {
 			// 1. 체크된 VALUE(rcvmsg.msgid)를 가져온다.
-			// 2. location.href = "${context}/sndmsg/send/"+rcvmsg.msgid;
 			
-			var form = $("<form></form>")
+			var msgId = $(".check_idx:checked").val();
 			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/rcvmsg/send/",form.serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload();
-				} else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		}); // 안에있는내용도 같이 보내기
+			// 1. form에 체크된 메시지의 sndMsgId를 담아서 보낸다. (데이터 중 sndMsgId가 없다면 넣어줘야함)
+			// 2. 끝
+			location.href = "${context}/sndmsg/send?sndMsgId="+msgId;
+		}); 
 		
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
@@ -121,24 +111,6 @@
 			checkIndex();
 		});
 		
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 쪽지가 없습니다.");
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
-				location.reload(); // 새로고침
-			});
-		});
 	});
 	function movePage(pageNo) {
 		
@@ -169,7 +141,7 @@
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path">쪽지 > 받은쪽지함</div>
 			<form>
-				<div class="search-group">name은 뭐냐. 아니다. controller로 넘어가는 form 내의 input의 name은 controller에서의 파라미터 명과 같아야함
+				<div class="search-group">
 					<select class="search-option" id="searchType" name="searchType">
 						<option value="id" ${searchType eq "id" ? "selected" : ""}>ID</option>
 						<option value="sndrNm" ${searchType eq "sndrNm" ? "selected" : ""}>발신자명</option>
@@ -182,11 +154,11 @@
 				<div class="grid-count">
 					<div class="align-left left">
 						<button id="read_btn" class="btn-read" disabled>읽음</button>
-						<button id="reply_btn" class="btn-reply" onclick="location.href='${context}/sndmsg/send'" disabled>답장</button>
+						<button id="reply_btn" class="btn-reply" disabled>답장</button>
 						<button id="delete_btn" class="btn-delete" disabled>삭제</button>
 					</div>
 					<div class="align-right right">
-						총 ${rcvList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건
+						총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건
 					</div>
 				</div>
 				<table>

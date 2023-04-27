@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.rcvmsg.service.RcvMsgService;
+import com.kpms.rcvmsg.vo.MsgVOList;
+import com.kpms.rcvmsg.vo.RcvMsgVO;
 
 @RestController
 public class RestRcvMsgController {
@@ -42,8 +44,8 @@ public class RestRcvMsgController {
 	}
 
 	@PostMapping("api/msg/delete/trash")
-	public APIResponseVO doDeleteTrashMsg(@RequestParam List<String> rcvMsgIdList) {
-		boolean deleteResult = rcvMsgService.deleteTrashMsg(rcvMsgIdList);
+	public APIResponseVO doDeleteTrashMsg(MsgVOList msgVOList) {
+		boolean deleteResult = rcvMsgService.deleteTrashMsg(msgVOList);
 
 		if (deleteResult) {
 			return new APIResponseVO(APIStatus.OK);
@@ -55,11 +57,23 @@ public class RestRcvMsgController {
 	@PostMapping("/api/rcvmsg/update")
 	public APIResponseVO doUpdateRcvMsg(@RequestParam List<String> rcvMsgIdList) {
 		boolean updateResult = rcvMsgService.updateRcvMsgReadByRcvMsgIdList(rcvMsgIdList);
-
+		
 		if (updateResult) {
 			return new APIResponseVO(APIStatus.OK);
 		} else {
 			return new APIResponseVO(APIStatus.FAIL);
+		}
+	}
+	
+	@PostMapping("/api/msg/restore")
+	public APIResponseVO doRestoreRcvMsg(MsgVOList msgVOList) {
+		boolean restoreResult = rcvMsgService.restoreRcvMsg(msgVOList); {
+			
+			if (restoreResult) {
+				return new APIResponseVO(APIStatus.OK);
+			} else {
+				return new APIResponseVO(APIStatus.FAIL);
+			}
 		}
 	}
 }

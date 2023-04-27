@@ -12,24 +12,59 @@
 	$().ready(function() {
 		$("#restore_btn").click(function() {
 			var form = $("<form></form>")
-		})
+			var checkIdx = $(".check_idx:checked");
+			if(checkIdx.length == 0){
+				alert("체크된 쪽지가 없습니다.");
+				return;
+			}
+			var idx = 0;
+			checkIdx.each(function() {
+				var msgId = $(this).val();
+				var type = $(this).closest("tr").data("type");
+				form.append("<input type='hidden' name='rcvMsgVOList["+idx+"].msgId' value='"+ msgId +"'>");
+				form.append("<input type='hidden' name='rcvMsgVOList["+idx++ +"].type' value='"+ type +"'>");
+			});
+			if(!confirm("선택된 쪽지를 복원하시겠습니까?")) {
+				return;
+			}
+
+			$.post("${context}/api/msg/restore",form.serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.reload();
+				}
+				else {
+					alert(response.status == "500");
+				}
+				
+				$.post("${context}/api/msg/restore",form.serialize(), function(response) {
+					if (response.status == "200 OK") {
+						location.reload();
+					}
+					else {
+						alert(response.status == "500");
+					}
+				});
+			})
+		});
 		
 		$("#delete_btn").click(function() {
 			var form = $("<form></form>")
 			var checkIdx = $(".check_idx:checked");
 			if(checkIdx.length == 0){
-				alert("체크된 메시지가 없습니다.");
+				alert("체크된 쪽지가 없습니다.");
 				return;
 			}
-			
+			var idx = 0;
 			checkIdx.each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
+				var msgId = $(this).val();
+				var type = $(this).closest("tr").data("type");
+				form.append("<input type='hidden' name='rcvMsgVOList["+idx+"].msgId' value='"+ msgId +"'>");
+				form.append("<input type='hidden' name='rcvMsgVOList["+idx++ +"].type' value='"+ type +"'>");
 			});
 			if(!confirm("휴지통의 쪽지를 지우면 지워진 쪽지들은 복구할 수 없습니다.\n쪽지를 삭제하시겠습니까?")) {
 				return;
 			}
-			//snd와 rcv같이 삭제할수있는건 어떻게해야하느닞
+
 			$.post("${context}/api/msg/delete/trash",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
@@ -39,14 +74,24 @@
 				}
 			});
 		});
-		
-		function checkIndex() {
+		$("#all_check").change(function() {
+			$(".check_idx").prop("checked", $(this).prop("checked"));
+			checkBtn();
+		});
+		function checkIndex(){
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
-			checkBtn();
 		}
-			
+		$(".check_idx").change(function(){
+			checkIndex();
+		});
+		
+		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+			var check_idx = $(this).closest("tr").find(".check_idx");
+			check_idx.prop("checked",check_idx.prop("checked")==false);
+			checkIndex();
+		});
 			
 		$("#delete_all_btn").click(function() {
 			var checkLen = $(".check_idx:checked").length;
@@ -82,7 +127,8 @@
 						<button id="delete_btn" class="btn-delete">영구삭제</button>
 						<button id="restore_btn" class="btn-restore">복원</button>
 					</div>
-					<div class="align-right right">총 ${msgList.size() > 0 ? msgList.get(0).totalCount : 0}건
+					<div class="align-right right">
+					총 ${rcvMsgList.size() > 0 ? rcvMsgList.size() : 0}건
 					</div>
 				</div>
 				<table>
@@ -99,7 +145,9 @@
 							<c:when test="${not empty rcvMsgList}">
 								<c:forEach items="${rcvMsgList}" var="rcvMsg">
 									<tr data-ttl="${rcvMsg.sndMsgVO.ttl}"
-										data-crtr="${rcvMsg.crtr}" data-crtdt="${rcvMsg.crtDt}">
+										data-crtr="${rcvMsg.crtr}"
+										data-crtdt="${rcvMsg.crtDt}"
+										data-type="${rcvMsg.type}">
 										<td class="check"><input type="checkbox"
 											class="check_idx" value="${rcvMsg.msgId}" /></td>
 										<td>${rcvMsg.sndMsgVO.ttl}</td>

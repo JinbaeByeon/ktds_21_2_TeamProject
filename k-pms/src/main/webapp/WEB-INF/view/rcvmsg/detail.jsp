@@ -18,7 +18,7 @@
 			
 			$(".check_idx:checked").each(function() {
 				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
+				form.append("<input type='hidden' name='msgId' value='"+ $(this).val() +"'>");
 			});
 			
 			$.post("${context}/api/rcvmsg/send/",form.serialize(), function(response) {
