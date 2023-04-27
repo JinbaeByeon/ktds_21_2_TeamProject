@@ -26,7 +26,7 @@ public class IssuServiceImpl implements IssuService {
 			return false;
 		}
 		List<AtchFlVO> fileList = issuVO.getAtchFlList();
-		if(!fileList.isEmpty()) {
+		if(fileList != null && !fileList.isEmpty()) {
 			fileList.forEach(file-> {
 				file.setCrtr(issuVO.getCrtr());
 				file.setFrgnId(issuVO.getIssuId());
@@ -53,7 +53,7 @@ public class IssuServiceImpl implements IssuService {
 		List<AtchFlVO> fileList = issuVO.getAtchFlList();
 		atchFlDAO.deleteAtchFlsByFrgnId(issuVO.getIssuId());
 		
-		if(!fileList.isEmpty()) {
+		if(fileList != null && !fileList.isEmpty()) {
 			fileList.forEach(file-> {
 				file.setCrtr(issuVO.getMdfyr());
 				file.setFrgnId(issuVO.getIssuId());

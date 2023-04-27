@@ -40,7 +40,7 @@ public class SndMsgServiceImpl implements SndMsgService {
 			throw new APIException(APIStatus.FAIL, "쪽지 발신을 실패하였습니다.");
 		}
 		
-		if(!fileList.isEmpty()) {
+		if(fileList != null && !fileList.isEmpty()) {
 			fileList.forEach(file-> {
 				file.setCrtr(sndMsgVO.getCrtr());
 				file.setFrgnId(sndMsgVO.getMsgId());
