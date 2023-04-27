@@ -96,7 +96,7 @@
 		});
 		
 		$("#update_btn").click(function(){
-			var reqId = $("#reqId").val();
+			var reqId = data2;
 			location.href = "${context}/req/update/" + reqId;
 		});
 		
@@ -173,6 +173,33 @@
 			});
 		});
 		$(".remove").click(removeFn);
+		
+		
+		$("#issu_create_btn").click(function(){
+			location.href="${context}/issu/create";
+		});
+		$("#issu_delete_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("삭제할 요구사항이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='issuId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/issu/delete", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
 	});
 	var fileCnt=${reqVO.atchFlList.size() > 0 ? reqVO.atchFlList.size() : 0};
 	
@@ -241,99 +268,72 @@
 				<div class="path"> 상세 정보</div>
 				<div class="grid-detail">
 					<form id="detail_form" >
-						<!-- isModify == true => 수정(update) -->
-						<!-- isModify == false => 등록(insert) -->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline">
-							<label for="reqId" style="width: 180px;">요구사항 ID</label>
-							<input type="text" id="reqId"  name="reqId" value="" readonly />
-						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqTtl" style="width: 180px;">제목</label>
-							<input type="text" id="reqTtl"  name="reqTtl" value="" readonly />
-						</div>
-						<div class="input-group inline">
-							<label for="prrty" style="width: 180px;">우선순위</label>
-							<input type="text" id="prrty"  name="prrty" value="" readonly/>
-						</div>
-						<div class="input-group inline">
-							<label for="strtDt" style="width: 180px;">시작일</label>
-							<input type="date" id="strtDt"  name="strtDt" value="" readonly/>
-						</div>
-						<div class="input-group inline">
-							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<input type="date" id="expctEndDt"  name="expctEndDt" value="" readonly/>
-						</div>
-						<div class="input-group inline">
-							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<input type="text" id="prjId"  name="prjId" value="" readonly />
-						</div>
-						<div class="input-group inline">
-							<label for="prjId" style="width: 180px;">담당개발자</label>
-							<input type="text" id="mnDvlpr"  name="mnDvlpr" value="" readonly/>
-						</div>
-						<div class="input-group inline">
-							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value="" readonly/>
+							<div>${reqVO.reqTtl}</div>
 						</div>
 						<div class="create-group">
-							<label for="files" >첨부파일</label>
+							<label for="prrty" style="width: 180px;">우선순위</label>
+							<div>${reqVO.prrty}</div>
+						</div>
+						<div class="create-group">
+							<label for="strtDt" style="width: 180px;">시작일</label>
+							<div>${reqVO.strtDt}</div>
+						</div>
+						<div class="create-group">
+							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
+							<div>${reqVO.expctEndDt}</div>
+						</div>
+						<div class="create-group">
+							<label for="prjNm" style="width: 180px;">프로젝트명</label>
+							<div>${reqVO.reqPrjVO.prjNm}</div>
+						</div>
+						<div class="create-group">
+							<label for="mnDvlpr" style="width: 180px;">담당개발자</label>
+							<div>${reqVO.mnDvlpr}</div>
+						</div>
+						<div class="create-group">
+							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
+							<div>${reqVO.reqCnfrNm}</div>
+						</div>
+						<div class="create-group">
+							<label for="files" style="width: 180px;">첨부파일</label>
 							<div class="file_area">
-								<div class="file_upload">
-									<button id="add_files">+</button>
+								<div>
+									<div class="file_name">파일명</div>
 								</div>
-								<div class="align-center">
-									<p class="file_drag">파일을 마우스로 끌어 오세요</p>
-									<div class="file_attachment" hidden="hidden">
-										<div>
-											<div class="remove_all">x</div>
-											<div class="file_name">파일명</div>
-											<div class="file_size">용량</div>
-										</div>
-										<ul id="file_list">
-											<c:if test="${not empty reqVO.atchFlList}">
-											<c:forEach items="${reqVO.atchFlList}" var="atchFl">
-												<li data-uuid='${atchFl.uuidFlNm}'
-													data-org='${atchFl.orgFlNm}'
-													data-sz='${atchFl.flSz}'
-													data-ext='${atchFl.flExt}'>
-													<div>
-														<span class='remove'>x</span>
-														<span class='file_name'>${atchFl.orgFlNm}</span>
-														<c:if test="${atchFl.flSz < 1024*1024}">
-															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
-														</c:if>
-														<c:if test="${atchFl.flSz >= 1024*1024}">
-															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
-														</c:if>
-													</div>
-												</li>
-											</c:forEach>
-										</c:if>
-										</ul>
-									</div>
-								</div>
+								<ul id="file_list">
+									<c:if test="${not empty reqVO.atchFlList}">
+									<c:forEach items="${reqVO.atchFlList}" var="atchFl">
+										<li data-uuid='${atchFl.uuidFlNm}'
+											data-org='${atchFl.orgFlNm}'
+											data-sz='${atchFl.flSz}'
+											data-ext='${atchFl.flExt}'>
+											<div>
+												<span class='file_name'>${atchFl.orgFlNm}</span>
+											</div>
+										</li>
+									</c:forEach>
+									</c:if>
+								</ul>
 							</div>
 							<input type="file" id="files" multiple/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}" readonly/>
-							<select name="option" onFocus="this.initialSelect = this.selectedIndex;" onChange="this.selectedIndex = this.initialSelect;" id="prcsStts-select"  name="prcsStts" ></select>
+							<div>${reqVO.prcsCdNm}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}" readonly/>
-							<select name="option" onFocus="this.initialSelect = this.selectedIndex;" onChange="this.selectedIndex = this.initialSelect;" id="tskStts-select"  name="tskStts" ></select>
+							<div>${reqVO.tskCdNm}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}" readonly/>
-							<select name="option" onFocus="this.initialSelect = this.selectedIndex;" onChange="this.selectedIndex = this.initialSelect;" id="tstRslt-select"  name="tstRslt" ></select>
+							<div>${reqVO.rsltCdNm}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
-							<textarea id="dtlReq" name="dtlReq"  readonly>${req.dtlReq}</textarea>
+							<div>${reqVO.dtlReq}</div>
 						</div>
 					</form>		
 				</div>
@@ -341,58 +341,73 @@
 					<button id="update_btn" class="btn-primary">수정</button>
 					<button id="back-btn" class="btn-delete">뒤로</button>
 				</div>	
-				<div>
-				<div>이슈잇슈
-					<button>추가</button>
-					<button>삭제</button>
+				<div class="create-group">
+				<label for="issue" style="width: 180px;">이슈</label>
 				</div>	
-				<table>
-					<thead>
-						<tr>
-							<th>직원ID</th>
-							<th>팀</th>
-							<th>성</th>
-							<th>이름</th>
-							<th>권한</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:choose>
-							<c:when test="${not empty reqList}">
-								<c:forEach items="${reqList}"
-										   var="req">
-									<tr data-reqid="${req.reqId}"
-										data-reqttl="${req.reqTtl}"
-										data-rsltcdnm="${req.rsltCdNm}"
-										data-useyn="${req.useYn}"
-										data-crtr="${req.crtr}"
-										data-crtdt="${req.crtDt}"
-										data-mdfyr="${req.mdfyr}"
-										data-mdfydt="${req.mdfyDt}"
-										data-delyn="${req.delYn}">
-										<td>
-											<input type="checkbox" class="check_idx" value="${req.reqId}">
+				<div class="grid">
+					<div class="grid-count align-right">
+						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="all_issu_check"/></th>							
+								<th>순번</th>
+								<th>이슈제목</th>
+								<th>등록팀원</th>
+								<th>이슈내용</th>
+								<th>조회수</th>
+								<th>난이도</th>
+								<th>담당팀원</th>
+								<th>관리상태</th>
+								<th>등록일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${not empty issuList}">
+									<c:forEach items="${issuList}"
+											   var="issu">
+										<tr data-issuid="${issu.issuId}"
+											data-issuttl="${issu.issuTtl}"
+											data-crtr="${issu.crtr}"
+											data-vwcnt="${issu.vwCnt}"
+											data-issucntnt="${issu.issuCntnt}"
+											data-dffclty="${issu.dffclty}"
+											data-mntmmbrid="${issu.mnTmMbrId}"
+											data-stts="${issu.stts}"
+											data-crtdt="${issu.crtDt}"
+											data-mdfyr="${issu.mdfyr}"
+											data-mdfydt="${issu.mdfyDt}"
+											data-useyn="${issu.useYn}"
+											data-delyn="${issu.delYn}">
+											<td>
+												<input type="checkbox" class="check_idx" value="${issu.issuId}">
+											</td>
+											<td>${issu.rnum}</td>
+											<td>${issu.issuTtl}</td>
+											<td>${issu.crtr}</td>
+											<td>${issu.issuCntnt}</td>
+											<td>${issu.vwCnt}</td>
+											<td>${issu.dffclty}</td>
+											<td>${issu.mnTmMbrId}</td>
+											<td>${issu.stts}</td>
+											<td>${issu.crtDt}</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="10" class="no-items">
+											등록된 이슈가 없습니다.
 										</td>
-										<td>${req.rnum}</td>
-										<td>${req.prcsCdNm}</td>
-										<td>${req.tskCdNm}</td>
-										<td>${req.strtDt}</td>
-										<td>${req.expctEndDt}</td>
-										<td>${req.prjId}</td>
-										<td>${req.prrty}</td>
 									</tr>
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<tr>
-									<td colspan="10" class="no-items">
-										등록된 이슈가 없습니다.
-									</td>
-								</tr>
-							</c:otherwise>
-						</c:choose>
-					</tbody>
-				</table>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+					<button id="issu_create_btn">추가</button>
+					<button id="issu_delete_btn">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

@@ -15,20 +15,10 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
-	var reqWindow;
-	function addReqFn(req){
-		reqWindow.close();
-		var reqId = $("#reqId");
-		reqId.val(req.reqid);
-		var reqTtl = $("#reqTtl");
-		reqTtl.text(req.reqttl);
-	}
 	$().ready(function(){
+		checkFile();
 		var empId = '${sessionScope.__USER__.empId}';
-		$("#reqId").click(function(e){
-			reqWindow = window.open("${context}/req/search?empId="+empId,"요구사항 검색","width=500,height=500");
-		});
-		
+
 		$("#delete_btn").click(function(){
 			location.href = "${context}/issu/list";
 		});
@@ -43,7 +33,7 @@
 			$("#all_check").prop("checked", count == checkCount);
 		});
 		
-		$("#new_btn").click(function(){
+		$("#save_btn").click(function(){
 			var form = $("#create-form");
 			
 			var fileList = $(".file_attachment").find("li");
@@ -67,7 +57,7 @@
 				form.append(inputExt);
 			});
 			
-			ajaxUtil.upload("#create-form","${context}/api/issu/create",function(response){
+			ajaxUtil.upload("#create-form","${context}/api/issu/update",function(response){
 				if (response.status != "200 OK") {
 					alert(response.errorCode + " / " + response.message);
 				}
@@ -145,8 +135,10 @@
 				$("#files").val("");
 			});
 		});
+		$(".remove").click(removeFn);
 	});
-	var fileCnt=0;
+	var fileCnt=${issuVO.atchFlList.size() > 0 ? issuVO.atchFlList.size() : 0};
+	
 	function addFile(file){
 		var fileList = $("#file_list");
 		
@@ -164,15 +156,7 @@
 		li.append(div);
 		
 		var remove =  $("<span class='remove'>x</span>");
-		remove.click(function(e){
-			var item = $(this).closest("li");
-			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/atchfl/delete", function(response) {
-				item.remove();
-				--fileCnt;
-				checkFile();
-			});
-		});
+		remove.click(removeFn);
 		
         var nm = "<span class='file_name'>"+fileNm+"</span>";
         fileSz = (fileSz / 1024).toFixed(2);
@@ -187,6 +171,16 @@
         div.append(nm);
         div.append(sz);
         ++fileCnt;
+	};
+	function removeFn(){
+		var item = $(this).closest("li");
+		console.log(item);
+		ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/atchfl/delete", function(response) {
+			item.remove();
+			--fileCnt;
+			checkFile();
+		});
+		
 	};
 	function checkFile(){
 		var fileList = $("#file_list");
@@ -210,18 +204,19 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 이슈 등록</div>
 				<form id="create-form">
-				<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
+				<input type="hidden" name="issuId" value="${issuVO.issuId}"/>
+				<input type="hidden" name="mdfyr" value="${sessionScope.__USER__.empId}"/>
 					<div class="create-group">
 						<label for="issuTtl">제목</label> 
-						<input type="text" id="issuTtl" name="issuTtl" class="grow-1"/>
+						<input type="text" id="issuTtl" name="issuTtl" class="grow-1" value="${issuVO.issuTtl}"/>
 					</div>
 					<div class="create-group">
 						<label for="issuCntnt">설명</label>
-						<input type="text" id="issuCntnt" name="issuCntnt" class="grow-1"/>
+						<input type="text" id="issuCntnt" name="issuCntnt" class="grow-1" value="${issuVO.issuCntnt}"/>
 					</div>
 					<div class="create-group">
 						<label for="reqId">요구사항ID</label>
-						<input type="text" id="reqId" name="reqId" readonly/>
+						<input type="text" id="reqId" name="reqId" value="${issuVO.reqId}" disabled/>
 						<span id="reqTtl"></span>
 					</div>
 					<div class="create-group">
@@ -246,7 +241,27 @@
 										<div class="file_name">파일명</div>
 										<div class="file_size">용량</div>
 									</div>
-									<ul id="file_list"></ul>
+									<ul id="file_list">
+										<c:if test="${not empty issuVO.atchFlList}">
+											<c:forEach items="${issuVO.atchFlList}" var="atchFl">
+												<li data-uuid='${atchFl.uuidFlNm}'
+													data-org='${atchFl.orgFlNm}'
+													data-sz='${atchFl.flSz}'
+													data-ext='${atchFl.flExt}'>
+													<div>
+														<span class='remove'>x</span>
+														<span class='file_name'>${atchFl.orgFlNm}</span>
+														<c:if test="${atchFl.flSz < 1024*1024}">
+															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+														</c:if>
+														<c:if test="${atchFl.flSz >= 1024*1024}">
+															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+														</c:if>
+													</div>
+												</li>
+											</c:forEach>
+										</c:if>
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -254,12 +269,12 @@
 					</div>
 					<div class="create-group">
 						<label for="dtlCntnt">상세내용</label>
-						<textarea name="dtlCntnt" id="dtlCntnt"></textarea>
+						<textarea name="dtlCntnt" id="dtlCntnt">${issuVO.dtlCntnt}</textarea>
 					</div>
 				</form>
 					
 				<div class="align-right">
-					<button id="new_btn" class="btn-primary">등록</button>
+					<button id="save_btn" class="btn-primary">저장</button>
 					<button id="delete_btn" class="btn-delete">취소</button>
 				</div>		
 			<jsp:include page="../include/footer.jsp" />

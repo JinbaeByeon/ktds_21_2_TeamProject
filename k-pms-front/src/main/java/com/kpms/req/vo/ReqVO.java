@@ -65,6 +65,7 @@ public class ReqVO extends AbstractPagingVO {
 	private String reqCnfrNm;
 	private String reqTtl;
 	
+	
 	private String rsltCdNm;
 	private String tskCdNm;
 	private String prcsCdNm;
@@ -73,6 +74,7 @@ public class ReqVO extends AbstractPagingVO {
 	private PrjVO reqPrjVO;
 	private ReqCnfrVO reqCnfVO;
 	private ReqTstrVO reqTstVO;
+	
 	
 	private List<AtchFlVO> atchFlList;
 	

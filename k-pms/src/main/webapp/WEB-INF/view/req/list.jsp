@@ -16,62 +16,14 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
-			
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			
-			$("#reqId").val(data.reqid);
-			$("#dtlReq").val(data.dtlreq);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#strtDt").val(data.strtdt);
-			$("#expctEndDt").val(data.expctenddt);
-			$("#attch").val(data.attch);
-			$("#prjId").val(data.prjid);
-			$("#mnDvlpr").val(data.mndvlpr);
-			$("#tstRslt").val(data.tstrslt);
-			$("#tskStts").val(data.tskstts);
-			$("#prcsStts").val(data.prcsstts);
-			$("#prrty").val(data.prrty);
-			$("#reqTtl").val(data.reqttl);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
-		});
-		
-		$("#delete_btn").click(function(){
-			var reqId = $("#reqId").val();
-			if(reqId == ""){
-				alert("선택된 요구사항이 없습니다.");
-				return;
-			}
-			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			}
-			
-			$.get("${context}/api/req/delete/" + reqId, function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			})
-		});
 					
 		$("#create_btn").click(function(){
 			location.href = "${context}/req/create" 
 		});
 		
 		$("#search-btn").click(function(){
-			var reqId =$("#search-keyword").val();
-			location.href = "${context}/req/list?reqId=" + reqId;
-			
+			var reqTtl =$("#search-keyword").val();
+			location.href = "${context}/req/list?reqTtl=" + reqTtl;
 		})
 		
 		$(".detail_path").click(function(){
@@ -131,7 +83,7 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 요구사항</div>
 				<div class="search-group">
-					<label for="search-keyword">요구사항ID</label>
+					<label for="search-keyword">요구사항제목</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${reqVO.reqId}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
@@ -152,6 +104,7 @@
 								<th>시작일</th>
 								<th>종료예정일</th>
 								<th>프로젝트ID</th>
+								<th>프로젝트명</th>
 								<th>우선순위</th>
 							</tr>
 						</thead>
@@ -189,13 +142,14 @@
 											<td>${req.strtDt}</td>
 											<td>${req.expctEndDt}</td>
 											<td>${req.prjId}</td>
+											<td>${req.reqPrjVO.prjNm}</td>
 											<td>${req.prrty}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="10" class="no-items">
+										<td colspan="11" class="no-items">
 											등록된 요구사항이 없습니다.
 										</td>
 									</tr>

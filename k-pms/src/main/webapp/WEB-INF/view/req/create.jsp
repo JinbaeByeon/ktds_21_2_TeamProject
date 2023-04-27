@@ -15,7 +15,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
-
 	$().ready(function(){
 			var empId = '${sessionScope.__USER__.empId}';
 		$("#new_btn").click(function(){
@@ -51,9 +50,7 @@
 			var fileList = $(".file_attachment").find("li");
 			console.log(fileList);
 			fileList.each(function(){
-				alert("!!");
 				var form = $("#detail_form");
-				
 				var fileNm = $(this).data("org");
 				var uuidNm = $(this).data("uuid");
 				var fileSz = $(this).data("sz");
@@ -86,10 +83,8 @@
 		});
 		
 		$("#search-btn").click(function(){
-			var reqId =$("#search-keyword").val();
-			location.href = "${context}/req/list?reqId=" + reqId;
-			/* movePage(0) */
-			
+			var reqNm =$("#search-keyword").val();
+			location.href = "${context}/req/list?reqNm=" + reqNm;
 		})
 		
 		$("#prj_search").click(function(event){
@@ -146,7 +141,7 @@
 		$("#files").change(function(e){
 			var files = $(this)[0].files;
 			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -164,7 +159,7 @@
 		 	
 			var files = event.dataTransfer.files;
 			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -181,7 +176,7 @@
 		 	
 			var files = event.dataTransfer.files;
 			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -199,7 +194,7 @@
 				var fileNm = $(this).data("uuid");
 				fileNames.push(fileNm);
 			});
-			ajaxUtil.deleteFile(fileNames, "${context}/api/req/file", function(response) {
+			ajaxUtil.deleteFile(fileNames, "${context}/api/atchfl/delete", function(response) {
 				$("#file_list").find("li").remove();
 				fileCnt=0;
 				checkFile();
@@ -262,21 +257,14 @@
 		
 	});
 	
-	
-	
 	function addPrjFn(data) {
-		
 		$("#prjId").val(data.prjid);
-		
 	}
 
 	function addPrjTmMbrFn(data) {
-		
 		$("#mnDvlpr").val(data.empid);
-		
 	}
-	
-	var fileCnt=0;
+	var fileCnt=${reqVO.atchFlList.size() > 0 ? reqVO.atchFlList.size() : 0};
 	
 	function addFile(file){
 		var fileList = $("#file_list");
@@ -295,15 +283,7 @@
 		li.append(div);
 		
 		var remove =  $("<span class='remove'>x</span>");
-		remove.click(function(e){
-			var item = $(this).closest("li");
-			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/req/file", function(response) {
-				item.remove();
-				--fileCnt;
-				checkFile();
-			});
-		});
+		remove.click(removeFn);
 		
         var nm = "<span class='file_name'>"+fileNm+"</span>";
         fileSz = (fileSz / 1024).toFixed(2);
@@ -319,7 +299,15 @@
         div.append(sz);
         ++fileCnt;
 	};
-	
+	function removeFn(){
+		var item = $(this).closest("li");
+		console.log(item);
+		ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/atchfl/delete", function(response) {
+			item.remove();
+			--fileCnt;
+			checkFile();
+		});
+	};
 	function checkFile(){
 		var fileList = $("#file_list");
 		console.log(fileCnt);
@@ -345,15 +333,15 @@
 						<!-- isModify == true => 수정(update) -->
 						<!-- isModify == false => 등록(insert) -->
 						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqId" style="width: 180px;">요구사항 ID</label>
 							<input type="text" id="reqId"  name="reqId" value="" readonly />
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqTtl" style="width: 180px;">제목</label>
 							<input type="text" id="reqTtl"  name="reqTtl" value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prrty" style="width: 180px;">우선순위</label>
 							<select id="prrty"  name="prrty" >
 								<option>선택</option>
@@ -362,25 +350,25 @@
 								<option>3</option>
 							</select>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="strtDt" style="width: 180px;">시작일</label>
 							<input type="date" id="strtDt"  name="strtDt" value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
 							<input type="date" id="expctEndDt"  name="expctEndDt" value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prjId" style="width: 180px;">프로젝트ID</label>
 							<input type="text" id="prjId"  name="prjId" value="${reqVO.prjId}"/>
 							<button id="prj_search">검색</button>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prjId" style="width: 180px;">담당개발자</label>
 							<input type="text" id="mnDvlpr"  name="mnDvlpr" value="${reqVO.mnDvlpr}"/>
 							<button id="prjtmmbr_search">검색</button>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
 							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
@@ -404,26 +392,26 @@
 							</div>
 							<input type="file" id="files" multiple/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
 							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
 							<select id="prcsStts-select"  name="prcsStts" ></select>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
 							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
 							<select id="tskStts-select"  name="tskStts" ></select>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
 							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
 							<select id="tstRslt-select"  name="tstRslt" ></select>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="lossStts" style="width: 180px;">사용여부</label>
 							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="dtlReq" style="width: 180px;">내용</label>
 							<textarea id="dtlReq" name="dtlReq"></textarea>
 						</div>
