@@ -176,7 +176,8 @@
 		
 		
 		$("#issu_create_btn").click(function(){
-			location.href="${context}/issu/create";
+			var reqId = data2;
+			location.href="${context}/issu/create/"+reqId;
 		});
 		$("#issu_delete_btn").click(function(){
 			var checkLen = $(".check_idx:checked").length;
@@ -273,28 +274,23 @@
 						<input type="hidden" id="isModify" value="false" />
 						<div class="create-group">
 							<label for="reqId" style="width: 180px;">요구사항 ID</label>
-							<input type="text" id="reqId"  name="reqId" value="" readonly />
+							<div>${reqVO.reqId}</div>
 						</div>
 						<div class="create-group">
 							<label for="reqTtl" style="width: 180px;">제목</label>
-							<input type="text" id="reqTtl"  name="reqTtl" value=""/>
+							<div>${reqVO.reqTtl}</div>
 						</div>
 						<div class="create-group">
 							<label for="prrty" style="width: 180px;">우선순위</label>
-							<select id="prrty"  name="prrty" >
-								<option>선택</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-							</select>
+							<div>${reqVO.prrty}</div>
 						</div>
 						<div class="create-group">
 							<label for="strtDt" style="width: 180px;">시작일</label>
-							<input type="date" id="strtDt"  name="strtDt" value=""/>
+							<div>${reqVO.strtDt}</div>
 						</div>
 						<div class="create-group">
 							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<input type="date" id="expctEndDt"  name="expctEndDt" value=""/>
+							<div>${reqVO.expctEndDt}</div>
 						</div>
 						<div class="create-group">
 							<label for="prjNm" style="width: 180px;">프로젝트명</label>
@@ -302,17 +298,15 @@
 						</div>
 						<div class="create-group">
 							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<input type="text" id="prjId"  name="prjId" value=""/>
-							<button id="prj_search">검색</button>
+							<div>${reqVO.prjId}</div>
 						</div>
 						<div class="create-group">
-							<label for="prjId" style="width: 180px;">담당개발자</label>
-							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
-							<button id="prjtmmbr_search">검색</button>
+							<label for="mnDvlpr" style="width: 180px;">담당개발자</label>
+							<div>${reqVO.mnDvlpr}</div>
 						</div>
 						<div class="create-group">
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
+							<div>${reqVO.reqCnfrNm}</div>
 						</div>
 						<div class="create-group">
 							<label for="files" style="width: 180px;">첨부파일</label>

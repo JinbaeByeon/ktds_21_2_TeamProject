@@ -35,6 +35,11 @@ public class IssuController {
 	public String viewIssuCreatePage() {
 		return "issu/create";
 	}
+	@GetMapping("/issu/create/{reqId}")
+	public String viewIssuCreatePageTwo(Model model, @PathVariable String reqId) {
+		model.addAttribute("reqId", reqId);
+		return "issu/create";
+	}
 	@GetMapping("/issu/detail/{issuId}")
 	public String viewIssuDetailPage(Model model, @PathVariable String issuId) {
 		IssuVO issuVO = issuService.readOneIssu(issuId);
