@@ -10,7 +10,7 @@
         <div class="sidebar__inner">
           <ul>
             <li>
-              <a href="${context}/tm/list" class="active">
+              <a href=""${context}/tm/list"" class="active">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>팀 관리</span>
               </a>

@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set scope="request" var="selected" value="dep"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,7 +83,7 @@
 			$("#tmMbr-count").text("총 0건");
 			$(".dep-tbody").find("tr").removeClass("active");
 			$(this).toggleClass("active");
-			activeDepId = $(this).data("depid");
+			activeDepId = $(".active").data("depid");
 			
 			$(".tm-tbody").find("tr").remove();
 			

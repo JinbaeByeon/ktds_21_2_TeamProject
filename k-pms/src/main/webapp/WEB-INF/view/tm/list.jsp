@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
-<c:set scope="request" var="selected" value="tm"/>
 
 <!DOCTYPE html>
 <html>

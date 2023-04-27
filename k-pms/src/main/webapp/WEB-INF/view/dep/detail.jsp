@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
-<c:set scope="request" var="selected" value="dep"/>
 
 <!DOCTYPE html>
 <html>
@@ -149,6 +148,8 @@
 
         <div class="buttons">
 	       	<button id="list-btn" class="btn list">목록</button>
+	         <button id="modify-btn" class="btn regist">수정</button>
+	         <button id="delete-btn" class="btn delete">삭제</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
