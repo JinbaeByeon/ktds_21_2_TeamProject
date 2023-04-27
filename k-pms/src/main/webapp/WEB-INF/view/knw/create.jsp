@@ -77,6 +77,9 @@
 		$("#prjNm").append(data.prjnm);
 		$("#cstmr").append(data.cstmr);
 		$("#prjStts").append(data.prjstts);
+		
+		$("#addPrj").empty();
+		$("#addPrj").append("변경");
 
 	}
 

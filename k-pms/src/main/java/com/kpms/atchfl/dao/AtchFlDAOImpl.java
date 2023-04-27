@@ -25,11 +25,6 @@ public class AtchFlDAOImpl extends SqlSessionDaoSupport implements AtchFlDAO {
 	}
 	
 	@Override
-	public int deleteNewAtchFl(String frgnId) {
-		return getSqlSession().update("AtchFl.deleteNewAtchFl", frgnId);
-	}
-
-	@Override
 	public int createNewAtchFls(List<AtchFlVO> fileList) {
 		return getSqlSession().insert("AtchFl.createNewAtchFls", fileList);
 	}

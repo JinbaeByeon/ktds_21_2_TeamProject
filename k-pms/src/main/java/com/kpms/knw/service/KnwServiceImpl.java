@@ -81,7 +81,7 @@ public class KnwServiceImpl implements KnwService {
 		}
 
 		boolean isSuccess = knwDAO.updateOneKnw(knwVO) > 0;
-		atchFlDAO.deleteNewAtchFl(knwVO.getKnwId());
+		atchFlDAO.deleteAtchFlsByFrgnId(knwVO.getKnwId());
 		
 		List<AtchFlVO> fileList = knwVO.getAtchFlList();
 		
