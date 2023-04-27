@@ -9,7 +9,6 @@ import com.kpms.atchfl.dao.AtchFlDAO;
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIException;
-import com.kpms.common.handler.UploadHandler;
 import com.kpms.rcvmsg.dao.RcvMsgDAO;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.sndmsg.dao.SndMsgDAO;
@@ -42,6 +41,7 @@ public class SndMsgServiceImpl implements SndMsgService {
 		}
 		
 		if(fileList != null && !fileList.isEmpty()) {
+
 			fileList.forEach(file-> {
 				file.setCrtr(sndMsgVO.getCrtr());
 				file.setFrgnId(sndMsgVO.getMsgId());
@@ -55,11 +55,17 @@ public class SndMsgServiceImpl implements SndMsgService {
 
 	@Override
 	public boolean deleteOneSndMsg(String msgId) {
-		return false;
+		return sndMsgDAO.deleteOneSndMsg(msgId) > 0;
 	}
 
 	@Override
 	public boolean deleteSndMsgBySelectedMsgId(List<String> msgId) {
-		return false;
+		return sndMsgDAO.deleteSndMsgBySelectedMsgId(msgId) > 0;
 	}
+
+	@Override
+	public SndMsgVO readOneSndMsgByRcvMsgId(String msgId) {
+		return sndMsgDAO.readOneSndMsgByRcvMsgId(msgId);
+	}
+	
 }

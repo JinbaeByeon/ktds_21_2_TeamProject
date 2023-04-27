@@ -51,10 +51,13 @@
 		 INNER JOIN  (SELECT E.*
 		 				  , E.L_NM || E.F_NM NM
 		               FROM EMP E) RCV_E
-		 	ON RCV_E.EMP_ID = RM.RCVR
-	 	<if test="searchKeyword != null and searchKeyword != ''">
-		   WHERE RCV_E.NM LIKE '%' || #{searchKeyword} || '%'
-		</if>
+				 ON RCV_E.EMP_ID = RM.RCVR
+			<if test='searchType =="rcvrNm"'>
+			   WHERE RCV_E.NM LIKE '%' || #{searchKeyword} || '%'
+			</if>
+			<if test='searchType == "ID"'>
+	           WHERE RCV_E.EMP_ID LIKE '%' || #{searchKeyword} || '%'
+	         </if>
 		<include refid="Common.pageFooter"/>
 	</select>
 	
@@ -113,4 +116,30 @@
 		  #{msgId}
 		 </foreach>
 	</update>
+	
+	<delete id = "deleteTrashMsg"
+			parameterType="arraylist">
+		DELETE 
+		  FROM SND_MSG
+		 WHERE MSG_ID IN 
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+	 	 #{msgId}
+		 </foreach> 
+	</delete>
+	
+	<select id="readOneSndMsgByRcvMsgId"
+			parameterType="string"
+			resultType="com.kpms.sndmsg.vo.SndMsgVO">
+		SELECT CRT_DT,
+			   CRTR,
+			   USE_YN,
+			   DEL_YN,
+			   TTL,
+			   CNTNT,
+			   ATTCH
+		  FROM SND_MSG
+		 WHERE MSG_ID = (SELECT SND_MSG_ID
+		 				   FROM RCV_MSG
+		 				  WHERE MSG_ID = #{_parameter})
+	</select>
 </mapper>

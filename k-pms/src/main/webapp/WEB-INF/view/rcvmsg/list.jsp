@@ -10,16 +10,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-	
-		$(".grid > table > tbody > tr").click(function() {
-			var data = $(this).data();
-			$("#msgId").val(data.msgId);
-			$("#sndMsgId").val(data.sndMsgId);
-			$("#rcvr").val(data.rcvr);
-			$("#rdYn").val(data.rdYn);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-		});
 		
 		$("#new_btn").click(function() {
 			$("#msgId").val("");
@@ -71,30 +61,14 @@
 		
 		$("#reply_btn").click(function() {
 			// 1. 체크된 VALUE(rcvmsg.msgid)를 가져온다.
-			// 2. location.href = "${context}/sndmsg/send/"+rcvmsg.msgid;
 			
-			var form = $("<form></form>")
+			var msgId = $(".check_idx:checked").val();
 			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/rcvmsg/send/",form.serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload();
-				} else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		}); // 안에있는내용도 같이 보내기
+			// 1. form에 체크된 메시지의 sndMsgId를 담아서 보낸다. (데이터 중 sndMsgId가 없다면 넣어줘야함)
+			// 2. 끝
+			location.href = "${context}/sndmsg/send?sndMsgId="+msgId;
+		}); 
 		
-		$("#search-btn").click(function(e) {
-			// 자동 get 요청 막음
-			/* e.preventDefault(); */
-			// 내가 보내고 싶은 방식으로 보내기
-			movePage(0);
-		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 			checkBtn();
@@ -137,35 +111,18 @@
 			checkIndex();
 		});
 		
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 쪽지가 없습니다.");
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
-				location.reload(); // 새로고침
-			});
-		});
 	});
 	function movePage(pageNo) {
+		
 		var searchType = $("#searchType").val();
 		// 전송
 		// 입력 값
 		
-		if(searchType == "ID") {
+		if(searchType == "id") {
 			var empId = $("#searchBar").val();
 			location.href= "${context}/rcvmsg/list?searchType=ID&sndEmpId=" + empId + "&pageNo=" + pageNo;
 		}
-		else if(searchType == "발신자명") {
+		else if(searchType == "sndrNm") {
 			var nm = $("#searchBar").val();
 			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo;
 		}
@@ -190,17 +147,18 @@
 						<option value="sndrNm" ${searchType eq "sndrNm" ? "selected" : ""}>발신자명</option>
 					</select>
 					<input type="text" id="searchKeyword" name="searchKeyword" class="grow-1 mr-10" value="${rcvMsgVO.searchKeyword}"/>
+					<button class="btn-search" id="search-btn">&#128269</button>
 				</div>
 			</form>
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">
 						<button id="read_btn" class="btn-read" disabled>읽음</button>
-						<button id="reply_btn" class="btn-reply" onclick="location.href='${context}/sndmsg/send'" disabled>답장</button>
-						<button id="delete_btn" class="btn-del" disabled>삭제</button>
+						<button id="reply_btn" class="btn-reply" disabled>답장</button>
+						<button id="delete_btn" class="btn-delete" disabled>삭제</button>
 					</div>
 					<div class="align-right right">
-						총 ${rcvList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건
+						총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건
 					</div>
 				</div>
 				<table>
@@ -209,7 +167,6 @@
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>조회여부</th>
 							<th>제목</th>
-							<th>첨부파일</th>
 							<th>발신인</th>
 							<th>발신일</th>
 						</tr>

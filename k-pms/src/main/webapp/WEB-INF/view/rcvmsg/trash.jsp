@@ -10,19 +10,62 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		$("#delete_btn").click(function() {
+		$("#restore_btn").click(function() {
 			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-			});
-			
-			if(!confirm("휴지통의 쪽지를 지우면 지워진 쪽지들은 복구할 수 없습니다. 쪽지를 삭제하시겠습니까?")) {
+			var checkIdx = $(".check_idx:checked");
+			if(checkIdx.length == 0){
+				alert("체크된 쪽지가 없습니다.");
 				return;
 			}
-			//snd와 rcv같이 삭제할수있는건 어떻게해야하느닞
-			$.post("${context}/api/sndmsg/delete",form.serialize(), function(response) {
+			var idx = 0;
+			checkIdx.each(function() {
+				var msgId = $(this).val();
+				var type = $(this).closest("tr").data("type");
+				form.append("<input type='hidden' name='rcvMsgVOList["+idx+"].msgId' value='"+ msgId +"'>");
+				form.append("<input type='hidden' name='rcvMsgVOList["+idx++ +"].type' value='"+ type +"'>");
+			});
+			if(!confirm("선택된 쪽지를 복원하시겠습니까?")) {
+				return;
+			}
+
+			$.post("${context}/api/msg/restore",form.serialize(), function(response) {
+				if (response.status == "200 OK") {
+					location.reload();
+				}
+				else {
+					alert(response.status == "500");
+				}
+				
+				$.post("${context}/api/msg/restore",form.serialize(), function(response) {
+					if (response.status == "200 OK") {
+						location.reload();
+					}
+					else {
+						alert(response.status == "500");
+					}
+				});
+			})
+		});
+		
+		$("#delete_btn").click(function() {
+			var form = $("<form></form>")
+			var checkIdx = $(".check_idx:checked");
+			if(checkIdx.length == 0){
+				alert("체크된 쪽지가 없습니다.");
+				return;
+			}
+			var idx = 0;
+			checkIdx.each(function() {
+				var msgId = $(this).val();
+				var type = $(this).closest("tr").data("type");
+				form.append("<input type='hidden' name='rcvMsgVOList["+idx+"].msgId' value='"+ msgId +"'>");
+				form.append("<input type='hidden' name='rcvMsgVOList["+idx++ +"].type' value='"+ type +"'>");
+			});
+			if(!confirm("휴지통의 쪽지를 지우면 지워진 쪽지들은 복구할 수 없습니다.\n쪽지를 삭제하시겠습니까?")) {
+				return;
+			}
+
+			$.post("${context}/api/msg/delete/trash",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
 				}
@@ -30,33 +73,45 @@
 					alert(response.status == "500");
 				}
 			});
-	});
-		function checkBtn(){
+		});
+		$("#all_check").change(function() {
+			$(".check_idx").prop("checked", $(this).prop("checked"));
+			checkBtn();
+		});
+		function checkIndex(){
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
-			
-			$("#delete_btn").attr("disabled", true);
-			
-			$("#delete_all_btn").click(function() {
-				var checkLen = $(".check_idx:checked").length;
-				if(checkLen == 0) {
-					alert("삭제할 쪽지가 없습니다.");
-					return;
-				}
-						
-				var form = $("<form></form>")
-				
-				$(".check_idx:checked").each(function() {
-					console.log($(this).val());
-					form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-				});
-				
-				$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
-					location.reload(); // 새로고침
-				});
-			});
+			$("#all_check").prop("checked", count == checkCount);
 		}
-	}
+		$(".check_idx").change(function(){
+			checkIndex();
+		});
+		
+		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+			var check_idx = $(this).closest("tr").find(".check_idx");
+			check_idx.prop("checked",check_idx.prop("checked")==false);
+			checkIndex();
+		});
+			
+		$("#delete_all_btn").click(function() {
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("삭제할 쪽지가 없습니다.");
+				return;
+			}
+					
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
+				location.reload(); // 새로고침
+			});
+		});
+	});
 </script>
 </head>
 <body>
@@ -69,11 +124,11 @@
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">
-						<button id="perma_delete_btn" class="btn-perma_delete" disabled>영구삭제</button>
-						<button id="move_btn" class="btn-move" onClick="location.href="
-							${context}/rcv/sndmsg/list" disabled>이동</button>
+						<button id="delete_btn" class="btn-delete">영구삭제</button>
+						<button id="restore_btn" class="btn-restore">복원</button>
 					</div>
-					<div class="align-right right">총 ${msgList.size() > 0 ? msgList.get(0).totalCount : 0}건
+					<div class="align-right right">
+					총 ${rcvMsgList.size() > 0 ? rcvMsgList.size() : 0}건
 					</div>
 				</div>
 				<table>
@@ -81,7 +136,6 @@
 						<tr>
 							<th><input type="checkbox" id="all_check" /></th>
 							<th>제목</th>
-							<th>첨부파일</th>
 							<th>발신인</th>
 							<th>발신일</th>
 						</tr>
@@ -91,14 +145,14 @@
 							<c:when test="${not empty rcvMsgList}">
 								<c:forEach items="${rcvMsgList}" var="rcvMsg">
 									<tr data-ttl="${rcvMsg.sndMsgVO.ttl}"
-										data-attch="${rcvMsg.sndMsgVO.attch}"
-										data-crtr="${rcvMsg.crtr}" data-crtdt="${rcvMsg.crtDt}">
+										data-crtr="${rcvMsg.crtr}"
+										data-crtdt="${rcvMsg.crtDt}"
+										data-type="${rcvMsg.type}">
 										<td class="check"><input type="checkbox"
 											class="check_idx" value="${rcvMsg.msgId}" /></td>
 										<td>${rcvMsg.sndMsgVO.ttl}</td>
-										<td>${rcvMsg.sndMsgVO.attch}</td>
-										<td>${rcvMsg.crtr}(${rcvMsg.sndMsgVO.sndEmpVO.lNm}
-											${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
+										<td>${rcvMsg.crtr}(${rcvMsg.rcvrEmpVO.lNm}
+											${rcvMsg.rcvrEmpVO.fNm})</td>
 										<td>${rcvMsg.crtDt}</td>
 									</tr>
 								</c:forEach>

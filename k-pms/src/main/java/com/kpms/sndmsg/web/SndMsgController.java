@@ -20,7 +20,7 @@ public class SndMsgController {
 	private SndMsgService sndMsgService;
 	
 	@GetMapping("/sndmsg/list")
-	public String viewSndMsgListPage(Model model, MsgSearchVO sndMsgVO, @SessionAttribute("__USER__") EmpVO user) {
+	public String viewSndMsgListPage(Model model, MsgSearchVO sndMsgVO, @SessionAttribute("__USER__") EmpVO user, String searchType) {
 		sndMsgVO.setEmpId(user.getEmpId());
 		List<SndMsgVO> sndMsgList = sndMsgService.readAllSndMsgVO(sndMsgVO);
 		
@@ -33,11 +33,22 @@ public class SndMsgController {
 		model.addAttribute("pageCnt",sndMsgVO.getPageCnt());
 		model.addAttribute("viewCnt",sndMsgVO.getViewCnt());
 		
+		if(searchType == null) {
+			searchType = "ID";
+		}
+		model.addAttribute("searchType", searchType);
+		
 		return "sndmsg/list";
-	}
+	} 
 
 	@GetMapping("/sndmsg/send")
-	public String viewMsgSndPage(Model model, SndMsgVO sndMsgVO) {
+	public String viewMsgSndPage(Model model, String sndMsgId) {
+		if(sndMsgId != null) {
+			SndMsgVO sndMsgVO = sndMsgService.readOneSndMsgByRcvMsgId(sndMsgId);
+			sndMsgVO.setTtl("RE: " + sndMsgVO.getTtl());
+			sndMsgVO.setCntnt("\n-----Original Message-----\n" + sndMsgVO.getCntnt());
+			model.addAttribute("sndMsgVO", sndMsgVO);
+		}
 		
 		return "sndmsg/send";
 	}

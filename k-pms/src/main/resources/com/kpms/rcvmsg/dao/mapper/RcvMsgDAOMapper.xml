@@ -19,12 +19,12 @@
 				 	<result property="lNm" column="SE_L_NM"/>
 				</association>
 			</association>
-			<association property="rcvrEmpVO"
-		 			  javaType="com.kpms.emp.vo.EmpVO">
-			 	<id property="empId" column="EMP_ID"/>
-			 	<result property="fNm" column="RE_F_NM"/>
-			 	<result property="lNm" column="RE_L_NM"/>
-			</association>
+				<association property="rcvrEmpVO"
+			 			  javaType="com.kpms.emp.vo.EmpVO">
+				 	<id property="empId" column="EMP_ID"/>
+				 	<result property="fNm" column="F_NM"/>
+				 	<result property="lNm" column="L_NM"/>
+				</association>
 	</resultMap>
 	
 	<select id="readAllRcvMsgVO"
@@ -60,6 +60,45 @@
         <if test='searchType == "sndrNm"'>
 		 WHERE SND_E.NM LIKE '%' || #{searchKeyword} || '%'
 		</if>
+		<include refid="Common.pageFooter"/>
+	</select>
+	
+	<!-- 휴지통 조회 -->
+	<select id="readAllDelMsg"
+			parameterType="com.kpms.rcvmsg.vo.MsgSearchVO"
+			resultMap="rcvMsgVOMap">
+		<include refid="Common.pageHeader"/>
+		SELECT R.MSG_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY R.CRT_DT || R.MSG_ID DESC) RNUM
+			 , R.MSG_ID
+			 , R.CRT_DT
+			 , S.TTL
+			 , R.CRTR
+			 , S.ATTCH
+			 , E.F_NM
+			 , E.L_NM
+			 , 'RM' "TYPE"
+		  FROM RCV_MSG R
+		 INNER JOIN SND_MSG S
+		 	ON S.MSG_ID = R.SND_MSG_ID
+		 INNER JOIN EMP E
+		    ON R.CRTR = E.EMP_ID
+		 WHERE R.DEL_YN = 'Y'
+		 UNION
+		SELECT S.MSG_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY S.CRT_DT || S.MSG_ID DESC) RNUM
+			 , S.MSG_ID
+			 , S.CRT_DT
+			 , S.TTL
+			 , S.CRTR
+			 , S.ATTCH
+			 , E.F_NM
+			 , E.L_NM
+			 , 'SM'
+		  FROM SND_MSG S
+		 INNER JOIN EMP E
+		    ON E.EMP_ID = S.CRTR
+		 WHERE S.DEL_YN = 'Y'
 		<include refid="Common.pageFooter"/>
 	</select>
 	
@@ -154,5 +193,51 @@
 		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
 		  #{msgId}
 		 </foreach>
+	</update>
+	
+	<delete id = "deleteTrashMsg"
+			parameterType="arraylist">
+		DELETE 
+		  FROM RCV_MSG
+		 WHERE MSG_ID IN 
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+	 	 #{msgId}
+		 </foreach> 
+	</delete>
+	
+	<select id="readOneRcvMsg"
+			parameterType="string"
+			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
+		SELECT R.MSG_ID
+			 , S.TTL
+			 , R.CRT_DT
+			 , R.CRTR
+			 , SND_E.NM
+			 , R.USE_YN
+			 , R.DEL_YN
+			 , R.SND_MSG_ID
+			 , R.RCVR
+			 , R.RD_YN
+			 , S.CNTNT
+		  FROM RCV_MSG R
+		 INNER JOIN SND_MSG S
+		    ON R.SND_MSG_ID = S.MSG_ID
+		 INNER JOIN EMP E
+		 	ON R.CRTR = E.CRTR
+		 INNER JOIN (SELECT E.*
+						  , E.L_NM || E.F_NM NM
+				       FROM EMP E)SND_E
+			ON SND_E.EMP_ID = S.CRTR
+		 WHERE R.MSG_ID = #{_parameter}
+	</select>
+	
+	<update id="restoreRcvMsg"
+			parameterType="arraylist">
+		UPDATE RCV_MSG
+		   SET DEL_YN = 'N'
+		 WHERE MSG_ID IN
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+	 	 #{msgId}
+		 </foreach> 
 	</update>
 </mapper>

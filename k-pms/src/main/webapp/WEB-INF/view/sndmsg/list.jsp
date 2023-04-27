@@ -29,17 +29,18 @@
 		});
 		
 		$("#delete_btn").click(function() {
-			var msgId = $("#msgId").val();
-			if (msgId == "") {
-				alert("선택된 쪽지가 없습니다.");
-				return;
-			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hidden' name='sndMsgIdList' value='"+ $(this).val() +"'>");
+			});
 			
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
 			
-			$.get("${context}/api/msg/delete" + msgId, function(response) {
+			$.post("${context}/api/sndmsg/delete",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
 				}
@@ -49,9 +50,6 @@
 			});
 		});
 		
-		$("#search-btn").click(function() {
-			movePage(0)
-		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
@@ -62,8 +60,8 @@
 			$("#all_check").prop("checked", count == checkCount);
 		}
 		
-		$(".check_idx").chang(function() {
-			checkIndex();
+		$(".check_idx").change(function() {
+			checkIndex(); 
 		});
 		
 		$(".grid > table > tbody > tr > td").not(".check").click(function(){
@@ -72,32 +70,19 @@
 			checkIndex();
 		});
 		
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 쪽지가 없습니다.");
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='msgId' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/sndmsg/delete", form.serialize(), function(response) {
-				location.reload(); // 새로고침
-			});
-		});
 	});
-		function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			var keyword=$("#search-keyword").val();
-			// URL 요청
-			location.href= "${context}/sndmsg/list?searchKeyword=" + keyword + "&pageNo=" + pageNo;
+	function movePage(pageNo) {
+		var searchType = $("#searchType").val();
+		alert(searchType);
+		if(searchType == "id") {
+			var empId = $("#searchBar").val();
+			location.href = "${context}/sndmsg/list?searchType=ID$rcvEmpId=" + empId + "$pageNo=" + pageNo;
 		}
+		else if(searchType == "rcvrNm") {
+			var nm = $("#searchBar").val();
+			location.href="${context}/sndmsg/list?searchType=rcvrNm&nm=" + nm + "&pageNo=" + pageNo;
+		}
+	}
 </script>
 </head>
 <body>
@@ -107,18 +92,24 @@
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path">쪽지 > 보낸쪽지함</div>
-			<div class="search-group">
-				<label for="search-keyword">수신자명</label>					
-				<input type="text" id="search-keyword" class="search-input" value="${sndMsgVO.searchKeyword}"/>
-				<button class="btn-search" id="search-btn">&#128269</button>
-			</div>
+			
+			<form>
+				<div class="search-group">
+					<select class="search-option " id="searchType" name="searchType">
+						<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
+						<option value="rcvrNm" ${searchType eq "rcvrNm" ? "selected": ""}>수신자명</option>
+					</select>
+					<input type="text" id="searchKeyword" name="searchKeyword" class="grow-1 mr-10" value="${sndMsgVO.searchKeyword}"/>			
+					<button class="btn-search" id="search-btn">&#128269</button>
+				</div>
+			</form>
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">
 						<button id="delete_btn" class="btn-delete">삭제</button>
 					</div>
 					<div class="align-right right">
-						총 ${sndList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건
+						총 ${sndMsgList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건
 					</div>
 				</div>
 				<table>
@@ -127,8 +118,6 @@
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>수신자</th>
 							<th>제목</th>
-							<th>내용</th>
-							<th>첨부파일</th>
 							<th>발신일</th>
 						</tr>
 					</thead>
@@ -139,14 +128,12 @@
 										   var="sndMsg">
 									<tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
 										data-ttl="${sndMsg.ttl}"
-										data-cntnt="${sndMsg.cntnt}"
 										data-crtdt="${sndMsg.crtDt}">
 										<td>
-											<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
+											<input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
 										</td>
 										<td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm} ${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 										<td>${sndMsg.ttl}</td>
-										<td>${sndMsg.cntnt}</td>
 										<td>${sndMsg.crtDt}</td>
 									</tr>
 								</c:forEach>

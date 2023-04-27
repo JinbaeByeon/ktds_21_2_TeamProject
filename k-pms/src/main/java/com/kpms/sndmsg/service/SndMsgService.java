@@ -15,4 +15,6 @@ public interface SndMsgService {
 	
 	public boolean deleteSndMsgBySelectedMsgId(List<String> msgId);
 	
+	public SndMsgVO readOneSndMsgByRcvMsgId(String msgId);
+	
 }
