@@ -126,7 +126,7 @@
 					<li>
 						<div class="column">
 							<div class="left">재직상태</div>
-							<div class="right">${empVO.emplmntStts}</div>
+							<div class="right">${empVO.emplmntSttsVO.cdNm}</div>
 						</div>
 					</li>
 					<li>

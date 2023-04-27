@@ -22,7 +22,7 @@ public class RestPstnController {
 	@Autowired
 	private PstnService pstnService;
 	
-	@PostMapping("/pstn/create")
+	@PostMapping("/api/pstn/create")
 	public APIResponseVO doCreatePstn(PstnVO pstnVO,
 			   						   @SessionAttribute("__USER__") EmpVO empVO) {
 		pstnVO.setCrtr(empVO.getEmpId());

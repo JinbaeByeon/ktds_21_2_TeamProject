@@ -10,13 +10,27 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+
+		$("#search-btn").click(function() {
+			location.href = "${context}/tm/search?tmNm=" + $("#searh-tmNm").val();
+		});
+		
+		$("#all_check").change(function() {
+			$(".check-idx").prop("checked", $(this).prop("checked"));
+		});
+		
+		$(".check-idx").change(function() {
+			var count = $(".check-idx").length;
+			var checkCount = $(".check-idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
+		});
 		
 		$("#cancel-btn").click(function() {
 			window.close();
 		});
 		
 		$("#regist-btn").click(function() {
-			var checkOne = $("#check-one:checked");
+			var checkOne = $(".check-idx:checked");
 			
 			if (checkOne.length == 0) {
 				alert("팀원을 선택하세요");
@@ -26,7 +40,7 @@
 			checkOne.each(function() {
 				var each = $(this).closest("tr").data();
 				console.log(each);
-				opener.addPrjFn(each);
+				opener.addTmMbrFn(each);
 			});
 			window.close();
 		});
@@ -38,9 +52,12 @@
 	<div class="search-popup content">
 		<h1>팀원 검색</h1>
 			<div class="search-group">
-				<label for="search-keyword-nm">팀명</label>
-				<input type="text" id="search-keyword-nm" class="search-input" value="${tmNm}" />
-				<button class="search-btn" id="btn-search">검색</button>
+				<label for="searh-tmNm">팀명</label>
+				<input type="text" id="searh-tmNm" name="tmVO.tmNm" class="grow-1 mr-10" value="${tmNm}"/>
+				<button class="btn-search" id="search-btn">검색</button>
+			</div>
+			<div>
+				<h3>${tmNm}팀</h3>
 			</div>
 		<div class="grid">
 			<div class="grid-count align-right">
@@ -49,8 +66,9 @@
 			<table>
 				<thead>
 					<tr>
-						<th></th>
+						<th><input type="checkbox" id="all_check" /></th>
 						<th>직원ID</th>
+						<th>성</th>
 						<th>이름</th>
 						<th>팀명</th>
 					</tr>
@@ -60,22 +78,25 @@
 						<c:when test="${not empty tmMbrList}">
 							<c:forEach items="${tmMbrList}"
 										var="tmmbr">
-								<tr data-empid="${tmmbr.empId}"
+								<tr data-tmmbrid="${tmmbr.tmMbrId}"
+									data-empid="${tmmbr.empId}"
+									data-tmid="${tmmbr.tmId}"
 									data-fnm="${tmmbr.empVO.fNm}"
 									data-lnm="${tmmbr.empVO.lNm}"
 									data-tmnm="${tmmbr.tmVO.tmNm}" >
 									<td>
-										<input type="checkbox" id="all_check" name="all_check" value="${tmNm}" />
+										<input type="checkbox" class="check-idx" value="${tmmbr.tmId}" />
 									</td>
 									<td>${tmmbr.empId}</td>
-									<td>${tmmbr.empVO.fNm} ${tmmbr.empVO.lNm}</td>
+									<td>${tmmbr.empVO.fNm}</td>
+									<td>${tmmbr.empVO.lNm}</td>
 									<td>${tmmbr.tmVO.tmNm}</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="4">검색된 팀원이 없습니다.</td>
+								<td colspan="5">검색된 팀원이 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

@@ -21,6 +21,54 @@ function AjaxUtil() {
 	]
 }
 
+AjaxUtil.prototype.deleteFile = function(fileNames, url, fnCallback) {
+	function makeFormData(){
+		var formData = new FormData();
+	    if (fileNames.length > 0) {
+	        for(var i = 0; i < fileNames.length; i++) {
+	    		formData.append("fileNames", fileNames[i]);
+	    	}
+	    }
+	    return formData;
+    }
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        processData: false,
+        contentType: false,
+        data: makeFormData(),
+        success: function(response) {
+            fnCallback(response);
+        }
+    });
+}
+
+
+AjaxUtil.prototype.uploadImmediatly = function(files, url, fnCallback) {
+
+	function makeFormData(){
+		var formData = new FormData();
+	    if (files.length > 0) {
+	        for(var i = 0; i < files.length; i++) {
+	    		formData.append("uploadFile", files[i]);
+	    	}
+	    }
+	    return formData;
+    }
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        processData: false,
+        contentType: false,
+        data: makeFormData(),
+        success: function(response) {
+            fnCallback(response);
+        }
+    });
+}
+
 /**
  * 파일 업로드
  * 
@@ -55,7 +103,9 @@ AjaxUtil.prototype.upload = function(formSelector, url, fnCallback, replaceRule)
 	            if (replaceRule[inputNm]) {
 	            	inputNm = replaceRule[inputNm];
 	            }
-            	formData.append(inputNm, $(this)[0].files[0]);
+	            for (var i = 0; i < $(this)[0].files.length; i++) {
+	            	formData.append(inputNm, $(this)[0].files[i]);
+	            }
             }
         });
         return formData;

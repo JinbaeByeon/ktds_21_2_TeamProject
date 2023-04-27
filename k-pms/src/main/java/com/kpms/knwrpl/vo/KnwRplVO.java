@@ -14,6 +14,8 @@ public class KnwRplVO extends AbstractVO {
 	private String knwId;
 	private String prcdncRplId;
 
+	private String updateMode;
+
 	public int getDepth() {
 		return depth;
 	}
@@ -52,6 +54,14 @@ public class KnwRplVO extends AbstractVO {
 
 	public void setPrcdncRplId(String prcdncRplId) {
 		this.prcdncRplId = prcdncRplId;
+	}
+
+	public String getUpdateMode() {
+		return updateMode;
+	}
+
+	public void setUpdateMode(String updateMode) {
+		this.updateMode = updateMode;
 	}
 
 }
