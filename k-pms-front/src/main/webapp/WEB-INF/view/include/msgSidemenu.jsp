@@ -6,18 +6,13 @@
 	<div class="side-menu inline bg-gray">
 		<ul class="menu-list">
 			<li class="menu-item active-item" >
-				<a href="${context}/sndmsg/send">쪽지보내기</a>
+				<a href="${context}/sndmsg/send">쪽지쓰기</a>
 			</li>
 			<li class="menu-item active-item" >
 				<a href="${context}/rcvmsg/list">받은쪽지함</a>
 			</li>
 			<li class="menu-item active-item" >
 				<a href="${context}/sndmsg/list">보낸쪽지함</a>
-			</li>
-			<li class="menu-item line">
-			</li>
-			<li class="menu-item active-item" >
-				<a href="${context}/rcvmsg/trash">휴지통</a>
 			</li>
 		</ul>
 	</div>

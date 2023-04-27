@@ -24,8 +24,6 @@
 		</collection>
 		<collection property="reqList" ofType="com.kpms.req.vo.ReqVO" autoMapping="true">
 			<id property="reqId" column="REQ_ID" />
-			<result property="strtDt" column="REQ_STRT_DT" />
-			<result property="expctEndDt" column="EXPCT_END_DT" />
 		</collection>
 		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO"  autoMapping="true">
 			<id property="knwId" column="KNW_ID"/>
@@ -109,7 +107,6 @@
 			 , PTM.PRJ_PSTN
 			 , PTM.PRJ_TM_MBR_ID
 			 , PRK.REQ_ID
-			 , PRK.REQ_TTL
 			 , PRK.REQ_STRT_DT
 			 , PRK.EXPCT_END_DT
 			 , PRK.MN_DVLPR
@@ -134,9 +131,8 @@
 					 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
 					 , P.PRJ_STTS
 					 , R.REQ_ID
-					 , R.REQ_TTL
-					 , TO_CHAR(R.STRT_DT, 'YYYY-MM-DD') REQ_STRT_DT
-					 , TO_CHAR(R.EXPCT_END_DT, 'YYYY-MM-DD') EXPCT_END_DT
+					 , R.STRT_DT REQ_STRT_DT
+					 , R.EXPCT_END_DT
 					 , R.MN_DVLPR
 					 , R.TSK_STTS
 					 , R.PRCS_STTS 

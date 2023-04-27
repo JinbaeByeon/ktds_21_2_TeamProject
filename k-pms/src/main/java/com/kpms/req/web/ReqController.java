@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.kpms.req.service.ReqService;
-import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
 
 @Controller
@@ -39,22 +38,14 @@ public class ReqController {
 		return "req/" + searchMode;
 	}
 
-	@GetMapping("/req/detail/{reqId}")
-	public String viewReqDetailPage(@PathVariable String reqId, Model model) {
-
-		ReqVO reqVO = reqService.readReqByReqId(reqId);
-		model.addAttribute("reqVO", reqVO);
-		model.addAttribute("reqId", reqId);
-
-		return "req/detail";
-	}
-
-	@GetMapping("/req/search/req")
-	public String viewReqSearchPage(Model model, ReqSearchVO reqSearchVO) {
-		List<ReqVO> reqList = reqService.readAllReqSearch(reqSearchVO);
-		model.addAttribute("reqList", reqList);
-		model.addAttribute("empId", reqSearchVO.getEmpId());
-		model.addAttribute("prjNm", reqSearchVO.getPrjNm());
-		return "req/search";
-	}
+	 @GetMapping("/req/detail/{reqId}") 
+	 public String viewReqDetailPage(@PathVariable String reqId, Model model) {
+	  
+		 ReqVO reqVO = reqService.readReqByReqId(reqId);
+		 model.addAttribute("reqVO", reqVO);
+		 model.addAttribute("reqId", reqId);
+		 
+		 return "req/detail"; 
+	 }
+	 
 }

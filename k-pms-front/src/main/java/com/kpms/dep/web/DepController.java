@@ -36,13 +36,6 @@ public class DepController {
 		
 		return "dep/list";
 	}
-
-	@GetMapping("/dep/mbrlist")
-	public String viewTmListTablePage(DepVO depVO, Model model) {
-		List<DepVO> depList = depService.readAllDepToTmMbr(depVO);
-		model.addAttribute("depList", depList);
-		return "dep/mbrlist";
-	}
 	
 	@GetMapping("/dep/detail/{depId}")
 	public String viewDetailPage(@PathVariable String depId, Model model) {

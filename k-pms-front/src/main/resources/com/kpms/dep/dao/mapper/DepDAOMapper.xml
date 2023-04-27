@@ -36,12 +36,6 @@
 			<id property="tmId" column="TM_ID"/>
 			<result property="depId" column="DEP_ID"/>
 			<result property="tmNm" column="TM_NM"/>
-			<collection property="tmMbrList"
-						 ofType="com.kpms.tmmbr.vo.TmMbrVO">
-				<id property="tmMbrId" column="TM_MBR_ID"/>
-				<result property="tmId" column="TM_ID"/>
-				<result property="empId" column="TM_MBR_EMP_ID"/>
-			</collection>
 		</collection>
 	</resultMap> 
 
@@ -133,56 +127,10 @@
 		 ORDER BY D.DEP_ID ASC
 	</select>
 	
-	<select id="readAllDepToTmMbr"
-			resultMap="depVOMap">
-		SELECT D.DEP_ID
-			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
-			 , D.CRTR
-			 , TO_CHAR(D.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
-			 , D.MDFYR
-			 , D.USE_YN
-			 , D.DEL_YN
-			 , D.DEP_NM
-			 , D.DEP_HD_ID
-			 , TO_CHAR(D.DEP_CRT_DT, 'YYYY-MM-DD') DEP_CRT_DT
-			 , CRTR_E.F_NM CRTR_E_F_NM
-			 , CRTR_E.L_NM CRTR_E_L_NM
-			 , MDFYR_E.F_NM MDFYR_E_F_NM
-			 , MDFYR_E.L_NM MDFYR_E_L_NM
-			 , T.TM_ID
-			 , T.TM_NM
-			 , HD_EMP.F_NM HD_EMP_F_NM
-			 , HD_EMP.L_NM HD_EMP_L_NM
-			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
-			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
-			 , TM.TM_MBR_ID
-			 , TM.EMP_ID TM_MBR_EMP_ID
-		  FROM DEP D
-		 INNER JOIN EMP CRTR_E
-		 	ON D.CRTR = CRTR_E.EMP_ID
-		 INNER JOIN EMP MDFYR_E
-		    ON D.MDFYR = MDFYR_E.EMP_ID
-		  LEFT OUTER JOIN EMP HD_EMP
-		    ON D.DEP_HD_ID = HD_EMP.EMP_ID
-		  LEFT JOIN TM T
-		 	ON D.DEP_ID = T.DEP_ID
-		  LEFT JOIN EMP TM_HD_EMP
-		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
-		  LEFT JOIN TM_MBR TM
-		  	ON TM.TM_ID = T.TM_ID
-		 WHERE D.DEL_YN = 'N'
-	</select>
-	
 	<resultMap id="tmVOMap" 
 				type="com.kpms.dep.vo.DepVO"
 				autoMapping="true">
 		<id property="depId" column="DEP_ID"/>
-			<association property="hdNmEmpVO"
-					  javaType="com.kpms.emp.vo.EmpVO">
-				<id property="empId" column="DEP_HD_ID"/>
-				<result property="fNm" column="DEP_HD_EMP_F_NM"/>
-				<result property="lNm" column="DEP_HD_EMP_L_NM"/>
-			</association>
 		<collection property="tmList"
 					 ofType="com.kpms.tm.vo.TmVO">
 			<id property="tmId" column="TM_ID"/>
@@ -206,16 +154,6 @@
 			<result property="eml" column="EML"/>
 			<result property="phn" column="PHN"/>
 			<result property="pstnPrd" column="PSTN_PRD"/>
-			<association property="job"
-				  javaType="com.kpms.job.vo.JobVO">
-				<id property="jobId" column="JOB_ID"/>
-				<result property="jobNm" column="JOB_NM"/>
-			</association>
-			<association property="pstn"
-					  javaType="com.kpms.pstn.vo.PstnVO">
-				<id property="pstnId" column="PSTN_ID"/>
-				<result property="pstnNm" column="PSTN_NM"/>
-			</association>
 		</collection>
 	</resultMap>
 	
@@ -242,10 +180,6 @@
 			 , E.EML
 			 , E.PHN
 			 , E.PSTN_PRD
-			 , DEP_HD_EMP.L_NM DEP_HD_EMP_L_NM
-			 , DEP_HD_EMP.F_NM DEP_HD_EMP_F_NM
-			 , J.JOB_NM 
-			 , P.PSTN_NM 
 			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
 			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
 		  FROM DEP D
@@ -253,17 +187,10 @@
 		    ON D.DEP_ID = T.DEP_ID
 		 INNER JOIN EMP E
 		 	ON D.DEP_ID = E.DEP_ID
-		 INNER JOIN EMP DEP_HD_EMP
-		    ON D.DEP_HD_ID = DEP_HD_EMP.EMP_ID
-		 INNER JOIN JOB J
-		    ON E.JOB_ID = J.JOB_ID 
-		 INNER JOIN PSTN P
-		    ON E.PSTN_ID = P.PSTN_ID 
 		 INNER JOIN EMP TM_HD_EMP
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE D.DEP_ID = #{_parameter}
 		   AND D.DEL_YN = 'N'
-		   AND T.DEL_YN = 'N'
 	</select>
 
 	<insert id="createOneDep"

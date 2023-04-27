@@ -56,17 +56,13 @@
 							<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" readonly/>
 						</div>
 						<div class="create-group">
-							<label for="tmHdNm">팀장성명</label>
-							<input type="text" id="tmHdNm" name="tmHdNm" value="${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}" readonly/>
-						</div>
-						<div class="create-group">
 							<label for="tmCrtDt">팀 생성일</label>
 							<input type="date" id="tmCrtDt" name="tmCrtDt" value="${tmVO.tmCrtDt}" readonly/>
 						</div>
 					</div>
 					
 					<div class="grid">
-						<div>소속 팀원</div>
+					
 						<div class="grid-count align-right">
 							 총 ${tmVO.tmMbrList.size() > 0 ? tmVO.tmMbrList.size() : 0}건
 						</div>
@@ -74,10 +70,8 @@
 							<thead>
 								<tr>
 									<th>순번</th>
-									<th>직급</th>
 									<th>직원ID</th>
 									<th>이름</th>
-									<th>직무</th>
 									<th>생년월일</th>
 									<th>이메일</th>
 									<th>전화번호</th>
@@ -92,10 +86,8 @@
 												varStatus="index">
 											<tr>
 												<td>${index.index + 1}</td>
-												<td>${tmMbr.empVO.pstn.pstnNm}</td>
 												<td>${tmMbr.empId}</td>
 												<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
-												<td>${tmMbr.empVO.job.jobNm}</td>
 												<td>${tmMbr.empVO.brthdy}</td>
 												<td>${tmMbr.empVO.eml}</td>
 												<td>${tmMbr.empVO.phn}</td>
@@ -105,7 +97,7 @@
 							    </c:when>
 								<c:otherwise>
 									<tr>
-										<td colspan="9" class="no-items">
+										<td colspan="7" class="no-items">
 											등록된 팀원이 없습니다.
 										</td>
 									</tr>

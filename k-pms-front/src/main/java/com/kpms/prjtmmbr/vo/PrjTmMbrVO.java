@@ -1,48 +1,18 @@
 package com.kpms.prjtmmbr.vo;
 
-import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.tmmbr.vo.TmMbrVO;
 
 /**
  * PRJ_TM_MBR
  */
-public class PrjTmMbrVO extends AbstractPagingVO{
+public class PrjTmMbrVO {
 
 	private String prjTmMbrId;
 	private String prjPstn;
 	private String prjId;
 	private String tmMbrId;
 	
-	private String added;
-	private String deleted;
-	private String modified;
-	
 	private TmMbrVO tmMbrVO;
-
-	public String getAdded() {
-		return added;
-	}
-
-	public void setAdded(String added) {
-		this.added = added;
-	}
-
-	public String getModified() {
-		return modified;
-	}
-
-	public void setModified(String modified) {
-		this.modified = modified;
-	}
-
-	public String getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(String deleted) {
-		this.deleted = deleted;
-	}
-
 	
 	public TmMbrVO getTmMbrVO() {
 		return tmMbrVO;

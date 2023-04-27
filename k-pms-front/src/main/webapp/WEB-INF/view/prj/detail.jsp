@@ -15,7 +15,7 @@
 <script type="text/javascript">	
 	$().ready(function() {
 		$.get("${context}/api/cmncd/list/002", function(response) {
-			var prjStts = $("#prjStts");
+			var prjSttsInput = $(document).find("#prjStts");
 			var sttsNm
 			
 			for (var i in response.data) {
@@ -25,7 +25,7 @@
 			}
 			
 			var sttsInput = $("<input type='text' id='prjStts' name='prjStts' value='" + sttsNm + "' readonly/>");
-			prjStts.after(sttsInput);
+			prjSttsInput.after(sttsInput);
 		});
 		
 		$("#modify-btn").click(function() {
@@ -139,17 +139,7 @@
 													<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 													<td>${ptm.tmMbrVO.empVO.fNm}</td>
 													<td>${ptm.tmMbrVO.empVO.lNm}</td>
-													<td>
-														<c:if test="${ptm.prjPstn=='PM'}">
-															총책임자
-														</c:if>
-														<c:if test="${ptm.prjPstn=='PL'}">
-															부책임자
-														</c:if>
-														<c:if test="${ptm.prjPstn=='TM'}">
-															팀원
-														</c:if>
-													</td>
+													<td>${ptm.prjPstn}</td>
 												</tr>
 											</c:forEach>
 										</c:when>
@@ -163,6 +153,7 @@
 							</table>
 						</div>
 					</div>
+						
 						
 							<label for="req">요구사항</label>
 							<div class="grid-count align-right">
@@ -181,7 +172,7 @@
 									</thead>
 									<tbody>
 										<c:choose>
-											<c:when test="${not empty prjVO.reqList.get(0).reqId}">
+											<c:when test="${not empty prjVO.reqList}">
 												<c:forEach items="${prjVO.reqList}" var="req">
 													<tr>
 														<td>${req.prrty}</td>
@@ -217,7 +208,7 @@
 									</thead>
 									<tbody>
 										<c:choose>
-											<c:when test="${not empty prjVO.knwList.get(0).knwId}">
+											<c:when test="${not empty prjVO.knwList}">
 												<c:forEach items="${prjVO.knwList}" var="knw">
 													<tr>
 														<td>${knw.ttl}</td>

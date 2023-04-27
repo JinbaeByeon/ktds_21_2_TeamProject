@@ -10,20 +10,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>팀 수정</title>
+<title>프로젝트 수정</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	
 	var tmHd;
 	var tmMbr;
-	var empId;
-	var empIds = [];
 	
 	function addHdEmpFn(message) {
 		
 		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
 		if (tmHdIdItems.find("." + message.empid).length > 0) {
-			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
+			alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
 			
@@ -45,62 +43,6 @@
 		tmHd.close();
 	}
 	
-	function addMbrFn(message) {
-
-	    var empItems = $(document).find(".tmMbr-tbody");
-	    empId = message.empid;
-
-	    if (empItems.find("." + empId).length > 0) {
-	        tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
-	        return;
-	    }
-
-	    var nextIndex = empIds.length;
-	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
-	    itemId.val(empId);
-
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
-
-	    var td = "<td>" + empId + "</td>"
-	    td += "<td>" + message.lnm  + message.fnm + "</td>"
-
-	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
-
-	    rmbtn.click(function() {
-	        var empTrToRemove = $(this).closest(".emp-tr");
-	        var empIndexToRemove = empTrToRemove.data("index");
-	        empIds.splice(empIndexToRemove, 1);
-	        empTrToRemove.remove();
-	        $(".emp-tr[data-index]").each(function(i, tr) {
-	            $(tr).data("index", i);
-	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
-	        });
-	    });
-
-	    empItems.append(empTr);
-	    empTr.append(itemId);
-	    empTr.append(td);
-	    empTr.append(rmbtn);
-
-	    empIds.push(empId);
-
-	}
-	
-	function createTmmbr(tmId, empId) {
-	    $.ajax({
-	        url: "${context}/api/tmmbr/create",
-	        type: "POST",
-	        data: {tmId: tmId, empId: empId},
-	        success: function(response) {
-	            if (response.status == "200 OK") {
-	            } 
-	            else {
-	            	alert(response.errorCode + " / " + response.message);
-	            }
-	        }
-	    });
-	}
-	
 	$().ready(function() {
 		
 		$("#addTmHeadBtn").click(function(event) {
@@ -111,13 +53,8 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			var tmId = $("#tmId").val();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + tmId, "팀원검색", "width=500, height=500")
-		});
-		
-		$("#list-btn").click(function(response) {
-			location.href = "${context}/tm/list"
+			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#save-btn").click(function() {
@@ -125,52 +62,9 @@
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.href = "${context}" + response.redirectURL;
-					
-					empIds.forEach(function(empId) {
-			    		
-				    	createTmmbr(tmId, empId);
-				    		
-				    });
-					
 				}
 				else {
 					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
-		
-		$("#all_check").change(function() {
-			
-			$(".check_idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if (checkLen == 0) {
-				alert("팀원이 선택되지 않았습니다.");
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='tmMbrId' value='" + $(this).val() + "'>");
-				
-			});
-			
-			$.post("${context}/api/tmmbr/delete", form.serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload();
-				}
-				else {
-					alert(response.errorCode + " / " + response.message);
 				}
 			});
 		});
@@ -198,7 +92,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/depSidemenu.jsp" />
+			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />		
 				<div class="path"> 팀 수정</div>
 				<form id="create_form" enctype="multipart/form-data">
@@ -220,7 +114,7 @@
 							<div class="items">
 								<div class='head-item'>
 									<input type="text" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
-									<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>						
+									<span id="tmHdNm"></span>						
 								</div>
 							</div>
 						</div>
@@ -243,33 +137,25 @@
 								<table>
 									<thead>
 										<tr>
-											<th><input type="checkbox" id="all_check" /></th>
 											<th>순번</th>
-											<th>직급</th>
 											<th>직원ID</th>
 											<th>이름</th>
-											<th>직무</th>
 											<th>생년월일</th>
 											<th>이메일</th>
 											<th>전화번호</th>
 											<th>직급연차</th>
 										</tr>
 									</thead>
-									<tbody class="tmMbr-tbody">
+									<tbody>
 										<c:choose>
 											<c:when test="${not empty tmVO.tmMbrList}">
 												<c:forEach items="${tmVO.tmMbrList}" 
 															var="tmMbr"
 															varStatus="index">
 													<tr>
-														<td>
-															<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
-														</td>
 														<td>${index.index + 1}</td>
-														<td>${tmMbr.empVO.pstn.pstnNm}</td>
 														<td>${tmMbr.empId}</td>
 														<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
-														<td>${tmMbr.empVO.job.jobNm}</td>
 														<td>${tmMbr.empVO.brthdy}</td>
 														<td>${tmMbr.empVO.eml}</td>
 														<td>${tmMbr.empVO.phn}</td>
@@ -278,21 +164,17 @@
 												</c:forEach>
 											</c:when>
 										<c:otherwise>
-											<td colspan="10" class="no-items">
+											<td colspan="7" class="no-items">
 												등록된 팀원이 없습니다.
 											</td>
 										</c:otherwise>
 										</c:choose>
 									</tbody>
 								</table>
-								<div class="align-right mt-10">
-									<button id="delete_all_btn" class="btn-delete">팀원 삭제</button>
-								</div>
 							</div>
 						</div>
 					</form>	
 				<div class="align-right">
-					<button id="list-btn" class="btn-primary">목록</button>
 					<button id="save-btn" class="btn-primary">저장</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>

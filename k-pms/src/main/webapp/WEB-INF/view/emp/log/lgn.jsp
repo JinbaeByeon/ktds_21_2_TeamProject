@@ -30,26 +30,20 @@
 		<div>
 			<jsp:include page="../../include/empSidemenu.jsp"/>
 			<jsp:include page="../../include/content.jsp"/>
-				<div class="path">임직원관리 > 로그인 이력 조회</div>
-		      <div class="search_wrapper">
-		      <form>
-		        <div class="search_box">
-		          <select>
-		            <option>ID</option>
-		          </select>
-		          <div class="search_field">
-		          <input type="text" id="empId" name="crtr" class="input" value="${empId}" placeholder="Search"/>
-		          </div>
-		          <div class="search-icon">
-		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
-		          </div>
-		        </div>
-		      </form>
-		      </div>
-		      <div class="list_section">
-		        <div class="total">총 ${lgnHstList.size() > 0 ? lgnHstList.get(0).totalCount : 0} 건</div>
-		        <table class="list_table">
-		          <thead>
+			<div class="path"> 임직원관리 > 로그인 이력 조회</div>
+			<form>
+				<div class="search-group">
+					<label for="">ID</label>
+					<input type="text" id="empId" name="crtr" class="grow-1 mr-10" value="${empId}"/>
+					<button class="btn-search" id="search-btn">검색</button>
+				</div>
+			</form>
+			<div class="grid">
+				<div class="grid-count align-right">
+					총 ${lgnHstList.size() > 0 ? lgnHstList.get(0).totalCount : 0} 건
+				</div>
+				<table>
+					<thead>
 						<tr>
 							<th>사원 ID</th>
 							<th>사원명</th>
@@ -57,8 +51,8 @@
 							<th>날짜</th>
 							<th>IP</th>
 						</tr>
-		          </thead>
-		          <tbody>
+					</thead>
+					<tbody>
 						<c:choose>
 							<c:when test="${not empty lgnHstList}">
 								<c:forEach items="${lgnHstList}"
@@ -83,14 +77,15 @@
 								</tr>
 							</c:otherwise>
 						</c:choose>
-		          </tbody>
-		        </table>
+					
+					</tbody>
+				</table>
 				<c:import url="../../include/pagenate.jsp">
                   <c:param name="pageNo" value="${pageNo}"/>
                   <c:param name="pageCnt" value="${pageCnt}"/>
                   <c:param name="lastPage" value="${lastPage}"/>
                	</c:import>
-				</div>
+			</div>
 			<jsp:include page="../../include/footer.jsp"/>
 		</div>
 	</div>

@@ -198,7 +198,6 @@
 			var tmId = activeTmId;
 			$.post("${context}/api/tm/updates/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
-					location.href = "${context}" + response.redirectURL;
 					
 					empIds.forEach(function(empId) {
 			    		
@@ -206,6 +205,7 @@
 				    		
 				    });
 					
+					location.href = "${context}" + response.redirectURL;
 				}
 				else {
 					alert(response.errorCode + "/" + response.message);

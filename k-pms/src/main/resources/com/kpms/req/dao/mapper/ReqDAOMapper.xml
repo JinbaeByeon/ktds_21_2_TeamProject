@@ -73,30 +73,6 @@
 		, #{reqCnfrNm})
 	</insert>
 
-	<select id="readAllReqSearch"
-			parameterType="com.kpms.req.vo.ReqSearchVO"
-			resultType="com.kpms.req.vo.ReqVO">
-		SELECT REQ_ID
-			 , REQ_TTL
-			 , PRCS_STTS
-			 , CRTR 
-			 , TO_CHAR(STRT_DT,'YYYY-MM-DD') STRT_DT
-			 , TO_CHAR(EXPCT_END_DT,'YYYY-MM-DD') EXPCT_END_DT
-		  FROM REQ R
-		 WHERE TSK_STTS = '003_02'
-		   AND PRJ_ID IN (SELECT PRJ_ID
-						    FROM PRJ
-						   WHERE PRJ_ID IN (SELECT PRJ_ID
-						  				      FROM (SELECT *
-						  				  	  	      FROM TM_MBR
-						  				  	  	     WHERE EMP_ID = #{empId}) TM
-						  				      JOIN PRJ_TM_MBR PTM
-						  				      	ON PTM.TM_MBR_ID = TM.TM_MBR_ID)
-						  	<if test="prjNm != null and prjNm != ''">
-						  	 AND PRJ_NM LIKE '%' || #{prjNm} || '%'
-						  	</if>)
-	</select>
-	
 	<select id="readAllReq"
 			parameterType="com.kpms.req.vo.ReqVO"
 			resultMap="reqVOMap">
@@ -139,7 +115,7 @@
 		 </if>
 		 <include refid="Common.pageFooter" />
 	</select>
-	
+
 	<select id="readReqByReqId"
 			parameterType="string"
 			resultMap="reqVOMap">

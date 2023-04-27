@@ -58,7 +58,22 @@ public class TmServiceImpl implements TmService {
 
 	@Override
 	public boolean updateOneTm(TmVO tmVO) {
-		return tmDAO.updateOneTm(tmVO) > 0; 
+		TmVO orgnTmVO = tmDAO.readOneTmVOByTmId(tmVO.getTmId());
+		boolean result = tmDAO.updateOneTm(tmVO) > 0;
+		if (result) {
+			String hdTmMbrId = tmMbrDAO.readAllTmMbrVO(tmVO.getTmId())
+									.stream()
+									.peek(vo -> {
+										System.out.println(vo.getEmpId());
+									})
+									.filter(vo -> vo.getEmpId().equals(orgnTmVO.getTmHdId()))
+									.map(vo -> vo.getTmMbrId())
+									.findFirst().orElse(null);
+			if (hdTmMbrId != null) {
+				tmMbrDAO.deleteOneTmMbrByTmMbrId(hdTmMbrId);
+			}
+		}
+		return result; 
 	}
 
 

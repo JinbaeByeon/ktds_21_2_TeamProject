@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.kpms.rcvmsg.dao.RcvMsgDAO;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
-import com.kpms.sndmsg.vo.SndMsgVO;
 
 @Service
 public class RcvMsgServiceImpl implements RcvMsgService{
@@ -19,11 +18,6 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 	@Override
 	public List<RcvMsgVO> readAllRcvMsgVO(MsgSearchVO rcvMsgVO) {
 		return rcvMsgDAO.readAllRcvMsgVO(rcvMsgVO);
-	}
-	
-	@Override
-	public SndMsgVO readOneSndMsgVO(String rcvmsgId) {
-		return rcvMsgDAO.readOneSndMsgVO(rcvmsgId);
 	}
 	
 	@Override

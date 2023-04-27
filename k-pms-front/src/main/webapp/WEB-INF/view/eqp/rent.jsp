@@ -13,7 +13,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$("#applSttsType").val("${eqpVO.applStts}").prop("selected", true);
+		$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 		
 		$("li.nav-item.eqp").addClass("active");
 		$("li.nav-item").children("a").mouseover(function(){
@@ -175,7 +175,7 @@
 		
 		$("#applSttsType").change(function(){
 			
-			var applStts = $("#applSttsType").val();
+			var applStts =$("#applSttsType").val();
 			console.log(applStts);
 			location.href = "${context}/eqp/rent?applStts=" + applStts;
 		});
@@ -202,7 +202,6 @@
 				}
 			});
 		});
-		
 		$("#refuse_all_btn").click(function(){
 			var checkLen = $(".check_idx:checked").length;
 			if(checkLen == 0) {
@@ -217,119 +216,6 @@
 			});
 			
 			$.post("${context}/api/eqp/refuse", form.serialize(), function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
-		
-		$("#return_all_btn").click(function(){
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("신청할 비품이 없습니다.");
-				return;
-			}
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/eqp/return", form.serialize(), function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
-		$("#no_return_all_btn").click(function(){
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("신청할 비품이 없습니다.");
-				return;
-			}
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/eqp/noreturn", form.serialize(), function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
-		$("#no_apply_all_btn").click(function(){
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("신청할 비품이 없습니다.");
-				return;
-			}
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/eqp/noapply", form.serialize(), function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
-		
-		$("#lost_all_btn").click(function(){
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("신청할 비품이 없습니다.");
-				return;
-			}
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/eqp/lost", form.serialize(), function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
-		
-		$("#no_lost_all_btn").click(function(){
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("신청할 비품이 없습니다.");
-				return;
-			}
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function(){
-				console.log($(this).val());
-				form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/eqp/nolost", form.serialize(), function(response){
 				if(response.status == "200 OK"){
 					location.reload(); //새로고침
 				}
@@ -356,7 +242,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">대여 관리</div>
+				<div class="path"> 대여 관리</div>
 				<div class="search-group">
 					<label for="search-keyword">비품명</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
@@ -365,7 +251,6 @@
 				
 				<div class="grid">
 					<div class="grid-count align-right">
-						총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건
 					</div>
 					<table>
 						<thead>
@@ -379,9 +264,9 @@
 									<select id="applSttsType" name="applSttsType">
 										<option value="">선택</option>
 										<option value="대여신청">대여신청</option>
+										<option value="대여취소">대여취소</option>
 										<option value="대여중">대여중</option>
-										<option value="반납신청">반납신청</option>
-										<option value="분실신청">분실신청</option>
+										<option value="변경신청">변경신청</option>
 									</select>
 								</th>
 								<th>신청자명</th>
@@ -423,7 +308,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${eqp.eqpId}">
 											</td>
-											<td>${eqp.rnum}</td>
+											<td>${index.index + 1}</td>
 											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
@@ -434,9 +319,9 @@
 											<td>${eqp.lossRprtDt}</td>
 											<td>${eqp.eqpPrc}</td>
 											<td>${eqp.prchsDt}</td>
-											<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm}${eqp.crtrEmpVO.lNm})</td>
+											<td>${eqp.crtr}</td>
 											<td>${eqp.crtDt}</td>
-											<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
+											<td>${eqp.mdfyr}</td>
 											<td>${eqp.mdfyDt}</td>
 											<td>${eqp.useYn}</td>
 											<td>${eqp.delYn}</td>
@@ -454,21 +339,8 @@
 						</tbody>
 					</table>
 					<div class="align-right mt-10">
-						<c:if test="${applStts eq '분실신청'}">
-							<button id="no_lost_all_btn" class="btn-no-lost">분실신청취소</button>
-						</c:if>
-						<c:if test="${applStts eq '대여신청'}">
-							<button id="no_apply_all_btn" class="btn-no-apply">대여신청취소</button>
-						</c:if>
-						<c:if test="${applStts eq '반납신청'}">
-							<button id="no_return_all_btn" class="btn-no-return">반납취소</button>
-						</c:if>
-						<c:if test="${applStts eq '대여중'}">
-							<button id="lost_all_btn" class="btn-lost">분실신청</button>
-							<button id="return_all_btn" class="btn-return">반납신청</button>
-						</c:if>
-						<button id="apply_all_btn" class="btn-apply">승인</button>
-						<button id="refuse_all_btn" class="btn-refuse">반려</button>
+						<button id="apply_all_btn" class="apply-delete">승인</button>
+						<button id="refuse_all_btn" class="refuse-delete">반려</button>
 						<button id="delete_all_btn" class="btn-delete">삭제</button>
 					</div>
 					<c:import url="../include/pagenate.jsp">

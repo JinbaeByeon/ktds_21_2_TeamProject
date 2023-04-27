@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kpms.tm.service.TmService;
 import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
-import com.kpms.tmmbr.vo.TmMbrVO;
 
 @Controller
 public class TmController {
@@ -71,14 +70,5 @@ public class TmController {
 		}
 		
 		return "tm/search";
-	}
-	
-	
-	@GetMapping("/tm/allsearch")
-	public String viewTmMbrAndTmSearchPage(String tmNm, Model model) {
-		List<TmVO> tmList = tmService.readAllTmVONopagination(tmNm);
-		model.addAttribute("tmList", tmList);
-		
-		return "tm/allsearch";
 	}
 }

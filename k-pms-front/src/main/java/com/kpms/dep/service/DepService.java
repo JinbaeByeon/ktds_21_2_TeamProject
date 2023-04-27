@@ -20,7 +20,4 @@ public interface DepService {
 	public boolean deleteOneDepByDepId(String depId);
 	
 	public boolean deleteDepBySelectedDepId(List<String> depId);
-	
-	public List<DepVO> readAllDepToTmMbr(DepVO depVO);
-	
 }

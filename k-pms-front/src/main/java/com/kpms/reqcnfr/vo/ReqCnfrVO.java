@@ -8,27 +8,19 @@ import com.kpms.common.vo.AbstractVO;
 public class ReqCnfrVO extends AbstractVO {
 
 	private String cnfrId;
-	private String cnfrNm;
-	private String reqId;
+	private String rqrId;
 	
-	
-	public String getCnfrNm() {
-		return cnfrNm;
-	}
-	public void setCnfrNm(String cnfrNm) {
-		this.cnfrNm = cnfrNm;
-	}
 	public String getCnfrId() {
 		return cnfrId;
 	}
 	public void setCnfrId(String cnfrId) {
 		this.cnfrId = cnfrId;
 	}
-	public String getReqId() {
-		return reqId;
+	public String getRqrId() {
+		return rqrId;
 	}
-	public void setReqId(String reqId) {
-		this.reqId = reqId;
+	public void setRqrId(String rqrId) {
+		this.rqrId = rqrId;
 	}
 
 }

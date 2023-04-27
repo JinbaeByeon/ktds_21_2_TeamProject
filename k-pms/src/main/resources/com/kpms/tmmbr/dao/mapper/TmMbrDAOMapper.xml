@@ -55,7 +55,7 @@
 		   AND T.DEL_YN = 'N'
 		   AND E.DEL_YN = 'N'
 		  <if test='tmId != null and tmId != ""'>
-		   AND TM.TM_ID LIKE '%' || #{tmId} || '%'
+		   AND TM.TM_ID = #{tmId}
 		  </if>
 		 ORDER BY TM.EMP_ID ASC
 	</select>

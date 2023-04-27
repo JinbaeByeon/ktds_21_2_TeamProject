@@ -10,9 +10,19 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+
 		$("#search-btn").click(function() {
-		var prjId = $("#search-prjId").val();
-			location.href = "${context}/prjtmmbr/search?prjId=" + prjId + "&nm=" + $("#search-prjTmMbrNm").val();
+			location.href = "${context}/tm/search?tmNm=" + $("#searh-tmNm").val();
+		});
+		
+		$("#all_check").change(function() {
+			$(".check-idx").prop("checked", $(this).prop("checked"));
+		});
+		
+		$(".check-idx").change(function() {
+			var count = $(".check-idx").length;
+			var checkCount = $(".check-idx:checked").length;
+			$("#all_check").prop("checked", count == checkCount);
 		});
 		
 		$("#cancel-btn").click(function() {
@@ -30,7 +40,7 @@
 			checkOne.each(function() {
 				var each = $(this).closest("tr").data();
 				console.log(each);
-				opener.addPrjTmMbrFn(each);
+				opener.addTmMbrFn(each);
 			});
 			window.close();
 		});
@@ -40,12 +50,14 @@
 </head>
 <body>
 	<div class="search-popup content">
-		<h1>프로젝트 팀원 검색</h1>
+		<h1>팀원 검색</h1>
 			<div class="search-group">
-			<input type="hidden" id="search-prjId" value="${prjTmMbrSearchVO.prjId}"/>
-				<label for="search-prjTmMbrNm">프로젝트 팀원명</label>
-				<input type="text" id="search-prjTmMbrNm" class="grow-1 mr-10" value="${prjTmMbrSearchVO.nm}"/>
+				<label for="searh-tmNm">팀명</label>
+				<input type="text" id="searh-tmNm" name="tmVO.tmNm" class="grow-1 mr-10" value="${tmNm}"/>
 				<button class="btn-search" id="search-btn">검색</button>
+			</div>
+			<div>
+				<h3>${tmNm}팀</h3>
 			</div>
 		<div class="grid">
 			<div class="grid-count align-right">
@@ -54,31 +66,31 @@
 			<table>
 				<thead>
 					<tr>
-						<th></th>
+						<th><input type="checkbox" id="all_check" /></th>
 						<th>직원ID</th>
 						<th>성</th>
 						<th>이름</th>
-						<th>권한</th>
+						<th>팀명</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${not empty ptmList}">
-							<c:forEach items="${ptmList}"
-										var="ptm">
-								<tr 
-									data-prjtmmbrid="${ptm.prjTmMbrId}"
-									data-empid="${ptm.tmMbrVO.empId}"
-									data-fnm="${ptm.tmMbrVO.empVO.fNm}"
-									data-lnm="${ptm.tmMbrVO.empVO.lNm}"
-									data-prjpstn="${ptm.prjPstn}" >
+						<c:when test="${not empty tmMbrList}">
+							<c:forEach items="${tmMbrList}"
+										var="tmmbr">
+								<tr data-tmmbrid="${tmmbr.tmMbrId}"
+									data-empid="${tmmbr.empId}"
+									data-tmid="${tmmbr.tmId}"
+									data-fnm="${tmmbr.empVO.fNm}"
+									data-lnm="${tmmbr.empVO.lNm}"
+									data-tmnm="${tmmbr.tmVO.tmNm}" >
 									<td>
-										<input type="radio" class="check-idx" name="check-one" value="${ptm.prjTmMbrId}" />
+										<input type="checkbox" class="check-idx" value="${tmmbr.tmId}" />
 									</td>
-									<td>${ptm.tmMbrVO.empId}</td>
-									<td>${ptm.tmMbrVO.empVO.fNm}</td>
-									<td>${ptm.tmMbrVO.empVO.lNm}</td>
-									<td>${ptm.prjPstn}</td>
+									<td>${tmmbr.empId}</td>
+									<td>${tmmbr.empVO.fNm}</td>
+									<td>${tmmbr.empVO.lNm}</td>
+									<td>${tmmbr.tmVO.tmNm}</td>
 								</tr>
 							</c:forEach>
 						</c:when>

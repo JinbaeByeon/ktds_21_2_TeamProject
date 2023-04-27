@@ -58,7 +58,7 @@
 				movePage(0);
 			});
 			
-			$(".list_table tbody > tr > td").not(".check").click(function() {
+			$(".grid > table > tbody > tr > td").not(".check").click(function() {
 				var empId = $(this).closest("tr").data("empid");
 				detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=500");
 			});
@@ -79,7 +79,7 @@
 			$(".check_idx").click(function(e){
 				$(this).prop("checked",$(this).prop("checked")==false);
 			});
-			$(".list_table > tbody > tr > td.check").click(function(){
+			$(".grid > table > tbody > tr > td.check").click(function(){
 				var check_idx = $(this).closest("tr").find(".check_idx");
 				check_idx.prop("checked",check_idx.prop("checked")==false);
 				checkIndex();
@@ -206,45 +206,43 @@
 		<div>
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-			<div class="path">사원 관리 > 사원 조회</div>
-		      <div class="search_wrapper">
-		      <form>
-		        <div class="search_box">
+			<div class="path"> 사원 관리 > 사원 조회</div>
+			<form>
+				<div class="search-group">
 					<select class="search-option" name="searchType">
 						<option ${searchType== "ID" ? "selected" : ""}>ID</option>
 						<option ${searchType== "이름" ? "selected" : ""}>이름</option>
 					</select>
-		          <div class="search_field">
-		          	<c:if test="${searchType== 'ID'}">
-						<input type="text" id="empId" name="empId" class="input" value="${empVO.empId}" placeholder="Search"/>
+					<c:if test="${searchType== 'ID'}">
+						<input type="text" id="empId" name="empId" class="grow-1 mr-10" value="${empVO.empId}"/>
 					</c:if>
 					<c:if test="${searchType== '이름'}">
-						<input type="text" id="fNm" name="fNm" class="input" value="${empVO.fNm}" placeholder="Search" />
+						<input type="text" id="fNm" name="fNm" class="grow-1 mr-10" value="${empVO.fNm}"/>
 					</c:if>
-		          </div>
-		          <div class="search-icon">
-		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
-		          </div>
-		        </div>
-		        </form>
-		      </div>
-	      		<div class="buttons">
-					<button id="pwd-reset" class="btn">비밀번호 초기화</button>
-					<button id="pstn-change" class="btn">직급 변경</button>
-					<button id="job-change" class="btn">직무 변경</button>
-					<button id="dep-change" class="btn">부서 변경</button>
+					<button class="btn-search" id="search-btn">검색</button>
 				</div>
-		      <div class="list_section">
-		        <div class="total">총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건</div>
-		        <table class="list_table">
-		        <colgroup>
+			</form>
+			<div class="grid">
+				<div class="grid-count">
+					<div class="align-left left">
+						<button id="pwd-reset">비밀번호 초기화</button>
+						<button id="pstn-change">직급 변경</button>
+						<button id="job-change">직무 변경</button>
+						<button id="dep-change">부서 변경</button>
+					</div>
+					<div class="align-right right">
+						총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건
+					</div>
+				</div>
+				<table>
+				<colgroup>
 				    <col width="15px"/>
 				    <col width="10%"/>
 				    <col width="10%"/>
 				    <col width="10%"/>
 				    <col width="10%"/>
 				</colgroup>
-		          <thead>
+					<thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>ID</th>
@@ -264,8 +262,8 @@
 							<th>최근로그인실패날짜</th>
 							<th>로그인실패횟수</th>
 						</tr>
-		          </thead>
-		          <tbody>
+					</thead>
+					<tbody>
 						<c:choose>
 							<c:when test="${not empty empList}">
 								<c:forEach items="${empList}"
@@ -315,29 +313,29 @@
 								</tr>
 							</c:otherwise>
 						</c:choose>
-		          </tbody>
-		        </table>
-					<c:import url="../include/pagenate.jsp">
-	                  <c:param name="pageNo" value="${pageNo}"/>
-	                  <c:param name="pageCnt" value="${pageCnt}"/>
-	                  <c:param name="lastPage" value="${lastPage}"/>
-	                  <c:param name="path" value="${context}/prj"/>
-	               </c:import>
-		        <div class="buttons emplmntStts">
-		          	<c:if test="${empVO.emplmntStts== '001_01'}">
-						<button id="btn-exResign" class="btn">퇴사예정</button>
+					
+					</tbody>
+				</table>
+				<div class="emplmntStts">
+					<c:if test="${empVO.emplmntStts== '001_01'}">
+						<button id="btn-exResign">퇴사예정</button>
 					</c:if>
 					<c:if test="${empVO.emplmntStts== '001_03'}">
-						<button id="btn-resign" class="btn">퇴사</button>
+						<button id="btn-resign">퇴사</button>
 					</c:if>
 					<c:if test="${empVO.emplmntStts== '001_01'}">
-						<button id="btn-leave" class="btn">휴직</button>
+						<button id="btn-leave">휴직</button>
 					</c:if>
 					<c:if test="${empVO.emplmntStts== '001_02'}">
-						<button id="btn-return" class="btn">복직</button>
+						<button id="btn-return">복직</button>
 					</c:if>
-		        </div>
-		      </div>
+				</div>
+				<c:import url="../include/pagenate.jsp">
+                  <c:param name="pageNo" value="${pageNo}"/>
+                  <c:param name="pageCnt" value="${pageCnt}"/>
+                  <c:param name="lastPage" value="${lastPage}"/>
+               	</c:import>
+			</div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>
 	</div>

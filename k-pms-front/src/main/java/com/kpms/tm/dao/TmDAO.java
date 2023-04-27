@@ -9,7 +9,7 @@ public interface TmDAO {
 
 	public List<TmVO> readAllTmVO(TmSearchVO tmSearchVO);
 	
-	public List<TmVO> readAllTmVONopagination(String depId);
+	public List<TmVO> readAllTmVONopagination(String tmNm);
 	
 	public TmVO readOneTmVOByTmId(String tmId);
 	
@@ -17,10 +17,7 @@ public interface TmDAO {
 	
 	public int updateOneTm(TmVO tmVO);
 	
-	public int updateOneTmAndTmMbr(TmVO tmVO);
-	
 	public int deleteOneTmByTmId(String tmId);
 	
 	public int deleteTmBySelectedTmId(List<String> tmId);
-	
 }

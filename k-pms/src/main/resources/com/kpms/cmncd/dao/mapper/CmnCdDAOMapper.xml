@@ -88,7 +88,7 @@
 		UPDATE CMN_CD
 		SET MDFY_DT = SYSDATE
 		, MDFYR = #{mdfyr}
-		, USE_YN = NVL(#{useYn}, 'N')
+		, USE_YN = #{useYn}
 		, CD_NM = #{cdNm}
 		, PRCDNC_CD_ID = #{prcdncCdId}
 		WHERE CD_ID = #{cdId}

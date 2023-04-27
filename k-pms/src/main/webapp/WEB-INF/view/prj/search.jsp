@@ -13,11 +13,11 @@
 		
 
 		
-		$("#cancel_btn").click(function() {
+		$("#cancel-btn").click(function() {
 			window.close();
 		});
 		
-		$("#regist_btn").click(function() {
+		$("#regist-btn").click(function() {
 			var checkOne = $("#check-one:checked");
 			
 			if (checkOne.length == 0) {
@@ -37,30 +37,29 @@
 </script>
 </head>
 <body>
-	<div class="container search_page">
-		<h2>프로젝트 검색</h2>
-        <div class="search_wrapper">
-            <div class="search_box">
-                <select>
-                <option>프로젝트명</option>
-                </select>
-                <div class="search_field">
-                <input type="text" class="input" placeholder="Search" value="${prjNm}">
-                </div>
-                <div class="search-icon"><span class="material-symbols-outlined">search</span></div>
-            </div>
-        </div>
-        <div class="total">총 ${prjList.size() > 0 ? prjList.size() : 0}건</div>
-        <table class="list_table search_table">
-            <thead>
-                <tr>
-                    <th></th>
-					<th>프로젝트ID</th>
-					<th>프로젝트명</th>
-					<th>고객사</th>
-					<th>프로젝트 상태</th>
-                </tr>
-            </thead>
+	<div class="search-popup content">
+		<h1>프로젝트 검색</h1>
+		<form>
+			<div class="search-group">
+				<label for="prjNm">프로젝트명</label>
+				<input type="text" name="prjNm" class="grow-1 mr-10" value="${prjNm}"/>
+				<button class="search-btn" id="btn-search">검색</button>
+			</div>
+		</form>
+		<div class="grid">
+			<div class="grid-count align-right">
+						총 ${prjList.size() > 0 ? prjList.size() : 0}건
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>프로젝트ID</th>
+						<th>프로젝트명</th>
+						<th>고객사</th>
+						<th>프로젝트 상태</th>
+					</tr>
+				</thead>
 				<tbody>
 					<c:choose>
 						<c:when test="${not empty prjList}">
@@ -83,16 +82,17 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="4" class="no-items">검색된 프로젝트가 없습니다.</td>
+								<td colspan="4">검색된 프로젝트가 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
 				</tbody>
-        </table>
-        <div class="buttons">
-            <button id="cancel_btn" class="btn delete">취소</button>
-            <button id="regist_btn" class="btn regist">등록</button>
-        </div>
-    </div>
+			</table>
+		</div>
+		<div class="align-right">
+			<button id="regist-btn" class="btn-primary">등록</button>
+			<button id="cancel-btn" class="btn-delete">취소</button>
+		</div>
+	</div>
 </body>
 </html>

@@ -23,12 +23,7 @@
 			<id property="depId" column="DEP_ID" />
 			<result property="depNm" column="DEP_NM" />
 		</association>
-		<association property="tmMbr" 
-					javaType="com.kpms.tmmbr.vo.TmMbrVO">
-			<id property="tmMbrId" column="TM_MBR_ID" />
-			<result property="tmId" column="TM_ID" />
-		</association>
-		<association property="job"
+		<association property="job" 
 					 javaType="com.kpms.job.vo.JobVO">
 			<id property="jobId" column="JOB_ID" />
 			<result property="jobNm" column="JOB_NM" />
@@ -37,11 +32,6 @@
 					 javaType="com.kpms.pstn.vo.PstnVO">
 			<id property="pstnId" column="PSTN_ID" />
 			<result property="pstnNm" column="PSTN_NM" />
-		</association>
-		<association property="emplmntSttsVO" 
-					 javaType="com.kpms.cmncd.vo.CmnCdVO">
-			<id property="cdId" column="EMPLMNT_STTS" />
-			<result property="cdNm" column="CD_NM" />
 		</association>
 	</resultMap>
 	
@@ -228,8 +218,7 @@
 			   ME.L_NM MDFYR_L_NM,
 			   J.JOB_NM,
 			   D.DEP_NM,
-			   P.PSTN_NM,
-			   CMCD.CD_NM
+			   P.PSTN_NM
 		  FROM (SELECT *
 		  		  FROM EMP
 				 WHERE DEL_YN = 'N'
@@ -244,8 +233,6 @@
 		  	ON J.JOB_ID = E.JOB_ID
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
-		  JOIN CMN_CD CMCD
-		  	ON CMCD.CD_ID = E.EMPLMNT_STTS
 	</select>
 	
 	<select id="readEmpListNoPagination"
@@ -282,43 +269,6 @@
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
 	</select>
-	
-	<select id="readEmpOnTmMbrListNoPagination"
-			parameterType="com.kpms.emp.vo.EmpVO"
-			resultMap="EmpMap">
-		SELECT D.DEP_ID, 
-		       E.EMP_ID,
-			   E.F_NM,
-			   E.L_NM,
-			   E.EML,
-			   E.PHN,
-			   E.PRFL_PHT,
-			   E.EMPLMNT_STTS,
-			   E.DEP_ID,
-			   J.JOB_NM,
-			   D.DEP_NM,
-			   P.PSTN_NM 
-		  FROM DEP D
-		 INNER JOIN EMP E
-		    ON D.DEP_ID = E.DEP_ID
-		 INNER JOIN JOB J
-		  	ON J.JOB_ID = E.JOB_ID
-		 INNER JOIN PSTN P
-		  	ON P.PSTN_ID = E.PSTN_ID
-		WHERE D.DEL_YN = 'N'
-		  AND E.DEL_YN = 'N'
-		<if test="depId != null and depId != ''">
-		  AND D.DEP_ID = #{depId}
-		</if>
-		<if test="fNm != null and fNm != ''">
-		  AND E.F_NM LIKE '%' || #{fNm} || '%'
-		</if>
-		  AND E.EMP_ID NOT IN (SELECT TM.EMP_ID
-								 FROM TM_MBR TM
-								WHERE TM.TM_ID = #{tmMbr.tmId}
-							  	  AND TM.DEL_YN = 'N')
-	</select>
-	
 	<select id="readEmpList"
 			parameterType="com.kpms.emp.vo.EmpVO"
 			resultMap="EmpMap">
@@ -362,8 +312,7 @@
 			   ME.L_NM MDFYR_L_NM,
 			   J.JOB_NM,
 			   D.DEP_NM,
-			   P.PSTN_NM,
-			   CMCD.CD_NM
+			   P.PSTN_NM
 		  FROM (SELECT *
 		  		  FROM EMP
 				 WHERE DEL_YN = 'N'
@@ -372,9 +321,6 @@
 				</if>
 				<if test="fNm != null and fNm != ''">
 				   AND F_NM LIKE '%' || #{fNm} || '%'
-				</if>
-				<if test="emplmntStts != null and emplmntStts != ''">
-				   AND EMPLMNT_STTS = #{emplmntStts}
 				</if>) E
 		  JOIN EMP CE
 		  	ON CE.EMP_ID = E.CRTR
@@ -386,8 +332,6 @@
 		  	ON J.JOB_ID = E.JOB_ID
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
-		  JOIN CMN_CD CMCD
-		  	ON CMCD.CD_ID = E.EMPLMNT_STTS
 		<include refid="Common.pageFooter"/>
 	</select>
 	
@@ -400,15 +344,6 @@
 			<when test="pwd != null and pwd != ''">
 			   PWD = #{pwd},
 			   PWD_SALT = #{pwdSalt}
-			</when>
-			<when test="pstnId != null and pstnId != ''">
-			   PSTN_ID = #{pstnId}
-			</when>
-			<when test="jobId != null and jobId != ''">
-			   JOB_ID = #{jobId}
-			</when>
-			<when test="depId != null and depId != ''">
-			   DEP_ID = #{depId}
 			</when>
 			<otherwise>
 			   F_NM = #{fNm},
@@ -458,45 +393,5 @@
 		   	 , FAIL_DT = ''
 		 WHERE EMP_ID = #{empId}
 	</update>
-	<update id="updateEmpPstn"
-			parameterType="com.kpms.emp.vo.EmpChngPstnVO">
-		UPDATE EMP
-		   SET PSTN_ID = #{pstnId}
-		   	 , MDFYR = #{mdfyr}
-		 WHERE EMP_ID IN
-		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
-		  #{empId}
-		 </foreach>
-	</update>
-	<update id="updateEmpJob"
-			parameterType="com.kpms.emp.vo.EmpChngJobVO">
-		UPDATE EMP
-		   SET JOB_ID = #{jobId}
-		   	 , MDFYR = #{mdfyr}
-		 WHERE EMP_ID IN
-		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
-		  #{empId}
-		 </foreach>
-	</update>
-	<update id="updateEmpDep"
-			parameterType="com.kpms.emp.vo.EmpChngDepVO">
-		UPDATE EMP
-		   SET DEP_ID = #{depId}
-		   	 , MDFYR = #{mdfyr}
-		 WHERE EMP_ID IN
-		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
-		  #{empId}
-		 </foreach>
-	</update>
 	
-	<update id="updateEmpEmplmnt"
-			parameterType="com.kpms.emp.vo.EmpChngEmplmntVO">
-		UPDATE EMP
-		   SET EMPLMNT_STTS = #{emplmntStts}
-		   	 , MDFYR = #{mdfyr}
-		 WHERE EMP_ID IN
-		 <foreach collection="empIdList" item="empId" open="(" close=")" separator=", ">
-		  #{empId}
-		 </foreach>
-	</update>
 </mapper>

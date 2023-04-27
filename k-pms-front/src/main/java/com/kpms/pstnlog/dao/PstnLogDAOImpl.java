@@ -7,7 +7,6 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.pstnlog.vo.PstnLogVO;
 
 @Repository
@@ -25,8 +24,8 @@ public class PstnLogDAOImpl extends SqlSessionDaoSupport implements PstnLogDAO {
 	}
 	
 	@Override
-	public int createPstnLog(EmpChngPstnVO empChngPstnVO) {
-		return getSqlSession().insert("PstnLog.createPstnLog", empChngPstnVO);
+	public int createPstnLog(PstnLogVO pstnLogVO) {
+		return getSqlSession().insert("PstnLog.createPstnLog", pstnLogVO);
 	}
 
 }

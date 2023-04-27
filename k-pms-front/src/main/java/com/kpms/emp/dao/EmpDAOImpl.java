@@ -7,10 +7,6 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kpms.emp.vo.EmpChngDepVO;
-import com.kpms.emp.vo.EmpChngEmplmntVO;
-import com.kpms.emp.vo.EmpChngJobVO;
-import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpVO;
 
 @Repository
@@ -56,12 +52,6 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	public List<EmpVO> readEmpListNoPagination(EmpVO empVO) {
 		return getSqlSession().selectList("Emp.readEmpListNoPagination",empVO);
 	}
-
-	@Override
-	public List<EmpVO> readEmpOnTmMbrListNoPagination(EmpVO empVO) {
-		return getSqlSession().selectList("Emp.readEmpOnTmMbrListNoPagination", empVO);
-	}
-	
 	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
 		return getSqlSession().selectList("Emp.readEmpList",empVO);
@@ -87,25 +77,5 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	@Override
 	public int deleteOneEmp(EmpVO empVO) {
 		return getSqlSession().update("Emp.deleteOneEmp",empVO);
-	}
-
-	@Override
-	public int updateEmpJob(EmpChngJobVO empChngJobVO) {
-		return getSqlSession().update("Emp.updateEmpJob",empChngJobVO);
-	}
-
-	@Override
-	public int updateEmpPstn(EmpChngPstnVO empChngPstnVO) {
-		return getSqlSession().update("Emp.updateEmpPstn",empChngPstnVO);
-	}
-
-	@Override
-	public int updateEmpDep(EmpChngDepVO empChngDepVO) {
-		return getSqlSession().update("Emp.updateEmpDep",empChngDepVO);
-	}
-	
-	@Override
-	public int updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO) {
-		return getSqlSession().update("Emp.updateEmpEmplmnt",empChngEmplmntVO);
 	}
 }

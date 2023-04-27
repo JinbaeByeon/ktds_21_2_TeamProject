@@ -6,6 +6,5 @@
 		<li class="menu-item" ><a href="${context}/eqp/rent">대여 관리</a></li>
 		<li class="menu-item" ><a href="${context}/eqp/apply">대여 신청</a></li>
 		<li class="menu-item" ><a href="${context}/eqp/lost">분실물 관리</a></li>
-		<li class="menu-item" ><a href="${context}/eqp/log">비품내역 관리</a></li>
 	</ul>
 </div>

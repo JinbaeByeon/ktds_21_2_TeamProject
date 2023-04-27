@@ -2,15 +2,14 @@ package com.kpms.knw.vo;
 
 import java.util.List;
 
-import com.kpms.atchfl.vo.AtchFlVO;
-import com.kpms.common.vo.AbstractFileVO;
+import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.knwrpl.vo.KnwRplVO;
 import com.kpms.prj.vo.PrjVO;
 
 /**
  * KNW
  */
-public class KnwVO extends AbstractFileVO {
+public class KnwVO extends AbstractPagingVO {
 
 	private String knwId;
 	private String ttl;
@@ -20,7 +19,6 @@ public class KnwVO extends AbstractFileVO {
 
 	private PrjVO prjVO; // 프로젝트에 대한 정보(프로젝트 이름, 상태)
 	private List<KnwRplVO> rplList; // 지식관리 댓글
-	private List<AtchFlVO> atchFlList; // 첨부 파일
 
 	public String getKnwId() {
 		return knwId;
@@ -76,14 +74,6 @@ public class KnwVO extends AbstractFileVO {
 
 	public void setRplList(List<KnwRplVO> rplList) {
 		this.rplList = rplList;
-	}
-
-	public List<AtchFlVO> getAtchFlList() {
-		return atchFlList;
-	}
-
-	public void setAtchFlList(List<AtchFlVO> atchFlList) {
-		this.atchFlList = atchFlList;
 	}
 
 }

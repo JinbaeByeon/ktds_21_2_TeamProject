@@ -36,8 +36,8 @@
 		td += "<td>" + message.lnm + "</td>"
 		td += "<td><select class='pstn " +  message.tmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
-		var rmbtn = $("<td><button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button></td>")
-
+		var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
+		
 		rmbtn.click(function() {
 			$(this).closest(".tmMbr-tr").remove();
 		});
@@ -137,77 +137,76 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">새 프로젝트 생성</div>
+				<div class="path"> 생성생성 ${prjId} | ${prjVO.prjNm}</div>
 				<form id="create_form" enctype="multipart/form-data">
-					<table class="detail_table">
-		                <tr>
-		                    <th>프로젝트명</th>
-		                    <td><input type="text" id="prjNm" name="prjNm" value="" /></td>
-		                </tr>
-		                <tr>
-		                    <th>고객사</th>
-		                    <td><input type="text" id="prjNm" name="prjNm" value="" /></td>
-		                </tr>
-		                <tr>
-		                    <th>시작일</th>
-		                    <td><input type="date" id="strtDt" name="strtDt" value="" /></td>
-		                </tr>
-		                <tr>
-		                    <th>종료일</th>
-		                    <td><input type="date" id="endDt" name="endDt" value="" /></td>
-		                </tr>
-		                <tr>
-		                    <th>프로젝트 상태</th>
-		                    <td>
-								<select id="prjStts-select" name="prjStts"></select>
-							</td>
-		                </tr>
-		                <tr>
-		                    <th>사용여부</th>
-		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y"/></td>
-		                </tr>
-		                <tr>
-		                    <th>팀</th>
-		                    <td>
-		                	<c:choose>
-								<c:when test="${not empty tmList}">
-									<c:forEach items="${tmList}" var="tm">
-											${tm.getValue()} (${tm.getKey()})<br/>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-										등록된 팀이 없습니다.
-								</c:otherwise>
-							</c:choose>
-							</td>
-		                </tr>
-		                <tr>
-		                    <th>팀원</th>
-		                    <td>
-		                    	<div>
-									<button id="addTmMbrBtn" class="btn regist add">팀원 추가</button>
-								</div>
-		                        <table class="list_table inner_table">
-		                        <thead>
-		                            <tr>
-		                                <th>직원ID</th>
-		                                <th>팀</th>
-		                                <th>성</th>
-		                                <th>이름</th>
-		                                <th>권한</th>
-		                                <th></th>
-		                            </tr>
-		                        </thead>
-		                        <tbody class="tmMbrAddTbody"></tbody>
-		                    </table>
-		                    </td>
-		                </tr>
-		            </table>
-				</form>
-        <div class="buttons">
-          <button id="modify-btn" class="btn regist">수정</button>
-          <button id="delete-btn" class="btn delete">삭제</button>
-        </div>
+					<div class="create-group">
+						<label for="prjNm" required>프로젝트명</label>
+						<input type="text" id="prjNm" name="prjNm" value=""/>
+					</div>
+					<div class="create-group">
+						<label for="cstmr" required>고객사</label>
+						<input type="text" id="cstmr" name="cstmr" value=""/>
+					</div>
+					<div class="create-group">
+						<label for="strtDt" required>시작일</label>
+						<input type="date" id="strtDt" name="strtDt" value=""/>
+					</div>
+					<div class="create-group">
+						<label for="endDt" required>종료일</label>
+						<input type="date" id="endDt" name="endDt" value=""/>
+					</div>
+					<div class="create-group">
+						<label for="prjStts" required>프로젝트 상태</label>
+						<select id="prjStts-select" name="prjStts"></select>
+					</div>
+					<div class="create-group">
+						<label for="useYn">사용여부</label>
+						<input type="checkbox" id="useYn" name="useYn" value="Y"/>
+					</div>
+<!-- 					<div class="create-group">
+						<label for="tm">팀</label>
+						<div>
+							<button id="addTmBtn" class="btn-primary">추가</button>
+						</div>
+						<div class="grid">
+							<table>
+								<thead>
+									<tr>
+										<th>팀ID</th>
+										<th>팀명</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody class="tmAddTbody"></tbody>
+							</table>
+						</div>
+					</div> -->
+					<div class="create-group">
+						<label for="tmMbr" required>팀원</label>
+						<div>
+							<button id="addTmMbrBtn" class="btn-primary">추가</button>
+						</div>
+						<div class="grid">
+							<table>
+								<thead>
+									<tr>
+										<th>직원ID</th>
+										<th>팀</th>
+										<th>성</th>
+										<th>이름</th>
+										<th>권한</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody class="tmMbrAddTbody"></tbody>
+							</table>
+						</div>
+					</div>
+				</form>	
+				<div class="align-right">
+					<button id="save-btn" class="btn-primary">저장</button>
+					<button id="delete-btn" class="btn-delete">삭제</button>
+				</div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>

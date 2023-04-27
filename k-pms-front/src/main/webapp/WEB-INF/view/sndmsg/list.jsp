@@ -88,7 +88,7 @@
 				form.append("<input type='hidden' name='msgId' value='"+ $(this).val() +"'>");
 			});
 			
-			$.post("${context}/api/sndmsg/delete", form.serialize(), function(response) {
+			$.post("${context}/api/job/delete", form.serialize(), function(response) {
 				location.reload(); // 새로고침
 			});
 		});
@@ -96,9 +96,9 @@
 		function movePage(pageNo) {
 			// 전송
 			// 입력 값
-			var keyword=$("#search-keyword").val();
+			var searchRcvr=$("#search-keyword").val();
 			// URL 요청
-			location.href= "${context}/sndmsg/list?searchKeyword=" + keyword + "&pageNo=" + pageNo;
+			location.href= "${context}/msg/list?searchRcvr=" + searchRcvr + "&pageNo=" + pageNo;
 		}
 </script>
 </head>
@@ -111,7 +111,7 @@
 			<div class="path">쪽지 > 보낸쪽지함</div>
 			<div class="search-group">
 				<label for="search-keyword">수신자명</label>					
-				<input type="text" id="search-keyword" class="search-input" value="${sndMsgVO.searchKeyword}"/>
+				<input type="text" id="search-keyword" class="search-input" value="${searchRcvr}"/>
 				<button class="btn-search" id="search-btn">&#128269</button>
 			</div>
 			<div class="grid">
@@ -127,6 +127,7 @@
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
+							<th>조회여부</th>
 							<th>수신자</th>
 							<th>제목</th>
 							<th>내용</th>
@@ -139,15 +140,17 @@
 							<c:when test="${not empty sndMsgList}">
 								<c:forEach items="${sndMsgList}"
 										   var="sndMsg">
-									<tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
+									<tr data-rdyn="${sndMsg.rdYn}"
+										data-crtr="${sndMsg.crtr}"
 										data-ttl="${sndMsg.ttl}"
-										data-cntnt="${sndMsg.cntnt}"
+										data-crtr="${sndMsg.cntnt}"
 										data-attch="${sndMsg.attch}"
 										data-crtdt="${sndMsg.crtDt}">
 										<td>
 											<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
 										</td>
-										<td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm} ${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
+										<td>${sndMsg.rdYn}</td>
+										<td>${sndMsg.crtr}</td>
 										<td>${sndMsg.ttl}</td>
 										<td>${sndMsg.cntnt}</td>
 										<td>${sndMsg.attch}</td>

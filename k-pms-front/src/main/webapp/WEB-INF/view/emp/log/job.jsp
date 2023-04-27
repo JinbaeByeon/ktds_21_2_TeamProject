@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
-<c:set scope="request" var="selected" value="emp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +10,24 @@
 <jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+
+		$(".grid > table > tbody > tr").click(function() {
+			$("#isModify").val("true");
+			var data = $(this).data();
+			$("#empId").val(data.empid);
+			$("#fNm").val(data.fnm);
+			$("#lNm").val(data.lnm);
+			$("#prvsJobId").val(data.prvsjobid);
+			$("#prvsJobNm").val(data.prvsjobnm);
+			$("#chngJobId").val(data.chngjobid);
+			$("#chngDt").val(data.chngdt);
+			$("#chngJobNm").val(data.chngjobnm);
+			$("#chngRsn").val(data.chngrsn);
+			$("#crtDt").val(data.crtdt);
+			$("#crtr").val(data.crtr);
+
+			$("#useYn").prop("checked", data.useyn == "Y");
+		});
 		
 		$("#search-keyword").keydown(function(e){
 			if(e.keyCode == '13'){
@@ -22,13 +39,13 @@
 			movePage(0)
 		});
 	});
-	function movePage(pageNo) {
-		// 전송
-		// 입력 값
-		var empId =$("#search-keyword").val();
-		// URL 요청
-		location.href= "${context}/emp/log/job?empId=" + empId + "&pageNo=" + pageNo;
-	}
+		function movePage(pageNo) {
+			// 전송
+			// 입력 값
+			var empId =$("#search-keyword").val();
+			// URL 요청
+			location.href= "${context}/emp/log/job?empId=" + empId + "&pageNo=" + pageNo;
+		}
 
 </script>
 </head>
@@ -36,7 +53,7 @@
 	<div class="main-layout">
 		<jsp:include page="../../include/header.jsp"/>
 		<div>
-		<jsp:include page="../../include/empSidemenu.jsp"/>
+		<jsp:include page="../../include/sysSidemenu.jsp"/>
 		<jsp:include page="../../include/content.jsp"/>
 			<div class="path">직무변경이력 > </div>
 			<div class="search-group">

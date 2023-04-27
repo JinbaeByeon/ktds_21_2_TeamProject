@@ -16,6 +16,7 @@
 $().ready(function() {
 	
 	$("table > tbody > tr").click(function() {
+		$("#isModify").val("true"); // 수정모드
 		var data = $(this).data();
 		$("#prjId").val(data.prjid);
 		$("#prjNm").val(data.prjnm);
@@ -33,6 +34,27 @@ $().ready(function() {
 	$("#new-btn").click(function() {
 		location.href = "${context}/prj/create"
 	});
+	
+	/* $("#delete-btn").click(function() {
+		var prjId = $("#prjId").val();
+		if(prjId == "") {
+			alert("선택된 프로젝트가 없습니다.");
+			return
+		}
+		
+		if(!confirm("정말 삭제하시겠습니까?")) {
+			return;
+		}
+		
+		$.get("${context}/api/prj/delete/" + prjId, function(response) {
+			if (response.status == "200 OK") {
+				location.reload(); // 새로고침
+			}
+			else {
+				alert(response.errorCode + "/" + response.message);
+			}
+		});
+	}); */
 	
 	$("#delete-btn").click(function() {
 		var checkLen = $(".check-idx:checked").length;

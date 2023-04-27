@@ -12,6 +12,7 @@
 		   				javaType="com.kpms.sndmsg.vo.SndMsgVO">
 				<id property="msgId" column="SND_MSG_ID"/>
 			   	<result property="ttl" column="TTL"/>
+			   	<result property="attch" column="ATTCH"/>
 				<association property="sndEmpVO"
 			 			  javaType="com.kpms.emp.vo.EmpVO">
 				 	<id property="empId" column="EMP_ID"/>
@@ -42,6 +43,7 @@
 			 , RM.RCVR
 			 , RM.RD_YN
 			 , SM.TTL
+			 , SM.ATTCH
 			 , SND_E.F_NM  SE_F_NM 
 			 , SND_E.L_NM  SE_L_NM
 		  FROM (SELECT *

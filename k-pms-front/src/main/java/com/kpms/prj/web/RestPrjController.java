@@ -39,7 +39,7 @@ public class RestPrjController {
 	
 	@PostMapping("/api/prj/update")
 	public APIResponseVO doUpdatePrj(PrjVO prjVO, @SessionAttribute("__USER__") EmpVO empVO) {
-		prjVO.setCrtr(empVO.getEmpId());
+		
 		prjVO.setMdfyr(empVO.getEmpId());
 		
 		boolean updateResult = prjService.updateOnePrj(prjVO);

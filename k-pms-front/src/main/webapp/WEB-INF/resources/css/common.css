@@ -287,14 +287,6 @@ h1{
 	padding-bottom: 10px;
 }
 
-.main-layout > div > .side-menu	> .menu-list > .line {
-	border-bottom: 1px solid #fff;
-	display: block;
-    margin: 0px 8px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
 .main-layout > div > .content {
 	position:fixed;
 	top:90px;
@@ -481,7 +473,7 @@ img.profile{
 .create-group label {
 	display: inline-block;
 	background-color: #e3e3e3;	
-	min-width: 130px;
+	width: 130px;
 	padding: 10px;
 	font-size: 13px;
 }
@@ -499,12 +491,10 @@ img.profile{
 
 .create-group > div{
 	display: flex;
-	flex-direction: column;
 }
 .create-group > div.column{
 	flex-direction: column;
 }
-
 
 .create-group > .right-item {
 	position: absolute;
@@ -682,176 +672,6 @@ input::-webkit-inner-spin-button {
 .reply > .update-btn {
 	display: inline-block;
 }
-
-/* srcoll-table */
-
-.scroll-table{
-    table-layout: fixed;
-    border-collapse: collapse;
-    width: 350px;
-    display: inline-block;
-}
-
-.scroll-table thead {
-    display:block;
-    background: #D0BFBF;
-    color:#fff;
-}
-
-.scroll-table .table-title {
-	background: #fff;
-	text-align: left;
-	padding: 10px;	
-}
-
-
-.scroll-table th, .scroll-table td {
-  padding: 10px;
-  width: 200px;
-  text-align: center;
-  padding: 0px;
-  border-bottom: 1px solid #333;
-}
-
-
-.scroll-table tbody{
-    display:block;
-    overflow:auto;
-    height:200px;
-}
-
-.scroll-table .input {
-	width: 20px;
-	padding: 0 10px;
-}
-
-.scroll-table tbody tr:hover {
-	background: #C4C19B;
-}
-
-.scroll-table .active {
-	background: #9BC4A4;
-}
-
-
-
-.hide {
-	display: none;
-}
-
-.emplmntStts {
-	position: absolute;
-	margin-top: 5px;
-	right: 10px;
-}
-
-
-#search-emp {
-	margin: 10px 0;
-}
-
-
-/* 쪽지 전송 */
-
-#user_list {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-#user_list > .user {
-	display: flex;
-    background-color: #d0edff;
-    border-radius: 14px;
-    padding: 5px;
-    margin: 3px 0;
-    margin-left: 10px;
-}
-
-#user_list > .user > .rcvr {
-	height: 20px;
-	margin: 0;
-	margin-left: 5px;
-	line-height: 17px
-}
-#user_list > .user > .btn-delete {
-	margin: 0;
-    border: none;
-    background-color: #d0edff;
-    color: #888;
-    font-size: 17px;
-    padding: 0 5px;
-}
-
-.create-group input[type=text].underBar {
-	border: none;
-	border-bottom: 1px solid #ddd;
-}
-
-.create-group .msg-cntnt{
-	border: 1px solid #ccc;
-}
-.create-group > .file_area{
-	width: 85%;	
-}
-
-.create-group > .file_area > .file_upload > button{
-	margin-bottom: 0;
-}
-
-.create-group > .file_area .file_drag{
-	margin: 10px;
-    padding: 17px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #666;
-}
-
-.create-group > .file_area .file_attachment{
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    margin: 10px;
-}
-.create-group > .file_area .file_attachment > div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #eee;
-}
-.create-group > .file_area .file_attachment > div > .remove_all {
-	margin: 0 10px;
-}
-.create-group > .file_area .file_attachment > div > .file_name {
-	flex: 1 1 auto;
-	text-align: left;
-}
-.create-group > .file_area .file_attachment > div > .file_size {
-	padding-right: 20px;
-}
-
-#file_list {
-	padding: 0;
-}
-
-#file_list > li {
-	display: block;
-	display: flex;
-}
-
-#file_list > li > div {
-	display: flex;
-	flex: 1 1 auto;
-} 
-
-#file_list > li > div > .file_name {
-	flex: 1 1 auto;
-	text-align: left;
-}
-
-#file_list > li > div > .remove {
-	margin: 0 10px;
-}
-
 
 
 

@@ -59,6 +59,7 @@
 		});
 		
 		$("#all_check").change(function() {
+		/* 	console.log($(this).prop("checked")); */
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		
@@ -71,7 +72,7 @@
 		$("#delete_all_btn").click(function() {
 			var checkLen = $(".check_idx:checked").length;
 			if (checkLen == 0) {
-				alert("삭제할 팀이 없습니다.");
+				alert("삭제할 부서가 없습니다.");
 				return;
 			}
 			
@@ -175,7 +176,7 @@
 											data-tmhdid="${tm.tmHdId}"
 											data-tmcrtdt="${tm.tmCrtDt}"
 											data-useyn="${tm.useYn}"
-											data-crtr="${tm.crtr}" 
+											data-crtr="${tm.crtr}"
 											data-crtdt="${tm.crtDt}"
 											data-mdfyr="${tm.mdfyr}"
 											data-mdfydt="${tm.mdfyDt}">
@@ -220,6 +221,8 @@
 				
 				<div class="align-right">
 					<button id="new_btn" class="btn-primary">신규</button>
+				</div>
+				<div class="align-right mt-10">
 					<button id="delete_all_btn" class="btn-delete">삭제</button>
 				</div>
 			<jsp:include page="../include/footer.jsp" />

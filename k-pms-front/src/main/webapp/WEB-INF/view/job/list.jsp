@@ -185,7 +185,7 @@
 									<td>
 										<input type="checkbox" class="check_idx" value="${job.jobId}"/>
 									</td>
-									<td>${job.rnum}</td>
+									<td>순번</td>
 									<td>${job.jobId}</td>
 									<td>${job.jobNm}</td>
 									<td>${job.useYn}</td>

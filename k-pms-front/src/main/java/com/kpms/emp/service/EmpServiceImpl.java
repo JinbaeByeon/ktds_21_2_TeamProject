@@ -17,19 +17,12 @@ import com.kpms.common.util.CalendarUtil;
 import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
 import com.kpms.common.vo.MailVO;
-import com.kpms.deplog.dao.DepLogDAO;
 import com.kpms.emp.dao.EmpDAO;
-import com.kpms.emp.vo.EmpChngDepVO;
-import com.kpms.emp.vo.EmpChngEmplmntVO;
-import com.kpms.emp.vo.EmpChngJobVO;
-import com.kpms.emp.vo.EmpChngPstnVO;
 import com.kpms.emp.vo.EmpPwdVO;
 import com.kpms.emp.vo.EmpVO;
-import com.kpms.joblog.dao.JobLogDAO;
 import com.kpms.lgnhst.dao.LgnHstDAO;
 import com.kpms.lgnhst.vo.LgnHstVO;
 import com.kpms.lgntrylog.dao.LgnTryLogDAO;
-import com.kpms.pstnlog.dao.PstnLogDAO;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -40,16 +33,9 @@ public class EmpServiceImpl implements EmpService {
 	@Autowired
 	private LgnTryLogDAO lgnTryLogDAO;
 	@Autowired
-	private PstnLogDAO pstnLogDAO;
+	UploadHandler uploadHandler;
 	@Autowired
-	private JobLogDAO jobLogDAO;
-	@Autowired
-	private DepLogDAO depLogDAO;
-	
-	@Autowired
-	private UploadHandler uploadHandler;
-	@Autowired
-	private MailService mailService;
+	MailService mailService;
 	
 	@Override
 	public boolean createOneEmp(EmpVO empVO, MultipartFile uploadFile) {
@@ -192,10 +178,6 @@ public class EmpServiceImpl implements EmpService {
 		return empDAO.readEmpListNoPagination(empVO);
 	}
 	@Override
-	public List<EmpVO> readEmpOnTmMbrListNoPagination(EmpVO empVO) {
-		return empDAO.readEmpOnTmMbrListNoPagination(empVO);
-	}
-	@Override
 	public List<EmpVO> readEmpList(EmpVO empVO) {
 		return empDAO.readEmpList(empVO);
 	}
@@ -282,10 +264,11 @@ public class EmpServiceImpl implements EmpService {
 	public boolean updateEmpPwdReset(List<String> empIdList, String mdfyr) {
 		int cntUpdate = 0;
 		for(String empId : empIdList) {
-			EmpVO empVO = empDAO.readOneEmpByEmpId(empId);
-			if(empVO ==null) {
+			if(empDAO.readOneEmpByEmpId(empId)==null) {
 				throw new APIArgsException(APIStatus.DISMATCH, "일치하는 ID가 존재하지 않습니다.");
 			}
+			EmpVO empVO = new EmpVO();
+			empVO.setEmpId(empId);
 			
 			String randomPwd = StringUtil.getRandomPassword(10);
 			
@@ -321,34 +304,5 @@ public class EmpServiceImpl implements EmpService {
 	public String readSaltById(String empId) {
 		return empDAO.readSaltById(empId);
 	}
-
-	@Override
-	public boolean updateEmpPstn(EmpChngPstnVO empChngPstnVO) {
-		int cntEmpList = empChngPstnVO.getEmpIdList().size();
-		pstnLogDAO.createPstnLog(empChngPstnVO);
-		
-		return empDAO.updateEmpPstn(empChngPstnVO) == cntEmpList;
-	}
-
-	@Override
-	public boolean updateEmpJob(EmpChngJobVO empChngJobVO) {
-		int cntEmpList = empChngJobVO.getEmpIdList().size();
-		jobLogDAO.createJobLog(empChngJobVO);
-		
-		return empDAO.updateEmpJob(empChngJobVO) == cntEmpList;
-	}
-
-	@Override
-	public boolean updateEmpDep(EmpChngDepVO empChngDepVO) {
-		int cntEmpList = empChngDepVO.getEmpIdList().size();
-		depLogDAO.createDepLog(empChngDepVO);
-		
-		return empDAO.updateEmpDep(empChngDepVO) == cntEmpList;
-	}
-	@Override
-	public boolean updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO) {
-		int cntEmpList = empChngEmplmntVO.getEmpIdList().size();
-		
-		return empDAO.updateEmpEmplmnt(empChngEmplmntVO) == cntEmpList;
-	}
+	
 }

@@ -1,26 +1,22 @@
 package com.kpms.issu.vo;
 
-import java.util.List;
-
-import com.kpms.atchfl.vo.AtchFlVO;
-import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.common.vo.AbstractVO;
 
 /**
  * ISSU
  */
-public class IssuVO extends AbstractPagingVO {
+public class IssuVO extends AbstractVO {
 
 	private String issuId;
-	private String reqId;
+	private String rqrId;
 	private String issuTtl;
 	private String issuCntnt;
 	private int vwCnt;
 	private String dffclty;
+	private String attch;
 	private String dtlCntnt;
 	private String mnTmMbrId;
 	private String stts;
-	
-	private List<AtchFlVO> atchFlList;
 
 
 	public void setIssuId(String issuId) {
@@ -31,12 +27,12 @@ public class IssuVO extends AbstractPagingVO {
 		return this.issuId;
 	}
 
-	public String getReqId() {
-		return reqId;
+	public void setRqrId(String rqrId) {
+		this.rqrId = rqrId;
 	}
 
-	public void setReqId(String reqId) {
-		this.reqId = reqId;
+	public String getRqrId() {
+		return this.rqrId;
 	}
 
 	public void setIssuTtl(String issuTtl) {
@@ -71,6 +67,14 @@ public class IssuVO extends AbstractPagingVO {
 		return this.dffclty;
 	}
 
+	public void setAttch(String attch) {
+		this.attch = attch;
+	}
+
+	public String getAttch() {
+		return this.attch;
+	}
+
 	public void setDtlCntnt(String dtlCntnt) {
 		this.dtlCntnt = dtlCntnt;
 	}
@@ -93,14 +97,6 @@ public class IssuVO extends AbstractPagingVO {
 
 	public String getStts() {
 		return this.stts;
-	}
-
-	public List<AtchFlVO> getAtchFlList() {
-		return atchFlList;
-	}
-
-	public void setAtchFlList(List<AtchFlVO> atchFlList) {
-		this.atchFlList = atchFlList;
 	}
 
 }

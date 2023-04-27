@@ -2,7 +2,6 @@ package com.kpms.sndmsg.vo;
 
 import java.util.List;
 
-import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
@@ -15,8 +14,8 @@ public class SndMsgVO extends AbstractPagingVO {
 	private String msgId;
 	private String ttl;
 	private String cntnt;
+	private String attch;
 	
-	private List<AtchFlVO> atchFlList;
 	private List<RcvMsgVO> rcvMsgVO;
 	private EmpVO sndEmpVO;
 	
@@ -38,11 +37,11 @@ public class SndMsgVO extends AbstractPagingVO {
 	public void setCntnt(String cntnt) {
 		this.cntnt = cntnt;
 	}
-	public List<AtchFlVO> getAtchFlList() {
-		return atchFlList;
+	public String getAttch() {
+		return attch;
 	}
-	public void setAtchFlList(List<AtchFlVO> atchFlList) {
-		this.atchFlList = atchFlList;
+	public void setAttch(String attch) {
+		this.attch = attch;
 	}
 	public List<RcvMsgVO> getRcvMsgVO() {
 		return rcvMsgVO;

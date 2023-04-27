@@ -90,7 +90,7 @@
 	
 	<select id="readAllTmVONopagination"
 			parameterType="string"
-			resultMap="tmVOMap">
+			resultType="com.kpms.tm.vo.TmVO">
 		SELECT T.TM_ID
 			 , TO_CHAR(T.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , T.CRTR
@@ -102,18 +102,10 @@
 			 , TO_CHAR(T.TM_CRT_DT, 'YYYY-MM-DD') TM_CRT_DT
 			 , T.DEP_ID
 			 , T.TM_HD_ID
-			 , TM_HD_EMP.L_NM TM_HD_L_NM
-			 , TM_HD_EMP.F_NM TM_HD_F_NM
 		  FROM TM T
-		  LEFT OUTER JOIN TM_MBR M
-		    ON T.TM_ID = M.TM_ID
-		  FULL OUTER JOIN EMP E
-		    ON M.EMP_ID = E.EMP_ID
-		  LEFT OUTER JOIN EMP TM_HD_EMP
-		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE T.DEL_YN = 'N'
 		   AND T.USE_YN = 'Y'
-		   AND T.DEP_ID LIKE '%' || #{_parameter} || '%'
+		   AND T.TM_NM LIKE '%' || #{_parameter} || '%'
 		 ORDER BY T.TM_ID ASC
 	</select>
 	
@@ -125,12 +117,6 @@
 					  javaType="com.kpms.dep.vo.DepVO">
 			<id property="depId" column="DEP_ID" />
 			<result property="depNm" column="DEP_NM"/>
-		</association>
-		<association property="tmHdEmpVO"
-					  javaType="com.kpms.emp.vo.EmpVO">
-			<id property="empId" column="TM_HD_ID"/>
-			<result property="fNm" column="TM_HD_EMP_F_NM"/>
-			<result property="lNm" column="TM_HD_EMP_L_NM"/>
 		</association>
 		<collection property="tmMbrList"
 					 ofType="com.kpms.tmmbr.vo.TmMbrVO">
@@ -146,16 +132,6 @@
 				<result property="eml" column="EML"/>
 				<result property="phn" column="PHN"/>
 				<result property="pstnPrd" column="PSTN_PRD"/>
-				<association property="job"
-					  javaType="com.kpms.job.vo.JobVO">
-					<id property="jobId" column="JOB_ID"/>
-					<result property="jobNm" column="JOB_NM"/>
-				</association>
-				<association property="pstn"
-						  javaType="com.kpms.pstn.vo.PstnVO">
-					<id property="pstnId" column="PSTN_ID"/>
-					<result property="pstnNm" column="PSTN_NM"/>
-				</association>
 			</association>
 		</collection>
 	</resultMap>
@@ -182,11 +158,6 @@
 			 , E.EML
 			 , E.PHN
 			 , E.PSTN_PRD
-			 , M.TM_MBR_ID
-			 , J.JOB_NM 
-			 , P.PSTN_NM 
-			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
-			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
 		  FROM TM T
 		 INNER JOIN DEP D
 		 	ON T.DEP_ID = D.DEP_ID
@@ -194,25 +165,12 @@
 		    ON T.TM_ID = M.TM_ID
 		 INNER JOIN EMP E
 		    ON M.EMP_ID = E.EMP_ID
-		 INNER JOIN JOB J
-		    ON E.JOB_ID = J.JOB_ID 
-		 INNER JOIN PSTN P
-		    ON E.PSTN_ID = P.PSTN_ID
-		 INNER JOIN EMP TM_HD_EMP
-		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE T.TM_ID = #{_parameter}
 		   AND T.DEL_YN = 'N'
-		   AND M.DEL_YN = 'N'
 	</select>
 	
 	<insert id="createOneTm"
 			parameterType="com.kpms.tm.vo.TmVO">
-		<selectKey keyProperty="tmId"
-					resultType="string"
-					order="BEFORE"> 	
-		SELECT 'TM-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_TM_PK.NEXTVAL, 5, '0')
-		  FROM DUAL
-		</selectKey>
 		INSERT INTO TM
 		 (TM_ID
 		, CRT_DT
@@ -226,7 +184,7 @@
 		, DEP_ID
 		, TM_HD_ID)
 		VALUES
-		 (#{tmId}
+		 ('TM-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_TM_PK.NEXTVAL, 5, '0')
 		, SYSDATE
 		, #{crtr}
 		, SYSDATE
@@ -253,26 +211,18 @@
 		    </if>
 		 WHERE TM_ID = #{tmId}
 	</update>
-	
-	<update id="updateOneTmAndTmMbr"
-			parameterType="com.kpms.tm.vo.TmVO">
-		UPDATE TM
-		   SET MDFY_DT = SYSDATE
-		     , MDFYR = #{mdfyr}
-		 WHERE TM_ID = #{tmId}
-	</update>
 
 	<update id="deleteOneTmByTmId"
 			parameterType="string">
-		UPDATE TM T
+		UPDATE TM
 		   SET DEL_YN = 'Y'
 		 WHERE TM_ID = #{_parameter}
 	</update>	
 	
 	<update id="deleteTmBySelectedTmId"
 			parameterType="arraylist">
-		UPDATE TM T
-		   SET T.DEL_YN = 'Y'
+		UPDATE TM
+		   SET DEL_YN = 'Y'
 		 WHERE TM_ID IN
 		 <foreach collection="list" item="tmId" open="(" close=")" separator=", ">
 		 	#{tmId}

@@ -39,66 +39,62 @@
 </script>
 </head>
 <body>
-	<div class="container search_page">
-    <h2>프로젝트 팀원 검색</h2>
-    <div class="search_wrapper">
-        <div class="search_box">
-        	<input type="hidden" id="search-prjId" value="${prjTmMbrSearchVO.prjId}"/>
-            <select>
-            <option>프로젝트 팀원명</option>
-            </select>
-            <div class="search_field">
-            <input type="text" id="search-prjTmMbrNm" class="input" value="${prjTmMbrSearchVO.nm}" placeholder="Search"/>
-            </div>
-            <div class="search-icon">
-	          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
-	          </div>
-        </div>
-    </div>
-    <div class="total">총 ${tmMbrList.size() > 0 ? tmMbrList.size() : 0}건</div>
-    <table class="list_table search_table">
-        <thead>
-            <tr>
-                <th></th>
-                 <th>직원ID</th>
-                 <th>성</th>
-                 <th>이름</th>
-                 <th>권한</th>
-            </tr>
-        </thead>
-            <tbody>
-                <c:choose>
-                    <c:when test="${not empty ptmList}">
-                        <c:forEach items="${ptmList}"
-                                    var="ptm">
-                            <tr 
-                                data-prjtmmbrid="${ptm.prjTmMbrId}"
-                                data-empid="${ptm.tmMbrVO.empId}"
-                                data-fnm="${ptm.tmMbrVO.empVO.fNm}"
-                                data-lnm="${ptm.tmMbrVO.empVO.lNm}"
-                                data-prjpstn="${ptm.prjPstn}" >
-                                <td>
-                                    <input type="radio" class="check-idx" name="check-one" value="${ptm.prjTmMbrId}" />
-                                </td>
-                                <td>${ptm.tmMbrVO.empId}</td>
-                                <td>${ptm.tmMbrVO.empVO.fNm}</td>
-                                <td>${ptm.tmMbrVO.empVO.lNm}</td>
-                                <td>${ptm.prjPstn}</td>
-                            </tr>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <tr>
-                            <td colspan="5" class="no-items">검색된 팀원이 없습니다.</td>
-                        </tr>
-                    </c:otherwise>
-                </c:choose>
-            </tbody>
-    </table>
-    <div class="buttons">
-        <button id="cancel-btn" class="btn delete">취소</button>
-        <button id="regist-btn" class="btn regist">등록</button>
-    </div>
-</div>
+	<div class="search-popup content">
+		<h1>프로젝트 팀원 검색</h1>
+			<div class="search-group">
+			<input type="hidden" id="search-prjId" value="${prjTmMbrSearchVO.prjId}"/>
+				<label for="search-prjTmMbrNm">프로젝트 팀원명</label>
+				<input type="text" id="search-prjTmMbrNm" class="grow-1 mr-10" value="${prjTmMbrSearchVO.nm}"/>
+				<button class="btn-search" id="search-btn">검색</button>
+			</div>
+		<div class="grid">
+			<div class="grid-count align-right">
+						총 ${tmMbrList.size() > 0 ? tmMbrList.size() : 0}건
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>직원ID</th>
+						<th>성</th>
+						<th>이름</th>
+						<th>권한</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:choose>
+						<c:when test="${not empty ptmList}">
+							<c:forEach items="${ptmList}"
+										var="ptm">
+								<tr 
+									data-prjtmmbrid="${ptm.prjTmMbrId}"
+									data-empid="${ptm.tmMbrVO.empId}"
+									data-fnm="${ptm.tmMbrVO.empVO.fNm}"
+									data-lnm="${ptm.tmMbrVO.empVO.lNm}"
+									data-prjpstn="${ptm.prjPstn}" >
+									<td>
+										<input type="radio" class="check-idx" name="check-one" value="${ptm.prjTmMbrId}" />
+									</td>
+									<td>${ptm.tmMbrVO.empId}</td>
+									<td>${ptm.tmMbrVO.empVO.fNm}</td>
+									<td>${ptm.tmMbrVO.empVO.lNm}</td>
+									<td>${ptm.prjPstn}</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="5">검색된 팀원이 없습니다.</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+				</tbody>
+			</table>
+		</div>
+		<div class="align-right">
+			<button id="regist-btn" class="btn-primary">등록</button>
+			<button id="cancel-btn" class="btn-delete">취소</button>
+		</div>
+	</div>
 </body>
 </html>

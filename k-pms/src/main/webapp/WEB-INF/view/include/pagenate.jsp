@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<div class="pagenate">
+<div class="pagenate item-align-center">
 	<ul>
 		<!-- 1,2,3,4,5 = 0 / 6,7,8,9,10 = 5 -->
 		<fmt:parseNumber var="begin" value="${param.pageCnt*Math.floor(param.pageNo/param.pageCnt)}" integerOnly="true"/>
