@@ -141,6 +141,29 @@
 		});
 					
 		$("#save_btn").click(function(){
+			var form = $("#detail_form");
+			
+			var fileList = $(".file_attachment").find("li");
+			
+			var cnt=0;
+			fileList.each(function(){
+				var form = $("#detail_form");
+				
+				var fileNm = $(this).data("org");
+				var uuidNm = $(this).data("uuid");
+				var fileSz = $(this).data("sz");
+				var ext = $(this).data("ext");
+				
+				var inputOrgNm = $("<input type='hidden' name='atchFlList["+cnt+"].orgFlNm' value='"+fileNm+"'/>");
+				form.append(inputOrgNm);
+				var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
+				form.append(inputUuid);
+				var inputSz = $("<input type='hidden' name='atchFlList["+cnt+"].flSz' value='"+parseInt(fileSz)+"'/>");
+				form.append(inputSz);
+				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
+				form.append(inputExt);
+			});
+			
 			ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
 				if(response.status == "200 OK"){
 					alert("저장되었습니다.");

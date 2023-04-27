@@ -6,7 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="prj"/>
-<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 
 <!DOCTYPE html>
 <html>
@@ -18,33 +17,7 @@
 	var ajaxUtil = new AjaxUtil();
 
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
-			
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			
-			$("#reqId").val(data.reqid);
-			$("#dtlReq").val(data.dtlreq);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#strtDt").val(data.strtdt);
-			$("#expctEndDt").val(data.expctenddt);
-			$("#attch").val(data.attch);
-			$("#prjId").val(data.prjid);
-			$("#mnDvlpr").val(data.mndvlpr);
-			$("#tstRslt").val(data.tstrslt);
-			$("#tslStts").val(data.tslstts);
-			$("#prcsStts").val(data.prcsstts);
-			$("#prrty").val(data.prrty);
-			$("#reqTtl").val(data.reqttl);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
-		});
-		
+			var empId = '${sessionScope.__USER__.empId}';
 		$("#new_btn").click(function(){
 			$("#isModify").val("false"); //등록모드
 			

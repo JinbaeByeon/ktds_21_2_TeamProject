@@ -32,6 +32,7 @@ public class ReqController {
 		
 		model.addAttribute("reqList", reqList);
 		model.addAttribute("reqVO", reqVO);
+		
 		if (!reqList.isEmpty()) {
 			model.addAttribute("lastPage", reqList.get(0).getLastPage());
 		}

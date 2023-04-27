@@ -6,7 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="prj"/>
-<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 
 <!DOCTYPE html>
 <html>
@@ -15,34 +14,9 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
-			
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			
-			$("#reqId").val(data.reqid);
-			$("#dtlReq").val(data.dtlreq);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#strtDt").val(data.strtdt);
-			$("#expctEndDt").val(data.expctenddt);
-			$("#attch").val(data.attch);
-			$("#prjId").val(data.prjid);
-			$("#mnDvlpr").val(data.mndvlpr);
-			$("#tstRslt").val(data.tstrslt);
-			$("#tslStts").val(data.tslstts);
-			$("#prcsStts").val(data.prcsstts);
-			$("#prrty").val(data.prrty);
-			$("#reqTtl").val(data.reqttl);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
-		});
-		
+		var empId = '${sessionScope.__USER__.empId}';
 		$("#new_btn").click(function(){
 			$("#isModify").val("false"); //등록모드
 			
@@ -72,42 +46,48 @@
 		});
 					
 		$("#save_btn").click(function(){
-			var ajaxUtil = new AjaxUtil();
-			if($("#isModify").val() == "false"){
-				// 신규등록	
-				ajaxUtil.upload("#detail_form","${context}/api/req/create",function(response){
-					if(response.status == "200 OK"){
-						location.href = "${context}/req/list";
-					}	
-					else{
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
-			else {
-				//수정
-				ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-					}	
-					else{
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
+			var cnt = 0;
+			var fileList = $(".file_attachment").find("li");
+			console.log(fileList);
+			fileList.each(function(){
+				alert("!!");
+				var form = $("#detail_form");
+				
+				var fileNm = $(this).data("org");
+				var uuidNm = $(this).data("uuid");
+				var fileSz = $(this).data("sz");
+				var ext = $(this).data("ext");
+				
+				var inputOrgNm = $("<input type='hidden' name='atchFlList["+cnt+"].orgFlNm' value='"+fileNm+"'/>");
+				form.append(inputOrgNm);
+				var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
+				form.append(inputUuid);
+				var inputSz = $("<input type='hidden' name='atchFlList["+cnt+"].flSz' value='"+parseInt(fileSz)+"'/>");
+				form.append(inputSz);
+				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
+				form.append(inputExt);
+			});
+			
+			// 신규등록	
+			ajaxUtil.upload("#detail_form","${context}/api/req/create",function(response){
+				if(response.status == "200 OK"){
+					location.href = "${context}/req/list";
+				}	
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		
 		});
 		
 		$(".detail_path").click(function(){
 			var reqId =$(this).closest("tr").data("reqid");
 			location.href = "${context}/req/detail?reqId=" + reqId;
-			
 		});
 		
 		$("#search-btn").click(function(){
 			var reqId =$("#search-keyword").val();
 			location.href = "${context}/req/list?reqId=" + reqId;
-			/* movePage(0) */
-			
 		})
 		
 		$("#prj_search").click(function(event){
@@ -154,6 +134,74 @@
 				else{
 					alert(response.errorCode + "/" + response.message);
 				}
+			});
+		});	
+		
+		$("#add_files").click(function(e){
+			e.preventDefault();
+			$("#files").click();
+		});
+		$("#files").change(function(e){
+			var files = $(this)[0].files;
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+			$(this).value='';
+		});
+		$(".file_drag").on("dragover",function(e){
+			e.preventDefault();
+		});
+		$(".file_drag").on("drop",function(e){
+			e.preventDefault();
+		 	
+			var files = event.dataTransfer.files;
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+		});
+		$(".file_attachment").on("dragover",function(e){
+			e.preventDefault();
+		});
+		$(".file_attachment").on("drop",function(e){
+			e.preventDefault();
+		 	
+			var files = event.dataTransfer.files;
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+		});
+		$(".file_attachment").find(".remove_all").click(function(e){
+			e.preventDefault();
+			var fileList = $(this).closest(".file_attachment").find("ul").children("li");
+			console.log(fileList);
+			var fileNames = [];
+			fileList.each(function(){
+				var fileNm = $(this).data("uuid");
+				fileNames.push(fileNm);
+			});
+			ajaxUtil.deleteFile(fileNames, "${context}/api/atchfl/delete", function(response) {
+				$("#file_list").find("li").remove();
+				fileCnt=0;
+				checkFile();
+				$("#files").val("");
 			});
 		});
 		
@@ -209,22 +257,71 @@
 				$("#tstRslt-select").append(option)
 			}
 		});
-		
-		
 	});
 	
 	function addPrjFn(data) {
-		
 		$("#prjId").val(data.prjid);
-		
 	}
 
 	function addPrjTmMbrFn(data) {
-		
 		$("#mnDvlpr").val(data.empid);
-		
 	}
+	var fileCnt=${reqVO.atchFlList.size() > 0 ? reqVO.atchFlList.size() : 0};
 	
+	function addFile(file){
+		var fileList = $("#file_list");
+		
+		var uuidNm = file.uuidFlNm;
+		var fileNm = file.orgFlNm;
+		var ext = fileNm.substring(fileNm.lastIndexOf(".")+1);
+		var fileSz = file.flSz;
+		
+		var li = $("<li data-uuid='"+uuidNm +
+					 "' data-org='"+fileNm + 
+					 "' data-sz='"+fileSz+
+					 "' data-ext='"+ext+"'></li>");
+		fileList.append(li);
+		var div = $("<div></div>");
+		li.append(div);
+		
+		var remove =  $("<span class='remove'>x</span>");
+		remove.click(removeFn);
+		
+        var nm = "<span class='file_name'>"+fileNm+"</span>";
+        fileSz = (fileSz / 1024).toFixed(2);
+        var sz;
+        if(fileSz < 1000){
+        	sz = "<span class='file_size'>"+fileSz+" KB</span>";
+        } else {
+        	fileSz = (fileSz/1024).toFixed(2);
+        	sz = "<span class='file_size'>"+fileSz+" MB</span>";
+        }
+        div.append(remove);
+        div.append(nm);
+        div.append(sz);
+        ++fileCnt;
+	};
+	
+	function removeFn(){
+		var item = $(this).closest("li");
+		console.log(item);
+		ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/atchfl/delete", function(response) {
+			item.remove();
+			--fileCnt;
+			checkFile();
+		});
+	};
+	function checkFile(){
+		var fileList = $("#file_list");
+		console.log(fileCnt);
+		if(fileCnt > 0){
+			fileList.closest(".file_attachment").show();
+			$(".file_area").find(".file_drag").hide();
+		} else {
+			fileList.closest(".file_attachment").hide();
+			$(".file_area").find(".file_drag").show();
+		}
+	};
 </script>
 </head>
 <body>
@@ -278,9 +375,25 @@
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
 							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
-						<div class="input-group inline">
-							<label for="attch" style="width: 180px;">첨부파일</label>
-							<input type="text" id="attch"  name="attch" value=""/>
+						<div class="create-group">
+							<label for="files" >첨부파일</label>
+							<div class="file_area">
+								<div class="file_upload">
+									<button id="add_files">+</button>
+								</div>
+								<div class="align-center">
+									<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+									<div class="file_attachment" hidden="hidden">
+										<div>
+											<div class="remove_all">x</div>
+											<div class="file_name">파일명</div>
+											<div class="file_size">용량</div>
+										</div>
+										<ul id="file_list"></ul>
+									</div>
+								</div>
+							</div>
+							<input type="file" id="files" multiple/>
 						</div>
 						<div class="input-group inline">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>

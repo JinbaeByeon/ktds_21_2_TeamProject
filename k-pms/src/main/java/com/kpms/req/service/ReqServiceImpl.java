@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.kpms.atchfl.dao.AtchFlDAO;
 import com.kpms.atchfl.vo.AtchFlVO;
+import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIException;
 import com.kpms.req.dao.ReqDAO;
 import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
@@ -21,17 +23,18 @@ public class ReqServiceImpl implements ReqService {
 
 	@Override
 	public boolean createNewReq(ReqVO reqVO) {
-		reqDAO.createNewReq(reqVO);
-		
+		if(reqDAO.createNewReq(reqVO) == 0) {
+			return false;
+		}
 		List<AtchFlVO> fileList = reqVO.getAtchFlList();
 		
-		if(!fileList.isEmpty()) {
+		if(fileList != null && !fileList.isEmpty()) {
 			fileList.forEach(file-> {
 				file.setCrtr(reqVO.getCrtr());
 				file.setFrgnId(reqVO.getReqId());
 			});
 			if (atchFlDAO.createNewAtchFls(fileList) == 0) {
-				return false;
+				throw new APIException(APIStatus.FAIL, "파일 첨부를 실패했습니다.");
 			}
 		}
 		return true;
@@ -54,19 +57,20 @@ public class ReqServiceImpl implements ReqService {
 
 	@Override
 	public boolean updateReq(ReqVO reqVO) {
-		reqDAO.updateReq(reqVO);
-		List<AtchFlVO> fileList = reqVO.getAtchFlList();
 		
-		if(!fileList.isEmpty()) {
+		List<AtchFlVO> fileList = reqVO.getAtchFlList();
+		atchFlDAO.deleteAtchFlsByFrgnId(reqVO.getReqId());
+		
+		if(fileList != null && !fileList.isEmpty()) {
 			fileList.forEach(file-> {
-				file.setCrtr(reqVO.getCrtr());
+				file.setCrtr(reqVO.getMdfyr());
 				file.setFrgnId(reqVO.getReqId());
 			});
-			if (atchFlDAO.createNewAtchFls(fileList) == 0) {
-				return false;
+			if (atchFlDAO.createNewAtchFls(fileList) != fileList.size()) {
+				throw new APIException(APIStatus.FAIL, "파일 첨부를 실패했습니다.");
 			}
 		}
-		return true;
+		return reqDAO.updateReq(reqVO) > 0;
 	}
 
 	@Override
