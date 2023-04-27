@@ -54,6 +54,11 @@ $().ready(function() {
 		$("#isModify").val("true"); //수정모드
 		$(".detail_section").show("fast");
         $(".detail_table").show();
+		$("#addDepHeadBtn").closest("tr").show();
+		$("#crtr").closest("tr").show();
+		$("#crtDt").closest("tr").show();
+		$("#mdfyr").closest("tr").show();
+		$("#mdfyDt").closest("tr").show();
 		
 		var data = $(this).data();
 		$("#depId").val(data.depid);
@@ -70,15 +75,12 @@ $().ready(function() {
 	});
 	
 	$("#new_btn").click(function() {
-		$("#addDepHeadBtn").closest("div").addClass("hide");
-		$("#crtr").closest("div").addClass("hide");
-		$("#crtDt").closest("div").addClass("hide");
-		$("#mdfyr").closest("div").addClass("hide");
-		$("#mdfyDt").closest("div").addClass("hide");
-		
-		$("#isModify").val("false"); //등록모드
+
+
 		$(".detail_section").show("fast");
         $(".detail_table").show();
+		
+		$("#isModify").val("false"); //등록모드
 		
 		$("#depId").val("");
 		$("#depNm").val("");

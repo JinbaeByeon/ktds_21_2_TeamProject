@@ -455,7 +455,8 @@ footer {
 
 /* search_page */
 .search_page {
-  margin: 15px;
+	width: 100%;
+	margin: 0;
 }
 
 .search_page .search_box select {
