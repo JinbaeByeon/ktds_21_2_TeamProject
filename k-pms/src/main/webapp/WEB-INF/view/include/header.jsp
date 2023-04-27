@@ -9,15 +9,16 @@
 		<c:if test="${not empty selected}">
 			$("li.nav_item.${selected}").addClass("active");
 		</c:if>
-		$("li.nav_item").children("a").mouseover(function(){
+		$("li.nav_item").mouseover(function(){
 			$(this).closest(".nav").find(".nav_item.active").removeClass("active");
-			if($(this).attr("class")!="nav_item sys"){
-				$("li.nav_item.sys").removeClass("active");
+			if($(this).attr("class")!="nav_item ${selected}"){
+				$("li.nav_item.${selected}").removeClass("active");
 			}
-			$(this).closest("li.nav_item").addClass("active");
+			$(this).addClass("active");
+			$(this).find(".sub_item").addClass("active");
 		});
 		$("div.header").mouseleave(function(){
-			$(this).find(".active").removeClass("active");
+			$(".top_navbar > .menu > .nav_menu > .nav").find(".active").removeClass("active");
 			<c:if test="${not empty selected}">
 				$("li.nav_item.${selected}").addClass("active");
 			</c:if>
@@ -41,7 +42,8 @@
 		});
 	});
 </script>
-<div class="header wrapper">
+<div class="header"></div>
+<div class="wrapper">
 	<div class="top_navbar">
 	    <div class="left_blank">
 	      <div class="profile">

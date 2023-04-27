@@ -18,6 +18,14 @@ a:link, a:visited {
 }
 
 /* top_nav */
+.header {
+    height: 160px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+
 .top_navbar{
   height: 100px;
   display: flex;
@@ -96,7 +104,7 @@ a:link, a:visited {
   top: 120%;
   left: 20%;
   width: max-content;
-  opacity: 0;
+  display: none;
 }
 
 .top_navbar .menu .nav_menu .nav .nav_item .sub_item li {
@@ -110,8 +118,8 @@ a:link, a:visited {
 }
 
 .top_navbar .menu .nav_menu .nav .nav_item:hover .sub_item,
-.top_navbar .menu .nav_menu .nav .nav_item .sub_item:hover {
-  opacity: 1;
+.top_navbar .menu .nav_menu .nav .nav_item.active  > .sub_item.active{
+  display: block;
   transition: all 0.3s ease;
 }
 
