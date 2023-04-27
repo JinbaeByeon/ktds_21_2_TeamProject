@@ -60,6 +60,42 @@
 		 ORDER BY TM.EMP_ID ASC
 	</select>
 	
+	<select id="readAllTmMbrInTm"
+			parameterType="string"
+			resultMap="TmMbrVOMap">
+		SELECT TM.TM_MBR_ID
+			 , TO_CHAR(TM.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+			 , TM.CRTR
+			 , TO_CHAR(TM.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') MDFY_DT
+			 , TM.MDFYR
+			 , TM.USE_YN
+			 , TM.DEL_YN
+			 , TM.TM_ID
+			 , TM.EMP_ID
+			 , T.TM_NM 
+			 , E.F_NM 
+			 , E.L_NM
+			 , P.PSTN_NM
+			 , J.JOB_NM
+		  FROM TM_MBR TM
+		 INNER JOIN TM T
+		    ON TM.TM_ID = T.TM_ID 
+		 INNER JOIN EMP E
+		    ON TM.EMP_ID = E.EMP_ID
+		 INNER JOIN PSTN P
+		    ON E.PSTN_ID = P.PSTN_ID
+		 INNER JOIN JOB J
+		    ON E.JOB_ID = J.JOB_ID
+		 WHERE TM.DEL_YN = 'N'
+		   AND T.DEL_YN = 'N'
+		   AND E.DEL_YN = 'N'
+		   AND T.TM_HD_ID != E.EMP_ID
+		  <if test='tmId != null and tmId != ""'>
+		   AND TM.TM_ID LIKE '%' || #{tmId} || '%'
+		  </if>
+		 ORDER BY TM.EMP_ID ASC
+	</select>
+	
 	<insert id="createOneTmMbr"
 			parameterType="com.kpms.tmmbr.vo.TmMbrVO">
 		INSERT INTO TM_MBR

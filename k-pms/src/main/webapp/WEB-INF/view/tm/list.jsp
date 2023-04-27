@@ -75,6 +75,10 @@
 				return;
 			}
 			
+			if (!confirm("정말 삭제하시겠습니까?")) { <!-- 사용자에게 확인  확인시 예를 누르면 false값이 return으로 온다.-->
+			return;
+			}
+			
 			var form = $("<form></form>")
 			
 			$(".check_idx:checked").each(function() {
@@ -84,7 +88,7 @@
 			
 			$.post("${context}/api/tm/delete", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
-					location.reload(); //새로고침
+					location.reload();
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);

@@ -80,7 +80,7 @@
 		$(".dep-tbody tr").click(function() {
 			activeTmId = "";
 			$(".tmMbr-tbody").empty();
-			 $("#tmMbr-count").text("총 0건");
+			$("#tmMbr-count").text("총 0건");
 			$(".dep-tbody").find("tr").removeClass("active");
 			$(this).toggleClass("active");
 			activeDepId = $(".active").data("depid");
@@ -115,12 +115,11 @@
 		$(document).on("click", ".tm-tbody tr", function() {
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).addClass("active");
-			console.log($(".tm-tbody .active").data());
 			activeTmId = $(".tm-tbody .active").data("tmid");
 			
 			$(".tmMbr-tbody").find("tr").remove();
 
-			$.get("${context}/api/tmmbr/list/" + activeTmId, function(response) {
+			$.get("${context}/api/tmmbr/lists/" + activeTmId, function(response) {
 				for (var i in response.data) {
 					var tmMbrId = response.data[i].tmMbrId;
 					var tmId = response.data[i].tmId;

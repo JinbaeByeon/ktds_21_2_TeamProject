@@ -8,6 +8,8 @@ public interface TmMbrService {
 	
 	public List<TmMbrVO> readAllTmMbrVO(String tmId);
 	
+	public List<TmMbrVO> readAllTmMbrInTm(String tmId);
+	
 	public boolean createOneTmMbr(TmMbrVO tmMbrVO);
 	
 	public boolean deleteOneTmMbrByTmMbrId(String tmMbrId);

@@ -22,13 +22,12 @@
 	
 	function addHdEmpFn(message) {
 		
-		/* for (i = 0; i < empIds.length; i++) {
+		 for (i = 0; i < empIds.length; i++) { 
 			if(empIds[i] === tmHdId) {
 				empIds.splice(i, 1);
 				i--;
 			}
-		} */
-		
+		} 
 		
 		tmHdId = message.empid;
 		
@@ -85,8 +84,9 @@
 			
 		tmHdIdItems.append(itemDiv);
 			
-		tmHd.close();
 		empIds.push(tmHdId);
+		
+		tmHd.close();
 	}
 	
 	function addMbrFn(message) {
@@ -173,15 +173,17 @@
 		
 		$("#save-btn").click(function() {
 			var tmId = $("#tmId").val();
+			console.log($("#tmHdId").val());
+	
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
-					location.href = "${context}" + response.redirectURL;
 					empIds.forEach(function(empId) {
 			    		
 				    	createTmmbr(tmId, empId);
 				    		
 				    });
 					
+					location.href = "${context}" + response.redirectURL;
 				}
 				else {
 					alert(response.errorCode + "/" + response.message);
@@ -206,8 +208,11 @@
 				alert("팀원이 선택되지 않았습니다.");
 				return;
 			}
+			if (!confirm("정말 삭제하시겠습니까?")) { 
+			return;
+			}
 			
-			var form = $("<form></form>")
+			var form = $("<form></form>");
 			
 			$(".check_idx:checked").each(function() {
 				console.log($(this).val());
@@ -269,7 +274,7 @@
 							<button id="addTmHeadBtn" class="btn-tm">등록</button>
 							<div class="items">
 								<div class='head-item'>
-									<input type="text" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
+									<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" />
 									<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>						
 								</div>
 							</div>
