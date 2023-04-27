@@ -53,7 +53,7 @@ $().ready(function() {
 		$(".hide").removeClass("hide");
 		$("#isModify").val("true"); //수정모드
 		$(".detail_section").show("fast");
-	    $(".detail_table").show();
+        $(".detail_table").show();
 		
 		var data = $(this).data();
 		$("#depId").val(data.depid);
@@ -64,7 +64,6 @@ $().ready(function() {
 		$("#crtDt").val(data.crtdt);
 		$("#mdfyr").val(data.mdfyr);
 		$("#mdfyDt").val(data.mdfydt);
-
 		
 		$("#useYn").prop("checked", data.useyn == "Y");
 		
@@ -79,7 +78,7 @@ $().ready(function() {
 		
 		$("#isModify").val("false"); //등록모드
 		$(".detail_section").show("fast");
-	    $(".detail_table").show();
+        $(".detail_table").show();
 		
 		$("#depId").val("");
 		$("#depNm").val("");
