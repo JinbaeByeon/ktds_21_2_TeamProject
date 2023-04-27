@@ -13,11 +13,11 @@
 		
 
 		
-		$("#cancel-btn").click(function() {
+		$("#cancel_btn").click(function() {
 			window.close();
 		});
 		
-		$("#regist-btn").click(function() {
+		$("#regist_btn").click(function() {
 			var checkOne = $("#check-one:checked");
 			
 			if (checkOne.length == 0) {

@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="eqp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,23 +16,6 @@
 $().ready(function(){
 	$(".detail_section").hide();
 	$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
-	
-	$("li.nav_item.eqp").addClass("active");
-	$("li.nav_item").children("a").mouseover(function(){
-		$(this).closest(".nav").find(".nav_item.active").removeClass("active");
-		if($(this).attr("class")!="nav_item eqp"){
-			$("li.nav_item.eqp").removeClass("active");
-		}
-		$(this).closest("li.nav_item").addClass("active");
-	});
-	$(".nav").mouseleave(function(){
-		$(this).find(".active").removeClass("active");
-		$("li.nav_item.eqp").addClass("active");
-	});
-	$(".sub_item").mouseenter(function(){
-		$(this).addClass("active");
-	});
-	
 	
 	$(".list_table > tbody > tr").click(function(){
 		

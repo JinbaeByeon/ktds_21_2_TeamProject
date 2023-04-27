@@ -3,6 +3,7 @@
 <%@page import="java.util.Random"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set scope="request" var="selected" value="knw"/>
 <!DOCTYPE html>
 <html>
 <head>
