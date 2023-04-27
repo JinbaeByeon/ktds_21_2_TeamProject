@@ -75,7 +75,10 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 	//디테일
 	@Override
 	public RcvMsgVO readOneRcvMsg(String msgId) {
-		return rcvMsgDAO.readOneRcvMsg(msgId);
+		RcvMsgVO rcvMsgVO = rcvMsgDAO.readOneRcvMsg(msgId);
+		SndMsgVO sndMsgVO = sndMsgDAO.readOneSndMsgByMsgId(rcvMsgVO.getSndMsgId());
+		rcvMsgVO.setSndMsgVO(sndMsgVO);
+		return rcvMsgVO;
 	}
 	//휴지통 조회
 	@Override

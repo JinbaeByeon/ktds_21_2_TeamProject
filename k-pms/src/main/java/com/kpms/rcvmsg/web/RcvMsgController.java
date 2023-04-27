@@ -69,7 +69,8 @@ public class RcvMsgController {
 	public String viewRcvMsgDetailPage(@PathVariable String msgId, Model model) {
 		RcvMsgVO rcvMsgVO = rcvMsgService.readOneRcvMsg(msgId);
 		model.addAttribute("rcvMsgVO", rcvMsgVO);
-		return "rcbmsg/detail";
+		model.addAttribute("sndMsgVO",rcvMsgVO.getSndMsgVO());
+		return "rcvmsg/detail";
 	}
 	
 }

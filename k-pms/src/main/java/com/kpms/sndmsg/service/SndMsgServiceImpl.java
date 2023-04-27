@@ -67,5 +67,8 @@ public class SndMsgServiceImpl implements SndMsgService {
 	public SndMsgVO readOneSndMsgByRcvMsgId(String msgId) {
 		return sndMsgDAO.readOneSndMsgByRcvMsgId(msgId);
 	}
-	
+	@Override
+	public SndMsgVO readOneSndMsgByMsgId(String msgId) {
+		return sndMsgDAO.readOneSndMsgByMsgId(msgId);
+	}
 }

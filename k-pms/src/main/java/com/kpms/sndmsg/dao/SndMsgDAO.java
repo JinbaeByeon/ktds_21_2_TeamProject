@@ -19,4 +19,6 @@ public interface SndMsgDAO {
 	
 	public SndMsgVO readOneSndMsgByRcvMsgId(String msgId);
 
+	public SndMsgVO readOneSndMsgByMsgId(String msgId);
+
 }
