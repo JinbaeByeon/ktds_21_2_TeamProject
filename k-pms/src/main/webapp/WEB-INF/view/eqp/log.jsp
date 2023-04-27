@@ -14,9 +14,12 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
+	      $(".detail_section").hide();
+		$(".list_table > tbody > tr").click(function(){
 			
 			$("#isModify").val("true"); //수정모드
+	        $(".detail_section").show("fast");
+	        $(".detail_table").show();
 			
 			var data = $(this).data();
 			
@@ -62,72 +65,78 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 비품내역 관리</div>
-				<div class="search-group">
-					
-				</div>
-				
-				<div class="grid">
-					<div class="grid-count align-right">
-						총 ${eqpLogList.size() > 0 ? eqpLogList.get(0).totalCount : 0}건
-					</div>
-					<table>
-						<thead>
+			<div class="path">비품관리 > 비품내역 관리</div>
+				<div class="search_wrapper">
+			        <div class="search_box">
+			          <select>
+			            <option>비품명</option>
+			          </select>
+			          <div class="search_field">
+			          	<input type="text" id="search-keyword" class="input" value="${eqpVO.eqpNm}" placeholder="여기 검색창은 어디갓나여...."/>
+			          </div>
+			          <div class="search-icon">
+			          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+			          </div>
+			        </div>
+			      </div>
+		      <div class="list_section">
+		        <div class="total">총 ${eqpLogList.size() > 0 ? eqpLogList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
+		            <tr>
+						<th>순번</th>
+						<th>로그ID</th>
+						<th>비품ID</th>
+						<th>신청자명</th>
+						<th>신청내용</th>
+						<th>등록자명</th>
+						<th>등록일</th>
+		            </tr>
+		          </thead>
+		          <tbody>
+					<c:choose>
+						<c:when test="${not empty eqpLogList}">
+							<c:forEach items="${eqpLogList}"
+									   var="eqpLog"
+									   varStatus="index">
+								<tr data-logid="${eqpLog.logId}"
+									data-eqpid="${eqpLog.eqpId}"
+									data-empid="${eqpLog.empId}"
+									data-stts="${eqpLog.stts}"
+									data-crtr="${eqpLog.crtr}"
+									data-crtdt="${eqpLog.crtDt}">
+									<td>${eqpLog.rnum}</td>
+									<td>${eqpLog.logId}</td>
+									<td>${eqpLog.eqpId}</td>
+									<td>${eqpLog.empId}</td>
+									<td>${eqpLog.stts}</td>
+									<td>${eqpLog.crtr}(${eqpLog.crtrEmpVO.fNm}${eqpLog.crtrEmpVO.lNm})</td>
+									<td>${eqpLog.crtDt}</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
 							<tr>
-								<th>순번</th>
-								<th>로그ID</th>
-								<th>비품ID</th>
-								<th>신청자명</th>
-								<th>신청내용</th>
-								<th>등록자명</th>
-								<th>등록일</th>
+								<td colspan="7" class="no-items">
+									등록된 로그이력이 없습니다.
+								</td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty eqpLogList}">
-									<c:forEach items="${eqpLogList}"
-											   var="eqpLog"
-											   varStatus="index">
-										<tr data-logid="${eqpLog.logId}"
-											data-eqpid="${eqpLog.eqpId}"
-											data-empid="${eqpLog.empId}"
-											data-stts="${eqpLog.stts}"
-											data-crtr="${eqpLog.crtr}"
-											data-crtdt="${eqpLog.crtDt}">
-											<td>${eqpLog.rnum}</td>
-											<td>${eqpLog.logId}</td>
-											<td>${eqpLog.eqpId}</td>
-											<td>${eqpLog.empId}</td>
-											<td>${eqpLog.stts}</td>
-											<td>${eqpLog.crtr}(${eqpLog.crtrEmpVO.fNm}${eqpLog.crtrEmpVO.lNm})</td>
-											<td>${eqpLog.crtDt}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="7" class="no-items">
-											등록된 로그이력이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-					<div class="align-right mt-10">
-						<button id="delete_all_btn" class="btn-delete">삭제</button>
-					</div>
+						</c:otherwise>
+					</c:choose>
+					
+					
+		          </tbody>
+		        </table>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	                  <c:param name="path" value="${context}/eqp"/>
 	               	</c:import>
-				</div>	
-				
-				<div class="align-right">
-				</div>		
+		        <div class="buttons">
+		          <button id="delete_all_btn" class="btn delete">삭제</button>
+		        </div>
+		      </div>	
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

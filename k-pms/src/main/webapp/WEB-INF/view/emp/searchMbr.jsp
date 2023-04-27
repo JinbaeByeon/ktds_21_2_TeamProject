@@ -29,7 +29,7 @@
 		$(".check_idx").click(function(e){
 			$(this).prop("checked",$(this).prop("checked")==false);
 		});
-		$(".grid > table > tbody > tr > td").click(function(){
+		$(".list_table > tbody > tr > td").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -54,7 +54,7 @@
 </script>
 </head>
 <body>
-	<div class="search-popup content">
+		<div class="search-popup content">
 		<h1>직원검색</h1>
 		<form>
 			<input type="hidden" name="depId" value="${depId}">
