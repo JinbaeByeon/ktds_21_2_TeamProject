@@ -6,7 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="prj"/>
-<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 
 <!DOCTYPE html>
 <html>
@@ -15,8 +14,10 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
 		checkFile();
+		var empId = '${sessionScope.__USER__.empId}';
 		
 		var data2 = "${reqVO.reqId}";
 		console.log(data2);
@@ -140,7 +141,6 @@
 		});
 					
 		$("#save_btn").click(function(){
-			var ajaxUtil = new AjaxUtil();
 			ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
 				if(response.status == "200 OK"){
 					alert("저장되었습니다.");
@@ -175,7 +175,7 @@
 		$("#files").change(function(e){
 			var files = $(this)[0].files;
 			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -193,7 +193,7 @@
 		 	
 			var files = event.dataTransfer.files;
 			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -210,7 +210,7 @@
 		 	
 			var files = event.dataTransfer.files;
 			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/req/upload", function(response) {
+				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
 						addFile(file);
@@ -228,13 +228,14 @@
 				var fileNm = $(this).data("uuid");
 				fileNames.push(fileNm);
 			});
-			ajaxUtil.deleteFile(fileNames, "${context}/api/req/file", function(response) {
+			ajaxUtil.deleteFile(fileNames, "${context}/api/atchfl/delete", function(response) {
 				$("#file_list").find("li").remove();
 				fileCnt=0;
 				checkFile();
 				$("#files").val("");
 			});
 		});
+		$(".remove").click(removeFn);
 	});
 
 	function addPrjFn(data) {
@@ -268,15 +269,7 @@
 		li.append(div);
 		
 		var remove =  $("<span class='remove'>x</span>");
-		remove.click(function(e){
-			var item = $(this).closest("li");
-			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/req/file", function(response) {
-				item.remove();
-				--fileCnt;
-				checkFile();
-			});
-		});
+		remove.click(removeFn);
 		
         var nm = "<span class='file_name'>"+fileNm+"</span>";
         fileSz = (fileSz / 1024).toFixed(2);
@@ -293,6 +286,15 @@
         ++fileCnt;
 	};
 	
+	function removeFn(){
+		var item = $(this).closest("li");
+		console.log(item);
+		ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/atchfl/delete", function(response) {
+			item.remove();
+			--fileCnt;
+			checkFile();
+		});
+	};
 	function checkFile(){
 		var fileList = $("#file_list");
 		console.log(fileCnt);

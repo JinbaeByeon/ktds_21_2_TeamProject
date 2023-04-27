@@ -27,16 +27,6 @@ public class RestReqController {
 
 	@Autowired
 	private ReqService reqService;
-	@Autowired
-	private UploadHandler uploadHandler;
-	
-	@PostMapping("/api/req/upload")
-	public APIDataResponseVO doUploadFiles(@RequestParam MultipartFile[] uploadFile) {
-		
-		List<AtchFlVO> fileList = uploadHandler.uploadMultiAtchmnt(Arrays.asList(uploadFile), null);
-		
-		return new APIDataResponseVO(APIStatus.OK, fileList);
-	}
 	
 	@PostMapping("/api/req/create")
 	public APIResponseVO doCreateReq(ReqVO reqVO,
@@ -51,12 +41,6 @@ public class RestReqController {
 		else {
 			throw new APIException(APIStatus.FAIL, "실패했어ㅜ");
 		}
-	}
-	
-	@PostMapping("/api/req/file")
-	public void doDeleteFiles(@RequestParam String[] fileNames) {
-		System.out.println(fileNames.length);
-		uploadHandler.deleteUploadFiles(Arrays.asList(fileNames));
 	}
 	
 	@PostMapping("/api/req/update")	
