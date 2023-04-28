@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
-<c:set scope="request" var="selected" value="eqp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,38 +13,28 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function(){
-	$(".detail_section").hide();
 	$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 	
-	$(".list_table > tbody > tr").click(function(){
-
-		$("#crtr").closest("td").prev().prev().attr("colspan", 0);
-		$("#crtr").closest("td").prev().show();
-		$("#crtr").closest("td").show();
-		
-		$("#crtDt").closest("td").prev().prev().attr("colspan", 0);
-		$("#crtDt").closest("td").prev().show();
-		$("#crtDt").closest("td").show();
-		
-		$("#mdfyr").closest("td").prev().prev().attr("colspan", 0);
-		$("#mdfyr").closest("td").prev().show();
-		$("#mdfyr").closest("td").show();
-
-		$("#mdfyDt").closest("td").prev().prev().attr("colspan", 0);
-		$("#mdfyDt").closest("td").prev().show();
-		$("#mdfyDt").closest("td").show();
-		
-		$("#prchsDt").closest("td").attr("colspan", 0);
- 		$("#prchsDt").closest("td").next().show();
- 		$("#prchsDt").closest("td").next().next().show();
-		
-		$("#useYn").closest("td").attr("colspan", 0);
- 		$("#useYn").closest("td").next().show();
- 		$("#useYn").closest("td").next().next().show();
+	$("li.nav-item.eqp").addClass("active");
+	$("li.nav-item").children("a").mouseover(function(){
+		$(this).closest(".nav").find(".nav-item.active").removeClass("active");
+		if($(this).attr("class")!="nav-item eqp"){
+			$("li.nav-item.eqp").removeClass("active");
+		}
+		$(this).closest("li.nav-item").addClass("active");
+	});
+	$(".nav").mouseleave(function(){
+		$(this).find(".active").removeClass("active");
+		$("li.nav-item.eqp").addClass("active");
+	});
+	$(".sub-item").mouseenter(function(){
+		$(this).addClass("active");
+	});
+	
+	
+	$(".grid > table > tbody > tr").click(function(){
 		
 		$("#isModify").val("true"); //수정모드
-        $(".detail_section").show("fast");
-        $(".detail_table").show();
 		
 		var data = $(this).data();
 		
@@ -67,100 +56,6 @@ $().ready(function(){
 		
 	});
 	
-	$("#new_btn").click(function(){
-		$("#crtr").closest("td").prev().prev().attr("colspan", 3);
-		$("#crtr").closest("td").prev().hide();
-		$("#crtr").closest("td").hide();
-		
-		$("#crtDt").closest("td").prev().prev().attr("colspan", 3);
-		$("#crtDt").closest("td").prev().hide();
-		$("#crtDt").closest("td").hide();
-		
-		$("#mdfyr").closest("td").prev().prev().attr("colspan", 3);
-		$("#mdfyr").closest("td").prev().hide();
-		$("#mdfyr").closest("td").hide();
-		
-		$("#mdfyDt").closest("td").prev().prev().attr("colspan", 3);
-		$("#mdfyDt").closest("td").prev().hide();
-		$("#mdfyDt").closest("td").hide();
-        
-		$("#isModify").val("false"); //등록모드
-        $(".detail_section").show("fast");
-        $(".detail_table").show();
-		
-		$("#eqpId").val("");
-		$("#eqpNm").val("");
-		$("#crtr").val("");
-		$("#crtDt").val("");
-		$("#mdfyr").val("");
-		$("#mdfyDt").val("");
-		$("#eqpTp").val("");
-		$("#applStts").val("");
-		$("#eqpPrc").val("");
-		$("#prchsDt").val("");
-		$("#lossStts").val("");
-		$("#lossRprtDt").val("");
-		$("#applDt").val("");
-		
-		$("#useYn").prop("checked", false);
-	});
-	
-	$("#delete_btn").click(function(){
-		var eqpId = $("#eqpId").val();
-		if(eqpId == ""){
-			alert("선택된 비품이 없습니다.");
-			return;
-		}
-		
-		if(!confirm("정말 삭제하시겠습니까?")){
-			return;
-		}
-		
-		$.get("${context}/api/eqp/delete/" + eqpId, function(response){
-			if(response.status == "200 OK"){
-				location.reload(); //새로고침
-			}
-			else{
-				alert(response.errorCode + "/" + response.message);
-			}
-		})
-	});
-				
-	$("#save_btn").click(function(){
-		var ajaxUtil = new AjaxUtil();
-		if($("#isModify").val() == "false"){
-			// 신규등록	
-			ajaxUtil.upload("#detail_form","${context}/eqp/create",function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}	
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		}
-		else {
-			
-			if($("#applDt").val() != "" && $("#applDt").val() != null && $("#applDt").val() < $("#prchsDt").val()){
-				alert("신청일은 구매일 이후로 선택해야합니다.");
-				return;
-			}
-			else if($("#lossRprtDt").val() != "" && $("#lossRprtDt").val() != null && $("#lossRprtDt").val() < $("#prchsDt").val()){
-				alert("분실신고일은 구매일 이후로 선택해야합니다.")
-				return;
-			}
-			//수정
-			ajaxUtil.upload("#detail_form","${context}/api/eqp/update",function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}	
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		}
-	});
-	
 	$("#search-btn").click(function(){
 		var eqpNm =$("#search-keyword").val();
 		location.href = "${context}/eqp/rent?eqpNm=" + eqpNm;
@@ -178,29 +73,6 @@ $().ready(function(){
 		$("#all_check").prop("checked", count == checkCount);
 	});
 	
-	
-	$("#delete_all_btn").click(function(){
-		var checkLen = $(".check_idx:checked").length;
-		if(checkLen == 0) {
-			alert("삭제할 비품이 없습니다.");
-			return;
-		}
-		var form = $("<form></form>")
-		
-		$(".check_idx:checked").each(function(){
-			console.log($(this).val());
-			form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
-		});
-		
-		$.post("${context}/api/eqp/delete", form.serialize(), function(response){
-			if(response.status == "200 OK"){
-				location.reload(); //새로고침
-			}
-			else{
-				alert(response.errorCode + "/" + response.message);
-			}
-		});
-	});
 	
 	$("#apply_all_btn").click(function(){
 		var checkLen = $(".check_idx:checked").length;
@@ -241,14 +113,6 @@ function movePage(pageNo) {
 	// URL 요청
 	location.href = "${context}/eqp/apply?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
 }
-
-function movePage(pageNo) {
-	// 전송
-	// 입력값
-	var eqpNm = $("#search-keyword").val();
-	// URL 요청
-	location.href = "${context}/eqp/apply?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
-}
 </script>
 </head>
 <body>
@@ -257,24 +121,19 @@ function movePage(pageNo) {
 	<div>
 		<jsp:include page="../include/eqpSidemenu.jsp"/>
 		<jsp:include page="../include/content.jsp" />
-			<div class="path">비품관리 > 대여 신청</div>
-			      <div class="search_wrapper">
-			        <div class="search_box">
-			          <select>
-			            <option>비품명</option>
-			          </select>
-			          <div class="search_field">
-			          	<input type="text" id="search-keyword" class="input" value="${eqpVO.eqpNm}" placeholder="Search"/>
-			          </div>
-			          <div class="search-icon">
-			          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
-			          </div>
-			        </div>
-			      </div>
-			      <div class="list_section">
-			        <div class="total">총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건  </div>
-			        <table class="list_table">
-			          <thead>
+			<div class="path"> 비품 대여 신청</div>
+			<div class="search-group">
+				<label for="search-keyword">비품명</label>
+				<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
+				<button class="btn-search" id="search-btn">검색</button>
+			</div>
+			
+			<div class="grid">
+				<div class="grid-count align-right">
+					총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건
+				</div>
+				<table>
+					<thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>순번</th>
@@ -282,20 +141,10 @@ function movePage(pageNo) {
 							<th>비품명</th>
 							<th>비품종류</th>
 							<th>신청상태</th>
-							<th>신청일</th>
 							<th>분실상태</th>
-							<th>분실신고일</th>
-							<th>비품가격</th>
-							<th>구매일</th>
-<!-- 							<th>등록자</th>
-							<th>등록일</th>
-							<th>수정자</th>
-							<th>수정일</th> -->
-							<th>사용여부</th>
-							<th>삭제여부</th>
 						</tr>
-			          </thead>
-			          <tbody>
+					</thead>
+					<tbody>
 						<c:choose>
 							<c:when test="${not empty eqpList}">
 								<c:forEach items="${eqpList}"
@@ -324,17 +173,7 @@ function movePage(pageNo) {
 										<td>${eqp.eqpNm}</td>
 										<td>${eqp.eqpTp}</td>
 										<td>${eqp.applStts}</td>
-										<td>${eqp.applDt}</td>
 										<td>${eqp.lossStts}</td>
-										<td>${eqp.lossRprtDt}</td>
-										<td>${eqp.eqpPrc}</td>
-										<td>${eqp.prchsDt}</td>
-<%-- 										<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm}${eqp.crtrEmpVO.lNm})</td>
-										<td>${eqp.crtDt}</td>
-										<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
-										<td>${eqp.mdfyDt}</td> --%>
-										<td>${eqp.useYn}</td>
-										<td>${eqp.delYn}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -346,85 +185,42 @@ function movePage(pageNo) {
 								</tr>
 							</c:otherwise>
 						</c:choose>
-			          </tbody>
-			        </table>
-						<c:import url="../include/pagenate.jsp">
-		                  <c:param name="pageNo" value="${pageNo}"/>
-		                  <c:param name="pageCnt" value="${pageCnt}"/>
-		                  <c:param name="lastPage" value="${lastPage}"/>
-		                  <c:param name="path" value="${context}/eqp"/>
-		               	</c:import>
-			        <div class="buttons">
-			          <button id="apply_all_btn" class="btn new">대여신청</button>
-			          <button id="new_btn" class="btn new">신규</button>
-			          <button id="delete_all_btn" class="btn delete">선택삭제</button>
-			        </div>
-			      </div>
-			      
-				<div class="detail_section">
-			        <div class="hr"></div>
-			        <div class="path">상세정보</div>
-			        <form id="detail_form">
-			        	<input type="hidden" id="isModify" value="false" />
-				        <table class="detail_table">
-				            <tr>
-				              <th>비품 ID</th>
-				              <td><input type="text" id="eqpId"  name="eqpId" value="" readonly /></td>
-				              <th>사용여부</th>
-				              <td><input type="checkbox" id="useYn"  name="useYn" value="Y"/></td>
-				            </tr>
-				            <tr>
-				              <th>비품명</th>
-				              <td><input type="text" id="eqpNm"  name="eqpNm" disabled value=""/></td>
-				              <th>분실상태</th>
-				              <td><input type="checkbox" id="lossStts"  name="lossStts" disabled value="Y"/></td>
-				            </tr>
-				            <tr>
-				              <th>비품종류</th>
-				              <td><input type="text" id="eqpTp"  name="eqpTp" disabled value=""/></td>
-				              <th>분실신고일</th>
-				              <td><input type="date" id="lossRprtDt"  name="lossRprtDt" disabled value=""/></td>
-				            </tr>
-				            <tr>
-				              <th>신청상태</th>
-				              <td>
-			              		<select id="applStts" name="applStts">
-									<option value="">선택</option>
-									<option value="대여신청">대여신청</option>
-									<option value="대여취소">대여취소</option>
-									<option value="대여중">대여중</option>
-									<option value="변경신청">변경신청</option>
-								</select>
-				              </td>
-				              <th>등록자</th>
-				              <td><input type="text" id="crtr" disabled value=""/></td>
-				            </tr>
-				            <tr>
-				              <th>신청일</th>
-				              <td><input type="date" id="applDt"  name="applDt" disabled value=""/></td>
-				              <th>등록일</th>
-				              <td><input type="text" id="crtDt" disabled value=""/></td>
-				            </tr>
-				            <tr>
-				              <th>비품가격</th>
-				              <td><input type="text" id="eqpPrc"  name="eqpPrc" disabled value=""/></td>
-				              <th>수정자</th>
-				              <td><input type="text" id="mdfyr" disabled value=""/></td>
-				            </tr>
-				            <tr>
-				              <th>구매일</th>
-				              <td><input type="date" id="prchsDt"  name="prchsDt" value=""/></td>
-				              <th>수정일</th>
-				              <td><input type="text" id="mdfyDt" disabled value=""/></td>
-				            </tr>
-				        </table>
-			        </form>
-			
-			        <div class="buttons">
-			          <button id="save_btn" class="btn regist">저장</button>
-			          <button id="delete_btn" class="btn delete">삭제</button>
-			        </div>
-			      </div>
+					</tbody>
+				</table>
+				<div class="align-right mt-10">
+					<button id="apply_all_btn" class="btn-apply">신청</button>
+				</div>
+				<c:import url="../include/pagenate.jsp">
+                  <c:param name="pageNo" value="${pageNo}"/>
+                  <c:param name="pageCnt" value="${pageCnt}"/>
+                  <c:param name="lastPage" value="${lastPage}"/>
+                  <c:param name="path" value="${context}/eqp"/>
+               	</c:import>
+				
+			</div>	
+			<div class="grid-detail">
+				<form id="detail_form" >
+					<!-- isModify == true => 수정(update) -->
+					<!-- isModify == false => 등록(insert) -->
+					<input type="hidden" id="isModify" value="false" />
+					<div class="input-group inline">
+						<label for="eqpId" style="width: 180px;">비품 ID</label>
+						<input type="text" id="eqpId"  name="eqpId" value="" readonly />
+					</div>
+					<div class="input-group inline">
+						<label for="eqpNm" style="width: 180px;">비품명</label>
+						<input type="text" id="eqpNm"  name="eqpNm" disabled value=""/>
+					</div>
+					<div class="input-group inline">
+						<label for="eqpTp" style="width: 180px;">비품종류</label>
+						<input type="text" id="eqpTp"  name="eqpTp" disabled value=""/>
+					</div>
+					<div class="input-group inline">
+						<label for="lossStts" style="width: 180px;">분실상태</label>
+						<input type="checkbox" id="lossStts"  name="lossStts" disabled value="Y"/>
+					</div>
+				</form>
+			</div>
 		<jsp:include page="../include/footer.jsp" />
 	</div>
 </div>
