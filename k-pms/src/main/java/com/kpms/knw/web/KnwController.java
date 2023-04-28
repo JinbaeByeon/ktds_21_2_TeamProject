@@ -63,24 +63,24 @@ public class KnwController {
 		return "knw/detail";
 	}
 	
+	@GetMapping("/knw/update/{knwId}")
+	public String viewKnwUpdatePage(@PathVariable String knwId, Model model, @SessionAttribute("__USER__") EmpVO empVO) {
+		KnwVO knwVO = knwService.readOneKnwByKnwId(knwId);
+		List<AtchFlVO> atchFlList = knwVO.getAtchFlList();
+		
+		model.addAttribute("knwVO", knwVO);
+		model.addAttribute("prjVO", knwVO.getPrjVO());
+		model.addAttribute("atchFlList", atchFlList);
+		model.addAttribute("atchmntPath", atchmntPath);
+		
+		return "knw/update";
+	}
+	
 	@GetMapping(value = "/knw/detail/getAttachList", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<AtchFlVO>> getAttachList(String frgnId) {
 		return new ResponseEntity<>(knwService.readOneKnwByKnwId(frgnId).getAtchFlList(), HttpStatus.OK);
 	}
 	
-	
-//	@GetMapping("/knw/file/{fileNm}/")
-//	public void downloadPrflPctr(@PathVariable String fileNm
-//								, HttpServletRequest request
-//								, HttpServletResponse response) {
-//		File file = new File(atchmntPath, fileNm);
-//		String path = atchmntPath + "/";
-//		if(!file.exists() || !file.isFile()) {
-//			fileNm = "base_profile.png";
-//		}
-//		path += fileNm;
-//		DownloadUtil dnUtil = new DownloadUtil(response, request, path);
-//		dnUtil.download(fileNm);
-//	}
+
 }
