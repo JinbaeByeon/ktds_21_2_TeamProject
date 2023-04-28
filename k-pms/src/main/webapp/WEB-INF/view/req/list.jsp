@@ -16,6 +16,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		
 		$("#tskSttsType").val("${reqVO.tskCdNm}").prop("selected", true);
 		$("#tskSttsType").change(function(){
 			var tskCdNm = $("#tskSttsType").val();
@@ -24,43 +25,15 @@
 		});
 		$("#prcsSttsType").val("${reqVO.prcsCdNm}").prop("selected", true);
 		$("#prcsSttsType").change(function(){
-		$(".detail_section").hide();
-		
-		$(".list_table > tbody > tr").click(function(){
-	        $(".detail_section").show("fast");
-	        $(".detail_table").show();
-			
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			
-			$("#reqId").val(data.reqid);
-			$("#dtlReq").val(data.dtlreq);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#strtDt").val(data.strtdt);
-			$("#expctEndDt").val(data.expctenddt);
-			$("#attch").val(data.attch);
-			$("#prjId").val(data.prjid);
-			$("#mnDvlpr").val(data.mndvlpr);
-			$("#tstRslt").val(data.tstrslt);
-			$("#tskStts").val(data.tskstts);
-			$("#prcsStts").val(data.prcsstts);
-			$("#prrty").val(data.prrty);
-			$("#reqTtl").val(data.reqttl);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
 			
 			var prcsCdNm = $("#prcsSttsType").val();
 			console.log(prcsCdNm);
 			location.href = "${context}/req/list?prcsCdNm=" + prcsCdNm;
 		});
-		
+
 		
 		$("#create_btn").click(function(){
-			location.href = "${context}/req/create" 
+			location.href = "${context}/req/create" ;
 		});
 		
 		$("#search-btn").click(function(){
@@ -73,7 +46,7 @@
 				var prjNm = $("#search-keyword").val();
 				location.href = "${context}/req/list?selectOption=프로젝트명&reqPrjVO.prjNm=" + prjNm;
 			}
-		})
+		});
 		
 		$(".detail_path").click(function(){
 			var reqId =$(this).closest("tr").data("reqid");
@@ -101,7 +74,7 @@
 			
 			$(".check_idx:checked").each(function(){
 				console.log($(this).val());
-				form.append("<input type='hidden' name='reqId' value='" + $(this).val() +"'>");
+				form.append("<input type='hidden' name='reqId' value='" + $(this).val() +"'/>");
 			});
 			
 			$.post("${context}/api/req/delete", form.serialize(), function(response){
@@ -174,6 +147,7 @@
 						<th>시작일</th>
 						<th>종료예정일</th>
 						<th>프로젝트ID</th>
+						<th>프로젝트명</th>
 						<th>우선순위</th>
            			 </tr>
 		          </thead>
@@ -201,7 +175,7 @@
 											data-mdfydt="${req.mdfyDt}"
 											data-delyn="${req.delYn}">
 											<td>
-												<input type="checkbox" class="check_idx" value="${req.reqId}">
+												<input type="checkbox" class="check_idx" value="${req.reqId}" />
 											</td>
 											<td>${req.rnum}</td>
 											<td class="detail_value">${req.reqId}</td>
