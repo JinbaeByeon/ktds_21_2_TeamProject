@@ -17,7 +17,7 @@
 			<li class="menu-item line">
 			</li>
 			<li class="menu-item active-item" >
-				<a href="${context}/rcvmsg/trash">휴지통</a>
+				<a href="${context}/msg/trash">휴지통</a>
 			</li>
 		</ul>
 	</div>

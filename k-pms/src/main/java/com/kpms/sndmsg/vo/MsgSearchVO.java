@@ -5,9 +5,8 @@ import com.kpms.common.vo.AbstractPagingVO;
 public class MsgSearchVO extends AbstractPagingVO{
 
 	private String empId;
-	private String nm;
-	private String fNm;
-	private String lNm;
+	private String searchType;
+	private String searchKeyword;
 	
 	public String getEmpId() {
 		return empId;
@@ -15,26 +14,17 @@ public class MsgSearchVO extends AbstractPagingVO{
 	public void setEmpId(String empId) {
 		this.empId = empId;
 	}
-	
-	public String getNm() {
-		return nm;
+	public String getSearchType() {
+		return searchType;
 	}
-	public void setNm(String nm) {
-		if (nm != null) {
-			this.nm = nm.replace(" ", "");
-		}
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
 	}
-	public String getfNm() {
-		return fNm;
+	public String getSearchKeyword() {
+		return searchKeyword;
 	}
-	public void setfNm(String fNm) {
-		this.fNm = fNm;
-	}
-	public String getlNm() {
-		return lNm;
-	}
-	public void setlNm(String lNm) {
-		this.lNm = lNm;
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
 	}
 	
 }

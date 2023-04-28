@@ -13,9 +13,6 @@
 	var ajaxUtil = new AjaxUtil();
 	
 	$().ready(function() {
-		$("#my_pc").click(function() {
-			
-		});
 		
 		$("#rcvr").keydown(function(e){
 			if(e.keyCode == 13){
@@ -142,7 +139,7 @@
 				var fileNm = $(this).data("uuid");
 				fileNames.push(fileNm);
 			});
-			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete/file", function(response) {
 				$("#file_list").find("li").remove();
 				fileCnt=0;
 				checkFile();
@@ -192,7 +189,7 @@
 		remove.click(function(e){
 			var item = $(this).closest("li");
 			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete/file", function(response) {
 				item.remove();
 				--fileCnt;
 				checkFile();
@@ -272,7 +269,7 @@
 					<input type="file" id="files" multiple/>
 				</div>
 				<div class="create-group">
-					<textarea name="cntnt" class="msg-cntnt"></textarea>
+					<textarea name="cntnt" class="msg-cntnt">${sndMsgVO.cntnt}</textarea>
 				</div>
 			</form>
 			<div class="align-right">

@@ -66,7 +66,7 @@ public class IssuController {
 		return "issu/modify";
 	}
 	
-	@PostMapping("/api/issu/download")
+	@GetMapping("/api/issu/download")
 	public void downloadFile(AtchFlVO atchFlVO
 				, HttpServletRequest request
 				, HttpServletResponse response) {

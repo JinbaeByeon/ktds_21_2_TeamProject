@@ -32,7 +32,16 @@ public class RestSndMsgController {
 		}
 		return new APIResponseVO(APIStatus.FAIL);
 	}
-	
+	@PostMapping("/api/sndmsg/delete")
+	public APIResponseVO doDeleteRcvMsgBySelectedMsgId(@RequestParam List<String> sndMsgIdList) {
+		boolean deleteResult = sndMsgService.deleteSndMsgBySelectedMsgId(sndMsgIdList);
+
+		if (deleteResult) {
+			return new APIResponseVO(APIStatus.OK);
+		} else {
+			return new APIResponseVO(APIStatus.FAIL);
+		}
+	}
 	@PostMapping("/api/sndmsg/upload")
 	public APIDataResponseVO doUploadFiles(@RequestParam MultipartFile[] uploadFile) {
 		
@@ -41,7 +50,7 @@ public class RestSndMsgController {
 		return new APIDataResponseVO(APIStatus.OK, fileList);
 	}
 	
-	@PostMapping("/api/sndmsg/delete")
+	@PostMapping("/api/sndmsg/delete/file")
 	public void doDeleteFiles(@RequestParam String[] fileNames) {
 		System.out.println(fileNames.length);
 		uploadHandler.deleteUploadFiles(Arrays.asList(fileNames));
