@@ -64,7 +64,7 @@
 			checkIndex(); 
 		});
 		
-		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+		$(".list_table > tr > td").not(".check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -93,6 +93,10 @@
 			<jsp:include page="../include/content.jsp"/>
 				<div class="path">쪽지 > 보낸쪽지함</div>
 		      <div class="search_wrapper">
+		      <form>
+		      	<div class="msg_buttons">
+		          <button type="button" id="delete_btn" class="btn delete msg" disabled>삭제</button>
+		         </div>
 		        <div class="search_box">
 		          <select>
 					<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
@@ -105,11 +109,9 @@
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
 		          </div>
 		        </div>
+		        </form>
 		      </div>
 		      <div class="list_section">
-		      	<div class="buttons">
-		          <button id="delete_btn" class="btn delete">삭제</button>
-		        </div>
 		        <div class="total">총 ${sndList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>

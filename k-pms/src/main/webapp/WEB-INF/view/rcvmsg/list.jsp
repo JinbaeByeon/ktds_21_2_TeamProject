@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,9 +144,9 @@
 		      <div class="search_wrapper">
 		      <form>
 		      	<div class="msg_buttons">
-		      	  <button id="read_btn" class="btn read msg" disabled>읽음</button>
-		          <button id="reply_btn" class="btn reply msg" disabled>답장</button>
-		          <button id="delete_btn" class="btn delete msg" disabled>삭제</button>
+		      	  <button type="button" id="read_btn" class="btn read msg" disabled>읽음</button>
+		          <button type="button" id="reply_btn" class="btn reply msg" disabled>답장</button>
+		          <button type="button" id="delete_btn" class="btn delete msg" disabled>삭제</button>
 		         </div>
 		        <div class="search_box">
 		          <select class="search-option" id="searchType" name="searchType">

@@ -592,7 +592,7 @@ footer {
   padding: 10px;
 }
 
-/*msg img */
+/* msg */
 #previewPrfl {
 	width: 30px;
 }
@@ -605,3 +605,8 @@ footer {
 }
 
 
+/* emp_detail */
+.container.emp_page {
+	margin: 0;
+	width: 100%;
+}
