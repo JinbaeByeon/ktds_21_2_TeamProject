@@ -18,16 +18,12 @@ public class AtchFlDAOImpl extends SqlSessionDaoSupport implements AtchFlDAO {
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
 	
-	@Override
-	public long doGetGroupId() {
-		return getSqlSession().selectOne("AtchFl.doCreateGroupId");
-	}
 	
 	@Override
-	public int doCreateNewAtchFl(AtchFlVO atchFlVO) {
-		return getSqlSession().insert("AtchFl.doCreateNewAtchFl", atchFlVO);
+	public int createNewAtchFl(AtchFlVO atchFlVO) {
+		return getSqlSession().insert("AtchFl.createNewAtchFl", atchFlVO);
 	}
-
+	
 	@Override
 	public int createNewAtchFls(List<AtchFlVO> fileList) {
 		return getSqlSession().insert("AtchFl.createNewAtchFls", fileList);

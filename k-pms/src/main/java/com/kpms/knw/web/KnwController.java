@@ -3,12 +3,18 @@ package com.kpms.knw.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.knw.service.KnwService;
 import com.kpms.knw.vo.KnwSearchVO;
@@ -19,6 +25,9 @@ public class KnwController {
 
 	@Autowired
 	private KnwService knwService;
+	
+	@Value("${upload.attchmnt.path:/kpms/files/attchmnt}")
+	private String atchmntPath;
 	
 	@GetMapping("/knw/list")
 	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model) {
@@ -44,10 +53,34 @@ public class KnwController {
 	@GetMapping("/knw/detail/{knwId}")
 	public String viewKnwDetailPage(@PathVariable String knwId, Model model, @SessionAttribute("__USER__") EmpVO empVO) {
 		KnwVO knwVO = knwService.readOneKnwByKnwId(knwId);
+		List<AtchFlVO> atchFlList = knwVO.getAtchFlList();
 		
 		model.addAttribute("knwVO", knwVO);
 		model.addAttribute("prjVO", knwVO.getPrjVO());
+		model.addAttribute("atchFlList", atchFlList);
+		model.addAttribute("atchmntPath", atchmntPath);
 		
 		return "knw/detail";
 	}
+	
+	@GetMapping(value = "/knw/detail/getAttachList", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AtchFlVO>> getAttachList(String frgnId) {
+		return new ResponseEntity<>(knwService.readOneKnwByKnwId(frgnId).getAtchFlList(), HttpStatus.OK);
+	}
+	
+	
+//	@GetMapping("/knw/file/{fileNm}/")
+//	public void downloadPrflPctr(@PathVariable String fileNm
+//								, HttpServletRequest request
+//								, HttpServletResponse response) {
+//		File file = new File(atchmntPath, fileNm);
+//		String path = atchmntPath + "/";
+//		if(!file.exists() || !file.isFile()) {
+//			fileNm = "base_profile.png";
+//		}
+//		path += fileNm;
+//		DownloadUtil dnUtil = new DownloadUtil(response, request, path);
+//		dnUtil.download(fileNm);
+//	}
 }

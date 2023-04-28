@@ -103,7 +103,7 @@ public class EmpDAOImpl extends SqlSessionDaoSupport implements EmpDAO {
 	public int updateEmpDep(EmpChngDepVO empChngDepVO) {
 		return getSqlSession().update("Emp.updateEmpDep",empChngDepVO);
 	}
-	
+
 	@Override
 	public int updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO) {
 		return getSqlSession().update("Emp.updateEmpEmplmnt",empChngEmplmntVO);

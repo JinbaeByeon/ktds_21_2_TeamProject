@@ -127,7 +127,7 @@
 			itemSpan.text(jobData.jobnm);
 			itemDiv.append(itemSpan);
 			
-			var itemRemoveBtn = $("<button>X</button>");
+			var itemRemoveBtn = $("<button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button>");
 			itemRemoveBtn.click(function(){
 				$(this).closest("div").remove();
 				$("#btn-add-job").show();
@@ -166,114 +166,114 @@
 		<div>
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-				<div class="path"> 임직원관리 > 임직원등록</div>
-				
-				<h1>임직원 등록</h1>
-				<div>
-					<form id="create-form" enctype="multipart/form-data">
-						<div class="create-group">
-							<label for="prflPht">프로필 사진</label>
-							<img class="profile" src="${context}/img/base_profile.png"/>
-							<input type="file" id="prflPht" name="prflPht"/>
-						</div>
-						<div class="create-group">
-							<label for="empId" class="required">ID</label>
-							<input type="text" id="empId" name="empId"/>
-						</div>
-						<div class="create-group">
-							<div class="mr-10p">
-								<label for="fNm" class="required">이름</label>
-								<input type="text" id="fNm" name="fNm"/>
-							</div>
-							<div class="right-item">
-								<label for="lNm">성</label>
-								<input type="text" id="lNm" name="lNm"/>
-							</div>
-						</div>
-						<div class="create-group">
-							<label for="eml" class="required">이메일</label>
-							<input type="email" id="eml" name="eml"/>
-						</div>
-						<div class="create-group">
-							<label for="phn" class="required">휴대폰 번호</label>
-							<input type="text" id="phn" name="phn"/>
-						</div>
-						<div class="create-group">
-							<label for="pstCd" class="required">주소</label>
-							<div class="addrss-group">
-								<div class="grow-1">
-									<input type="text" id="pstCd" name="pstCd" readonly="readonly"/>
-									<button class='fs-12'>우편번호</button>
-								</div>
-								<div class="grow-1">
-									<input type="text" id="addrss" name="addrss" readonly="readonly"/>
-								</div>
-								<div class="grow-1">
-									<input type="text" id="dtlAddrss" name="dtlAddrss"/>
-								</div>
-							</div>
-						</div>
-						<div class="create-group">
-							<label for="brthdy" class="required">생년월일</label>
-							<input type="date" id="brthdy" name="brthdy"/>
-						</div>
-						<div class="create-group">
-							<label for="emplmntStts" class="required">재직상태</label>
-							<select id="emplmntStts" name="emplmntStts">
-								<option>선택</option>
-								<option value="재직중">재직중</option>
-								<option value="휴직중">휴직중</option>
-								<option value="퇴사예정">퇴사예정</option>
-								<option value="퇴사">퇴사</option>
-							</select>
-						</div>
-						<div class="create-group">
-							<div class="mr-10p">
-								<label for="hrDt" class="required">입사일</label>
-								<input type="date" id="hrDt" name="hrDt"/>
-							</div>
-							<div class="right-item">
-								<label for="hrPrd">입사연차</label>
-								<input type="number" id="hrPrd" name="hrPrd" min="0" max="99" value="0"/>
-							</div>
-						</div>
-						
-						<div class="create-group">
-							<label class="required">직급</label>
-							<div class="mr-10p">
-								<button id="btn-add-pstn" class="btn-add">+</button>
-							</div>
-							<div class="right-item">
-								<label for="pstnPrd">직급연차</label>
-								<input type="number" id="pstnPrd" value="0" name="pstnPrd" min="0" max="99"/>
-							</div>
-						</div>
-						<div class="create-group">
-							<label class="required">직무</label>
-							<div>
-								<button id="btn-add-job" class="btn-add">+</button>
-							</div>
-						</div>
-						<div class="create-group">
-							<label class="required">부서</label>
-							<div>
-								<button id="btn-add-dep" class="btn-add">+</button>
-							</div>
-						</div>
-						<div class="create-group">
-							<label for="admnYn">관리자여부</label>
-							<input type="checkbox" id="admnYn" name="admnYn" value= "Y" checked/>
-						</div>
-						<div class="create-group">
-							<label for="admnPwd" class="required">관리자 비밀번호</label>
-							<input type="password" id="admnPwd" name="admnPwd"/>
-						</div>
-						
-					</form>
-				</div>
-				<div class="align-right">
-					<button id="new_btn" class="btn-primary">등록</button>
-				</div>
+				<div class="path">임직원관리 > 임직원등록</div>
+				<form id="create_form" enctype="multipart/form-data">
+					<table class="detail_table">
+		                <tr>
+		                    <th>프로필 사진</th>
+		                    <td colspan=3>
+                                <img class="profile" src="${context}/img/base_profile.png"/>
+         						<input type="file" id="prflPht" name="prflPht"/>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th class="required">ID</th>
+		                    <td colspan=3><input type="text" id="empId" name="empId"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">이름</th>
+		                    <td colspan=3><input type="text" id="fNm" name="fNm"/></td>
+		                </tr>
+		                <tr>
+		                    <th>성</th>
+		                    <td colspan=3><input type="text" id="lNm" name="lNm"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">이메일</th>
+		                    <td colspan=3><input type="email" id="eml" name="eml"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">휴대폰 번호</th>
+		                    <td colspan=3><input type="text" id="phn" name="phn"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">주소</th>
+		                    <td colspan=3>
+							  	<div class="addrss-group">
+					                <div class="grow-1">
+					                    <input type="text" id="pstCd" name="pstCd" readonly="readonly"/>
+					                    <button class='fs-12'>우편번호</button>
+					                </div>
+					                <div class="grow-1">
+					                    <input type="text" id="addrss" name="addrss" readonly="readonly"/>
+					                </div>
+					                <div class="grow-1">
+					                    <input type="text" id="dtlAddrss" name="dtlAddrss"/>
+					                </div>
+					            </div>
+				            </td>
+		                </tr>
+		                <tr>
+		                    <th class="required">생년월일</th>
+		                    <td colspan=3><input type="date" id="brthdy" name="brthdy"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">재직상태</th>
+		                    <td colspan=3>            
+							     <select id="emplmntStts" name="emplmntStts">
+					                <option>선택</option>
+					                <option value="재직중">재직중</option>
+					                <option value="휴직중">휴직중</option>
+					                <option value="퇴사예정">퇴사예정</option>
+					                <option value="퇴사">퇴사</option>
+					            </select>
+				            </td>
+		                </tr>
+		                <tr>
+		                    <th class="required">입사일</th>
+		                    <td><input type="date" id="hrDt" name="hrDt"/></td>
+		                    <th>입사연차</th>
+		                    <td><input type="number" id="hrPrd" name="hrPrd" min="0" max="99" value="0"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">직급</th>
+		                    <td>
+		                    	<div>
+		                    		<button id="btn-add-pstn" class="btn-add">+</button>
+		                    	</div>
+		                    </td>
+		                    <th>직급연차</th>
+		                    <td><input type="number" id="pstnPrd" value="0" name="pstnPrd" min="0" max="99"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">직무</th>
+		                    <td colspan=3>
+		                        <div>
+					                <button id="btn-add-job" class="btn-add">+</button>
+					            </div>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th class="required">부서</th>
+		                    <td colspan=3>
+		                    	<div>
+					                <button id="btn-add-dep" class="btn-add">+</button>
+					            </div>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>관리자여부</th>
+		                    <td colspan=3><input type="checkbox" id="admnYn" name="admnYn" value= "Y" checked/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">관리자 비밀번호</th>
+		                    <td colspan=3><input type="password" id="admnPwd" name="admnPwd"/></td>
+		                </tr>
+		            </table>
+				</form>
+        <div class="buttons">
+          <button id="new_btn" class="btn regist">등록</button>
+        </div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>
 	</div>

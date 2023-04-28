@@ -30,6 +30,12 @@ $().ready(function() {
 		movePage(0);
 	});
 	
+	$("#prjSttsType").change(function(){
+		var prjStts = $("#prjSttsType").val();
+		console.log(prjStts);
+		location.href = "${context}/prj/list?prjStts=" + prjStts;
+	});
+	
 	$("#new-btn").click(function() {
 		location.href = "${context}/prj/create"
 	});
@@ -67,12 +73,12 @@ $().ready(function() {
 	
 });
 	function movePage(pageNo) {
-		var prjnm = $("#search-keyword-prjnm").val();
-		var cstmr = $("#search-keyword-cstmr").val();
+		var searchOption = $("#search-option").val();
+		var searchKeyword = $("#search-keyword").val();
 		
-		var queryString = "prjNm=" + prjnm;
-		queryString += "&cstmr=" + cstmr;
-		queryString += "&pageNo=" + pageNo;
+		var queryString = "pageNo=" + pageNo;
+		queryString += "&searchOption=" + searchOption;
+		queryString += "&searchKeyword=" + searchKeyword;
 		
 		location.href = "${context}/prj/list?" + queryString;
 	}
@@ -83,82 +89,99 @@ $().ready(function() {
 		<jsp:include page="../include/header.jsp" />
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />		
-				<div class="path"> 프로젝트관리 > 프로젝트 목록</div>
-				<div class="search-row-group">
-					<div class="search-group">
-						<label for="search-keyword-nm">프로젝트명</label>
-						<input type="text" id="search-keyword-prjnm" class="search-input" value="${prjVO.prjNm}" />
-						<label for="search-keyword-rlnm">고객사명</label>
-						<input type="text" id="search-keyword-cstmr" class="search-input" value="${prjVO.cstmr}" />
-						<button class="btn-search" id="search-btn">&#128269</button>	
-					</div>
-				</div>
-				<div class="grid">
-					<div class="grid-count align-right">
-						총 ${prjList.size() > 0 ? prjList.get(0).totalCount : 0}건
-					</div>
-					<table>
-							<thead>
-									<tr>
-										<th><input type="checkbox" id="all_check" /></th>
-										<th>프로젝트ID</th>
-										<th>프로젝트명</th>
-										<th>고객사</th>
-										<th>시작일</th>
-										<th>종료일</th>
-										<th>상태</th>
-										<th>사용여부</th>
-									</tr>
-							</thead>
-							<tbody>
-								<c:choose>
-									<c:when test="${not empty prjList}">
-										<c:forEach items="${prjList}"
-													var="prj">
-											<tr data-prjid="${prj.prjId}"
-												data-prjnm="${prj.prjNm}"
-												data-cstmr="${prj.cstmr}"
-												data-strtdt="${prj.strtDt}"
-												data-enddt="${prj.endDt}"
-												data-prjstts="${prj.prjStts}"
-												data-useyn="${prj.useYn}" >
-												<td>
-													<input type="checkbox" class="check-idx" value="${prj.prjId}" />
-												</td>
-												<td>${prj.prjId}</td>
-												<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
-												<td>${prj.cstmr}</td>
-												<td>${prj.strtDt}</td>
-												<td>${prj.endDt}</td>
-												<td>${prj.prjStts}</td>
-												<td>${prj.useYn}</td>
-											</tr>
-										</c:forEach>
-									</c:when>
-									<c:otherwise>
-										<tr>
-											<td colspan="9" class="no-items">
-												등록된 프로젝트가 없습니다.
-											</td>
-										</tr>
-									</c:otherwise>
-								</c:choose>
-							</tbody>
-					</table>
-					<div class="align-right mt-10">
-					</div>
-						<c:import url="../include/pagenate.jsp">
-		                  <c:param name="pageNo" value="${pageNo}"/>
-		                  <c:param name="pageCnt" value="${pageCnt}"/>
-		                  <c:param name="lastPage" value="${lastPage}"/>
-		                  <c:param name="path" value="${context}/gnr"/>
-		               </c:import>
-				</div>
-				<div class="align-right">
-					<button id="new-btn" class="btn-primary">신규</button>
-					<button id="delete-btn" class="btn-delete">삭제</button>
-				</div>
+			<jsp:include page="../include/content.jsp" />
+			  <div class="path">프로젝트관리 > 프로젝트 목록</div>
+		      <div class="search_wrapper">
+		        <div class="search_box">
+		          <select id="search-option">
+			        <option value="prjNm" ${prjVO.searchOption eq "prjNm" ? "selected": ""}>프로젝트명</option>
+			        <option value="cstmr" ${prjVO.searchOption eq "cstmr" ? "selected": ""}>고객사명</option>
+		          </select>
+		          <div class="search_field">
+		            <input type="text" id="search-keyword" class="input" placeholder="Search">
+		          </div>
+		          <div class="search-icon">
+		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="list_section">
+		        <div class="total">총 ${prjList.size() > 0 ? prjList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
+		            <tr>
+						<th><input type="checkbox" id="all_check" /></th>
+						<th>프로젝트ID</th>
+						<th>프로젝트명</th>
+						<th>고객사</th>
+						<th>시작일</th>
+						<th>종료일</th>
+						<th>
+							<select id="prjSttsType" name="prjSttsType">
+								<option value="">프로젝트 상태</option>
+								<option value="002_01">분석중</option>
+								<option value="002_02">설계중</option>
+								<option value="002_03">개발중</option>
+								<option value="002_04">단위 테스트 진행중</option>
+								<option value="002_05">통합 테스트 진행중</option>
+								<option value="002_06">오픈 대기중</option>
+								<option value="002_07">오픈</option>
+								<option value="002_08">하자 보수 진행중</option>
+								<option value="002_09">완료</option>
+							</select>
+						</th>
+						<th>사용여부</th>
+		            </tr>
+		          </thead>
+		          <tbody>
+		       		<c:choose>
+						<c:when test="${not empty prjList}">
+							<c:forEach items="${prjList}"
+										var="prj">
+								<tr data-prjid="${prj.prjId}"
+									data-prjnm="${prj.prjNm}"
+									data-cstmr="${prj.cstmr}"
+									data-strtdt="${prj.strtDt}"
+									data-enddt="${prj.endDt}"
+									data-prjstts="${prj.prjStts}"
+									data-useyn="${prj.useYn}" >
+									<td>
+										<input type="checkbox" class="check-idx" value="${prj.prjId}" />
+									</td>
+									<td>${prj.prjId}</td>
+									<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
+									<td>${prj.cstmr}</td>
+									<td>${prj.strtDt}</td>
+									<td>${prj.endDt}</td>
+									<td>${prj.prjStts}</td>
+									<td>${prj.useYn}</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="9" class="no-items">
+									등록된 프로젝트가 없습니다.
+								</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+					
+					
+		          </tbody>
+		        </table>
+					<c:import url="../include/pagenate.jsp">
+	                  <c:param name="pageNo" value="${pageNo}"/>
+	                  <c:param name="pageCnt" value="${pageCnt}"/>
+	                  <c:param name="lastPage" value="${lastPage}"/>
+	                  <c:param name="path" value="${context}/prj"/>
+	               </c:import>
+		        <div class="buttons">
+		          <button id="new-btn" class="btn new">신규등록</button>
+		          <button id="delete-btn" class="btn delete">선택삭제</button>
+		        </div>
+		      </div>
+
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>

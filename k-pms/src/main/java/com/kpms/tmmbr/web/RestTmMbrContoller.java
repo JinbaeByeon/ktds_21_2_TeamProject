@@ -29,6 +29,12 @@ public class RestTmMbrContoller {
 		return new APIDataResponseVO(APIStatus.OK, tmmbrList);
 	}
 	
+	@GetMapping("/api/tmmbr/lists/{tmid}")
+	public APIResponseVO readTmMbrListInTm(@PathVariable String tmid) {
+		List<TmMbrVO> tmmbrList = tmMbrSevice.readAllTmMbrInTm(tmid);
+		return new APIDataResponseVO(APIStatus.OK, tmmbrList);
+	}
+	
 	@PostMapping("/api/tmmbr/create")
 	public APIResponseVO doCreateTmMbr(TmMbrVO tmMbrVO,
 				@SessionAttribute("__USER__") EmpVO empVO) {

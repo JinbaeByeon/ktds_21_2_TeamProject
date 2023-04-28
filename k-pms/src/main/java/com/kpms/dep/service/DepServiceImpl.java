@@ -11,7 +11,8 @@ import com.kpms.dep.dao.DepDAO;
 import com.kpms.dep.vo.DepVO;
 import com.kpms.dep.vo.DeptSearchVO;
 import com.kpms.emp.dao.EmpDAO;
-import com.kpms.emp.vo.EmpVO;
+import com.kpms.tm.dao.TmDAO;
+import com.kpms.tmmbr.dao.TmMbrDAO;
 
 @Service
 public class DepServiceImpl implements DepService {
@@ -21,6 +22,12 @@ public class DepServiceImpl implements DepService {
 	
 	@Autowired
 	private EmpDAO empDAO;
+	
+	@Autowired
+	private TmDAO tmDAO;
+	
+	@Autowired
+	private TmMbrDAO tmMbrDAO;
 
 	@Override
 	public List<DepVO> readAllDepVO(DeptSearchVO deptSearchVO) {
@@ -43,9 +50,6 @@ public class DepServiceImpl implements DepService {
 
 		if (depVO.getDepNm() == null || depVO.getDepNm().trim().length() == 0) {
 			throw new APIArgsException("400", "부서명이 누락되었습니다.");
-		}
-		if (depVO.getDepHdId() == null || depVO.getDepHdId().trim().length() == 0) {
-			throw new APIArgsException("400", "부서장이 누락되었습니다.");
 		}
 		if (depVO.getDepCrtDt() == null || depVO.getDepCrtDt().trim().length() == 0) {
 			throw new APIArgsException("400", "부서생성일이 누락되었습니다.");
@@ -70,6 +74,12 @@ public class DepServiceImpl implements DepService {
 
 	@Override
 	public boolean deleteOneDepByDepId(String depId) {
+		int delCount = depDAO.deleteOneDepByDepId(depId);
+		if (delCount > 0) {
+			tmDAO.deleteTmByDepId(depId);
+			tmMbrDAO.deleteTmMbrByDepId(depId);
+		}
+		
 		return depDAO.deleteOneDepByDepId(depId) > 0;
 	}
 
@@ -77,12 +87,18 @@ public class DepServiceImpl implements DepService {
 	public boolean deleteDepBySelectedDepId(List<String> depId) {
 		
 		int delCount = depDAO.deleteDepBySelectedDepId(depId);
+		
 		boolean isSuccess = delCount == depId.size();
 		
 		if (!isSuccess) {
-			throw new APIException("500", "삭제에 실패했습니다. 요청건수:("+depId.size() +"건), 삭제건수:("+delCount+"건)");
+			throw new APIException("400", "프로젝트를 진행중인 소속팀이 존재합니다.");
 		}
-		
+		else {
+			for (String depid : depId) {
+				tmDAO.deleteTmByDepId(depid);
+				tmMbrDAO.deleteTmMbrByDepId(depid);
+			}
+		}
 		return isSuccess; 
 	}
 

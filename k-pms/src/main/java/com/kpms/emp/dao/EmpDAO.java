@@ -35,7 +35,7 @@ public interface EmpDAO {
 	public int updateEmpJob(EmpChngJobVO empChngJobVO);
 	public int updateEmpPstn(EmpChngPstnVO empChngPstnVO);
 	public int updateEmpDep(EmpChngDepVO empChngDepVO);
-
+	
 	public int updateEmpEmplmnt(EmpChngEmplmntVO empChngEmplmntVO);
 
 }

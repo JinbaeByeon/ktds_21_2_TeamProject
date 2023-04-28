@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.kpms.atchfl.dao.AtchFlDAO;
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
@@ -20,13 +21,13 @@ public class KnwServiceImpl implements KnwService {
 
 	@Autowired
 	private KnwDAO knwDAO;
-	
+	@Autowired
+	private AtchFlDAO atchFlDAO;
 	@Autowired
 	UploadHandler uploadHandler;
 
 	@Override
-	public boolean createOneKnw(KnwVO knwVO, List<MultipartFile> uploadFile) {
-		
+	public boolean createOneKnw(KnwVO knwVO) {
 
 		if (StringUtil.isEmpty(knwVO.getTtl())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "제목은 필수값입니다.");
@@ -34,14 +35,25 @@ public class KnwServiceImpl implements KnwService {
 		if (StringUtil.isEmpty(knwVO.getCntnt())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "내용은 필수값입니다.");
 		}
-		if(StringUtil.isEmpty(knwVO.getPrjId())) {
+		if (StringUtil.isEmpty(knwVO.getPrjId())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 선택은 필수입니다.");
 		}
-		
+
 		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
-		String knwId = knwVO.getKnwId();
-		uploadHandler.uploadMultiAtchmnt(uploadFile, knwId);
-		
+
+		List<AtchFlVO> fileList = knwVO.getAtchFlList();
+
+		if (!fileList.isEmpty()) {
+			fileList.forEach(file -> {
+				file.setCrtr(knwVO.getCrtr());
+				file.setFrgnId(knwVO.getKnwId());
+			});
+			if (atchFlDAO.createNewAtchFls(fileList) == 0) {
+				return false;
+			}
+			return true;
+		}
+
 		return isSuccess;
 	}
 
@@ -56,22 +68,33 @@ public class KnwServiceImpl implements KnwService {
 	}
 
 	@Override
-	public boolean updateOneKnw(KnwVO knwVO, List<MultipartFile> uploadFile) {
-		String knwId = knwVO.getKnwId();
-		uploadHandler.uploadMultiAtchmnt(uploadFile, knwId);
-		
+	public boolean updateOneKnw(KnwVO knwVO) {
+
 		if (StringUtil.isEmpty(knwVO.getTtl())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "제목은 필수값입니다.");
 		}
 		if (StringUtil.isEmpty(knwVO.getCntnt())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "내용은 필수값입니다.");
 		}
-		if(StringUtil.isEmpty(knwVO.getPrjId())) {
+		if (StringUtil.isEmpty(knwVO.getPrjId())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 선택은 필수입니다.");
 		}
 
 		boolean isSuccess = knwDAO.updateOneKnw(knwVO) > 0;
-
+		atchFlDAO.deleteAtchFlsByFrgnId(knwVO.getKnwId());
+		
+		List<AtchFlVO> fileList = knwVO.getAtchFlList();
+		
+		if (!fileList.isEmpty()) {
+			fileList.forEach(file -> {
+				file.setCrtr(knwVO.getMdfyr());
+				file.setFrgnId(knwVO.getKnwId());
+			});
+			if (atchFlDAO.createNewAtchFls(fileList) == 0) {
+				return false;
+			}
+			return true;
+		}
 		return isSuccess;
 	}
 
