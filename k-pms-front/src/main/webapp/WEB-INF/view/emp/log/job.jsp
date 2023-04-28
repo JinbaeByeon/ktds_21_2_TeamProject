@@ -80,7 +80,7 @@
 										data-crtdt="${jobLog.crtDt}"
 										data-crtr="${jobLog.crtr}">
 									<td>${jobLog.empId}</td>
-									<td>${jobLog.empVO.fNm} ${jobLog.empVO.lNm}</td>
+									<td>${jobLog.empVO.lNm}${jobLog.empVO.fNm}</td>
 									<td>${jobLog.prvsJobId}</td>
 									<td>${jobLog.prvsJobNmVO.jobNm}</td>
 									<td>${jobLog.chngJobId}</td>

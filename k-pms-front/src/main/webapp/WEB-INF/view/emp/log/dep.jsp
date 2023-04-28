@@ -80,7 +80,7 @@
 										data-crtdt="${depLog.crtDt}"
 										data-crtr="${depLog.crtr}">
 									<td>${depLog.empId}</td>
-									<td>${depLog.empVO.fNm} ${depLog.empVO.lNm}</td>
+									<td>${depLog.empVO.lNm}${depLog.empVO.fNm}</td>
 									<td>${depLog.prvsDepId}</td>
 									<td>${depLog.prvsDepNmVO.depNm}</td>
 									<td>${depLog.chngDepId}</td>

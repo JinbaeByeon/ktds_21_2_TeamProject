@@ -147,8 +147,7 @@
 		                            <td class="check"><input type="checkbox"
 		                                class="check_idx" value="${rcvMsg.msgId}" /></td>
 		                            <td>${rcvMsg.sndMsgVO.ttl}</td>
-		                            <td>${rcvMsg.crtr}(${rcvMsg.rcvrEmpVO.lNm}
-		                                ${rcvMsg.rcvrEmpVO.fNm})</td>
+		                            <td>${rcvMsg.crtr}(${rcvMsg.rcvrEmpVO.lNm}${rcvMsg.rcvrEmpVO.fNm})</td>
 		                            <td>${rcvMsg.crtDt}</td>
 		                        </tr>
 		                    </c:forEach>

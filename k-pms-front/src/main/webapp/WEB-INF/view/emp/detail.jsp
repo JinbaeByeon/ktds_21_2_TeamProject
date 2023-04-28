@@ -20,148 +20,106 @@
 </head>
 <body>
 	<div class="main-layout">
-		<div class="detail">
-			<div class="header">
-				<h1 class="ml-10">${empVO.empId}(${empVO.fNm} ${empVO.lNm})님의 회원정보입니다.</h1>
-			</div>
-			<div class="basic info ml-10">
-				<h1 class="">기본정보</h1>
-				<ul>
-					<li>
-						<div class="column profile">
-							<div class="left">프로필사진</div>
-							<div class="right">
-								<c:if test="${not empty empVO.prflPht}">
-									<img src="${context}/emp/prfl/${empVO.prflPht}/" class="profile"/>
-								</c:if>
-								<c:if test="${empty empVO.prflPht}">
-									<img src="${context}/img/base_profile.png" class="profile"/>
-								</c:if>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">아이디</div>
-							<div class="right">${empVO.empId}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">이름</div>
-							<div class="right">${empVO.fNm} ${empVO.lNm}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">이메일</div>
-							<div class="right">${empVO.eml}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">전화번호</div>
-							<div class="right">${empVO.phn}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">회원등급</div>
-							<div class="right">${empVO.admnYn.equals("Y")? "관리자" : "일반회원"}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">생년월일</div>
-							<div class="right">${empVO.brthdy}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">주소</div>
-							<div class="right">${empVO.addrss} ${empVO.dtlAddrss}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">가입일</div>
-							<div class="right">${empVO.crtDt}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">최근접속일</div>
-							<div class="right">${empVO.ltstLgnDt}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">최근접속IP</div>
-							<div class="right">${empVO.ltstLgnIp}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">비밀번호 변경일</div>
-							<div class="right">${empVO.pwdChngDt}</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<div class="emp info ml-10">
-				<h1 class="">사원정보</h1>
-				<ul>
-					<li>
-						<div class="column">
-							<div class="left">입사일</div>
-							<div class="right">${empVO.hrDt}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">입사연차</div>
-							<div class="right">${empVO.hrPrd}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">재직상태</div>
-							<div class="right">${empVO.emplmntSttsVO.cdNm}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">부서</div>
-							<div class="right">${empVO.dep.depNm}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">직무</div>
-							<div class="right">${empVO.job.jobNm}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">직급</div>
-							<div class="right">${empVO.pstn.pstnNm}</div>
-						</div>
-					</li>
-					<li>
-						<div class="column">
-							<div class="left">직급연차</div>
-							<div class="right">${empVO.pstnPrd}</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-			
-			<div class="align-right mt-5 mb-5 mr-5">
-				<button id="modify_btn" class="btn-primary">수정</button>
-			</div>
-			<jsp:include page="../include/footer.jsp"/>
-		</div>
-	</div>
+	<div class="container emp_page">
+		<h2>${empVO.empId}(${empVO.lNm}${empVO.fNm})님의 회원정보입니다.</h2>
+			<h3>기본정보</h3>
+				<table class="detail_table">
+	                <tr>
+	                    <th>프로필사진</th>
+	                    <td>
+	                 	      <c:if test="${not empty empVO.prflPht}">
+	                             <img src="${context}/emp/prfl/${empVO.prflPht}/" class="profile"/>
+	                         </c:if>
+	                         <c:if test="${empty empVO.prflPht}">
+	                             <img src="${context}/img/base_profile.png" class="profile"/>
+	                         </c:if>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <th>아이디</th>
+	                    <td>${empVO.empId}</td>
+	                </tr>
+	                <tr>
+	                    <th>이름</th>
+	                    <td>${empVO.lNm}${empVO.fNm}</td>
+	                </tr>
+	                <tr>
+	                    <th>이메일</th>
+	                    <td>${empVO.eml}</td>
+	                </tr>
+	                <tr>
+	                    <th>전화번호</th>
+	                    <td>${empVO.phn}</td>
+	                </tr>
+	                <tr>
+	                    <th>회원등급</th>
+	                    <td>${empVO.admnYn.equals("Y")? "관리자" : "일반회원"}</td>
+	                </tr>
+	                <tr>
+	                    <th>생년월일</th>
+	                    <td>${empVO.brthdy}</td>
+	                </tr>
+	                <tr>
+	                    <th>주소</th>
+	                    <td>${empVO.addrss} ${empVO.dtlAddrss}</td>
+	                </tr>
+	                <tr>
+	                    <th>가입일</th>
+	                    <td>${empVO.crtDt}</td>
+	                </tr>
+	                <tr>
+	                    <th>최근접속일</th>
+	                    <td>${empVO.ltstLgnDt}</td>
+	                </tr>
+	                <tr>
+	                    <th>최근접속IP</th>
+	                    <td>${empVO.ltstLgnIp}</td>
+	                </tr>
+	                <tr>
+	                    <th>비밀번호 변경일</th>
+	                    <td>${empVO.pwdChngDt}</td>
+	                </tr>
+	            </table>
+	            
+	            <div class="hr"></div>
+	            
+	            <h3>사원정보</h3>
+				<table class="detail_table">
+	                <tr>
+	                    <th>입사일</th>
+	                    <td>${empVO.hrDt}</td>
+	                </tr>
+	                <tr>
+	                    <th>입사연차</th>
+	                    <td>${empVO.hrPrd}</td>
+	                </tr>
+	                <tr>
+	                    <th>재직상태</th>
+	                    <td>${empVO.emplmntSttsVO.cdNm}</td>
+	                </tr>
+	                <tr>
+	                    <th>부서</th>
+	                    <td>${empVO.dep.depNm}</td>
+	                </tr>
+	                <tr>
+	                    <th>직무</th>
+	                    <td>${empVO.job.jobNm}</td>
+	                </tr>
+	                <tr>
+	                    <th>직급</th>
+	                    <td>${empVO.pstn.pstnNm}</td>
+	                </tr>
+	                <tr>
+	                    <th>직급연차</th>
+	                    <td>${empVO.pstnPrd}</td>
+	                </tr>
+	            </table>
+               
+      <div class="buttons">
+        <button id="modify_pwd_btn" class="btn regist">비밀번호 변경</button>
+        <button id="modify_btn" class="btn regist">수정</button>
+      </div>			
+</div>
 	
 </body>
 </html>

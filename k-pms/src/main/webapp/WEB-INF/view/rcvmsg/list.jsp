@@ -135,7 +135,6 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-
 			<div class="path">쪽지 > 받은쪽지함</div>
 		      <div class="search_wrapper">
 		      <form>
@@ -192,7 +191,7 @@
 		                            </c:if>
 		                        </td>
 		                        <td>${rcvMsg.sndMsgVO.ttl}</td>
-		                        <td>${rcvMsg.crtr} (${rcvMsg.sndMsgVO.sndEmpVO.lNm} ${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
+		                        <td>${rcvMsg.crtr} (${rcvMsg.sndMsgVO.sndEmpVO.lNm}${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
 		                        <td>${rcvMsg.crtDt}</td>
 		                        </tr>
 		                    </c:forEach>

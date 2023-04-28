@@ -87,6 +87,7 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
+<<<<<<< Updated upstream
 			<div class="path">쪽지 > 보낸쪽지함</div>
 			
 			<form>
@@ -153,6 +154,76 @@
 	                  <c:param name="path" value="${context}/sndMsg"/>
 	            </c:import>
             </div>
+=======
+				<div class="path">쪽지 > 보낸쪽지함</div>
+		      <div class="search_wrapper">
+		      <form>
+		      	<div class="msg_buttons">
+		          <button type="button" id="delete_btn" class="btn delete msg" disabled>삭제</button>
+		         </div>
+		        <div class="search_box">
+		          <select>
+					<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
+					<option value="rcvrNm" ${searchType eq "rcvrNm" ? "selected": ""}>수신자명</option>
+		          </select>
+		          <div class="search_field">
+		          	<input type="text" id="search-keyword" class="input" value="${sndMsgVO.searchKeyword}" placeholder="Search"/>
+		          </div>
+		          <div class="search-icon">
+		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+		          </div>
+		        </div>
+		        </form>
+		      </div>
+		      <div class="list_section">
+		        <div class="total">총 ${sndList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
+		            <tr>
+		                <th><input type="checkbox" id="all_check"/></th>
+		                <th>수신자</th>
+		                <th>제목</th>
+		                <th>발신일</th>
+		            </tr>
+		          </thead>
+		          <tbody>
+		            <c:choose>
+		                <c:when test="${not empty sndMsgList}">
+		                    <c:forEach items="${sndMsgList}"
+		                               var="sndMsg">
+		                        <tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
+		                            data-ttl="${sndMsg.ttl}"
+		                            data-crtdt="${sndMsg.crtDt}"
+		                            data-msgid="${sndMsg.msgId}">
+		                            <td>
+		                                <input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
+		                            </td>
+		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm}${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
+		                            <td>${sndMsg.ttl}</td>
+		                            <td>${sndMsg.crtDt}</td>
+		                        </tr>
+		                    </c:forEach>
+		                </c:when>
+		                <c:otherwise>
+		                    <tr>
+		                        <td colspan="6" class="no-items">
+		                        보낸 쪽지가 없습니다.
+		                        </td>
+		                    </tr>
+		                </c:otherwise>
+		            </c:choose>
+		          </tbody>
+		        </table>
+				    <c:import url="../include/pagenate.jsp">
+				          <c:param name="pageNo" value="${pageNo}"/>
+				          <c:param name="pageCnt" value="${pageCnt}"/>
+				          <c:param name="lastPage" value="${lastPage}"/>
+				          <c:param name="path" value="${context}/sndMsg"/>
+				    </c:import>
+
+		      </div>
+			<jsp:include page="../include/footer.jsp" />
+>>>>>>> Stashed changes
 		</div>
 	</div>
 </body>

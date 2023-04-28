@@ -283,7 +283,7 @@
 											<input type="checkbox" class="check_idx" value="${emp.empId}">
 										</td>
 										<td>${emp.empId}</td>
-										<td>${emp.fNm} ${emp.lNm}</td>
+										<td>${emp.lNm}${emp.fNm}</td>
 										<td>${emp.crtDt}</td>
 										<td>${emp.emplmntSttsVO.cdNm}</td>
 										<td>

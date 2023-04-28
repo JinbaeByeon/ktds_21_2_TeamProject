@@ -79,9 +79,9 @@
 					<th>
 						<input type="checkbox" id="all_check" />
 					</th>
+					<th>ID</th>
 					<th>이름</th>
-					<th>성</th>
-					<th>부서ID</th>
+					<th>부서</th>
             </tr>
         </thead>
             <tbody>
@@ -94,8 +94,8 @@
 									<td class="check">
 										<input type="checkbox" class="check_idx" value="${emp.empId}" />
 									</td>
-									<td>${emp.fNm}</td>
-									<td>${emp.lNm}</td>
+									<td>${emp.empId}</td>
+									<td>${emp.lNm}${emp.fNm}</td>
 									<td>${emp.depId} </td>
 								</tr>
 							</c:forEach>

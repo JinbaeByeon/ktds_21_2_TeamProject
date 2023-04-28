@@ -374,6 +374,13 @@ a:link, a:visited {
   width: 150px;
   height: 150px;
 }
+
+.container .detail_table tbody tr td .profile{
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+}
+
  .container .detail_table tr:last-child {
   border-bottom: none;
 }

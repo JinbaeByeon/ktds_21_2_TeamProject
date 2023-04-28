@@ -128,7 +128,7 @@
 		                            <td>
 		                                <input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
 		                            </td>
-		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm} ${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
+		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm}${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 		                            <td>${sndMsg.ttl}</td>
 		                            <td>${sndMsg.crtDt}</td>
 		                        </tr>
