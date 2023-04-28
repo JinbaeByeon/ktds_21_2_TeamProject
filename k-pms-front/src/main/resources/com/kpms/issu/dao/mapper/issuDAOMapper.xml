@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Issu">
+	<resultMap id="IssuMap"
+			   type="com.kpms.issu.vo.IssuVO"
+			   autoMapping="true">
+		<id property="issuId" column="ISSU_ID" />
+		<collection property="atchFlList"
+					ofType="com.kpms.atchfl.vo.AtchFlVO">
+			<id property="uuidFlNm" column="UUID_FL_NM" />
+			<result property="orgFlNm" column="ORG_FL_NM" />
+			<result property="flSz" column="FL_SZ" />
+			<result property="flExt" column="FL_EXT" />
+			<result property="frgnId" column="ISSU_ID" />
+		</collection>
+	</resultMap>
+
+	<insert id="createOneIssu"
+			parameterType="com.kpms.issu.vo.IssuVO">
+		<selectKey keyProperty="issuId" resultType="string" order="BEFORE">
+		SELECT 'IS-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_ISSU_PK.NEXTVAL,5,'0')
+		  FROM DUAL
+	</selectKey>
+		INSERT INTO ISSU
+		(ISSU_ID,
+		 CRT_DT,
+		 CRTR,
+		 MDFY_DT,
+		 MDFYR,
+		 USE_YN,
+		 DEL_YN,
+		 REQ_ID,
+		 ISSU_TTL,
+		 ISSU_CNTNT,
+		 VW_CNT,
+		 DFFCLTY,
+		 DTL_CNTNT,
+		 MN_TM_MBR_ID,
+		 STTS)
+		VALUES
+		(#{issuId} ,
+		 SYSDATE,
+		 #{crtr},
+		 SYSDATE,
+		 #{crtr},
+		 'Y',
+		 'N',
+		 #{reqId},
+		 #{issuTtl},
+		 #{issuCntnt},
+		 0,
+		 #{dffclty},
+		 #{dtlCntnt},
+		 #{mnTmMbrId},
+		 '')
+	</insert>
+	
+	<select id="readOneIssu"
+			parameterType="string"
+			resultMap="IssuMap">
+		SELECT I.ISSU_ID,
+			   I.CRT_DT,
+			   I.CRTR,
+			   I.MDFY_DT,
+			   I.MDFYR,
+			   I.USE_YN,
+			   I.REQ_ID,
+			   I.ISSU_TTL,
+			   I.ISSU_CNTNT,
+			   I.VW_CNT,
+			   I.DFFCLTY,
+			   I.DTL_CNTNT,
+			   I.MN_TM_MBR_ID,
+			   I.STTS,
+			   AF.ORG_FL_NM,
+			   AF.UUID_FL_NM,
+			   AF.FL_SZ,
+			   AF.FL_EXT
+		  FROM (SELECT *
+		  		  FROM ISSU
+				 WHERE ISSU_ID = #{_parameter}
+				   AND DEL_YN = 'N') I
+		  JOIN ATCH_FL AF
+		  	ON AF.FRGN_ID = I.ISSU_ID
+		 WHERE AF.DEL_YN = 'N'
+	</select>
+	<select id="readIssuList"
+			parameterType="com.kpms.issu.vo.IssuVO"
+			resultType="com.kpms.issu.vo.IssuVO">
+		<include refid="Common.pageHeader"/>
+		SELECT ISSU_ID PK_COL,
+			   DENSE_RANK() OVER(ORDER BY CRT_DT || ISSU_ID DESC) RNUM,
+			   ISSU_ID,
+			   CRT_DT,
+			   CRTR,
+			   MDFY_DT,
+			   MDFYR,
+			   USE_YN,
+			   DEL_YN,
+			   REQ_ID,
+			   ISSU_TTL,
+			   ISSU_CNTNT,
+			   VW_CNT,
+			   DFFCLTY,
+			   DTL_CNTNT,
+			   MN_TM_MBR_ID,
+			   STTS
+		  FROM (SELECT *
+		  		  FROM ISSU
+		  		 WHERE DEL_YN = 'N'
+		 	/*조건 추가*/
+		 <if test="reqId != null and reqId != ''">
+		   AND REQ_ID = #{reqId}
+		 </if>
+		 )
+		<include refid="Common.pageFooter"/>
+	</select>
+	
+	<update id="updateOneIssu"
+			parameterType="com.kpms.issu.vo.IssuVO">
+		UPDATE ISSU
+		   SET MDFY_DT = SYSDATE,
+			   MDFYR = #{mdfyr},
+			   ISSU_TTL = #{issuTtl},
+			   ISSU_CNTNT = #{issuCntnt},
+			   DFFCLTY = #{dffclty},
+			   DTL_CNTNT = #{dtlCntnt}
+			<if test="mnTmMbrId != null and mnTmMbrId !=''">
+			 , MN_TM_MBR_ID = #{mnTmMbrId}
+			</if>
+			<if test="stts != null and stts != ''">
+			 , STTS = #{stts}
+			</if>
+		 WHERE ISSU_ID = #{issuId}
+	</update>
+	<update id="updateIssuVwCnt"
+			parameterType="string">
+		UPDATE ISSU
+		   SET VW_CNT = VW_CNT+1
+		 WHERE ISSU_ID = #{_parameter}
+	</update>
+	
+	<update id="deleteOneIssu"
+			parameterType="string">
+		UPDATE ISSU
+		   SET DEL_YN = 'Y'
+		 WHERE ISSU_ID = #{_parameter}
+	</update>
+	<update id="deleteIssu"
+			parameterType="arraylist">
+		UPDATE ISSU
+		   SET DEL_YN = 'Y'
+		 WHERE ISSU_ID IN
+		 <foreach collection="list" item="issuId" open="(" close=")" separator=", ">
+		  #{issuId}
+		 </foreach>
+	</update>
+</mapper>

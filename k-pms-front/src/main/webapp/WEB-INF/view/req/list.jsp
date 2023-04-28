@@ -16,62 +16,32 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
-			
-			$("#isModify").val("true"); //수정모드
-			
-			var data = $(this).data();
-			
-			$("#reqId").val(data.reqid);
-			$("#dtlReq").val(data.dtlreq);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#strtDt").val(data.strtdt);
-			$("#expctEndDt").val(data.expctenddt);
-			$("#attch").val(data.attch);
-			$("#prjId").val(data.prjid);
-			$("#mnDvlpr").val(data.mndvlpr);
-			$("#tstRslt").val(data.tstrslt);
-			$("#tskStts").val(data.tskstts);
-			$("#prcsStts").val(data.prcsstts);
-			$("#prrty").val(data.prrty);
-			$("#reqTtl").val(data.reqttl);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
+		$("#tskSttsType").val("${reqVO.tskCdNm}").prop("selected", true);
+		$("#tskSttsType").change(function(){
+			var tskCdNm = $("#tskSttsType").val();
+			console.log(tskCdNm);
+			location.href = "${context}/req/list?tskCdNm=" + tskCdNm;
 		});
-		
-		$("#delete_btn").click(function(){
-			var reqId = $("#reqId").val();
-			if(reqId == ""){
-				alert("선택된 요구사항이 없습니다.");
-				return;
-			}
+		$("#prcsSttsType").val("${reqVO.prcsCdNm}").prop("selected", true);
+		$("#prcsSttsType").change(function(){
 			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			}
-			
-			$.get("${context}/api/req/delete/" + reqId, function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			})
+			var prcsCdNm = $("#prcsSttsType").val();
+			console.log(prcsCdNm);
+			location.href = "${context}/req/list?prcsCdNm=" + prcsCdNm;
 		});
-					
 		$("#create_btn").click(function(){
 			location.href = "${context}/req/create" 
 		});
 		
 		$("#search-btn").click(function(){
-			var reqId =$("#search-keyword").val();
-			location.href = "${context}/req/list?reqId=" + reqId;
-			
+			if($("#search-option").val() == "요구사항제목"){
+				var reqTtl = $("#search-keyword").val();
+				location.href = "${context}/req/list?selectOption=요구사항제목&reqTtl=" + reqTtl;
+			}
+			if($("#search-option").val() == "프로젝트명"){
+				var prjNm = $("#search-keyword").val();
+				location.href = "${context}/req/list?selectOption=프로젝트명&reqPrjVO.prjNm=" + prjNm;
+			}
 		})
 		
 		$(".detail_path").click(function(){
@@ -112,6 +82,7 @@
 				}
 			});
 		});
+		$('.detail_value').attr('style', "display:none;");
 	});
 	
 	function movePage(pageNo) {
@@ -131,8 +102,13 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 요구사항</div>
 				<div class="search-group">
-					<label for="search-keyword">요구사항ID</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${reqVO.reqId}"/>
+					<label for="search-option">검색옵션</label>
+					<select id="search-option" class="search-input">
+						<option value="요구사항제목" ${reqVO.selectOption eq "요구사항제목" ? "selected" : ""}>요구사항제목</option>
+						<option value="프로젝트명"  ${reqVO.selectOption eq "프로젝트명" ? "selected" : ""}>프로젝트명</option>
+					</select>
+					<label for="search-keyword">검색어</label>
+					<input type="text" id="search-keyword" class="search-input"  value="${reqVO.reqTtl}${reqVO.reqPrjVO.prjNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				
@@ -145,13 +121,27 @@
 							<tr>
 								<th><input type="checkbox" id="all_check"/></th>
 								<th>순번</th>
-								<th>요구사항ID</th>
 								<th>요구사항제목</th>
-								<th>진행상태</th>
-								<th>일정상태</th>
+								<th>
+									<select id="prcsSttsType" name="prcsSttsType">
+										<option value="">진행상태</option>
+										<option value="접수">접수</option>
+										<option value="분석">분석</option>
+										<option value="처리중">처리중</option>
+										<option value="처리 완료">처리완료</option>
+									</select>
+								</th>
+								<th>
+									<select id="tskSttsType" name="tskSttsType">
+										<option value="">일정상태</option>
+										<option value="대기중">대기중</option>
+										<option value="진행중">진행중</option>
+										<option value="연기 필요">연기필요</option>
+									</select>
+								</th>
 								<th>시작일</th>
 								<th>종료예정일</th>
-								<th>프로젝트ID</th>
+								<th>프로젝트명</th>
 								<th>우선순위</th>
 							</tr>
 						</thead>
@@ -159,8 +149,7 @@
 							<c:choose>
 								<c:when test="${not empty reqList}">
 									<c:forEach items="${reqList}"
-											   var="req"
-											   varStatus="index">
+											   var="req">
 										<tr data-reqid="${req.reqId}"
 											data-reqttl="${req.reqTtl}"
 											data-strtdt="${req.strtDt}"
@@ -169,6 +158,9 @@
 											data-prchsdt="${req.prrty}"
 											data-prcsstts="${req.prcsStts}"
 											data-tskstts="${req.tskStts}"
+											data-tskcdnm="${req.tskCdNm}"
+											data-prcscdnm="${req.prcsCdNm}"
+											data-rsltcdnm="${req.rsltCdNm}"
 											data-useyn="${req.useYn}"
 											data-crtr="${req.crtr}"
 											data-crtdt="${req.crtDt}"
@@ -181,11 +173,11 @@
 											<td>${req.rnum}</td>
 											<td class="detail_value">${req.reqId}</td>
 											<td class="detail_path">${req.reqTtl}</td>
-											<td>${req.prcsStts}</td>
-											<td>${req.tskStts}</td>
+											<td>${req.prcsCdNm}</td>
+											<td>${req.tskCdNm}</td>
 											<td>${req.strtDt}</td>
 											<td>${req.expctEndDt}</td>
-											<td>${req.prjId}</td>
+											<td>${req.reqPrjVO.prjNm}</td>
 											<td>${req.prrty}</td>
 										</tr>
 									</c:forEach>

@@ -56,82 +56,6 @@ $().ready(function(){
 		
 	});
 	
-	$("#new_btn").click(function(){
-		$("#isModify").val("false"); //등록모드
-		
-		$("#eqpId").val("");
-		$("#eqpNm").val("");
-		$("#crtr").val("");
-		$("#crtDt").val("");
-		$("#mdfyr").val("");
-		$("#mdfyDt").val("");
-		$("#eqpTp").val("");
-		$("#applStts").val("");
-		$("#eqpPrc").val("");
-		$("#prchsDt").val("");
-		$("#lossStts").val("");
-		$("#lossRprtDt").val("");
-		$("#applDt").val("");
-		
-		$("#useYn").prop("checked", false);
-	});
-	
-	$("#delete_btn").click(function(){
-		var eqpId = $("#eqpId").val();
-		if(eqpId == ""){
-			alert("선택된 비품이 없습니다.");
-			return;
-		}
-		
-		if(!confirm("정말 삭제하시겠습니까?")){
-			return;
-		}
-		
-		$.get("${context}/api/eqp/delete/" + eqpId, function(response){
-			if(response.status == "200 OK"){
-				location.reload(); //새로고침
-			}
-			else{
-				alert(response.errorCode + "/" + response.message);
-			}
-		})
-	});
-				
-	$("#save_btn").click(function(){
-		var ajaxUtil = new AjaxUtil();
-		if($("#isModify").val() == "false"){
-			// 신규등록	
-			ajaxUtil.upload("#detail_form","${context}/eqp/create",function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}	
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		}
-		else {
-			
-			if($("#applDt").val() != "" && $("#applDt").val() != null && $("#applDt").val() < $("#prchsDt").val()){
-				alert("신청일은 구매일 이후로 선택해야합니다.");
-				return;
-			}
-			else if($("#lossRprtDt").val() != "" && $("#lossRprtDt").val() != null && $("#lossRprtDt").val() < $("#prchsDt").val()){
-				alert("분실신고일은 구매일 이후로 선택해야합니다.")
-				return;
-			}
-			//수정
-			ajaxUtil.upload("#detail_form","${context}/api/eqp/update",function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}	
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		}
-	});
-	
 	$("#search-btn").click(function(){
 		var eqpNm =$("#search-keyword").val();
 		location.href = "${context}/eqp/rent?eqpNm=" + eqpNm;
@@ -149,29 +73,6 @@ $().ready(function(){
 		$("#all_check").prop("checked", count == checkCount);
 	});
 	
-	
-	$("#delete_all_btn").click(function(){
-		var checkLen = $(".check_idx:checked").length;
-		if(checkLen == 0) {
-			alert("삭제할 비품이 없습니다.");
-			return;
-		}
-		var form = $("<form></form>")
-		
-		$(".check_idx:checked").each(function(){
-			console.log($(this).val());
-			form.append("<input type='hidden' name='eqpId' value='" + $(this).val() +"'>");
-		});
-		
-		$.post("${context}/api/eqp/delete", form.serialize(), function(response){
-			if(response.status == "200 OK"){
-				location.reload(); //새로고침
-			}
-			else{
-				alert(response.errorCode + "/" + response.message);
-			}
-		});
-	});
 	
 	$("#apply_all_btn").click(function(){
 		var checkLen = $(".check_idx:checked").length;
@@ -220,7 +121,7 @@ function movePage(pageNo) {
 	<div>
 		<jsp:include page="../include/eqpSidemenu.jsp"/>
 		<jsp:include page="../include/content.jsp" />
-			<div class="path"> 대여 신청</div>
+			<div class="path"> 비품 대여 신청</div>
 			<div class="search-group">
 				<label for="search-keyword">비품명</label>
 				<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
@@ -240,17 +141,7 @@ function movePage(pageNo) {
 							<th>비품명</th>
 							<th>비품종류</th>
 							<th>신청상태</th>
-							<th>신청일</th>
 							<th>분실상태</th>
-							<th>분실신고일</th>
-							<th>비품가격</th>
-							<th>구매일</th>
-							<th>등록자</th>
-							<th>등록일</th>
-							<th>수정자</th>
-							<th>수정일</th>
-							<th>사용여부</th>
-							<th>삭제여부</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -282,17 +173,7 @@ function movePage(pageNo) {
 										<td>${eqp.eqpNm}</td>
 										<td>${eqp.eqpTp}</td>
 										<td>${eqp.applStts}</td>
-										<td>${eqp.applDt}</td>
 										<td>${eqp.lossStts}</td>
-										<td>${eqp.lossRprtDt}</td>
-										<td>${eqp.eqpPrc}</td>
-										<td>${eqp.prchsDt}</td>
-										<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm}${eqp.crtrEmpVO.lNm})</td>
-										<td>${eqp.crtDt}</td>
-										<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
-										<td>${eqp.mdfyDt}</td>
-										<td>${eqp.useYn}</td>
-										<td>${eqp.delYn}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -308,7 +189,6 @@ function movePage(pageNo) {
 				</table>
 				<div class="align-right mt-10">
 					<button id="apply_all_btn" class="btn-apply">신청</button>
-					<button id="delete_all_btn" class="btn-delete">삭제</button>
 				</div>
 				<c:import url="../include/pagenate.jsp">
                   <c:param name="pageNo" value="${pageNo}"/>
@@ -336,65 +216,11 @@ function movePage(pageNo) {
 						<input type="text" id="eqpTp"  name="eqpTp" disabled value=""/>
 					</div>
 					<div class="input-group inline">
-						<label for="applStts" style="width: 180px;">신청상태</label>
-						<select id="applStts" name="applStts">
-										<option value="">선택</option>
-										<option value="대여신청">대여신청</option>
-										<option value="대여취소">대여취소</option>
-										<option value="대여중">대여중</option>
-										<option value="변경신청">변경신청</option>
-						</select>
-					</div>
-					<div class="input-group inline">
-						<label for="applDt" style="width: 180px;">신청일</label>
-						<input type="date" id="applDt"  name="applDt" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="eqpPrc" style="width: 180px;">비품가격</label>
-						<input type="text" id="eqpPrc"  name="eqpPrc" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="prchsDt" style="width: 180px;">구매일</label>
-						<input type="date" id="prchsDt"  name="prchsDt" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-	
 						<label for="lossStts" style="width: 180px;">분실상태</label>
 						<input type="checkbox" id="lossStts"  name="lossStts" disabled value="Y"/>
 					</div>
-					<div class="input-group inline">
-						<label for="lossRprtDt" style="width: 180px;">분실신고일</label>
-						<input type="date" id="lossRprtDt"  name="lossRprtDt" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="lossStts" style="width: 180px;">사용여부</label>
-						<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
-					</div>
-					
-					<div class="input-group inline">
-						<label for="crtr" style="width: 180px;">등록자</label>
-						<input type="text" id="crtr"  disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="crtDt" style="width: 180px;">등록일</label>
-						<input type="text" id="crtDt"  disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="mdfyr" style="width: 180px;">수정자</label>
-						<input type="text" id="mdfyr"  disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="mdfyDt" style="width: 180px;">수정일</label>
-						<input type="text" id="mdfyDt"  disabled value=""/>
-					</div>
-					
 				</form>
 			</div>
-			<div class="align-right">
-				<button id="new_btn" class="btn-primary">신규</button>
-				<button id="save_btn" class="btn-primary">저장</button>
-				<button id="delete_btn" class="btn-delete">삭제</button>
-			</div>		
 		<jsp:include page="../include/footer.jsp" />
 	</div>
 </div>

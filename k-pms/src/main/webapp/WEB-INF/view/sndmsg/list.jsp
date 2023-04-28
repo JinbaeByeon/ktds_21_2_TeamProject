@@ -10,15 +10,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-	
-		$(".list_table > tbody > tr").click(function() {
-			var data = $(this).data();
-			$("#msgId").val(data.msgId);
-			$("#ttl").val(data.ttl);
-			$("#cntnt").val(data.cntnt);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-		});
 		
 		$("#new_btn").click(function() {
 			$("#msgId").val("");
@@ -49,7 +40,10 @@
 				}
 			});
 		});
-		
+		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+			var msgId = $(this).closest("tr").data("msgid");
+			location.href="${context}/sndmsg/detail/"+msgId;
+		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});

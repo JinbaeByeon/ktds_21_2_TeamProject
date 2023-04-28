@@ -199,6 +199,41 @@
 		 WHERE EQP_ID= #{eqpId}
 	</update>
 	
+	<select id="readEqpByEmpId"
+			parameterType="com.kpms.eqp.vo.EqpVO"
+			resultType="com.kpms.eqp.vo.EqpVO">
+		<include refid="Common.pageHeader" />
+		SELECT EQP_ID PK_COL
+			 , EQP_ID 
+			 , DENSE_RANK() OVER(ORDER BY CRT_DT || EQP_ID DESC) RNUM
+			 , CRT_DT
+			 , CRTR
+			 , MDFY_DT
+			 , MDFYR
+			 , USE_YN
+			 , DEL_YN
+			 , EQP_NM
+			 , EQP_TP
+			 , APPL_STTS
+			 , APPL_ID
+			 , EQP_PRC
+			 , TO_CHAR(PRCHS_DT, 'YYYY-MM-DD') PRCHS_DT
+			 , LOSS_STTS
+			 , TO_CHAR(LOSS_RPRT_DT, 'YYYY-MM-DD') LOSS_RPRT_DT
+			 , TO_CHAR(APPL_DT, 'YYYY-MM-DD') APPL_DT
+		  FROM EQP
+		 WHERE DEL_YN = 'N'
+		   AND USE_YN = 'Y'
+		   AND APPL_STTS IS NOT NULL
+		   <if test="applStts != null and applStts != ''">
+		   AND APPL_STTS LIKE #{applStts}
+		 </if>
+		   AND APPL_ID = #{applId}
+		 ORDER BY EQP_ID ASC
+		 <include refid="Common.pageFooter" />
+	</select>
+	
+	
 	<update id="updateEqp"
 			parameterType="com.kpms.eqp.vo.EqpVO">
 		UPDATE EQP

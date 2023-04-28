@@ -6,7 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="prj"/>
-<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 
 <!DOCTYPE html>
 <html>
@@ -15,8 +14,10 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
-		
+		checkFile();
+		var empId = '${sessionScope.__USER__.empId}';
 		var data2 = "${reqVO.reqId}";
 		console.log(data2);
 		$("#isModify").val("true");	
@@ -52,10 +53,12 @@
 				else {
 					isSelected = "";
 				}
+				console.log($("#original-prcsStts").val());
 				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
 				option.append(cdNm);
 				$("#prcsStts-select").append(option)
 			}
+		
 		});
 		
 		$.get("${context}/api/cmncd/list/003", function(response) {
@@ -92,93 +95,128 @@
 			}
 		});
 		
-		$("#new_btn").click(function(){
-			$("#isModify").val("false"); //등록모드
-			
-			$("#reqId").val("");
-			$("#dtlReq").val("");
-			$("#crtr").val("");
-			$("#crtDt").val("");
-			$("#mdfyr").val("");
-			$("#mdfyDt").val("");
-			$("#strtDt").val("");
-			$("#expctEndDt").val("");
-			$("#attch").val("");
-			$("#prjId").val("");
-			$("#mnDvlpr").val("");
-			$("#tstRslt").val("");
-			$("#tskStts").val("");
-			$("#prcsStts").val("");
-			$("#prrty").val("");
-			$("#reqTtl").val("");
-			
-			
-			$("#useYn").prop("checked", false);
-		});
-		
-		$("#delete_btn").click(function(){
-			var reqId = $("#reqId").val();
-			if(reqId == ""){
-				alert("선택된 요구사항이 없습니다.");
-				return;
-			}
-			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			}
-			
-			$.get("${context}/api/req/delete/" + reqId, function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			})
-		});
-					
-		$("#save_btn").click(function(){
-			var ajaxUtil = new AjaxUtil();
-			ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
-				if(response.status == "200 OK"){
-					alert("저장되었습니다.");
-					location.href = "${context}/req/list";
-				}	
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
+		$("#update_btn").click(function(){
+			var reqId = data2;
+			location.href = "${context}/req/update/" + reqId;
 		});
 		
 		$("#back-btn").click(function(){
 			location.href = "${context}/req/list";
 		});
 		
-		$("#prj_search").click(function(event){
-			event.preventDefault();
-			window.open("${context}/prj/search",
-					"프로젝트 검색", "width=500, height=500");
+		$("#file_list").find(".file_name").click(function(e){
+			var data = $(this).closest(".file_item").data();
+			location.href= "${context}/api/file/download?uuidFlNm="+data.uuid+"&orgFlNm="+data.org;
 		});
-
-		$("#prjtmmbr_search").click(function(event){
-			event.preventDefault();
-			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
-					"프로젝트팀원 검색", "width=500, height=500");
+		
+		$(".file_attachment").find(".save_all").click(function(e){
+			e.preventDefault();
+			var fileList = $("#file_list").find(".file_item");
+			var form = $("<form></form>");
+			form.append("<input type='hidden' name='fileNm' value='${rcvMsgVO.sndMsgVO.ttl}'>");
+			var idx =0;
+			fileList.each(function(){
+				var data = $(this).data();
+				form.append("<input type='hidden' name='atchFlVOList["+idx+"].uuidFlNm' value='"+ data.uuid +"'>");
+				form.append("<input type='hidden' name='atchFlVOList["+idx++ +"].orgFlNm' value='"+ data.org +"'>");
+				$("body").append(form);
+			});
+			form.attr({
+				"action": "${context}/api/files/download",
+				"method": "post"
+			}).submit();
+			form.remove();
 		});
+		
+		
+		$("#issu_create_btn").click(function(){
+			var reqId = data2;
+			location.href="${context}/issu/create/"+reqId;
+		});
+		$("#issu_delete_btn").click(function(){
+			var checkLen = $(".check_idx:checked").length;
+			if(checkLen == 0) {
+				alert("삭제할 요구사항이 없습니다.");
+				return;
+			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function(){
+				console.log($(this).val());
+				form.append("<input type='hidden' name='issuId' value='" + $(this).val() +"'>");
+			});
+			
+			$.post("${context}/api/issu/delete", form.serialize(), function(response){
+				if(response.status == "200 OK"){
+					location.reload(); //새로고침
+				}
+				else{
+					alert(response.errorCode + "/" + response.message);
+				}
+			});
+		});
+		
+		
+		
+		
 		
 	});
-
-	function addPrjFn(data) {
+	var fileCnt=${reqVO.atchFlList.size() > 0 ? reqVO.atchFlList.size() : 0};
+	
+	function addFile(file){
+		var fileList = $("#file_list");
 		
-		$("#prjId").val(data.prjid);
+		var uuidNm = file.uuidFlNm;
+		var fileNm = file.orgFlNm;
+		var ext = fileNm.substring(fileNm.lastIndexOf(".")+1);
+		var fileSz = file.flSz;
 		
-	}
-
-	function addPrjTmMbrFn(data) {
+		var li = $("<li data-uuid='"+uuidNm +
+					 "' data-org='"+fileNm + 
+					 "' data-sz='"+fileSz+
+					 "' data-ext='"+ext+"'></li>");
+		fileList.append(li);
+		var div = $("<div></div>");
+		li.append(div);
 		
-		$("#mnDvlpr").val(data.empid);
+		var remove =  $("<span class='remove'>x</span>");
+		remove.click(removeFn);
 		
-	}
+        var nm = "<span class='file_name'>"+fileNm+"</span>";
+        fileSz = (fileSz / 1024).toFixed(2);
+        var sz;
+        if(fileSz < 1000){
+        	sz = "<span class='file_size'>"+fileSz+" KB</span>";
+        } else {
+        	fileSz = (fileSz/1024).toFixed(2);
+        	sz = "<span class='file_size'>"+fileSz+" MB</span>";
+        }
+        div.append(remove);
+        div.append(nm);
+        div.append(sz);
+        ++fileCnt;
+	};
+	
+	function removeFn(){
+		var item = $(this).closest("li");
+		console.log(item);
+		ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/atchfl/delete", function(response) {
+			item.remove();
+			--fileCnt;
+			checkFile();
+		});
+	};
+	function checkFile(){
+		var fileList = $("#file_list");
+		console.log(fileCnt);
+		if(fileCnt > 0){
+			fileList.closest(".file_attachment").show();
+			$(".file_area").find(".file_drag").hide();
+		} else {
+			fileList.closest(".file_attachment").hide();
+			$(".file_area").find(".file_drag").show();
+		}
+	};
 </script>
 </head>
 <body>
@@ -190,77 +228,159 @@
 				<div class="path"> 상세 정보</div>
 				<div class="grid-detail">
 					<form id="detail_form" >
-						<!-- isModify == true => 수정(update) -->
-						<!-- isModify == false => 등록(insert) -->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline">
-							<label for="reqId" style="width: 180px;">요구사항 ID</label>
-							<input type="text" id="reqId"  name="reqId" value="" readonly />
-						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqTtl" style="width: 180px;">제목</label>
-							<input type="text" id="reqTtl"  name="reqTtl" value=""/>
+							<div>${reqVO.reqTtl}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prrty" style="width: 180px;">우선순위</label>
-							<select id="prrty"  name="prrty" >
-								<option>선택</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-							</select>
+							<div>${reqVO.prrty}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="strtDt" style="width: 180px;">시작일</label>
-							<input type="date" id="strtDt"  name="strtDt" value=""/>
+							<div>${reqVO.strtDt}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<input type="date" id="expctEndDt"  name="expctEndDt" value=""/>
+							<div>${reqVO.expctEndDt}</div>
 						</div>
-						<div class="input-group inline">
-							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<input type="text" id="prjId"  name="prjId" value=""/>
-							<button id="prj_search">검색</button>
+						<div class="create-group">
+							<label for="prjNm" style="width: 180px;">프로젝트명</label>
+							<div>${reqVO.reqPrjVO.prjNm}</div>
 						</div>
-						<div class="input-group inline">
-							<label for="prjId" style="width: 180px;">담당개발자</label>
-							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
-							<button id="prjtmmbr_search">검색</button>
+						<div class="create-group">
+							<label for="mnDvlpr" style="width: 180px;">담당개발자</label>
+							<div>${reqVO.mnDvlpr}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
+							<div>${reqVO.reqCnfrNm}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
+							<label for="files" style="width: 180px;">첨부파일</label>
+							<div class="file_attachment">
+								<div class="file_attachment_summary">
+									<span class="total_count">첨부 개</span>
+									<span class="total_volume">전체용량</span>
+									<button class="save_all">모두저장</button>
+								</div>
+								<div class="file_attachments_inner">
+									<ul id="file_list">
+										<c:if test="${not empty reqVO.atchFlList}">
+										<c:forEach items="${reqVO.atchFlList}" var="atchFl">
+											<li class="file_item"
+												data-uuid='${atchFl.uuidFlNm}'
+												data-org='${atchFl.orgFlNm}'
+												data-sz='${atchFl.flSz}'
+												data-ext='${atchFl.flExt}'>
+												<span class='file_name'>${atchFl.orgFlNm}</span>
+												<c:if test="${atchFl.flSz < 1024*1024}">
+													<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+												</c:if>
+												<c:if test="${atchFl.flSz >= 1024*1024}">
+													<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+												</c:if>
+											</li>
+										</c:forEach>
+										</c:if>
+									</ul>
+								</div>
+							</div>
+						<input type="file" id="files" multiple/>
+						</div>
+						<div class="create-group">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqOneVO.prcsStts}"/>
-							<select id="prcsStts-select"  name="prcsStts" ></select>
+							<div>${reqVO.prcsCdNm}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqOneVO.tskStts}"/>
-							<select id="tskStts-select"  name="tskStts" ></select>
+							<div>${reqVO.tskCdNm}</div>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqOneVO.tstRslt}"/>
-							<select id="tstRslt-select"  name="tstRslt" ></select>
+							<div>${reqVO.rsltCdNm}</div>
 						</div>
-						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">사용여부</label>
-							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="dtlReq" style="width: 180px;">내용</label>
-							<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
+						<div class="create-group">
+							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
+							<div>${reqVO.dtlReq}</div>
 						</div>
 					</form>		
 				</div>
 				<div class="align-right">
-					<button id="save_btn" class="btn-primary">저장</button>
+					<button id="update_btn" class="btn-primary">수정</button>
 					<button id="back-btn" class="btn-delete">뒤로</button>
-				</div>		
+				</div>	
+				<div class="create-group">
+				<label for="issue" style="width: 180px;">이슈</label>
+				</div>	
+				<div class="grid">
+					<div class="grid-count align-right">
+						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
+						<a href="${context}/issu/list?reqId=${reqVO.reqId}">[전체보기]</a>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="all_issu_check"/></th>							
+								<th>순번</th>
+								<th>이슈제목</th>
+								<th>등록팀원</th>
+								<th>이슈내용</th>
+								<th>조회수</th>
+								<th>난이도</th>
+								<th>담당팀원</th>
+								<th>관리상태</th>
+								<th>등록일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${not empty issuList}">
+									<c:forEach items="${issuList}"
+											   var="issu"
+											   begin="0"
+											   end="4">
+										<tr data-issuid="${issu.issuId}"
+											data-issuttl="${issu.issuTtl}"
+											data-crtr="${issu.crtr}"
+											data-vwcnt="${issu.vwCnt}"
+											data-issucntnt="${issu.issuCntnt}"
+											data-dffclty="${issu.dffclty}"
+											data-mntmmbrid="${issu.mnTmMbrId}"
+											data-stts="${issu.stts}"
+											data-crtdt="${issu.crtDt}"
+											data-mdfyr="${issu.mdfyr}"
+											data-mdfydt="${issu.mdfyDt}"
+											data-useyn="${issu.useYn}"
+											data-delyn="${issu.delYn}">
+											<td>
+												<input type="checkbox" class="check_idx" value="${issu.issuId}">
+											</td>
+											<td>${issu.rnum}</td>
+											<td>${issu.issuTtl}</td>
+											<td>${issu.crtr}</td>
+											<td>${issu.issuCntnt}</td>
+											<td>${issu.vwCnt}</td>
+											<td>${issu.dffclty}</td>
+											<td>${issu.mnTmMbrId}</td>
+											<td>${issu.stts}</td>
+											<td>${issu.crtDt}</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="10" class="no-items">
+											등록된 이슈가 없습니다.
+										</td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
+					</table>
+					<button id="issu_create_btn">추가</button>
+					<button id="issu_delete_btn">삭제</button>
+				</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

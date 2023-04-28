@@ -14,6 +14,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		$("#applSttsType").val("${eqpVO.applStts}").prop("selected", true);
 	     $(".detail_section").hide();
 	     
 		$(".list_table > tbody > tr").click(function(){

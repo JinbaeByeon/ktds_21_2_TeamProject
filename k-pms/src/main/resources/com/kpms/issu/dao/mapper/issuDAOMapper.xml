@@ -117,7 +117,11 @@
 		  FROM (SELECT *
 		  		  FROM ISSU
 		  		 WHERE DEL_YN = 'N'
-		 	/*조건 추가*/)
+		 	/*조건 추가*/
+		 <if test="reqId != null and reqId != ''">
+		   AND REQ_ID = #{reqId}
+		 </if>
+		 )
 		<include refid="Common.pageFooter"/>
 	</select>
 	

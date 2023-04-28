@@ -46,6 +46,11 @@ public class IssuController {
 	public String viewIssuCreatePage() {
 		return "issu/create";
 	}
+	@GetMapping("/issu/create/{reqId}")
+	public String viewIssuCreatePageTwo(Model model, @PathVariable String reqId) {
+		model.addAttribute("reqId", reqId);
+		return "issu/create";
+	}
 	
 	@GetMapping("/issu/detail/{issuId}")
 	public String viewIssuDetailPage(Model model, @PathVariable String issuId) {
@@ -61,7 +66,7 @@ public class IssuController {
 		return "issu/modify";
 	}
 	
-	@PostMapping("/api/issu/download")
+	@GetMapping("/api/issu/download")
 	public void downloadFile(AtchFlVO atchFlVO
 				, HttpServletRequest request
 				, HttpServletResponse response) {

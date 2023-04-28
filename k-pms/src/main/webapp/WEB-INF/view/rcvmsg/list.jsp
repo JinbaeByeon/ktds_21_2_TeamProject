@@ -12,15 +12,6 @@
 <script type="text/javascript">
 	$().ready(function() {
 		
-		$("#new_btn").click(function() {
-			$("#msgId").val("");
-			$("#sndMsgId").val("");
-			$("#rcvr").val("");
-			$("#rdYn").val("");
-			
-			$("useYn").prop("checked", false);
-		});
-		
 		$("#delete_btn").click(function() {
 			var form = $("<form></form>")
 			
@@ -69,7 +60,11 @@
 			// 2. 끝
 			location.href = "${context}/sndmsg/send?sndMsgId="+msgId;
 		}); 
-		
+
+		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+			var msgId = $(this).closest("tr").data("msgid");
+			location.href="${context}/rcvmsg/detail/"+msgId;
+		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 			checkBtn();

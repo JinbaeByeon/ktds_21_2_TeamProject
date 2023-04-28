@@ -602,6 +602,10 @@ footer {
 	display: inline-block;
 	bottom: 4px;
 	margin-right: 10px;
+}div.button_btm-left {
+	position: absolute;
+	left: 0;
+	margin: 10px;
 }
 
 

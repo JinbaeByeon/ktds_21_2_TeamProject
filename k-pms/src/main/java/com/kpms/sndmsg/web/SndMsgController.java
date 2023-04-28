@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.emp.vo.EmpVO;
@@ -51,5 +52,13 @@ public class SndMsgController {
 		}
 		
 		return "sndmsg/send";
+	}
+
+	@GetMapping("/sndmsg/detail/{msgId}")
+	public String viewSndMsgDetailPage(Model model,@PathVariable String msgId) {
+		SndMsgVO sndMsgVO = sndMsgService.readOneSndMsgByMsgId(msgId);
+		model.addAttribute("sndMsgVO", sndMsgVO);
+		
+		return "sndmsg/detail";
 	}
 }

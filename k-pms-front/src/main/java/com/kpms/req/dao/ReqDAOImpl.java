@@ -51,4 +51,5 @@ public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO{
 	public int deleteReqByPrjId(String prjId) {
 		return getSqlSession().update("Req.deleteReqByPrjId", prjId);
 	}
+
 }

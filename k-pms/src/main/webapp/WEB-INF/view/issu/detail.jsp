@@ -34,7 +34,8 @@
 		});
 		$("#file_list").find(".file_name").click(function(e){
 			var data = $(this).closest("li").data();
-			var form = $("<form></form>");
+			location.href= "${context}/api/file/download?uuidFlNm="+data.uuid+"&orgFlNm="+data.org;
+			/* var form = $("<form></form>");
 			form.append("<input type='hidden' name='uuidFlNm' value='"+ data.uuid +"'>");
 			form.append("<input type='hidden' name='orgFlNm' value='"+ data.org +"'>");
 			$("body").append(form);
@@ -44,7 +45,7 @@
 				"method": "post"
 			}).submit();
 			
-			form.remove();
+			form.remove(); */
 		});
 	});
 	
