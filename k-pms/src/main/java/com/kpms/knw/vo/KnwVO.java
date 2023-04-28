@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.vo.AbstractFileVO;
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.knwrpl.vo.KnwRplVO;
 import com.kpms.prj.vo.PrjVO;
 
