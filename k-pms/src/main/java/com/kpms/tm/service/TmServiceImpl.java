@@ -63,14 +63,20 @@ public class TmServiceImpl implements TmService {
 		if (result) {
 			String hdTmMbrId = tmMbrDAO.readAllTmMbrVO(tmVO.getTmId())
 									.stream()
-									.peek(vo -> {
-										System.out.println(vo.getEmpId());
-									})
 									.filter(vo -> vo.getEmpId().equals(orgnTmVO.getTmHdId()))
 									.map(vo -> vo.getTmMbrId())
 									.findFirst().orElse(null);
+			String newTmHdId = tmVO.getTmHdId();
+
+			// 원래 팀장과 신규팀장이 같으면 delete 안하고 바뀌면 delete
 			if (hdTmMbrId != null) {
-				tmMbrDAO.deleteOneTmMbrByTmMbrId(hdTmMbrId);
+				if (orgnTmVO.getTmHdId().equals(newTmHdId)) {
+					
+				}
+				else {
+					
+					tmMbrDAO.deleteOneTmMbrByTmMbrId(hdTmMbrId);
+				}
 			}
 		}
 		return result; 

@@ -208,10 +208,8 @@
 				<select id="search-option" class="search-input">
 					<option value="depNm" ${depVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
 					<option value="tmNm" ${depVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
-					<option value="hdLnm" ${depVO.searchOption eq "hdLnm" ? "selected": ""}>부서장 성</option>
-					<option value="hdFnm" ${depVO.searchOption eq "hdFnm" ? "selected": ""}>부서장 이름</option>
-					<option value="tmLnm" ${depVO.searchOption eq "tmLnm" ? "selected": ""}>팀장 성</option>
-					<option value="tmFnm" ${depVO.searchOption eq "tmFnm" ? "selected": ""}>팀장 이름</option>
+					<option value="hdNm" ${depVO.searchOption eq "hdNm" ? "selected": ""}>부서장 성명</option>
+					<option value="tmHdNm" ${depVO.searchOption eq "tmHdNm" ? "selected": ""}>팀장 성명</option>
 				</select> 
 				<label for="search-keyword">검색어</label> 
 				<input type="text" id="search-keyword" class="search-input" />
@@ -230,7 +228,7 @@
 								<th>부서ID</th>
 								<th>부서명</th>
 								<th>부서장ID</th>
-								<th>부서장명</th>
+								<th>부서장 성명</th>
 								<th>부서생성일</th>
 								<th>사용여부</th>
 								<th>등록자</th>

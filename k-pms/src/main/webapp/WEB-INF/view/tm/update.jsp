@@ -270,7 +270,7 @@
 							<button id="addTmHeadBtn" class="btn-tm">등록</button>
 							<div class="items">
 								<div class='head-item'>
-									<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" />
+									<input type="text" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
 									<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>						
 								</div>
 							</div>
