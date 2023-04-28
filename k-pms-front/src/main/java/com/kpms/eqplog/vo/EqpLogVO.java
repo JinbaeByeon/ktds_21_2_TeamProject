@@ -1,6 +1,7 @@
 package com.kpms.eqplog.vo;
 
 import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.emp.vo.EmpVO;
 
 /**
  * EQP_LOG
@@ -11,6 +12,18 @@ public class EqpLogVO extends AbstractPagingVO {
 	private String empId;
 	private String eqpId;
 	private String stts;
+
+	private EmpVO crtrEmpVO;
+	
+	
+	
+	public EmpVO getCrtrEmpVO() {
+		return crtrEmpVO;
+	}
+
+	public void setCrtrEmpVO(EmpVO crtrEmpVO) {
+		this.crtrEmpVO = crtrEmpVO;
+	}
 
 
 	public void setLogId(String logId) {

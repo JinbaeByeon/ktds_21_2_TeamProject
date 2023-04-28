@@ -22,26 +22,27 @@
 	
 	function addHdEmpFn(message) {
 		
-		for (i = 0; i < empIds.length; i++) { 
+		 for (i = 0; i < empIds.length; i++) { 
 			if(empIds[i] === tmHdId) {
 				empIds.splice(i, 1);
 				i--;
 			}
-		 } 
-		
-		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
+		} 
 		
 		tmHdId = message.empid;
 		
+		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
 		if (tmHdIdItems.find("." + tmHdId).length > 0) {
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
-
-		$("#tmHdId").attr("value", tmHdId);
 		
 		var itemDiv = tmHdIdItems.find(".head-item");
 		
+		var itemId = itemDiv.find("#tmHdId");
+		itemId.val(tmHdId);
+		itemDiv.append(itemId);
+			
 		var itemSpan = itemDiv.find("span");
 		itemSpan.text(message.lnm + message.fnm);
 		itemDiv.append(itemSpan);
@@ -88,7 +89,7 @@
 		tmHd.close();
 	}
 	
-	function addEmpFn(message) {
+	function addMbrFn(message) {
 
 	    var empItems = $(document).find(".tmMbr-tbody");
 	    empId = message.empid;
@@ -105,7 +106,6 @@
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
 
 	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
-	    td += "<td>" + "팀원" + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + empId + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
@@ -164,7 +164,7 @@
 			event.preventDefault();
 			var tmId = $("#tmId").val();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search/?depId=" + depId +"&tmMbr.tmId=" + tmId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + tmId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#list-btn").click(function(response) {
@@ -173,12 +173,14 @@
 		
 		$("#save-btn").click(function() {
 			var tmId = $("#tmId").val();
+			console.log($("#tmHdId").val());
 	
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
- 					
-					empIds.forEach(function(empId) {			    		
+					empIds.forEach(function(empId) {
+			    		
 				    	createTmmbr(tmId, empId);
+				    		
 				    });
 					
 					location.href = "${context}" + response.redirectURL;
@@ -213,7 +215,9 @@
 			var form = $("<form></form>");
 			
 			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
 				form.append("<input type='hidden' name='tmMbrId' value='" + $(this).val() + "'>");
+				
 			});
 			
 			$.post("${context}/api/tmmbr/delete", form.serialize(), function(response) {
@@ -270,7 +274,7 @@
 							<button id="addTmHeadBtn" class="btn-tm">등록</button>
 							<div class="items">
 								<div class='head-item'>
-									<input type="text" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
+									<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" />
 									<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>						
 								</div>
 							</div>

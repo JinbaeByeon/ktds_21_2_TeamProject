@@ -2,6 +2,8 @@ package com.kpms.tmmbr.vo;
 
 import com.kpms.common.vo.AbstractVO;
 import com.kpms.emp.vo.EmpVO;
+import com.kpms.job.vo.JobVO;
+import com.kpms.pstn.vo.PstnVO;
 import com.kpms.tm.vo.TmVO;
 
 /**
@@ -16,18 +18,7 @@ public class TmMbrVO extends AbstractVO {
 	private EmpVO empVO;
 	private TmVO tmVO;
 	
-	public TmVO getTmVO() {
-		return tmVO;
-	}
-	public void setTmVO(TmVO tmVO) {
-		this.tmVO = tmVO;
-	}
-	public EmpVO getEmpVO() {
-		return empVO;
-	}
-	public void setEmpVO(EmpVO empVO) {
-		this.empVO = empVO;
-	}
+	
 	public String getTmMbrId() {
 		return tmMbrId;
 	}
@@ -46,5 +37,19 @@ public class TmMbrVO extends AbstractVO {
 	public void setEmpId(String empId) {
 		this.empId = empId;
 	}
+	public EmpVO getEmpVO() {
+		return empVO;
+	}
+	public void setEmpVO(EmpVO empVO) {
+		this.empVO = empVO;
+	}
+	public TmVO getTmVO() {
+		return tmVO;
+	}
+	public void setTmVO(TmVO tmVO) {
+		this.tmVO = tmVO;
+	}
+	
+	
 
 }

@@ -70,7 +70,7 @@
 		$("#save_btn").click(function(){
 			if($("#isModify").val() == "false"){
 				// 신규등록	
-				$.post("${context}/pstn/create", {pstnNm: $("#pstnNm").val(), useYn: $("#useYn:checked").val()}, function(response){
+				$.post("${context}/api/pstn/create", {pstnNm: $("#pstnNm").val(), useYn: $("#useYn:checked").val()}, function(response){
 					if(response.status == "200 OK"){
 						location.reload(); //새로고침
 					}	
@@ -162,6 +162,7 @@
 				
 				<div class="grid">
 					<div class="grid-count align-right">
+						총 ${pstnList.size() > 0 ? pstnList.get(0).totalCount : 0}건
 					</div>
 					<table>
 						<thead>

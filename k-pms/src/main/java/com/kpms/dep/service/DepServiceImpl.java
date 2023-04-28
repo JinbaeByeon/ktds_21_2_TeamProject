@@ -21,6 +21,9 @@ public class DepServiceImpl implements DepService {
 	private DepDAO depDAO;
 	
 	@Autowired
+	private EmpDAO empDAO;
+	
+	@Autowired
 	private TmDAO tmDAO;
 	
 	@Autowired

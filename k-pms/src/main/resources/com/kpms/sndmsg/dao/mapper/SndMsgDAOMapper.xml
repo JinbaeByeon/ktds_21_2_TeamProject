@@ -46,7 +46,6 @@
 			 , SM.USE_YN
 			 , SM.DEL_YN
 			 , SM.TTL
-			 , SM.ATTCH
 			 , RM.RCVR
 			 , RM.MSG_ID RCV_MSG_ID
 			 , RCV_E.F_NM  RE_F_NM
@@ -80,7 +79,6 @@
 			 , DEL_YN
 			 , TTL
 			 , CNTNT
-			 , ATTCH
 		  FROM SND_MSG
 		
 	</select>
@@ -98,17 +96,15 @@
 				 , USE_YN
 				 , DEL_YN
 				 , TTL
-				 , CNTNT
-				 , ATTCH)
+				 , CNTNT)
 		   VALUES
 		   		  (#{msgId}
 		   		 , SYSDATE
 		   		 , #{crtr}
-		   		 , NVL(#{useYn}, 'N')
+		   		 , 'Y'
 		   		 , 'N'
 		   		 , #{ttl}
-		   		 , #{cntnt}
-		   		 , #{attch}) <!-- 이게맞ㅇ나 -->
+		   		 , #{cntnt})
 
 	</insert>
 	

@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="dep"/>
 
 <!DOCTYPE html>
 <html>
@@ -99,59 +100,36 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<th>순번</th>
-									<th>팀ID</th>
-									<th>팀명</th>
-									<th>팀장ID</th>
-									<th>팀장 성명</th>
-									<th>팀생성일</th>
+									<td colspan="6" class="no-items">
+										등록된 팀이 없습니다.
+									</td>
 								</tr>
-							</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty depVO.tmList}">
-									<c:forEach items="${depVO.tmList}"
-												var="tm"
-												varStatus="index">
-											<tr>
-												<td>${index.index + 1}</td>
-												<td>${tm.tmId}</td>
-												<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
-												<td>${tm.tmHdId}</td>
-												<td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
-												<td>${tm.tmCrtDt}</td>
-											</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="6" class="no-items">
-											등록된 팀이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-					<div>소속 부서원</div>
-					<div class="grid-count align-right">
-						 총 ${depVO.empList.size() > 0 ? depVO.empList.size() : 0}건
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th>순번</th>
-								<th>직급</th>
-								<th>직원ID</th>
-								<th>이름</th>
-								<th>직무</th>
-								<th>생년월일</th>
-								<th>이메일</th>
-								<th>전화번호</th>
-								<th>직급연차</th>
-							</tr>
-						</thead>
-					<tbody>
+							</c:otherwise>
+						</c:choose>
+                    </tbody>
+                </table>
+        
+        <div class="hr"></div>
+            <div class="path">소속 부서원</div>
+            <div class="total">
+                총 ${depVO.empList.size() > 0 ? depVO.empList.size() : 0}건
+            </div>
+            
+                <table class="list_table sub_table">
+                    <thead>
+                        <tr>
+							<th>순번</th>
+							<th>직급</th>
+							<th>직원ID</th>
+							<th>이름</th>
+							<th>직무</th>
+							<th>생년월일</th>
+							<th>이메일</th>
+							<th>전화번호</th>
+							<th>직급연차</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 						<c:choose>								
 							<c:when test="${not empty depVO.empList}">
 								<c:forEach items="${depVO.empList}"
@@ -178,12 +156,12 @@
 								</tr>
 							</c:otherwise>
 						</c:choose>
-					</tbody>
-				</table>
-			</div>
-			<div class="align-right">
-					<button id="list-btn" class="btn-primary">목록</button>
-			</div>
+                    </tbody>
+                </table>
+
+        <div class="buttons">
+	       	<button id="list-btn" class="btn list">목록</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>
