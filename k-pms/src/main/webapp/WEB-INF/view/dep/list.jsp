@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부서관리</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	
@@ -159,7 +159,7 @@ $().ready(function() {
 		if($("#isModify").val() == "false") {
 			ajaxUtil.upload("#detail_form","${context}/api/dep/create",function(response){
 				if (response.status == "200 OK") {
-					location.reload(); //새로고침
+					location.reload(); 
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
@@ -169,7 +169,7 @@ $().ready(function() {
 		else {
 			ajaxUtil.upload("#detail_form","${context}/api/dep/update",function(response){
 				if (response.status == "200 OK") {
-					location.reload(); //새로고침
+					location.reload(); 
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
@@ -267,10 +267,10 @@ $().ready(function() {
 			            <tr>
 			            	<th><input type="checkbox" id="all_check" /></th>
 							<th>순번</th>
-							<th>부서ID</th>
 							<th>부서명</th>
 							<th>부서장ID</th>
 							<th>부서장명</th>
+							<th>부서ID</th>
 							<th>부서생성일</th>
 							<th>사용여부</th>
 <!-- 							<th>등록자</th>
@@ -298,10 +298,10 @@ $().ready(function() {
 												<input type="checkbox" class="check_idx" value="${dep.depId}"/>
 											</td>
 											<td>${dep.rnum}</td>
-											<td>${dep.depId}</td>
 											<td><a href="${context}/dep/detail/${dep.depId}">${dep.depNm}</a></td>
 											<td>${dep.depHdId}</td>
 											<td>${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}</td>
+											<td>${dep.depId}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
 <%-- 											<td>${dep.crtr}(${dep.crtrEmpVO.lNm}${dep.crtrEmpVO.fNm})</td>

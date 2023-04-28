@@ -22,13 +22,12 @@
 	
 	function addHdEmpFn(message) {
 		
-		 for (i = 0; i < empIds.length; i++) { 
+		for (i = 0; i < empIds.length; i++) { 
 			if(empIds[i] === tmHdId) {
 				empIds.splice(i, 1);
 				i--;
 			}
 		} 
-		
 		tmHdId = message.empid;
 		
 		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
@@ -36,10 +35,21 @@
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
-		
 		var itemDiv = tmHdIdItems.find(".head-item");
 		
 		var itemId = itemDiv.find("#tmHdId");
+		if(itemId.val() == tmHdId){
+			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 팀장입니다.");
+			return;
+		}
+		var empIdList = $(".tmMbr-tbody").children("tr").not(".tmHd-tr");
+		empIdList.each(function(){
+			console.log($(this).data("empid") ==tmHdId);
+			if($(this).data("empid") == tmHdId){
+				$(this).remove();
+				return;
+			}
+		})
 		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
@@ -86,7 +96,7 @@
 			
 		empIds.push(tmHdId);
 		
-		tmHd.close();
+		/* tmHd.close(); */
 	}
 	
 	function addMbrFn(message) {
@@ -103,7 +113,7 @@
 	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
 	    itemId.val(empId);
 
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-empid='"+empId+"' data-index='" + nextIndex + "'></tr>");
 
 	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
 	    td += "<td>" + message.pstnnm + "</td>"
@@ -173,15 +183,20 @@
 		
 		$("#save-btn").click(function() {
 			var tmId = $("#tmId").val();
-			console.log($("#tmHdId").val());
-	
+			var empIdList = $(".tmMbr-tbody").children("tr").not(".tmHd-tr");
+			var tmHdId = $("#tmHdId").val();
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
-					empIds.forEach(function(empId) {
+					empIdList.each(function(){
+						var empId = $(this).data('empid');
+						createTmmbr(tmId,empId);
+					})
+					createTmmbr(tmId,tmHdId);
+					/* empIds.forEach(function(empId) {
 			    		
 				    	createTmmbr(tmId, empId);
 				    		
-				    });
+				    }); */
 					
 					location.href = "${context}" + response.redirectURL;
 				}
@@ -274,7 +289,7 @@
 							<button id="addTmHeadBtn" class="btn-tm">등록</button>
 							<div class="items">
 								<div class='head-item'>
-									<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" />
+									<input type="text" class="" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
 									<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>						
 								</div>
 							</div>
@@ -328,7 +343,7 @@
 												<c:forEach items="${tmVO.tmMbrList}" 
 															var="tmMbr">
 													<c:if test="${tmMbr.empId != tmVO.tmHdId}">
-														<tr>
+														<tr data-empid="${tmMbr.empId}">
 															<td>
 																<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
 															</td>
