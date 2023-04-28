@@ -29,17 +29,18 @@
 		});
 		
 		$("#delete_btn").click(function() {
-			var msgId = $("#msgId").val();
-			if (msgId == "") {
-				alert("선택된 쪽지가 없습니다.");
-				return;
-			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hidden' name='sndMsgIdList' value='"+ $(this).val() +"'>");
+			});
 			
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
 			
-			$.get("${context}/api/msg/delete" + msgId, function(response) {
+			$.post("${context}/api/sndmsg/delete",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
 				}
@@ -49,9 +50,6 @@
 			});
 		});
 		
-		$("#search-btn").click(function() {
-			movePage(0)
-		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
@@ -62,8 +60,8 @@
 			$("#all_check").prop("checked", count == checkCount);
 		}
 		
-		$(".check_idx").chang(function() {
-			checkIndex();
+		$(".check_idx").change(function() {
+			checkIndex(); 
 		});
 		
 		$(".grid > table > tbody > tr > td").not(".check").click(function(){
@@ -72,32 +70,19 @@
 			checkIndex();
 		});
 		
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 쪽지가 없습니다.");
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='msgId' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/sndmsg/delete", form.serialize(), function(response) {
-				location.reload(); // 새로고침
-			});
-		});
 	});
-		function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			var keyword=$("#search-keyword").val();
-			// URL 요청
-			location.href= "${context}/sndmsg/list?searchKeyword=" + keyword + "&pageNo=" + pageNo;
+	function movePage(pageNo) {
+		var searchType = $("#searchType").val();
+		alert(searchType);
+		if(searchType == "id") {
+			var empId = $("#searchBar").val();
+			location.href = "${context}/sndmsg/list?searchType=ID$rcvEmpId=" + empId + "$pageNo=" + pageNo;
 		}
+		else if(searchType == "rcvrNm") {
+			var nm = $("#searchBar").val();
+			location.href="${context}/sndmsg/list?searchType=rcvrNm&nm=" + nm + "&pageNo=" + pageNo;
+		}
+	}
 </script>
 </head>
 <body>

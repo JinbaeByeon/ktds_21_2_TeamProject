@@ -41,7 +41,8 @@ public class SndMsgServiceImpl implements SndMsgService {
 			throw new APIException(APIStatus.FAIL, "쪽지 발신을 실패하였습니다.");
 		}
 		
-		if(fileList != null && !fileList.isEmpty()) {
+
+		if(fileList !=null && !fileList.isEmpty()) {
 			fileList.forEach(file-> {
 				file.setCrtr(sndMsgVO.getCrtr());
 				file.setFrgnId(sndMsgVO.getMsgId());
@@ -55,11 +56,17 @@ public class SndMsgServiceImpl implements SndMsgService {
 
 	@Override
 	public boolean deleteOneSndMsg(String msgId) {
-		return false;
+		return sndMsgDAO.deleteOneSndMsg(msgId) > 0;
 	}
 
 	@Override
 	public boolean deleteSndMsgBySelectedMsgId(List<String> msgId) {
-		return false;
+		return sndMsgDAO.deleteSndMsgBySelectedMsgId(msgId) > 0;
 	}
+
+	@Override
+	public SndMsgVO readOneSndMsgByRcvMsgId(String msgId) {
+		return sndMsgDAO.readOneSndMsgByRcvMsgId(msgId);
+	}
+	
 }

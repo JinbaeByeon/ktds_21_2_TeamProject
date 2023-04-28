@@ -27,12 +27,11 @@
             </li>
             
             <li>
-              <a href="${context}/rcvmsg/trash">
+              <a href="${context}/msg/trash">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>휴지통</span>
               </a>
             </li>
-
           </ul>
         </div>
         <div class="sidebar_bottom">
