@@ -7,6 +7,11 @@
 			   type="com.kpms.issu.vo.IssuVO"
 			   autoMapping="true">
 		<id property="issuId" column="ISSU_ID" />
+		<association property="reqVO" 
+					 javaType="com.kpms.req.vo.ReqVO">
+			<id property="reqId" column="REQ_ID" />
+			<result property="reqTtl" column="REQ_TTL" />
+		</association>
 		<collection property="atchFlList"
 					ofType="com.kpms.atchfl.vo.AtchFlVO">
 			<id property="uuidFlNm" column="UUID_FL_NM" />
@@ -74,6 +79,7 @@
 			   I.DTL_CNTNT,
 			   I.MN_TM_MBR_ID,
 			   I.STTS,
+			   R.REQ_TTL,
 			   AF.ORG_FL_NM,
 			   AF.UUID_FL_NM,
 			   AF.FL_SZ,
@@ -82,9 +88,10 @@
 		  		  FROM ISSU
 				 WHERE ISSU_ID = #{_parameter}
 				   AND DEL_YN = 'N') I
-		  JOIN ATCH_FL AF
+		  JOIN REQ R
+		  	ON R.REQ_ID = I.REQ_ID
+		  LEFT JOIN ATCH_FL AF
 		  	ON AF.FRGN_ID = I.ISSU_ID
-		 WHERE AF.DEL_YN = 'N'
 	</select>
 	<select id="readIssuList"
 			parameterType="com.kpms.issu.vo.IssuVO"

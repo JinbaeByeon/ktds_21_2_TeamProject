@@ -227,6 +227,7 @@ a:link, a:visited {
   background-color: rgba(238, 238, 238, 0.974);
   display: inline-block;
   top: 10px;
+  
 }
 
 .search_box select {
@@ -590,3 +591,17 @@ footer {
 .list_table.sub_table tbody tr td {
   padding: 10px;
 }
+
+/*msg img */
+#previewPrfl {
+	width: 30px;
+}
+
+.msg_buttons {
+	position: relative;
+	display: inline-block;
+	bottom: 4px;
+	margin-right: 10px;
+}
+
+

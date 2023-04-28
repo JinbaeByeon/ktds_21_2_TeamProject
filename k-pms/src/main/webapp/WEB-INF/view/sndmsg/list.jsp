@@ -95,7 +95,8 @@
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select>
-		            <option>수신자명</option>
+					<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
+					<option value="rcvrNm" ${searchType eq "rcvrNm" ? "selected": ""}>수신자명</option>
 		          </select>
 		          <div class="search_field">
 		          	<input type="text" id="search-keyword" class="input" value="${sndMsgVO.searchKeyword}" placeholder="Search"/>
@@ -116,8 +117,6 @@
 		                <th><input type="checkbox" id="all_check"/></th>
 		                <th>수신자</th>
 		                <th>제목</th>
-		                <th>내용</th>
-		                <th>첨부파일</th>
 		                <th>발신일</th>
 		            </tr>
 		          </thead>
@@ -128,14 +127,12 @@
 		                               var="sndMsg">
 		                        <tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
 		                            data-ttl="${sndMsg.ttl}"
-		                            data-cntnt="${sndMsg.cntnt}"
 		                            data-crtdt="${sndMsg.crtDt}">
 		                            <td>
-		                                <input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
+		                                <input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
 		                            </td>
 		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm} ${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 		                            <td>${sndMsg.ttl}</td>
-		                            <td>${sndMsg.cntnt}</td>
 		                            <td>${sndMsg.crtDt}</td>
 		                        </tr>
 		                    </c:forEach>
