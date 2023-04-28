@@ -99,5 +99,14 @@
 		SET DEL_YN = 'Y'
 		WHERE CD_ID = #{cdId}
 	</update>
+	
+	<update id="deleteCmnCdBySelectedCmnCdId" parameterType="arraylist">
+		UPDATE CMN_CD
+		SET DEL_YN = 'Y'
+		WHERE CD_ID IN
+		<foreach collection="list" item="cdId" open="( " close=" )" separator=", ">
+			#{cdId}
+		</foreach>
+	</update>
 
 </mapper>

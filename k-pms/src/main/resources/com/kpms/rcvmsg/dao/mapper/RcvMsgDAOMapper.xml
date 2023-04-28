@@ -131,7 +131,7 @@
 				  , RCVR
 				  , RD_YN)
 			 VALUES
-			 	  (SEQ_RCV_MSG_PK.NEXTVAL
+			 	  ('RM-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_RCV_MSG_PK.NEXTVAL,5,'0')
 			 	 , SYSDATE
 			 	 , #{crtr}
 			 	 , SYSDATE

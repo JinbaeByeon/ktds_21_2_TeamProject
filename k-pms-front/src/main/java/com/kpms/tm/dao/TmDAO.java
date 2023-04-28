@@ -21,6 +21,10 @@ public interface TmDAO {
 	
 	public int deleteOneTmByTmId(String tmId);
 	
+	public int deleteTmByDepId(String depId);
+	
 	public int deleteTmBySelectedTmId(List<String> tmId);
+	
+	public List<String> readTmInPrj(List<String> tmId);
 	
 }

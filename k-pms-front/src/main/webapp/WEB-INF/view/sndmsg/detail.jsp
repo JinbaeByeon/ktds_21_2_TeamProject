@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,10 +110,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="button_btm-left">
-					<button id="delete_btn" class="btn-delete">삭제</button>
-				</div>
 				<div class="msg_view_footer">
+					<div class="button_btm_left">
+						<button id="delete_btn" class="btn-delete">삭제</button>
+					</div>
 				</div>
 			</div>
 		</div>

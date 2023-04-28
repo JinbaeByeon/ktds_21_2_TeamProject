@@ -5,39 +5,32 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
+		
+		$("#my-info").children(".my-menu").hide();
 		var empId = "${sessionScope.__USER__.empId}";
 		<c:if test="${not empty selected}">
-			$("li.nav-item.${selected}").addClass("active");
+			$("li.nav_item.${selected}").addClass("active");
 		</c:if>
-		$("li.nav-item").children("a").mouseover(function(){
-			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
-			if($(this).attr("class")!="nav-item sys"){
-				$("li.nav-item.sys").removeClass("active");
+		$("li.nav_item").mouseover(function(){
+			$(this).closest(".nav").find(".nav_item.active").removeClass("active");
+			if($(this).attr("class")!="nav_item ${selected}"){
+				$("li.nav_item.${selected}").removeClass("active");
 			}
-			$(this).closest("li.nav-item").addClass("active");
+			$(this).addClass("active");
+			$(this).find(".sub_item").addClass("active");
 		});
 		$("div.header").mouseleave(function(){
-			$(this).find(".active").removeClass("active");
+			$(".top_navbar > .menu > .nav_menu > .nav").find(".active").removeClass("active");
 			<c:if test="${not empty selected}">
-				$("li.nav-item.${selected}").addClass("active");
+				$("li.nav_item.${selected}").addClass("active");
 			</c:if>
 		});
-		$(".sub-item").mouseenter(function(){
+		$(".sub_item").mouseenter(function(){
 			$(this).addClass("active");
 		});
+
 		$("#my-info").click(function(){
-			var menu = $(this).children(".my-menu");
-			if(menu.is(':visible')){
-				menu.hide();
-			} else{
-				menu.show();
-			}
-		});
-		$("#my-info").find(".menu-item.info").click(function(){
 			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=500");
-		});
-		$("#my-info").find(".menu-item.chng-pwd").click(function(){
-			window.open("${context}/emp/modify/password/"+empId,"비밀번호 변경","width=500,height=500");
 		});
 	});
 </script>

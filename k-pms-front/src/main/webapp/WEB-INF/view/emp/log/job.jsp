@@ -39,17 +39,23 @@
 		<jsp:include page="../../include/empSidemenu.jsp"/>
 		<jsp:include page="../../include/content.jsp"/>
 			<div class="path">직무변경이력 > </div>
-			<div class="search-group">
-				<label for="search-keyword">직원ID</label>
-				<input type="text" id="search-keyword" class="search-input" value="${jobLogVO.empId}"/>
-				<button class="btn-search" id="search-btn">&#128269</button>
-			</div>
-			<div class="grid">
-				<div class="grid-count align-right">
-					총 ${jobLogList.size() > 0 ? jobLogList.get(0).totalCount : 0}건
-				</div>
-				<table>
-					<thead>
+		      <div class="search_wrapper">
+		        <div class="search_box">
+		          <select>
+		            <option>직원ID</option>
+		          </select>
+		          <div class="search_field">
+		            <input type="text" id="search-keyword" class="input" value="${jobLogVO.empId}"  placeholder="Search"/>
+		          </div>
+		          <div class="search-icon">
+		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="list_section">
+		        <div class="total">총 ${jobLogList.size() > 0 ? jobLogList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
 						<tr>
 							<th>직원ID</th>
 							<th>이름</th>
@@ -62,8 +68,8 @@
 							<th>생성일</th>
 							<th>생성자</th>
 						</tr>
-					</thead>
-					<tbody>
+		          </thead>
+		          <tbody>
 						<c:choose>
 							<c:when test="${not empty jobLogList}">
 								<c:forEach items="${jobLogList}"
@@ -100,17 +106,15 @@
 								</tr>
 							</c:otherwise>
 						</c:choose>
-					</tbody>
-				</table>
-				
+		          </tbody>
+		        </table>
 				<c:import url="../../include/pagenate.jsp">
                   <c:param name="pageNo" value="${pageNo}"/>
                   <c:param name="pageCnt" value="${pageCnt}"/>
                   <c:param name="lastPage" value="${lastPage}"/>
                   <c:param name="path" value="${context}/jobLog"/>
                </c:import>
-               
-			</div>
+              </div>
 		<jsp:include page="../../include/footer.jsp"/>
 		</div>
 	</div>

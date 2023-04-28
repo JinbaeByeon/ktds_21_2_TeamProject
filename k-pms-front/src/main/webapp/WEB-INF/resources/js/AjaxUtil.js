@@ -103,7 +103,6 @@ AjaxUtil.prototype.upload = function(formSelector, url, fnCallback, replaceRule)
 	            if (replaceRule[inputNm]) {
 	            	inputNm = replaceRule[inputNm];
 	            }
-
 	            for (var i = 0; i < $(this)[0].files.length; i++) {
 	            	formData.append(inputNm, $(this)[0].files[i]);
 	            }

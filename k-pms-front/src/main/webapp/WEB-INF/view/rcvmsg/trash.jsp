@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,7 +88,7 @@
 			checkIndex();
 		});
 		
-		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+		$(".list_table > tr > td").not(".check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -169,14 +170,8 @@
 				        <c:param name="path" value="${context}/rcvMsg" />
 				    </c:import>
 
-				<c:import url="../include/pagenate.jsp">
-					<c:param name="pageNo" value="${pageNo}" />
-					<c:param name="pageCnt" value="${pageCnt}" />
-					<c:param name="lastPage" value="${lastPage}" />
-					<c:param name="path" value="${context}/rcvMsg" />
-				</c:import>
-			</div>
-		</div>
+		      </div>
+		   </div>   		
 	</div>
 </body>
 </html>

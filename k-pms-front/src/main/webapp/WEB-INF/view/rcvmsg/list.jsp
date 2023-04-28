@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +61,7 @@
 			location.href = "${context}/sndmsg/send?sndMsgId="+msgId;
 		}); 
 
-		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var msgId = $(this).closest("tr").data("msgid");
 			location.href="${context}/rcvmsg/detail/"+msgId;
 		});
@@ -99,10 +100,8 @@
 		$(".check_idx").change(function() {
 			checkIndex();
 		});
-		$(".check_idx").click(function(e){
-			$(this).prop("checked",$(this).prop("checked")==false);
-		});
-		$(".grid > table > tbody > tr > td.check").click(function(){
+		
+		$(".list_table > tbody > tr > td").not(".check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -136,6 +135,7 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
+
 			<div class="path">쪽지 > 받은쪽지함</div>
 		      <div class="search_wrapper">
 		      <form>

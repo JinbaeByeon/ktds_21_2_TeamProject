@@ -86,7 +86,7 @@
 	<insert id="createOneSndMsg"
 			parameterType="com.kpms.sndmsg.vo.SndMsgVO">
 		<selectKey keyProperty="msgId" resultType="String" order="BEFORE">
-			SELECT SEQ_SND_MSG_PK.NEXTVAL
+			SELECT 'SM-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_SND_MSG_PK.NEXTVAL,5,'0')
 			  FROM DUAL
 		</selectKey>
 		INSERT INTO SND_MSG

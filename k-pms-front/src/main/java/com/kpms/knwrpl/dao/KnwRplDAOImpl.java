@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.kpms.knwrpl.vo.KnwRplVO;
 
 @Repository
-public class KnwRplDAOImpl extends SqlSessionDaoSupport implements KnwRplDAO{
+public class KnwRplDAOImpl extends SqlSessionDaoSupport implements KnwRplDAO {
 	
 	@Autowired
 	@Override
@@ -30,4 +30,11 @@ public class KnwRplDAOImpl extends SqlSessionDaoSupport implements KnwRplDAO{
 	public int deleteOneKnwRpl(String rplId) {
 		return getSqlSession().update("KnwRpl.deleteOneKnwRpl", rplId);
 	}
+
+	@Override
+	public int deleteSelectedKnwRplByKnwId(String knwId) {
+		return getSqlSession().update("KnwRpl.deleteSelectedKnwRplByKnwId", knwId);
+	}
+	
+	
 }

@@ -14,11 +14,15 @@
 				opener.location.href= "${context}/emp/modify/${empVO.empId}";
 				window.close();
 			});
+			$("#modify_pwd_btn").click(function(e){
+				location.href = "${context}/emp/modify/password/${empVO.empId}";
+			})
 		});
 	
 	</script>
 </head>
 <body>
+	
 	<div class="main-layout">
 	<div class="container emp_page">
 		<h2>${empVO.empId}(${empVO.lNm}${empVO.fNm})님의 회원정보입니다.</h2>

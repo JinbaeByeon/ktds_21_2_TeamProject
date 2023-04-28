@@ -29,7 +29,7 @@
 		$(".check_idx").click(function(e){
 			$(this).prop("checked",$(this).prop("checked")==false);
 		});
-		$(".grid > table > tbody > tr > td").click(function(){
+		$(".list_table > tbody > tr > td").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -104,13 +104,12 @@
 							</tr>
 						</c:otherwise>
 					</c:choose>
-				</tbody>
-			</table>
-		</div>
-		<div class="align-right">
-			<button id="cancel_btn" class="btn-delete">취소</button>
-			<button id="regist_btn" class="btn-primary">등록</button>
-		</div>
-	</div>
+            </tbody>
+    </table>
+    <div class="buttons">
+        <button id="cancel_btn" class="btn delete">취소</button>
+        <button id="regist_btn" class="btn regist">등록</button>
+    </div>
+</div>
 </body>
 </html>

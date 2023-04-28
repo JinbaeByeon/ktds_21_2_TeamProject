@@ -13,7 +13,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
+		$(".list_table > tbody > tr").click(function(){
 			$(this).find(".radio_idx").prop("checked",true);
 		});
 		
@@ -68,17 +68,17 @@
 							<c:forEach items="${empList}" var="emp">
 								<tr data-empid = "${emp.empId}"
 									data-fnm = "${emp.fNm}"
-									data-lnm = "${emp.lNm}">
+									data-lnm = "${emp.lNm}"
+									data-pstnnm = "${emp.pstn.pstnNm}"
+									data-jobnm = "${emp.job.jobNm}"
+									data-phn = "${emp.phn}"
+									data-brthdy = "${emp.brthdy}"
+									data-eml = "${emp.eml}"
+									data-pstnprd = "${emp.pstnPrd}">
 									<td>
 										<input type="radio" name ="radio_idx" class="radio_idx" value="${emp.empId}" />
 									</td>
-<<<<<<< Updated upstream
-									<td>${emp.fNm}</td>
-									<td>${emp.lNm}</td>
-									<td>팀명 넣을까? </td>
-=======
 									<td>${emp.lNm}${emp.fNm}</td>
->>>>>>> Stashed changes
 									<td>${emp.depId} </td>
 								</tr>
 							</c:forEach>
@@ -89,13 +89,12 @@
 							</tr>
 						</c:otherwise>
 					</c:choose>
-				</tbody>
-			</table>
-		</div>
-		<div class="align-right">
-			<button id="cancel_btn" class="btn-delete">취소</button>
-			<button id="regist_btn" class="btn-primary">등록</button>
-		</div>
-	</div>
+            </tbody>
+    </table>
+    <div class="buttons">
+        <button id="cancel_btn" class="btn delete">취소</button>
+        <button id="regist_btn" class="btn regist">등록</button>
+    </div>
+</div>
 </body>
 </html>

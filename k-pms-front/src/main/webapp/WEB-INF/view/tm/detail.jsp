@@ -18,6 +18,10 @@
 			location.href = "${context}/tm/update/" + $("#tmId").val();
 		});
 		
+		$("#list-btn").click(function(response) {
+			location.href = "${context}/tm/list"
+		});
+		
 		$("#delete-btn").click(function() {
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
@@ -56,7 +60,7 @@
 							<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" readonly/>
 						</div>
 						<div class="create-group">
-							<label for="tmHdNm">팀장성명</label>
+							<label for="tmHdNm">팀장명</label>
 							<input type="text" id="tmHdNm" name="tmHdNm" value="${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}" readonly/>
 						</div>
 						<div class="create-group">
@@ -73,7 +77,7 @@
 						<table>
 							<thead>
 								<tr>
-									<th>순번</th>
+									<th>팀 직책</th>
 									<th>직급</th>
 									<th>직원ID</th>
 									<th>이름</th>
@@ -85,22 +89,35 @@
 								</tr>
 							</thead>
 						<tbody>
+							<tr>
+								<td>팀장</td>
+								<td>${tmHdEmpVO.pstn.pstnNm}</td>
+								<td>${tmHdEmpVO.empId}</td>
+								<td>${tmHdEmpVO.lNm}${tmHdEmpVO.fNm}</td>
+								<td>${tmHdEmpVO.job.jobNm}</td>
+								<td>${tmHdEmpVO.brthdy}</td>
+								<td>${tmHdEmpVO.eml}</td>
+								<td>${tmHdEmpVO.phn}</td>
+								<td>${tmHdEmpVO.pstnPrd}</td>
+							</tr>
 							<c:choose>								
 								<c:when test="${not empty tmVO.tmMbrList}">
 									<c:forEach items="${tmVO.tmMbrList}"
 												var="tmMbr"
 												varStatus="index">
-											<tr>
-												<td>${index.index + 1}</td>
-												<td>${tmMbr.empVO.pstn.pstnNm}</td>
-												<td>${tmMbr.empId}</td>
-												<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
-												<td>${tmMbr.empVO.job.jobNm}</td>
-												<td>${tmMbr.empVO.brthdy}</td>
-												<td>${tmMbr.empVO.eml}</td>
-												<td>${tmMbr.empVO.phn}</td>
-												<td>${tmMbr.empVO.pstnPrd}</td>
-											</tr>
+											<c:if test="${tmMbr.empId != tmVO.tmHdId}">
+												<tr>
+													<td>팀원</td>
+													<td>${tmMbr.empVO.pstn.pstnNm}</td>
+													<td>${tmMbr.empId}</td>
+													<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
+													<td>${tmMbr.empVO.job.jobNm}</td>
+													<td>${tmMbr.empVO.brthdy}</td>
+													<td>${tmMbr.empVO.eml}</td>
+													<td>${tmMbr.empVO.phn}</td>
+													<td>${tmMbr.empVO.pstnPrd}</td>
+												</tr>
+											</c:if>
 									</c:forEach>
 							    </c:when>
 								<c:otherwise>
@@ -115,6 +132,7 @@
 					</table>
 				</div>
 				<div class="align-right">
+					<button id="list-btn" class="btn-primary">목록</button>
 					<button id="modify-btn" class="btn-primary">수정</button>
 					<button id="delete-btn" class="btn-delete">삭제</button>
 				</div>

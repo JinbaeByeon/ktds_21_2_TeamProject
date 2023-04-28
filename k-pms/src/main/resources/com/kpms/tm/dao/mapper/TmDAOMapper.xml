@@ -51,8 +51,8 @@
 			 , T.DEP_ID
 			 , T.TM_HD_ID
 			 , D.DEP_NM DEP_NM
-			 , E.L_NM TM_MBR_L_NM
-			 , E.F_NM TM_MBR_F_NM
+			 , MBR.L_NM TM_MBR_L_NM
+			 , MBR.F_NM TM_MBR_F_NM
 			 , TM_HD_EMP.L_NM TM_HD_L_NM
 			 , TM_HD_EMP.F_NM TM_HD_F_NM
 		  FROM TM T
@@ -60,11 +60,16 @@
 		 	ON T.DEP_ID = D.DEP_ID
 		  LEFT OUTER JOIN TM_MBR M
 		    ON T.TM_ID = M.TM_ID
-		  FULL OUTER JOIN EMP E
-		    ON M.EMP_ID = E.EMP_ID
-		  LEFT OUTER JOIN EMP TM_HD_EMP
+		 INNER JOIN (SELECT E.*
+ 				  		  , E.L_NM || E.F_NM NM
+ 			 		   FROM EMP E) MBR
+    		ON M.EMP_ID = MBR.EMP_ID
+		 INNER JOIN (SELECT TM_HD.*
+  				  , TM_HD.L_NM || TM_HD.F_NM NM
+  			   FROM EMP TM_HD) TM_HD_EMP 
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE T.DEL_YN = 'N'
+		   AND MBR.DEL_YN = 'N'
 		<choose>
 			<when test='searchOption == "depNm"'>
 		   AND D.DEP_NM LIKE '%' || #{searchKeyword} || '%'
@@ -72,17 +77,11 @@
 			<when test='searchOption == "tmNm"'>
 		   AND T.TM_NM LIKE '%' || #{searchKeyword} || '%'
 			</when>
-			<when test='searchOption == "hdLnm"'>
-		   AND TM_HD_EMP.L_NM LIKE '%' || #{searchKeyword} || '%'
+			<when test='searchOption == "hdNm"'>
+		   AND TM_HD_EMP.NM LIKE '%' || #{searchKeyword} || '%'
 			</when>
-			<when test='searchOption == "hdFnm"'>
-		   AND TM_HD_EMP.F_NM LIKE '%' || #{searchKeyword} || '%'
-			</when>
-			<when test='searchOption == "mbrLNm"'>
-		   AND E.L_NM LIKE '%' || #{searchKeyword} || '%'
-			</when>
-			<when test='searchOption == "mbrFNm"'>
-		   AND E.F_NM LIKE '%' || #{searchKeyword} || '%'
+			<when test='searchOption == "mbrNm"'>
+		   AND MBR.NM LIKE '%' || #{searchKeyword} || '%'
 			</when>
 		</choose>
 		<include refid="Common.pageFooter" />

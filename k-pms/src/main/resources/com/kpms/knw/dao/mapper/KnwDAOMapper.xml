@@ -79,7 +79,7 @@
 	</select>
 	
 	<resultMap id="oneKnwVOMap"
-			   type="com.kpms.knw.vo.KnwVO">
+			   type="com.kpms.knw.vo.KnwVO" autoMapping="true">
 		<id property="knwId" column="KNW_ID" />
 		<result property="ttl" column="TTL" />
 		<result property="cntnt" column="CNTNT" />

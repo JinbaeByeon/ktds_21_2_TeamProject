@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +41,7 @@
 				}
 			});
 		});
-		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var msgId = $(this).closest("tr").data("msgid");
 			location.href="${context}/sndmsg/detail/"+msgId;
 		});
@@ -57,10 +58,8 @@
 		$(".check_idx").change(function() {
 			checkIndex(); 
 		});
-		$(".check_idx").click(function(e){
-			$(this).prop("checked",$(this).prop("checked")==false);
-		});
-		$(".grid > table > tbody > tr > td.check").click(function(){
+		
+		$(".list_table > tr > td").not(".check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -87,7 +86,6 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-<<<<<<< Updated upstream
 			<div class="path">쪽지 > 보낸쪽지함</div>
 			
 			<form>
@@ -154,7 +152,6 @@
 	                  <c:param name="path" value="${context}/sndMsg"/>
 	            </c:import>
             </div>
-=======
 				<div class="path">쪽지 > 보낸쪽지함</div>
 		      <div class="search_wrapper">
 		      <form>
@@ -223,8 +220,7 @@
 
 		      </div>
 			<jsp:include page="../include/footer.jsp" />
->>>>>>> Stashed changes
 		</div>
 	</div>
 </body>
-</html>ml>
+</html>
