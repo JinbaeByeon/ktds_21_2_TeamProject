@@ -29,36 +29,75 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">부서관리 > 부서 상세조회</div>
-					<div>	
-						<div class="create-group">
-							<label for="depNm">부서명</label>
-							<input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/>
-						</div>
-							<div class="create-group">
-								<label for="depId">부서ID</label>
-								<input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/>
-							</div>
-						<div class="create-group">
-							<label for="depHdId">부서장ID</label>
-							<input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/>
-						</div>
-						<div class="create-group">
-							<label for="depHdNm">부서장성명</label>
-							<input type="text" id="depHdNm" name="depHdNm" value="${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}" readonly/>
-						</div>
-						<div class="create-group">
-							<label for="depCrtDt">부서 생성일</label>
-							<input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/>
-						</div>
-					</div>
-					
-					<div class="grid">
-						<div>소속 팀</div>
-						<div class="grid-count align-right">
-						 총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
-						</div>
-						<table>
-							<thead>
+			<table class="detail_page detail_table">
+                <tr>
+                    <th>부서명</th>
+                    <td colspan="3"><input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>부서ID</th>
+                    <td colspan="3"><input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>부서장ID</th>
+                    <td colspan="3"><input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>부서장명</th>
+                    <td colspan="3"><input type="text" id="depHdNm" name="depHdNm" value="${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>부서 생성일</th>
+                    <td colspan="3"><input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>등록자</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.crtr}" readonly/></td>
+                    <th>등록일</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.crtDt}" readonly/></td>
+                </tr>
+                <tr>
+                	<th>수정자</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.mdfyr}" readonly/></td>
+                    <th>수정일</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.mdfyDt}" readonly/></td>
+               </tr>
+            </table>
+                
+            <div class="hr"></div>
+            <div class="path">소속 팀</div>
+            <div class="total">
+                총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
+            </div>
+            
+                <table class="list_table sub_table">
+                    <thead>
+                        <tr>
+                            <th>순번</th>
+							<th>팀ID</th>
+							<th>팀명</th>
+							<th>팀장ID</th>
+							<th>팀장 성명</th>
+							<th>팀생성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+						<c:choose>
+							<c:when test="${not empty depVO.tmList}">
+								<c:forEach items="${depVO.tmList}"
+											var="tm"
+											varStatus="index">
+										<tr>
+											<td>${index.index + 1}</td>
+											<td>${tm.tmId}</td>
+											<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
+											<td>${tm.tmHdId}</td>
+											<td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
+											<td>${tm.tmCrtDt}</td>
+										</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
 								<tr>
 									<th>순번</th>
 									<th>팀ID</th>

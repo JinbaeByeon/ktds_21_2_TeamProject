@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SndMsg">
+	<resultMap id="sndMsgVOMap"
+			   type="com.kpms.sndmsg.vo.SndMsgVO"
+			   autoMapping="true">
+			<id property="msgId" column="MSG_ID"/>
+			<association property="sndEmpVO"
+		 			  javaType="com.kpms.emp.vo.EmpVO">
+			 	<id property="empId" column="EMP_ID"/>
+			 	<result property="fNm" column="SE_F_NM"/>
+			 	<result property="lNm" column="SE_L_NM"/>
+			</association>
+			<collection property="rcvMsgVO"
+		   				ofType="com.kpms.rcvmsg.vo.RcvMsgVO">
+				<id property="msgId" column="RCV_MSG_ID"/>
+			   	<result property="rcvr" column="RCVR"/>
+				<association property="rcvrEmpVO"
+			 			  javaType="com.kpms.emp.vo.EmpVO">
+				 	<id property="empId" column="EMP_ID"/>
+				 	<result property="fNm" column="RE_F_NM"/>
+				 	<result property="lNm" column="RE_L_NM"/>
+				</association>
+			</collection>
+			<collection property="atchFlList"
+						ofType="com.kpms.atchfl.vo.AtchFlVO">
+				<id property="uuidFlNm" column="UUID_FL_NM" />
+				<result property="orgFlNm" column="ORG_FL_NM" />
+				<result property="flSz" column="FL_SZ" />
+				<result property="flExt" column="FL_EXT" />
+				<result property="frgnId" column="MSG_ID" />
+			</collection>
+	</resultMap>
+	 
+	<select id="readAllSndMsgVO"
+			parameterType="com.kpms.rcvmsg.vo.MsgSearchVO"
+			resultMap="sndMsgVOMap">
+		<include refid="Common.pageHeader"/>
+		SELECT SM.MSG_ID PK_COL
+			 , DENSE_RANK() OVER(ORDER BY SM.CRT_DT || SM.MSG_ID DESC) RNUM
+			 , SM.MSG_ID
+			 , SM.CRT_DT
+			 , SM.CRTR
+			 , SM.USE_YN
+			 , SM.DEL_YN
+			 , SM.TTL
+			 , RM.RCVR
+			 , RM.MSG_ID RCV_MSG_ID
+			 , RCV_E.F_NM  RE_F_NM
+			 , RCV_E.L_NM  RE_L_NM
+		  FROM (SELECT *
+		  		  FROM SND_MSG
+				 WHERE CRTR = #{empId}
+				   AND DEL_YN = 'N') SM
+		 INNER JOIN RCV_MSG RM
+		 	ON RM.SND_MSG_ID = SM.MSG_ID
+		 INNER JOIN  (SELECT E.*
+		 				  , E.L_NM || E.F_NM NM
+		               FROM EMP E) RCV_E
+		    ON RCV_E.EMP_ID = RM.RCVR
+		<if test='searchType =="rcvrNm"'>
+		 WHERE RCV_E.NM LIKE '%' || #{searchKeyword} || '%'
+		</if>
+		<if test='searchType == "ID"'>
+	     WHERE RCV_E.EMP_ID LIKE '%' || #{searchKeyword} || '%'
+	    </if>
+		<include refid="Common.pageFooter"/>
+	</select>
+	
+	<select id="readOneSndMsgVO"
+			parameterType="com.kpms.sndmsg.vo.SndMsgVO"
+			resultType="com.kpms.sndmsg.vo.SndMsgVO">
+		SELECT MSG_ID
+			 , CRT_DT
+			 , CRTR
+			 , USE_YN
+			 , DEL_YN
+			 , TTL
+			 , CNTNT
+		  FROM SND_MSG
+		
+	</select>
+	
+	<insert id="createOneSndMsg"
+			parameterType="com.kpms.sndmsg.vo.SndMsgVO">
+		<selectKey keyProperty="msgId" resultType="String" order="BEFORE">
+			SELECT SEQ_SND_MSG_PK.NEXTVAL
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO SND_MSG
+				   (MSG_ID
+				 , CRT_DT
+				 , CRTR
+				 , USE_YN
+				 , DEL_YN
+				 , TTL
+				 , CNTNT)
+		   VALUES
+		   		  (#{msgId}
+		   		 , SYSDATE
+		   		 , #{crtr}
+		   		 , 'Y'
+		   		 , 'N'
+		   		 , #{ttl}
+		   		 , #{cntnt})
+
+	</insert>
+	
+	<update id="deleteOneSndMsg"
+			parameterType="_int">
+		UPDATE RCV_MSG
+		   SET DEL_YN = 'Y'
+		 WHERE MSG_ID = #{_parameter}
+	</update>
+	
+	<update id="deleteSndMsgBySelectedMsgId"
+			parameterType="arraylist">
+		UPDATE SND_MSG
+		   SET DEL_YN='Y'
+		 WHERE MSG_ID IN
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+		  #{msgId}
+		 </foreach>
+	</update>
+	
+	<delete id = "deleteTrashMsg"
+			parameterType="arraylist">
+		DELETE 
+		  FROM SND_MSG
+		 WHERE MSG_ID IN 
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+	 	 #{msgId}
+		 </foreach> 
+	</delete>
+	
+	<select id="readOneSndMsgByRcvMsgId"
+			parameterType="string"
+			resultType="com.kpms.sndmsg.vo.SndMsgVO">
+		SELECT CRT_DT,
+			   CRTR,
+			   USE_YN,
+			   TTL,
+			   CNTNT,
+			   ATTCH
+		  FROM SND_MSG
+		 WHERE MSG_ID = (SELECT SND_MSG_ID
+		 				   FROM RCV_MSG
+		 				  WHERE MSG_ID = #{_parameter}
+						    AND DEL_YN = 'N')
+	</select>
+	
+	<select id="readOneSndMsgByMsgId"
+			parameterType="string"
+			resultMap="sndMsgVOMap">
+		SELECT S.MSG_ID,
+			   S.CRT_DT,
+			   S.CRTR,
+			   S.USE_YN,
+			   S.TTL,
+			   S.CNTNT,
+			   S.ATTCH,
+			   R.RCVR,
+			   R.MSG_ID RCV_MSG_ID,
+			   SE.L_NM SE_L_NM,
+			   SE.F_NM SE_F_NM,
+			   RE.L_NM RE_L_NM,
+			   RE.F_NM RE_F_NM,
+			   AF.ORG_FL_NM,
+			   AF.UUID_FL_NM,
+			   AF.FL_SZ,
+			   AF.FL_EXT
+		  FROM (SELECT *
+		  		  FROM SND_MSG
+				 WHERE MSG_ID = #{_parameter}
+				   AND DEL_YN = 'N') S
+		  JOIN EMP SE
+		  	ON SE.EMP_ID = S.CRTR
+		  JOIN RCV_MSG R
+		  	ON R.SND_MSG_ID = S.MSG_ID
+		  JOIN EMP RE
+		  	ON RE.EMP_ID = R.RCVR
+		  LEFT JOIN ATCH_FL AF
+		  	ON AF.FRGN_ID = S.MSG_ID
+	</select>
+	
+	<update id="restoreSndMsg"
+			parameterType="arraylist">
+		UPDATE SND_MSG
+		   SET DEL_YN = 'N'
+		 WHERE MSG_ID IN
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+	 	 #{msgId}
+		 </foreach> 
+	</update>
+</mapper>

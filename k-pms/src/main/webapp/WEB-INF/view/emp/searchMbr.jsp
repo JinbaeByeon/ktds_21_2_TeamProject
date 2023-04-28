@@ -29,7 +29,7 @@
 		$(".check_idx").click(function(e){
 			$(this).prop("checked",$(this).prop("checked")==false);
 		});
-		$(".grid > table > tbody > tr > td").click(function(){
+		$(".list_table > tbody > tr > td").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -54,65 +54,74 @@
 </script>
 </head>
 <body>
-	<div class="search-popup content">
-		<h1>직원검색</h1>
-		<form>
-			<input type="hidden" name="depId" value="${depId}">
-		</form>
-		<div class="grid">
-			<div class="grid-count align-right">
-						총 ${empList.size() > 0 ? empList.size() : 0}건
-			</div>
-			<table>
-				<thead>
-					<tr>
-						<th>
-							<input type="checkbox" id="all_check" />
-						</th>
-						<th>직원ID</th>
-						<th>직급</th>
-						<th>성명</th>
-						<th>직무</th>
-						<th>부서ID</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:choose>
-						<c:when test="${not empty empList}">
-							<c:forEach items="${empList}" var="emp">
-								<tr data-empid = "${emp.empId}"
-									data-fnm = "${emp.fNm}"
-									data-lnm = "${emp.lNm}"
-									data-pstnnm = "${emp.pstn.pstnNm}"
-									data-jobnm = "${emp.job.jobNm}"
-									data-phn = "${emp.phn}"
-									data-brthdy = "${emp.brthdy}"
-									data-eml = "${emp.eml}"
-									data-pstnprd = "${emp.pstnPrd}">
-									<td class="check">
-										<input type="checkbox" class="check_idx" value="${emp.empId}" />
-									</td>
-									<td>${emp.empId}</td>
-									<td>${emp.pstn.pstnNm}</td>
-									<td>${emp.lNm}${emp.fNm}</td>
-									<td>${emp.job.jobNm}</td>
-									<td>${emp.depId} </td>
-								</tr>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<tr>
-								<td colspan="6">검색된 직원이 없습니다.</td>
-							</tr>
-						</c:otherwise>
-					</c:choose>
-				</tbody>
-			</table>
-		</div>
-		<div class="align-right">
-			<button id="cancel_btn" class="btn-delete">취소</button>
-			<button id="regist_btn" class="btn-primary">등록</button>
-		</div>
-	</div>
+	<div class="container search_page">
+    <h2>직원검색</h2>
+    <div class="search_wrapper">
+    	<form>
+    	<input type="hidden" name="depId" value="${depId}">
+        <div class="search_box">
+            <select>
+            <option>직원명</option>
+            </select>
+            <div class="search_field">
+           	 <input type="text" name="fNm" class="input" value="${fNm}"/>
+            </div>
+            <div class="search-icon">
+                <button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+            </div>
+        </div>
+        </form>
+    </div>
+    <div class="total">총 ${empList.size() > 0 ? empList.size() : 0}건</div>
+    <table class="list_table search_table">
+        <thead>
+			<tr>
+                    <th>
+                        <input type="checkbox" id="all_check" />
+                    </th>
+                    <th>직원ID</th>
+                    <th>직급</th>
+                    <th>성명</th>
+                    <th>직무</th>
+                    <th>부서ID</th>
+			</tr>
+        </thead>
+            <tbody>
+                <c:choose>
+                    <c:when test="${not empty empList}">
+                        <c:forEach items="${empList}" var="emp">
+                            <tr data-empid = "${emp.empId}"
+                                data-fnm = "${emp.fNm}"
+                                data-lnm = "${emp.lNm}"
+                                data-pstnnm = "${emp.pstn.pstnNm}"
+                                data-jobnm = "${emp.job.jobNm}"
+                                data-phn = "${emp.phn}"
+                                data-brthdy = "${emp.brthdy}"
+                                data-eml = "${emp.eml}"
+                                data-pstnprd = "${emp.pstnPrd}">
+                                <td class="check">
+                                    <input type="checkbox" class="check_idx" value="${emp.empId}" />
+                                </td>
+                                <td>${emp.empId}</td>
+                                <td>${emp.pstn.pstnNm}</td>
+                                <td>${emp.lNm}${emp.fNm}</td>
+                                <td>${emp.job.jobNm}</td>
+                                <td>${emp.depId} </td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <td colspan="6">검색된 직원이 없습니다.</td>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
+            </tbody>
+    </table>
+    <div class="buttons">
+        <button id="cancel_btn" class="btn delete">취소</button>
+        <button id="regist_btn" class="btn regist">등록</button>
+    </div>
+</div>
 </body>
 </html>

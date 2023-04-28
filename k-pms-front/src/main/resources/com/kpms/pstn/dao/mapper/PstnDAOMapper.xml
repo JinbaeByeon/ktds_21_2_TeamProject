@@ -31,8 +31,8 @@
 			resultType="com.kpms.pstn.vo.PstnVO">
 		<include refid="Common.pageHeader" />
 		SELECT PSTN_ID PK_COL
-			 , DENSE_RANK() OVER(ORDER BY PSTN_ID ASC) RNUM
 			 , PSTN_ID
+			 , DENSE_RANK() OVER(ORDER BY CRT_DT || PSTN_ID ASC) RNUM
 			 , CRT_DT
 			 , CRTR
 			 , MDFY_DT

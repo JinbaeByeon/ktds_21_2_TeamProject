@@ -5,6 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="prj"/>
+<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,22 +15,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		
-		$("li.nav-item.sys").addClass("active");
-		$("li.nav-item").children("a").mouseover(function(){
-			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
-			if($(this).attr("class")!="nav-item sys"){
-				$("li.nav-item.sys").removeClass("active");
-			}
-			$(this).closest("li.nav-item").addClass("active");
-		});
-		$(".nav").mouseleave(function(){
-			$(this).find(".active").removeClass("active");
-			$("li.nav-item.sys").addClass("active");
-		});
-		$(".sub-item").mouseenter(function(){
-			$(this).addClass("active");
-		});
 	
 		$(".grid > table > tbody > tr").click(function(){
 			
@@ -209,7 +195,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${pstn.pstnId}">
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${pstn.rnum}</td>
 											<td>${pstn.pstnId}</td>
 											<td>${pstn.pstnNm}</td>
 											<td>${pstn.useYn}</td>

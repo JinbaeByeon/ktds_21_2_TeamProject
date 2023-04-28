@@ -13,6 +13,7 @@ public class RcvMsgVO extends AbstractPagingVO {
 	private String sndMsgId;
 	private String rcvr;
 	private String rdYn;
+	private String type;
 	
 	private SndMsgVO sndMsgVO;
 	private EmpVO rcvrEmpVO;
@@ -40,6 +41,12 @@ public class RcvMsgVO extends AbstractPagingVO {
 	}
 	public void setRdYn(String rdYn) {
 		this.rdYn = rdYn;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public SndMsgVO getSndMsgVO() {
 		return sndMsgVO;

@@ -10,38 +10,20 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-	
-		$(".grid > table > tbody > tr").click(function() {
-			var data = $(this).data();
-			$("#msgId").val(data.msgId);
-			$("#sndMsgId").val(data.sndMsgId);
-			$("#rcvr").val(data.rcvr);
-			$("#rdYn").val(data.rdYn);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-		});
-		
-		$("#new_btn").click(function() {
-			$("#msgId").val("");
-			$("#sndMsgId").val("");
-			$("#rcvr").val("");
-			$("#rdYn").val("");
-			
-			$("useYn").prop("checked", false);
-		});
 		
 		$("#delete_btn").click(function() {
-			var msgId = $("#msgId").val();
-			if (msgId == "") {
-				alert("선택된 쪽지가 없습니다.");
-				return;
-			}
+			var form = $("<form></form>")
+			
+			$(".check_idx:checked").each(function() {
+				console.log($(this).val());
+				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
+			});
 			
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
 			
-			$.get("${context}/api/msg/delete" + msgId, function(response) {
+			$.post("${context}/api/rcvmsg/delete",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
 				}
@@ -59,7 +41,7 @@
 				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
 			});
 			
-			$.post("${context}/api/rcvmsg/update/",form.serialize(), function(response) {
+			$.post("${context}/api/rcvmsg/update",form.serialize(), function(response) {
 				if (response.status == "200 OK") {
 					location.reload();
 				} else {
@@ -69,58 +51,83 @@
 		});
 		
 		$("#reply_btn").click(function() {
+			// 1. 체크된 VALUE(rcvmsg.msgid)를 가져온다.
 			
-		});
-		
-		$("#search-btn").click(function() {
-			movePage(0)
+			var msgId = $(".check_idx:checked").val();
+			
+			// 1. form에 체크된 메시지의 sndMsgId를 담아서 보낸다. (데이터 중 sndMsgId가 없다면 넣어줘야함)
+			// 2. 끝
+			location.href = "${context}/sndmsg/send?sndMsgId="+msgId;
+		}); 
+
+		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+			var msgId = $(this).closest("tr").data("msgid");
+			location.href="${context}/rcvmsg/detail/"+msgId;
 		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
+			checkBtn();
 		});
 		
 		function checkIndex() {
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
+			checkBtn();
+		}
+		
+		function checkBtn(){
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
+			if(checkCount == 0) {
+				$("#read_btn").attr("disabled", true);
+				$("#reply_btn").attr("disabled", true);
+				$("#delete_btn").attr("disabled", true);
+			}
+			else if (checkCount == 1) {
+				$("#read_btn").attr("disabled", false);
+				$("#reply_btn").attr("disabled", false);
+				$("#delete_btn").attr("disabled", false);
+			}
+			else if (checkCount >= 2) {
+				$("#read_btn").attr("disabled", false);
+				$("#reply_btn").attr("disabled", true);
+				$("#delete_btn").attr("disabled", false);
+			}
 		}
 		
 		$(".check_idx").change(function() {
 			checkIndex();
 		});
-		
-		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+		$(".check_idx").click(function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
+		});
+		$(".grid > table > tbody > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
 		});
 		
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 쪽지가 없습니다.");
-				return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
-				location.reload(); // 새로고침
-			});
-		});
 	});
-		function movePage(pageNo) {
-			// 전송
-			// 입력 값
-			var fNm=$("#search-keyword").val();
-			// URL 요청
-			location.href= "${context}/rcvmsg/list?fNm=" + fNm + "&pageNo=" + pageNo;
+	function movePage(pageNo) {
+		
+		var searchType = $("#searchType").val();
+		// 전송
+		// 입력 값
+		
+		if(searchType == "id") {
+			var empId = $("#searchBar").val();
+			location.href= "${context}/rcvmsg/list?searchType=ID&sndEmpId=" + empId + "&pageNo=" + pageNo;
 		}
+		else if(searchType == "sndrNm") {
+			var nm = $("#searchBar").val();
+			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo;
+		}
+		
+		// URL 요청
+		
+		
+	}
 </script>
 </head>
 <body>
@@ -130,20 +137,25 @@
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
 			<div class="path">쪽지 > 받은쪽지함</div>
-			<div class="search-group">
-				<label for="search-keyword">발신자명</label>
-				<input type="text" id="search-keyword" class="search-input" value="${rcvMsgVO.fNm}"/>
-				<button class="btn-search" id="search-btn">&#128269</button>
-			</div>
+			<form>
+				<div class="search-group">
+					<select class="search-option" id="searchType" name="searchType">
+						<option value="id" ${searchType eq "id" ? "selected" : ""}>ID</option>
+						<option value="sndrNm" ${searchType eq "sndrNm" ? "selected" : ""}>발신자명</option>
+					</select>
+					<input type="text" id="searchKeyword" name="searchKeyword" class="grow-1 mr-10" value="${rcvMsgVO.searchKeyword}"/>
+					<button class="btn-search" id="search-btn">&#128269</button>
+				</div>
+			</form>
 			<div class="grid">
 				<div class="grid-count">
 					<div class="align-left left">
-						<button id="read_btn" class="btn-delete">읽음</button>
-						<button id="reply_btn" class="btn-delete">답장</button>
-						<button id="delete_btn" class="btn-delete">삭제</button>
+						<button id="read_btn" class="btn-read" disabled>읽음</button>
+						<button id="reply_btn" class="btn-reply" disabled>답장</button>
+						<button id="delete_btn" class="btn-delete" disabled>삭제</button>
 					</div>
 					<div class="align-right right">
-						총 ${rcvList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건
+						총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건
 					</div>
 				</div>
 				<table>
@@ -152,7 +164,6 @@
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>조회여부</th>
 							<th>제목</th>
-							<th>첨부파일</th>
 							<th>발신인</th>
 							<th>발신일</th>
 						</tr>
@@ -164,9 +175,9 @@
 										   var="rcvMsg">
 									<tr data-rdyn="${rcvMsg.rdYn}"
 										data-ttl="${rcvMsg.sndMsgVO.ttl}"
-										data-attch="${rcvMsg.sndMsgVO.attch}"
 										data-crtr="${rcvMsg.crtr}"
-										data-crtdt="${rcvMsg.crtDt}">
+										data-crtdt="${rcvMsg.crtDt}"
+										data-msgid="${rcvMsg.msgId}">
 									<td class="check">
 										<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
 									</td>
@@ -179,8 +190,7 @@
 										</c:if>
 									</td>
 									<td>${rcvMsg.sndMsgVO.ttl}</td>
-									<td>${rcvMsg.sndMsgVO.attch}</td>
-									<td>${rcvMsg.crtr}</td>
+									<td>${rcvMsg.crtr} (${rcvMsg.sndMsgVO.sndEmpVO.lNm} ${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
 									<td>${rcvMsg.crtDt}</td>
 									</tr>
 								</c:forEach>

@@ -65,12 +65,10 @@
 			</ul>
 		</li>
 		<li class="nav-item eqp">
-			<a href="${context}/eqp/list">비품관리</a>
+			<a href="${context}/eqp/apply">비품대여신청</a>
 			<ul class="sub-item">
-				<li><a href="${context}/eqp/list">대여 관리</a></li>
-				<li><a href="${context}/eqp/list">대여 신청 관리</a></li>
-				<li><a href="${context}/eqp/list">변경 관리</a></li>
-				<li><a href="${context}/eqp/list">분실물 관리</a></li>
+				<li><a href="${context}/eqp/apply">대여신청</a></li>
+				<li><a href="${context}/eqp/rent">대여비품관리</a></li>
 			</ul>
 		</li>
 		<li class="nav-item prj">

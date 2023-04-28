@@ -87,6 +87,11 @@ public class EqpServiceImpl implements EqpService{
 		return applyCount > 0;
 	}
 
+	@Override
+	public List<EqpVO> readEqpByEmpId(EqpVO eqpVO) {
+		return eqpDAO.readEqpByEmpId(eqpVO);
+	}
+
 
 
 	

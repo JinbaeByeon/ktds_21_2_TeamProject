@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AtchFl">
+
+	<insert id="doCreateNewAtchFl"
+			parameterType="com.kpms.atchfl.vo.AtchFlVO">
+		INSERT INTO ATCH_FL
+		 (FRGN_ID
+		, ORG_FL_NM
+		, UUID_FL_NM
+		, FL_SZ
+		, FL_EXT,
+		  CRTR,
+		  CRT_DT,
+		  USE_YN,
+		  DEL_YN)
+		VALUES
+		 (#{frgnId}
+		, #{orgFlNm}
+		, #{uuidFlNm}
+		, #{flSz}
+		, #{flExt}
+		, #{crtr}
+		, SYSDATE
+		, 'Y'
+		, 'N')
+	</insert>
+	
+	<insert id="createNewAtchFls"
+			parameterType="arraylist">
+		INSERT INTO ATCH_FL
+		 (FRGN_ID
+		, ORG_FL_NM
+		, UUID_FL_NM
+		, FL_SZ
+		, FL_EXT,
+		  CRTR,
+		  CRT_DT,
+		  USE_YN,
+		  DEL_YN)
+		<foreach collection="list" item="atchFlVO" separator=" UNION ALL " >
+		SELECT #{atchFlVO.frgnId}
+			, #{atchFlVO.orgFlNm}
+			, #{atchFlVO.uuidFlNm}
+			, #{atchFlVO.flSz}
+			, #{atchFlVO.flExt}
+			, #{atchFlVO.crtr}
+			, SYSDATE
+			, 'Y'
+			, 'N'
+		  FROM DUAL
+		</foreach>
+	</insert>
+	
+	<delete id="deleteAtchFlsByFrgnId"
+			parameterType="string">
+		DELETE 
+		  FROM ATCH_FL
+		 WHERE FRGN_ID = #{_parameter}
+	</delete>
+</mapper>

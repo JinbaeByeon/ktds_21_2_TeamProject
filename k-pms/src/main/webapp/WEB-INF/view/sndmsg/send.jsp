@@ -10,11 +10,9 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	var empWindow;
+	var ajaxUtil = new AjaxUtil();
 	
 	$().ready(function() {
-		$("#my_pc").click(function() {
-			
-		});
 		
 		$("#rcvr").keydown(function(e){
 			if(e.keyCode == 13){
@@ -34,14 +32,36 @@
 			}
 		})
 		$("#send_btn").click(function(){
-			var ajaxUtil = new AjaxUtil();
 			var form = $("#create-form");
-			var rcvrList = $("#userList").children(".user").children(".rcvr");
+			
+			// 수신 사원
+			var rcvrList = $("#user_list").children(".user").children(".rcvr");
 			var cnt = 0;
 			rcvrList.each(function(e){
 				var rcvr = $(this).text();
 				var input = $("<input type='hidden' name='rcvMsgVO[" + cnt++ + "].rcvr' value = '" + rcvr + "'/>")
 				form.append(input);
+			});
+			
+			var fileList = $(".file_attachment").find("li");
+			
+			cnt=0;
+			fileList.each(function(){
+				var form = $("#create-form");
+				
+				var fileNm = $(this).data("org");
+				var uuidNm = $(this).data("uuid");
+				var fileSz = $(this).data("sz");
+				var ext = $(this).data("ext");
+				
+				var inputOrgNm = $("<input type='hidden' name='atchFlList["+cnt+"].orgFlNm' value='"+fileNm+"'/>");
+				form.append(inputOrgNm);
+				var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
+				form.append(inputUuid);
+				var inputSz = $("<input type='hidden' name='atchFlList["+cnt+"].flSz' value='"+parseInt(fileSz)+"'/>");
+				form.append(inputSz);
+				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
+				form.append(inputExt);
 			});
 			
 			ajaxUtil.upload("#create-form","${context}/api/sndmsg/snd",function(response){
@@ -58,7 +78,76 @@
 			e.preventDefault();
 			empWindow = window.open("${context}/emp/search","직원 검색","width=500,height=500");
 		});
+		$("#add_files").click(function(e){
+			e.preventDefault();
+			$("#files").click();
+		})
+		$("#files").change(function(e){
+			var files = $(this)[0].files;
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+			$(this).value='';
+		});
+		$(".file_drag").on("dragover",function(e){
+			e.preventDefault();
+		});
+		$(".file_drag").on("drop",function(e){
+			e.preventDefault();
+		 	
+			var files = event.dataTransfer.files;
+			if(files){
+				var ajaxUtil = new AjaxUtil();
+				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+		});
+		$(".file_attachment").on("dragover",function(e){
+			e.preventDefault();
+		});
+		$(".file_attachment").on("drop",function(e){
+			e.preventDefault();
+		 	
+			var files = event.dataTransfer.files;
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
+			}
+		});
+		$(".file_attachment").find(".remove_all").click(function(e){
+			e.preventDefault();
+			var fileList = $(this).closest(".file_attachment").find("ul").children("li");
+			console.log(fileList);
+			var fileNames = [];
+			fileList.each(function(){
+				var fileNm = $(this).data("uuid");
+				fileNames.push(fileNm);
+			});
+			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete/file", function(response) {
+				$("#file_list").find("li").remove();
+				fileCnt=0;
+				checkFile();
+				$("#files").val("");
+			});
+		});
 	});
+	
 	function addEmpFn(emp){
 		createUser(emp.empid);
 	};
@@ -67,7 +156,7 @@
 			return;
 		}
 		var userDiv = $("<div class='user'></div>");
-		$("#userList").append(userDiv);
+		$("#user_list").append(userDiv);
 		
 		var rcvr = $("<div class='rcvr'>"+empId+"</div>");
 		userDiv.append(rcvr);
@@ -79,7 +168,59 @@
 		userDiv.append(btnDelete);
 		
 	};
-	
+	var fileCnt=0;
+	function addFile(file){
+		var fileList = $("#file_list");
+		
+		var uuidNm = file.uuidFlNm;
+		var fileNm = file.orgFlNm;
+		var ext = fileNm.substring(fileNm.lastIndexOf(".")+1);
+		var fileSz = file.flSz;
+		
+		var li = $("<li data-uuid='"+uuidNm +
+					 "' data-org='"+fileNm + 
+					 "' data-sz='"+fileSz+
+					 "' data-ext='"+ext+"'></li>");
+		fileList.append(li);
+		var div = $("<div></div>");
+		li.append(div);
+		
+		var remove =  $("<span class='remove'>x</span>");
+		remove.click(function(e){
+			var item = $(this).closest("li");
+			
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete/file", function(response) {
+				item.remove();
+				--fileCnt;
+				checkFile();
+			});
+		});
+		
+        var nm = "<span class='file_name'>"+fileNm+"</span>";
+        fileSz = (fileSz / 1024).toFixed(2);
+        var sz;
+        if(fileSz < 1000){
+        	sz = "<span class='file_size'>"+fileSz+" KB</span>";
+        } else {
+        	fileSz = (fileSz/1024).toFixed(2);
+        	sz = "<span class='file_size'>"+fileSz+" MB</span>";
+        }
+        div.append(remove);
+        div.append(nm);
+        div.append(sz);
+        ++fileCnt;
+	};
+	function checkFile(){
+		var fileList = $("#file_list");
+		console.log(fileCnt);
+		if(fileCnt > 0){
+			fileList.closest(".file_attachment").show();
+			$(".file_area").find(".file_drag").hide();
+		} else {
+			fileList.closest(".file_attachment").hide();
+			$(".file_area").find(".file_drag").show();
+		}
+	}
 	 //내피씨연동ㅇㄹㅇ널ㄷㄴㄷㄹㄴ두래너리나ㅢㅡㄱㄴ르힏
 	 
 </script>
@@ -96,23 +237,39 @@
 				<div class="create-group">
 					<label for="rcvr">받는사람</label>
 					<div>
-						<div id="userList"></div>
+						<div id="user_list"></div>
 						<div>
-							<input type="text" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
+							<input type="text" class="underBar" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
 							<button id="search-emp">+</button>
 						</div>
 					</div>
 				</div>
 				<div class="create-group">
 					<label for="title">제목</label> 
-					<input type="text" id="title" name="ttl" value="${sndMsgVO.ttl}"/>
+					<input type="text" class="underBar" id="title" name="ttl" value="${sndMsgVO.ttl}"/>
 				</div>
 				<div class="create-group">
-					<label for="file">첨부파일</label> 
-					<input type="file" id="file" name="attch" value="${sndMsg.attch}"/><!-- 이게머지 -->
+					<label for="files">첨부파일</label>
+					<div class="file_area">
+						<div class="file_upload">
+							<button id="add_files">+</button>
+						</div>
+						<div class="align-center file_div">
+							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+							<div class="file_attachment" hidden="hidden">
+								<div>
+									<div class="remove_all">x</div>
+									<div class="file_name">파일명</div>
+									<div class="file_size">용량</div>
+								</div>
+								<ul id="file_list"></ul>
+							</div>
+						</div>
+					</div>
+					<input type="file" id="files" multiple hidden/>
 				</div>
 				<div class="create-group">
-					<textarea name="cntnt"></textarea>
+					<textarea name="cntnt" class="msg-cntnt">${sndMsgVO.cntnt}</textarea>
 				</div>
 			</form>
 			<div class="align-right">

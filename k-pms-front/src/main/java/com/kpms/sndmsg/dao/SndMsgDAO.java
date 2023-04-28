@@ -16,4 +16,12 @@ public interface SndMsgDAO {
 	
 	public int deleteSndMsgBySelectedMsgId(List<String> msgId);
 
+	public int deleteTrashMsg(List<String> sndMsgIdList);
+	
+	public SndMsgVO readOneSndMsgByRcvMsgId(String msgId);
+
+	public SndMsgVO readOneSndMsgByMsgId(String msgId);
+
+	public int restoreSndMsg(List<String> sndMsgIdList);
+
 }

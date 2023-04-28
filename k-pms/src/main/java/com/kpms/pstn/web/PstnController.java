@@ -23,7 +23,12 @@ public class PstnController {
 		
 		model.addAttribute("pstnList", pstnList);
 		model.addAttribute("pstnVO", pstnVO);
-
+		if(!pstnList.isEmpty()) {
+			model.addAttribute("lastPage",pstnList.get(0).getLastPage());
+		}
+		model.addAttribute("pageNo",pstnVO.getPageNo());
+		model.addAttribute("pageCnt",pstnVO.getPageCnt());
+		model.addAttribute("viewCnt",pstnVO.getViewCnt());
 		return "pstn/list";
 	}
 	

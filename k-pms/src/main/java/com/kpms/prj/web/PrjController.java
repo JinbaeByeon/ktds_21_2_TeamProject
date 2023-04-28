@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kpms.prj.service.PrjService;
+import com.kpms.prj.vo.PrjSearchVO;
 import com.kpms.prj.vo.PrjVO;
 import com.kpms.prjtmmbr.vo.PrjTmMbrVO;
 import com.kpms.tm.vo.TmVO;
@@ -45,18 +46,18 @@ public class PrjController {
 	}
 	
 	@GetMapping("/prj/list")
-	public String viewPrjListPage(Model model, PrjVO prjVO) {
-		List<PrjVO> prjList = prjService.readAllPrjVO(prjVO);
+	public String viewPrjListPage(Model model, PrjSearchVO prjSearchVO) {
+		List<PrjVO> prjList = prjService.readAllPrjVO(prjSearchVO);
 		if(!prjList.isEmpty()) {
 	         model.addAttribute("lastPage",prjList.get(0).getLastPage());
 	    }
 	    
 		model.addAttribute("prjList", prjList);
-		model.addAttribute("prjVO", prjVO);
-	    model.addAttribute("prjNm", prjVO.getPrjNm());
-	    model.addAttribute("pageNo", prjVO.getPageNo());
-	    model.addAttribute("viewCnt", prjVO.getViewCnt());
-	    model.addAttribute("pageCnt", prjVO.getPageCnt());
+		model.addAttribute("prjVO", prjSearchVO);
+	    model.addAttribute("prjNm", prjSearchVO.getPrjNm());
+	    model.addAttribute("pageNo", prjSearchVO.getPageNo());
+	    model.addAttribute("viewCnt", prjSearchVO.getViewCnt());
+	    model.addAttribute("pageCnt", prjSearchVO.getPageCnt());
 		return "prj/list";
 	}
 	
