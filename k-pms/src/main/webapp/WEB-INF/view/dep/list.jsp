@@ -249,10 +249,8 @@ $().ready(function() {
 			          <select id="search-option">
 			            <option value="depNm" ${depVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
 						<option value="tmNm" ${depVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
-						<option value="hdLnm" ${depVO.searchOption eq "hdLnm" ? "selected": ""}>부서장 성</option>
-						<option value="hdFnm" ${depVO.searchOption eq "hdFnm" ? "selected": ""}>부서장 이름</option>
-						<option value="tmLnm" ${depVO.searchOption eq "tmLnm" ? "selected": ""}>팀장 성</option>
-						<option value="tmFnm" ${depVO.searchOption eq "tmFnm" ? "selected": ""}>팀장 이름</option>
+						<option value="hdNm" ${depVO.searchOption eq "hdNm" ? "selected": ""}>부서장명</option>
+						<option value="tmHdNm" ${depVO.searchOption eq "tmHdNm" ? "selected": ""}>팀장명</option>
 			          </select>
 			          <div class="search_field">
 			          	<input type="text" id="search-keyword" class="input" placeholder="Search"/>

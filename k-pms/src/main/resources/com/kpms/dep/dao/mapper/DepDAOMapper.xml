@@ -28,8 +28,8 @@
 		<association property="tmNmEmpVO"
 					  javaType="com.kpms.emp.vo.EmpVO">
 			<id property="empId" column="TM_HD_ID"/>
-			<result property="fNm" column="TM_HD_EMP_F_NM"/>
-			<result property="lNm" column="TM_HD_EMP_L_NM"/>
+			<result property="fNm" column="TM_HD_F_NM"/>
+			<result property="lNm" column="TM_HD_L_NM"/>
 		</association>
 		<collection property="tmList"
 					 ofType="com.kpms.tm.vo.TmVO">
@@ -66,40 +66,40 @@
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
 			 , MDFYR_E.L_NM MDFYR_E_L_NM
 			 , T.TM_NM
-			 , HD_EMP.F_NM HD_EMP_F_NM
-			 , HD_EMP.L_NM HD_EMP_L_NM
-			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
-			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
+			 , DEP_HD.F_NM HD_EMP_F_NM
+			 , DEP_HD.L_NM HD_EMP_L_NM
+			 , TM_HD.L_NM TM_HD_L_NM
+			 , TM_HD.F_NM TM_HD_F_NM
 		  FROM DEP D
-	     INNER JOIN EMP CRTR_E
+	    INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
 		    ON D.MDFYR = MDFYR_E.EMP_ID
-		  LEFT OUTER JOIN EMP HD_EMP
-		    ON D.DEP_HD_ID = HD_EMP.EMP_ID
-		  LEFT JOIN TM T
+		  LEFT JOIN (SELECT HD_EMP.*
+		  				  , HD_EMP.L_NM || HD_EMP.F_NM NM
+		  			   FROM EMP HD_EMP) DEP_HD
+		  	ON D.DEP_HD_ID = DEP_HD.EMP_ID
+		  LEFT JOIN (SELECT *
+					   FROM TM 
+					  WHERE DEL_YN = 'N') T
 		 	ON D.DEP_ID = T.DEP_ID
-		  LEFT JOIN EMP TM_HD_EMP
-		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
+		  LEFT JOIN (SELECT TM_EMP.*
+		  				  , TM_EMP.L_NM || TM_EMP.F_NM NM
+		  			   FROM EMP TM_EMP)	TM_HD
+		    ON T.TM_HD_ID = TM_HD.EMP_ID
 		 WHERE D.DEL_YN = 'N'
 		<choose>
 			<when test='searchOption == "depNm"'>
 		   AND D.DEP_NM LIKE '%' || #{searchKeyword} || '%'
 			</when>
-			<when test='searchOption == "hdLnm"'>
-		   AND HD_EMP.L_NM LIKE '%' || #{searchKeyword} || '%'
-			</when>
-			<when test='searchOption == "hdFnm"'>
-		   AND HD_EMP.F_NM LIKE '%' || #{searchKeyword} || '%'
+			<when test='searchOption == "hdNm"'>
+		   AND DEP_HD.NM LIKE '%' || #{searchKeyword} || '%'
 			</when>
 			<when test='searchOption == "tmNm"'>
 		   AND T.TM_NM LIKE '%' || #{searchKeyword} || '%'
 			</when>
-			<when test='searchOption == "tmLnm"'>
-		   AND TM_HD_EMP.L_NM LIKE '%' || #{searchKeyword} || '%'
-			</when>
-			<when test='searchOption == "tmFnm"'>
-		   AND TM_HD_EMP.F_NM LIKE '%' || #{searchKeyword} || '%'
+			<when test='searchOption == "tmHdNm"'>
+		   AND TM_HD.NM LIKE '%' || #{searchKeyword} || '%'
 			</when>
 		</choose>
 		<include refid="Common.pageFooter" />
