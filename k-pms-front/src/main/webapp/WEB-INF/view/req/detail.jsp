@@ -104,7 +104,6 @@
 			location.href = "${context}/req/list";
 		});
 		
-		
 		$("#file_list").find(".file_name").click(function(e){
 			var data = $(this).closest(".file_item").data();
 			location.href= "${context}/api/file/download?uuidFlNm="+data.uuid+"&orgFlNm="+data.org;
@@ -128,6 +127,7 @@
 			}).submit();
 			form.remove();
 		});
+		
 		
 		$("#issu_create_btn").click(function(){
 			var reqId = data2;
@@ -155,6 +155,11 @@
 				}
 			});
 		});
+		
+		
+		
+		
+		
 	});
 	var fileCnt=${reqVO.atchFlList.size() > 0 ? reqVO.atchFlList.size() : 0};
 	
@@ -218,18 +223,11 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/prjSidemenu.jsp"/>
+			<jsp:include page="../include/reqSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 상세 정보</div>
 				<div class="grid-detail">
 					<form id="detail_form" >
-						<!-- isModify == true => 수정(update) -->
-						<!-- isModify == false => 등록(insert) -->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="create-group">
-							<label for="reqId" style="width: 180px;">요구사항 ID</label>
-							<div>${reqVO.reqId}</div>
-						</div>
 						<div class="create-group">
 							<label for="reqTtl" style="width: 180px;">제목</label>
 							<div>${reqVO.reqTtl}</div>
@@ -245,10 +243,6 @@
 						<div class="create-group">
 							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
 							<div>${reqVO.expctEndDt}</div>
-						</div>
-						<div class="create-group">
-							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<div>${reqVO.prjId}</div>
 						</div>
 						<div class="create-group">
 							<label for="prjNm" style="width: 180px;">프로젝트명</label>
@@ -310,10 +304,6 @@
 							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
 							<div>${reqVO.dtlReq}</div>
 						</div>
-						<div class="create-group">
-							<label for="useYn" style="width: 180px;">사용여부</label>
-							<div>${reqVO.useYn}</div>
-						</div>
 					</form>		
 				</div>
 				<div class="align-right">
@@ -347,7 +337,9 @@
 							<c:choose>
 								<c:when test="${not empty issuList}">
 									<c:forEach items="${issuList}"
-											   var="issu">
+											   var="issu"
+											   begin="0"
+											   end="4">
 										<tr data-issuid="${issu.issuId}"
 											data-issuttl="${issu.issuTtl}"
 											data-crtr="${issu.crtr}"
