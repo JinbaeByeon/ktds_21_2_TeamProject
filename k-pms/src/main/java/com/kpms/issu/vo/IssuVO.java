@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.req.vo.ReqVO;
 
 /**
  * ISSU
@@ -20,6 +21,7 @@ public class IssuVO extends AbstractPagingVO {
 	private String mnTmMbrId;
 	private String stts;
 	
+	private ReqVO reqVO;
 	private List<AtchFlVO> atchFlList;
 
 
@@ -93,6 +95,14 @@ public class IssuVO extends AbstractPagingVO {
 
 	public String getStts() {
 		return this.stts;
+	}
+
+	public ReqVO getReqVO() {
+		return reqVO;
+	}
+
+	public void setReqVO(ReqVO reqVO) {
+		this.reqVO = reqVO;
 	}
 
 	public List<AtchFlVO> getAtchFlList() {
