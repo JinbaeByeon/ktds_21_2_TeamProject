@@ -10,6 +10,7 @@ import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.util.StringUtil;
 import com.kpms.prj.dao.PrjDAO;
+import com.kpms.prj.vo.PrjSearchVO;
 import com.kpms.prj.vo.PrjVO;
 import com.kpms.prjtmmbr.dao.PrjTmMbrDAO;
 import com.kpms.prjtmmbr.vo.PrjTmMbrVO;
@@ -28,8 +29,8 @@ public class PrjServiceImpl implements PrjService {
 	private ReqDAO reqDAO;
 
 	@Override
-	public List<PrjVO> readAllPrjVO(PrjVO prjVO) {
-		return prjDAO.readAllPrjVO(prjVO);
+	public List<PrjVO> readAllPrjVO(PrjSearchVO prjSearchVO) {
+		return prjDAO.readAllPrjVO(prjSearchVO);
 	}
 
 	@Override

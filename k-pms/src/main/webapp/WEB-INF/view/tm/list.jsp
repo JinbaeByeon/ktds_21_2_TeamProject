@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="tm"/>
 
 <!DOCTYPE html>
 <html>
@@ -75,6 +76,10 @@
 				return;
 			}
 			
+			if (!confirm("정말 삭제하시겠습니까?")) { <!-- 사용자에게 확인  확인시 예를 누르면 false값이 return으로 온다.-->
+			return;
+			}
+			
 			var form = $("<form></form>")
 			
 			$(".check_idx:checked").each(function() {
@@ -84,7 +89,7 @@
 			
 			$.post("${context}/api/tm/delete", form.serialize(), function(response) {
 				if (response.status == "200 OK") {
-					location.reload(); //새로고침
+					location.reload();
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
@@ -124,104 +129,102 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">팀 > 팀관리</div>
-				<div class="search-group">
-				<label for="search-option">검색 옵션</label> 
-				<select id="search-option" class="search-input">
-					<option value="tmNm" ${tmVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
-					<option value="depNm" ${tmVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
-					<option value="hdLnm" ${tmVO.searchOption eq "hdLnm" ? "selected": ""}>팀장 성</option>
-					<option value="hdFnm" ${tmVO.searchOption eq "hdFnm" ? "selected": ""}>팀장 이름</option>
-					<option value="mbrLNm" ${tmVO.searchOption eq "mbrLNm" ? "selected": ""}>팀원 성</option>
-					<option value="mbrFNm" ${tmVO.searchOption eq "mbrFNm" ? "selected": ""}>팀원 이름</option>
-				</select> 
-				<label for="search-keyword">검색어</label> 
-				<input type="text" id="search-keyword" class="search-input" value="${tmVO.searchKeyword}" />
-				<button class="btn-search" id="search-btn">검색</button>
-			</div>
-				<div class="grid">
-					
-					<div class="grid-count align-right">
-						 총 ${tmList.size() > 0 ? tmList.get(0).totalCount : 0}건  
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th><input type="checkbox" id="all_check" /></th>
-								<th>순번</th>
-								<th>부서ID</th>
-								<th>부서명</th>
-								<th>팀ID</th>
-								<th>팀명</th>
-								<th>팀장ID</th>
-								<th>팀장명</th>
-								<th>팀생성일</th>
-								<th>사용여부</th>
-								<th>등록자</th>
-								<th>등록일</th>
-								<th>수정자</th>
-								<th>수정일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty tmList}">
-									<c:forEach items="${tmList}"
-												var="tm"
-												varStatus="index">
-										<tr data-depid="${tm.depId}"
-											data-depnm="${tm.depIdDepVO.depNm}"
-											data-tmid="${tm.tmId}"
-											data-tmnm="${tm.tmNm}"
-											data-tmhdid="${tm.tmHdId}"
-											data-tmcrtdt="${tm.tmCrtDt}"
-											data-useyn="${tm.useYn}"
-											data-crtr="${tm.crtr}" 
-											data-crtdt="${tm.crtDt}"
-											data-mdfyr="${tm.mdfyr}"
-											data-mdfydt="${tm.mdfyDt}">
-											<td>
-												<input type="checkbox" class="check_idx" value="${tm.tmId}"/>
-											</td>
-											<td>${tm.rnum}</td>
-											<td>${tm.depId}</td>
-											<td>${tm.depIdDepVO.depNm}</td>
-											<td>${tm.tmId}</td>
-											<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
-											<td>${tm.tmHdId}</td>
-											<td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
-											<td>${tm.tmCrtDt}</td>
-											<td>${tm.useYn}</td>
-											<td>${tm.crtr}</td>
-											<td>${tm.crtDt}</td>
-											<td>${tm.mdfyr}</td>
-											<td>${tm.mdfyDt}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="12" class="no-items">
-											등록된 팀이 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-					
-					<c:import url="../include/pagenate.jsp">
-                  		<c:param name="pageNo" value="${pageNo}"/>
-                  		<c:param name="pageCnt" value="${pageCnt}"/>
-                  		<c:param name="lastPage" value="${lastPage}"/>
-                  		<c:param name="path" value="${context}/tm"/>
-					</c:import>
-					
-				</div>
-				
-				<div class="align-right">
-					<button id="new_btn" class="btn-primary">신규</button>
-					<button id="delete_all_btn" class="btn-delete">삭제</button>
-				</div>
+		      <div class="search_wrapper">
+		        <div class="search_box">
+		          <select id="search-option" class="search-input">
+					    <option value="tmNm" ${tmVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
+					    <option value="depNm" ${tmVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
+					    <option value="hdLnm" ${tmVO.searchOption eq "hdLnm" ? "selected": ""}>팀장 성</option>
+					    <option value="hdFnm" ${tmVO.searchOption eq "hdFnm" ? "selected": ""}>팀장 이름</option>
+					    <option value="mbrLNm" ${tmVO.searchOption eq "mbrLNm" ? "selected": ""}>팀원 성</option>
+					    <option value="mbrFNm" ${tmVO.searchOption eq "mbrFNm" ? "selected": ""}>팀원 이름</option>
+					</select> 
+		          <div class="search_field">
+		          	<input type="text" id="search-keyword" class="input" value="${tmVO.searchKeyword}" />
+		          </div>
+		          <div class="search-icon">
+		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="list_section">
+		        <div class="total"> 총 ${tmList.size() > 0 ? tmList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
+		            <tr>
+						<th><input type="checkbox" id="all_check" /></th>
+			              <th>순번</th>
+			              <th>부서ID</th>
+			              <th>부서명</th>
+			              <th>팀ID</th>
+			              <th>팀명</th>
+			              <th>팀장ID</th>
+			              <th>팀장명</th>
+			              <th>팀생성일</th>
+			              <th>사용여부</th>
+<!-- 			              <th>등록자</th>
+			              <th>등록일</th>
+			              <th>수정자</th>
+			              <th>수정일</th> -->
+		            </tr>
+		          </thead>
+		          <tbody>
+		            <c:choose>
+		                <c:when test="${not empty tmList}">
+		                    <c:forEach items="${tmList}"
+		                                var="tm"
+		                                varStatus="index">
+		                        <tr data-depid="${tm.depId}"
+		                            data-depnm="${tm.depIdDepVO.depNm}"
+		                            data-tmid="${tm.tmId}"
+		                            data-tmnm="${tm.tmNm}"
+		                            data-tmhdid="${tm.tmHdId}"
+		                            data-tmcrtdt="${tm.tmCrtDt}"
+		                            data-useyn="${tm.useYn}"
+		                            data-crtr="${tm.crtr}" 
+		                            data-crtdt="${tm.crtDt}"
+		                            data-mdfyr="${tm.mdfyr}"
+		                            data-mdfydt="${tm.mdfyDt}">
+		                            <td>
+		                                <input type="checkbox" class="check_idx" value="${tm.tmId}"/>
+		                            </td>
+		                            <td>${tm.rnum}</td>
+		                            <td>${tm.depId}</td>
+		                            <td>${tm.depIdDepVO.depNm}</td>
+		                            <td>${tm.tmId}</td>
+		                            <td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
+		                            <td>${tm.tmHdId}</td>
+		                            <td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
+		                            <td>${tm.tmCrtDt}</td>
+		                            <td>${tm.useYn}</td>
+<%-- 		                            <td>${tm.crtr}</td>
+		                            <td>${tm.crtDt}</td>
+		                            <td>${tm.mdfyr}</td>
+		                            <td>${tm.mdfyDt}</td> --%>
+		                        </tr>
+		                    </c:forEach>
+		                </c:when>
+		                <c:otherwise>
+		                    <tr>
+		                        <td colspan="12" class="no-items">
+		                            등록된 팀이 없습니다.
+		                        </td>
+		                    </tr>
+		                </c:otherwise>
+		            </c:choose>
+		          </tbody>
+		        </table>
+				    <c:import url="../include/pagenate.jsp">
+				          <c:param name="pageNo" value="${pageNo}"/>
+				          <c:param name="pageCnt" value="${pageCnt}"/>
+				          <c:param name="lastPage" value="${lastPage}"/>
+				          <c:param name="path" value="${context}/tm"/>
+				    </c:import>
+		        <div class="buttons">
+		          <button id="new_btn" class="btn new">신규등록</button>
+		          <button id="delete_all_btn" class="btn delete">선택삭제</button>
+		        </div>
+		      </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
