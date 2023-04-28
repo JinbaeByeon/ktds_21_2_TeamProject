@@ -2,7 +2,7 @@ package com.kpms.req.vo;
 
 public class ReqSearchVO {
 	private String prjNm;
-	private String empId;
+	private String reqTtl;
 
 	public String getPrjNm() {
 		return prjNm;
@@ -12,11 +12,12 @@ public class ReqSearchVO {
 		this.prjNm = prjNm;
 	}
 
-	public String getEmpId() {
-		return empId;
+	public String getReqTtl() {
+		return reqTtl;
 	}
 
-	public void setEmpId(String empId) {
-		this.empId = empId;
+	public void setReqTtl(String reqTtl) {
+		this.reqTtl = reqTtl;
 	}
+
 }

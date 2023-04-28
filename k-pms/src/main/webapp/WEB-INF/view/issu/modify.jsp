@@ -222,9 +222,9 @@
 					<div class="create-group">
 						<label for="dffclty">난이도</label> 
 						<select id="dffclty" name="dffclty">
-							<option>상</option>
-							<option>중</option>
-							<option>하</option>
+							<option ${issuVO.dffclty == "상" ? "selected" : ""}>상</option>
+							<option ${issuVO.dffclty == "중" ? "selected" : ""}>중</option>
+							<option ${issuVO.dffclty == "하" ? "selected" : ""}>하</option>
 						</select>
 					</div>
 					<div class="create-group">

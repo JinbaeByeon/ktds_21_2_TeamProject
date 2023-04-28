@@ -21,4 +21,6 @@ public interface SndMsgDAO {
 
 	public SndMsgVO readOneSndMsgByMsgId(String msgId);
 
+	public int restoreSndMsg(List<String> sndMsgIdList);
+
 }

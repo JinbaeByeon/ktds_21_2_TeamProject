@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.sndmsg.service.SndMsgService;
@@ -58,7 +59,15 @@ public class SndMsgController {
 	public String viewSndMsgDetailPage(Model model,@PathVariable String msgId) {
 		SndMsgVO sndMsgVO = sndMsgService.readOneSndMsgByMsgId(msgId);
 		model.addAttribute("sndMsgVO", sndMsgVO);
-		
+		List<AtchFlVO> fileList = sndMsgVO.getAtchFlList();
+		if(fileList != null && !fileList.isEmpty() && fileList.get(0).getUuidFlNm() != null) {
+			model.addAttribute("totalCount",fileList.size());
+			long fileSize = 0;
+			for(AtchFlVO file : fileList) {
+				fileSize += file.getFlSz();
+			}
+			model.addAttribute("totalSize",fileSize);
+		}
 		return "sndmsg/detail";
 	}
 }

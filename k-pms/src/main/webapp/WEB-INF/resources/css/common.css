@@ -774,7 +774,7 @@ input::-webkit-inner-spin-button {
 #user_list > .user > .btn-delete {
 	margin: 0;
     border: none;
-    background-color: #d0edff;
+    background-color: #e5f1fc;
     color: #888;
     font-size: 17px;
     padding: 0 5px;
@@ -906,16 +906,24 @@ div.button_btm {
     flex-wrap: wrap;
 }
 
-.msg_view_header .msg_option > .option_title {
+.msg_view_header .msg_option .option_title {
 	line-height: 36px;
+    font-size: 11pt;
 }
 
-.msg_view_header .msg_option > .option_area {
+.msg_view_header .msg_option > .option_areas {
+	display: flex;
+    flex-flow: wrap;
+    flex: 1;
+}
+.msg_view_header .msg_option .option_area {
 	background-color: #e5f1fc;
     border-radius: 14px;
     padding: 5px 12px;
     margin: 3px 0;
-    margin-left: 5px
+    margin-left: 5px;
+    height: 20px;
+    font-size: 11pt;
 }
 
 .msg_view_header > .info_area > .date {

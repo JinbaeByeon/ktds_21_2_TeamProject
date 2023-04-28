@@ -183,6 +183,15 @@
 		  	ON RE.EMP_ID = R.RCVR
 		  LEFT JOIN ATCH_FL AF
 		  	ON AF.FRGN_ID = S.MSG_ID
-				   
 	</select>
+	
+	<update id="restoreSndMsg"
+			parameterType="arraylist">
+		UPDATE SND_MSG
+		   SET DEL_YN = 'N'
+		 WHERE MSG_ID IN
+		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
+	 	 #{msgId}
+		 </foreach> 
+	</update>
 </mapper>

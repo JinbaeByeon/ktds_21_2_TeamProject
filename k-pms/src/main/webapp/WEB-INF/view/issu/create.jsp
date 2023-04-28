@@ -26,7 +26,7 @@
 	$().ready(function(){
 		var empId = '${sessionScope.__USER__.empId}';
 		$("#reqId").click(function(e){
-			reqWindow = window.open("${context}/req/search/req?empId="+empId,"요구사항 검색","width=500,height=500");
+			reqWindow = window.open("${context}/req/search/req","요구사항 검색","width=500,height=500");
 		});
 		
 		$("#delete_btn").click(function(){

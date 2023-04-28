@@ -74,8 +74,8 @@
 						<span id="issuCntnt">${issuVO.issuCntnt}</span>
 					</div>
 					<div class="create-group">
-						<label for="reqTtl">요구사항제목</label>
-						<span id="reqTtl">${issuVO.reqVO.reqTtl}</span>
+						<label for="reqTtl">요구사항</label>
+						<span id="reqTtl">${issuVO.reqVO.reqTtl} (${issuVO.reqId})</span>
 					</div>
 					<div class="create-group">
 						<label for="dffclty">난이도</label>

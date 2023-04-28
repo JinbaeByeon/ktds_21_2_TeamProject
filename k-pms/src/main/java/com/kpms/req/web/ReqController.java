@@ -53,7 +53,7 @@ public class ReqController {
 	public String viewReqSearchPage(Model model, ReqSearchVO reqSearchVO) {
 		List<ReqVO> reqList = reqService.readAllReqSearch(reqSearchVO);
 		model.addAttribute("reqList", reqList);
-		model.addAttribute("empId", reqSearchVO.getEmpId());
+		model.addAttribute("reqTtl", reqSearchVO.getReqTtl());
 		model.addAttribute("prjNm", reqSearchVO.getPrjNm());
 		return "req/search";
 	}

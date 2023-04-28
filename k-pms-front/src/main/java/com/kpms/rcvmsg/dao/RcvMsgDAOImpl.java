@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kpms.rcvmsg.vo.MsgSearchVO;
+import com.kpms.rcvmsg.vo.MsgVOList;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
 import com.kpms.sndmsg.vo.SndMsgVO;
 
@@ -54,5 +55,25 @@ public class RcvMsgDAOImpl extends SqlSessionDaoSupport implements RcvMsgDAO {
 	public int updateRcvMsgReadByRcvMsgIdList(List<String> rcvMsgIdList) {
 		return getSqlSession().update("RcvMsg.updateRcvMsgReadByRcvMsgIdList", rcvMsgIdList);
 	}
+
+	@Override
+	public int deleteTrashMsg(List<String> rcvMsgIdList) {
+		return getSqlSession().delete("RcvMsg.deleteTrashMsg", rcvMsgIdList);
+	}
+
+	@Override
+	public RcvMsgVO readOneRcvMsg(String msgId) {
+		return getSqlSession().selectOne("RcvMsg.readOneRcvMsg", msgId);
+	}
+
+	@Override
+	public List<RcvMsgVO> readAllDelMsg(MsgSearchVO msgSearchVO) {
+		return getSqlSession().selectList("RcvMsg.readAllDelMsg", msgSearchVO);
+	}
+
+	@Override
+	public int restoreRcvMsg(List<String> rcvMsgIdList) {
+		return getSqlSession().update("RcvMsg.restoreRcvMsg", rcvMsgIdList);
+	} 
 
 }

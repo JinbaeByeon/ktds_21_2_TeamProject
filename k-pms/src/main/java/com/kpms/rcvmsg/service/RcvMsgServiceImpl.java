@@ -102,7 +102,7 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 			res += rcvMsgDAO.restoreRcvMsg(rcvMsgIdList);
 		}
 		if(!sndMsgIdList.isEmpty()) {
-			/* res += sndMsgDAO.restoreSndMsg(sndMsgIdList); */
+			res += sndMsgDAO.restoreSndMsg(sndMsgIdList);
 		}
 		return res > 0;
 	}
