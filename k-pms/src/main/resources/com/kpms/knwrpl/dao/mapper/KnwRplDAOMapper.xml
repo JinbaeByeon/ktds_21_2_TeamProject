@@ -47,4 +47,14 @@
 		   SET DEL_YN = 'Y'
 		 WHERE RPL_ID = #{_parameter}
 	</update>
+	
+	<update id="deleteSelectedKnwRplByKnwId"
+			parameterType="string">
+		UPDATE KNW_RPL
+		   SET DEL_YN = 'Y'
+		 WHERE KNW_ID = #{_parameter}
+	</update>
+	
+	
+	
 </mapper>

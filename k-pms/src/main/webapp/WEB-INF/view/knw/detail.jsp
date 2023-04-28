@@ -51,8 +51,29 @@
 		})();
 		
 			
-		$("#cancel_btn").click(function() {
+		$(".listBtn").click(function() {
 			location.href = "${context}/knw/list"
+		});
+		
+		$(".updateBtn").click(function() {
+			location.href = "${context}/knw/update/${knwVO.knwId}"
+		});
+		
+		$(".deleteBtn").click(function() {
+			event.preventDefault();
+			var result = confirm("정말 삭제하시겠습니까?");	
+			
+			if (result) {
+				$.get("${context}/api/knw/delete/${knwVO.knwId}", function(response) {
+					console.log(response);
+					if (response.status == "200 OK") {
+						location.href = "${context}/knw/list";
+					}
+					else {
+						alert(response.errorCode + " / " + response.message);
+					}
+				});
+			}
 		});
 
 		$(".commentSubmitBtn").click(function(event) {
@@ -190,7 +211,7 @@
 							<button class="updateBtn">수정</button>
 							<button class="deleteBtn">삭제</button>
 						</c:if>
-						<button class="updateBtn">목록</button>
+						<button class="listBtn">목록</button>
 					</div>
 				</div>
 				
