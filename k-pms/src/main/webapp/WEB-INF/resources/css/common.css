@@ -835,7 +835,6 @@ input::-webkit-inner-spin-button {
 }
 
 #file_list > li {
-	display: block;
 	display: flex;
 }
 

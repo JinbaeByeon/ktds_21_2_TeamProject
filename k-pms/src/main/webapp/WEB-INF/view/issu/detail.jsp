@@ -15,169 +15,39 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		var empId = '${sessionScope.__USER__.empId}';
+		var issuId = '${issuVO.issuId}';
 		
-		var data2 = "${reqVO.reqId}";
-		console.log(data2);
-		$("#isModify").val("true");	
-		$("#reqId").val("${reqVO.reqId}");
-		$("#dtlReq").val("${reqVO.dtlReq}");
-		$("#crtr").val("${reqVO.crtr}");
-		$("#crtDt").val("${reqVO.crtDt}");
-		$("#mdfyr").val("${reqVO.mdfyr}");
-		$("#mdfyDt").val("${reqVO.mdfyDt}");
-		$("#strtDt").val("${reqVO.strtDt}");
-		$("#expctEndDt").val("${reqVO.expctEndDt}");
-		$("#attch").val("${reqVO.attch}");
-		$("#prjId").val("${reqVO.prjId}");
-		$("#mnDvlpr").val("${reqVO.mnDvlpr}");
-		$("#tstRslt").val("${reqVO.tstRslt}");
-		$("#tskStts").val("${reqVO.tskStts}");
-		$("#prcsStts").val("${reqVO.prcsStts}");
-		$("#prrty").val("${reqVO.prrty}");
-		$("#reqTtl").val("${reqVO.reqTtl}");
-		$("#reqCnfrNm").val("${reqVO.reqCnfrNm}");
-		
-		$("#useYn").prop("checked", "${reqVO.useYn}" == "Y");
-		
-		
-		$.get("${context}/api/cmncd/list/004", function(response) {
-			var isSelected
-			
-			for (var i in response.data) {
-				var cdNm = response.data[i].cdNm;
-				if ($("#original-prcsStts").val() == response.data[i].cdId) {
-					isSelected = "selected";
-				}
-				else {
-					isSelected = "";
-				}
-				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
-				option.append(cdNm);
-				$("#prcsStts-select").append(option)
-			}
+		$("#modify_btn").click(function(){
+			location.href="${context}/issu/modify/"+issuId;
 		});
-		
-		$.get("${context}/api/cmncd/list/003", function(response) {
-			var isSelected;
-			
-			for (var i in response.data) {
-				var cdNm = response.data[i].cdNm;
-				if ($("#original-tskStts").val() == response.data[i].cdId) {
-					isSelected = "selected";
-				}
-				else {
-					isSelected = "";
-				}
-				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
-				option.append(cdNm);
-				$("#tskStts-select").append(option)
-			}
-		});
-		
-		$.get("${context}/api/cmncd/list/008", function(response) {
-			var isSelected;
-			
-			for (var i in response.data) {
-				var cdNm = response.data[i].cdNm;
-				if ($("#original-tstRslt").val() == response.data[i].cdId) {
-					isSelected = "selected";
-				}
-				else {
-					isSelected = "";
-				}
-				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
-				option.append(cdNm);
-				$("#tstRslt-select").append(option)
-			}
-		});
-		
-		$("#new_btn").click(function(){
-			$("#isModify").val("false"); //등록모드
-			
-			$("#reqId").val("");
-			$("#dtlReq").val("");
-			$("#crtr").val("");
-			$("#crtDt").val("");
-			$("#mdfyr").val("");
-			$("#mdfyDt").val("");
-			$("#strtDt").val("");
-			$("#expctEndDt").val("");
-			$("#attch").val("");
-			$("#prjId").val("");
-			$("#mnDvlpr").val("");
-			$("#tstRslt").val("");
-			$("#tskStts").val("");
-			$("#prcsStts").val("");
-			$("#prrty").val("");
-			$("#reqTtl").val("");
-			
-			
-			$("#useYn").prop("checked", false);
-		});
-		
+
 		$("#delete_btn").click(function(){
-			var reqId = $("#reqId").val();
-			if(reqId == ""){
-				alert("선택된 요구사항이 없습니다.");
-				return;
-			}
-			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			}
-			
-			$.get("${context}/api/req/delete/" + reqId, function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
+			$.get("${context}/api/issu/delete/"+issuId,function(response){
+				if (response.status != "200 OK") {
+					alert(response.errorCode + " / " + response.message);
 				}
-				else{
-					alert(response.errorCode + "/" + response.message);
+				if(response.redirectURL){
+					location.href = "${context}" + response.redirectURL;
 				}
 			})
 		});
-					
-		$("#save_btn").click(function(){
-			var ajaxUtil = new AjaxUtil();
-			ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
-				if(response.status == "200 OK"){
-					alert("저장되었습니다.");
-					location.href = "${context}/req/list";
-				}	
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
+		$("#file_list").find(".file_name").click(function(e){
+			var data = $(this).closest("li").data();
+			var form = $("<form></form>");
+			form.append("<input type='hidden' name='uuidFlNm' value='"+ data.uuid +"'>");
+			form.append("<input type='hidden' name='orgFlNm' value='"+ data.org +"'>");
+			$("body").append(form);
+			
+			form.attr({
+				"action": "${context}/api/issu/download",
+				"method": "post"
+			}).submit();
+			
+			form.remove();
 		});
-		
-		$("#back-btn").click(function(){
-			location.href = "${context}/req/list";
-		});
-		
-		$("#prj_search").click(function(event){
-			event.preventDefault();
-			window.open("${context}/prj/search",
-					"프로젝트 검색", "width=500, height=500");
-		});
-
-		$("#prjtmmbr_search").click(function(event){
-			event.preventDefault();
-			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
-					"프로젝트팀원 검색", "width=500, height=500");
-		});
-		
 	});
-
-	function addPrjFn(data) {
-		
-		$("#prjId").val(data.prjid);
-		
-	}
-
-	function addPrjTmMbrFn(data) {
-		
-		$("#mnDvlpr").val(data.empid);
-		
-	}
+	
 </script>
 </head>
 <body>
@@ -186,80 +56,65 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 상세 정보</div>
-				<div class="grid-detail">
-					<form id="detail_form" >
-						<!-- isModify == true => 수정(update) -->
-						<!-- isModify == false => 등록(insert) -->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline">
-							<label for="reqId" style="width: 180px;">요구사항 ID</label>
-							<input type="text" id="reqId"  name="reqId" value="" readonly />
+				<div class="path"> 이슈 등록</div>
+				<form id="create-form">
+				<input type="hidden" name="issuId" value="${issuVO.issuId}"/>
+				<input type="hidden" name="mdfyr" value="${sessionScope.__USER__.empId}"/>
+					<div class="create-group">
+						<label for="issuTtl">제목</label> 
+						<span id="issuTtl">${issuVO.issuTtl}</span>
+					</div>
+					<div class="create-group">
+						<label for="issuTtl">작성자</label> 
+						<span id="crtr">${issuVO.crtr}</span>
+					</div>
+					<div class="create-group">
+						<label for="issuCntnt">설명</label>
+						<span id="issuCntnt">${issuVO.issuCntnt}</span>
+					</div>
+					<div class="create-group">
+						<label for="reqTtl">요구사항제목</label>
+						<span id="reqTtl">${issuVO.reqVO.reqTtl}</span>
+					</div>
+					<div class="create-group">
+						<label for="dffclty">난이도</label>
+						<span id="dffclty">${issuVO.dffclty}</span>
+					</div>
+					<div class="create-group">
+						<label for="files">첨부파일</label>
+						<div class="file_area">
+							<ul id="file_list">
+								<c:if test="${not empty issuVO.atchFlList and issuVO.atchFlList.get(0).flSz != 0}">
+									<c:forEach items="${issuVO.atchFlList}" var="atchFl">
+										<li data-uuid='${atchFl.uuidFlNm}'
+											data-org='${atchFl.orgFlNm}'
+											data-sz='${atchFl.flSz}'
+											data-ext='${atchFl.flExt}'>
+											<span class='file_name mr-10'>${atchFl.orgFlNm}</span>
+											<c:if test="${atchFl.flSz < 1024*1024}">
+												<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+											</c:if>
+											<c:if test="${atchFl.flSz >= 1024*1024}">
+												<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+											</c:if>
+										</li>
+									</c:forEach>
+								</c:if>
+							</ul>
 						</div>
-						<div class="input-group inline">
-							<label for="reqTtl" style="width: 180px;">제목</label>
-							<input type="text" id="reqTtl"  name="reqTtl" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prrty" style="width: 180px;">우선순위</label>
-							<select id="prrty"  name="prrty" >
-								<option>선택</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-							</select>
-						</div>
-						<div class="input-group inline">
-							<label for="strtDt" style="width: 180px;">시작일</label>
-							<input type="date" id="strtDt"  name="strtDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<input type="date" id="expctEndDt"  name="expctEndDt" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<input type="text" id="prjId"  name="prjId" value=""/>
-							<button id="prj_search">검색</button>
-						</div>
-						<div class="input-group inline">
-							<label for="prjId" style="width: 180px;">담당개발자</label>
-							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
-							<button id="prjtmmbr_search">검색</button>
-						</div>
-						<div class="input-group inline">
-							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqOneVO.prcsStts}"/>
-							<select id="prcsStts-select"  name="prcsStts" ></select>
-						</div>
-						<div class="input-group inline">
-							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqOneVO.tskStts}"/>
-							<select id="tskStts-select"  name="tskStts" ></select>
-						</div>
-						<div class="input-group inline">
-							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqOneVO.tstRslt}"/>
-							<select id="tstRslt-select"  name="tstRslt" ></select>
-						</div>
-						<div class="input-group inline">
-							<label for="lossStts" style="width: 180px;">사용여부</label>
-							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="dtlReq" style="width: 180px;">내용</label>
-							<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
-						</div>
-					</form>		
-				</div>
-				<div class="align-right">
-					<button id="save_btn" class="btn-primary">저장</button>
-					<button id="back-btn" class="btn-delete">뒤로</button>
-				</div>		
+					</div>
+					<div class="create-group">
+						<label for="dtlCntnt">상세내용</label>
+						<span id="dtlCntnt">${issuVO.dtlCntnt}</span>
+					</div>
+				</form>
+				
+				<c:if test="${issuVO.crtr == sessionScope.__USER__.empId}">
+					<div class="align-right">
+						<button id="modify_btn" class="btn-primary">수정</button>
+						<button id="delete_btn" class="btn-delete">삭제</button>
+					</div>
+				</c:if>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
