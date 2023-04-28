@@ -70,10 +70,7 @@
 	          <li class="nav_item dep">
 	            <a href="${context}/dep/list">부서관리</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/dep/list">부서 목록</a></li>
-	              <li><a href="${context}/cmncd/list">부서원 관리</a></li>
-	              <li><a href="${context}/job/list">직무 관리</a></li>
-	              <li><a href="${context}/pstn">직급 관리</a></li>
+	              <li><a href="${context}/dep/list">부서 조회</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item eqp">
@@ -116,3 +113,4 @@
 	  </div>
 	  <div class="sub_item_background">
 	  </div>
+</div>
