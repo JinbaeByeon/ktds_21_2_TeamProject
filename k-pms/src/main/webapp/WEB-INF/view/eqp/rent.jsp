@@ -18,6 +18,7 @@
 	     $(".detail_section").hide();
 	     
 		$(".list_table > tbody > tr").click(function(){
+			
 			$("#crtr").closest("td").prev().prev().attr("colspan", 0);
 			$("#crtr").closest("td").prev().show();
 			$("#crtr").closest("td").show();
