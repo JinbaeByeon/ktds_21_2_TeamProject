@@ -7,9 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.kpms.emp.vo.EmpVO;
 import com.kpms.issu.service.IssuService;
 import com.kpms.issu.vo.IssuVO;
 
@@ -37,6 +35,13 @@ public class IssuController {
 	public String viewIssuCreatePage() {
 		return "issu/create";
 	}
+	
+	@GetMapping("/issu/create/{reqId}")
+	public String viewIssuCreatePageTwo(Model model, @PathVariable String reqId) {
+		model.addAttribute("reqId", reqId);
+		return "issu/create";
+	}
+	
 	@GetMapping("/issu/detail/{issuId}")
 	public String viewIssuDetailPage(Model model, @PathVariable String issuId) {
 		IssuVO issuVO = issuService.readOneIssu(issuId);

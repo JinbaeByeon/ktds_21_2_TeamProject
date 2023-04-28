@@ -314,6 +314,7 @@
 						</div>
 						<div class="create-group">
 							<label for="prjNm" style="width: 180px;">프로젝트명</label>
+							<input type="hidden" id="prjId"  name="prjId" value=""/>
 							<div>${reqVO.reqPrjVO.prjNm}</div>
 						</div>
 						<div class="create-group">

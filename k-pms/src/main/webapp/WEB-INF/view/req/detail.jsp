@@ -293,12 +293,12 @@
 							<div>${reqVO.expctEndDt}</div>
 						</div>
 						<div class="create-group">
-							<label for="prjNm" style="width: 180px;">프로젝트명</label>
-							<div>${reqVO.reqPrjVO.prjNm}</div>
-						</div>
-						<div class="create-group">
 							<label for="prjId" style="width: 180px;">프로젝트ID</label>
 							<div>${reqVO.prjId}</div>
+						</div>
+						<div class="create-group">
+							<label for="prjNm" style="width: 180px;">프로젝트명</label>
+							<div>${reqVO.reqPrjVO.prjNm}</div>
 						</div>
 						<div class="create-group">
 							<label for="mnDvlpr" style="width: 180px;">담당개발자</label>
@@ -360,6 +360,7 @@
 				<div class="grid">
 					<div class="grid-count align-right">
 						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
+						<a href="${context}/issu/list?reqId=${reqVO.reqId}">[전체보기]</a>
 					</div>
 					<table>
 						<thead>

@@ -16,14 +16,32 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		
+		$("#tskSttsType").val("${reqVO.tskCdNm}").prop("selected", true);
+		$("#tskSttsType").change(function(){
+			var tskCdNm = $("#tskSttsType").val();
+			console.log(tskCdNm);
+			location.href = "${context}/req/list?tskCdNm=" + tskCdNm;
+		});
+		$("#prcsSttsType").val("${reqVO.prcsCdNm}").prop("selected", true);
+		$("#prcsSttsType").change(function(){
+			
+			var prcsCdNm = $("#prcsSttsType").val();
+			console.log(prcsCdNm);
+			location.href = "${context}/req/list?prcsCdNm=" + prcsCdNm;
+		});
 		$("#create_btn").click(function(){
 			location.href = "${context}/req/create" 
 		});
 		
 		$("#search-btn").click(function(){
-			var reqTtl =$("#search-keyword").val();
-			location.href = "${context}/req/list?reqTtl=" + reqTtl;
+			if($("#search-option").val() == "요구사항제목"){
+				var reqTtl = $("#search-keyword").val();
+				location.href = "${context}/req/list?selectOption=요구사항제목&reqTtl=" + reqTtl;
+			}
+			if($("#search-option").val() == "프로젝트명"){
+				var prjNm = $("#search-keyword").val();
+				location.href = "${context}/req/list?selectOption=프로젝트명&reqPrjVO.prjNm=" + prjNm;
+			}
 		})
 		
 		$(".detail_path").click(function(){
@@ -84,8 +102,13 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 요구사항</div>
 				<div class="search-group">
-					<label for="search-keyword">요구사항제목</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${reqVO.reqId}"/>
+					<label for="search-option">검색옵션</label>
+					<select id="search-option" class="search-input">
+						<option value="요구사항제목" ${reqVO.selectOption eq "요구사항제목" ? "selected" : ""}>요구사항제목</option>
+						<option value="프로젝트명"  ${reqVO.selectOption eq "프로젝트명" ? "selected" : ""}>프로젝트명</option>
+					</select>
+					<label for="search-keyword">검색어</label>
+					<input type="text" id="search-keyword" class="search-input"  value="${reqVO.reqTtl}${reqVO.reqPrjVO.prjNm}"/>
 					<button class="btn-search" id="search-btn">검색</button>
 				</div>
 				
@@ -99,8 +122,23 @@
 								<th><input type="checkbox" id="all_check"/></th>
 								<th>순번</th>
 								<th>요구사항제목</th>
-								<th>진행상태</th>
-								<th>일정상태</th>
+								<th>
+									<select id="prcsSttsType" name="prcsSttsType">
+										<option value="">진행상태</option>
+										<option value="접수">접수</option>
+										<option value="분석">분석</option>
+										<option value="처리중">처리중</option>
+										<option value="처리 완료">처리완료</option>
+									</select>
+								</th>
+								<th>
+									<select id="tskSttsType" name="tskSttsType">
+										<option value="">일정상태</option>
+										<option value="대기중">대기중</option>
+										<option value="진행중">진행중</option>
+										<option value="연기 필요">연기필요</option>
+									</select>
+								</th>
 								<th>시작일</th>
 								<th>종료예정일</th>
 								<th>프로젝트명</th>

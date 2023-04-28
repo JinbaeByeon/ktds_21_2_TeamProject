@@ -296,15 +296,15 @@
 				<div class="path"> 상세 정보</div>
 				<div class="grid-detail">
 					<form id="detail_form" >
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqId" style="width: 180px;">요구사항 ID</label>
 							<input type="text" id="reqId"  name="reqId" value="" readonly />
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqTtl" style="width: 180px;">제목</label>
 							<input type="text" id="reqTtl"  name="reqTtl" value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prrty" style="width: 180px;">우선순위</label>
 							<select id="prrty"  name="prrty" >
 								<option>선택</option>
@@ -313,30 +313,34 @@
 								<option>3</option>
 							</select>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="strtDt" style="width: 180px;">시작일</label>
 							<input type="date" id="strtDt"  name="strtDt" value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
 							<input type="date" id="expctEndDt"  name="expctEndDt" value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<input type="text" id="prjId"  name="prjId" value=""/>
-							<button id="prj_search">검색</button>
+							<div>${reqVO.prjId}</div>
+							<input type="hidden" id="prjId"  name="prjId" value=""/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
+							<label for="prjNm" style="width: 180px;">프로젝트명</label>
+							<div>${reqVO.reqPrjVO.prjNm}</div>
+						</div>
+						<div class="create-group">
 							<label for="prjId" style="width: 180px;">담당개발자</label>
 							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
 							<button id="prjtmmbr_search">검색</button>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
 							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
 						<div class="create-group">
-							<label for="files" >첨부파일</label>
+							<label for="files" style="width: 180px;">첨부파일</label>
 							<div class="file_area">
 								<div class="file_upload">
 									<button id="add_files">+</button>
@@ -375,26 +379,26 @@
 							</div>
 							<input type="file" id="files" multiple/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
 							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
 							<select id="prcsStts-select"  name="prcsStts" ></select>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="tskStts" style="width: 180px;">일정상태</label>
 							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
 							<select id="tskStts-select"  name="tskStts" ></select>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
 							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
 							<select id="tstRslt-select"  name="tstRslt" ></select>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="lossStts" style="width: 180px;">사용여부</label>
 							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
 						</div>
-						<div class="input-group inline">
+						<div class="create-group">
 							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
 							<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
 						</div>

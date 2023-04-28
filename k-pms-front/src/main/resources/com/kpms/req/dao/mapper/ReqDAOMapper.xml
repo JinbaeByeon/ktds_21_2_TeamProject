@@ -144,6 +144,15 @@
 		 <if test="reqTtl != null and reqTtl != ''">
 		   AND R.REQ_TTL LIKE '%' || #{reqTtl} || '%'
 		 </if>
+		 <if test="reqPrjVO != null and reqPrjVO.prjNm != null and reqPrjVO.prjNm != ''">
+		   AND PJ.PRJ_NM LIKE '%' || #{reqPrjVO.prjNm} || '%'
+		 </if>
+		 <if test="tskCdNm != null and tskCdNm != ''">
+		   AND TSK_CD.CD_NM LIKE '%' || #{tskCdNm} || '%'
+		 </if>
+		 <if test="prcsCdNm != null and prcsCdNm != ''">
+		   AND PRCS_CD.CD_NM LIKE '%' || #{prcsCdNm} || '%'
+		 </if>
 		 <include refid="Common.pageFooter" />
 	</select>
 	

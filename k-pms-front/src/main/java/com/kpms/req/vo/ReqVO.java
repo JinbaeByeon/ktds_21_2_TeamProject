@@ -15,6 +15,7 @@ import com.kpms.tmmbr.vo.TmMbrVO;
 public class ReqVO extends AbstractPagingVO {
 
 	private String searchMode;
+	private String selectOption;
 	/**
 	 * 요구사항ID
 	 */
@@ -79,6 +80,12 @@ public class ReqVO extends AbstractPagingVO {
 	private List<AtchFlVO> atchFlList;
 	
 	
+	public String getSelectOption() {
+		return selectOption;
+	}
+	public void setSelectOption(String selectOption) {
+		this.selectOption = selectOption;
+	}
 	public List<AtchFlVO> getAtchFlList() {
 		return atchFlList;
 	}

@@ -176,7 +176,8 @@
 		
 		
 		$("#issu_create_btn").click(function(){
-			location.href="${context}/issu/create";
+			var reqId = data2;
+			location.href="${context}/issu/create/"+reqId;
 		});
 		$("#issu_delete_btn").click(function(){
 			var checkLen = $(".check_idx:checked").length;
@@ -347,6 +348,7 @@
 				<div class="grid">
 					<div class="grid-count align-right">
 						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
+						<a href="${context}/issu/list?reqId=${reqVO.reqId}">[전체보기]</a>
 					</div>
 					<table>
 						<thead>
@@ -367,7 +369,9 @@
 							<c:choose>
 								<c:when test="${not empty issuList}">
 									<c:forEach items="${issuList}"
-											   var="issu">
+											   var="issu"
+											   begin="0"
+											   end="4">
 										<tr data-issuid="${issu.issuId}"
 											data-issuttl="${issu.issuTtl}"
 											data-crtr="${issu.crtr}"
