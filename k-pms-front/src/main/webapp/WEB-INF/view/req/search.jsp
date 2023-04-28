@@ -58,6 +58,7 @@
 						<th>등록자</th>
 						<th>시작일</th>
 						<th>종료일</th>
+						<th>프로젝트</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -74,6 +75,7 @@
 									<td>${req.crtr}</td>
 									<td>${req.strtDt}</td>
 									<td>${req.expctEndDt}</td>
+									<td>${req.reqPrjVO.prjNm} (${req.prjId})</td>
 								</tr>
 							</c:forEach>
 						</c:when>

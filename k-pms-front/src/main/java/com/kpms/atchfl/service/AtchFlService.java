@@ -4,5 +4,5 @@ import com.kpms.atchfl.vo.AtchFlVO;
 
 public interface AtchFlService {
 
-	public boolean doCreateNewAtchFl(AtchFlVO atchFlVO);
+	public boolean createNewAtchFl(AtchFlVO atchFlVO);
 }

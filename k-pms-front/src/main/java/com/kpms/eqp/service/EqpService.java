@@ -11,7 +11,6 @@ public interface EqpService {
 	public boolean createNewEqp(EqpVO eqpVO);
 	
 	public List<EqpVO> readAllEqp(EqpVO eqpVO);
-	public List<EqpVO> readEqpByEmpId(EqpVO eqpVO);
 	
 	public List<EqpVO> readAllEqpNoPagination(String eqpNm);
 	public boolean applyEqp(List<String> eqpId, EmpVO empVO, String action);

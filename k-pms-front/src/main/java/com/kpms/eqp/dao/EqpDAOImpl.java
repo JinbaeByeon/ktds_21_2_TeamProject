@@ -65,11 +65,6 @@ public class EqpDAOImpl extends SqlSessionDaoSupport implements EqpDAO{
 		return getSqlSession().selectList("Eqp.readEqpByEqpId", eqpId);
 	}
 
-	@Override
-	public List<EqpVO> readEqpByEmpId(EqpVO eqpVO) {
-		return getSqlSession().selectList("Eqp.readEqpByEmpId", eqpVO);
-	}
-
 	
 
 	

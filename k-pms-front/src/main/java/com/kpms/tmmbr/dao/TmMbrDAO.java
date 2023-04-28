@@ -8,10 +8,16 @@ public interface TmMbrDAO {
 	
 	public List<TmMbrVO> readAllTmMbrVO(String tmId);
 	
+	public List<TmMbrVO> readAllTmMbrInTm(String tmId);
+	
 	public int createOneTmMbr(TmMbrVO tmMbrVO);
 	
 	public int deleteOneTmMbrByTmMbrId(String tmMbrId);
 	
+	public int deleteTmMbrByTmId(String tmId);
+	
 	public int deleteTmMbrBySelectedTmMbrId(List<String> tmMbrId);
+	
+	public int deleteTmMbrByDepId(String depId);
 
 }

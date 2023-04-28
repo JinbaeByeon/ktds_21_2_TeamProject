@@ -7,9 +7,11 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
+
 @Repository
-public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO{
+public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO {
 
 	@Autowired
 	@Override
@@ -20,6 +22,11 @@ public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO{
 	@Override
 	public int createNewReq(ReqVO reqVO) {
 		return getSqlSession().insert("Req.createNewReq", reqVO);
+	}
+
+	@Override
+	public List<ReqVO> readAllReqSearch(ReqSearchVO reqSearchVO) {
+		return getSqlSession().selectList("Req.readAllReqSearch", reqSearchVO);
 	}
 
 	@Override
@@ -46,10 +53,9 @@ public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO{
 	public int deleteReqBySelectedReqId(List<String> reqId) {
 		return getSqlSession().update("Req.deleteReqBySelectedReqId", reqId);
 	}
-	
+
 	@Override
 	public int deleteReqByPrjId(String prjId) {
 		return getSqlSession().update("Req.deleteReqByPrjId", prjId);
 	}
-
 }

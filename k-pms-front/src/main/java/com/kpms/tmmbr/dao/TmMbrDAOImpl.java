@@ -22,6 +22,11 @@ public class TmMbrDAOImpl extends SqlSessionDaoSupport implements TmMbrDAO {
 	public List<TmMbrVO> readAllTmMbrVO(String tmId) {
 		return getSqlSession().selectList("TmMbr.readAllTmMbrVO", tmId);
 	}
+	
+	@Override
+	public List<TmMbrVO> readAllTmMbrInTm(String tmId) {
+		return getSqlSession().selectList("TmMbr.readAllTmMbrInTm", tmId);
+	}
 
 	@Override
 	public int createOneTmMbr(TmMbrVO tmMbrVO) {
@@ -34,9 +39,18 @@ public class TmMbrDAOImpl extends SqlSessionDaoSupport implements TmMbrDAO {
 	}
 
 	@Override
+	public int deleteTmMbrByTmId(String tmId) {
+		return getSqlSession().update("TmMbr.deleteTmMbrByTmId", tmId);
+	}
+	
+	@Override
 	public int deleteTmMbrBySelectedTmMbrId(List<String> tmMbrId) {
 		return getSqlSession().update("TmMbr.deleteTmMbrBySelectedTmMbrId", tmMbrId);
 	}
 
+	@Override
+	public int deleteTmMbrByDepId(String depId) {
+		return getSqlSession().update("TmMbr.deleteTmMbrByDepId", depId);
+	}
 
 }

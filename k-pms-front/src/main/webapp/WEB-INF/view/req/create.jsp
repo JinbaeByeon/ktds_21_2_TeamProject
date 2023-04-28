@@ -16,7 +16,7 @@
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
-		var empId = '${sessionScope.__USER__.empId}';
+			var empId = '${sessionScope.__USER__.empId}';
 		$("#new_btn").click(function(){
 			$("#isModify").val("false"); //등록모드
 			
@@ -73,12 +73,13 @@
 					alert(response.errorCode + "/" + response.message);
 				}
 			});
-		
+			
 		});
 		
 		$(".detail_path").click(function(){
 			var reqId =$(this).closest("tr").data("reqid");
 			location.href = "${context}/req/detail?reqId=" + reqId;
+			
 		});
 		
 		$("#search-btn").click(function(){
@@ -253,6 +254,7 @@
 				$("#tstRslt-select").append(option)
 			}
 		});
+		
 	});
 	
 	function addPrjFn(data) {
@@ -297,7 +299,6 @@
         div.append(sz);
         ++fileCnt;
 	};
-	
 	function removeFn(){
 		var item = $(this).closest("li");
 		console.log(item);
@@ -324,7 +325,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/reqSidemenu.jsp"/>
+			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 요구사항 등록</div>
 				<div class="grid-detail">

@@ -7,4 +7,5 @@ public interface KnwRplDAO {
 	public int createNewKnwRpl(KnwRplVO knwRplVO);
 	public int updateOneKnwRpl(KnwRplVO knwRplVO);
 	public int deleteOneKnwRpl(String rplId);
+	public int deleteSelectedKnwRplByKnwId(String knwId);
 }

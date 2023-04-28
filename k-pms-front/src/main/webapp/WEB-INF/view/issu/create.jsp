@@ -26,10 +26,12 @@
 	$().ready(function(){
 		var empId = '${sessionScope.__USER__.empId}';
 		$("#reqId").click(function(e){
-			reqWindow = window.open("${context}/req/search/req?empId="+empId,"요구사항 검색","width=500,height=500");
+			reqWindow = window.open("${context}/req/search/req","요구사항 검색","width=500,height=500");
 		});
 		
+		
 		$("#reqId").val("${reqId}");
+		
 		
 		$("#delete_btn").click(function(){
 			location.href = "${context}/issu/list";
@@ -68,7 +70,6 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 			});
-			
 			if(${reqId != null && reqId != ''}){
 				ajaxUtil.upload("#create-form","${context}/api/issu/create",function(response){
 					if (response.status != "200 OK") {

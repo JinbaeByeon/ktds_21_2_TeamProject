@@ -13,8 +13,6 @@ public interface EqpDAO {
 	public List<EqpVO> readAllEqpNoPagination(String eqpNm);
 	public List<EqpVO> readEqpByEqpId(List<String> eqpId);
 	
-	public List<EqpVO> readEqpByEmpId(EqpVO eqpVO);
-	
 	public int updateEqp(EqpVO eqpVO);
 	public int applyEqp(EqpVO eqpVO);
 	public int deleteEqpByEqpId(String eqpId);

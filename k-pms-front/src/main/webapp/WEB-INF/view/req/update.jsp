@@ -118,7 +118,6 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 			});
-			
 			var reqId = $("#reqId").val();
 			ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
 				if(response.status == "200 OK"){
@@ -229,6 +228,7 @@
 		$("#mnDvlpr").val(data.empid);
 		
 	}
+	
 	var fileCnt=${reqVO.atchFlList.size() > 0 ? reqVO.atchFlList.size() : 0};
 	
 	function addFile(file){
@@ -291,30 +291,43 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/reqSidemenu.jsp"/>
+			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 상세 정보</div>
 				<div class="grid-detail">
 					<form id="detail_form" >
 						<div class="create-group">
+							<label for="reqId" style="width: 180px;">요구사항 ID</label>
+							<input type="text" id="reqId"  name="reqId" value="" readonly />
+						</div>
+						<div class="create-group">
 							<label for="reqTtl" style="width: 180px;">제목</label>
-							<div>${reqVO.reqTtl}</div>
+							<input type="text" id="reqTtl"  name="reqTtl" value=""/>
 						</div>
 						<div class="create-group">
 							<label for="prrty" style="width: 180px;">우선순위</label>
-							<div>${reqVO.prrty}</div>
+							<select id="prrty"  name="prrty" >
+								<option>선택</option>
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+							</select>
 						</div>
 						<div class="create-group">
 							<label for="strtDt" style="width: 180px;">시작일</label>
-							<div>${reqVO.strtDt}</div>
+							<input type="date" id="strtDt"  name="strtDt" value=""/>
 						</div>
 						<div class="create-group">
 							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<div>${reqVO.expctEndDt}</div>
+							<input type="date" id="expctEndDt"  name="expctEndDt" value=""/>
+						</div>
+						<div class="create-group">
+							<label for="prjId" style="width: 180px;">프로젝트ID</label>
+							<div>${reqVO.prjId}</div>
+							<input type="hidden" id="prjId"  name="prjId" value=""/>
 						</div>
 						<div class="create-group">
 							<label for="prjNm" style="width: 180px;">프로젝트명</label>
-							<input type="hidden" id="prjId"  name="prjId" value=""/>
 							<div>${reqVO.reqPrjVO.prjNm}</div>
 						</div>
 						<div class="create-group">
@@ -324,7 +337,7 @@
 						</div>
 						<div class="create-group">
 							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<div>${reqVO.reqCnfrNm}</div>
+							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
 						</div>
 						<div class="create-group">
 							<label for="files" style="width: 180px;">첨부파일</label>
@@ -380,6 +393,10 @@
 							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
 							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
 							<select id="tstRslt-select"  name="tstRslt" ></select>
+						</div>
+						<div class="create-group">
+							<label for="lossStts" style="width: 180px;">사용여부</label>
+							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
 						</div>
 						<div class="create-group">
 							<label for="dtlReq" style="width: 180px;">상세요구사항</label>

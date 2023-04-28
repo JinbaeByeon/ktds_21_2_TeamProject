@@ -17,6 +17,7 @@ import com.kpms.atchfl.dao.AtchFlDAO;
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.util.StringUtil;
 import com.kpms.common.vo.AbstractFileVO;
+import com.kpms.knw.vo.KnwVO;
 
 @Component
 public class UploadHandler {
