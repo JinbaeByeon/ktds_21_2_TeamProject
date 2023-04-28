@@ -61,7 +61,7 @@
 			location.href = "${context}/sndmsg/send?sndMsgId="+msgId;
 		}); 
 
-		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var msgId = $(this).closest("tr").data("msgid");
 			location.href="${context}/rcvmsg/detail/"+msgId;
 		});
@@ -135,7 +135,8 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-				<div class="path">쪽지 > 받은쪽지함</div>
+
+			<div class="path">쪽지 > 받은쪽지함</div>
 		      <div class="search_wrapper">
 		      <form>
 		      	<div class="msg_buttons">
@@ -177,7 +178,8 @@
 		                        <tr data-rdyn="${rcvMsg.rdYn}"
 		                            data-ttl="${rcvMsg.sndMsgVO.ttl}"
 		                            data-crtr="${rcvMsg.crtr}"
-		                            data-crtdt="${rcvMsg.crtDt}">
+		                            data-crtdt="${rcvMsg.crtDt}"
+		                            data-msgid="${rcvMsg.msgId}">
 		                        <td class="check">
 		                            <input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
 		                        </td>

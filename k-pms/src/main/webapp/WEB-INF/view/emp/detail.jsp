@@ -14,6 +14,9 @@
 				opener.location.href= "${context}/emp/modify/${empVO.empId}";
 				window.close();
 			});
+			$("#modify_pwd_btn").click(function(e){
+				location.href = "${context}/emp/modify/password/${empVO.empId}";
+			})
 		});
 	
 	</script>
@@ -34,7 +37,7 @@
 	                         <c:if test="${empty empVO.prflPht}">
 	                             <img src="${context}/img/base_profile.png" class="profile"/>
 	                         </c:if>
-	                     </td>
+	                    </td>
 	                </tr>
 	                <tr>
 	                    <th>아이디</th>
@@ -117,6 +120,7 @@
 	            </table>
                
       <div class="buttons">
+        <button id="modify_pwd_btn" class="btn regist">비밀번호 변경</button>
         <button id="modify_btn" class="btn regist">수정</button>
       </div>			
 </div>

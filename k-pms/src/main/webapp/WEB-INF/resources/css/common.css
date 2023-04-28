@@ -176,13 +176,11 @@ a:link, a:visited {
 }
 
  .sidebar .sidebar_bottom .logout {
-  display: fixed;
-  position: absolute;
-  left: 50%;
-  top: calc(100vh - 300px);
-  transform: translate(-50%, -50%);
+  position: fixed;
   letter-spacing: 3px;
   font-weight: 600;
+  bottom: 56px;
+  left: 30px;
 }
 
 
@@ -368,7 +366,13 @@ a:link, a:visited {
 .container .detail_table tbody tr th{
   background-color: rgba(238, 238, 238, 0.974);
 }
-
+.container .detail_table tbody tr td .profile{
+  object-fit: cover;
+  object-position: bottom;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
  .container .detail_table tr:last-child {
   border-bottom: none;
 }
@@ -637,26 +641,29 @@ footer {
 
 #user_list > .user {
 	display: flex;
-    background-color: #e5f1fc;
+    background-color: #bed2ff;
     border-radius: 14px;
     padding: 5px;
     margin: 3px 0;
     margin-left: 10px;
+    height: 26px;
 }
 
 #user_list > .user > .rcvr {
 	height: 20px;
+    background-color: #bed2ff;
 	margin: 0;
 	margin-left: 5px;
-	line-height: 17px
+	line-height: 16px;
 }
 #user_list > .user > .btn-delete {
 	margin: 0;
     border: none;
-    background-color: #e5f1fc;
+    background-color: #bed2ff;
     color: #888;
     font-size: 17px;
     padding: 0 5px;
+	line-height: 16px;
 }
 
 .create-group input[type=text].underBar {
@@ -669,10 +676,20 @@ footer {
 }
 .create-group > .file_area{
 	width: 85%;	
+	display: flex;
+}
+.create-group > .file_area > .file_div {
+	flex: 1 1 auto;
+	text-align: center;
+}
+
+.create-group > .file_area > .file_upload {
+	display: flex;
+    margin: 10px 0;
 }
 
 .create-group > .file_area > .file_upload > button{
-	margin-bottom: 0;
+	padding: 0 5px;
 }
 
 .create-group > .file_area .file_drag{
@@ -688,6 +705,7 @@ footer {
     border: 1px solid #ccc;
     border-radius: 10px;
     margin: 10px;
+    padding: 0 5px;
 }
 .create-group > .file_area .file_attachment > div{
     display: flex;
@@ -698,15 +716,15 @@ footer {
     border-top-right-radius: 10px;
     padding: 3px 0;
 }
-.create-group > .file_area .file_attachment > div > .remove_all {
+.create-group > .file_area .file_attachment div > .remove_all {
 	margin: 0 10px;
 }
-.create-group > .file_area .file_attachment > div > .file_name {
+.create-group > .file_area .file_attachment div > .file_name {
 	flex: 1 1 auto;
 	text-align: left;
 }
-.create-group > .file_area .file_attachment > div > .file_size {
-	padding-right: 20px;
+.create-group > .file_area .file_attachment div > .file_size {
+	margin-right: 15px;
 }
 
 #file_list {
@@ -798,13 +816,14 @@ div.button_btm {
     flex: 1;
 }
 .msg_view_header .msg_option .option_area {
-	background-color: #e5f1fc;
+	background-color: #bed2ff;
     border-radius: 14px;
     padding: 5px 12px;
     margin: 3px 0;
     margin-left: 5px;
-    height: 20px;
+    height: 26px;
     font-size: 11pt;
+    line-height: 16px;
 }
 
 .msg_view_header > .info_area > .date {

@@ -40,7 +40,7 @@
 				}
 			});
 		});
-		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var msgId = $(this).closest("tr").data("msgid");
 			location.href="${context}/sndmsg/detail/"+msgId;
 		});
