@@ -134,6 +134,9 @@ public class EmpServiceImpl implements EmpService {
 		}
 		
 		String salt = empDAO.readSaltById(empId);
+		if(salt==null) {
+			throw new APIException(APIStatus.DISMATCH, "아이디 또는 비밀번호가 일치하지 않습니다.");
+		}
 		empVO.setPwd(SHA256Util.getEncrypt(empVO.getPwd(), salt));
 		
 		EmpVO lgnTryData = empDAO.readLgnTryDataById(empId);

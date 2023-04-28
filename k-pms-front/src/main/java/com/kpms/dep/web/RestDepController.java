@@ -70,7 +70,7 @@ public class RestDepController {
 			return new APIResponseVO(APIStatus.OK);
 		}
 		else {
-			return new APIResponseVO(APIStatus.FAIL, "부서를 삭제할 수 없습니다.", "500", "");
+			return new APIResponseVO(APIStatus.FAIL, "부서를 삭제할 수 없습니다. (프로젝트 진행중인 팀이 존재합니다.)", "500", "");
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class RestDepController {
 			return new APIResponseVO(APIStatus.OK);
 		}
 		else {
-			return new APIResponseVO(APIStatus.FAIL);
+			return new APIResponseVO(APIStatus.FAIL, "부서를 삭제할 수 없습니다. (프로젝트 진행중인 팀이 존재합니다.)", "500", "");
 		}
 	}
 }

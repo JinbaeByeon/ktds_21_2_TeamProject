@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +14,6 @@
 	var ajaxUtil = new AjaxUtil();
 	
 	$().ready(function() {
-		$("#my_pc").click(function() {
-			
-		});
 		
 		$("#rcvr").keydown(function(e){
 			if(e.keyCode == 13){
@@ -142,7 +140,7 @@
 				var fileNm = $(this).data("uuid");
 				fileNames.push(fileNm);
 			});
-			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete/file", function(response) {
 				$("#file_list").find("li").remove();
 				fileCnt=0;
 				checkFile();
@@ -192,7 +190,7 @@
 		remove.click(function(e){
 			var item = $(this).closest("li");
 			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete/file", function(response) {
 				item.remove();
 				--fileCnt;
 				checkFile();
@@ -257,7 +255,7 @@
 						<div class="file_upload">
 							<button id="add_files">+</button>
 						</div>
-						<div class="align-center">
+						<div class="align-center file_div">
 							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 							<div class="file_attachment" hidden="hidden">
 								<div>
@@ -269,10 +267,10 @@
 							</div>
 						</div>
 					</div>
-					<input type="file" id="files" multiple/>
+					<input type="file" id="files" multiple hidden/>
 				</div>
 				<div class="create-group">
-					<textarea name="cntnt" class="msg-cntnt"></textarea>
+					<textarea name="cntnt" class="msg-cntnt">${sndMsgVO.cntnt}</textarea>
 				</div>
 			</form>
 			<div class="align-right">

@@ -33,6 +33,17 @@
 				});
 								
 				$(".list_table > tbody > tr").click(function() {
+					$("#crtr").closest("td").prev().show();
+					$("#crtr").closest("td").show();
+					
+					$("#crtDt").closest("td").prev().show();
+					$("#crtDt").closest("td").show();
+					
+					$("#mdfyr").closest("td").prev().show();
+					$("#mdfyr").closest("td").show();
+
+					$("#mdfyDt").closest("td").prev().show();
+					$("#mdfyDt").closest("td").show();
 					$("#isModify").val("true"); // 수정모드
 					$(".detail_section").show("fast");
 			        $(".detail_table").show();
@@ -51,6 +62,21 @@
 				});
 
 				$("#new_btn").click(function() {
+					$("#crtr").closest("td").prev().hide();
+					$("#crtr").closest("td").hide();
+					
+					$("#crtDt").closest("td").prev().hide();
+					$("#crtDt").closest("td").hide();
+					
+					$("#mdfyr").closest("td").prev().hide();
+					$("#mdfyr").closest("td").hide();
+
+					$("#mdfyDt").closest("td").prev().hide();
+					$("#mdfyDt").closest("td").hide();
+			 
+					$(".detail_section").show("fast");
+			        $(".detail_table").show();
+			        
 					$("#isModify").val("false"); // 등록모드
 					$(".detail_section").show("fast");
 			        $(".detail_table").show();

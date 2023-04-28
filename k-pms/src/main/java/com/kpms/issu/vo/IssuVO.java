@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.emp.vo.EmpVO;
+import com.kpms.req.vo.ReqVO;
 
 /**
  * ISSU
@@ -20,8 +22,10 @@ public class IssuVO extends AbstractPagingVO {
 	private String mnTmMbrId;
 	private String stts;
 	
+	private ReqVO reqVO;
 	private List<AtchFlVO> atchFlList;
-
+	private EmpVO crtEmp;
+	private EmpVO mdfyEmp;
 
 	public void setIssuId(String issuId) {
 		this.issuId = issuId;
@@ -95,12 +99,36 @@ public class IssuVO extends AbstractPagingVO {
 		return this.stts;
 	}
 
+	public ReqVO getReqVO() {
+		return reqVO;
+	}
+
+	public void setReqVO(ReqVO reqVO) {
+		this.reqVO = reqVO;
+	}
+
 	public List<AtchFlVO> getAtchFlList() {
 		return atchFlList;
 	}
 
 	public void setAtchFlList(List<AtchFlVO> atchFlList) {
 		this.atchFlList = atchFlList;
+	}
+
+	public EmpVO getCrtEmp() {
+		return crtEmp;
+	}
+
+	public void setCrtEmp(EmpVO crtEmp) {
+		this.crtEmp = crtEmp;
+	}
+
+	public EmpVO getMdfyEmp() {
+		return mdfyEmp;
+	}
+
+	public void setMdfyEmp(EmpVO mdfyEmp) {
+		this.mdfyEmp = mdfyEmp;
 	}
 
 }

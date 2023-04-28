@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +11,9 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	var empWindow;
+	var ajaxUtil = new AjaxUtil();
 	
 	$().ready(function() {
-		$("#my_pc").click(function() {
-			
-		});
 		
 		$("#rcvr").keydown(function(e){
 			if(e.keyCode == 13){
@@ -34,14 +33,36 @@
 			}
 		})
 		$("#send_btn").click(function(){
-			var ajaxUtil = new AjaxUtil();
 			var form = $("#create-form");
+			
+			// 수신 사원
 			var rcvrList = $("#user_list").children(".user").children(".rcvr");
 			var cnt = 0;
 			rcvrList.each(function(e){
 				var rcvr = $(this).text();
 				var input = $("<input type='hidden' name='rcvMsgVO[" + cnt++ + "].rcvr' value = '" + rcvr + "'/>")
 				form.append(input);
+			});
+			
+			var fileList = $(".file_attachment").find("li");
+			
+			cnt=0;
+			fileList.each(function(){
+				var form = $("#create-form");
+				
+				var fileNm = $(this).data("org");
+				var uuidNm = $(this).data("uuid");
+				var fileSz = $(this).data("sz");
+				var ext = $(this).data("ext");
+				
+				var inputOrgNm = $("<input type='hidden' name='atchFlList["+cnt+"].orgFlNm' value='"+fileNm+"'/>");
+				form.append(inputOrgNm);
+				var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
+				form.append(inputUuid);
+				var inputSz = $("<input type='hidden' name='atchFlList["+cnt+"].flSz' value='"+parseInt(fileSz)+"'/>");
+				form.append(inputSz);
+				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
+				form.append(inputExt);
 			});
 			
 			ajaxUtil.upload("#create-form","${context}/api/sndmsg/snd",function(response){
@@ -64,13 +85,16 @@
 		})
 		$("#files").change(function(e){
 			var files = $(this)[0].files;
-			if(files != null && files != undefined){
-				for(var i=0;i<files.length;++i){
-					var file = files[i];
-					addFile(file);
-				}
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
 			}
-			checkFile();
+			$(this).value='';
 		});
 		$(".file_drag").on("dragover",function(e){
 			e.preventDefault();
@@ -79,13 +103,16 @@
 			e.preventDefault();
 		 	
 			var files = event.dataTransfer.files;
-			if(files != null && files != undefined){
-				for(var i=0;i<files.length;i++){
-					var file = files[i];
-					addFile(file);
-				}
+			if(files){
+				var ajaxUtil = new AjaxUtil();
+				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
 			}
-			checkFile();
 		});
 		$(".file_attachment").on("dragover",function(e){
 			e.preventDefault();
@@ -94,18 +121,34 @@
 			e.preventDefault();
 		 	
 			var files = event.dataTransfer.files;
-			if(files != null && files != undefined){
-				for(var i=0;i<files.length;i++){
-					var file = files[i];
-					addFile(file);
-				}
+			if(files){
+				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
+					for(var i=0;i < response.data.length; i++){
+						var file = response.data[i];
+						addFile(file);
+					}
+					checkFile();
+				});
 			}
-			checkFile();
 		});
 		$(".file_attachment").find(".remove_all").click(function(e){
 			e.preventDefault();
+			var fileList = $(this).closest(".file_attachment").find("ul").children("li");
+			console.log(fileList);
+			var fileNames = [];
+			fileList.each(function(){
+				var fileNm = $(this).data("uuid");
+				fileNames.push(fileNm);
+			});
+			ajaxUtil.deleteFile(fileNames, "${context}/api/sndmsg/delete/file", function(response) {
+				$("#file_list").find("li").remove();
+				fileCnt=0;
+				checkFile();
+				$("#files").val("");
+			});
 		});
 	});
+	
 	function addEmpFn(emp){
 		createUser(emp.empid);
 	};
@@ -126,33 +169,57 @@
 		userDiv.append(btnDelete);
 		
 	};
+	var fileCnt=0;
 	function addFile(file){
 		var fileList = $("#file_list");
 		
-		var fileNm = file.name;
-		var fileSz = file.size / 1024;
-		fileSz = fileSz.toFixed(2);
+		var uuidNm = file.uuidFlNm;
+		var fileNm = file.orgFlNm;
+		var ext = fileNm.substring(fileNm.lastIndexOf(".")+1);
+		var fileSz = file.flSz;
 		
-		var li = $("<li></li>");
+		var li = $("<li data-uuid='"+uuidNm +
+					 "' data-org='"+fileNm + 
+					 "' data-sz='"+fileSz+
+					 "' data-ext='"+ext+"'></li>");
 		fileList.append(li);
 		var div = $("<div></div>");
 		li.append(div);
-		var item =  "<span class='remove'>x</span>";
-        item += "<span class='file_name'>"+fileNm+"</span>";
+		
+		var remove =  $("<span class='remove'>x</span>");
+		remove.click(function(e){
+			var item = $(this).closest("li");
+			
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete/file", function(response) {
+				item.remove();
+				--fileCnt;
+				checkFile();
+			});
+		});
+		
+        var nm = "<span class='file_name'>"+fileNm+"</span>";
+        fileSz = (fileSz / 1024).toFixed(2);
+        var sz;
         if(fileSz < 1000){
-        	item += "<span class='file_size'>"+fileSz+" KB</span>";
+        	sz = "<span class='file_size'>"+fileSz+" KB</span>";
         } else {
         	fileSz = (fileSz/1024).toFixed(2);
-        	item += "<span class='file_size'>"+fileSz+" MB</span>";
+        	sz = "<span class='file_size'>"+fileSz+" MB</span>";
         }
-        div.append(item);
-		
+        div.append(remove);
+        div.append(nm);
+        div.append(sz);
+        ++fileCnt;
 	};
 	function checkFile(){
 		var fileList = $("#file_list");
-		if(fileList.length > 0){
+		console.log(fileCnt);
+		if(fileCnt > 0){
 			fileList.closest(".file_attachment").show();
 			$(".file_area").find(".file_drag").hide();
+		} else {
+			fileList.closest(".file_attachment").hide();
+			$(".file_area").find(".file_drag").show();
 		}
 	}
 	 //내피씨연동ㅇㄹㅇ널ㄷㄴㄷㄹㄴ두래너리나ㅢㅡㄱㄴ르힏
@@ -188,7 +255,7 @@
 						<div class="file_upload">
 							<button id="add_files">+</button>
 						</div>
-						<div class="align-center">
+						<div class="align-center file_div">
 							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 							<div class="file_attachment" hidden="hidden">
 								<div>
@@ -200,10 +267,10 @@
 							</div>
 						</div>
 					</div>
-					<input type="file" id="files" name="attch" multiple/>
+					<input type="file" id="files" multiple hidden/>
 				</div>
 				<div class="create-group">
-					<textarea name="cntnt" class="msg-cntnt"></textarea>
+					<textarea name="cntnt" class="msg-cntnt">${sndMsgVO.cntnt}</textarea>
 				</div>
 			</form>
 			<div class="align-right">

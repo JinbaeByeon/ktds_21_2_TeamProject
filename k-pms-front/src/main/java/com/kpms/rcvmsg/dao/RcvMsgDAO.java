@@ -21,4 +21,11 @@ public interface RcvMsgDAO {
 
 	public int updateRcvMsgReadByRcvMsgIdList(List<String> rcvMsgIdList);
 
+	public int deleteTrashMsg(List<String> rcvMsgIdList);
+	
+	public RcvMsgVO readOneRcvMsg(String msgId);
+	
+	public List<RcvMsgVO> readAllDelMsg(MsgSearchVO msgSearchVO);
+	
+	public int restoreRcvMsg(List<String> rcvMsgIdList);
 }

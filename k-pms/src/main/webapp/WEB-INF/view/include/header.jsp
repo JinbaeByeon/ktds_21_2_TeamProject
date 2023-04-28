@@ -5,6 +5,8 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
+		
+		$("#my-info").children(".my-menu").hide();
 		var empId = "${sessionScope.__USER__.empId}";
 		<c:if test="${not empty selected}">
 			$("li.nav_item.${selected}").addClass("active");
@@ -26,19 +28,9 @@
 		$(".sub_item").mouseenter(function(){
 			$(this).addClass("active");
 		});
+
 		$("#my-info").click(function(){
-			var menu = $(this).children(".my-menu");
-			if(menu.is(':visible')){
-				menu.hide();
-			} else{
-				menu.show();
-			}
-		});
-		$("#my-info").find(".menu-item.info").click(function(){
 			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=500");
-		});
-		$("#my-info").find(".menu-item.chng-pwd").click(function(){
-			window.open("${context}/emp/modify/password/"+empId,"비밀번호 변경","width=500,height=500");
 		});
 	});
 </script>
@@ -48,8 +40,15 @@
 	    <div class="left_blank">
 	      <div class="profile">
 	        <div class="img">
-	          <img src="" alt="">
-	          <p>${sessionScope.__USER__.fNm}</p>
+	           <c:if test="${not empty sessionScope.__USER__.prflPht}">
+                   <img src="${context}/emp/prfl/${sessionScope.__USER__.prflPht}/" />
+               </c:if>
+               <c:if test="${empty sessionScope.__USER__.prflPht}">
+                   <img src="${context}/img/base_profile.png" />
+               </c:if>
+	          <p id="my-info">
+	          	  ${sessionScope.__USER__.fNm}
+	          </p>
 	        </div>
 	      </div>
 	    </div>
@@ -114,4 +113,6 @@
 	        </ul>
 	      </div>
 	    </div>
+	  </div>
+	  <div class="sub_item_background">
 	  </div>

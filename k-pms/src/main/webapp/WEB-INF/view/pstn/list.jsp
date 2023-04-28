@@ -5,6 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="sys"/>
+<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,24 +16,18 @@
 <script type="text/javascript">
 	$().ready(function(){
 		$(".detail_section").hide();
-		
-		$("li.nav_item.sys").addClass("active");
-		$("li.nav_item").children("a").mouseover(function(){
-			$(this).closest(".nav").find(".nav_item.active").removeClass("active");
-			if($(this).attr("class")!="nav_item sys"){
-				$("li.nav_item.sys").removeClass("active");
-			}
-			$(this).closest("li.nav_item").addClass("active");
-		});
-		$(".nav").mouseleave(function(){
-			$(this).find(".active").removeClass("active");
-			$("li.nav_item.sys").addClass("active");
-		});
-		$(".sub_item").mouseenter(function(){
-			$(this).addClass("active");
-		});
 	
 		$(".list_table > tbody > tr").click(function(){
+			$("#crtr").closest("td").prev().show();
+			$("#crtr").closest("td").show();
+			
+			$("#crtDt").closest("td").prev().show();
+			$("#crtDt").closest("td").show();
+			
+			$("#mdfyr").closest("td").prev().show();
+			$("#mdfyr").closest("td").show();
+
+			$("#mdfyDt").closest("tr").show();
 			
 			$("#isModify").val("true"); //수정모드
 	        $(".detail_section").show("fast");
@@ -51,6 +47,17 @@
 		});
 		
 		$("#new_btn").click(function(){
+			$("#crtr").closest("td").prev().hide();
+			$("#crtr").closest("td").hide();
+			
+			$("#crtDt").closest("td").prev().hide();
+			$("#crtDt").closest("td").hide();
+			
+			$("#mdfyr").closest("td").prev().hide();
+			$("#mdfyr").closest("td").hide();
+
+			$("#mdfyDt").closest("tr").hide();
+			
 			$("#isModify").val("false"); //등록모드
 	        $(".detail_section").show("fast");
 	        $(".detail_table").show();
@@ -220,7 +227,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${pstn.pstnId}">
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${pstn.rnum}</td>
 											<td>${pstn.pstnId}</td>
 											<td>${pstn.pstnNm}</td>
 											<td>${pstn.useYn}</td>

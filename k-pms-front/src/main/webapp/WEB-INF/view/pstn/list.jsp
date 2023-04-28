@@ -5,6 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="sys"/>
+<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,26 +15,23 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		
-		$("li.nav-item.sys").addClass("active");
-		$("li.nav-item").children("a").mouseover(function(){
-			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
-			if($(this).attr("class")!="nav-item sys"){
-				$("li.nav-item.sys").removeClass("active");
-			}
-			$(this).closest("li.nav-item").addClass("active");
-		});
-		$(".nav").mouseleave(function(){
-			$(this).find(".active").removeClass("active");
-			$("li.nav-item.sys").addClass("active");
-		});
-		$(".sub-item").mouseenter(function(){
-			$(this).addClass("active");
-		});
+		$(".detail_section").hide();
 	
-		$(".grid > table > tbody > tr").click(function(){
+		$(".list_table > tbody > tr").click(function(){
+			$("#crtr").closest("td").prev().show();
+			$("#crtr").closest("td").show();
+			
+			$("#crtDt").closest("td").prev().show();
+			$("#crtDt").closest("td").show();
+			
+			$("#mdfyr").closest("td").prev().show();
+			$("#mdfyr").closest("td").show();
+
+			$("#mdfyDt").closest("tr").show();
 			
 			$("#isModify").val("true"); //수정모드
+	        $(".detail_section").show("fast");
+	        $(".detail_table").show();
 			
 			var data = $(this).data();
 			
@@ -48,7 +47,20 @@
 		});
 		
 		$("#new_btn").click(function(){
+			$("#crtr").closest("td").prev().hide();
+			$("#crtr").closest("td").hide();
+			
+			$("#crtDt").closest("td").prev().hide();
+			$("#crtDt").closest("td").hide();
+			
+			$("#mdfyr").closest("td").prev().hide();
+			$("#mdfyr").closest("td").hide();
+
+			$("#mdfyDt").closest("tr").hide();
+			
 			$("#isModify").val("false"); //등록모드
+	        $(".detail_section").show("fast");
+	        $(".detail_table").show();
 			
 			$("#pstnId").val("");
 			$("#pstnNm").val("");
@@ -167,33 +179,38 @@
 		<div>
 			<jsp:include page="../include/sysSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 직급관리</div>
-				<div class="search-group">
-					<label for="search-keyword">직급명</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${pstnVO.pstnNm}"/>
-					<button class="btn-search" id="search-btn">검색</button>
-				</div>
-				
-				<div class="grid">
-					<div class="grid-count align-right">
-						총 ${pstnList.size() > 0 ? pstnList.get(0).totalCount : 0}건
-					</div>
-					<table>
-						<thead>
+				<div class="path">직급관리</div>
+			      <div class="search_wrapper">
+			        <div class="search_box">
+			          <select>
+			            <option>직급명</option>
+			          </select>
+			          <div class="search_field">
+			          	<input type="text" id="search-keyword" class="input" value="${pstnVO.pstnNm}" placeholder="Search"/>
+			          </div>
+			          <div class="search-icon">
+			          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+			          </div>
+			        </div>
+			      </div>
+			      <div class="list_section">
+			        <div class="total">총 ${pstnList.size() > 0 ? pstnList.get(0).totalCount : 0}건</div>
+			        <table class="list_table">
+			          <thead>
 							<tr>
 								<th><input type="checkbox" id="all_check"/></th>
 								<th>순번</th>
 								<th>직급ID</th>
 								<th>직급명</th>
 								<th>사용여부</th>
-								<th>등록자</th>
+<!-- 								<th>등록자</th>
 								<th>등록일</th>
 								<th>수정자</th>
-								<th>수정일</th>
+								<th>수정일</th> -->
 								<th>삭제여부</th>
 							</tr>
-						</thead>
-						<tbody>
+			          </thead>
+			          <tbody>
 							<c:choose>
 								<c:when test="${not empty pstnList}">
 									<c:forEach items="${pstnList}"
@@ -210,14 +227,14 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${pstn.pstnId}">
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${pstn.rnum}</td>
 											<td>${pstn.pstnId}</td>
 											<td>${pstn.pstnNm}</td>
 											<td>${pstn.useYn}</td>
-											<td>${pstn.crtr}</td>
+<%-- 											<td>${pstn.crtr}</td>
 											<td>${pstn.crtDt}</td>
 											<td>${pstn.mdfyr}</td>
-											<td>${pstn.mdfyDt}</td>
+											<td>${pstn.mdfyDt}</td> --%>
 											<td>${pstn.delYn}</td>
 										</tr>
 									</c:forEach>
@@ -230,61 +247,58 @@
 									</tr>
 								</c:otherwise>
 							</c:choose>
-						</tbody>
-					</table>
-					
-					<div class="align-right mt-10">
-						<button id="delete_all_btn" class="btn-delete">삭제</button>
-					</div>
-					<c:import url="../include/pagenate.jsp">
-	                  <c:param name="pageNo" value="${pageNo}"/>
-	                  <c:param name="pageCnt" value="${pageCnt}"/>
-	                  <c:param name="lastPage" value="${lastPage}"/>
-	                  <c:param name="path" value="${context}/pstn"/>
-	               	</c:import>
-					
-				</div>	
-				<div class="grid-detail">
-					<form id="detail_form" >
-						<!-- isModify == true => 수정(update) -->
-						<!-- isModify == false => 등록(insert) -->
-						<input type="hidden" id="isModify" value="false" />
-						<div class="input-group inline">
-							<label for="gnrId" style="width: 180px;">직급 ID</label>
-							<input type="text" id="pstnId"  name="pstnId" value="" readonly />
-						</div>
-						<div class="input-group inline">
-							<label for="gnrNm" style="width: 180px;">직급명</label>
-							<input type="text" id="pstnNm"  name="pstnNm" value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="useYn" style="width: 180px;">사용여부</label>
-							<input type="checkbox" id="useYn" name="useYn" value="Y"/>
-						</div>
-						<div class="input-group inline">
-							<label for="crtr" style="width: 180px;">등록자</label>
-							<input type="text" id="crtr"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="crtDt" style="width: 180px;">등록일</label>
-							<input type="text" id="crtDt"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyr" style="width: 180px;">수정자</label>
-							<input type="text" id="mdfyr"  disabled value=""/>
-						</div>
-						<div class="input-group inline">
-							<label for="mdfyDt" style="width: 180px;">수정일</label>
-							<input type="text" id="mdfyDt"  disabled value=""/>
-						</div>
-						
-					</form>
-				</div>
-				<div class="align-right">
-					<button id="new_btn" class="btn-primary">신규</button>
-					<button id="save_btn" class="btn-primary">저장</button>
-					<button id="delete_btn" class="btn-delete">삭제</button>
-				</div>		
+			          </tbody>
+			        </table>
+						<c:import url="../include/pagenate.jsp">
+		                  <c:param name="pageNo" value="${pageNo}"/>
+		                  <c:param name="pageCnt" value="${pageCnt}"/>
+		                  <c:param name="lastPage" value="${lastPage}"/>
+		                  <c:param name="path" value="${context}/pstn"/>
+		               	</c:import>
+			        <div class="buttons">
+			          <button id="new_btn" class="btn new">신규 등록</button>
+			          <button id="delete_all_btn" class="btn delete">선택삭제</button>
+			        </div>
+			      </div>
+			      
+				<div class="detail_section">
+			        <div class="hr"></div>
+			        <div class="path">상세정보</div>
+			        <form id="detail_form">
+			        	<input type="hidden" id="isModify" value="false" />
+				        <table class="detail_table">
+				            <tr>
+				              <th>직급 ID</th>
+				              <td><input type="text" id="pstnId"  name="pstnId" value="" readonly /></td>
+				              <th>등록자</th>
+				              <td><input type="text" id="crtr"  disabled value=""/></td>
+				            </tr>
+				            <tr>
+				              <th>직급명</th>
+				              <td><input type="text" id="pstnNm"  name="pstnNm" value=""/></td>
+				              <th>등록일</th>
+				              <td><input type="text" id="crtDt"  disabled value=""/></td>
+				            </tr>
+				            <tr>
+				              <th>사용여부</th>
+				              <td><input type="checkbox" id="useYn" name="useYn" value="Y"/></td>
+				              <th>수정자</th>
+				              <td><input type="text" id="mdfyr"  disabled value=""/></td>
+				            </tr>
+				            <tr>
+				              <th></th>
+				              <td></td>
+				              <th>수정일</th>
+				              <td><input type="text" id="mdfyDt"  disabled value=""/></td>
+				            </tr>
+				        </table>
+			        </form>
+			
+			        <div class="buttons">
+			          <button id="save_btn" class="btn regist">저장</button>
+			          <button id="delete_btn" class="btn delete">삭제</button>
+			        </div>
+			      </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

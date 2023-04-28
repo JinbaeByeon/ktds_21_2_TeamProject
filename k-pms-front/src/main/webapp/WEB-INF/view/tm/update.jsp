@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
-<c:set scope="request" var="selected" value="prj"/>
+<c:set scope="request" var="selected" value="tm"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,31 +17,75 @@
 	var tmHd;
 	var tmMbr;
 	var empId;
+	var tmHdId;
 	var empIds = [];
 	
 	function addHdEmpFn(message) {
 		
+		 for (i = 0; i < empIds.length; i++) { 
+			if(empIds[i] === tmHdId) {
+				empIds.splice(i, 1);
+				i--;
+			}
+		} 
+		
+		tmHdId = message.empid;
+		
 		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
-		if (tmHdIdItems.find("." + message.empid).length > 0) {
+		if (tmHdIdItems.find("." + tmHdId).length > 0) {
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
-			
+		
 		var itemDiv = tmHdIdItems.find(".head-item");
-			
-		var itemId = itemDiv.find("#tmHdId")
-		itemId.val(message.empid);
+		
+		var itemId = itemDiv.find("#tmHdId");
+		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
 		var itemSpan = itemDiv.find("span");
 		itemSpan.text(message.lnm + message.fnm);
 		itemDiv.append(itemSpan);
 			
-		$("#tmHdId").val(message.empid);
+		var hdTr = $(".tmHd-tr");
+		if (hdTr.length > 0) {
+			
+			var td = hdTr.find("td");
+			hdTr.attr("class", "tmHd-tr " + tmHdId);
+	        td.eq(0).text();
+	        td.eq(1).text("팀장");
+	        td.eq(2).text(message.pstnnm);
+	        td.eq(3).text(tmHdId);
+	        td.eq(4).text(message.lnm + message.fnm);
+	        td.eq(5).text(message.jobnm);
+	        td.eq(6).text(message.brthdy);
+	        td.eq(7).text(message.eml);
+	        td.eq(8).text(message.phn);
+	        td.eq(9).text(message.pstnprd);
+		} else {
+	    	var hdTr = $("<tr class='tm-hd-tr " + tmHdId + "'></tr>");
+	        var td = "<td>"+""+"</td>"
+	        td += "<td>" + 팀장 + "</td>"
+	        td += "<td>" + message.pstnnm + "</td>"
+		    td += "<td>" + tmHdId + "</td>"
+		    td += "<td>" + message.lnm  + message.fnm + "</td>"
+		    td += "<td>" + message.jobnm + "</td>"
+		    td += "<td>" + message.brthdy + "</td>"
+		    td += "<td>" + message.eml + "</td>"
+		    td += "<td>" + message.phn + "</td>"
+		    td += "<td>" + message.pstnprd + "</td>"
+
+	        hdTr.append(td);
+	        $(".tmMbr-tbody").append(hdTr);
+	    }
+		
+		$("#tmHdId").val(tmHdId);
 		$("#tmHdNm").text(message.lnm + message.fnm);
 			
 		tmHdIdItems.append(itemDiv);
 			
+		empIds.push(tmHdId);
+		
 		tmHd.close();
 	}
 	
@@ -61,8 +105,15 @@
 
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
 
-	    var td = "<td>" + empId + "</td>"
+	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    td += "<td>" + message.pstnnm + "</td>"
+	    td += "<td>" + empId + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+	    td += "<td>" + message.jobnm + "</td>"
+	    td += "<td>" + message.brthdy + "</td>"
+	    td += "<td>" + message.eml + "</td>"
+	    td += "<td>" + message.phn + "</td>"
+	    td += "<td>" + message.pstnprd + "</td>"
 
 	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
 
@@ -106,7 +157,7 @@
 		$("#addTmHeadBtn").click(function(event) {
 			event.preventDefault(); 
 			var depId = $("#depId").val();
-			var tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
+			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
 		});
 		
 		$("#addTmMbrBtn").click(function(event) {
@@ -122,16 +173,17 @@
 		
 		$("#save-btn").click(function() {
 			var tmId = $("#tmId").val();
+			console.log($("#tmHdId").val());
+	
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
-					location.href = "${context}" + response.redirectURL;
-					
 					empIds.forEach(function(empId) {
 			    		
 				    	createTmmbr(tmId, empId);
 				    		
 				    });
 					
+					location.href = "${context}" + response.redirectURL;
 				}
 				else {
 					alert(response.errorCode + "/" + response.message);
@@ -156,8 +208,11 @@
 				alert("팀원이 선택되지 않았습니다.");
 				return;
 			}
+			if (!confirm("정말 삭제하시겠습니까?")) { 
+			return;
+			}
 			
-			var form = $("<form></form>")
+			var form = $("<form></form>");
 			
 			$(".check_idx:checked").each(function() {
 				console.log($(this).val());
@@ -219,7 +274,7 @@
 							<button id="addTmHeadBtn" class="btn-tm">등록</button>
 							<div class="items">
 								<div class='head-item'>
-									<input type="text" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
+									<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" />
 									<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>						
 								</div>
 							</div>
@@ -244,7 +299,7 @@
 									<thead>
 										<tr>
 											<th><input type="checkbox" id="all_check" /></th>
-											<th>순번</th>
+											<th>팀 직책</th>
 											<th>직급</th>
 											<th>직원ID</th>
 											<th>이름</th>
@@ -256,25 +311,38 @@
 										</tr>
 									</thead>
 									<tbody class="tmMbr-tbody">
+										<tr class="tmHd-tr">
+											<td></td>
+											<td>팀장</td>
+											<td>${tmHdEmpVO.pstn.pstnNm}</td>
+											<td>${tmHdEmpVO.empId}</td>
+											<td>${tmHdEmpVO.lNm}${tmHdEmpVO.fNm}</td>
+											<td>${tmHdEmpVO.job.jobNm}</td>
+											<td>${tmHdEmpVO.brthdy}</td>
+											<td>${tmHdEmpVO.eml}</td>
+											<td>${tmHdEmpVO.phn}</td>
+											<td>${tmHdEmpVO.pstnPrd}</td>
+										</tr>
 										<c:choose>
 											<c:when test="${not empty tmVO.tmMbrList}">
 												<c:forEach items="${tmVO.tmMbrList}" 
-															var="tmMbr"
-															varStatus="index">
-													<tr>
-														<td>
-															<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
-														</td>
-														<td>${index.index + 1}</td>
-														<td>${tmMbr.empVO.pstn.pstnNm}</td>
-														<td>${tmMbr.empId}</td>
-														<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
-														<td>${tmMbr.empVO.job.jobNm}</td>
-														<td>${tmMbr.empVO.brthdy}</td>
-														<td>${tmMbr.empVO.eml}</td>
-														<td>${tmMbr.empVO.phn}</td>
-														<td>${tmMbr.empVO.pstnPrd}</td>
-													</tr>
+															var="tmMbr">
+													<c:if test="${tmMbr.empId != tmVO.tmHdId}">
+														<tr>
+															<td>
+																<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
+															</td>
+															<td>팀원</td>
+															<td>${tmMbr.empVO.pstn.pstnNm}</td>
+															<td>${tmMbr.empId}</td>
+															<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
+															<td>${tmMbr.empVO.job.jobNm}</td>
+															<td>${tmMbr.empVO.brthdy}</td>
+															<td>${tmMbr.empVO.eml}</td>
+															<td>${tmMbr.empVO.phn}</td>
+															<td>${tmMbr.empVO.pstnPrd}</td>
+														</tr>
+													</c:if>
 												</c:forEach>
 											</c:when>
 										<c:otherwise>

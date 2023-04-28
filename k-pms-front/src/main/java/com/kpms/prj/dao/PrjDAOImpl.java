@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kpms.prj.vo.PrjSearchVO;
 import com.kpms.prj.vo.PrjVO;
 
 @Repository
@@ -19,8 +20,8 @@ public class PrjDAOImpl extends SqlSessionDaoSupport implements PrjDAO {
 	}
 
 	@Override
-	public List<PrjVO> readAllPrjVO(PrjVO prjVO) {
-		return getSqlSession().selectList("Prj.readAllPrjVO", prjVO);
+	public List<PrjVO> readAllPrjVO(PrjSearchVO prjSearchVO) {
+		return getSqlSession().selectList("Prj.readAllPrjVO", prjSearchVO);
 	}
 	
 	@Override

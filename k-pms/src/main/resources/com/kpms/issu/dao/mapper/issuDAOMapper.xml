@@ -7,6 +7,23 @@
 			   type="com.kpms.issu.vo.IssuVO"
 			   autoMapping="true">
 		<id property="issuId" column="ISSU_ID" />
+		<association property="reqVO" 
+					 javaType="com.kpms.req.vo.ReqVO">
+			<id property="reqId" column="REQ_ID" />
+			<result property="reqTtl" column="REQ_TTL" />
+		</association>
+		<association property="crtEmp" 
+					 javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="CRTR" />
+			<result property="fNm" column="CE_F_NM" />
+			<result property="lNm" column="CE_L_NM" />
+		</association>
+		<association property="mdfyEmp" 
+					 javaType="com.kpms.emp.vo.EmpVO">
+			<id property="empId" column="MDFYR" />
+			<result property="fNm" column="ME_F_NM" />
+			<result property="lNm" column="ME_L_NM" />
+		</association>
 		<collection property="atchFlList"
 					ofType="com.kpms.atchfl.vo.AtchFlVO">
 			<id property="uuidFlNm" column="UUID_FL_NM" />
@@ -74,6 +91,7 @@
 			   I.DTL_CNTNT,
 			   I.MN_TM_MBR_ID,
 			   I.STTS,
+			   R.REQ_TTL,
 			   AF.ORG_FL_NM,
 			   AF.UUID_FL_NM,
 			   AF.FL_SZ,
@@ -82,35 +100,50 @@
 		  		  FROM ISSU
 				 WHERE ISSU_ID = #{_parameter}
 				   AND DEL_YN = 'N') I
-		  JOIN ATCH_FL AF
+		  JOIN REQ R
+		  	ON R.REQ_ID = I.REQ_ID
+		  LEFT JOIN ATCH_FL AF
 		  	ON AF.FRGN_ID = I.ISSU_ID
-		 WHERE AF.DEL_YN = 'N'
 	</select>
 	<select id="readIssuList"
 			parameterType="com.kpms.issu.vo.IssuVO"
-			resultType="com.kpms.issu.vo.IssuVO">
+			resultMap="IssuMap">
 		<include refid="Common.pageHeader"/>
-		SELECT ISSU_ID PK_COL,
-			   DENSE_RANK() OVER(ORDER BY CRT_DT || ISSU_ID DESC) RNUM,
-			   ISSU_ID,
-			   CRT_DT,
-			   CRTR,
-			   MDFY_DT,
-			   MDFYR,
-			   USE_YN,
-			   DEL_YN,
-			   REQ_ID,
-			   ISSU_TTL,
-			   ISSU_CNTNT,
-			   VW_CNT,
-			   DFFCLTY,
-			   DTL_CNTNT,
-			   MN_TM_MBR_ID,
-			   STTS
+		SELECT I.ISSU_ID PK_COL,
+			   DENSE_RANK() OVER(ORDER BY I.CRT_DT || I.ISSU_ID DESC) RNUM,
+			   I.ISSU_ID,
+			   I.CRT_DT,
+			   I.CRTR,
+			   I.MDFY_DT,
+			   I.MDFYR,
+			   I.USE_YN,
+			   I.DEL_YN,
+			   I.REQ_ID,
+			   I.ISSU_TTL,
+			   I.ISSU_CNTNT,
+			   I.VW_CNT,
+			   I.DFFCLTY,
+			   I.DTL_CNTNT,
+			   I.MN_TM_MBR_ID,
+			   I.STTS,
+			   R.REQ_TTL,
+			   CE.F_NM CE_F_NM,
+			   CE.L_NM CE_L_NM,
+			   ME.F_NM ME_F_NM,
+			   ME.L_NM ME_L_NM
 		  FROM (SELECT *
 		  		  FROM ISSU
 		  		 WHERE DEL_YN = 'N'
-		 	/*조건 추가*/)
+		  		<if test="reqId != null and reqId != ''">
+				   AND REQ_ID = #{reqId}
+				</if>
+		 	/*조건 추가*/) I
+		  JOIN REQ R
+		  	ON R.REQ_ID = I.REQ_ID
+		  JOIN EMP CE
+		  	ON CE.EMP_ID = I.CRTR
+		  JOIN EMP ME
+		  	ON ME.EMP_ID = I.MDFYR
 		<include refid="Common.pageFooter"/>
 	</select>
 	

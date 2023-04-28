@@ -51,9 +51,33 @@ $().ready(function() {
 	
 	$(".list_table > tbody > tr").click(function() {
 		$(".hide").removeClass("hide");
+
+		$("#addDepHeadBtn").closest("tr").show();
+		
+		$("#crtr").closest("td").prev().prev().attr("colspan", 0);
+		$("#crtr").closest("td").prev().show();
+		$("#crtr").closest("td").show();
+		
+		$("#crtDt").closest("td").prev().prev().attr("colspan", 0);
+		$("#crtDt").closest("td").prev().show();
+		$("#crtDt").closest("td").show();
+		
+		$("#mdfyr").closest("td").prev().prev().attr("colspan", 0);
+		$("#mdfyr").closest("td").prev().show();
+		$("#mdfyr").closest("td").show();
+		
+		$("#mdfyDt").closest("td").prev().prev().attr("colspan", 0);
+		$("#mdfyDt").closest("td").prev().show();
+		$("#mdfyDt").closest("td").show();
+		
+		$("#useYn").closest("td").attr("colspan", 0);
+ 		$("#useYn").closest("td").next().show();
+ 		$("#useYn").closest("td").next().next().show();
+
 		$("#isModify").val("true"); //수정모드
 		$(".detail_section").show("fast");
-	    $(".detail_table").show();
+        $(".detail_table").show();
+        
 		
 		var data = $(this).data();
 		$("#depId").val(data.depid);
@@ -64,22 +88,38 @@ $().ready(function() {
 		$("#crtDt").val(data.crtdt);
 		$("#mdfyr").val(data.mdfyr);
 		$("#mdfyDt").val(data.mdfydt);
-
 		
 		$("#useYn").prop("checked", data.useyn == "Y");
 		
 	});
 	
 	$("#new_btn").click(function() {
-		$("#addDepHeadBtn").closest("div").addClass("hide");
-		$("#crtr").closest("div").addClass("hide");
-		$("#crtDt").closest("div").addClass("hide");
-		$("#mdfyr").closest("div").addClass("hide");
-		$("#mdfyDt").closest("div").addClass("hide");
+		$("#addDepHeadBtn").closest("tr").hide();
+
+		$("#crtr").closest("td").prev().prev().attr("colspan", 3);
+		$("#crtr").closest("td").prev().hide();
+		$("#crtr").closest("td").hide();
+		
+		$("#crtDt").closest("td").prev().prev().attr("colspan", 3);
+		$("#crtDt").closest("td").prev().hide();
+		$("#crtDt").closest("td").hide();
+		
+		$("#mdfyr").closest("td").prev().prev().attr("colspan", 3);
+		$("#mdfyr").closest("td").prev().hide();
+		$("#mdfyr").closest("td").hide();
+		
+		$("#mdfyDt").closest("td").prev().prev().attr("colspan", 3);
+		$("#mdfyDt").closest("td").prev().hide();
+		$("#mdfyDt").closest("td").hide();
+		
+		$("#useYn").closest("td").attr("colspan", 3);
+ 		$("#useYn").closest("td").next().hide();
+ 		$("#useYn").closest("td").next().next().hide();
+ 		
+		$(".detail_section").show("fast");
+        $(".detail_table").show();
 		
 		$("#isModify").val("false"); //등록모드
-		$(".detail_section").show("fast");
-	    $(".detail_table").show();
 		
 		$("#depId").val("");
 		$("#depNm").val("");
@@ -209,10 +249,8 @@ $().ready(function() {
 			          <select id="search-option">
 			            <option value="depNm" ${depVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
 						<option value="tmNm" ${depVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
-						<option value="hdLnm" ${depVO.searchOption eq "hdLnm" ? "selected": ""}>부서장 성</option>
-						<option value="hdFnm" ${depVO.searchOption eq "hdFnm" ? "selected": ""}>부서장 이름</option>
-						<option value="tmLnm" ${depVO.searchOption eq "tmLnm" ? "selected": ""}>팀장 성</option>
-						<option value="tmFnm" ${depVO.searchOption eq "tmFnm" ? "selected": ""}>팀장 이름</option>
+						<option value="hdNm" ${depVO.searchOption eq "hdNm" ? "selected": ""}>부서장명</option>
+						<option value="tmHdNm" ${depVO.searchOption eq "tmHdNm" ? "selected": ""}>팀장명</option>
 			          </select>
 			          <div class="search_field">
 			          	<input type="text" id="search-keyword" class="input" placeholder="Search"/>
@@ -316,7 +354,7 @@ $().ready(function() {
 				            <tr>
 				              <th>부서장ID</th>
 				              <td>
-				              	<button id="addDepHeadBtn" class="btn-p">등록</button>
+				              	<button id="addDepHeadBtn" class="btn regist">등록</button>
 				              	<div class="items">
 									<div class='head-item'>
 										<input type='text' class="" name='depHdId' id="depHdId" readonly value="" />

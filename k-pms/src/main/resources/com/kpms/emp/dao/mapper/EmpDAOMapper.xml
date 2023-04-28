@@ -259,18 +259,18 @@
 			   E.PRFL_PHT,
 			   E.EMPLMNT_STTS,
 			   E.DEP_ID,
+			   E.BRTHDY,
 			   J.JOB_NM,
 			   D.DEP_NM,
 			   P.PSTN_NM
-		  FROM (SELECT *
-		  		  FROM EMP
+		  FROM (SELECT E.*
+		  			 , E.L_NM || E.F_NM NM
+		  		  FROM EMP E
 				 WHERE DEL_YN = 'N'
 				<if test="depId != null and depId != ''">
 				   AND DEP_ID = #{depId}
 				</if>
-				<if test="fNm != null and fNm != ''">
-				   AND F_NM LIKE '%' || #{fNm} || '%'
-				</if>) E
+				) E
 		  JOIN EMP CE
 		  	ON CE.EMP_ID = E.CRTR
 		  JOIN EMP ME
@@ -281,6 +281,9 @@
 		  	ON J.JOB_ID = E.JOB_ID
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
+		<if test="fNm != null and fNm != ''">
+		 WHERE E.NM LIKE '%' || #{fNm} || '%'
+		</if>
 	</select>
 	
 	<select id="readEmpOnTmMbrListNoPagination"
@@ -295,11 +298,15 @@
 			   E.PRFL_PHT,
 			   E.EMPLMNT_STTS,
 			   E.DEP_ID,
+			   E.BRTHDY,
 			   J.JOB_NM,
 			   D.DEP_NM,
 			   P.PSTN_NM 
 		  FROM DEP D
-		 INNER JOIN EMP E
+		 INNER JOIN (SELECT E.*
+		 				  , E.L_NM || E.F_NM NM
+		 			   FROM	EMP E
+					  WHERE DEL_YN = 'N') E
 		    ON D.DEP_ID = E.DEP_ID
 		 INNER JOIN JOB J
 		  	ON J.JOB_ID = E.JOB_ID
@@ -311,7 +318,7 @@
 		  AND D.DEP_ID = #{depId}
 		</if>
 		<if test="fNm != null and fNm != ''">
-		  AND E.F_NM LIKE '%' || #{fNm} || '%'
+		  AND E.NM LIKE '%' || #{fNm} || '%'
 		</if>
 		  AND E.EMP_ID NOT IN (SELECT TM.EMP_ID
 								 FROM TM_MBR TM

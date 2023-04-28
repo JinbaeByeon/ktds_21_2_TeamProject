@@ -18,6 +18,30 @@
 	$().ready(function(){
 	     $(".detail_section").hide();
 		$(" .list_table > tbody > tr").click(function(){
+			$("#crtr").closest("td").prev().prev().attr("colspan", 0);
+			$("#crtr").closest("td").prev().show();
+			$("#crtr").closest("td").show();
+			
+			$("#crtDt").closest("td").prev().prev().attr("colspan", 0);
+			$("#crtDt").closest("td").prev().show();
+			$("#crtDt").closest("td").show();
+			
+			$("#mdfyr").closest("td").prev().prev().attr("colspan", 0);
+			$("#mdfyr").closest("td").prev().show();
+			$("#mdfyr").closest("td").show();
+
+			$("#mdfyDt").closest("td").prev().prev().attr("colspan", 0);
+			$("#mdfyDt").closest("td").prev().show();
+			$("#mdfyDt").closest("td").show();
+			
+			$("#prchsDt").closest("td").attr("colspan", 0);
+	 		$("#prchsDt").closest("td").next().show();
+	 		$("#prchsDt").closest("td").next().next().show();
+			
+			$("#useYn").closest("td").attr("colspan", 0);
+	 		$("#useYn").closest("td").next().show();
+	 		$("#useYn").closest("td").next().next().show();
+	 	
 			
 			$("#isModify").val("true"); //수정모드
 	        $(".detail_section").show("fast");
@@ -44,6 +68,30 @@
 		});
 		
 		$("#new_btn").click(function(){
+			$("#crtr").closest("td").prev().prev().attr("colspan", 3);
+			$("#crtr").closest("td").prev().hide();
+			$("#crtr").closest("td").hide();
+			
+			$("#crtDt").closest("td").prev().prev().attr("colspan", 3);
+			$("#crtDt").closest("td").prev().hide();
+			$("#crtDt").closest("td").hide();
+			
+			$("#mdfyr").closest("td").prev().prev().attr("colspan", 3);
+			$("#mdfyr").closest("td").prev().hide();
+			$("#mdfyr").closest("td").hide();
+			
+			$("#mdfyDt").closest("td").prev().prev().attr("colspan", 3);
+			$("#mdfyDt").closest("td").prev().hide();
+			$("#mdfyDt").closest("td").hide();
+			
+			$("#prchsDt").closest("td").attr("colspan", 3);
+	 		$("#prchsDt").closest("td").next().hide();
+	 		$("#prchsDt").closest("td").next().next().hide();
+	 		
+			$("#useYn").closest("td").attr("colspan", 3);
+	 		$("#useYn").closest("td").next().hide();
+	 		$("#useYn").closest("td").next().next().hide();
+			
 			$("#isModify").val("false"); //등록모드
 	        $(".detail_section").show("fast");
 	        $(".detail_table").show();

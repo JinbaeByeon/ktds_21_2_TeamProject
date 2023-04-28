@@ -70,7 +70,13 @@
 							<c:forEach items="${empList}" var="emp">
 								<tr data-empid = "${emp.empId}"
 									data-fnm = "${emp.fNm}"
-									data-lnm = "${emp.lNm}">
+									data-lnm = "${emp.lNm}"
+									data-pstnnm = "${emp.pstn.pstnNm}"
+									data-jobnm = "${emp.job.jobNm}"
+									data-phn = "${emp.phn}"
+									data-brthdy = "${emp.brthdy}"
+									data-eml = "${emp.eml}"
+									data-pstnprd = "${emp.pstnPrd}">
 									<td>
 										<input type="radio" name ="radio_idx" class="radio_idx" value="${emp.empId}" />
 									</td>

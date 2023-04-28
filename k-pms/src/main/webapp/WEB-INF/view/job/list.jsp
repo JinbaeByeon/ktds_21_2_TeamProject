@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="sys"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,17 @@
 		$(".detail_section").hide();
 		
 		$(".list_table > tbody > tr").click(function() {
+			$("#crtr").closest("td").prev().show();
+			$("#crtr").closest("td").show();
+			
+			$("#crtDt").closest("td").prev().show();
+			$("#crtDt").closest("td").show();
+			
+			$("#mdfyr").closest("td").prev().show();
+			$("#mdfyr").closest("td").show();
+
+			$("#mdfyDt").closest("tr").show();
+			
 			$("#isModify").val("true");
 			$(".detail_section").show("fast");
 	        $(".detail_table").show();
@@ -30,6 +42,17 @@
 		});
 
 		$("#new_btn").click(function() {
+			$("#crtr").closest("td").prev().hide();
+			$("#crtr").closest("td").hide();
+			
+			$("#crtDt").closest("td").prev().hide();
+			$("#crtDt").closest("td").hide();
+			
+			$("#mdfyr").closest("td").prev().hide();
+			$("#mdfyr").closest("td").hide();
+
+			$("#mdfyDt").closest("tr").hide();
+			
 			$("#isModify").val("false");
 			$(".detail_section").show("fast");
 	        $(".detail_table").show();

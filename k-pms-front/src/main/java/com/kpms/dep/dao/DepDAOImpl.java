@@ -39,7 +39,6 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 		return getSqlSession().insert("Dep.createOneDep", depVO);
 	}
 
-
 	@Override
 	public int updateOneDepByDepId(DepVO depVO) {
 		return getSqlSession().update("Dep.updateOneDepByDepId", depVO);

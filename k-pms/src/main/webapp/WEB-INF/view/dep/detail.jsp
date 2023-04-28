@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="dep"/>
 
 <!DOCTYPE html>
 <html>
@@ -50,6 +51,18 @@
                     <th>부서 생성일</th>
                     <td colspan="3"><input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/></td>
                 </tr>
+                <tr>
+                    <th>등록자</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.crtr}" readonly/></td>
+                    <th>등록일</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.crtDt}" readonly/></td>
+                </tr>
+                <tr>
+                	<th>수정자</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.mdfyr}" readonly/></td>
+                    <th>수정일</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.mdfyDt}" readonly/></td>
+               </tr>
             </table>
                 
             <div class="hr"></div>
@@ -148,8 +161,6 @@
 
         <div class="buttons">
 	       	<button id="list-btn" class="btn list">목록</button>
-	         <button id="modify-btn" class="btn regist">수정</button>
-	         <button id="delete-btn" class="btn delete">삭제</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

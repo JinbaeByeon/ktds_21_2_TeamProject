@@ -30,6 +30,12 @@ $().ready(function() {
 		movePage(0);
 	});
 	
+	$("#prjSttsType").change(function(){
+		var prjStts = $("#prjSttsType").val();
+		console.log(prjStts);
+		location.href = "${context}/prj/list?prjStts=" + prjStts;
+	});
+	
 	$("#new-btn").click(function() {
 		location.href = "${context}/prj/create"
 	});
@@ -67,12 +73,12 @@ $().ready(function() {
 	
 });
 	function movePage(pageNo) {
-		var prjnm = $("#search-keyword-prjnm").val();
-		var cstmr = $("#search-keyword-cstmr").val();
+		var searchOption = $("#search-option").val();
+		var searchKeyword = $("#search-keyword").val();
 		
-		var queryString = "prjNm=" + prjnm;
-		queryString += "&cstmr=" + cstmr;
-		queryString += "&pageNo=" + pageNo;
+		var queryString = "pageNo=" + pageNo;
+		queryString += "&searchOption=" + searchOption;
+		queryString += "&searchKeyword=" + searchKeyword;
 		
 		location.href = "${context}/prj/list?" + queryString;
 	}
@@ -87,12 +93,12 @@ $().ready(function() {
 			  <div class="path">프로젝트관리 > 프로젝트 목록</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
-		          <select>
-		            <option>프로젝트명</option>
-		            <option>고객사명</option>
+		          <select id="search-option">
+			        <option value="prjNm" ${prjVO.searchOption eq "prjNm" ? "selected": ""}>프로젝트명</option>
+			        <option value="cstmr" ${prjVO.searchOption eq "cstmr" ? "selected": ""}>고객사명</option>
 		          </select>
 		          <div class="search_field">
-		            <input type="text" class="input" placeholder="Search">
+		            <input type="text" id="search-keyword" class="input" placeholder="Search">
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
@@ -110,7 +116,20 @@ $().ready(function() {
 						<th>고객사</th>
 						<th>시작일</th>
 						<th>종료일</th>
-						<th>상태</th>
+						<th>
+							<select id="prjSttsType" name="prjSttsType">
+								<option value="">프로젝트 상태</option>
+								<option value="002_01">분석중</option>
+								<option value="002_02">설계중</option>
+								<option value="002_03">개발중</option>
+								<option value="002_04">단위 테스트 진행중</option>
+								<option value="002_05">통합 테스트 진행중</option>
+								<option value="002_06">오픈 대기중</option>
+								<option value="002_07">오픈</option>
+								<option value="002_08">하자 보수 진행중</option>
+								<option value="002_09">완료</option>
+							</select>
+						</th>
 						<th>사용여부</th>
 		            </tr>
 		          </thead>
@@ -162,16 +181,6 @@ $().ready(function() {
 		          <button id="delete-btn" class="btn delete">선택삭제</button>
 		        </div>
 		      </div>
-		      		
-				<div class="search-row-group">
-					<div class="search-group">
-						<label for="search-keyword-nm">프로젝트명</label>
-						<input type="text" id="search-keyword-prjnm" class="search-input" value="${prjVO.prjNm}" />
-						<label for="search-keyword-rlnm">고객사명</label>
-						<input type="text" id="search-keyword-cstmr" class="search-input" value="${prjVO.cstmr}" />
-						<button class="btn-search" id="search-btn">&#128269</button>	
-					</div>
-				</div>
 
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

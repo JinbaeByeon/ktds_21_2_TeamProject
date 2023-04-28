@@ -18,6 +18,30 @@ $().ready(function(){
 	$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 	
 	$(".list_table > tbody > tr").click(function(){
+
+		$("#crtr").closest("td").prev().prev().attr("colspan", 0);
+		$("#crtr").closest("td").prev().show();
+		$("#crtr").closest("td").show();
+		
+		$("#crtDt").closest("td").prev().prev().attr("colspan", 0);
+		$("#crtDt").closest("td").prev().show();
+		$("#crtDt").closest("td").show();
+		
+		$("#mdfyr").closest("td").prev().prev().attr("colspan", 0);
+		$("#mdfyr").closest("td").prev().show();
+		$("#mdfyr").closest("td").show();
+
+		$("#mdfyDt").closest("td").prev().prev().attr("colspan", 0);
+		$("#mdfyDt").closest("td").prev().show();
+		$("#mdfyDt").closest("td").show();
+		
+		$("#prchsDt").closest("td").attr("colspan", 0);
+ 		$("#prchsDt").closest("td").next().show();
+ 		$("#prchsDt").closest("td").next().next().show();
+		
+		$("#useYn").closest("td").attr("colspan", 0);
+ 		$("#useYn").closest("td").next().show();
+ 		$("#useYn").closest("td").next().next().show();
 		
 		$("#isModify").val("true"); //수정모드
         $(".detail_section").show("fast");
@@ -44,6 +68,22 @@ $().ready(function(){
 	});
 	
 	$("#new_btn").click(function(){
+		$("#crtr").closest("td").prev().prev().attr("colspan", 3);
+		$("#crtr").closest("td").prev().hide();
+		$("#crtr").closest("td").hide();
+		
+		$("#crtDt").closest("td").prev().prev().attr("colspan", 3);
+		$("#crtDt").closest("td").prev().hide();
+		$("#crtDt").closest("td").hide();
+		
+		$("#mdfyr").closest("td").prev().prev().attr("colspan", 3);
+		$("#mdfyr").closest("td").prev().hide();
+		$("#mdfyr").closest("td").hide();
+		
+		$("#mdfyDt").closest("td").prev().prev().attr("colspan", 3);
+		$("#mdfyDt").closest("td").prev().hide();
+		$("#mdfyDt").closest("td").hide();
+        
 		$("#isModify").val("false"); //등록모드
         $(".detail_section").show("fast");
         $(".detail_table").show();
@@ -330,20 +370,20 @@ function movePage(pageNo) {
 				            <tr>
 				              <th>비품 ID</th>
 				              <td><input type="text" id="eqpId"  name="eqpId" value="" readonly /></td>
-				              <th>분실상태</th>
-				              <td><input type="checkbox" id="lossStts"  name="lossStts" disabled value="Y"/></td>
+				              <th>사용여부</th>
+				              <td><input type="checkbox" id="useYn"  name="useYn" value="Y"/></td>
 				            </tr>
 				            <tr>
 				              <th>비품명</th>
 				              <td><input type="text" id="eqpNm"  name="eqpNm" disabled value=""/></td>
-				              <th>분실신고일</th>
-				              <td><input type="date" id="lossRprtDt"  name="lossRprtDt" disabled value=""/></td>
+				              <th>분실상태</th>
+				              <td><input type="checkbox" id="lossStts"  name="lossStts" disabled value="Y"/></td>
 				            </tr>
 				            <tr>
 				              <th>비품종류</th>
 				              <td><input type="text" id="eqpTp"  name="eqpTp" disabled value=""/></td>
-				              <th>등록자</th>
-				              <td><input type="text" id="crtr" disabled value=""/></td>
+				              <th>분실신고일</th>
+				              <td><input type="date" id="lossRprtDt"  name="lossRprtDt" disabled value=""/></td>
 				            </tr>
 				            <tr>
 				              <th>신청상태</th>
@@ -356,32 +396,26 @@ function movePage(pageNo) {
 									<option value="변경신청">변경신청</option>
 								</select>
 				              </td>
-				              <th>등록일</th>
-				              <td><input type="text" id="crtDt" disabled value=""/></td>
+				              <th>등록자</th>
+				              <td><input type="text" id="crtr" disabled value=""/></td>
 				            </tr>
 				            <tr>
 				              <th>신청일</th>
 				              <td><input type="date" id="applDt"  name="applDt" disabled value=""/></td>
-				              <th>수정자</th>
-				              <td><input type="text" id="mdfyr" disabled value=""/></td>
+				              <th>등록일</th>
+				              <td><input type="text" id="crtDt" disabled value=""/></td>
 				            </tr>
 				            <tr>
 				              <th>비품가격</th>
 				              <td><input type="text" id="eqpPrc"  name="eqpPrc" disabled value=""/></td>
-				              <th>수정일</th>
-				              <td><input type="text" id="mdfyDt" disabled value=""/></td>
+				              <th>수정자</th>
+				              <td><input type="text" id="mdfyr" disabled value=""/></td>
 				            </tr>
 				            <tr>
 				              <th>구매일</th>
-				              <td><input type="date" id="prchsDt"  name="prchsDt" disabled value=""/></td>
-				              <th></th>
-				              <td></td>
-				            </tr>
-				            <tr>
-				              <th>사용여부</th>
-				              <td><input type="checkbox" id="useYn"  name="useYn" value="Y"/></td>
-				              <th></th>
-				              <td></td>
+				              <td><input type="date" id="prchsDt"  name="prchsDt" value=""/></td>
+				              <th>수정일</th>
+				              <td><input type="text" id="mdfyDt" disabled value=""/></td>
 				            </tr>
 				        </table>
 			        </form>

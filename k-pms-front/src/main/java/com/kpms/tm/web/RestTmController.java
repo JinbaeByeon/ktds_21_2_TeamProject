@@ -48,13 +48,12 @@ public class RestTmController {
 						 @PathVariable String tmId) {
 		tmVO.setCrtr(empVO.getEmpId());
 		tmVO.setMdfyr(empVO.getEmpId());
-		tmVO.setTmHdId(tmVO.getTmHdId());
 		tmVO.setDepId(depVO.getDepId());
 
 		String tmNm = tmVO.getTmNm();
 		
 		if (tmNm == null || tmNm.trim().length() == 0) {
-			throw new APIArgsException("400", "부서명이 누락되었습니다.");
+			throw new APIArgsException("400", "팀명이 누락되었습니다.");
 		}
 		
 		boolean updateResult = tmService.updateOneTm(tmVO);

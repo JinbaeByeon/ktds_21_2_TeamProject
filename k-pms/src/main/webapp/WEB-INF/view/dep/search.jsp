@@ -10,7 +10,7 @@
 <script type="text/javascript">
 	$().ready(function(){
 		
-		$(".list_table > table > tbody > tr").click(function(){
+		$(".list_table > tbody > tr").click(function(){
 			$(this).find(".radio_idx").prop("checked",true);
 		});
 		
