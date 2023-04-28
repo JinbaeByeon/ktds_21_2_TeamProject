@@ -41,7 +41,6 @@ public class SndMsgServiceImpl implements SndMsgService {
 		}
 		
 		if(fileList != null && !fileList.isEmpty()) {
-
 			fileList.forEach(file-> {
 				file.setCrtr(sndMsgVO.getCrtr());
 				file.setFrgnId(sndMsgVO.getMsgId());

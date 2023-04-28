@@ -2,19 +2,27 @@ package com.kpms.issu.web;
 
 import java.util.List;
 
+<<<<<<< HEAD
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> DS
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.handler.DownloadUtil;
+=======
+
+>>>>>>> DS
 import com.kpms.issu.service.IssuService;
 import com.kpms.issu.vo.IssuVO;
 
@@ -23,10 +31,13 @@ public class IssuController {
 
 	@Autowired
 	private IssuService issuService;
+<<<<<<< HEAD
 
 	@Value("${upload.attchmnt.path:/kpms/files/attchmnt}")
 	private String atchmntPath;
 
+=======
+>>>>>>> DS
 	
 	@GetMapping("/issu/list")
 	public String viewIssuListPage(Model model, IssuVO issuVO) {
@@ -47,12 +58,22 @@ public class IssuController {
 		return "issu/create";
 	}
 	
+<<<<<<< HEAD
+=======
+	@GetMapping("/issu/create/{reqId}")
+	public String viewIssuCreatePageTwo(Model model, @PathVariable String reqId) {
+		model.addAttribute("reqId", reqId);
+		return "issu/create";
+	}
+	
+>>>>>>> DS
 	@GetMapping("/issu/detail/{issuId}")
 	public String viewIssuDetailPage(Model model, @PathVariable String issuId) {
 		IssuVO issuVO = issuService.readOneIssu(issuId);
 		model.addAttribute("issuVO",issuVO);
 		return "issu/detail";
 	}
+<<<<<<< HEAD
 	
 	@GetMapping("/issu/modify/{issuId}")
 	public String viewIssuModifyPage(Model model, @PathVariable String issuId) {
@@ -71,4 +92,6 @@ public class IssuController {
 		new DownloadUtil(response,request,atchmntPath + "/" + uuidNm)
 		.download(fileNm);
 	}
+=======
+>>>>>>> DS
 }

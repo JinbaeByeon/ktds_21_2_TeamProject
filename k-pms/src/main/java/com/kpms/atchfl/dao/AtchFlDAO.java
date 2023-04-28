@@ -6,8 +6,7 @@ import com.kpms.atchfl.vo.AtchFlVO;
 
 public interface AtchFlDAO {
 
-	public long doGetGroupId();
-	public int doCreateNewAtchFl(AtchFlVO atchFlVO);
+	public int createNewAtchFl(AtchFlVO atchFlVO);
 	public int createNewAtchFls(List<AtchFlVO> fileList);
 	public int deleteAtchFlsByFrgnId(String frgnId);
 }

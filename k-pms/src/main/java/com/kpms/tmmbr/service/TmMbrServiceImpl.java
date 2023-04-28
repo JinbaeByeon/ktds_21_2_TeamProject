@@ -19,7 +19,11 @@ public class TmMbrServiceImpl implements TmMbrService {
 	public List<TmMbrVO> readAllTmMbrVO(String tmId) {
 		return tmMbrDAO.readAllTmMbrVO(tmId);
 	}
-
+	
+	@Override
+	public List<TmMbrVO> readAllTmMbrInTm(String tmId) {
+		return tmMbrDAO.readAllTmMbrInTm(tmId);
+	}
 
 	@Override
 	public boolean createOneTmMbr(TmMbrVO tmMbrVO) {
@@ -42,5 +46,6 @@ public class TmMbrServiceImpl implements TmMbrService {
 		
 		return isSuccess;
 	}
+
 
 }

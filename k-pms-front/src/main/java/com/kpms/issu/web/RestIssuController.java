@@ -3,8 +3,11 @@ package com.kpms.issu.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+=======
+>>>>>>> DS
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +31,7 @@ public class RestIssuController {
 		return new APIResponseVO(APIStatus.FAIL);
 	}
 	
+<<<<<<< HEAD
 	@GetMapping("/api/issu/delete/{issuId}")
 	public APIResponseVO doDeleteOneIssu(@PathVariable String issuId) {
 		if(issuService.deleteOneIssu(issuId)) {
@@ -38,6 +42,11 @@ public class RestIssuController {
 	
 	@PostMapping("/api/issu/delete")
 	public APIResponseVO doDeleteIssu(@RequestParam List<String> issuId) {
+=======
+	@PostMapping("/api/issu/delete")
+	public APIResponseVO doDeleteIssu(@RequestParam List<String> issuId) {
+		
+>>>>>>> DS
 		if(issuService.deleteIssu(issuId)) {
 			return new APIResponseVO(APIStatus.OK,"/issu/list");
 		}
@@ -51,6 +60,9 @@ public class RestIssuController {
 		}
 		return new APIResponseVO(APIStatus.FAIL);
 	}
+<<<<<<< HEAD
 	
 	
+=======
+>>>>>>> DS
 }

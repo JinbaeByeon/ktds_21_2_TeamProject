@@ -134,6 +134,9 @@
 		  FROM (SELECT *
 		  		  FROM ISSU
 		  		 WHERE DEL_YN = 'N'
+				<if test="reqId != null and reqId != ''">
+				   AND REQ_ID = #{reqId}
+				</if>
 		 	/*조건 추가*/) I
 		  JOIN REQ R
 		  	ON R.REQ_ID = I.REQ_ID

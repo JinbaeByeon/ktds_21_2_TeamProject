@@ -25,12 +25,24 @@
 			<id property="empId" column="TSTR" />
 			<result property="fNm" column="TSTR_E_F_NM"/>
 			<result property="lNm" column="TSTR_E_L_NM"/>
-		</association>	
+			</association>	
 		</association>
+		<collection property="atchFlList"
+					ofType="com.kpms.atchfl.vo.AtchFlVO">
+			<id property="uuidFlNm" column="UUID_FL_NM" />
+			<result property="orgFlNm" column="ORG_FL_NM" />
+			<result property="flSz" column="FL_SZ" />
+			<result property="flExt" column="FL_EXT" />
+			<result property="frgnId" column="REQ_ID" />
+		</collection>
 	</resultMap>
 	
 	<insert id="createNewReq"
 			parameterType="com.kpms.req.vo.ReqVO">
+		<selectKey keyProperty="reqId" resultType="string" order="BEFORE">
+		SELECT 'RQ-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_REQ_PK.NEXTVAL, 5, 0)
+		  FROM DUAL
+		</selectKey>
 		INSERT INTO REQ
 		 (REQ_ID
 		, CRT_DT
@@ -42,7 +54,6 @@
 		, DTL_REQ
 		, STRT_DT
 		, EXPCT_END_DT
-		, ATTCH
 		, PRJ_ID
 		, MN_DVLPR
 		, TST_RSLT
@@ -52,7 +63,7 @@
 		, REQ_TTL
 		, REQ_CNFR_NM)
 		VALUES
-		 ('RQ-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_REQ_PK.NEXTVAL, 5, 0)
+		 (#{reqId}
 		, SYSDATE
 		, #{crtr}
 		, SYSDATE
@@ -62,7 +73,6 @@
 		, #{dtlReq}
 		, TO_DATE(#{strtDt}, 'YYYY-MM-DD')
 		, TO_DATE(#{expctEndDt}, 'YYYY-MM-DD')
-		, #{attch}
 		, #{prjId}
 		, #{mnDvlpr}
 		, #{tstRslt}
@@ -112,12 +122,14 @@
 			 , R.DTL_REQ
 			 , TO_CHAR(R.STRT_DT, 'YYYY-MM-DD') STRT_DT
 			 , TO_CHAR(R.EXPCT_END_DT, 'YYYY-MM-DD') EXPCT_END_DT
-			 , R.ATTCH
 			 , R.PRJ_ID
 			 , R.MN_DVLPR
 			 , R.TST_RSLT
 			 , R.TSK_STTS
 			 , R.PRCS_STTS
+			 , RSLT_CD.CD_NM RSLT_CD_NM
+			 , TSK_CD.CD_NM TSK_CD_NM
+			 , PRCS_CD.CD_NM PRCS_CD_NM
 			 , R.PRRTY
 			 , R.REQ_TTL
 			 , R.REQ_CNFR_NM
@@ -128,6 +140,12 @@
 		  FROM REQ R
 		 INNER JOIN PRJ PJ
 		 	ON R.PRJ_ID = PJ.PRJ_ID 
+		 INNER JOIN CMN_CD RSLT_CD
+		 	ON R.TST_RSLT = RSLT_CD.CD_ID 
+		 INNER JOIN CMN_CD TSK_CD
+			ON R.TSK_STTS = TSK_CD.CD_ID
+		 INNER JOIN CMN_CD PRCS_CD
+			ON R.PRCS_STTS = PRCS_CD.CD_ID
 		  LEFT JOIN REQ_TSTR TST 
 		  	ON R.REQ_ID = TST.REQ_ID
 		  LEFT JOIN EMP TSTR_E
@@ -135,6 +153,21 @@
 		 WHERE R.DEL_YN = 'N'
 		  <if test="reqId != null and reqId != ''">
 		   AND R.REQ_ID LIKE '%' || #{reqId} || '%'
+		 </if>
+		 <if test="reqTtl != null and reqTtl != ''">
+		   AND R.REQ_TTL LIKE '%' || #{reqTtl} || '%'
+		 </if>
+		 <if test="prjId != null and prjId != ''">
+		   AND R.PRJ_ID = #{prjId}
+		 </if>
+		 <if test="reqPrjVO != null and reqPrjVO.prjNm != null and reqPrjVO.prjNm != ''">
+		   AND PJ.PRJ_NM LIKE '%' || #{reqPrjVO.prjNm} || '%'
+		 </if>
+		 <if test="tskCdNm != null and tskCdNm != ''">
+		   AND TSK_CD.CD_NM LIKE '%' || #{tskCdNm} || '%'
+		 </if>
+		 <if test="prcsCdNm != null and prcsCdNm != ''">
+		   AND PRCS_CD.CD_NM LIKE '%' || #{prcsCdNm} || '%'
 		 </if>
 		 <include refid="Common.pageFooter" />
 	</select>
@@ -154,12 +187,14 @@
 			 , R.DTL_REQ
 			 , TO_CHAR(R.STRT_DT, 'YYYY-MM-DD') STRT_DT
 			 , TO_CHAR(R.EXPCT_END_DT, 'YYYY-MM-DD') EXPCT_END_DT
-			 , R.ATTCH
 			 , R.PRJ_ID
 			 , R.MN_DVLPR
 			 , R.TST_RSLT
 			 , R.TSK_STTS
 			 , R.PRCS_STTS
+			 , RSLT_CD.CD_NM RSLT_CD_NM
+			 , TSK_CD.CD_NM TSK_CD_NM
+			 , PRCS_CD.CD_NM PRCS_CD_NM
 			 , R.PRRTY
 			 , R.REQ_TTL
 			 , R.REQ_CNFR_NM
@@ -167,9 +202,21 @@
 			 , TST.TSTR_ID TST_TSTR_ID
 			 , TSTR_E.L_NM TSTR_E_L_NM
 			 , TSTR_E.F_NM TSTR_E_F_NM
+			 , AF.ORG_FL_NM
+			 , AF.UUID_FL_NM
+			 , AF.FL_SZ
+			 , AF.FL_EXT
 		  FROM REQ R
 		 INNER JOIN PRJ PJ
-		 	ON R.PRJ_ID = PJ.PRJ_ID 
+		 	ON R.PRJ_ID = PJ.PRJ_ID
+		  LEFT JOIN ATCH_FL AF
+		 	ON R.REQ_ID = AF.FRGN_ID 
+		 INNER JOIN CMN_CD RSLT_CD
+		 	ON R.TST_RSLT = RSLT_CD.CD_ID 
+		 INNER JOIN CMN_CD TSK_CD
+			ON R.TSK_STTS = TSK_CD.CD_ID
+		 INNER JOIN CMN_CD PRCS_CD
+			ON R.PRCS_STTS = PRCS_CD.CD_ID
 		  LEFT JOIN REQ_TSTR TST 
 		  	ON R.REQ_ID = TST.REQ_ID
 		  LEFT JOIN EMP TSTR_E
@@ -187,7 +234,6 @@
 		     , DTL_REQ=#{dtlReq}
 		     , STRT_DT=#{strtDt}
 		     , EXPCT_END_DT=#{expctEndDt}
-		     , ATTCH=#{attch}
 		     , PRJ_ID=#{prjId}
 		     , MN_DVLPR=#{mnDvlpr}
 		     , TST_RSLT=#{tstRslt}

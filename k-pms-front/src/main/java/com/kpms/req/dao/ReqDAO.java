@@ -8,6 +8,7 @@ public interface ReqDAO {
 
 	public int createNewReq(ReqVO reqVO);
 	public List<ReqVO> readAllReq(ReqVO reqVO);
+	
 	public ReqVO readReqByReqId(String reqId);
 	public int updateReq(ReqVO reqVO);
 	public int deleteReqByReqId(String reqId);
