@@ -104,76 +104,30 @@
 			location.href = "${context}/req/list";
 		});
 		
-		$("#add_files").click(function(e){
-			e.preventDefault();
-			$("#files").click();
-		});
-		$("#files").change(function(e){
-			var files = $(this)[0].files;
-			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
-					for(var i=0;i < response.data.length; i++){
-						var file = response.data[i];
-						addFile(file);
-					}
-					checkFile();
-				});
-			}
-			$(this).value='';
-		});
-		$(".file_drag").on("dragover",function(e){
-			e.preventDefault();
-		});
-		$(".file_drag").on("drop",function(e){
-			e.preventDefault();
-		 	
-			var files = event.dataTransfer.files;
-			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
-					for(var i=0;i < response.data.length; i++){
-						var file = response.data[i];
-						addFile(file);
-					}
-					checkFile();
-				});
-			}
-		});
-		$(".file_attachment").on("dragover",function(e){
-			e.preventDefault();
-		});
-		$(".file_attachment").on("drop",function(e){
-			e.preventDefault();
-		 	
-			var files = event.dataTransfer.files;
-			if(files){
-				ajaxUtil.uploadImmediatly(files, "${context}/api/atchfl/upload", function(response) {
-					for(var i=0;i < response.data.length; i++){
-						var file = response.data[i];
-						addFile(file);
-					}
-					checkFile();
-				});
-			}
+		
+		$("#file_list").find(".file_name").click(function(e){
+			var data = $(this).closest(".file_item").data();
+			location.href= "${context}/api/file/download?uuidFlNm="+data.uuid+"&orgFlNm="+data.org;
 		});
 		
-		$(".file_attachment").find(".remove_all").click(function(e){
+		$(".file_attachment").find(".save_all").click(function(e){
 			e.preventDefault();
-			var fileList = $(this).closest(".file_attachment").find("ul").children("li");
-			console.log(fileList);
-			var fileNames = [];
+			var fileList = $("#file_list").find(".file_item");
+			var form = $("<form></form>");
+			form.append("<input type='hidden' name='fileNm' value='${rcvMsgVO.sndMsgVO.ttl}'>");
+			var idx =0;
 			fileList.each(function(){
-				var fileNm = $(this).data("uuid");
-				fileNames.push(fileNm);
+				var data = $(this).data();
+				form.append("<input type='hidden' name='atchFlVOList["+idx+"].uuidFlNm' value='"+ data.uuid +"'>");
+				form.append("<input type='hidden' name='atchFlVOList["+idx++ +"].orgFlNm' value='"+ data.org +"'>");
+				$("body").append(form);
 			});
-			ajaxUtil.deleteFile(fileNames, "${context}/api/atchfl/delete", function(response) {
-				$("#file_list").find("li").remove();
-				fileCnt=0;
-				checkFile();
-				$("#files").val("");
-			});
+			form.attr({
+				"action": "${context}/api/files/download",
+				"method": "post"
+			}).submit();
+			form.remove();
 		});
-		$(".remove").click(removeFn);
-		
 		
 		$("#issu_create_btn").click(function(){
 			var reqId = data2;
@@ -310,23 +264,35 @@
 						</div>
 						<div class="create-group">
 							<label for="files" style="width: 180px;">첨부파일</label>
-							<div class="file_area">
-								<ul id="file_list">
-									<c:if test="${not empty reqVO.atchFlList}">
-									<c:forEach items="${reqVO.atchFlList}" var="atchFl">
-										<li data-uuid='${atchFl.uuidFlNm}'
-											data-org='${atchFl.orgFlNm}'
-											data-sz='${atchFl.flSz}'
-											data-ext='${atchFl.flExt}'>
-											<div>
+							<div class="file_attachment">
+								<div class="file_attachment_summary">
+									<span class="total_count">첨부 개</span>
+									<span class="total_volume">전체용량</span>
+									<button class="save_all">모두저장</button>
+								</div>
+								<div class="file_attachments_inner">
+									<ul id="file_list">
+										<c:if test="${not empty reqVO.atchFlList}">
+										<c:forEach items="${reqVO.atchFlList}" var="atchFl">
+											<li class="file_item"
+												data-uuid='${atchFl.uuidFlNm}'
+												data-org='${atchFl.orgFlNm}'
+												data-sz='${atchFl.flSz}'
+												data-ext='${atchFl.flExt}'>
 												<span class='file_name'>${atchFl.orgFlNm}</span>
-											</div>
-										</li>
-									</c:forEach>
-									</c:if>
-								</ul>
+												<c:if test="${atchFl.flSz < 1024*1024}">
+													<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+												</c:if>
+												<c:if test="${atchFl.flSz >= 1024*1024}">
+													<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+												</c:if>
+											</li>
+										</c:forEach>
+										</c:if>
+									</ul>
+								</div>
 							</div>
-							<input type="file" id="files" multiple/>
+						<input type="file" id="files" multiple/>
 						</div>
 						<div class="create-group">
 							<label for="prcsStts" style="width: 180px;">진행상태</label>
