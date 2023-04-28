@@ -20,9 +20,10 @@ a:link, a:visited {
 /* top_nav */
 .header {
     height: 160px;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
+    opacity: 0;
 }
 
 
@@ -787,10 +788,12 @@ div.button_btm {
 	display: inline-block;
 	bottom: 4px;
 	margin-right: 10px;
-}div.button_btm-left {
+}
+div.button_btm_left {
 	position: absolute;
 	left: 0;
 	margin: 10px;
+	margin-left: 0;
 }
 
 
@@ -845,4 +848,8 @@ div.button_btm {
 	border: 1px solid #ccc;
 	margin: 5px;
 	padding: 5px;
+}
+
+.msg_view_footer  {
+	position: relative;
 }

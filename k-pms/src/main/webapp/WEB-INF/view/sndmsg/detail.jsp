@@ -109,10 +109,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="button_btm-left">
-					<button id="delete_btn" class="btn-delete">삭제</button>
-				</div>
 				<div class="msg_view_footer">
+					<div class="button_btm_left">
+						<button id="delete_btn" class="btn-delete">삭제</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -5,10 +5,7 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
-		console.log("${sessionScope.__USER__.fNm}");
-		console.log("${sessionScope.__USER__.lNm}");
-		console.log("${sessionScope.__USER__.empId}");
-		console.log("${sessionScope.__USER__.prflPht}");
+		
 		$("#my-info").children(".my-menu").hide();
 		var empId = "${sessionScope.__USER__.empId}";
 		<c:if test="${not empty selected}">
@@ -43,12 +40,12 @@
 	    <div class="left_blank">
 	      <div class="profile">
 	        <div class="img">
+	           <c:if test="${not empty sessionScope.__USER__.prflPht}">
                    <img src="${context}/emp/prfl/${sessionScope.__USER__.prflPht}/" />
-	           <%-- <c:if test="${not empty sessionScope.__USER__.prflPht}">
                </c:if>
                <c:if test="${empty sessionScope.__USER__.prflPht}">
-                   <img src="${context}/img/base_profile.png" alt=""/>
-               </c:if> --%>
+                   <img src="${context}/img/base_profile.png" />
+               </c:if>
 	          <p id="my-info">
 	          	  ${sessionScope.__USER__.fNm}
 	          </p>
@@ -116,4 +113,6 @@
 	        </ul>
 	      </div>
 	    </div>
+	  </div>
+	  <div class="sub_item_background">
 	  </div>

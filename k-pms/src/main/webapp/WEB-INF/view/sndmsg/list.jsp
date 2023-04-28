@@ -123,7 +123,8 @@
 		                               var="sndMsg">
 		                        <tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
 		                            data-ttl="${sndMsg.ttl}"
-		                            data-crtdt="${sndMsg.crtDt}">
+		                            data-crtdt="${sndMsg.crtDt}"
+		                            data-msgid="${sndMsg.msgId}">
 		                            <td>
 		                                <input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
 		                            </td>

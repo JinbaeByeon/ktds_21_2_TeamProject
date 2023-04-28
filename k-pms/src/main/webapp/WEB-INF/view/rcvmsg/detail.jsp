@@ -66,7 +66,7 @@
 							<div class="option_area">${sndMsgVO.sndEmpVO.lNm}${sndMsgVO.sndEmpVO.fNm} &lt;${sndMsgVO.crtr}&gt;</div>
 						</div>
 						<div class="msg_option rcvr">
-							<strong class="option_title">받는사람</strong>
+							<s class="option_areas"itle">받는사람</strong>
 							<div class="option_areas">
 								<c:forEach items="${sndMsgVO.rcvMsgVO}" var="rcvMsgVO">
 									<div class="option_area">${rcvMsgVO.rcvrEmpVO.lNm}${rcvMsgVO.rcvrEmpVO.fNm} &lt;${rcvMsgVO.rcvr}&gt;</div>
@@ -113,10 +113,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="button_btm-left">
-					<button id="delete_btn" class="btn-delete">삭제</button>
-				</div>
 				<div class="msg_view_footer">
+					<div class="button_btm_left">
+						<button id="delete_btn" class="btn-delete">삭제</button>
+					</div>
 				</div>
 			</div>
 		</div>
