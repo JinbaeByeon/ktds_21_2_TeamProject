@@ -18,6 +18,21 @@ $().ready(function(){
 	$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 	
 	$(".list_table > tbody > tr").click(function(){
+		$(".hide").removeClass("hide");
+
+		$("#addDepHeadBtn").closest("tr").show();
+		
+		$("#crtr").closest("td").prev().show();
+		$("#crtr").closest("td").show();
+		
+		$("#crtDt").closest("td").prev().show();
+		$("#crtDt").closest("td").show();
+		
+		$("#mdfyr").closest("td").prev().show();
+		$("#mdfyr").closest("td").show();
+
+		$("#mdfyDt").closest("td").prev().show();
+		$("#mdfyDt").closest("td").show();
 		
 		$("#isModify").val("true"); //수정모드
         $(".detail_section").show("fast");
@@ -44,6 +59,18 @@ $().ready(function(){
 	});
 	
 	$("#new_btn").click(function(){
+		$("#crtr").closest("td").prev().hide();
+		$("#crtr").closest("td").hide();
+		
+		$("#crtDt").closest("td").prev().hide();
+		$("#crtDt").closest("td").hide();
+		
+		$("#mdfyr").closest("td").prev().hide();
+		$("#mdfyr").closest("td").hide();
+
+		$("#mdfyDt").closest("td").prev().hide();
+		$("#mdfyDt").closest("td").hide();
+        
 		$("#isModify").val("false"); //등록모드
         $(".detail_section").show("fast");
         $(".detail_table").show();

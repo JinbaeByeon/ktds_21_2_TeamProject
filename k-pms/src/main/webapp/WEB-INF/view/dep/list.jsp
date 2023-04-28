@@ -51,14 +51,33 @@ $().ready(function() {
 	
 	$(".list_table > tbody > tr").click(function() {
 		$(".hide").removeClass("hide");
+
+		$("#addDepHeadBtn").closest("tr").show();
+		
+		$("#crtr").closest("td").prev().prev().attr("colspan", 0);
+		$("#crtr").closest("td").prev().show();
+		$("#crtr").closest("td").show();
+		
+		$("#crtDt").closest("td").prev().prev().attr("colspan", 0);
+		$("#crtDt").closest("td").prev().show();
+		$("#crtDt").closest("td").show();
+		
+		$("#mdfyr").closest("td").prev().prev().attr("colspan", 0);
+		$("#mdfyr").closest("td").prev().show();
+		$("#mdfyr").closest("td").show();
+		
+		$("#mdfyDt").closest("td").prev().prev().attr("colspan", 0);
+		$("#mdfyDt").closest("td").prev().show();
+		$("#mdfyDt").closest("td").show();
+		
+		$("#useYn").closest("td").attr("colspan", 0);
+ 		$("#useYn").closest("td").next().show();
+ 		$("#useYn").closest("td").next().next().show();
+
 		$("#isModify").val("true"); //수정모드
 		$(".detail_section").show("fast");
         $(".detail_table").show();
-		$("#addDepHeadBtn").closest("tr").show();
-		$("#crtr").closest("tr").show();
-		$("#crtDt").closest("tr").show();
-		$("#mdfyr").closest("tr").show();
-		$("#mdfyDt").closest("tr").show();
+        
 		
 		var data = $(this).data();
 		$("#depId").val(data.depid);
@@ -75,8 +94,28 @@ $().ready(function() {
 	});
 	
 	$("#new_btn").click(function() {
+		$("#addDepHeadBtn").closest("tr").hide();
 
-
+		$("#crtr").closest("td").prev().prev().attr("colspan", 3);
+		$("#crtr").closest("td").prev().hide();
+		$("#crtr").closest("td").hide();
+		
+		$("#crtDt").closest("td").prev().prev().attr("colspan", 3);
+		$("#crtDt").closest("td").prev().hide();
+		$("#crtDt").closest("td").hide();
+		
+		$("#mdfyr").closest("td").prev().prev().attr("colspan", 3);
+		$("#mdfyr").closest("td").prev().hide();
+		$("#mdfyr").closest("td").hide();
+		
+		$("#mdfyDt").closest("td").prev().prev().attr("colspan", 3);
+		$("#mdfyDt").closest("td").prev().hide();
+		$("#mdfyDt").closest("td").hide();
+		
+		$("#useYn").closest("td").attr("colspan", 3);
+ 		$("#useYn").closest("td").next().hide();
+ 		$("#useYn").closest("td").next().next().hide();
+ 		
 		$(".detail_section").show("fast");
         $(".detail_table").show();
 		
@@ -317,7 +356,7 @@ $().ready(function() {
 				            <tr>
 				              <th>부서장ID</th>
 				              <td>
-				              	<button id="addDepHeadBtn" class="btn-p">등록</button>
+				              	<button id="addDepHeadBtn" class="btn regist">등록</button>
 				              	<div class="items">
 									<div class='head-item'>
 										<input type='text' class="" name='depHdId' id="depHdId" readonly value="" />

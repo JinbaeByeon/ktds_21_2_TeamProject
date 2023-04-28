@@ -354,6 +354,7 @@ a:link, a:visited {
   margin: 10px 0;
   table-layout: fixed;
   transition: all 0.3s ease;
+  background-color: rgba(238, 238, 238, 0.974);
 }
 
 .container .detail_table tr {
@@ -378,7 +379,7 @@ a:link, a:visited {
   font-weight: 500;
 }
 
- .container .detail_table tr td:nth-child(2) {
+ .container .detail_table tr td:nth-child(even) {
   border-right: 3px solid rgb(163, 15, 0);
 }
 
@@ -482,6 +483,17 @@ footer {
   padding: 10px;
 }
 
+/* scroll_table */
+.scroll_div {
+	height: 200px;
+	overflow: auto;
+}
+
+.scroll_table > thead > tr th{
+	position: sticky;
+	top: 0;
+}
+
 /* table of detail page */
 .detail_table label {
 	background-color: rgb(187, 39, 32);
@@ -545,7 +557,7 @@ footer {
   color: #fff;
 }
 
-.detail_table .list_table.inner_table tr td:nth-child(2){
+.detail_table .list_table.inner_table tr td:nth-child(even){
   border: none;
 }
 
