@@ -198,12 +198,14 @@
 					${knwVO.cntnt}
 				</div>
 				
-				<div class="fileAttachmentArea">
-					<div class="fileAttachment">
-						<p>첨부파일 <span class="fileSize">${atchFlList.size()}</span></p>
-						<ul id="file_list"></ul>
-					</div>
-				</div>
+				<c:if test="${atchFlList.get(0).frgnId ne null}">
+					<div class="fileAttachmentArea">
+						<div class="fileAttachment">
+							<p>첨부파일 <span class="fileSize">${atchFlList.size()}</span></p>
+							<ul id="file_list"></ul>
+						</div>
+					</div>	
+				</c:if>
 				
 				<div class="articleBtnsArea">
 					<div class="articleBtns">

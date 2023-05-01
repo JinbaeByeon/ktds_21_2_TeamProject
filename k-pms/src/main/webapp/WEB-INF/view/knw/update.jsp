@@ -11,6 +11,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	var fileCnt = 0;
+	var ajaxUtil = new AjaxUtil(); 
 	function addFile(file) {
 		var fileList = $("#file_list");
 
@@ -74,7 +75,6 @@
 					alert("프로젝트 선택은 필수입니다.");
 					return;
 				} else {
-					var ajaxUtil = new AjaxUtil();
 					ajaxUtil.upload("#create-form", "${context}/api/knw/update", function(response) {
 						if (response.status == "200 OK") {
 							location.href = "${context}/knw/list";
@@ -136,7 +136,6 @@
 		 	
 			var files = event.dataTransfer.files;
 			if(files){
-				var ajaxUtil = new AjaxUtil();
 				ajaxUtil.uploadImmediatly(files, "${context}/api/sndmsg/upload", function(response) {
 					for(var i=0;i < response.data.length; i++){
 						var file = response.data[i];
