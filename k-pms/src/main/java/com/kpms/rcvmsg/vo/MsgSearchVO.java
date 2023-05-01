@@ -7,6 +7,7 @@ public class MsgSearchVO extends AbstractPagingVO {
 	private String empId;
 	private String searchType;
 	private String searchKeyword;
+	private String filterType;
 
 	public String getEmpId() {
 		return empId;
@@ -30,6 +31,14 @@ public class MsgSearchVO extends AbstractPagingVO {
 
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
+	}
+
+	public String getFilterType() {
+		return filterType;
+	}
+
+	public void setFilterType(String filterType) {
+		this.filterType = filterType;
 	}
 
 }

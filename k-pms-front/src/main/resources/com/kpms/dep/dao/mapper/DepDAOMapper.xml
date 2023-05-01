@@ -71,6 +71,8 @@
 			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
 			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
 		  FROM DEP D
+		 INNER JOIN EMP E
+		 	ON D.DEP_ID = E.DEP_ID
 	     INNER JOIN EMP CRTR_E
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
@@ -82,6 +84,7 @@
 		  LEFT JOIN EMP TM_HD_EMP
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE D.DEL_YN = 'N'
+		   AND E.EMP_ID = #{empId}
 		<choose>
 			<when test='searchOption == "depNm"'>
 		   AND D.DEP_NM LIKE '%' || #{searchKeyword} || '%'
@@ -261,7 +264,7 @@
 		    ON E.PSTN_ID = P.PSTN_ID 
 		 INNER JOIN EMP TM_HD_EMP
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
-		 WHERE D.DEP_ID = #{_parameter}
+		 WHERE E.EMP_ID = #{_parameter}
 		   AND D.DEL_YN = 'N'
 		   AND T.DEL_YN = 'N'
 	</select>

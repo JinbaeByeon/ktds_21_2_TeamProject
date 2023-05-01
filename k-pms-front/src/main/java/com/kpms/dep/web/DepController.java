@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.dep.service.DepService;
 import com.kpms.dep.vo.DepVO;
 import com.kpms.dep.vo.DeptSearchVO;
+import com.kpms.emp.vo.EmpVO;
 
 @Controller
 public class DepController {
@@ -20,8 +22,8 @@ public class DepController {
 	private DepService depService;
 	
 	@GetMapping("/dep/list")
-	public String viewDepListPage(DeptSearchVO deptSearchVO, Model model) {
-		
+	public String viewDepListPage(DeptSearchVO deptSearchVO, Model model, @SessionAttribute("__USER__")EmpVO empVO) {
+		deptSearchVO.setEmpId(empVO.getEmpId()); 
 		List<DepVO> depList = depService.readAllDepVO(deptSearchVO);
 		
 		model.addAttribute("depList", depList);
@@ -44,9 +46,10 @@ public class DepController {
 		return "dep/mbrlist";
 	}
 	
-	@GetMapping("/dep/detail/{depId}")
-	public String viewDetailPage(@PathVariable String depId, Model model) {
-		DepVO depVO = depService.readOneDepVOByDepId(depId);
+	@GetMapping("/dep/detail")
+	public String viewDetailPage(Model model, @SessionAttribute("__USER__")EmpVO empVO) {
+		var empId = empVO.getEmpId();
+		DepVO depVO = depService.readOneDepVOByDepId(empId);
 		model.addAttribute("depVO", depVO);
 		
 		return "dep/detail";
