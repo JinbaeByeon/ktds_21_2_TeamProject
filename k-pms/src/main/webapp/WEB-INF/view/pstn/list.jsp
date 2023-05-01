@@ -6,6 +6,7 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="sys"/>
+<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -226,7 +227,7 @@
 											<td>
 												<input type="checkbox" class="check_idx" value="${pstn.pstnId}">
 											</td>
-											<td>${index.index + 1}</td>
+											<td>${pstn.rnum}</td>
 											<td>${pstn.pstnId}</td>
 											<td>${pstn.pstnNm}</td>
 											<td>${pstn.useYn}</td>

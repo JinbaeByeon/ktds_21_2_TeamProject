@@ -1,5 +1,8 @@
 package com.kpms.req.vo;
 
+import java.util.List;
+
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.prj.vo.PrjVO;
 import com.kpms.reqcnfr.vo.ReqCnfrVO;
@@ -11,6 +14,7 @@ import com.kpms.reqtstr.vo.ReqTstrVO;
 public class ReqVO extends AbstractPagingVO {
 
 	private String searchMode;
+	private String selectOption;
 	/**
 	 * 요구사항ID
 	 */
@@ -61,12 +65,48 @@ public class ReqVO extends AbstractPagingVO {
 	private String reqCnfrNm;
 	
 	private String reqTtl;
+	
+	private String rsltCdNm;
+	private String tskCdNm;
+	private String prcsCdNm;
+	
 	private PrjVO reqPrjVO;
 	private ReqCnfrVO reqCnfVO;
 	private ReqTstrVO reqTstVO;
 	
+	private List<AtchFlVO> atchFlList;	
 	
 	
+	public String getSelectOption() {
+		return selectOption;
+	}
+	public void setSelectOption(String selectOption) {
+		this.selectOption = selectOption;
+	}
+	public List<AtchFlVO> getAtchFlList() {
+		return atchFlList;
+	}
+	public void setAtchFlList(List<AtchFlVO> atchFlList) {
+		this.atchFlList = atchFlList;
+	}
+	public String getRsltCdNm() {
+		return rsltCdNm;
+	}
+	public void setRsltCdNm(String rsltCdNm) {
+		this.rsltCdNm = rsltCdNm;
+	}
+	public String getTskCdNm() {
+		return tskCdNm;
+	}
+	public void setTskCdNm(String tskCdNm) {
+		this.tskCdNm = tskCdNm;
+	}
+	public String getPrcsCdNm() {
+		return prcsCdNm;
+	}
+	public void setPrcsCdNm(String prcsCdNm) {
+		this.prcsCdNm = prcsCdNm;
+	}
 	public String getSearchMode() {
 		return searchMode;
 	}

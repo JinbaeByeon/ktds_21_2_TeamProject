@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,15 +11,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		
-		$("#new_btn").click(function() {
-			$("#msgId").val("");
-			$("#sndMsgId").val("");
-			$("#rcvr").val("");
-			$("#rdYn").val("");
-			
-			$("useYn").prop("checked", false);
-		});
 		
 		$("#delete_btn").click(function() {
 			var form = $("<form></form>")
@@ -68,7 +60,11 @@
 			// 2. 끝
 			location.href = "${context}/sndmsg/send?sndMsgId="+msgId;
 		}); 
-		
+
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
+			var msgId = $(this).closest("tr").data("msgid");
+			location.href="${context}/rcvmsg/detail/"+msgId;
+		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 			checkBtn();
@@ -139,13 +135,14 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-				<div class="path">쪽지 > 받은쪽지함</div>
+
+			<div class="path">쪽지 > 받은쪽지함</div>
 		      <div class="search_wrapper">
 		      <form>
 		      	<div class="msg_buttons">
-		      	  <button id="read_btn" class="btn read msg" disabled>읽음</button>
-		          <button id="reply_btn" class="btn reply msg" disabled>답장</button>
-		          <button id="delete_btn" class="btn delete msg" disabled>삭제</button>
+		      	  <button type="button" id="read_btn" class="btn read msg" disabled>읽음</button>
+		          <button type="button" id="reply_btn" class="btn reply msg" disabled>답장</button>
+		          <button type="button" id="delete_btn" class="btn delete msg" disabled>삭제</button>
 		         </div>
 		        <div class="search_box">
 		          <select class="search-option" id="searchType" name="searchType">
@@ -181,7 +178,8 @@
 		                        <tr data-rdyn="${rcvMsg.rdYn}"
 		                            data-ttl="${rcvMsg.sndMsgVO.ttl}"
 		                            data-crtr="${rcvMsg.crtr}"
-		                            data-crtdt="${rcvMsg.crtDt}">
+		                            data-crtdt="${rcvMsg.crtDt}"
+		                            data-msgid="${rcvMsg.msgId}">
 		                        <td class="check">
 		                            <input type="checkbox" class="check_idx" value="${rcvMsg.msgId}"/>
 		                        </td>

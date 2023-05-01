@@ -1,23 +1,31 @@
 package com.kpms.issu.vo;
 
-import com.kpms.common.vo.AbstractVO;
+import java.util.List;
+
+import com.kpms.atchfl.vo.AtchFlVO;
+import com.kpms.common.vo.AbstractPagingVO;
+import com.kpms.emp.vo.EmpVO;
+import com.kpms.req.vo.ReqVO;
 
 /**
  * ISSU
  */
-public class IssuVO extends AbstractVO {
+public class IssuVO extends AbstractPagingVO {
 
 	private String issuId;
-	private String rqrId;
+	private String reqId;
 	private String issuTtl;
 	private String issuCntnt;
 	private int vwCnt;
 	private String dffclty;
-	private String attch;
 	private String dtlCntnt;
 	private String mnTmMbrId;
 	private String stts;
-
+	
+	private ReqVO reqVO;
+	private List<AtchFlVO> atchFlList;
+	private EmpVO crtEmp;
+	private EmpVO mdfyEmp;
 
 	public void setIssuId(String issuId) {
 		this.issuId = issuId;
@@ -27,12 +35,12 @@ public class IssuVO extends AbstractVO {
 		return this.issuId;
 	}
 
-	public void setRqrId(String rqrId) {
-		this.rqrId = rqrId;
+	public String getReqId() {
+		return reqId;
 	}
 
-	public String getRqrId() {
-		return this.rqrId;
+	public void setReqId(String reqId) {
+		this.reqId = reqId;
 	}
 
 	public void setIssuTtl(String issuTtl) {
@@ -67,14 +75,6 @@ public class IssuVO extends AbstractVO {
 		return this.dffclty;
 	}
 
-	public void setAttch(String attch) {
-		this.attch = attch;
-	}
-
-	public String getAttch() {
-		return this.attch;
-	}
-
 	public void setDtlCntnt(String dtlCntnt) {
 		this.dtlCntnt = dtlCntnt;
 	}
@@ -97,6 +97,38 @@ public class IssuVO extends AbstractVO {
 
 	public String getStts() {
 		return this.stts;
+	}
+
+	public ReqVO getReqVO() {
+		return reqVO;
+	}
+
+	public void setReqVO(ReqVO reqVO) {
+		this.reqVO = reqVO;
+	}
+
+	public List<AtchFlVO> getAtchFlList() {
+		return atchFlList;
+	}
+
+	public void setAtchFlList(List<AtchFlVO> atchFlList) {
+		this.atchFlList = atchFlList;
+	}
+
+	public EmpVO getCrtEmp() {
+		return crtEmp;
+	}
+
+	public void setCrtEmp(EmpVO crtEmp) {
+		this.crtEmp = crtEmp;
+	}
+
+	public EmpVO getMdfyEmp() {
+		return mdfyEmp;
+	}
+
+	public void setMdfyEmp(EmpVO mdfyEmp) {
+		this.mdfyEmp = mdfyEmp;
 	}
 
 }

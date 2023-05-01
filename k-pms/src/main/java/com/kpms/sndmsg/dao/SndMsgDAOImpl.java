@@ -49,5 +49,13 @@ public class SndMsgDAOImpl extends SqlSessionDaoSupport implements SndMsgDAO {
 		return getSqlSession().selectOne("SndMsg.readOneSndMsgByRcvMsgId", msgId);
 	}
 	
-	
+	@Override
+	public SndMsgVO readOneSndMsgByMsgId(String msgId) {
+		return getSqlSession().selectOne("SndMsg.readOneSndMsgByMsgId", msgId);
+	}
+
+	@Override
+	public int restoreSndMsg(List<String> sndMsgIdList) {
+		return getSqlSession().update("SndMsg.restoreSndMsg", sndMsgIdList);
+	}
 }

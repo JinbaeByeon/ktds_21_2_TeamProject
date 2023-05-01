@@ -134,10 +134,8 @@
 		          <select id="search-option" class="search-input">
 					    <option value="tmNm" ${tmVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
 					    <option value="depNm" ${tmVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
-					    <option value="hdLnm" ${tmVO.searchOption eq "hdLnm" ? "selected": ""}>팀장 성</option>
-					    <option value="hdFnm" ${tmVO.searchOption eq "hdFnm" ? "selected": ""}>팀장 이름</option>
-					    <option value="mbrLNm" ${tmVO.searchOption eq "mbrLNm" ? "selected": ""}>팀원 성</option>
-					    <option value="mbrFNm" ${tmVO.searchOption eq "mbrFNm" ? "selected": ""}>팀원 이름</option>
+					    <option value="hdNm" ${tmVO.searchOption eq "hdNm" ? "selected": ""}>팀장명</option>
+					    <option value="mbrNm" ${tmVO.searchOption eq "mbrNm" ? "selected": ""}>팀원명</option>
 					</select> 
 		          <div class="search_field">
 		          	<input type="text" id="search-keyword" class="input" value="${tmVO.searchKeyword}" />

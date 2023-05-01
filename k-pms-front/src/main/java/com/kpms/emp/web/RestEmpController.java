@@ -41,7 +41,6 @@ public class RestEmpController {
 		if(user == null) {
 			throw new APIException(APIStatus.DISMATCH, "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
-		
 		session.setAttribute("__USER__", user);
 		SessionHandler.get().setSession(user.getEmpId(), session);
 		

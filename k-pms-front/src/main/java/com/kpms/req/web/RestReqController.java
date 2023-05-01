@@ -1,5 +1,6 @@
 package com.kpms.req.web;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kpms.atchfl.vo.AtchFlVO;
+import com.kpms.common.api.vo.APIDataResponseVO;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIException;
+import com.kpms.common.handler.UploadHandler;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.req.service.ReqService;
 import com.kpms.req.vo.ReqVO;
@@ -22,7 +27,6 @@ public class RestReqController {
 
 	@Autowired
 	private ReqService reqService;
-	
 	
 	@PostMapping("/api/req/create")
 	public APIResponseVO doCreateReq(ReqVO reqVO,

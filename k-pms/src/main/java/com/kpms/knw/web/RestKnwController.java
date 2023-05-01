@@ -3,7 +3,11 @@ package com.kpms.knw.web;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +20,7 @@ import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.api.vo.APIDataResponseVO;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.handler.DownloadUtil;
 import com.kpms.common.handler.UploadHandler;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.knw.service.KnwService;
@@ -28,6 +33,8 @@ public class RestKnwController {
 	private KnwService knwService;
 	@Autowired
 	private UploadHandler uploadHandler;
+	@Value("${upload.attchmnt.path:/kpms/files/attchmnt}")
+	private String atchmntPath;
 
 	@PostMapping("/api/knw/create")
 	public APIResponseVO doCreateKnw(KnwVO knwVO, @SessionAttribute("__USER__") EmpVO empVO) {
@@ -67,7 +74,6 @@ public class RestKnwController {
 	
 	@PostMapping("/api/knw/delete")
 	public APIResponseVO doDeleteKnwBySelectedKnwId(@RequestParam List<String> knwId) {
-		System.out.println(knwId);
 		boolean isSuccess = knwService.deleteKnwBySelectedKnwId(knwId);
 
 		if (isSuccess) {
@@ -89,6 +95,26 @@ public class RestKnwController {
 	public void doDeleteFiles(@RequestParam String[] fileNames) {
 		System.out.println(fileNames.length);
 		uploadHandler.deleteUploadFiles(Arrays.asList(fileNames));
+	}
+	
+	@PostMapping("/api/knw/file")
+	public void downloadAtchFl(AtchFlVO file
+								, HttpServletRequest request
+								, HttpServletResponse response) {
+//		File file = new File(atchmntPath, fileNm);
+		String path = atchmntPath + "/";
+		
+//		if(!file.exists() || !file.isFile()) {
+//			fileNm = "base_profile.png";
+//		}
+		String fileNm = file.getUuidFlNm();
+		String orgNm = file.getOrgFlNm();
+		System.out.println(fileNm);
+		
+		path += fileNm;
+		System.out.println(path);
+		System.out.println(orgNm);
+		new DownloadUtil(response, request, path).download(orgNm);
 	}
 
 }

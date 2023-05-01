@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,15 +11,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-	
-		$(".list_table > tbody > tr").click(function() {
-			var data = $(this).data();
-			$("#msgId").val(data.msgId);
-			$("#ttl").val(data.ttl);
-			$("#cntnt").val(data.cntnt);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-		});
 		
 		$("#new_btn").click(function() {
 			$("#msgId").val("");
@@ -49,7 +41,10 @@
 				}
 			});
 		});
-		
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
+			var msgId = $(this).closest("tr").data("msgid");
+			location.href="${context}/sndmsg/detail/"+msgId;
+		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
@@ -64,7 +59,7 @@
 			checkIndex(); 
 		});
 		
-		$(".grid > table > tbody > tr > td").not(".check").click(function(){
+		$(".list_table > tr > td").not(".check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -93,6 +88,10 @@
 			<jsp:include page="../include/content.jsp"/>
 				<div class="path">쪽지 > 보낸쪽지함</div>
 		      <div class="search_wrapper">
+		      <form>
+		      	<div class="msg_buttons">
+		          <button type="button" id="delete_btn" class="btn delete msg" disabled>삭제</button>
+		         </div>
 		        <div class="search_box">
 		          <select>
 					<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
@@ -105,11 +104,9 @@
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
 		          </div>
 		        </div>
+		        </form>
 		      </div>
 		      <div class="list_section">
-		      	<div class="buttons">
-		          <button id="delete_btn" class="btn delete">삭제</button>
-		        </div>
 		        <div class="total">총 ${sndList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
@@ -127,7 +124,8 @@
 		                               var="sndMsg">
 		                        <tr data-rcvr="${sndMsg.rcvMsgVO.get(0).rcvr}"
 		                            data-ttl="${sndMsg.ttl}"
-		                            data-crtdt="${sndMsg.crtDt}">
+		                            data-crtdt="${sndMsg.crtDt}"
+		                            data-msgid="${sndMsg.msgId}">
 		                            <td>
 		                                <input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
 		                            </td>

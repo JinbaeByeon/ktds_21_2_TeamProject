@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.service.RcvMsgService;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
@@ -69,7 +70,18 @@ public class RcvMsgController {
 	public String viewRcvMsgDetailPage(@PathVariable String msgId, Model model) {
 		RcvMsgVO rcvMsgVO = rcvMsgService.readOneRcvMsg(msgId);
 		model.addAttribute("rcvMsgVO", rcvMsgVO);
-		return "rcbmsg/detail";
+		SndMsgVO sndMsgVO = rcvMsgVO.getSndMsgVO();
+		model.addAttribute("sndMsgVO",sndMsgVO);
+		List<AtchFlVO> fileList = sndMsgVO.getAtchFlList();
+		if(fileList != null && !fileList.isEmpty() && fileList.get(0).getUuidFlNm() != null) {
+			model.addAttribute("totalCount",fileList.size());
+			long fileSize = 0;
+			for(AtchFlVO file : fileList) {
+				fileSize += file.getFlSz();
+			}
+			model.addAttribute("totalSize",fileSize);
+		}
+		return "rcvmsg/detail";
 	}
 	
 }

@@ -173,74 +173,73 @@
 		<div>
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-				<div class="path"> 사원 관리 > 사원 정보 수정</div>
-				
-				<h1>임직원 등록</h1>
-				<div>
-					<form id="create-form" enctype="multipart/form-data">
-						<div class="create-group">
-							<label for="prflPht">프로필 사진</label>
-							<c:if test="${not empty empVO.prflPht}">
-								<img src="${context}/emp/prfl/${empVO.prflPht}/" class="profile"/>
-							</c:if>
-							<c:if test="${empty empVO.prflPht}">
-								<img src="${context}/img/base_profile.png" class="profile"/>
-							</c:if>
-							<input type="file" id="prflPht" name="prflPht"/>
-						</div>
-						<div class="create-group">
-							<label for="empId" class="required">ID</label>
-							<input type="text" id="empId" name="empId" value="${empVO.empId}" disabled/>
-						</div>
-						<div class="create-group">
-							<div class="mr-10p">
-								<label for="fNm" class="required">이름</label>
-								<input type="text" id="fNm" name="fNm" value="${empVO.fNm}"/>
-							</div>
-							<div class="right-item">
-								<label for="lNm">성</label>
-								<input type="text" id="lNm" name="lNm" value="${empVO.lNm}"/>
-							</div>
-						</div>
-						<div class="create-group">
-							<label for="eml" class="required">이메일</label>
-							<input type="email" id="eml" name="eml" value="${empVO.eml}"/>
-						</div>
-						<div class="create-group">
-							<label for="phn" class="required">휴대폰 번호</label>
-							<input type="text" id="phn" name="phn" value="${empVO.phn}"/>
-						</div>
-						<div class="create-group">
-							<label for="pstCd" class="required">주소</label>
-							<div class="addrss-group">
-								<div class="grow-1">
-									<input type="text" id="pstCd" name="pstCd" readonly value="${empVO.pstCd}"/>
-									<button class='fs-12'>우편번호</button>
+				<div class="path">사원 관리 > 사원 정보 수정</div>
+				<h2>임직원 등록</h2>
+				<form id="create-form" enctype="multipart/form-data">
+					<table class="detail_table">
+		                <tr>
+		                    <th>프로필 사진</th>
+		                    <td>
+			                    <c:if test="${not empty empVO.prflPht}">
+									<img src="${context}/emp/prfl/${empVO.prflPht}/" class="profile"/>
+								</c:if>
+								<c:if test="${empty empVO.prflPht}">
+									<img src="${context}/img/base_profile.png" class="profile"/>
+								</c:if>
+								<input type="file" id="prflPht" name="prflPht"/>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th class="required">ID</th>
+		                    <td><input type="text" id="empId" name="empId" value="${empVO.empId}" disabled/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">이름</th>
+		                    <td><input type="text" id="fNm" name="fNm" value="${empVO.fNm}"/></td>
+		                </tr>
+		                <tr>
+		                    <th>성</th>
+		                    <td><input type="text" id="lNm" name="lNm" value="${empVO.lNm}"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">이메일</th>
+		                    <td><input type="email" id="eml" name="eml" value="${empVO.eml}"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">휴대폰 번호</th>
+		                    <td><input type="text" id="phn" name="phn" value="${empVO.phn}"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">주소</th>
+		                    <td>
+		                    	<div class="addrss-group">
+									<div class="grow-1">
+										<input type="text" id="pstCd" name="pstCd" readonly value="${empVO.pstCd}"/>
+										<button class='fs-12'>우편번호</button>
+									</div>
+									<div class="grow-1">
+										<input type="text" id="addrss" name="addrss" readonly value="${empVO.addrss}"/>
+									</div>
+									<div class="grow-1">
+										<input type="text" id="dtlAddrss" name="dtlAddrss" value="${empVO.dtlAddrss}"/>
+									</div>
 								</div>
-								<div class="grow-1">
-									<input type="text" id="addrss" name="addrss" readonly value="${empVO.addrss}"/>
-								</div>
-								<div class="grow-1">
-									<input type="text" id="dtlAddrss" name="dtlAddrss" value="${empVO.dtlAddrss}"/>
-								</div>
-							</div>
-						</div>
-						<div class="create-group">
-							<label for="brthdy" class="required">생년월일</label>
-							<input type="date" id="brthdy" name="brthdy" value="${empVO.brthdy}"/>
-						</div>
-						
-						<div class="create-group">
-							<label for="admnPwd" class="required">관리자 비밀번호</label>
-							<input type="password" id="admnPwd" name="admnPwd"/>
-						</div>
-						
-					</form>
-				</div>
-				<div class="align-right">
-					<button id="save_btn" class="btn-primary">저장</button>
-				</div>
-			<jsp:include page="../include/footer.jsp"/>
+							</td>
+		                </tr>
+		                <tr>
+		                    <th class="required">생년월일</th>
+		                    <td><input type="date" id="brthdy" name="brthdy" value="${empVO.brthdy}"/></td>
+		                </tr>
+		                <tr>
+		                    <th class="required">관리자 비밀번호</th>
+		                    <td><input type="password" id="admnPwd" name="admnPwd"/></td>
+		                </tr>
+		            </table>
+				</form>
+        <div class="buttons">
+          <button id="save_btn" class="btn regist">저장</button>
+        </div>
+			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>
 </body>

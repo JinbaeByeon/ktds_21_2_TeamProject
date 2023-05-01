@@ -15,8 +15,23 @@
 	$().ready(
 			function() {
 				$(".detail_section").hide();
-
 				
+				$("#all_check").change(function() {
+					$(".check_idx").prop("checked", $(this).prop("checked"));
+				});
+				
+				$(".check_idx").change(function() {
+					var count = $(".check_idx").length;
+					var checkCount = $(".check_idx:checked").legnth;
+					$("#all_check").prop("checked", count == checkCount);
+				});
+				
+				$(".check_idx").change(function() {
+					var count = $(".check_idx").length;
+					var checkCount = $(".check_idx:checked").legnth;
+					$("#all_check").prop("checked", count == checkCount);
+				});
+								
 				$(".list_table > tbody > tr").click(function() {
 					$("#crtr").closest("td").prev().show();
 					$("#crtr").closest("td").show();
@@ -76,6 +91,27 @@
 
 					$("#useYn").prop("checked", false);
 				});
+				
+				$("#sel_del_btn").click(function() {
+					var checkLen = $(".check_idx:checked").length;
+					if(checkLen == 0) {
+						alert("삭제할 코드가 없습니다.");
+						return;
+					}
+					
+					var form = $("<form></form>");
+					
+					
+					$(".check_idx:checked").each(function() {
+						console.log($(this).val());
+						
+						form.append("<input type='hidden' name='cdId' value='" + $(this).val() + "'>");
+					});
+					
+					$.post("${context}/api/cmncd/delete", form.serialize(), function(response) {});
+					
+					location.reload();
+				});
 
 				$("#save_btn").click(
 						function() {
@@ -120,7 +156,7 @@
 								return;
 							}
 
-							$.get("${context}/api/cmncd/delete/" + cdId,
+							$.get("${context}/api/cmncd/delete/" + cdId,	
 									function(response) {
 										if (response.status == "200 OK") {
 											location.reload(); //새로고침
@@ -201,7 +237,7 @@
 		                            data-mdfydt="${cmnCd.mdfyDt}" data-useyn="${cmnCd.useYn}"
 		                            data-prcdnccdNm="${cmnCd.prcdCmnCdVO.cdNm}">
 		                            <td>
-										<input type="checkbox" class="check-idx" value="${cmnCd.cdId}" />
+										<input type="checkbox" class="check_idx" value="${cmnCd.cdId}" />
 									</td>
 		                            <td>${cmnCd.cdId}</td>
 		                            <td>${cmnCd.cdNm}</td>
@@ -230,7 +266,7 @@
 	               </c:import>
 		        <div class="buttons">
 		          <button id="new_btn" class="btn new">신규등록</button>
-		          <button id="delete-all-btn" class="btn delete">선택삭제</button>
+		          <button id="sel_del_btn" class="btn delete">선택삭제</button>
 		        </div>
 		      </div>
 		      

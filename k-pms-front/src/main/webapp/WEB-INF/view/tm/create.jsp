@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
+<c:set scope="request" var="selected" value="tm"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +18,12 @@
 	var tmHd;
 	var tmMbr;
 	var empId;
+	var tmHdId;
 	var empIds = [];
 	
 	function addDepFn(message) {
 		
-		var depItems = $("#addDepIdBtn").closest(".create-group").find(".items");
+		var depItems = $("#addDepIdBtn").closest("tr").find(".items");
 		if (depItems.find("." + message.depid).length > 0) {
 			depId.alert(message.depnm + "은(는) 이미 추가된 부서입니다."); 
 			return;
@@ -43,35 +45,68 @@
 		
 		depId.close();
 		$(".hide").removeClass("hide");
+		
+		$(".detail_table tr:gt(0)").show("fast");
 	}
 	
 	function addHdEmpFn(message) {
-			
-		var tmHdIdItems = $("#addTmHeadBtn").closest(".create-group").find(".items");
-		if (tmHdIdItems.find("." + message.empid).length > 0) {
+		
+	
+		empIds = [];
+		$(".emp-tr").remove();
+		
+		tmHdId = message.empid;
+		
+		var tmHdIdItems = $("#addTmHeadBtn").closest("tr").find(".items");
+		if (tmHdIdItems.find("." + tmHdId).length > 0) {
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
 			
 		var itemDiv = tmHdIdItems.find(".head-item");
 			
-		var itemId = itemDiv.find("#tmHdId")
-		itemId.val(message.empid);
+		var itemId = itemDiv.find("#tmHdId");
+		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
 		var itemSpan = itemDiv.find("span");
 		itemSpan.text(message.lnm + message.fnm);
 		itemDiv.append(itemSpan);
+		
+		var empTr = $(".emp-hd-tr");  
+	    if (empTr.length > 0) {
+	    	
+	        var td = empTr.find("td");
+	        empTr.attr("class", "emp-hd-tr " + tmHdId);
+	        td.eq(0).text(tmHdId);
+	        td.eq(1).text(message.pstnnm);
+	        td.eq(2).text(message.lnm + message.fnm);
+	        td.eq(3).text(message.jobnm);
+	        td.eq(4).text(message.phn);
+	    } else {
+	    	var empTr = $("<tr class='emp-hd-tr " + tmHdId + "'></tr>");
+	        var td = "<td>" + tmHdId + "</td>"
+	        td += "<td>" + message.pstnnm + "</td>"
+	        td += "<td>" + message.lnm  + message.fnm + "</td>"
+	        td += "<td>" + message.jobnm + "</td>"
+	        td += "<td>" + message.phn + "</td>"
+
+	        empTr.append(td);
+	        $(".tmMbr-tbody").append(empTr);
+	    }
 			
-		$("#tmHdId").attr("class", message.empid);
+		$("#tmHdId").attr("class", tmHdId);
 			
 		tmHdIdItems.append(itemDiv);
 			
 		tmHd.close();
+		empIds.push(tmHdId);
+		
+
 	}
 	
-	function addEmpFn(message) {
-
+	function addMbrFn(message) {
+		
 	    var empItems = $(document).find(".tmMbr-tbody");
 	    empId = message.empid;
 
@@ -87,9 +122,12 @@
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
 
 	    var td = "<td>" + empId + "</td>"
+	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+	    td += "<td>" + message.jobnm + "</td>"
+	    td += "<td>" + message.phn + "</td>"
 
-	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
+	    var rmbtn = $("<td><button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button></td>")
 
 	    rmbtn.click(function() {
 	        var empTrToRemove = $(this).closest(".emp-tr");
@@ -101,7 +139,7 @@
 	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
 	        });
 	    });
-
+		
 	    empItems.append(empTr);
 	    empTr.append(itemId);
 	    empTr.append(td);
@@ -119,7 +157,6 @@
 	        data: {tmId: tmId, empId: empId},
 	        success: function(response) {
 	            if (response.status == "200 OK") {
-	                location.href = "${context}/tm/list";
 	            } 
 	            else {
 	            	alert(response.errorCode + " / " + response.message);
@@ -127,16 +164,17 @@
 	        }
 	    });
 	}
-
 	
 	$().ready(function() {
+		$(".detail_table tr:gt(0)").hide();
+		
 		$("#addDepIdBtn").click(function(event) {
 			event.preventDefault();
 			depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
 		});
 		
 		$("#addTmHeadBtn").click(function(event) {
-			event.preventDefault(); 
+			event.preventDefault();
 			var depId = $("#depId").val();
 			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
 		});
@@ -144,7 +182,7 @@
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#list-btn").click(function(response) {
@@ -163,7 +201,9 @@
 			    		
 			    	createTmmbr(tmId, empId);
 			    		
+			    	location.href = "${context}/tm/detail/" + tmId;
 			    	});
+			    	
 			    } 
 			    else {
 			      alert(response.errorCode + " / " + response.message);
@@ -181,70 +221,77 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 팀 생성</div>
+			<div class="path">팀 생성</div>
 				<form id="create_form" enctype="multipart/form-data">
-					<div class="create-group">
-						<label for="addDepIdBtn" style="width: 180px;">부서ID</label> 
-						<button id="addDepIdBtn" class="btn-dep">등록</button>
-						<div class="items">
-							<div class='dep-item'>
-								<input type='text' class="" name='depId' id= "depId" readonly="readonly"/>
-								<span id="depNm"></span>
-							</div>
-						</div>
-					</div>
-					<div class="create-group hide">
-						<label for="tmId" style="width: 180px;">팀ID</label><input type="text" id="tmId" name="tmId" readonly value="" />
-					</div>
-					<div class="create-group hide">
-						<label for="tmNm" style="width: 180px;">팀명</label><input type="text" id="tmNm" name="tmNm" value=""/>
-					</div>
-					<div class="create-group hide">
-						<label for="addTmHeadBtn" style="width: 180px;">팀장ID</label>
-						<button id="addTmHeadBtn" class="btn-tm">등록</button>
-						<div class="items">
-							<div class='head-item'>
-								<input type="text" class="" id="tmHdId" name="tmHdId" readonly value=" " />
-								<span id="tmHdNm"></span>						
-							</div>
-						</div>
-					</div>
-					<div class="create-group hide">
-						<label for="tmCrtDt" style="width: 180px;">팀생성일</label><input type="date" id="tmCrtDt" name="tmCrtDt" />
-					</div>
-					<div class="create-group hide">
-						<label for="useYn" style="width: 180px;">사용여부</label><input type="checkbox" id="useYn" name="useYn" value="Y"/>
-					</div>
-				
-					<div class="create-group hide">
-							<div>
-								<label for="addTmMbrBtn">팀원</label>
-								<button id="addTmMbrBtn" class="btn-primary">추가</button>
-								<div class="items"></div>
-							</div>
-							<div class="grid">
-								<table>
-									<thead>
-										<tr>
-											<th>직원ID</th>
-											<th>이름</th>
-											<th>생년월일</th>
-											<th>이메일</th>
-											<th>전화번호</th>
-											<th>직급연차</th>
-										</tr>
-									</thead>
-									<tbody class="tmMbr-tbody">
-									</tbody>
-								</table>
-							</div>
-						</div>
-				</form>	
-				<div class="align-right">
-					<button id="list-btn" class="btn-primary">목록</button>
-					<button id="save-btn" class="btn-primary">등록</button>
-					<button id="delete-btn" class="btn-delete">삭제</button>
-				</div>
+					<table class="detail_table">
+		                <tr>
+		                    <th>부서ID</th>
+		                    <td>
+		                    	<button id="addDepIdBtn" class="btn regist">등록</button>
+		                    	<div class="items">
+					            <div class='dep-item'>
+					                <input type='text' class="" name='depId' id= "depId" readonly="readonly"/>
+					                <span id="depNm"></span>
+					            </div>
+					        </div>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>팀ID</th>
+		                    <td><input type="text" id="tmId" name="tmId" readonly value="" /></td>
+		                </tr>
+		                <tr>
+		                    <th>팀명</th>
+		                    <td><input type="text" id="tmNm" name="tmNm" value=""/></td>
+		                </tr>
+		                <tr>
+		                    <th>팀장ID</th>
+		                    <td>
+						        <button id="addTmHeadBtn" class="btn regist">등록</button>
+						        <div class="items">
+						            <div class='head-item'>
+						                <input type="text" class="" id="tmHdId" name="tmHdId" readonly value=" " />
+						                <span id="tmHdNm"></span>						
+						            </div>
+						        </div>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>팀생성일</th>
+		                    <td><input type="date" id="tmCrtDt" name="tmCrtDt" /></td>
+		                </tr>
+		                <tr>
+		                    <th>사용여부</th>
+		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y"/></td>
+		                </tr>
+		                <tr>
+		                    <th>팀원</th>
+		                    <td>
+		                    	<div>
+									<button id="addTmMbrBtn" class="btn regist add">팀원 추가</button>
+									<div class="items"></div>
+								</div>
+		                        <table class="list_table inner_table">
+		                        <thead>
+			                        <tr>
+			                            <th>직원ID</th>
+			                            <th>직급</th>
+			                            <th>성명</th>
+			                            <th>직무</th>
+			                            <th>전화번호</th>
+			                            <th>삭제</th>
+			                        </tr>
+		                        </thead>
+		                        <tbody class="tmMbr-tbody"></tbody>
+		                    </table>
+		                    </td>
+		                </tr>
+		            </table>
+				</form>
+        <div class="buttons">
+          <button id="list-btn" class="btn new">목록</button>
+          <button id="save-btn" class="btn regist">등록</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>

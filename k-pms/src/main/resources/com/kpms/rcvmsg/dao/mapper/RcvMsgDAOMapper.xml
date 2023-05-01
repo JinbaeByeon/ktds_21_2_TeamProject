@@ -207,12 +207,15 @@
 	
 	<select id="readOneRcvMsg"
 			parameterType="string"
-			resultType="com.kpms.rcvmsg.vo.RcvMsgVO">
+			resultMap="rcvMsgVOMap">
 		SELECT R.MSG_ID
 			 , S.TTL
 			 , R.CRT_DT
 			 , R.CRTR
-			 , SND_E.NM
+			 , SND_E.F_NM SE_F_NM
+			 , SND_E.L_NM SE_L_NM
+			 , RCV_E.F_NM RE_F_NM
+			 , RCV_E.L_NM RE_L_NM
 			 , R.USE_YN
 			 , R.DEL_YN
 			 , R.SND_MSG_ID
@@ -222,11 +225,9 @@
 		  FROM RCV_MSG R
 		 INNER JOIN SND_MSG S
 		    ON R.SND_MSG_ID = S.MSG_ID
-		 INNER JOIN EMP E
-		 	ON R.CRTR = E.CRTR
-		 INNER JOIN (SELECT E.*
-						  , E.L_NM || E.F_NM NM
-				       FROM EMP E)SND_E
+		 INNER JOIN EMP RCV_E
+		 	ON RCV_E.EMP_ID = R.CRTR 
+		 INNER JOIN EMP SND_E
 			ON SND_E.EMP_ID = S.CRTR
 		 WHERE R.MSG_ID = #{_parameter}
 	</select>

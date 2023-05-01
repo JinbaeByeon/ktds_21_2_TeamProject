@@ -170,56 +170,71 @@
 		<jsp:include page="../include/header.jsp" />
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
-			<jsp:include page="../include/content.jsp" />		
-				<div class="path"> 수정수정 ${prjId} | ${prjVO.prjNm}</div>
+			<jsp:include page="../include/content.jsp" />
+				<div class="path">${prjId} | ${prjVO.prjNm}</div>
 				<form id="create_form" enctype="multipart/form-data">
-					<div class="create-group">
-						<input type="hidden" id="prjId" name="prjId" value="${prjVO.prjId}"/>
-					</div>
-					<div class="create-group" >
-						<label for="prjNm" required>프로젝트명</label>
-						<input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}"/>
-					</div>
-					<div class="create-group">
-						<label for="cstmr" required>고객사</label>
-						<input type="text" id="cstmr" name="cstmr" value="${prjVO.cstmr}"/>
-					</div>
-					<div class="create-group">
-						<label for="strtDt" required>시작일</label>
-						<input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}"/>
-					</div>
-					<div class="create-group">
-						<label for="endDt" required>종료일</label>
-						<input type="date" id="endDt" name="endDt" value="${prjVO.endDt}"/>
-					</div>
-					<div class="create-group">
-						<label for="prjStts" required>프로젝트 상태</label>
-						<input type="hidden" id="original-prjStts" name="original-prjStts" value="${prjVO.prjStts}"/>
-						<select id="prjStts-select" name="prjStts"></select>
-					</div>
-					<div class="create-group">
-						<label for="useYn">사용여부</label>
-						<input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''}/>
-					</div>
-					
-					<div class="create-group">
-						<label for="tmMbr" required>팀원</label>
-						<div>
-							<button id="addTmMbrBtn" class="btn-primary">추가</button>
-						</div>
-						<div class="grid">
-							<table>
-								<thead>
-									<tr>
-										<th>직원ID</th>
-										<th>팀</th>
-										<th>성</th>
-										<th>이름</th>
-										<th>권한</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody class="tmMbrAddTbody">
+					<table class="detail_table">
+		                <input type="hidden" id="prjId" name="prjId" value="${prjVO.prjId}" />
+		                <tr>
+		                    <th>프로젝트명</th>
+		                    <td><input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" /></td>
+		                </tr>
+		                <tr>
+		                    <th>고객사</th>
+		                    <td><input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}" /></td>
+		                </tr>
+		                <tr>
+		                    <th>시작일</th>
+		                    <td><input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}" readonly/></td>
+		                </tr>
+		                <tr>
+		                    <th>종료일</th>
+		                    <td><input type="date" id="endDt" name="endDt" value="${prjVO.endDt}" readonly/></td>
+		                </tr>
+		                <tr>
+		                    <th>프로젝트 상태</th>
+		                    <td>
+		                    	<input type="hidden" id="original-prjStts" name="original-prjStts" value="${prjVO.prjStts}"/>
+								<select id="prjStts-select" name="prjStts"></select>
+							</td>
+		                </tr>
+		                <tr>
+		                    <th>사용여부</th>
+		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''}/></td>
+		                </tr>
+		                <tr>
+		                    <th>팀</th>
+		                    <td>
+		                	<c:choose>
+								<c:when test="${not empty tmList}">
+									<c:forEach items="${tmList}" var="tm">
+											${tm.getValue()} (${tm.getKey()})<br/>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+										등록된 팀이 없습니다.
+								</c:otherwise>
+							</c:choose>
+							</td>
+		                </tr>
+		                <tr>
+		                    <th>팀원</th>
+		                    <td>
+		                    	<div>
+									<button id="addTmMbrBtn" class="btn regist add">팀원 추가</button>
+								</div>
+		                        <table class="list_table inner_table">
+		                        <thead>
+		                            <tr>
+		                                <th>직원ID</th>
+		                                <th>팀</th>
+		                                <th>성</th>
+		                                <th>이름</th>
+		                                <th>권한</th>
+		                                <th></th>
+		                            </tr>
+		                        </thead>
+		                        <tbody class="tmMbrAddTbody">
 									<c:forEach items="${prjVO.ptmList}" var="ptm" varStatus="index">
 										<tr class="tmMbr-tr">
 											<input type="hidden" name="ptmList[${index.index}].tmMbrId" class="tmmbr-item" value="${ptm.prjTmMbrId}">
@@ -235,18 +250,23 @@
 													<option value="TM" ${ptm.prjPstn eq 'TM' ? 'selected' : ''}>팀원</option>
 												</select>
 											</td>
-											<td><button class="del-ptm-btn" data-index="${index.index}" data-prjtmmbrid="${ptm.prjTmMbrId}">X</button></td>
+											<td>
+												<button class="del-ptm-btn" data-index="${index.index}" data-prjtmmbrid="${ptm.prjTmMbrId}">
+													<span class="material-symbols-outlined">delete</span>
+												</button>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
-							</table>
-						</div>
-					</div>
-					</form>	
-				<div class="align-right">
-					<button id="save-btn" class="btn-primary">저장</button>
-					<button id="delete-btn" class="btn-delete">삭제</button>
-				</div>
+		                    </table>
+		                    </td>
+		                </tr>
+		            </table>
+				</form>
+        <div class="buttons">
+          <button id="modify-btn" class="btn regist">수정</button>
+          <button id="delete-btn" class="btn delete">삭제</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>

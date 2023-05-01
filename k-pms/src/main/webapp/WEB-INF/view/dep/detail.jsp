@@ -51,6 +51,18 @@
                     <th>부서 생성일</th>
                     <td colspan="3"><input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/></td>
                 </tr>
+                <tr>
+                    <th>등록자</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.crtr}" readonly/></td>
+                    <th>등록일</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.crtDt}" readonly/></td>
+                </tr>
+                <tr>
+                	<th>수정자</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.mdfyr}" readonly/></td>
+                    <th>수정일</th>
+                    <td><input type="text" id="crtr" name="crtr" value="${depVO.mdfyDt}" readonly/></td>
+               </tr>
             </table>
                 
             <div class="hr"></div>

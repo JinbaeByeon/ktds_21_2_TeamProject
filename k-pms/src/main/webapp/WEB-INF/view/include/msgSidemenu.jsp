@@ -32,7 +32,6 @@
                 <span>휴지통</span>
               </a>
             </li>
-
           </ul>
         </div>
         <div class="sidebar_bottom">
