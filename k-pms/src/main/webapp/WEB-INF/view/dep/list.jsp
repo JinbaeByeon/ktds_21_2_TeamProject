@@ -265,18 +265,14 @@ $().ready(function() {
 			        <table class="list_table">
 			          <thead>
 			            <tr>
-			            	<th><input type="checkbox" id="all_check" /></th>
-							<th>순번</th>
-							<th>부서ID</th>
-							<th>부서명</th>
-							<th>부서장ID</th>
-							<th>부서장명</th>
-							<th>부서생성일</th>
-							<th>사용여부</th>
-<!-- 							<th>등록자</th>
-							<th>등록일</th>
-							<th>수정자</th>
-							<th>수정일</th> -->
+			            	<th style="width: 5px; text-align:center;"><input type="checkbox" id="all_check" /></th>
+							<th style="width: 2px;">순번</th>
+							<th style="width: 12%;">부서명</th>
+							<th style="width: 17%;">부서장ID</th>
+							<th style="width: 18%;">부서장명</th>
+							<th style="width: 21%;">부서ID</th>
+							<th style="width: 15%;">부서생성일</th>
+							<th style="width: 80px;">사용여부</th>
 			            </tr>
 			          </thead>
 			          <tbody>
@@ -294,16 +290,16 @@ $().ready(function() {
 											data-crtdt="${dep.crtDt}"
 											data-mdfyr="${dep.mdfyr}"
 											data-mdfydt="${dep.mdfyDt}">
-											<td>
+											<td style="text-align:center;">
 												<input type="checkbox" class="check_idx" value="${dep.depId}"/>
 											</td>
-											<td>${dep.rnum}</td>
-											<td>${dep.depId}</td>
+											<td style="padding-left: 27px; padding-right: 0px;">${dep.rnum}</td>
 											<td><a href="${context}/dep/detail/${dep.depId}">${dep.depNm}</a></td>
 											<td>${dep.depHdId}</td>
 											<td>${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}</td>
+											<td>${dep.depId}</td>
 											<td>${dep.depCrtDt}</td>
-											<td>${dep.useYn}</td>
+											<td style="padding-left: 40px; padding-right: 0px;">${dep.useYn}</td>
 <%-- 											<td>${dep.crtr}(${dep.crtrEmpVO.lNm}${dep.crtrEmpVO.fNm})</td>
 											<td>${dep.crtDt}</td>
 											<td>${dep.mdfyr}(${dep.mdfyrEmpVO.lNm}${dep.mdfyrEmpVO.fNm})</td>

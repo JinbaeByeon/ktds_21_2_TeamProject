@@ -216,15 +216,15 @@
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-		            	<th><input type="checkbox" id="all_check" /></th>
-		                <th>코드ID</th>
-		                <th>코드명</th>
-		                <th>코드유형</th>
+		            	<th style="width: 2.4%; text-align:center;"><input type="checkbox" id="all_check" /></th>
+		                <th style="width: 15%;">코드ID</th>
+		                <th style="width: 15%;">코드명</th>
+		                <th style="width: 15%;">코드유형</th>
 <!-- 		                <th>등록자</th>
 		                <th>등록일</th>
 		                <th>수정자</th>
 		                <th>수정일</th> -->
-		                <th>사용여부</th>
+		                <th style="width: 8%;">사용여부</th>
 		            </tr>
 		          </thead>
 		          <tbody>
@@ -236,7 +236,7 @@
 		                            data-crtdt="${cmnCd.crtDt}" data-mdfyr="${cmnCd.mdfyr}"
 		                            data-mdfydt="${cmnCd.mdfyDt}" data-useyn="${cmnCd.useYn}"
 		                            data-prcdnccdNm="${cmnCd.prcdCmnCdVO.cdNm}">
-		                            <td>
+		                            <td style="text-align:center;">
 										<input type="checkbox" class="check_idx" value="${cmnCd.cdId}" />
 									</td>
 		                            <td>${cmnCd.cdId}</td>
@@ -246,7 +246,7 @@
 		                            <td>${cmnCd.crtDt}</td>
 		                            <td>${cmnCd.mdfyr}</td>
 		                            <td>${cmnCd.mdfyDt}</td> --%>
-		                            <td>${cmnCd.useYn}</td>
+		                            <td style="padding-left: 40px; padding-right: 0px;">${cmnCd.useYn}</td>
 		                        </tr>
 		                    </c:forEach>
 		                </c:when>

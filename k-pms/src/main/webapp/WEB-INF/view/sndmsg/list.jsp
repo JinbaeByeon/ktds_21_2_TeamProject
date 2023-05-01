@@ -107,7 +107,7 @@
 		        </form>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${sndList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
+		        <div class="total">총 ${sndMsgList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>

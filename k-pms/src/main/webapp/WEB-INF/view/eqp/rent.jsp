@@ -510,7 +510,6 @@
 						</c:if>
 			          <button id="apply_all_btn" class="btn apply">신청</button>
 			          <button id="refuse_all_btn" class="btn refuse">반려</button>
-			          <button id="new_btn" class="btn new">신규</button>
 			          <button id="delete_all_btn" class="btn delete">선택삭제</button>
 			        </div>
 			      </div>

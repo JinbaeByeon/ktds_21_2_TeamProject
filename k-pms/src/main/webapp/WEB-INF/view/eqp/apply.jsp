@@ -356,7 +356,6 @@ function movePage(pageNo) {
 		               	</c:import>
 			        <div class="buttons">
 			          <button id="apply_all_btn" class="btn new">대여신청</button>
-			          <button id="new_btn" class="btn new">신규</button>
 			          <button id="delete_all_btn" class="btn delete">선택삭제</button>
 			        </div>
 			      </div>

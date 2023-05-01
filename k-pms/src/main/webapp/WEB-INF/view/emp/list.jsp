@@ -229,40 +229,33 @@
 		        </form>
 		      </div>
 	      		<div class="buttons">
-					<button id="pwd-reset" class="btn">비밀번호 초기화</button>
-					<button id="pstn-change" class="btn">직급 변경</button>
-					<button id="job-change" class="btn">직무 변경</button>
-					<button id="dep-change" class="btn">부서 변경</button>
+					<button id="pwd-reset" class="btn pwd reset">비밀번호 초기화</button>
+					<button id="pstn-change" class="btn pstn change">직급 변경</button>
+					<button id="job-change" class="btn job change">직무 변경</button>
+					<button id="dep-change" class="btn dep change">부서 변경</button>
 				</div>
 		      <div class="list_section">
 		        <div class="total">총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
-		        <colgroup>
-				    <col width="15px"/>
-				    <col width="10%"/>
-				    <col width="10%"/>
-				    <col width="10%"/>
-				    <col width="10%"/>
-				</colgroup>
 		          <thead>
 						<tr>
-							<th><input type="checkbox" id="all_check"/></th>
-							<th>ID</th>
-							<th>이름</th>
-							<th>생성일</th>
+							<th style="width: 5%; text-align:center;"><input type="checkbox" id="all_check"/></th>
+							<th style="width: 8%;">ID</th>
+							<th style="width: 9%;">이름</th>
+							<th style="width: 10%;">생성일</th>
 							<th>
 								<select id="emplmntStts-select">
 									<option value="default">재직상태</option>
 								</select>
 							</th>
-							<th>관리자여부</th>
-							<th>직급</th>
-							<th>직무</th>
-							<th>부서</th>
-							<th>최근로그인IP</th>
-							<th>최근로그인날짜</th>
-							<th>최근로그인실패날짜</th>
-							<th>로그인실패횟수</th>
+							<th style="width: 8%;">관리자여부</th>
+							<th style="width: 7%;">직급</th>
+							<th style="width: 7%;">직무</th>
+							<th style="width: 7%;">부서</th>
+							<th style="width: 9%;">최근로그인IP</th>
+							<th style="width: 10%;">최근로그인날짜</th>
+							<th style="width: 11%;">최근로그인실패날짜</th>
+							<th style="width: 10%;">로그인실패횟수</th>
 						</tr>
 		          </thead>
 		          <tbody>
@@ -281,7 +274,7 @@
 									    data-jobid="${emp.jobId}"
 									    data-depid="${emp.depId}"
 									    data-lgncnt="${emp.lgnCnt}">
-										<td class="check">
+										<td class="check" style="text-align:center;">
 											<input type="checkbox" class="check_idx" value="${emp.empId}">
 										</td>
 										<td>${emp.empId}</td>
