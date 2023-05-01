@@ -55,17 +55,8 @@
 	    <div class="menu">
 	      <div class="nav_menu">
 	        <ul class="nav">
-	          <li class="nav_item emp">
-	            <a href="${context}/emp/list">임직원관리</a>
-	            <ul class="sub_item">
-	              <li><a href="${context}/emp/create">임직원 등록</a></li>
-	              <li><a href="${context}/emp/list">임직원 목록</a></li>
-	              <li><a href="${context}/emp/log/lgn">로그인 이력</a></li>
-	              <li><a href="${context}/emp/log/acs">화면 접근 이력</a></li>
-	              <li><a href="${context}/emp/log/pstn">직급 변경 이력</a></li>
-	              <li><a href="${context}/emp/log/job">직무 변경 이력</a></li>
-	              <li><a href="${context}/emp/log/dep">부서 변경 이력</a></li>
-	            </ul>
+	          <li class="nav_item home">
+	            <a href="${context}/index">홈</a>
 	          </li>
 	          <li class="nav_item dep">
 	            <a href="${context}/dep/detail">부서관리</a>
@@ -75,31 +66,19 @@
 	            </ul>
 	          </li>
 	          <li class="nav_item eqp">
-	            <a href="${context}/eqp/list">비품관리</a>
+	            <a href="${context}/eqp/list">비품</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/eqp/list">비품 관리</a></li>
-	              <li><a href="${context}/eqp/rent">대여 관리</a></li>
+	              <li><a href="${context}/eqp/list">비품 목록</a></li>
 	              <li><a href="${context}/eqp/apply">대여 신청</a></li>
-	              <li><a href="${context}/eqp/lost">분실물 관리</a></li>
-	              <li><a href="${context}/eqp/log">비품내역 관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item prj">
-	            <a href="${context}/prj/list">프로젝트관리</a>
+	            <a href="${context}/prj/list">프로젝트</a>
 	            <ul class="sub_item">
 	              <li><a href="${context}/prj/list">프로젝트 목록</a></li>
-	              <li><a href="${context}/issu/list">이슈</a></li>
 	              <li><a href="${context}/req/list">요구사항</a></li>
+	              <li><a href="${context}/issu/list">이슈</a></li>
 	              <li><a href="${context}/knw/list">지식관리</a></li>
-	            </ul>
-	          </li>
-	          <li class="nav_item sys">
-	            <a>시스템관리</a>
-	            <ul class="sub_item">
-	              <li><a href="${context}/emp/list?admnYn=Y">관리자 관리</a></li>
-	              <li><a href="${context}/cmncd/list">공통코드 관리</a></li>
-	              <li><a href="${context}/pstn/list">직급 관리</a></li>
-	              <li><a href="${context}/job/list">직무 관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item msg">
