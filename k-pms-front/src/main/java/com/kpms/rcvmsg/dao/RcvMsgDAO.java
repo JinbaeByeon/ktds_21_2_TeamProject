@@ -20,6 +20,7 @@ public interface RcvMsgDAO {
 	public int deleteRcvMsgBySelectedMsgId(List<String> msgId);
 
 	public int updateRcvMsgReadByRcvMsgIdList(List<String> rcvMsgIdList);
+	public int updateRcvMsgReadByMsgId(String msgId);
 
 	public int deleteTrashMsg(List<String> rcvMsgIdList);
 	
@@ -28,4 +29,5 @@ public interface RcvMsgDAO {
 	public List<RcvMsgVO> readAllDelMsg(MsgSearchVO msgSearchVO);
 	
 	public int restoreRcvMsg(List<String> rcvMsgIdList);
+
 }

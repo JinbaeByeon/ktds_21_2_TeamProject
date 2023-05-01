@@ -47,7 +47,7 @@
                    <img src="${context}/img/base_profile.png" />
                </c:if>
 	          <p id="my-info">
-	          	  ${sessionScope.__USER__.fNm}
+	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}
 	          </p>
 	        </div>
 	      </div>

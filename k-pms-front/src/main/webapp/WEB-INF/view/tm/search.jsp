@@ -25,50 +25,51 @@
 </script>
 </head>
 <body>
-	<div class="search-popup content">
-		<h1>팀 검색</h1>
-		<form>
-			<div class="search-group">
-				<label for="tmNm">팀명</label>
-				<input type="text" name="tmNm" class="grow-1 mr-10" value="${tmNm}"/>
-				<button class="btn-search" id="btn-search-btn">검색</button>
-			</div>
-		</form>
-		<div class="grid">
-			<div class="grid-count align-right">
-						총 ${tmList.size() > 0 ? tmList.size() : 0}건
-						
-			</div>
-			<table>
-				<thead>
-					<tr>
-						<th>팀명</th>
-						<th>팀ID</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:choose>
-						<c:when test="${not empty tmList}">
-							<c:forEach items="${tmList}" var="tm">
-								<tr data-tmid="${tm.tmId}"
-									data-tmnm="${tm.tmNm}">
-									<td>${tm.tmNm}</td>
-									<td>${tm.tmId}</td>
-								</tr>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<tr>
-								<td colspan="2">검색된 팀이 없습니다.</td>
-							</tr>
-						</c:otherwise>
-					</c:choose>
-				</tbody>
-			</table>
-		</div>
-		<div class="align-right">
-			<button id="cancel_btn" class="btn-delete">취소</button>
-		</div>
-	</div>
+	<div class="container search_page">
+    <h2>팀 검색</h2>
+    <div class="search_wrapper">
+        <div class="search_box">
+            <select>
+            <option>팀명</option>
+            </select>
+            <div class="search_field">
+            <input type="text" name="tmNm" class="input" value="${tmNm}" placeholder="Search"/>
+            </div>
+            <div class="search-icon">
+                <button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+            </div>
+        </div>
+    </div>
+    <div class="total">총 ${tmList.size() > 0 ? tmList.size() : 0}건</div>
+    <table class="list_table search_table">
+        <thead>
+            <tr>
+                 <th>팀명</th>
+                 <th>팀ID</th>
+            </tr>
+        </thead>
+            <tbody>
+                <c:choose>
+                    <c:when test="${not empty tmList}">
+                        <c:forEach items="${tmList}" var="tm">
+                            <tr data-tmid="${tm.tmId}"
+                                data-tmnm="${tm.tmNm}">
+                                <td>${tm.tmNm}</td>
+                                <td>${tm.tmId}</td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <td colspan="2">검색된 팀이 없습니다.</td>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
+            </tbody>
+    </table>
+    <div class="buttons">
+        <button id="cancel_btn" class="btn delete">취소</button>
+    </div>
+</div>
 </body>
 </html>

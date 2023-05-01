@@ -171,16 +171,6 @@ a:link, a:visited {
   left: 30px;
 }
 
-.sidebar .sidebar_bottom .logout {
-	display: fixed;
-	position: absolute;
-	left: 50%;
-	top: calc(100vh - 300px);
-	transform: translate(-50%, -50%);
-	letter-spacing: 3px;
-	font-weight: 600;
-}
-
 /* container */
 .container {
 	margin-top: 100px;
@@ -366,6 +356,13 @@ a:link, a:visited {
   width: 150px;
   height: 150px;
 }
+
+.container .detail_table tbody tr td .profile{
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+}
+
  .container .detail_table tr:last-child {
   border-bottom: none;
 }

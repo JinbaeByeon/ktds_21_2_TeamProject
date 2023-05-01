@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set scope="request" var="selected" value="dep"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,8 +31,11 @@
 	
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
 	
-	    var td = "<td>" + empId + "</td>"
+	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    td += "<td>" + empId + "</td>"
+	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+	    td += "<td>" + message.jobnm + "</td>"
 	
 	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
 	
@@ -77,10 +81,10 @@
 		$(".dep-tbody tr").click(function() {
 			activeTmId = "";
 			$(".tmMbr-tbody").empty();
-			 $("#tmMbr-count").text("총 0건");
+			$("#tmMbr-count").text("총 0건");
 			$(".dep-tbody").find("tr").removeClass("active");
 			$(this).toggleClass("active");
-			activeDepId = $(".active").data("depid");
+			activeDepId = $(this).data("depid");
 			
 			$(".tm-tbody").find("tr").remove();
 			
@@ -112,12 +116,11 @@
 		$(document).on("click", ".tm-tbody tr", function() {
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).addClass("active");
-			console.log($(".tm-tbody .active").data());
 			activeTmId = $(".tm-tbody .active").data("tmid");
 			
 			$(".tmMbr-tbody").find("tr").remove();
 
-			$.get("${context}/api/tmmbr/list/" + activeTmId, function(response) {
+			$.get("${context}/api/tmmbr/lists/" + activeTmId, function(response) {
 				for (var i in response.data) {
 					var tmMbrId = response.data[i].tmMbrId;
 					var tmId = response.data[i].tmId;

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -254,7 +255,7 @@
 						<div class="file_upload">
 							<button id="add_files">+</button>
 						</div>
-						<div class="align-center">
+						<div class="align-center file_div">
 							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 							<div class="file_attachment" hidden="hidden">
 								<div>
@@ -266,7 +267,7 @@
 							</div>
 						</div>
 					</div>
-					<input type="file" id="files" multiple/>
+					<input type="file" id="files" multiple hidden/>
 				</div>
 				<div class="create-group">
 					<textarea name="cntnt" class="msg-cntnt">${sndMsgVO.cntnt}</textarea>

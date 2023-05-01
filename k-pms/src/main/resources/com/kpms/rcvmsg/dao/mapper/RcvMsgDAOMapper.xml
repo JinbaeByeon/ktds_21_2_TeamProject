@@ -47,7 +47,13 @@
 		  FROM (SELECT *
 		  		  FROM RCV_MSG
 				 WHERE RCVR = #{empId}
-				   AND DEL_YN = 'N') RM
+				   AND DEL_YN = 'N'
+				<if test="filterType == 'read'">
+				   AND RD_YN = 'Y'
+				</if>
+				<if test="filterType == 'unread'">
+				   AND RD_YN = 'N'
+				</if>) RM
 		 INNER JOIN SND_MSG SM
 		    ON SM.MSG_ID = RM.SND_MSG_ID
 		 INNER JOIN (SELECT E.*
@@ -131,7 +137,7 @@
 				  , RCVR
 				  , RD_YN)
 			 VALUES
-			 	  (SEQ_RCV_MSG_PK.NEXTVAL
+			 	  ('RM-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_RCV_MSG_PK.NEXTVAL,5,'0')
 			 	 , SYSDATE
 			 	 , #{crtr}
 			 	 , SYSDATE
@@ -193,6 +199,12 @@
 		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
 		  #{msgId}
 		 </foreach>
+	</update>
+	<update id="updateRcvMsgReadByMsgId"
+			parameterType="string">
+		UPDATE RCV_MSG
+		   SET RD_YN='Y'
+		 WHERE MSG_ID = #{_parameter}
 	</update>
 	
 	<delete id = "deleteTrashMsg"

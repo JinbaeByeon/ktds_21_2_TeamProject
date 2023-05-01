@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,6 +75,14 @@
 				}
 			});
 		});
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
+			var data = $(this).closest("tr").data();
+			if(data.type == 'RM'){
+				location.href="${context}/rcvmsg/detail/"+data.msgid;
+			} else{
+				location.href="${context}/sndmsg/detail/"+data.msgid;
+			}
+		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 			checkBtn();
@@ -86,31 +95,7 @@
 		$(".check_idx").change(function(){
 			checkIndex();
 		});
-		
-		$(".grid > table > tbody > tr > td").not(".check").click(function(){
-			var check_idx = $(this).closest("tr").find(".check_idx");
-			check_idx.prop("checked",check_idx.prop("checked")==false);
-			checkIndex();
-		});
 			
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 쪽지가 없습니다.");
-				return;
-			}
-					
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
-				location.reload(); // 새로고침
-			});
-		});
 	});
 </script>
 </head>
@@ -121,59 +106,58 @@
 			<jsp:include page="../include/msgSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">쪽지 > 휴지통</div>
-			<div class="grid">
-				<div class="grid-count">
-					<div class="align-left left">
-						<button id="delete_btn" class="btn-delete">영구삭제</button>
-						<button id="restore_btn" class="btn-restore">복원</button>
-					</div>
-					<div class="align-right right">
-					총 ${rcvMsgList.size() > 0 ? rcvMsgList.size() : 0}건
-					</div>
-				</div>
-				<table>
-					<thead>
-						<tr>
-							<th><input type="checkbox" id="all_check" /></th>
-							<th>제목</th>
-							<th>발신인</th>
-							<th>발신일</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:choose>
-							<c:when test="${not empty rcvMsgList}">
-								<c:forEach items="${rcvMsgList}" var="rcvMsg">
-									<tr data-ttl="${rcvMsg.sndMsgVO.ttl}"
-										data-crtr="${rcvMsg.crtr}"
-										data-crtdt="${rcvMsg.crtDt}"
-										data-type="${rcvMsg.type}">
-										<td class="check"><input type="checkbox"
-											class="check_idx" value="${rcvMsg.msgId}" /></td>
-										<td>${rcvMsg.sndMsgVO.ttl}</td>
-										<td>${rcvMsg.crtr}(${rcvMsg.rcvrEmpVO.lNm}
-											${rcvMsg.rcvrEmpVO.fNm})</td>
-										<td>${rcvMsg.crtDt}</td>
-									</tr>
-								</c:forEach>
-							</c:when>
-							<c:otherwise>
-								<tr>
-									<td colspan="5" class="no-items">쪽지가 없습니다.</td>
-								</tr>
-							</c:otherwise>
-						</c:choose>
-					</tbody>
-				</table>
+			<div class="buttons">
+		            <button id="delete_btn" class="btn delete">영구삭제</button>
+		            <button id="restore_btn" class="btn restore">복원</button>
+		        </div>
+		      <div class="list_section">
+		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
+		            <tr>
+		                <th><input type="checkbox" id="all_check" /></th>
+		                <th>제목</th>
+		                <th>발신인</th>
+		                <th>발신일</th>
+		            </tr>
+		          </thead>
+		          <tbody>
+		            <c:choose>
+		                <c:when test="${not empty rcvMsgList}">
+		                    <c:forEach items="${rcvMsgList}" var="rcvMsg">
+		                        <tr data-ttl="${rcvMsg.sndMsgVO.ttl}"
+		                            data-crtr="${rcvMsg.crtr}"
+		                            data-crtdt="${rcvMsg.crtDt}"
+		                            data-type="${rcvMsg.type}"
+		                            data-msgid="${rcvMsg.msgId}">
+		                            <td class="check">
+		                            	<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}" />
+		                            </td>
+		                            <td>${rcvMsg.sndMsgVO.ttl}</td>
+		                            <td>${rcvMsg.crtr}(${rcvMsg.rcvrEmpVO.lNm}${rcvMsg.rcvrEmpVO.fNm})</td>
+		                            <td>${rcvMsg.crtDt}</td>
+		                        </tr>
+		                    </c:forEach>
+		                </c:when>
+		                <c:otherwise>
+		                    <tr>
+		                        <td colspan="5" class="no-items">쪽지가 없습니다.</td>
+		                    </tr>
+		                </c:otherwise>
+		            </c:choose>
+					
+					
+		          </tbody>
+		        </table>
+				    <c:import url="../include/pagenate.jsp">
+				        <c:param name="pageNo" value="${pageNo}" />
+				        <c:param name="pageCnt" value="${pageCnt}" />
+				        <c:param name="lastPage" value="${lastPage}" />
+				        <c:param name="path" value="${context}/rcvMsg" />
+				    </c:import>
 
-				<c:import url="../include/pagenate.jsp">
-					<c:param name="pageNo" value="${pageNo}" />
-					<c:param name="pageCnt" value="${pageCnt}" />
-					<c:param name="lastPage" value="${lastPage}" />
-					<c:param name="path" value="${context}/rcvMsg" />
-				</c:import>
-			</div>
-		</div>
+		      </div>
+		   </div>   		
 	</div>
 </body>
 </html>

@@ -8,11 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.emp.service.EmpService;
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.tm.service.TmService;
 import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
-import com.kpms.tmmbr.vo.TmMbrVO;
 
 @Controller
 public class TmController {
@@ -20,10 +22,12 @@ public class TmController {
 	@Autowired
 	private TmService tmService;
 	
+	@Autowired
+	private EmpService empService;
 	
 	@GetMapping("/tm/list")
-	public String viewTmListPage(TmSearchVO tmSearchVO, Model model) {
-		
+	public String viewTmListPage(TmSearchVO tmSearchVO, Model model, @SessionAttribute("__USER__")EmpVO empVO) {
+		tmSearchVO.setEmpId(empVO.getEmpId());
 		List<TmVO> tmList = tmService.readAllTmVO(tmSearchVO);
 		
 		model.addAttribute("tmList", tmList);
@@ -51,6 +55,9 @@ public class TmController {
 		TmVO tmVO = tmService.readOneTmVOByTmId(tmId);
 		model.addAttribute("tmVO", tmVO);
 		
+		String tmHdEmpId = tmVO.getTmHdEmpVO().getEmpId();
+		model.addAttribute("tmHdEmpVO", empService.readOneEmpByEmpId(tmHdEmpId));
+		
 		return "tm/detail";
 	}
 	
@@ -58,6 +65,9 @@ public class TmController {
 	public String viewUpdatePage(@PathVariable String tmId, Model model) {
 		TmVO tmVO = tmService.readOneTmVOByTmId(tmId);
 		model.addAttribute("tmVO", tmVO);
+		
+		String tmHdEmpId = tmVO.getTmHdEmpVO().getEmpId();
+		model.addAttribute("tmHdEmpVO", empService.readOneEmpByEmpId(tmHdEmpId));
 		return "tm/update";
 	}
 	

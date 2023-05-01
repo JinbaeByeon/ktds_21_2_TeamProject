@@ -39,44 +39,47 @@
 		<div>
 			<jsp:include page="../../include/empSidemenu.jsp"/>
 			<jsp:include page="../../include/content.jsp"/>
-			<div class="path"> 임직원 관리 > 화면접근이력 조회</div>
-			<form>
-				<div class="search-group">
+			<div class="path">임직원 관리 > 화면접근이력 조회</div>
+		      <div class="search_wrapper">
+		      <form>
+		        <div class="search_box">
 					<select class="search-option" name="searchType">
 						<option ${searchType== "ID" ? "selected" : ""}>ID</option>
 						<option ${searchType== "이름" ? "selected" : ""}>이름</option>
 					</select>
-					<c:if test="${searchType== 'ID'}">
-						<input type="text" id="empId" name="crtr" class="grow-1 mr-10" value="${acsLogVO.crtr}"/>
+		          <div class="search_field">
+		          	<c:if test="${searchType== 'ID'}">
+						<input type="text" id="empId" name="crtr" class="input" value="${acsLogVO.crtr}" placeholder="Search"/>
 					</c:if>
 					<c:if test="${searchType== '이름'}">
-						<input type="text" id="fNm" name="emp.fNm" class="grow-1 mr-10" value="${acsLogVO.emp.fNm}"/>
+						<input type="text" id="fNm" name="emp.fNm" class="input" value="${acsLogVO.emp.fNm}" placeholder="Search"/>
 					</c:if>
-					
-					<button class="btn-search" id="search-btn">검색</button>
-				</div>
-			</form>
-			<div class="grid">
-				<div class="grid-count align-right">
-					총 ${acsLogList.size() > 0? acsLogList.get(0).totalCount : 0}건
-				</div>
-				<table>
-					<thead>
-						<tr>
-							<th>사원 ID</th>
-							<th>사원명</th>
-							<th>액세스 기록</th>
-							<th>액세스 날짜</th>
-						</tr>
-					</thead>
-					<tbody>
+		          </div>
+		          <div class="search-icon">
+		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+		          </div>
+		        </div>
+		        </form>
+		      </div>
+		      <div class="list_section">
+		        <div class="total">총 ${acsLogList.size() > 0? acsLogList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
+		            <tr>
+						<th>사원 ID</th>
+						<th>사원명</th>
+						<th>액세스 기록</th>
+						<th>액세스 날짜</th>
+		            </tr>
+		          </thead>
+		          <tbody>
 						<c:choose>
 							<c:when test="${not empty acsLogList}">
 								<c:forEach items="${acsLogList}"
 										   var="acsLog">
 									<tr>
 										<td>${acsLog.crtr}</td>
-										<td>${acsLog.emp.fNm}</td>
+										<td>${acsLog.emp.lNm}${acsLog.emp.fNm}</td>
 										<td>${acsLog.acsLog}</td>
 										<td>${acsLog.crtDt}</td>
 									</tr>
@@ -90,14 +93,13 @@
 								</tr>
 							</c:otherwise>
 						</c:choose>
-					
-					</tbody>
-				</table>
-				<c:import url="../../include/pagenate.jsp">
-                  <c:param name="pageNo" value="${pageNo}"/>
-                  <c:param name="pageCnt" value="${pageCnt}"/>
-                  <c:param name="lastPage" value="${lastPage}"/>
-               	</c:import>
+		          </tbody>
+		        </table>
+					<c:import url="../../include/pagenate.jsp">
+	                  <c:param name="pageNo" value="${pageNo}"/>
+	                  <c:param name="pageCnt" value="${pageCnt}"/>
+	                  <c:param name="lastPage" value="${lastPage}"/>
+	               	</c:import>
 			</div>
 			<jsp:include page="../../include/footer.jsp"/>
 		</div>

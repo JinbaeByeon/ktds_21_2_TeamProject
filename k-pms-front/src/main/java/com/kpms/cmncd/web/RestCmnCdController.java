@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -52,8 +53,20 @@ public class RestCmnCdController {
 	}
 	
 	@GetMapping("/api/cmncd/delete/{cmnCdId}")
-	public APIResponseVO doDeleteCmnCd(@PathVariable String cmnCdId) {
-		boolean deleteResult = cmnCdService.deleteOneCmnCdByCdId(cmnCdId);
+	public APIResponseVO doDeleteCmnCd(@PathVariable String cdId) {
+		boolean deleteResult = cmnCdService.deleteOneCmnCdByCdId(cdId);
+		
+		if(deleteResult) {
+			return new APIResponseVO(APIStatus.OK);
+		}
+		else {
+			return new APIResponseVO(APIStatus.FAIL);
+		}
+	}
+	
+	@PostMapping("/api/cmncd/delete")
+	public APIResponseVO doDeleteCmnCdBySelectedCmnCdId(@RequestParam List<String> cdId) {
+		boolean deleteResult = cmnCdService.deleteCmnCdBySelectedCmnCdId(cdId);
 		
 		if(deleteResult) {
 			return new APIResponseVO(APIStatus.OK);

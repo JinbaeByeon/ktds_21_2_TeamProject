@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<c:set scope="request" var="selected" value="msg"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +12,9 @@
 <script type="text/javascript">
 	var file_volume = 0;
 	$().ready(function() {
-		
+		$("#list_btn").click(function(){
+			window.location = document.referrer;
+		})
 		$("#delete_btn").click(function() {
 			
 			$.get("${context}/api/sndmsg/delete/${sndMsgVO.msgId}", function(response) {
@@ -80,6 +83,7 @@
 							${sndMsgVO.cntnt}
 						</div>
 					</div>
+					<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 					<div class="file_attachment">
 						<div class="file_attachment_summary">
 							<span class="total_count">첨부 개</span>
@@ -88,7 +92,6 @@
 						</div>
 						<div class="file_attachments_inner">
 							<ul id="file_list">
-								<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 									<c:forEach items="${sndMsgVO.atchFlList}" var="atchFl">
 										<li class="file_item"
 											data-uuid='${atchFl.uuidFlNm}'
@@ -104,15 +107,16 @@
 											</c:if>
 										</li>
 									</c:forEach>
-								</c:if>
 							</ul>
 						</div>
 					</div>
-				</div>
-				<div class="button_btm-left">
-					<button id="delete_btn" class="btn-delete">삭제</button>
+					</c:if>
 				</div>
 				<div class="msg_view_footer">
+					<div class="button_btm_left">
+						<button id="list_btn" class="btn-list">목록</button>
+						<button id="delete_btn" class="btn-delete">삭제</button>
+					</div>
 				</div>
 			</div>
 		</div>

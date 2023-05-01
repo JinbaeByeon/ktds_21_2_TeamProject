@@ -2,6 +2,7 @@ package com.kpms.prj.vo;
 
 import java.util.List;
 
+import com.kpms.cmncd.vo.CmnCdVO;
 import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.knw.vo.KnwVO;
 import com.kpms.prjtmmbr.vo.PrjTmMbrVO;
@@ -22,7 +23,8 @@ public class PrjVO extends AbstractPagingVO{
 	private List<PrjTmMbrVO> ptmList;
 	private List<ReqVO> reqList;
 	private List<KnwVO> knwList;
-	
+
+
 	public List<PrjTmMbrVO> getPtmList() {
 		return ptmList;
 	}

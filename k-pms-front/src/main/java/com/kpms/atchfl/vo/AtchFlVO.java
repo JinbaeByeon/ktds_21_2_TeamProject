@@ -2,7 +2,7 @@ package com.kpms.atchfl.vo;
 
 import com.kpms.common.vo.AbstractVO;
 
-public class AtchFlVO extends AbstractVO{
+public class AtchFlVO extends AbstractVO {
 
 	private String frgnId;
 	private String orgFlNm;
