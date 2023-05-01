@@ -66,7 +66,7 @@
 			$("#new_btn").click(function(e){
 				e.preventDefault();
 				var ajaxUtil = new AjaxUtil();
-				ajaxUtil.upload("#create-form","${context}/api/emp/rgst",function(response){
+				ajaxUtil.upload("#create_form","${context}/api/emp/rgst",function(response){
 					if(response.status == "200 OK"){
 						if(response.redirectURL){
 							location.href="${context}"+response.redirectURL;
@@ -93,7 +93,7 @@
 		function addPstnFn(pstnData){
 			$("#btn-add-pstn").hide();
 			var pstnDiv = $("#btn-add-pstn").closest("div");
-			var itemDiv = $("<div class='pstn-item ml-10'></div>");
+			var itemDiv = $("<div class='pstn-item input_div'></div>");
 			pstnDiv.append(itemDiv);
 			
 			var itemId = $("<input type='hidden' name='pstnId'/>");
@@ -104,7 +104,7 @@
 			itemSpan.text(pstnData.pstnnm);
 			itemDiv.append(itemSpan);
 			
-			var itemRemoveBtn = $("<button>X</button>");
+			var itemRemoveBtn = $("<button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button>");
 			itemRemoveBtn.click(function(){
 				$(this).closest("div").remove();
 				$("#btn-add-pstn").show();
@@ -116,7 +116,7 @@
 		function addJobFn(jobData){
 			$("#btn-add-job").hide();
 			var jobDiv = $("#btn-add-job").closest("div");
-			var itemDiv = $("<div class='job-item ml-10'></div>");
+			var itemDiv = $("<div class='job-item input_div'></div>");
 			jobDiv.append(itemDiv);
 			
 			var itemId = $("<input type='hidden' name='jobId'/>");
@@ -139,7 +139,7 @@
 		function addDepFn(depData){
 			$("#btn-add-dep").hide();
 			var depDiv = $("#btn-add-dep").closest("div");
-			var itemDiv = $("<div class='dep-item ml-10'></div>");
+			var itemDiv = $("<div class='dep-item input_div'></div>");
 			depDiv.append(itemDiv);
 			
 			var itemId = $("<input type='hidden' name='depId'/>");
@@ -150,7 +150,7 @@
 			itemSpan.text(depData.depnm);
 			itemDiv.append(itemSpan);
 			
-			var itemRemoveBtn = $("<button>X</button>");
+			var itemRemoveBtn = $("<button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button>");
 			itemRemoveBtn.click(function(){
 				$(this).closest("div").remove();
 				$("#btn-add-dep").show();
@@ -173,7 +173,9 @@
 		                    <th>프로필 사진</th>
 		                    <td colspan=3>
                                 <img class="profile" src="${context}/img/base_profile.png"/>
-         						<input type="file" id="prflPht" name="prflPht"/>
+                                <div class="input_div">
+	         						<input type="file" id="prflPht" name="prflPht"/>
+                                </div>
 		                    </td>
 		                </tr>
 		                <tr>
@@ -200,14 +202,14 @@
 		                    <th class="required">주소</th>
 		                    <td colspan=3>
 							  	<div class="addrss-group">
-					                <div class="grow-1">
+					                <div class="input_div">
 					                    <input type="text" id="pstCd" name="pstCd" readonly="readonly"/>
-					                    <button class='fs-12'>우편번호</button>
+					                    <button class='btn addrss'>우편번호</button>
 					                </div>
-					                <div class="grow-1">
-					                    <input type="text" id="addrss" name="addrss" readonly="readonly"/>
+					                <div class="input_div">
+					                    <input type="text" id="addrss" name="addrss" readonly="readonly" style="width: 200px;"/>
 					                </div>
-					                <div class="grow-1">
+					                <div class="input_div">
 					                    <input type="text" id="dtlAddrss" name="dtlAddrss"/>
 					                </div>
 					            </div>
@@ -222,10 +224,10 @@
 		                    <td colspan=3>            
 							     <select id="emplmntStts" name="emplmntStts">
 					                <option>선택</option>
-					                <option value="재직중">재직중</option>
-					                <option value="휴직중">휴직중</option>
-					                <option value="퇴사예정">퇴사예정</option>
-					                <option value="퇴사">퇴사</option>
+					                <option value="001_01">재직중</option>
+					                <option value="001_02">휴직중</option>
+					                <option value="001_03">퇴사예정</option>
+					                <option value="001-04">퇴사</option>
 					            </select>
 				            </td>
 		                </tr>
@@ -238,8 +240,8 @@
 		                <tr>
 		                    <th class="required">직급</th>
 		                    <td>
-		                    	<div>
-		                    		<button id="btn-add-pstn" class="btn-add">+</button>
+		                    	<div class="input_div">
+		                    		<button id="btn-add-pstn" class="btn-add btn">+</button>
 		                    	</div>
 		                    </td>
 		                    <th>직급연차</th>
@@ -248,16 +250,16 @@
 		                <tr>
 		                    <th class="required">직무</th>
 		                    <td colspan=3>
-		                        <div>
-					                <button id="btn-add-job" class="btn-add">+</button>
+		                        <div class="input_div">
+					                <button id="btn-add-job" class="btn-add btn">+</button>
 					            </div>
 		                    </td>
 		                </tr>
 		                <tr>
 		                    <th class="required">부서</th>
 		                    <td colspan=3>
-		                    	<div>
-					                <button id="btn-add-dep" class="btn-add">+</button>
+		                    	<div class="input_div">
+					                <button id="btn-add-dep" class="btn-add btn">+</button>
 					            </div>
 		                    </td>
 		                </tr>

@@ -23,7 +23,7 @@
 			<jsp:include page="./include/sysSidemenu.jsp"/>
 			<jsp:include page="./include/content.jsp"/>
 			
-				안녕하세요! aaa  ${context} ${date} bbb
+				안녕하세요, ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}님
 			<jsp:include page="./include/footer.jsp"/>
 		</div>
 	</div>

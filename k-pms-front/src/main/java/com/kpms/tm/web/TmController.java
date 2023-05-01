@@ -8,8 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.emp.service.EmpService;
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.tm.service.TmService;
 import com.kpms.tm.vo.TmSearchVO;
 import com.kpms.tm.vo.TmVO;
@@ -24,8 +26,8 @@ public class TmController {
 	private EmpService empService;
 	
 	@GetMapping("/tm/list")
-	public String viewTmListPage(TmSearchVO tmSearchVO, Model model) {
-		
+	public String viewTmListPage(TmSearchVO tmSearchVO, Model model, @SessionAttribute("__USER__")EmpVO empVO) {
+		tmSearchVO.setEmpId(empVO.getEmpId());
 		List<TmVO> tmList = tmService.readAllTmVO(tmSearchVO);
 		
 		model.addAttribute("tmList", tmList);

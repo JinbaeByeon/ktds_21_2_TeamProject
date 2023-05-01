@@ -49,65 +49,9 @@
 	
 	$().ready(function() {
 		
-		
-		$("#new_btn").click(function() {
-			
-			location.href = "${context}/tm/create"
-		});
-		
 		$("#search-btn").click(function() {
 			movePage(0);
 		});
-		
-		$("#all_check").change(function() {
-			$(".check_idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(".check_idx").change(function() {
-			var count = $(".check_idx").length;
-			var checkCount = $(".check_idx:checked").length;
-			$("#all_check").prop("checked", count == checkCount);
-		});
-		
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if (checkLen == 0) {
-				alert("삭제할 팀이 없습니다.");
-				return;
-			}
-			
-			if (!confirm("정말 삭제하시겠습니까?")) { <!-- 사용자에게 확인  확인시 예를 누르면 false값이 return으로 온다.-->
-			return;
-			}
-			
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='tmId' value='" + $(this).val() + "'>"); 
-			});
-			
-			$.post("${context}/api/tm/delete", form.serialize(), function(response) {
-				if (response.status == "200 OK") {
-					location.reload();
-				}
-				else {
-					alert(response.errorCode + " / " + response.message);
-				}
-			});
-		});
-		
-		$("#addTmHeadBtn").click(function(event) {
-			event.preventDefault(); 
-			var tmHd = window.open("${context}/emp/search", "팀장 검색", "width=500,height=500");
-		});
-		
-		$("#addDepIdBtn").click(function(event) {
-			event.preventDefault();
-			depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
-		});
-		
-		
 		
 	});
 	function movePage(pageNo) {
@@ -128,7 +72,7 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">팀 > 팀관리</div>
+				<div class="path">팀 > 팀 조회</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option" class="search-input">
@@ -150,16 +94,11 @@
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-						<th><input type="checkbox" id="all_check" /></th>
 			              <th>순번</th>
-			              <th>부서ID</th>
 			              <th>부서명</th>
-			              <th>팀ID</th>
 			              <th>팀명</th>
-			              <th>팀장ID</th>
 			              <th>팀장명</th>
 			              <th>팀생성일</th>
-			              <th>사용여부</th>
 <!-- 			              <th>등록자</th>
 			              <th>등록일</th>
 			              <th>수정자</th>
@@ -183,18 +122,11 @@
 		                            data-crtdt="${tm.crtDt}"
 		                            data-mdfyr="${tm.mdfyr}"
 		                            data-mdfydt="${tm.mdfyDt}">
-		                            <td>
-		                                <input type="checkbox" class="check_idx" value="${tm.tmId}"/>
-		                            </td>
 		                            <td>${tm.rnum}</td>
-		                            <td>${tm.depId}</td>
 		                            <td>${tm.depIdDepVO.depNm}</td>
-		                            <td>${tm.tmId}</td>
 		                            <td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
-		                            <td>${tm.tmHdId}</td>
 		                            <td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
 		                            <td>${tm.tmCrtDt}</td>
-		                            <td>${tm.useYn}</td>
 <%-- 		                            <td>${tm.crtr}</td>
 		                            <td>${tm.crtDt}</td>
 		                            <td>${tm.mdfyr}</td>
@@ -212,16 +144,12 @@
 		            </c:choose>
 		          </tbody>
 		        </table>
-				    <c:import url="../include/pagenate.jsp">
-				          <c:param name="pageNo" value="${pageNo}"/>
-				          <c:param name="pageCnt" value="${pageCnt}"/>
-				          <c:param name="lastPage" value="${lastPage}"/>
-				          <c:param name="path" value="${context}/tm"/>
-				    </c:import>
-		        <div class="buttons">
-		          <button id="new_btn" class="btn new">신규등록</button>
-		          <button id="delete_all_btn" class="btn delete">선택삭제</button>
-		        </div>
+			    <c:import url="../include/pagenate.jsp">
+			          <c:param name="pageNo" value="${pageNo}"/>
+			          <c:param name="pageCnt" value="${pageCnt}"/>
+			          <c:param name="lastPage" value="${lastPage}"/>
+			          <c:param name="path" value="${context}/tm"/>
+			    </c:import>
 		      </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

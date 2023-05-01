@@ -10,15 +10,15 @@
         <div class="sidebar__inner">
           <ul>
             <li>
-              <a href="${context}/tm/list" class="active">
+              <a href="${context}/dep/list" class="active">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>팀 관리</span>
+                <span>부서 조회</span>
               </a>
             </li>
             <li>
-              <a href="${context}/dep/mbrlist">
+              <a href="${context}/tm/list" >
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>팀원 관리</span>
+                <span>팀 조회</span>
               </a>
             </li>
           </ul>
@@ -27,5 +27,6 @@
           <div class="logout"><a href="${context}/emp/lgt">Logout</a></div>
         </div>
     </div>
+ </div>
     
    

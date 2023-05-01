@@ -68,6 +68,10 @@ public class SndMsgServiceImpl implements SndMsgService {
 	}
 	@Override
 	public SndMsgVO readOneSndMsgByMsgId(String msgId) {
-		return sndMsgDAO.readOneSndMsgByMsgId(msgId);
+		SndMsgVO sndMsgVO = sndMsgDAO.readOneSndMsgByMsgId(msgId);
+		if(sndMsgVO == null) {
+			throw new APIException(APIStatus.NOT_FOUND, "쪽지를 찾을 수 없습니다,");
+		}
+		return sndMsgVO;
 	}
 }

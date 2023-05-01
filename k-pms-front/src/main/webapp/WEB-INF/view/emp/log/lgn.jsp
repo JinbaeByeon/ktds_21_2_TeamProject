@@ -68,7 +68,7 @@
 									    data-crtDt="${lgnHst.crtDt}"
 									    data-ip="${lgnHst.ip}">
 										<td>${lgnHst.crtr}</td>
-										<td>${lgnHst.emp.fNm} ${lgnHst.emp.lNm}</td>
+										<td>${lgnHst.emp.lNm}${lgnHst.emp.fNm}</td>
 										<td>${lgnHst.act}</td>
 										<td>${lgnHst.crtDt}</td>
 										<td>${lgnHst.ip}</td>

@@ -202,44 +202,50 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 이슈 등록</div>
+				<div class="path">${issuVO.issuTtl}</div>
 				<form id="create-form">
-				<input type="hidden" name="issuId" value="${issuVO.issuId}"/>
-				<input type="hidden" name="mdfyr" value="${sessionScope.__USER__.empId}"/>
-					<div class="create-group">
-						<label for="issuTtl">제목</label> 
-						<input type="text" id="issuTtl" name="issuTtl" class="grow-1" value="${issuVO.issuTtl}"/>
-					</div>
-					<div class="create-group">
-						<label for="issuCntnt">설명</label>
-						<input type="text" id="issuCntnt" name="issuCntnt" class="grow-1" value="${issuVO.issuCntnt}"/>
-					</div>
-					<div class="create-group">
-						<label for="reqId">요구사항ID</label>
-						<input type="text" id="reqId" name="reqId" value="${issuVO.reqId}" disabled/>
-						<span id="reqTtl">${issuVO.reqVO.reqTtl}</span>
-					</div>
-					<div class="create-group">
-						<label for="dffclty">난이도</label> 
-						<select id="dffclty" name="dffclty">
-							<option ${issuVO.dffclty == "상" ? "selected" : ""}>상</option>
-							<option ${issuVO.dffclty == "중" ? "selected" : ""}>중</option>
-							<option ${issuVO.dffclty == "하" ? "selected" : ""}>하</option>
-						</select>
-					</div>
-					<div class="create-group">
-						<label for="files">첨부파일</label>
-						<div class="file_area">
+					<table class="detail_table">
+							<input type="hidden" name="issuId" value="${issuVO.issuId}"/>
+							<input type="hidden" name="mdfyr" value="${sessionScope.__USER__.empId}"/>
+		                <tr>
+		                    <th>제목</th>
+		                    <td><input type="text" id="issuTtl" name="issuTtl" class="grow-1" value="${issuVO.issuTtl}"/></td>
+		                </tr>
+		                <tr>
+		                    <th>설명</th>
+		                    <td><input type="text" id="issuCntnt" name="issuCntnt" class="grow-1" value="${issuVO.issuCntnt}"/></td>
+		                </tr>
+		                <tr>
+		                    <th>요구사항ID</th>
+		                    <td>
+		                    	<input type="text" id="reqId" name="reqId" value="${issuVO.reqId}" disabled/>
+								<span id="reqTtl">${issuVO.reqVO.reqTtl}</span>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>난이도</th>
+		                    <td>
+								<select id="dffclty" name="dffclty">
+									<option ${issuVO.dffclty == "상" ? "selected" : ""}>상</option>
+									<option ${issuVO.dffclty == "중" ? "selected" : ""}>중</option>
+									<option ${issuVO.dffclty == "하" ? "selected" : ""}>하</option>
+								</select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>첨부파일</th>
+		                    <td>
+								<button id="add_files" class="btn btn-add">+</button>
+						<div class="file_area input_div">
 							<div class="file_upload">
-								<button id="add_files">+</button>
 							</div>
-							<div class="align-center">
+							<div class="align-center input_div">
 								<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 								<div class="file_attachment" hidden="hidden">
 									<div>
 										<div class="remove_all">x</div>
-										<div class="file_name">파일명</div>
-										<div class="file_size">용량</div>
+										<div class="file_name input_div">파일명</div>
+										<div class="file_size input_div">용량</div>
 									</div>
 									<ul id="file_list">
 										<c:if test="${not empty issuVO.atchFlList and issuVO.atchFlList.get(0).flSz != 0}">
@@ -248,7 +254,7 @@
 													data-org='${atchFl.orgFlNm}'
 													data-sz='${atchFl.flSz}'
 													data-ext='${atchFl.flExt}'>
-													<div>
+													<div class="input_div">
 														<span class='remove'>x</span>
 														<span class='file_name'>${atchFl.orgFlNm}</span>
 														<c:if test="${atchFl.flSz < 1024*1024}">
@@ -266,17 +272,18 @@
 							</div>
 						</div>
 						<input type="file" id="files" multiple/>
-					</div>
-					<div class="create-group">
-						<label for="dtlCntnt">상세내용</label>
-						<textarea name="dtlCntnt" id="dtlCntnt">${issuVO.dtlCntnt}</textarea>
-					</div>
+							</td>
+		                </tr>
+		                <tr>
+		                    <th>상세내용</th>
+		                    <td><textarea name="dtlCntnt" id="dtlCntnt" class="input_div">${issuVO.dtlCntnt}</textarea></td>
+		                </tr>
+		            </table>
 				</form>
-					
-				<div class="align-right">
-					<button id="save_btn" class="btn-primary">저장</button>
-					<button id="delete_btn" class="btn-delete">취소</button>
-				</div>		
+        <div class="buttons">
+					<button id="save_btn" class="btn primary">저장</button>
+					<button id="delete_btn" class="btn delete">취소</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

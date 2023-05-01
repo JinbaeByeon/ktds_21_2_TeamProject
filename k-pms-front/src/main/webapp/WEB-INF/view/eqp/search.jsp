@@ -42,60 +42,56 @@
 </script>
 </head>
 <body>
-	<div class="container search_page">
-    <h2>비품 검색</h2>
-    <div class="search_wrapper">
-   	<form>
-        <div class="search_box">
-            <select>
-            <option>비품명</option>
-            </select>
-            <div class="search_field">
-	            <input type="text" name="eqpNm" class="input" value="${eqpNm}" placeholder="Search"/>
-            </div>
-           	<div class="search-icon">
-	          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
-	         </div>
-        </div>
-   	</form>
-    </div>
-    <div class="total">총 ${eqpList.size() > 0 ? eqpList.size() : 0}건</div>
-    <table class="list_table search_table">
-        <thead>
-            <tr>
-           		<th>
-                     <input type="checkbox" id="all_check" />
-                 </th>
-                 <th>비품명</th>
-                 <th>등록일</th>
-            </tr>
-        </thead>
-            <tbody>
-                <c:choose>
-                    <c:when test="${not empty eqpList}">
-                        <c:forEach items="${eqpList}" var="eqp">
-                            <tr data-eqpid = "${eqp.eqpId}"
-                                data-eqpnm = "${eqp.eqpNm}">
-                                <td>
-                                    <input type="checkbox" class="check_idx" value="${eqp.eqpId}" />
-                                </td>
-                                <td>${eqp.eqpNm}</td>
-                                <td>${eqp.crtDt}</td>
-                            </tr>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <tr>
-                            <td colspan="3">검색된 비품이 없습니다.</td>
-                        </tr>
-                    </c:otherwise>
-                </c:choose>
-            </tbody>
-    </table>
-    <div class="buttons">
-        <button id="cancel_btn" class="btn delete">취소</button>
-        <button id="regist_btn" class="btn regist">등록</button>
-    </div>
-</div>
+	<div class="search-popup content">
+		<h1>비품검색</h1>
+		<form>
+			<div class="search-group">
+				<label for="">비품명</label>
+				<input type="text" name="eqpNm" class="grow-1 mr-10" value="${eqpNm}"/>
+				<button class="btn-search" id="btn-search-btn">검색</button>
+			</div>
+		</form>
+		<div class="grid">
+			<div class="grid-count align-right">
+						총 ${eqpList.size() > 0 ? eqpList.size() : 0}건
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="all_check" />
+						</th>
+						<th>비품명</th>
+						<th>등록일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:choose>
+						<c:when test="${not empty eqpList}">
+							<c:forEach items="${eqpList}" var="eqp">
+								<tr data-eqpid = "${eqp.eqpId}"
+									data-eqpnm = "${eqp.eqpNm}"}>
+									<td>
+										<input type="checkbox" class="check_idx" value="${eqp.eqpId}" />
+									</td>
+									<td>${eqp.eqpNm}</td>
+									<td>${eqp.crtDt}</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="3">검색된 비품이 없습니다.</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+				</tbody>
+			</table>
+		</div>
+		<div class="align-right">
+					<button id="cancel_btn" class="btn-delete">취소</button>
+					<button id="regist_btn" class="btn-primary">등록</button>
+		</div>
+	</div>
 </body>
 </html>

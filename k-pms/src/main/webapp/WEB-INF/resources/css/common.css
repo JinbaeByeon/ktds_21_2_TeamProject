@@ -8,6 +8,26 @@
 	background: rgb(237, 235, 231);
 }
 
+input {
+	background: rgba(238, 238, 238, 0.974);
+}
+
+.input_div {
+	background: rgba(238, 238, 238, 0.974);
+}
+
+input:read-only {
+  border: none !important;
+}
+
+input:focus {
+	outline: none;
+}
+
+#pstCd, #addrss {
+	border-bottom: 1px solid #2b2b2b !important;
+}
+
 a:link, a:visited {
 	color: #2b2b2b;
 }
@@ -171,16 +191,6 @@ a:link, a:visited {
 	left: 30px;
 }
 
-.sidebar .sidebar_bottom .logout {
-	display: fixed;
-	position: absolute;
-	left: 50%;
-	top: calc(100vh - 300px);
-	transform: translate(-50%, -50%);
-	letter-spacing: 3px;
-	font-weight: 600;
-}
-
 /* container */
 .container {
 	margin-top: 100px;
@@ -205,6 +215,7 @@ a:link, a:visited {
 	font-size: 14px;
 	line-height: 22px;
 }
+
 
 /* search */
 .search_wrapper {
@@ -367,8 +378,14 @@ a:link, a:visited {
 	height: 150px;
 }
 
-.container .detail_table tr:last-child {
-	border-bottom: none;
+.container .detail_table tbody tr td .profile{
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+}
+
+ .container .detail_table tr:last-child {
+  border-bottom: none;
 }
 
 .container .detail_table tr th {
@@ -417,7 +434,13 @@ a:link, a:visited {
 	text-align: right;
 }
 
-.btn {
+.buttons.upper {
+	display: inline-block;
+	bottom: 4px;
+	position: relative;
+}
+
+.btn, #file-upload-button {
 	text-decoration: none;
 	color: #fff;
 	padding: 10px 15px;
@@ -436,27 +459,67 @@ a:link, a:visited {
 }
 
 .btn.new {
-	background-color: #fbca37;
+	background-color: #2b2b2b;
 }
 
 .btn.new:hover {
-	background-color: rgb(248, 187, 34);
+	background-color: #555555;
 }
 
 .btn.regist {
-	background-color: #4158ec;
+	background-color: #ffc300;
 }
 
 .btn.regist:hover {
-	background-color: #213ac4;
+	background-color: #e6b100;
 }
-
+.btn.pwd.reset,
 .btn.delete {
 	background-color: rgb(187, 39, 32);
 }
-
+.btn.pwd.reset:hover,
 .btn.delete:hover {
 	background-color: rgb(163, 15, 0);
+}
+.btn.job.change,
+.btn.restore,
+.btn.reply ,
+.btn.refuse {
+	background-color:#a79393;
+}
+.btn.job.change:hover,
+.btn.restore:hover ,
+.btn.reply:hover ,
+.btn.refuse:hover {
+	background-color: #836b6b;
+}
+.btn.pstn.change,
+.btn.dep.change,
+.btn.read,
+.btn.apply {
+	background-color: #2b2b2b;
+}
+.btn.pstn.change:hover,
+.btn.dep.change:hover,
+.btn.read:hover,
+.btn.apply:hover {
+	background-color: #555555;
+}
+
+.btn.addrss {
+	background: rgb(0,0,0);
+	margin: 0;
+	padding: 7px 13px;
+}
+
+.btn-add {
+	background: rgb(0, 0, 0);
+}
+
+.trRemoveBtn {
+	border: none;
+	position: relative;
+	top: 5px;
 }
 
 /* footer */
@@ -505,6 +568,14 @@ footer {
 .scroll_table>thead>tr th {
 	position: sticky;
 	top: 0;
+}
+
+.scroll_table .active {
+	background: rgb(0,0,0);
+}
+
+.scroll_table .active td {
+	color: #2b2b2b;
 }
 
 /* table of detail page */
@@ -584,6 +655,27 @@ footer {
 
 .list_table.inner_table tbody button {
 	border: none;
+}
+
+.list_table > thead > tr > th select {
+	background-color: rgb(187, 39, 32);
+	outline: 0px;
+	border-style: none;
+	color: #fff;
+	font-weight: 500;
+	
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	font-size: 16px;
+	
+	background: url(../img/dropdown-arrow.png) no-repeat 85% 50%;
+	width: 100px;
+	background-size: 30px;
+}
+
+.list_table > thead > tr > th select option {
+	color: #2b2b2b;
 }
 
 .view_all {
@@ -870,62 +962,57 @@ footer {
 .create-group .msg-cntnt {
 	border: 1px solid #ccc;
 }
-
-.create-group>.file_area {
-	width: 85%;
+.file_area{
+	width: 85%;	
 	display: flex;
 }
-
-.create-group>.file_area>.file_div {
+.file_area > .file_div {
 	flex: 1 1 auto;
 	text-align: center;
 }
 
-.create-group>.file_area>.file_upload {
+.file_area > .file_upload {
 	display: flex;
 	margin: 10px 0;
 }
 
-.create-group>.file_area>.file_upload>button {
+.file_area > .file_upload > button{
 	padding: 0 5px;
 }
 
-.create-group>.file_area .file_drag {
+.file_area .file_drag{
 	margin: 10px;
-	padding: 17px 10px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	font-size: 14px;
-	color: #666;
+    padding: 17px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #666;
+    width: 300px;
 }
 
-.create-group>.file_area .file_attachment {
-	border: 1px solid #ccc;
-	border-radius: 10px;
-	margin: 10px;
-	padding: 0 5px;
+.file_area .file_attachment{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 0 5px;
 }
-
-.create-group>.file_area .file_attachment>div {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #eee;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	padding: 3px 0;
+.file_area .file_attachment > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 3px 0;
 }
-
-.create-group>.file_area .file_attachment div>.remove_all {
+.file_area .file_attachment div > .remove_all {
 	margin: 0 10px;
 }
-
-.create-group>.file_area .file_attachment div>.file_name {
+.file_area .file_attachment div > .file_name {
 	flex: 1 1 auto;
 	text-align: left;
 }
-
-.create-group>.file_area .file_attachment div>.file_size {
+.file_area .file_attachment div > .file_size {
 	margin-right: 15px;
 }
 
@@ -1140,4 +1227,18 @@ file_area>.file_upload>button {
 
 #file_list>li>div>.remove {
 	margin: 0 10px;
+/* form */
+.inline_form {
+	display: inline-block;
+}
+
+/* adress-group */
+.addrss-group {
+	background: rgba(238, 238, 238, 0.974);
+}
+
+/* select */
+select {
+	background: rgba(238, 238, 238, 0.974);
+	
 }

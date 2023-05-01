@@ -48,7 +48,7 @@ public class SndMsgController {
 		if(sndMsgId != null) {
 			SndMsgVO sndMsgVO = sndMsgService.readOneSndMsgByRcvMsgId(sndMsgId);
 			sndMsgVO.setTtl("RE: " + sndMsgVO.getTtl());
-			sndMsgVO.setCntnt("\n-----Original Message-----\n" + sndMsgVO.getCntnt());
+			sndMsgVO.setCntnt("\n\n\n-----Original Message-----\n" + sndMsgVO.getCntnt());
 			model.addAttribute("sndMsgVO", sndMsgVO);
 		}
 		

@@ -47,7 +47,13 @@
 		  FROM (SELECT *
 		  		  FROM RCV_MSG
 				 WHERE RCVR = #{empId}
-				   AND DEL_YN = 'N') RM
+				   AND DEL_YN = 'N'
+				<if test="filterType == 'read'">
+				   AND RD_YN = 'Y'
+				</if>
+				<if test="filterType == 'unread'">
+				   AND RD_YN = 'N'
+				</if>) RM
 		 INNER JOIN SND_MSG SM
 		    ON SM.MSG_ID = RM.SND_MSG_ID
 		 INNER JOIN (SELECT E.*
@@ -68,37 +74,37 @@
 			parameterType="com.kpms.rcvmsg.vo.MsgSearchVO"
 			resultMap="rcvMsgVOMap">
 		<include refid="Common.pageHeader"/>
-		SELECT R.MSG_ID PK_COL
-			 , DENSE_RANK() OVER(ORDER BY R.CRT_DT || R.MSG_ID DESC) RNUM
-			 , R.MSG_ID
-			 , R.CRT_DT
-			 , S.TTL
-			 , R.CRTR
-			 , S.ATTCH
-			 , E.F_NM
-			 , E.L_NM
-			 , 'RM' "TYPE"
-		  FROM RCV_MSG R
-		 INNER JOIN SND_MSG S
-		 	ON S.MSG_ID = R.SND_MSG_ID
-		 INNER JOIN EMP E
-		    ON R.CRTR = E.EMP_ID
-		 WHERE R.DEL_YN = 'Y'
-		 UNION
-		SELECT S.MSG_ID PK_COL
-			 , DENSE_RANK() OVER(ORDER BY S.CRT_DT || S.MSG_ID DESC) RNUM
-			 , S.MSG_ID
-			 , S.CRT_DT
-			 , S.TTL
-			 , S.CRTR
-			 , S.ATTCH
-			 , E.F_NM
-			 , E.L_NM
-			 , 'SM'
-		  FROM SND_MSG S
-		 INNER JOIN EMP E
-		    ON E.EMP_ID = S.CRTR
-		 WHERE S.DEL_YN = 'Y'
+		SELECT T.*
+			 , DENSE_RANK() OVER(ORDER BY CRT_DT || MSG_ID DESC) RNUM
+		  FROM (SELECT R.MSG_ID PK_COL
+					 , R.MSG_ID
+					 , R.CRT_DT
+					 , S.TTL
+					 , R.CRTR
+					 , S.ATTCH
+					 , E.F_NM
+					 , E.L_NM
+					 , 'RM' "TYPE"
+				  FROM RCV_MSG R
+				 INNER JOIN SND_MSG S
+				 	ON S.MSG_ID = R.SND_MSG_ID
+				 INNER JOIN EMP E
+				    ON R.CRTR = E.EMP_ID
+				 WHERE R.DEL_YN = 'Y'
+				 UNION
+				SELECT S.MSG_ID PK_COL
+					 , S.MSG_ID
+					 , S.CRT_DT
+					 , S.TTL
+					 , S.CRTR
+					 , S.ATTCH
+					 , E.F_NM
+					 , E.L_NM
+					 , 'SM'
+				  FROM SND_MSG S
+				 INNER JOIN EMP E
+				    ON E.EMP_ID = S.CRTR
+				 WHERE S.DEL_YN = 'Y') T
 		<include refid="Common.pageFooter"/>
 	</select>
 	
@@ -131,7 +137,7 @@
 				  , RCVR
 				  , RD_YN)
 			 VALUES
-			 	  (SEQ_RCV_MSG_PK.NEXTVAL
+			 	  ('RM-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_RCV_MSG_PK.NEXTVAL,5,'0')
 			 	 , SYSDATE
 			 	 , #{crtr}
 			 	 , SYSDATE
@@ -193,6 +199,12 @@
 		 <foreach collection="list" item="msgId" open="(" close=")" separator="," >
 		  #{msgId}
 		 </foreach>
+	</update>
+	<update id="updateRcvMsgReadByMsgId"
+			parameterType="string">
+		UPDATE RCV_MSG
+		   SET RD_YN='Y'
+		 WHERE MSG_ID = #{_parameter}
 	</update>
 	
 	<delete id = "deleteTrashMsg"

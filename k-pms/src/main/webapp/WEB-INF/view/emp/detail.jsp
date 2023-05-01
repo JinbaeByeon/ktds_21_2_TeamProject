@@ -25,7 +25,7 @@
 	
 	<div class="main-layout">
 	<div class="container emp_page">
-		<h2>${empVO.empId}(${empVO.fNm} ${empVO.lNm})님의 회원정보입니다.</h2>
+		<h2>${empVO.empId}(${empVO.lNm}${empVO.fNm})님의 회원정보입니다.</h2>
 			<h3>기본정보</h3>
 				<table class="detail_table">
 	                <tr>
@@ -45,7 +45,7 @@
 	                </tr>
 	                <tr>
 	                    <th>이름</th>
-	                    <td>${empVO.fNm} ${empVO.lNm}</td>
+	                    <td>${empVO.lNm}${empVO.fNm}</td>
 	                </tr>
 	                <tr>
 	                    <th>이메일</th>

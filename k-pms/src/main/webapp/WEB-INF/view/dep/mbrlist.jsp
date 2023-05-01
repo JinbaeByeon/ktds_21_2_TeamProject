@@ -10,7 +10,11 @@
 <title>팀원 조회 및 등록</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
-	
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
 	var empId;
 	var empIds = [];
 	var tmMbr;
@@ -224,22 +228,21 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">팀원 조회 및 등록</div>
-				<form id="create_form" enctype="multipart/form-data">
-						<div>
-							 총 ${depList.size() > 0 ? depList.size() : 0}건  
-						</div>
-						<table class="scroll-table">
-							<thead>
-								<tr><th colspan=5 class="table-title">- 부서</th></tr>
-								<tr>
+				<div class="container search_page">
+				  <div class="path">팀원 조회 및 등록</div>
+				  <form id="create_form" enctype="multipart/form-data">
+					  <div class="scroll_div">
+					  	<h3>부서</h3>
+					   <table class="list_table search_table scroll_table">
+					       <thead>
+					           <tr>
 									<th>순번</th>
 									<th>부서ID</th>
 									<th>부서명</th>
 									<th>부서장ID</th>
 									<th>부서장명</th>
-								</tr>
-							</thead>
+					           </tr>
+					       </thead>
 							<tbody class="dep-tbody">
 								<c:choose>
 									<c:when test="${not empty depList}">
@@ -263,41 +266,47 @@
 									</c:otherwise>
 								</c:choose>
 							</tbody>
-						</table>
-						<div id="tm-count"></div>
-							<table class="scroll-table">
-								<thead>
-									<tr><th colspan=4 class="table-title">- 팀</th></tr>
+					   </table>
+					  </div>
+					  <div style="height: 30px;"></div>
+					    <h3>팀</h3>
+					    <div class="scroll_div">
+						    <table class="list_table search_table scroll_table">
+						        <thead>
 									<tr>
 										<th>팀ID</th>
 										<th>팀명</th>
 										<th>팀장ID</th>
-										<th>팀장 성명</th>
+										<th>팀장명</th>
 									</tr>
-								</thead>
-							<tbody class="tm-tbody"></tbody>
-						</table>
-						<div id="tmMbr-count"></div>
-							<table class="scroll-table">
-								<thead>
-									<tr><th colspan=5 class="table-title">- 팀원</th></tr>
+						        </thead>
+						        <tbody class="tm-tbody"></tbody>
+						    </table>
+						</div>
+					  <div style="height: 30px;"></div>
+					    <h3>팀원</h3>
+					    <div class="scroll_div">
+						    <table class="list_table search_table scroll_table">
+						        <thead>
 									<tr>
 										<th class="input"><input type="checkbox" id="all_check" /></th>
 										<th>직원ID</th>
 										<th>직급</th>
 										<th>직원명</th>
 										<th>직무명</th>
+										<th></th>
 									</tr>
-								</thead>
-								<tbody class="tmMbr-tbody"></tbody>
-							</table>
-				</form>
-				<div class="align-right">
-					<button id="addTmMbrBtn" class="btn-primary">추가</button>
-					<button id="regist-btn" class="btn-primary">등록</button>
-					<button id="delete-btn" class="btn-delete">삭제</button>
+						        </thead>
+						        <tbody class="tmMbr-tbody"></tbody>
+						    </table>
+						</div>
+				    </form>
+				    <div class="buttons">
+					<button id="addTmMbrBtn" class="btn regist">추가</button>
+					<button id="regist-btn" class="btn regist">등록</button>
+					<button id="delete-btn" class="btn delete">삭제</button>
+				    </div>
 				</div>
-						
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
