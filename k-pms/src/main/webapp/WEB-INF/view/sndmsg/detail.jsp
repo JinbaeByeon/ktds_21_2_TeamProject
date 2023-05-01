@@ -12,6 +12,9 @@
 <script type="text/javascript">
 	var file_volume = 0;
 	$().ready(function() {
+		$("#list_btn").click(function(){
+			window.location = document.referrer;
+		})
 		
 		$("#delete_btn").click(function() {
 			

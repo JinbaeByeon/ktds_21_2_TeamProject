@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIException;
 import com.kpms.rcvmsg.dao.RcvMsgDAO;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.rcvmsg.vo.MsgVOList;
@@ -76,7 +78,11 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 	@Override
 	public RcvMsgVO readOneRcvMsg(String msgId) {
 		RcvMsgVO rcvMsgVO = rcvMsgDAO.readOneRcvMsg(msgId);
+		if(rcvMsgVO == null) {
+			throw new APIException(APIStatus.NOT_FOUND, "쪽지를 찾을 수 없습니다.");
+		}
 		SndMsgVO sndMsgVO = sndMsgDAO.readOneSndMsgByMsgId(rcvMsgVO.getSndMsgId());
+		rcvMsgDAO.updateRcvMsgReadByMsgId(msgId);
 		rcvMsgVO.setSndMsgVO(sndMsgVO);
 		return rcvMsgVO;
 	}
