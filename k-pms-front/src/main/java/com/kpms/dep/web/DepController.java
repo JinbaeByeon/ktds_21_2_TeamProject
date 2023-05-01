@@ -50,6 +50,9 @@ public class DepController {
 	public String viewDetailPage(Model model, @SessionAttribute("__USER__")EmpVO empVO) {
 		var empId = empVO.getEmpId();
 		DepVO depVO = depService.readOneDepVOByDepId(empId);
+		if(depVO.getTmList().get(0).getTmId()== null) {
+			depVO.setTmList(null);
+		}
 		model.addAttribute("depVO", depVO);
 		
 		return "dep/detail";

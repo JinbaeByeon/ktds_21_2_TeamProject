@@ -252,8 +252,6 @@
 			 , TM_HD_EMP.L_NM TM_HD_EMP_L_NM
 			 , TM_HD_EMP.F_NM TM_HD_EMP_F_NM
 		  FROM DEP D
-		 INNER JOIN TM T
-		    ON D.DEP_ID = T.DEP_ID
 		 INNER JOIN EMP E
 		 	ON D.DEP_ID = E.DEP_ID
 		 INNER JOIN EMP DEP_HD_EMP
@@ -261,12 +259,19 @@
 		 INNER JOIN JOB J
 		    ON E.JOB_ID = J.JOB_ID 
 		 INNER JOIN PSTN P
-		    ON E.PSTN_ID = P.PSTN_ID 
-		 INNER JOIN EMP TM_HD_EMP
+		    ON E.PSTN_ID = P.PSTN_ID
+		  LEFT JOIN (SELECT *
+		  			   FROM TM
+		  			  WHERE DEL_YN = 'N') T
+		    ON T.TM_ID IN (SELECT TM_ID
+		    				 FROM TM_MBR
+		    			    WHERE EMP_ID = #{_parameter})
+		  LEFT JOIN EMP TM_HD_EMP
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
-		 WHERE E.EMP_ID = #{_parameter}
+		 WHERE D.DEP_ID = (SELECT DEP_ID
+		 					 FROM EMP
+		 					WHERE EMP_ID = #{_parameter})
 		   AND D.DEL_YN = 'N'
-		   AND T.DEL_YN = 'N'
 	</select>
 
 	<insert id="createOneDep"
