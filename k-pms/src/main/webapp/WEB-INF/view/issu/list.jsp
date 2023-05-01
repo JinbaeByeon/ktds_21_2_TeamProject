@@ -16,7 +16,7 @@
 <script type="text/javascript">
 	$().ready(function(){
 
-		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var issuId = $(this).closest("tr").data("issuid");
 			location.href="${context}/issu/detail/"+issuId;
 		});
@@ -41,6 +41,10 @@
 				}
 			})
 		});
+		
+		$("#search-btn").click(function() {
+			movePage(0);
+		});
 					
 		$("#create_btn").click(function(){
 			location.href = "${context}/issu/create" 
@@ -56,7 +60,7 @@
 			$("#all_check").prop("checked", count == checkCount);
 		}
 
-		$(".grid > table > tbody > tr > td.check").click(function(){
+		$(".list_table > tbody > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -108,42 +112,42 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 이슈</div>
-				<div class="search-group">
-					<label for="search-keyword">이슈ID</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${issuVO.issuId}"/>
-					<button class="btn-search" id="search-btn">검색</button>
-				</div>
-				
-				<div class="grid">
-					<div class="grid-count">
-						<div class="align-left left">
-							<button id="delete_all_btn">삭제</button>
-							<button id="create_btn">추가</button>
-						</div>
-						<div class="align-right right">
-							총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
-						</div>
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th><input type="checkbox" id="all_check"/></th>
-								<th>순번</th>
-								<th>이슈ID</th>
-								<th>이슈제목</th>
-								<th>이슈내용</th>
-								<th>조회수</th>
-								<th>난이도</th>
-								<th>담당팀원</th>
-								<th>관리상태</th>
-								<th>요구사항</th>
-								<th>등록자</th>
-								<th>등록일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
+				<div class="path">이슈</div>
+		      <div class="search_wrapper">
+		        <div class="search_box">
+		          <select>
+		            <option>이슈제목</option>
+		            <option>요구사항제목</option>
+		          </select>
+		          <div class="search_field">
+		            <input type="text" id="search-keyword" class="input" name="issuId" value="${issuVO.issuId}" placeholder="Search"/>
+		          </div>
+		          <div class="search-icon">
+		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="list_section">
+		        <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
+		            <tr>
+						<th><input type="checkbox" id="all_check"/></th>
+						<th>순번</th>
+						<th>이슈ID</th>
+						<th>이슈제목</th>
+						<th>이슈내용</th>
+						<th>조회수</th>
+						<th>난이도</th>
+						<th>담당팀원</th>
+						<th>관리상태</th>
+						<th>요구사항명</th>
+						<th>등록자</th>
+						<th>등록일</th>
+		            </tr>
+		          </thead>
+		          <tbody>
+		       		<c:choose>
 								<c:when test="${not empty issuList}">
 									<c:forEach items="${issuList}"
 											   var="issu"
@@ -182,14 +186,19 @@
 									</tr>
 								</c:otherwise>
 							</c:choose>
-						</tbody>
-					</table>
+		          </tbody>
+		        </table>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	               	</c:import>
-				</div>	
+		        <div class="buttons">
+					<button id="delete_all_btn" class="btn delte">삭제</button>
+					<button id="create_btn" class="btn regist">추가</button>
+		        </div>
+		      </div>
+		      		
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

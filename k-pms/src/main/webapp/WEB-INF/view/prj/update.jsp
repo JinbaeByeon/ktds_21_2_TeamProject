@@ -38,7 +38,7 @@
 		td += "<td>" + message.lnm + "</td>"
 		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
-		var rmbtn = $("<td><button>X</button></td>")
+		var rmbtn = $("<button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button>")
 		
 		rmbtn.click(function() {
 			$(this).closest(".tmMbr-tr").remove();
@@ -72,7 +72,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=500, height=500");
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=500, scrollbars = no");
 		});
 		
 		$(".del-ptm-btn").click(function(){
@@ -134,7 +134,7 @@
 			/* console.log(orgPstn, chngPstn) */
 		});
 		
-		$("#save-btn").click(function() {
+		$("#modify-btn").click(function() {
 			var ajaxUtil = new AjaxUtil();
 			ajaxUtil.upload("#create_form", "${context}/api/prj/update", function(response) {
 				if (response.status == "200 OK") {
@@ -181,7 +181,7 @@
 		                </tr>
 		                <tr>
 		                    <th>고객사</th>
-		                    <td><input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}" /></td>
+		                    <td><input type="text" id="cstmr" name="cstmr" value="${prjVO.cstmr}" /></td>
 		                </tr>
 		                <tr>
 		                    <th>시작일</th>
@@ -220,8 +220,8 @@
 		                <tr>
 		                    <th>팀원</th>
 		                    <td>
-		                    	<div>
-									<button id="addTmMbrBtn" class="btn regist add">팀원 추가</button>
+		                    	<div class="input_div">
+									<button id="addTmMbrBtn" class="btn regist">팀원 추가</button>
 								</div>
 		                        <table class="list_table inner_table">
 		                        <thead>

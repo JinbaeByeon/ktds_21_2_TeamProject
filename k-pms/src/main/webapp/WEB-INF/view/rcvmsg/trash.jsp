@@ -106,10 +106,7 @@
 			<jsp:include page="../include/msgSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">쪽지 > 휴지통</div>
-			<div class="buttons">
-		            <button id="delete_btn" class="btn delete">영구삭제</button>
-		            <button id="restore_btn" class="btn restore">복원</button>
-		        </div>
+
 		      <div class="list_section">
 		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
@@ -157,6 +154,11 @@
 				    </c:import>
 
 		      </div>
+		      
+		      	<div class="buttons">
+		            <button id="delete_btn" class="btn delete">영구삭제</button>
+		            <button id="restore_btn" class="btn restore">복원</button>
+		        </div>
 		   </div>   		
 	</div>
 </body>

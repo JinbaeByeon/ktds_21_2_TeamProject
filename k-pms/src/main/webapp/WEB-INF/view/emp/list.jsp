@@ -228,12 +228,6 @@
 		        </div>
 		        </form>
 		      </div>
-	      		<div class="buttons">
-					<button id="pwd-reset" class="btn pwd reset">비밀번호 초기화</button>
-					<button id="pstn-change" class="btn pstn change">직급 변경</button>
-					<button id="job-change" class="btn job change">직무 변경</button>
-					<button id="dep-change" class="btn dep change">부서 변경</button>
-				</div>
 		      <div class="list_section">
 		        <div class="total">총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
@@ -331,6 +325,12 @@
 					</c:if>
 		        </div>
 		      </div>
+		      	<div class="buttons">
+					<button id="pwd-reset" class="btn pwd reset">비밀번호 초기화</button>
+					<button id="pstn-change" class="btn pstn change">직급 변경</button>
+					<button id="job-change" class="btn job change">직무 변경</button>
+					<button id="dep-change" class="btn dep change">부서 변경</button>
+				</div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>
 	</div>
