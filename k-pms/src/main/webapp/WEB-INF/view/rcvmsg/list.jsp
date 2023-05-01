@@ -16,6 +16,9 @@
 		}
 	}
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#rcvmsg_list").addClass("active");
+		
 		$("#filterType").change(function(){
 			movePage(0);
 		})

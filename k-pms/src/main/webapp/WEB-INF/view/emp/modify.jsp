@@ -18,6 +18,10 @@
 		var pstnWindow;
 		
 		$().ready(function(){
+			
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_create").addClass("active");
+			
 			$(".remove-btn").click(function(e){
 				e.preventDefault();
 				var div = $(this).closest("div");

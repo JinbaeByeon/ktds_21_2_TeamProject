@@ -11,6 +11,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#job_list").addClass("active");
+		
 		$(".detail_section").hide();
 		
 		$(".list_table > tbody > tr").click(function() {

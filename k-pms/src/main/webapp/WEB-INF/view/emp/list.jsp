@@ -18,6 +18,9 @@
 		var pstnWindow;
 		var emplmntSttsData;
 		$().ready(function(){
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_list").addClass("active");
+			
 			$.get("${context}/api/cmncd/list/001", function(response) {
 				var emplmntSttsSelect = $("#emplmntStts-select");
 				emplmntSttsData = response.data;

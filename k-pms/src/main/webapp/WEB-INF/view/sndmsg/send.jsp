@@ -14,6 +14,8 @@
 	var ajaxUtil = new AjaxUtil();
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#sndmsg_send").addClass("active");
 		
 		$("#rcvr").keydown(function(e){
 			if(e.keyCode == 13){

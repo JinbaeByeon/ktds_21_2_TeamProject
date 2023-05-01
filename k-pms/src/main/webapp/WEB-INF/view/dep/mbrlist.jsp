@@ -79,6 +79,9 @@
 	}
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#dep_mbrlist").addClass("active");
+		
 		var activeDepId = ""
 		var activeTmId = ""
 		

@@ -15,6 +15,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#issu_list").addClass("active");
 
 		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var issuId = $(this).closest("tr").data("issuid");

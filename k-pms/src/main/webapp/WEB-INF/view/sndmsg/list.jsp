@@ -11,6 +11,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#sndmsg_list").addClass("active");
 		
 		$("#new_btn").click(function() {
 			$("#msgId").val("");

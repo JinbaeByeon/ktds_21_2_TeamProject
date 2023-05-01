@@ -18,6 +18,9 @@
 		var pstnWindow;
 		
 		$().ready(function(){
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_create").addClass("active");
+			
 			$("img.profile").click(function(e){
 				$("#prflPht").click();
 			});
