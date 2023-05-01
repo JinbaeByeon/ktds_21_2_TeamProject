@@ -14,6 +14,8 @@
 	var ajaxUtil = new AjaxUtil();
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#sndmsg_send").addClass("active");
 		
 		$("#rcvr").keydown(function(e){
 			if(e.keyCode == 13){
@@ -239,11 +241,11 @@
 		                <tr>
 		                    <th>받는사람</th>
 		                    <td>
-		                    	 <div>
+		                    	 <div class="input_div">
 						            <div id="user_list"></div>
-						            <div>
+						            <div class="input_div">
 						                <input type="text" class="underBar" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
-						                <button id="search-emp">+</button>
+						                <button id="search-emp" class="btn btn-add">+</button>
 						            </div>
 						        </div>
 		                    </td>
@@ -255,17 +257,17 @@
 		                <tr>
 		                    <th>첨부파일</th>
 		                    <td>
-						         <button id="add_files">+</button>
-		                    	 <div class="file_area">
+						         <button id="add_files" class="btn btn-add">+</button>
+		                    	 <div class="file_area input_div">
 						            <div class="file_upload">
 						            </div>
-						            <div class="align-center file_div">
+						            <div class="align-center file_div input_div">
 						                <p class="file_drag">파일을 마우스로 끌어 오세요</p>
-						                <div class="file_attachment" hidden="hidden">
+						                <div class="file_attachment class="input_div"" hidden="hidden">
 						                    <div>
-						                        <div class="remove_all">x</div>
-						                        <div class="file_name">파일명</div>
-						                        <div class="file_size">용량</div>
+						                        <div class="remove_all input_div">x</div>
+						                        <div class="file_name input_div">파일명</div>
+						                        <div class="file_size input_div">용량</div>
 						                    </div>
 						                    <ul id="file_list"></ul>
 						                </div>
@@ -275,7 +277,7 @@
 		                    </td>
 		                </tr>
 		                <tr>
-		                    <td colspan="2"><textarea name="cntnt" class="msg-cntnt">${sndMsgVO.cntnt}</textarea></td>
+		                    <td colspan="2"><textarea name="cntnt" class="msg-cntnt input_div">${sndMsgVO.cntnt}</textarea></td>
 		                </tr>
 		            </table>
 				</form>

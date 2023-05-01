@@ -404,7 +404,6 @@ a:link, a:visited {
 }
 
 .container .detail_table tr td input[type=text]{
-	width: 100%;
     margin: 0;
 }
 
@@ -598,8 +597,7 @@ footer {
 	content: " *";
 }
 
-.detail_table button, .detail_table select, .detail_table input,
-	.detail_table p {
+.detail_table button, .detail_table select, 
 	margin: 10px;
 }
 

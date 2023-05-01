@@ -13,6 +13,9 @@
 	<jsp:include page="../../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_log_acs").addClass("active");
+			
 			$(".search-option").change(function(){
 				movePage(0);
 			});

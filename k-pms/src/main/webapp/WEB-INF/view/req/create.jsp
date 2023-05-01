@@ -16,6 +16,10 @@
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
+		
+		$(".sidebar > ul li a").removeClass("active")
+		$("#req_list").addClass("active");
+		
 			var empId = '${sessionScope.__USER__.empId}';
 		$("#new_btn").click(function(){
 			$("#isModify").val("false"); //등록모드
