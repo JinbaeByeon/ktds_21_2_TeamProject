@@ -43,10 +43,10 @@ public class KnwServiceImpl implements KnwService {
 		}
 
 		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
-
+		
 		List<AtchFlVO> fileList = knwVO.getAtchFlList();
 
-		if (!fileList.isEmpty()) {
+		if (fileList != null) {
 			fileList.forEach(file -> {
 				file.setCrtr(knwVO.getCrtr());
 				file.setFrgnId(knwVO.getKnwId());

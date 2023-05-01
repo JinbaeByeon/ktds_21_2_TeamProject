@@ -182,7 +182,7 @@
 				<div class="articleHead">
 					<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 					<div class="articleInfo">
-						<p class="articleTitle">${knwVO.ttl}"</p>
+						<p class="articleTitle">${knwVO.ttl}</p>
 						<div class="writerInfo">
 							<p class="writerId">${knwVO.crtr}</p>
 							<span class="date">${knwVO.crtDt}</span>

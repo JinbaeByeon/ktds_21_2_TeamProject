@@ -386,6 +386,23 @@ a:link, a:visited {
 	padding: 15px;
 }
 
+.container .detail_table tr td input[type=text]{
+	width: 100%;
+    margin: 0;
+}
+
+.container .detail_table tr th #byteInfo {
+	margin: 0;
+	background-color: rgba(238, 238, 238, 0.974);
+}
+
+.container .detail_table tr td textarea{
+	width: 100%;	
+    margin: 0;
+    resize: none;
+}
+
+
 .container .detail_table th {
 	text-align: left;
 }
@@ -583,7 +600,8 @@ footer {
 	padding: 10px;
 }
 
-/*  */
+/* article_page */
+
 .articleBox {
 	width: 1000px;
 	margin: 0;
@@ -593,11 +611,15 @@ footer {
 	padding-left: 29px;
 	margin-top: 50px;
 	margin-bottom: 50px;
-	border: solid 1px;
-	border-radius: 10px;
 	position: relative;
+	background: rgba(238, 238, 238, 0.974);
+	border: 1px solid #2b2b2b30;
+	border-right: 3px solid rgb(163, 15, 0);
 }
 
+.articleBox * {
+	background: rgba(238, 238, 238, 0.974);
+}
 .articleBox .path {
 	margin: 0;
 	padding: 0;
@@ -610,7 +632,7 @@ footer {
 	position: relative;
 	margin-bottom: 20px;
 	padding-bottom: 20px;
-	border-bottom: 15px solid rgb(187, 39, 32)
+	border-bottom: 1px solid #2b2b2b30;
 }
 
 .articleBox .articleHead .articleInfo .articleTitle {
@@ -650,7 +672,7 @@ footer {
 }
 
 .fileAttachmentArea .fileAttachment {
-	border: 1px solid;
+	border: 1px solid #2b2b2b30;
 	padding: 10px;
 }
 
@@ -691,7 +713,7 @@ footer {
 	padding-top: 30px;
 	margin-top: 1px;
 	margin-bottom: 20px;
-	border-top: 15px solid rgb(187, 39, 32);
+	border-top: 1px solid #2b2b2b30;
 }
 
 .commentBoxArea {
@@ -704,7 +726,7 @@ footer {
 .commentBoxArea .cnt {
 	width: 100%;
 	height: 40px;
-	border: 1px solid;
+	border: 1px solid #2b2b2b30;
 }
 
 .commentBoxArea .commentSubmitBtn {
@@ -729,7 +751,7 @@ footer {
 
 #comments {
 	padding: 15px;
-	border: 1px solid;
+	border: 1px solid #2b2b2b30;
 }
 
 #comments .commentArea {
@@ -1033,3 +1055,6 @@ div.button_btm_left {
 .msg_view_footer {
 	position: relative;
 }
+
+/* 지식관리 등록 페이지 */
+
