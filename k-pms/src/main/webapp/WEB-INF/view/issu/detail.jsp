@@ -57,33 +57,30 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 이슈 등록</div>
-				<form id="create-form">
-				<input type="hidden" name="issuId" value="${issuVO.issuId}"/>
+				<div class="path">${issuVO.reqVO.reqTtl} (${issuVO.reqId})</div>
+			<table class="detail_page detail_table">
+                <input type="hidden" name="issuId" value="${issuVO.issuId}"/>
 				<input type="hidden" name="mdfyr" value="${sessionScope.__USER__.empId}"/>
-					<div class="create-group">
-						<label for="issuTtl">제목</label> 
-						<span id="issuTtl">${issuVO.issuTtl}</span>
-					</div>
-					<div class="create-group">
-						<label for="issuTtl">작성자</label> 
-						<span id="crtr">${issuVO.crtr}</span>
-					</div>
-					<div class="create-group">
-						<label for="issuCntnt">설명</label>
-						<span id="issuCntnt">${issuVO.issuCntnt}</span>
-					</div>
-					<div class="create-group">
-						<label for="reqTtl">요구사항</label>
-						<span id="reqTtl">${issuVO.reqVO.reqTtl} (${issuVO.reqId})</span>
-					</div>
-					<div class="create-group">
-						<label for="dffclty">난이도</label>
-						<span id="dffclty">${issuVO.dffclty}</span>
-					</div>
-					<div class="create-group">
-						<label for="files">첨부파일</label>
-						<div class="file_area">
+                <tr>
+                    <th>제목</th>
+                    <td colspan="3" id="issuTtl">${issuVO.issuTtl}</td>
+                </tr>
+                <tr>
+                    <th>작성자</th>
+                    <td colspan="3" id="crtr">${issuVO.crtr}</td>
+                </tr>
+                <tr>
+                    <th>요구사항</th>
+                    <td colspan="3" id="reqTtl">${issuVO.reqVO.reqTtl} (${issuVO.reqId})</td>
+                </tr>
+                <tr>
+                    <th>난이도</th>
+                    <td colspan="3" id="dffclty">${issuVO.dffclty}</td>
+                </tr>
+                <tr>
+                    <th>첨부파일</th>
+                    <td colspan="3">
+                    	<div class="file_area">
 							<ul id="file_list">
 								<c:if test="${not empty issuVO.atchFlList and issuVO.atchFlList.get(0).flSz != 0}">
 									<c:forEach items="${issuVO.atchFlList}" var="atchFl">
@@ -103,19 +100,32 @@
 								</c:if>
 							</ul>
 						</div>
-					</div>
-					<div class="create-group">
-						<label for="dtlCntnt">상세내용</label>
-						<span id="dtlCntnt">${issuVO.dtlCntnt}</span>
-					</div>
-				</form>
-				
-				<c:if test="${issuVO.crtr == sessionScope.__USER__.empId}">
-					<div class="align-right">
-						<button id="modify_btn" class="btn-primary">수정</button>
-						<button id="delete_btn" class="btn-delete">삭제</button>
-					</div>
-				</c:if>
+                    </td>
+                </tr>
+                <tr>
+                    <th>상세내용</th>
+                    <td colspan="3"  id="dtlCntnt">${issuVO.dtlCntnt}</td>
+                </tr>
+                 <tr>
+                    <th>등록자</th>
+                    <td>${issuVO.crtr}</td>
+                    <th>등록일</th>
+                    <td>${issuVO.crtDt}</td>
+                </tr>
+                <tr>
+                	<th>수정자</th>
+                    <td>${issuVO.mdfyr}</td>
+                    <th>수정일</th>
+                    <td>${issuVO.mdfyDt}</td>
+                  </tr>
+              </table>
+
+        <div class="buttons">
+	       	<c:if test="${issuVO.crtr == sessionScope.__USER__.empId}">
+				<button id="modify_btn" class="btn new">수정</button>
+				<button id="delete_btn" class="btn delete">삭제</button>
+			</c:if>
+        </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

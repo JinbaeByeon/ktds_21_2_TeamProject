@@ -173,7 +173,9 @@
 		                    <th>프로필 사진</th>
 		                    <td colspan=3>
                                 <img class="profile" src="${context}/img/base_profile.png"/>
-         						<input type="file" id="prflPht" name="prflPht"/>
+                                <div class="input_div">
+	         						<input type="file" id="prflPht" name="prflPht"/>
+                                </div>
 		                    </td>
 		                </tr>
 		                <tr>
@@ -200,14 +202,14 @@
 		                    <th class="required">주소</th>
 		                    <td colspan=3>
 							  	<div class="addrss-group">
-					                <div class="grow-1">
+					                <div class="input_div">
 					                    <input type="text" id="pstCd" name="pstCd" readonly="readonly"/>
-					                    <button class='fs-12'>우편번호</button>
+					                    <button class='btn addrss'>우편번호</button>
 					                </div>
-					                <div class="grow-1">
+					                <div class="input_div">
 					                    <input type="text" id="addrss" name="addrss" readonly="readonly"/>
 					                </div>
-					                <div class="grow-1">
+					                <div class="input_div">
 					                    <input type="text" id="dtlAddrss" name="dtlAddrss"/>
 					                </div>
 					            </div>
@@ -238,8 +240,8 @@
 		                <tr>
 		                    <th class="required">직급</th>
 		                    <td>
-		                    	<div>
-		                    		<button id="btn-add-pstn" class="btn-add">+</button>
+		                    	<div class="input_div">
+		                    		<button id="btn-add-pstn" class="btn add">+</button>
 		                    	</div>
 		                    </td>
 		                    <th>직급연차</th>
@@ -248,16 +250,16 @@
 		                <tr>
 		                    <th class="required">직무</th>
 		                    <td colspan=3>
-		                        <div>
-					                <button id="btn-add-job" class="btn-add">+</button>
+		                        <div class="input_div">
+					                <button id="btn-add-job" class="btn add">+</button>
 					            </div>
 		                    </td>
 		                </tr>
 		                <tr>
 		                    <th class="required">부서</th>
 		                    <td colspan=3>
-		                    	<div>
-					                <button id="btn-add-dep" class="btn-add">+</button>
+		                    	<div class="input_div">
+					                <button id="btn-add-dep" class="btn add">+</button>
 					            </div>
 		                    </td>
 		                </tr>
