@@ -194,6 +194,12 @@
 		  #{msgId}
 		 </foreach>
 	</update>
+	<update id="updateRcvMsgReadByMsgId"
+			parameterType="string">
+		UPDATE RCV_MSG
+		   SET RD_YN='Y'
+		 WHERE MSG_ID = #{_parameter}
+	</update>
 	
 	<delete id = "deleteTrashMsg"
 			parameterType="arraylist">

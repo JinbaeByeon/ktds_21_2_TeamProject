@@ -55,7 +55,11 @@ public class RcvMsgDAOImpl extends SqlSessionDaoSupport implements RcvMsgDAO {
 	public int updateRcvMsgReadByRcvMsgIdList(List<String> rcvMsgIdList) {
 		return getSqlSession().update("RcvMsg.updateRcvMsgReadByRcvMsgIdList", rcvMsgIdList);
 	}
-
+	@Override
+	public int updateRcvMsgReadByMsgId(String msgId) {
+		return getSqlSession().update("RcvMsg.updateRcvMsgReadByMsgId", msgId);
+	}
+	
 	@Override
 	public int deleteTrashMsg(List<String> rcvMsgIdList) {
 		return getSqlSession().delete("RcvMsg.deleteTrashMsg", rcvMsgIdList);
