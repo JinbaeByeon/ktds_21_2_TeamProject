@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -108,9 +107,16 @@
            AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
          	</when>
          </choose>
-         <if test='prjId != null and prjId != ""'>
+         <choose>
+         	<when test='!isCommon'>
+         		<if test='prjId != null and prjId != ""'>
            AND P.PRJ_ID = #{prjId}
-         </if>
+         		</if>
+         	</when>
+         	<when test='isCommon'>
+           AND P.PRJ_ID = NULL
+         	</when>
+         </choose>
          <include refid="Common.pageFooter" />
 	</select>
 	

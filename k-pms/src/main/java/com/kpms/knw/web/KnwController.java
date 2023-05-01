@@ -31,6 +31,24 @@ public class KnwController {
 	
 	@GetMapping("/knw/list")
 	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model) {
+		knwSearchVO.setCommon(false);
+		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
+		model.addAttribute("knwList", knwList);
+		model.addAttribute("knwSearchVO", knwSearchVO);
+		
+		if(!knwList.isEmpty()) {
+			model.addAttribute("lastPage", knwList.get(0).getLastPage());
+		}
+		
+		model.addAttribute("pageNo", knwSearchVO.getPageNo());
+		model.addAttribute("viewCnt", knwSearchVO.getViewCnt());
+		model.addAttribute("pageCnt", knwSearchVO.getPageCnt());
+		return "knw/list";
+	}
+	
+	@GetMapping("/comknw/list")
+	public String viewComKnwListPage(KnwSearchVO knwSearchVO, Model model) {
+		knwSearchVO.setCommon(true);
 		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
 		model.addAttribute("knwList", knwList);
 		model.addAttribute("knwSearchVO", knwSearchVO);

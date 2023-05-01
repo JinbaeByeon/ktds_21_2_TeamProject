@@ -6,8 +6,8 @@ public class KnwSearchVO extends AbstractPagingVO {
 
 	private String searchOption;
 	private String searchKeyword;
+	private boolean isCommon;
 	private String prjId;
-	
 
 	public String getSearchOption() {
 		return searchOption;
@@ -31,6 +31,14 @@ public class KnwSearchVO extends AbstractPagingVO {
 
 	public void setPrjId(String prjId) {
 		this.prjId = prjId;
+	}
+
+	public boolean isCommon() {
+		return isCommon;
+	}
+
+	public void setCommon(boolean isCommon) {
+		this.isCommon = isCommon;
 	}
 
 }

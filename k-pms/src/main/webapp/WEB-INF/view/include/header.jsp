@@ -91,6 +91,7 @@
 	              <li><a href="${context}/issu/list">이슈</a></li>
 	              <li><a href="${context}/req/list">요구사항</a></li>
 	              <li><a href="${context}/knw/list">지식관리</a></li>
+	              <li><a href="${context}/comknw/list">사내지식관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item sys">
