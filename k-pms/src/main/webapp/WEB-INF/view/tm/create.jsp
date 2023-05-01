@@ -13,6 +13,11 @@
 <title>팀 생성</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
 	
 	var depId;
 	var tmHd;
@@ -78,18 +83,26 @@
 	    	
 	        var td = empTr.find("td");
 	        empTr.attr("class", "emp-hd-tr " + tmHdId);
-	        td.eq(0).text(tmHdId);
+	        td.eq(0).text("팀장");
 	        td.eq(1).text(message.pstnnm);
-	        td.eq(2).text(message.lnm + message.fnm);
-	        td.eq(3).text(message.jobnm);
-	        td.eq(4).text(message.phn);
+	        td.eq(2).text(tmHdId);
+	        td.eq(3).text(message.lnm + message.fnm);
+	        td.eq(4).text(message.jobnm);
+	        td.eq(5).text(message.brthdy);
+	        td.eq(6).text(message.eml);
+	        td.eq(7).text(message.phn);
+	        td.eq(8).text(message.pstnprd);
 	    } else {
 	    	var empTr = $("<tr class='emp-hd-tr " + tmHdId + "'></tr>");
-	        var td = "<td>" + tmHdId + "</td>"
+	        var td = "<td>" + "팀장" + "</td>"
 	        td += "<td>" + message.pstnnm + "</td>"
-	        td += "<td>" + message.lnm  + message.fnm + "</td>"
-	        td += "<td>" + message.jobnm + "</td>"
-	        td += "<td>" + message.phn + "</td>"
+		    td += "<td>" + tmHdId + "</td>"
+		    td += "<td>" + message.lnm  + message.fnm + "</td>"
+		    td += "<td>" + message.jobnm + "</td>"
+		    td += "<td>" + message.brthdy + "</td>"
+		    td += "<td>" + message.eml + "</td>"
+		    td += "<td>" + message.phn + "</td>"
+		    td += "<td>" + message.pstnprd + "</td>"
 
 	        empTr.append(td);
 	        $(".tmMbr-tbody").append(empTr);
@@ -121,11 +134,15 @@
 
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
 
-	    var td = "<td>" + empId + "</td>"
+	    var td = "<td>" + "팀원" + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
+	    td += "<td>" + empId + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
 	    td += "<td>" + message.jobnm + "</td>"
+	    td += "<td>" + message.brthdy + "</td>"
+	    td += "<td>" + message.eml + "</td>"
 	    td += "<td>" + message.phn + "</td>"
+	    td += "<td>" + message.pstnprd + "</td>"
 
 	    var rmbtn = $("<td><button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button></td>")
 
@@ -237,10 +254,6 @@
 		                    </td>
 		                </tr>
 		                <tr>
-		                    <th>팀ID</th>
-		                    <td><input type="text" id="tmId" name="tmId" readonly value="" /></td>
-		                </tr>
-		                <tr>
 		                    <th>팀명</th>
 		                    <td><input type="text" id="tmNm" name="tmNm" value=""/></td>
 		                </tr>
@@ -274,12 +287,15 @@
 		                        <table class="list_table inner_table">
 		                        <thead>
 			                        <tr>
-			                            <th>직원ID</th>
-			                            <th>직급</th>
-			                            <th>성명</th>
-			                            <th>직무</th>
-			                            <th>전화번호</th>
-			                            <th>삭제</th>
+			                            <th>팀 직책</th>
+										<th>직급</th>
+										<th>직원ID</th>
+										<th>성명</th>
+										<th>직무</th>
+										<th>생년월일</th>
+										<th>이메일</th>
+										<th>전화번호</th>
+										<th>직급연차</th>
 			                        </tr>
 		                        </thead>
 		                        <tbody class="tmMbr-tbody"></tbody>

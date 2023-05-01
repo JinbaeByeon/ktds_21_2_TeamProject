@@ -39,11 +39,11 @@ a:link, a:visited {
 
 /* top_nav */
 .header {
-    height: 160px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    opacity: 0;
+	height: 160px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	opacity: 0;
 }
 
 .top_navbar {
@@ -183,22 +183,12 @@ a:link, a:visited {
 	color: rgb(187, 39, 32);
 }
 
- .sidebar .sidebar_bottom .logout {
-  position: fixed;
-  letter-spacing: 3px;
-  font-weight: 600;
-  bottom: 56px;
-  left: 30px;
-}
-
 .sidebar .sidebar_bottom .logout {
-	display: fixed;
-	position: absolute;
-	left: 50%;
-	top: calc(100vh - 300px);
-	transform: translate(-50%, -50%);
+	position: fixed;
 	letter-spacing: 3px;
 	font-weight: 600;
+	bottom: 56px;
+	left: 30px;
 }
 
 /* container */
@@ -232,16 +222,15 @@ a:link, a:visited {
 	text-align: right;
 }
 
-.search_box{
-  width: 400px;
-  height: 40px;
-  padding: 10px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  position: relative;
-  background-color: rgba(238, 238, 238, 0.974);
-  display: inline-block;
-  top: 10px;
-  
+.search_box {
+	width: 400px;
+	height: 40px;
+	padding: 10px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	position: relative;
+	background-color: rgba(238, 238, 238, 0.974);
+	display: inline-block;
+	top: 10px;
 }
 
 .search_box select {
@@ -360,14 +349,14 @@ a:link, a:visited {
 
 /* detail_table */
 .container .detail_table {
-  width: 100%;
-  border-collapse: collapse;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  margin: 10px 0;
-  table-layout: fixed;
-  transition: all 0.3s ease;
-  background-color: rgba(238, 238, 238, 0.974);
+	width: 100%;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	margin: 10px 0;
+	table-layout: fixed;
+	transition: all 0.3s ease;
+	background-color: rgba(238, 238, 238, 0.974);
 }
 
 .container .detail_table tr {
@@ -380,13 +369,21 @@ a:link, a:visited {
 	{
 	background-color: rgba(238, 238, 238, 0.974);
 }
-.container .detail_table tbody tr td .profile{
-  object-fit: cover;
-  object-position: bottom;
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
+
+.container .detail_table tbody tr td .profile {
+	object-fit: cover;
+	object-position: bottom;
+	border-radius: 50%;
+	width: 150px;
+	height: 150px;
 }
+
+.container .detail_table tbody tr td .profile{
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+}
+
  .container .detail_table tr:last-child {
   border-bottom: none;
 }
@@ -398,13 +395,30 @@ a:link, a:visited {
 	font-weight: 500;
 }
 
- .container .detail_table tr td:nth-child(even) {
-  border-right: 3px solid rgb(163, 15, 0);
+.container .detail_table tr td:nth-child(even) {
+	border-right: 3px solid rgb(163, 15, 0);
 }
 
 .container .detail_table tr td {
 	padding: 15px;
 }
+
+.container .detail_table tr td input[type=text]{
+	width: 100%;
+    margin: 0;
+}
+
+.container .detail_table tr th #byteInfo {
+	margin: 0;
+	background-color: rgba(238, 238, 238, 0.974);
+}
+
+.container .detail_table tr td textarea{
+	width: 100%;	
+    margin: 0;
+    resize: none;
+}
+
 
 .container .detail_table th {
 	text-align: left;
@@ -445,27 +459,51 @@ a:link, a:visited {
 }
 
 .btn.new {
-	background-color: #fbca37;
+	background-color: #2b2b2b;
 }
 
 .btn.new:hover {
-	background-color: rgb(248, 187, 34);
+	background-color: #555555;
 }
 
 .btn.regist {
-	background-color: #4158ec;
+	background-color: #ffc300;
 }
 
 .btn.regist:hover {
-	background-color: #213ac4;
+	background-color: #e6b100;
 }
-
+.btn.pwd.reset,
 .btn.delete {
 	background-color: rgb(187, 39, 32);
 }
-
+.btn.pwd.reset:hover,
 .btn.delete:hover {
 	background-color: rgb(163, 15, 0);
+}
+.btn.job.change,
+.btn.restore,
+.btn.reply ,
+.btn.refuse {
+	background-color:#a79393;
+}
+.btn.job.change:hover,
+.btn.restore:hover ,
+.btn.reply:hover ,
+.btn.refuse:hover {
+	background-color: #836b6b;
+}
+.btn.pstn.change,
+.btn.dep.change,
+.btn.read,
+.btn.apply {
+	background-color: #2b2b2b;
+}
+.btn.pstn.change:hover,
+.btn.dep.change:hover,
+.btn.read:hover,
+.btn.apply:hover {
+	background-color: #555555;
 }
 
 .btn.addrss {
@@ -527,7 +565,7 @@ footer {
 	overflow: auto;
 }
 
-.scroll_table > thead > tr th{
+.scroll_table>thead>tr th {
 	position: sticky;
 	top: 0;
 }
@@ -601,8 +639,8 @@ footer {
 	color: #fff;
 }
 
-.detail_table .list_table.inner_table tr td:nth-child(even){
-  border: none;
+.detail_table .list_table.inner_table tr td:nth-child(even) {
+	border: none;
 }
 
 .list_table.inner_table tbody tr td {
@@ -654,7 +692,8 @@ footer {
 	padding: 10px;
 }
 
-/*  */
+/* article_page */
+
 .articleBox {
 	width: 1000px;
 	margin: 0;
@@ -664,11 +703,15 @@ footer {
 	padding-left: 29px;
 	margin-top: 50px;
 	margin-bottom: 50px;
-	border: solid 1px;
-	border-radius: 10px;
 	position: relative;
+	background: rgba(238, 238, 238, 0.974);
+	border: 1px solid #2b2b2b30;
+	border-right: 3px solid rgb(163, 15, 0);
 }
 
+.articleBox * {
+	background: rgba(238, 238, 238, 0.974);
+}
 .articleBox .path {
 	margin: 0;
 	padding: 0;
@@ -681,7 +724,7 @@ footer {
 	position: relative;
 	margin-bottom: 20px;
 	padding-bottom: 20px;
-	border-bottom: 15px solid rgb(187, 39, 32)
+	border-bottom: 1px solid #2b2b2b30;
 }
 
 .articleBox .articleHead .articleInfo .articleTitle {
@@ -721,7 +764,7 @@ footer {
 }
 
 .fileAttachmentArea .fileAttachment {
-	border: 1px solid;
+	border: 1px solid #2b2b2b30;
 	padding: 10px;
 }
 
@@ -746,6 +789,8 @@ footer {
 
 .articleBtnsArea {
 	position: relative;
+	height: 24px;
+    margin-bottom: 24px;
 }
 
 .articleBtns {
@@ -758,10 +803,9 @@ footer {
 .commentBox {
 	padding: 10px;
 	padding-top: 30px;
-	margin-top: 48px;
+	margin-top: 1px;
 	margin-bottom: 20px;
-	border-top: 15px solid rgb(187, 39, 32);
-	
+	border-top: 1px solid #2b2b2b30;
 }
 
 .commentBoxArea {
@@ -774,7 +818,7 @@ footer {
 .commentBoxArea .cnt {
 	width: 100%;
 	height: 40px;
-	border: 1px solid;
+	border: 1px solid #2b2b2b30;
 }
 
 .commentBoxArea .commentSubmitBtn {
@@ -799,7 +843,7 @@ footer {
 
 #comments {
 	padding: 15px;
-	border: 1px solid;
+	border: 1px solid #2b2b2b30;
 }
 
 #comments .commentArea {
@@ -808,8 +852,8 @@ footer {
 
 #comments .commentArea .lowerCommentSign {
 	position: absolute;
-    left: 5px;
-    z-index: 1;
+	left: 5px;
+	z-index: 1;
 }
 
 #comments .comment {
@@ -827,10 +871,10 @@ footer {
 
 #comments .comment .cntArea {
 	display: flex;
-    align-items: center;
+	align-items: center;
 	width: 100%;
-    height: 40px;
-    position: relative;
+	height: 40px;
+	position: relative;
 }
 
 #comments .comment p {
@@ -839,9 +883,9 @@ footer {
 
 #comments .comment .cnt {
 	width: 100%;
-    height: 40px;
-    font-size: 16px;
-    border: 1px solid;
+	height: 40px;
+	font-size: 16px;
+	border: 1px solid;
 }
 
 /* msg */
@@ -862,8 +906,6 @@ footer {
 	background: #9BC4A4;
 }
 
-
-
 .hide {
 	display: none;
 }
@@ -874,43 +916,41 @@ footer {
 	right: 10px;
 }
 
-
 #search-emp {
 	margin: 10px 0;
 }
 
-
 /* 쪽지 전송 */
-
 #user_list {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-#user_list > .user {
+#user_list>.user {
 	display: flex;
-    background-color: #bed2ff;
-    border-radius: 14px;
-    padding: 5px;
-    margin: 3px 0;
-    margin-left: 10px;
-    height: 26px;
+	background-color: #bed2ff;
+	border-radius: 14px;
+	padding: 5px;
+	margin: 3px 0;
+	margin-left: 10px;
+	height: 26px;
 }
 
-#user_list > .user > .rcvr {
+#user_list>.user>.rcvr {
 	height: 20px;
-    background-color: #bed2ff;
+	background-color: #bed2ff;
 	margin: 0;
 	margin-left: 5px;
 	line-height: 16px;
 }
-#user_list > .user > .btn-delete {
+
+#user_list>.user>.btn-delete {
 	margin: 0;
-    border: none;
-    background-color: #bed2ff;
-    color: #888;
-    font-size: 17px;
-    padding: 0 5px;
+	border: none;
+	background-color: #bed2ff;
+	color: #888;
+	font-size: 17px;
+	padding: 0 5px;
 	line-height: 16px;
 }
 
@@ -919,7 +959,7 @@ footer {
 	border-bottom: 1px solid #ddd;
 }
 
-.create-group .msg-cntnt{
+.create-group .msg-cntnt {
 	border: 1px solid #ccc;
 }
 .file_area{
@@ -933,7 +973,7 @@ footer {
 
 .file_area > .file_upload {
 	display: flex;
-    margin: 10px 0;
+	margin: 10px 0;
 }
 
 .file_area > .file_upload > button{
@@ -980,50 +1020,49 @@ footer {
 	padding: 0;
 }
 
-#file_list > li {
+#file_list>li {
 	display: flex;
 }
 
-#file_list > li > div {
+#file_list>li>div {
 	display: flex;
 	flex: 1 1 auto;
-} 
+}
 
-#file_list > li > div > .file_name {
+#file_list>li>div>.file_name {
 	flex: 1 1 auto;
 	text-align: left;
 }
 
-#file_list > li > div > .remove {
+#file_list>li>div>.remove {
 	margin: 0 10px;
 }
 
-
-.reply-info > .crtr-info {
+.reply-info>.crtr-info {
 	border-bottom-style: solid;
-    border-color: black;
-    border-width: 1px;
+	border-color: black;
+	border-width: 1px;
 }
 
-.reply-info > .crtDt-info {
+.reply-info>.crtDt-info {
 	position: absolute;
 	right: 0px;
 }
 
-.comment > .btns {
+.comment>.btns {
 	position: absolute;
 	bottom: 15px;
 	right: 5px;
 }
 
-.comment > hr {
+.comment>hr {
 	position: absolute;
-    bottom: 0;
-    width: -webkit-fill-available;
+	bottom: 0;
+	width: -webkit-fill-available;
 }
 
-.comment > div.cnt p.cnt{
-	margin:0;
+.comment>div.cnt p.cnt {
+	margin: 0;
 }
 
 div.button_btm {
@@ -1037,13 +1076,13 @@ div.button_btm {
 	bottom: 4px;
 	margin-right: 10px;
 }
+
 div.button_btm_left {
 	position: absolute;
 	left: 0;
 	margin: 10px;
 	margin-left: 0;
 }
-
 
 /* emp_detail */
 .container.emp_page {
@@ -1053,52 +1092,54 @@ div.button_btm_left {
 
 .msg_view_header .msg_option {
 	display: flex;
-    flex-wrap: wrap;
+	flex-wrap: wrap;
 }
 
 .msg_view_header .msg_option .option_title {
 	line-height: 36px;
-    font-size: 11pt;
+	font-size: 11pt;
 }
 
-.msg_view_header .msg_option > .option_areas {
+.msg_view_header .msg_option>.option_areas {
 	display: flex;
-    flex-flow: wrap;
-    flex: 1;
+	flex-flow: wrap;
+	flex: 1;
 }
+
 .msg_view_header .msg_option .option_area {
 	background-color: #bed2ff;
-    border-radius: 14px;
-    padding: 5px 12px;
-    margin: 3px 0;
-    margin-left: 5px;
-    height: 26px;
-    font-size: 11pt;
-    line-height: 16px;
+	border-radius: 14px;
+	padding: 5px 12px;
+	margin: 3px 0;
+	margin-left: 5px;
+	height: 26px;
+	font-size: 11pt;
+	line-height: 16px;
 }
 
-.msg_view_header > .info_area > .date {
+.msg_view_header>.info_area>.date {
 	color: #999;
 	font-size: 14px;
 }
 
-.msg_view_body > .msg_view_contents {
+.msg_view_body>.msg_view_contents {
 	min-height: 200px;
 	border-bottom: 1px solid #ccc;
 	padding: 10px;
 }
 
-.msg_view_body > .file_attachment > .file_attachment_summary{
+.msg_view_body>.file_attachment>.file_attachment_summary {
 	margin-top: 5px;
 	margin-left: 5px;
 }
-.msg_view_body > .file_attachment > .file_attachments_inner {
+
+.msg_view_body>.file_attachment>.file_attachments_inner {
 	border: 1px solid #ccc;
 	margin: 5px;
 	padding: 5px;
 }
 
-.msg_view_footer  {
+.msg_view_footer {
 	position: relative;
 }
 

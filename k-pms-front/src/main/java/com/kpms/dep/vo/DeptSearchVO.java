@@ -9,10 +9,22 @@ public class DeptSearchVO extends AbstractPagingVO {
 	private String fNm;
 	private String lNm;
 	
+	private String empId;
+	
 	private String searchOption;
 	private String searchKeyword;
 	
 	private TmSearchVO tmSearchVO;
+
+	
+	
+	public String getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
 
 	public String getDepNm() {
 		return depNm;

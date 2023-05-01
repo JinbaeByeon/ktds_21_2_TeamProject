@@ -10,8 +10,15 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event){
+	    if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+			location.reload();
+		}
+	}
 	$().ready(function() {
-		
+		$("#filterType").change(function(){
+			movePage(0);
+		})
 		$("#delete_btn").click(function() {
 			var form = $("<form></form>")
 			
@@ -111,21 +118,16 @@
 	function movePage(pageNo) {
 		
 		var searchType = $("#searchType").val();
-		// 전송
-		// 입력 값
+		var filterType = $("#filterType").val();
 		
 		if(searchType == "id") {
 			var empId = $("#searchBar").val();
-			location.href= "${context}/rcvmsg/list?searchType=ID&sndEmpId=" + empId + "&pageNo=" + pageNo;
+			location.href= "${context}/rcvmsg/list?searchType=ID&sndEmpId=" + empId + "&pageNo=" + pageNo + "&filterType=" + filterType;
 		}
 		else if(searchType == "sndrNm") {
 			var nm = $("#searchBar").val();
-			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo;
+			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo + "&filterType=" + filterType;
 		}
-		
-		// URL 요청
-		
-		
 	}
 </script>
 </head>
@@ -135,7 +137,6 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-
 			<div class="path">쪽지 > 받은쪽지함</div>
 		      <div class="search_wrapper">
 		      	<div class="buttons upper">
@@ -159,7 +160,14 @@
 		        </form>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${rcvList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
+		        <div class='filter'>
+		          <select class="filter-option" id="filterType" name="filterType">
+		            <option value="all" ${rcvMsgVO.filterType eq "all" ? "selected" : ""}>모든 쪽지</option>
+		            <option value="unread" ${rcvMsgVO.filterType eq "unread" ? "selected" : ""}>안읽은 쪽지</option>
+		            <option value="read" ${rcvMsgVO.filterType eq "read" ? "selected" : ""}>읽은 쪽지</option>
+		          </select>
+		        </div>
+		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
@@ -192,7 +200,7 @@
 		                            </c:if>
 		                        </td>
 		                        <td>${rcvMsg.sndMsgVO.ttl}</td>
-		                        <td>${rcvMsg.crtr} (${rcvMsg.sndMsgVO.sndEmpVO.lNm} ${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
+		                        <td>${rcvMsg.crtr} (${rcvMsg.sndMsgVO.sndEmpVO.lNm}${rcvMsg.sndMsgVO.sndEmpVO.fNm})</td>
 		                        <td>${rcvMsg.crtDt}</td>
 		                        </tr>
 		                    </c:forEach>

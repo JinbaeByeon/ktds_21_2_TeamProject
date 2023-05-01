@@ -7,8 +7,18 @@ public class TmSearchVO extends AbstractPagingVO {
 	private String fNm;
 	private String lNm;
 
+	private String empId;
 	private String searchOption;
 	private String searchKeyword;
+
+	
+	public String getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
 
 	public String getTmNm() {
 		return tmNm;

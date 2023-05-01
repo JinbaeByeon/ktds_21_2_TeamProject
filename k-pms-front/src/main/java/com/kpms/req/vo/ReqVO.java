@@ -7,6 +7,7 @@ import com.kpms.common.vo.AbstractPagingVO;
 import com.kpms.prj.vo.PrjVO;
 import com.kpms.reqcnfr.vo.ReqCnfrVO;
 import com.kpms.reqtstr.vo.ReqTstrVO;
+import com.kpms.tmmbr.vo.TmMbrVO;
 
 /**
  * REQ
@@ -63,18 +64,20 @@ public class ReqVO extends AbstractPagingVO {
 	 * 요구사항 제목
 	 */
 	private String reqCnfrNm;
-	
 	private String reqTtl;
+	
 	
 	private String rsltCdNm;
 	private String tskCdNm;
 	private String prcsCdNm;
-	
+
+	private TmMbrVO tmMbrVO;
 	private PrjVO reqPrjVO;
 	private ReqCnfrVO reqCnfVO;
 	private ReqTstrVO reqTstVO;
 	
-	private List<AtchFlVO> atchFlList;	
+	
+	private List<AtchFlVO> atchFlList;
 	
 	
 	public String getSelectOption() {
@@ -106,6 +109,12 @@ public class ReqVO extends AbstractPagingVO {
 	}
 	public void setPrcsCdNm(String prcsCdNm) {
 		this.prcsCdNm = prcsCdNm;
+	}
+	public TmMbrVO getTmMbrVO() {
+		return tmMbrVO;
+	}
+	public void setTmMbrVO(TmMbrVO tmMbrVO) {
+		this.tmMbrVO = tmMbrVO;
 	}
 	public String getSearchMode() {
 		return searchMode;

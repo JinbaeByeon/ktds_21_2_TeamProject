@@ -21,6 +21,7 @@
 		});
 		
 		$("#delete_btn").click(function() {
+			console.log("aa");
 			var form = $("<form></form>")
 			
 			$(".check_idx:checked").each(function() {
@@ -51,7 +52,7 @@
 		
 		function checkIndex() {
 			var count = $(".check_idx").length;
-			var checkCount = $(".chck_idx:checked").length;
+			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
 		}
 		
@@ -59,7 +60,7 @@
 			checkIndex(); 
 		});
 		
-		$(".list_table > tr > td").not(".check").click(function(){
+		$(".list_table > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -90,24 +91,24 @@
 		      <div class="search_wrapper">
 		      	<div class="buttons upper">
 		          <button id="delete_btn" class="btn delete" disabled>삭제</button>
-		         </div>
-		      <form class="inline_form">
-		        <div class="search_box">
-		          <select>
-					<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
-					<option value="rcvrNm" ${searchType eq "rcvrNm" ? "selected": ""}>수신자명</option>
-		          </select>
-		          <div class="search_field">
-		          	<input type="text" id="search-keyword" class="input" value="${sndMsgVO.searchKeyword}" placeholder="Search"/>
+		      	</div>
+		        <form class="inline_form">
+		          <div class="search_box">
+		            <select>
+				  		<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
+				  		<option value="rcvrNm" ${searchType eq "rcvrNm" ? "selected": ""}>수신자명</option>
+		            </select>
+		            <div class="search_field">
+		            	<input type="text" id="search-keyword" class="input" value="${sndMsgVO.searchKeyword}" placeholder="Search"/>
+		            </div>
+		            <div class="search-icon">
+		            	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+		            </div>
 		          </div>
-		          <div class="search-icon">
-		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
-		          </div>
-		        </div>
 		        </form>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${sndList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
+		        <div class="total">총 ${sndMsgList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
@@ -126,10 +127,10 @@
 		                            data-ttl="${sndMsg.ttl}"
 		                            data-crtdt="${sndMsg.crtDt}"
 		                            data-msgid="${sndMsg.msgId}">
-		                            <td>
+		                            <td class="check">
 		                                <input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
 		                            </td>
-		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm} ${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
+		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm}${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 		                            <td>${sndMsg.ttl}</td>
 		                            <td>${sndMsg.crtDt}</td>
 		                        </tr>

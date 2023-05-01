@@ -112,7 +112,7 @@
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE T.DEL_YN = 'N'
 		   AND T.USE_YN = 'Y'
-		   AND T.DEP_ID LIKE '%' || #{_parameter} || '%'
+		   AND T.DEP_ID = #{_parameter}
 		 ORDER BY T.TM_ID ASC
 	</select>
 	

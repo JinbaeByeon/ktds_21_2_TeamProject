@@ -41,6 +41,7 @@ public class RestEqpController {
 	public APIResponseVO doApplyEqp(@RequestParam List<String> eqpId
 									, @PathVariable String action
 									, @SessionAttribute("__USER__") EmpVO empVO) {
+		
 		boolean applyResult = eqpService.applyEqp(eqpId, empVO, action);
 		
 		if(applyResult) {

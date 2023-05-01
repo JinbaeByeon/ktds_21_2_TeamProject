@@ -79,7 +79,7 @@
 										   var="acsLog">
 									<tr>
 										<td>${acsLog.crtr}</td>
-										<td>${acsLog.emp.fNm}</td>
+										<td>${acsLog.emp.lNm}${acsLog.emp.fNm}</td>
 										<td>${acsLog.acsLog}</td>
 										<td>${acsLog.crtDt}</td>
 									</tr>

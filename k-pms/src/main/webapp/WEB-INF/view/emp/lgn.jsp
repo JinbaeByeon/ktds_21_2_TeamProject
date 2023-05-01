@@ -55,18 +55,6 @@
 			$('a').click(function(e){e.preventDefault();});
 			$('a.nav').first().click();
 			
-			// address
-			$('#addrss').click(function(){
-				 new daum.Postcode({
-				        oncomplete: function(data) {
-				            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-				            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-				            $("#addrss").val(data.roadAddress);
-				            $("#dtlAddrss").focus();
-				        }
-				    }).open();
-			});
-			
 			// 엔터 submit 방지
 			$('input').keydown(function(event) {
 				  if (event.keyCode === 13) {
@@ -76,18 +64,6 @@
 			$('button').click(function(e){
 				e.preventDefault();
 			})
-			// Regist
-			$("span.register").click(function(e){
-				e.preventDefault();
-				$('button').addClass('loading');
-				doRegist();
-			});
-			
-			$("#cnfrmPwd").keyup(function(key){
-				if(key.keyCode == 13){
-					doRegist();
-				}	
-			});
 			
 			// Login
 			$("#pwd").keyup(function(key){
@@ -133,30 +109,6 @@
 					}
 				});
 			}
-			function doRegist(){
-				var data = {
-						empId: $("#empId").val(),
-						lNm: $("#lNm").val(),
-						fNm: $("#fNm").val(),
-						eml: $("#eml").val(),
-						phn: $("#phn").val(),
-						brthdy: $("#brthdy").val(),
-						addrss: $("#addrss").val() + " " + $("dtlAddrss").val(),
-						pwd: $("#pwd").val(),
-						cPwd: $("#cnfrmPwd").val()
-					};
-					$.post("${context}/api/emp/rgst",data,function(response){
-						
-						if(response.status !="200 OK"){
-							alert(response.errorCode + " / " + response.message);
-						}
-						if(response.redirectURL){
-							alert("회원가입");
-							location.href="${context}" +response.redirectURL;
-						}
-					});
-				
-			};
 		});
 	</script>
 </head>
@@ -164,55 +116,19 @@
 	<div class="container">
 	  <div class="actions">
 	    <a href="/login" data-target="login" class="btn nav login modal">Login</a>
-	    <a href="/register" data-target="register" class="btn nav register modal">Register</a>
 	  </div>
 	</div>
 	<div class="modal">
 	  <div class="content">
 	  	<div>
 	      <a class="nav login" data-target="login">Log In</a>
-	      <a class="nav register" data-target="register">Register</a>
 	  	</div>
 	  	<div class="regist-form">
 		  <form>
-		    <div class="regist">
-		    	<div class="first-name">
-			      <label for="fNm">First Name</label>
-			      <input id="fNm" type="text"/>
-		    	</div>
-		    	<div class="last-name">
-			      <label for="lNm">Last Name</label>
-			      <input id="lNm" type="text"/>
-		    	</div>
-		    </div>
-		    <div class="regist">
-		      <label for="eml">Email</label>
-		      <input id="eml" type="email"/>
-		    </div>
-		    <div class="regist">
-		      <label for="phn">Phone</label>
-		      <input id="phn" type="tel"/>
-		    </div>
-		    <div class="regist">
-		      <label for="brthdy">Birthday</label>
-		      <input id="brthdy" type="date"/>
-		    </div>
-		    <div class="regist address">
-	      		<label for="addrss">Address</label>
-	    		<input id="addrss" type="search"/>
-	    	</div>
-		    <div class="regist detail-address">
-	      		<label for="dtlAddrss">Detail Address</label>
-	    		<input id="dtlAddrss" type="search"/>
-		    </div>
 		    <label for="empId">Id</label>
 		    <input id="empId" />
 		    <label for="pwd">Password</label>
 		    <input id="pwd" type="password" />
-		    <div class="regist">
-		      <label for="cnfrmPwd">Confirm Password</label>
-		      <input id="cnfrmPwd" type="password"/>
-		    </div>
 		    <button>
 		      <span class="login">Log In</span>
 		      <span class="register">Register</span>

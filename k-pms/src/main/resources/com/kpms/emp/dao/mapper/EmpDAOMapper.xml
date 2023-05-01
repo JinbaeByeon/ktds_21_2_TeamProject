@@ -371,14 +371,12 @@
 			   D.DEP_NM,
 			   P.PSTN_NM,
 			   CMCD.CD_NM
-		  FROM (SELECT *
-		  		  FROM EMP
+		  FROM (SELECT E.*
+		  			 , E.L_NM || E.F_NM NM
+		  		  FROM EMP E
 				 WHERE DEL_YN = 'N'
 				<if test="empId != null and empId != ''">
 				   AND EMP_ID = #{empId}
-				</if>
-				<if test="fNm != null and fNm != ''">
-				   AND F_NM LIKE '%' || #{fNm} || '%'
 				</if>
 				<if test="emplmntStts != null and emplmntStts != ''">
 				   AND EMPLMNT_STTS = #{emplmntStts}
@@ -395,6 +393,9 @@
 		  	ON P.PSTN_ID = E.PSTN_ID
 		  JOIN CMN_CD CMCD
 		  	ON CMCD.CD_ID = E.EMPLMNT_STTS
+		<if test="fNm != null and fNm != ''">
+		 WHERE E.NM LIKE '%' || #{fNm} || '%'
+		</if>
 		<include refid="Common.pageFooter"/>
 	</select>
 	

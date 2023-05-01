@@ -86,7 +86,7 @@
 										data-crtdt="${pstnLog.crtDt}"
 										data-crtr="${pstnLog.crtr}">
 									<td>${pstnLog.empId}</td>
-									<td>${pstnLog.empVO.fNm} ${pstnLog.empVO.lNm}</td>
+									<td>${pstnLog.empVO.lNm}${pstnLog.empVO.fNm}</td>
 									<td>${pstnLog.prvsPstnId}</td>
 									<td>${pstnLog.prvsPstnNmVO.pstnNm}</td>
 									<td>${pstnLog.chngPstnId}</td>

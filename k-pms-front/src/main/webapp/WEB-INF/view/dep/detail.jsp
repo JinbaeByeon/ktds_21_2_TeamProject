@@ -33,36 +33,16 @@
 			<table class="detail_page detail_table">
                 <tr>
                     <th>부서명</th>
-                    <td colspan="3"><input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/></td>
-                </tr>
-                <tr>
-                    <th>부서ID</th>
-                    <td colspan="3"><input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/></td>
-                </tr>
-                <tr>
-                    <th>부서장ID</th>
-                    <td colspan="3"><input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/></td>
+                    <td colspan="3">${depVO.depNm}</td>
                 </tr>
                 <tr>
                     <th>부서장명</th>
-                    <td colspan="3"><input type="text" id="depHdNm" name="depHdNm" value="${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}" readonly/></td>
+                    <td colspan="3">${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}</td>
                 </tr>
                 <tr>
                     <th>부서 생성일</th>
-                    <td colspan="3"><input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/></td>
+                    <td colspan="3">${depVO.depCrtDt}</td>
                 </tr>
-                <tr>
-                    <th>등록자</th>
-                    <td><input type="text" id="crtr" name="crtr" value="${depVO.crtr}" readonly/></td>
-                    <th>등록일</th>
-                    <td><input type="text" id="crtr" name="crtr" value="${depVO.crtDt}" readonly/></td>
-                </tr>
-                <tr>
-                	<th>수정자</th>
-                    <td><input type="text" id="crtr" name="crtr" value="${depVO.mdfyr}" readonly/></td>
-                    <th>수정일</th>
-                    <td><input type="text" id="crtr" name="crtr" value="${depVO.mdfyDt}" readonly/></td>
-               </tr>
             </table>
                 
             <div class="hr"></div>
