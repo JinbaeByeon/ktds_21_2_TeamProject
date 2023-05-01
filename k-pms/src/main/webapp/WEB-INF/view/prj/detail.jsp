@@ -193,7 +193,7 @@
                                 </c:forEach>
                             </c:when>
                         <c:otherwise>
-                            <td colspan="5" class="no-items">
+                            <td colspan="8" class="no-items">
                                 등록된 요구사항이 없습니다.
                             </td>
                         </c:otherwise>

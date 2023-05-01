@@ -114,6 +114,7 @@
 		});
 		
 		$(document).on("click", ".tm-tbody tr", function() {
+			$("#all_check").prop("checked", false);
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).addClass("active");
 			activeTmId = $(".tm-tbody .active").data("tmid");
@@ -155,7 +156,7 @@
 			
 		});
 		
-		$(".check-idx").change(function() {
+		$(document).on("change",".check-idx" , function() {
 			var count = $(".check-idx").length;
 			var checkCount = $(".check-idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
