@@ -51,7 +51,7 @@
 		
 		function checkIndex() {
 			var count = $(".check_idx").length;
-			var checkCount = $(".chck_idx:checked").length;
+			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
 		}
 		
@@ -107,7 +107,7 @@
 		        </form>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${sndList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
+		        <div class="total">총 ${sndMsgList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
