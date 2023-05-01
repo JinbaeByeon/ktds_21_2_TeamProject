@@ -250,7 +250,7 @@
 			parameterType="string">
 		UPDATE REQ
 		   SET DEL_YN='Y'
-		 WHERE prjId = #{_parameter}
+		 WHERE PRJ_ID = #{_parameter}
 	</update>
 	
 </mapper>
