@@ -88,10 +88,10 @@
 			<jsp:include page="../include/content.jsp"/>
 				<div class="path">쪽지 > 보낸쪽지함</div>
 		      <div class="search_wrapper">
-		      <form>
-		      	<div class="msg_buttons">
-		          <button type="button" id="delete_btn" class="btn delete msg" disabled>삭제</button>
+		      	<div class="buttons upper">
+		          <button id="delete_btn" class="btn delete" disabled>삭제</button>
 		         </div>
+		      <form class="inline_form">
 		        <div class="search_box">
 		          <select>
 					<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>

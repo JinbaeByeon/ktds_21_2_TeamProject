@@ -127,6 +127,7 @@
 			}
 		});
 		
+		
 	});
 </script>
 </head>
@@ -146,7 +147,7 @@
 		                </tr>
 		                <tr>
 		                    <th>고객사</th>
-		                    <td><input type="text" id="prjNm" name="prjNm" value="" /></td>
+		                    <td><input type="text" id="cstmr" name="cstmr" value="" /></td>
 		                </tr>
 		                <tr>
 		                    <th>시작일</th>
@@ -185,7 +186,7 @@
 		                    <th>팀원</th>
 		                    <td>
 		                    	<div>
-									<button id="addTmMbrBtn" class="btn regist add">팀원 추가</button>
+									<button id="addTmMbrBtn" class="btn regist">팀원 추가</button>
 								</div>
 		                        <table class="list_table inner_table">
 		                        <thead>
@@ -205,8 +206,8 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="modify-btn" class="btn regist">수정</button>
-          <button id="delete-btn" class="btn delete">삭제</button>
+          <button id="save-btn" class="btn regist">등록</button>
+          <button id="delete-btn" class="btn delete">취소</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

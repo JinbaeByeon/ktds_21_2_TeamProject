@@ -293,57 +293,63 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 상세 정보</div>
-				<div class="grid-detail">
-					<form id="detail_form" >
-						<div class="create-group">
-							<label for="reqId" style="width: 180px;">요구사항 ID</label>
-							<input type="text" id="reqId"  name="reqId" value="" readonly />
-						</div>
-						<div class="create-group">
-							<label for="reqTtl" style="width: 180px;">제목</label>
-							<input type="text" id="reqTtl"  name="reqTtl" value=""/>
-						</div>
-						<div class="create-group">
-							<label for="prrty" style="width: 180px;">우선순위</label>
-							<select id="prrty"  name="prrty" >
+				<div class="path">${reqVO.reqTtl}</div>
+				<table class="detail_page detail_table">
+                <tr>
+                    <th>요구사항 ID</th>
+                    <td><input type="text" id="reqId"  name="reqId" value="" readonly /></td>
+                </tr>
+                <tr>
+                    <th>제목</th>
+                    <td><input type="text" id="reqTtl"  name="reqTtl" value=""/></td>
+                </tr>
+                <tr>
+                    <th>우선순위</th>
+                    <td>
+                    	<select id="prrty"  name="prrty" >
 								<option>선택</option>
 								<option>1</option>
 								<option>2</option>
 								<option>3</option>
-							</select>
-						</div>
-						<div class="create-group">
-							<label for="strtDt" style="width: 180px;">시작일</label>
-							<input type="date" id="strtDt"  name="strtDt" value=""/>
-						</div>
-						<div class="create-group">
-							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<input type="date" id="expctEndDt"  name="expctEndDt" value=""/>
-						</div>
-						<div class="create-group">
-							<label for="prjId" style="width: 180px;">프로젝트ID</label>
-							<div>${reqVO.prjId}</div>
-							<input type="hidden" id="prjId"  name="prjId" value=""/>
-						</div>
-						<div class="create-group">
-							<label for="prjNm" style="width: 180px;">프로젝트명</label>
-							<div>${reqVO.reqPrjVO.prjNm}</div>
-						</div>
-						<div class="create-group">
-							<label for="prjId" style="width: 180px;">담당개발자</label>
-							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
-							<button id="prjtmmbr_search">검색</button>
-						</div>
-						<div class="create-group">
-							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/>
-						</div>
-						<div class="create-group">
-							<label for="files" style="width: 180px;">첨부파일</label>
+						</select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>시작일</th>
+                    <td><input type="date" id="strtDt"  name="strtDt" value=""/></td>
+                </tr>
+                <tr>
+                    <th>종료예정일</th>
+                    <td><input type="date" id="expctEndDt"  name="expctEndDt" value=""/></td>
+                </tr>
+                <tr>
+                    <th>프로젝트ID</th>
+                    <td>
+                    	<div>${reqVO.prjId}</div>
+						<input type="hidden" id="prjId"  name="prjId" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>프로젝트명</th>
+                    <td>${reqVO.reqPrjVO.prjNm}</td>
+                </tr>
+                <tr>
+                    <th>담당개발자</th>
+                    <td>
+                    	<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
+						<button id="prjtmmbr_search" class="btn regist">검색</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>확인자</th>
+                    <td><input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/></td>
+                </tr>
+                <tr>
+                    <th>첨부파일</th>
+                    <td>
+									<button id="add_files">+</button>
 							<div class="file_area">
 								<div class="file_upload">
-									<button id="add_files">+</button>
 								</div>
 								<div class="align-center">
 									<p class="file_drag">파일을 마우스로 끌어 오세요</p>
@@ -378,36 +384,44 @@
 								</div>
 							</div>
 							<input type="file" id="files" multiple/>
-						</div>
-						<div class="create-group">
-							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
-							<select id="prcsStts-select"  name="prcsStts" ></select>
-						</div>
-						<div class="create-group">
-							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
-							<select id="tskStts-select"  name="tskStts" ></select>
-						</div>
-						<div class="create-group">
-							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
-							<select id="tstRslt-select"  name="tstRslt" ></select>
-						</div>
-						<div class="create-group">
-							<label for="lossStts" style="width: 180px;">사용여부</label>
-							<input type="checkbox" id="useYn"  name="useYn" value="Y"/>
-						</div>
-						<div class="create-group">
-							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
-							<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
-						</div>
-					</form>		
-				</div>
-				<div class="align-right">
-					<button id="save_btn" class="btn-primary">저장</button>
-					<button id="back-btn" class="btn-delete">뒤로</button>
-				</div>		
+                    </td>
+                </tr>
+                <tr>
+                    <th>진행상태</th>
+                    <td>
+                    	<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
+						<select id="prcsStts-select"  name="prcsStts" ></select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>일정상태</th>
+                    <td>
+                    	<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
+						<select id="tskStts-select"  name="tskStts" ></select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>테스트 결과</th>
+                    <td>
+                    	<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
+						<select id="tstRslt-select"  name="tstRslt" ></select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>상세요구사항</th>
+                    <td><textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea></td>
+                </tr>
+                <tr>
+                    <th>사용여부</th>
+                    <td><input type="checkbox" id="useYn"  name="useYn" value="Y"/></td>
+                </tr>
+            </table>
+                
+
+        <div class="buttons">
+			<button id="save_btn" class="btn-primary">저장</button>
+			<button id="back-btn" class="btn-delete">뒤로</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

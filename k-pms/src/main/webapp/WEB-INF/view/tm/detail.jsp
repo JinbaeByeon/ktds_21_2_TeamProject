@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="dep"/>
 
 <!DOCTYPE html>
 <html>
@@ -46,49 +47,50 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">팀관리 > 팀 상세조회</div>
-					<div>
-						<div class="create-group">
-							<label for="tmNm">팀명</label>
-							<input type="text" id="tmNm" name="tmNm" value="${tmVO.tmNm}" readonly/>
-						</div>
-						<div class="create-group">
-							<label for="tmId">팀ID</label>
-							<input type="text" id="tmId" name="tmId" value="${tmVO.tmId}" readonly/>
-						</div>
-						<div class="create-group">
-							<label for="tmHdId">팀장ID</label>
-							<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" readonly/>
-						</div>
-						<div class="create-group">
-							<label for="tmHdNm">팀장명</label>
-							<input type="text" id="tmHdNm" name="tmHdNm" value="${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}" readonly/>
-						</div>
-						<div class="create-group">
-							<label for="tmCrtDt">팀 생성일</label>
-							<input type="date" id="tmCrtDt" name="tmCrtDt" value="${tmVO.tmCrtDt}" readonly/>
-						</div>
-					</div>
-					
-					<div class="grid">
-						<div>소속 팀원</div>
-						<div class="grid-count align-right">
-							 총 ${tmVO.tmMbrList.size() > 0 ? tmVO.tmMbrList.size() : 0}건
-						</div>
-						<table>
-							<thead>
-								<tr>
-									<th>팀 직책</th>
-									<th>직급</th>
-									<th>직원ID</th>
-									<th>이름</th>
-									<th>직무</th>
-									<th>생년월일</th>
-									<th>이메일</th>
-									<th>전화번호</th>
-									<th>직급연차</th>
-								</tr>
-							</thead>
-						<tbody>
+			<table class="detail_page detail_table">
+                <tr>
+                    <th>팀명</th>
+                    <td colspan="3"><input type="text" id="tmNm" name="tmNm" value="${tmVO.tmNm}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>팀ID</th>
+                    <td colspan="3"><input type="text" id="tmId" name="tmId" value="${tmVO.tmId}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>팀장ID</th>
+                    <td colspan="3"><input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>팀장명</th>
+                    <td colspan="3"><input type="text" id="tmHdNm" name="tmHdNm" value="${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>팀 생성일</th>
+                    <td colspan="3"><input type="date" id="tmCrtDt" name="tmCrtDt" value="${tmVO.tmCrtDt}" readonly/></td>
+                </tr>
+                <tr>
+                    <th>사용여부</th>
+                    <td colspan="3"><input type="checkbox" id="useYn" name="useYn" value="Y" ${tmVO.useYn eq 'Y' ? 'checked' : ''} onClick="return false" /></td>
+                </tr>
+                <tr>
+                    <th>소속 팀원</th>
+                    <td colspan="3">
+                        <div class="total">총 ${tmVO.tmMbrList.size() > 0 ? tmVO.tmMbrList.size() : 0}건</div>
+                        <table class="list_table inner_table">
+                        <thead>
+                            <tr>
+								<th>팀 직책</th>
+								<th>직급</th>
+								<th>직원ID</th>
+								<th>이름</th>
+								<th>직무</th>
+								<th>생년월일</th>
+								<th>이메일</th>
+								<th>전화번호</th>
+								<th>직급연차</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 							<tr>
 								<td>팀장</td>
 								<td>${tmHdEmpVO.pstn.pstnNm}</td>
@@ -128,14 +130,17 @@
 									</tr>
 								</c:otherwise>
 							</c:choose>
-						</tbody>
-					</table>
-				</div>
-				<div class="align-right">
-					<button id="list-btn" class="btn-primary">목록</button>
-					<button id="modify-btn" class="btn-primary">수정</button>
-					<button id="delete-btn" class="btn-delete">삭제</button>
-				</div>
+                        </tbody>
+                    </table>              
+
+            </table>
+                
+
+        <div class="buttons">
+			<button id="list-btn" class="btn new">목록</button>
+			<button id="modify-btn" class="btn regist">수정</button>
+			<button id="delete-btn" class="btn delete">삭제</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />	
 			</div>			
 		</div>
