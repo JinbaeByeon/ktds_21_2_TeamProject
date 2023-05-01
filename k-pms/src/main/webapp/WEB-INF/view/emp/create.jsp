@@ -66,7 +66,7 @@
 			$("#new_btn").click(function(e){
 				e.preventDefault();
 				var ajaxUtil = new AjaxUtil();
-				ajaxUtil.upload("#create-form","${context}/api/emp/rgst",function(response){
+				ajaxUtil.upload("#create_form","${context}/api/emp/rgst",function(response){
 					if(response.status == "200 OK"){
 						if(response.redirectURL){
 							location.href="${context}"+response.redirectURL;
@@ -224,10 +224,10 @@
 		                    <td colspan=3>            
 							     <select id="emplmntStts" name="emplmntStts">
 					                <option>선택</option>
-					                <option value="재직중">재직중</option>
-					                <option value="휴직중">휴직중</option>
-					                <option value="퇴사예정">퇴사예정</option>
-					                <option value="퇴사">퇴사</option>
+					                <option value="001_01">재직중</option>
+					                <option value="001_02">휴직중</option>
+					                <option value="001_03">퇴사예정</option>
+					                <option value="001-04">퇴사</option>
 					            </select>
 				            </td>
 		                </tr>
