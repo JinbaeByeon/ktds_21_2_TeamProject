@@ -128,8 +128,6 @@
 			var nm = $("#searchBar").val();
 			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo + "&filterType=" + filterType;
 		}
-		
-		
 	}
 </script>
 </head>

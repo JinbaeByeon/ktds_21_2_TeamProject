@@ -97,6 +97,9 @@
 		});
 			
 	});
+	function movePage(pageNo) {
+		location.href= "${context}/msg/trash?pageNo=" + pageNo;
+	}
 </script>
 </head>
 <body>

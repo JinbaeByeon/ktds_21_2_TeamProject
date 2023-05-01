@@ -21,6 +21,7 @@
 		});
 		
 		$("#delete_btn").click(function() {
+			console.log("aa");
 			var form = $("<form></form>")
 			
 			$(".check_idx:checked").each(function() {
@@ -59,7 +60,7 @@
 			checkIndex(); 
 		});
 		
-		$(".list_table > tr > td").not(".check").click(function(){
+		$(".list_table > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -90,7 +91,7 @@
 		      <div class="search_wrapper">
 		      <form>
 		      	<div class="msg_buttons">
-		          <button type="button" id="delete_btn" class="btn delete msg" disabled>삭제</button>
+		          <button type="button" id="delete_btn" class="btn delete msg">삭제</button>
 		         </div>
 		        <div class="search_box">
 		          <select>
@@ -126,7 +127,7 @@
 		                            data-ttl="${sndMsg.ttl}"
 		                            data-crtdt="${sndMsg.crtDt}"
 		                            data-msgid="${sndMsg.msgId}">
-		                            <td>
+		                            <td class="check">
 		                                <input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
 		                            </td>
 		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm}${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
