@@ -68,9 +68,10 @@
 	            </ul>
 	          </li>
 	          <li class="nav_item dep">
-	            <a href="${context}/dep/list">부서관리</a>
+	            <a href="${context}/dep/detail">부서관리</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/dep/list">부서 조회</a></li>
+	              <li><a href="${context}/dep/detail">부서 조회</a></li>
+	              <li><a href="${context}/tm/list">팀 조회</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item eqp">
