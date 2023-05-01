@@ -13,6 +13,11 @@
 <title>팀 수정</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
 	
 	var tmHd;
 	var tmMbr;
@@ -49,7 +54,7 @@
 				$(this).remove();
 				return;
 			}
-		})
+		});
 		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
@@ -96,15 +101,14 @@
 			
 		empIds.push(tmHdId);
 		
-		/* tmHd.close(); */
+		tmHd.close();
 	}
 	
-	function addMbrFn(message) {
+	function addEmpFn(message) {
 
-	    var empItems = $(document).find(".tmMbr-tbody");
+	    var empItems = $(".tmMbr-tbody");
 	    empId = message.empid;
-
-	    if (empItems.find("." + empId).length > 0) {
+	    if (empItems.find("tr." + empId).length > 0) {
 	        tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
 	        return;
 	    }
@@ -113,9 +117,10 @@
 	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
 	    itemId.val(empId);
 
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-empid='"+empId+"' data-index='" + nextIndex + "'></tr>");
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-empid='" + empId + "' data-index='" + nextIndex + "'></tr>");
 
 	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    td += "<td>" + "팀원" + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + empId + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
@@ -174,7 +179,7 @@
 			event.preventDefault();
 			var tmId = $("#tmId").val();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + tmId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#list-btn").click(function(response) {
@@ -192,11 +197,6 @@
 						createTmmbr(tmId,empId);
 					})
 					createTmmbr(tmId,tmHdId);
-					/* empIds.forEach(function(empId) {
-			    		
-				    	createTmmbr(tmId, empId);
-				    		
-				    }); */
 					
 					location.href = "${context}" + response.redirectURL;
 				}
@@ -317,7 +317,7 @@
 											<th>팀 직책</th>
 											<th>직급</th>
 											<th>직원ID</th>
-											<th>이름</th>
+											<th>성명</th>
 											<th>직무</th>
 											<th>생년월일</th>
 											<th>이메일</th>
@@ -326,7 +326,7 @@
 										</tr>
 									</thead>
 									<tbody class="tmMbr-tbody">
-										<tr class="tmHd-tr">
+										<tr class="tmHd-tr ${tmHdEmpVO.empId}">
 											<td></td>
 											<td>팀장</td>
 											<td>${tmHdEmpVO.pstn.pstnNm}</td>
@@ -343,7 +343,7 @@
 												<c:forEach items="${tmVO.tmMbrList}" 
 															var="tmMbr">
 													<c:if test="${tmMbr.empId != tmVO.tmHdId}">
-														<tr data-empid="${tmMbr.empId}">
+														<tr class="${tmMbr.empId}" data-empid="${tmMbr.empId}">
 															<td>
 																<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
 															</td>

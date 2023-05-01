@@ -343,6 +343,5 @@
 								                                                            WHERE PRJ_STTS = '002_09'))
 								                        OR TM_MBR_ID NOT IN (SELECT TM_MBR_ID
 								                     						   FROM PRJ_TM_MBR)))	
-		 
 	</update>
 </mapper>

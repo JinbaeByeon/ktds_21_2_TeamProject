@@ -74,7 +74,7 @@ $().ready(function() {
  		$("#useYn").closest("td").next().show();
  		$("#useYn").closest("td").next().next().show();
 
-		$("#isModify").val("true"); //수정모드
+		$("#isModify").val("true");
 		$(".detail_section").show("fast");
         $(".detail_table").show();
         
@@ -119,7 +119,7 @@ $().ready(function() {
 		$(".detail_section").show("fast");
         $(".detail_table").show();
 		
-		$("#isModify").val("false"); //등록모드
+		$("#isModify").val("false");
 		
 		$("#depId").val("");
 		$("#depNm").val("");
@@ -140,13 +140,13 @@ $().ready(function() {
 			return;
 		}
 		
-		if (!confirm("정말 삭제하시겠습니까?")) { <!-- 사용자에게 확인  확인시 예를 누르면 false값이 return으로 온다.-->
+		if (!confirm("정말 삭제하시겠습니까?")) {
 			return;
 		}
 		
 		$.get("${context}/api/dep/delete/" + depId, function(response) {
 			if (response.status == "200 OK") {
-				location.reload(); //새로고침
+				location.reload();
 			}
 			else {
 				alert(response.errorCode + " / " + response.message);
@@ -197,6 +197,10 @@ $().ready(function() {
 		var checkLen = $(".check_idx:checked").length;
 		if (checkLen == 0) {
 			alert("삭제할 부서가 없습니다.");
+			return;
+		}
+		
+		if (!confirm("정말 삭제하시겠습니까?")) {
 			return;
 		}
 		
@@ -273,10 +277,6 @@ $().ready(function() {
 							<th>부서ID</th>
 							<th>부서생성일</th>
 							<th>사용여부</th>
-<!-- 							<th>등록자</th>
-							<th>등록일</th>
-							<th>수정자</th>
-							<th>수정일</th> -->
 			            </tr>
 			          </thead>
 			          <tbody>
@@ -304,10 +304,6 @@ $().ready(function() {
 											<td>${dep.depId}</td>
 											<td>${dep.depCrtDt}</td>
 											<td>${dep.useYn}</td>
-<%-- 											<td>${dep.crtr}(${dep.crtrEmpVO.lNm}${dep.crtrEmpVO.fNm})</td>
-											<td>${dep.crtDt}</td>
-											<td>${dep.mdfyr}(${dep.mdfyrEmpVO.lNm}${dep.mdfyrEmpVO.fNm})</td>
-											<td>${dep.mdfyDt}</td> --%>
 										</tr>
 									</c:forEach>
 								</c:when>
