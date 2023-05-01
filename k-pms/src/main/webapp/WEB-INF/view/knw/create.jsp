@@ -34,7 +34,7 @@
 		remove.click(function(e){
 			var item = $(this).closest("li");
 			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/knw/delfiles", function(response) {
 				item.remove();
 				--fileCnt;
 				checkFile();
