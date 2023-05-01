@@ -112,7 +112,9 @@
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE T.DEL_YN = 'N'
 		   AND T.USE_YN = 'Y'
+		 <if test="_parameter !=null and _parameter != ''">
 		   AND T.DEP_ID = #{_parameter}
+		 </if>
 		 ORDER BY T.TM_ID ASC
 	</select>
 	
