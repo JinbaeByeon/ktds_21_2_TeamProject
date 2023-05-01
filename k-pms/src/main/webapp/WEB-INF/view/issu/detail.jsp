@@ -18,7 +18,7 @@
 		var empId = '${sessionScope.__USER__.empId}';
 		var issuId = '${issuVO.issuId}';
 		
-		$("#modify_btn").click(function(){
+		$("#modify-btn").click(function(){
 			location.href="${context}/issu/modify/"+issuId;
 		});
 
@@ -121,10 +121,9 @@
               </table>
 
         <div class="buttons">
-	       	<c:if test="${issuVO.crtr == sessionScope.__USER__.empId}">
-				<button id="modify_btn" class="btn new">수정</button>
-				<button id="delete_btn" class="btn delete">삭제</button>
-			</c:if>
+	       	<%-- <c:if test="${issuVO.crtr == sessionScope.__USER__.empId}"> --%>
+          <button id="modify-btn" class="btn regist">수정</button>
+          <button id="delete-btn" class="btn delete">삭제</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
