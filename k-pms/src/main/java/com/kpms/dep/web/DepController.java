@@ -48,7 +48,6 @@ public class DepController {
 	public String viewDetailPage(@PathVariable String depId, Model model) {
 		DepVO depVO = depService.readOneDepVOByDepId(depId);
 		model.addAttribute("depVO", depVO);
-		
 		return "dep/detail";
 	}
 	
