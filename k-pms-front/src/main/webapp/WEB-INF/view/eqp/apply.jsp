@@ -13,48 +13,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function(){
+	$(".detail_section").hide();
 	$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 	
-	$("li.nav-item.eqp").addClass("active");
-	$("li.nav-item").children("a").mouseover(function(){
-		$(this).closest(".nav").find(".nav-item.active").removeClass("active");
-		if($(this).attr("class")!="nav-item eqp"){
-			$("li.nav-item.eqp").removeClass("active");
-		}
-		$(this).closest("li.nav-item").addClass("active");
-	});
-	$(".nav").mouseleave(function(){
-		$(this).find(".active").removeClass("active");
-		$("li.nav-item.eqp").addClass("active");
-	});
-	$(".sub-item").mouseenter(function(){
-		$(this).addClass("active");
-	});
-	
-	
-	$(".grid > table > tbody > tr").click(function(){
-		
-		$("#isModify").val("true"); //수정모드
-		
-		var data = $(this).data();
-		
-		$("#eqpId").val(data.eqpid);
-		$("#eqpNm").val(data.eqpnm);
-		$("#crtr").val(data.crtr);
-		$("#crtDt").val(data.crtdt);
-		$("#mdfyr").val(data.mdfyr);
-		$("#mdfyDt").val(data.mdfydt);
-		$("#eqpTp").val(data.eqptp);
-		$("#applStts").val(data.applstts);
-		$("#eqpPrc").val(data.eqpprc);
-		$("#prchsDt").val(data.prchsdt);
-		$("#lossStts").val(data.lossstts);
-		$("#lossRprtDt").val(data.lossrprtdt);
-		$("#applDt").val(data.appldt);
-		
-		$("#useYn").prop("checked", data.useyn == "Y");
-		
-	});
 	
 	$("#search-btn").click(function(){
 		var eqpNm =$("#search-keyword").val();
@@ -97,12 +58,6 @@ $().ready(function(){
 		});
 	});
 	
-	$("#applSttsType").change(function(){
-		
-		var applStts =$("#applSttsType").val();
-		console.log(applStts);
-		location.href = "${context}/eqp/apply?applStts=" + applStts;
-	});
 	
 });
 
@@ -122,29 +77,32 @@ function movePage(pageNo) {
 		<jsp:include page="../include/eqpSidemenu.jsp"/>
 		<jsp:include page="../include/content.jsp" />
 			<div class="path"> 비품 대여 신청</div>
-			<div class="search-group">
-				<label for="search-keyword">비품명</label>
-				<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
-				<button class="btn-search" id="search-btn">검색</button>
-			</div>
-			
-			<div class="grid">
-				<div class="grid-count align-right">
-					총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건
-				</div>
-				<table>
-					<thead>
+			<div class="search_wrapper">
+			        <div class="search_box">
+			          <select>
+			            <option>비품명</option>
+			          </select>
+			          <div class="search_field">
+			          	<input type="text" id="search-keyword" class="input" value="${eqpVO.eqpNm}" placeholder="Search"/>
+			          </div>
+			          <div class="search-icon">
+			          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+			          </div>
+			        </div>
+			      </div>
+			      <div class="list_section">
+			        <div class="total">총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건  </div>
+			        <table class="list_table">
+			          <thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>순번</th>
-							<th>비품ID</th>
 							<th>비품명</th>
 							<th>비품종류</th>
-							<th>신청상태</th>
 							<th>분실상태</th>
 						</tr>
-					</thead>
-					<tbody>
+			          </thead>
+			          <tbody>
 						<c:choose>
 							<c:when test="${not empty eqpList}">
 								<c:forEach items="${eqpList}"
@@ -169,10 +127,8 @@ function movePage(pageNo) {
 											<input type="checkbox" class="check_idx" value="${eqp.eqpId}">
 										</td>
 										<td>${eqp.rnum}</td>
-										<td>${eqp.eqpId}</td>
 										<td>${eqp.eqpNm}</td>
 										<td>${eqp.eqpTp}</td>
-										<td>${eqp.applStts}</td>
 										<td>${eqp.lossStts}</td>
 									</tr>
 								</c:forEach>
@@ -185,42 +141,18 @@ function movePage(pageNo) {
 								</tr>
 							</c:otherwise>
 						</c:choose>
-					</tbody>
-				</table>
-				<div class="align-right mt-10">
-					<button id="apply_all_btn" class="btn-apply">신청</button>
-				</div>
-				<c:import url="../include/pagenate.jsp">
-                  <c:param name="pageNo" value="${pageNo}"/>
-                  <c:param name="pageCnt" value="${pageCnt}"/>
-                  <c:param name="lastPage" value="${lastPage}"/>
-                  <c:param name="path" value="${context}/eqp"/>
-               	</c:import>
-				
-			</div>	
-			<div class="grid-detail">
-				<form id="detail_form" >
-					<!-- isModify == true => 수정(update) -->
-					<!-- isModify == false => 등록(insert) -->
-					<input type="hidden" id="isModify" value="false" />
-					<div class="input-group inline">
-						<label for="eqpId" style="width: 180px;">비품 ID</label>
-						<input type="text" id="eqpId"  name="eqpId" value="" readonly />
-					</div>
-					<div class="input-group inline">
-						<label for="eqpNm" style="width: 180px;">비품명</label>
-						<input type="text" id="eqpNm"  name="eqpNm" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="eqpTp" style="width: 180px;">비품종류</label>
-						<input type="text" id="eqpTp"  name="eqpTp" disabled value=""/>
-					</div>
-					<div class="input-group inline">
-						<label for="lossStts" style="width: 180px;">분실상태</label>
-						<input type="checkbox" id="lossStts"  name="lossStts" disabled value="Y"/>
-					</div>
-				</form>
-			</div>
+			          </tbody>
+			        </table>
+						<c:import url="../include/pagenate.jsp">
+		                  <c:param name="pageNo" value="${pageNo}"/>
+		                  <c:param name="pageCnt" value="${pageCnt}"/>
+		                  <c:param name="lastPage" value="${lastPage}"/>
+		                  <c:param name="path" value="${context}/eqp"/>
+		               	</c:import>
+			        <div class="buttons">
+			          <button id="apply_all_btn" class="btn new">대여신청</button>
+			        </div>
+			      </div>
 		<jsp:include page="../include/footer.jsp" />
 	</div>
 </div>
