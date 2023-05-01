@@ -115,6 +115,7 @@
 				</div>
 				<div class="msg_view_footer">
 					<div class="button_btm_left">
+						<button id="list_btn" class="btn-list">목록</button>
 						<button id="delete_btn" class="btn-delete">삭제</button>
 					</div>
 				</div>
