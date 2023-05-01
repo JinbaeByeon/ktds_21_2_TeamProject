@@ -7,6 +7,7 @@ public class KnwSearchVO extends AbstractPagingVO {
 	private String searchOption;
 	private String searchKeyword;
 	private String prjId;
+	
 
 	public String getSearchOption() {
 		return searchOption;

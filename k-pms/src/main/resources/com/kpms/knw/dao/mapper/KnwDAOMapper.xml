@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -34,6 +35,38 @@
 		, #{cntnt}
 		, '0'
 		, #{prjId})
+	</insert>
+	
+	<insert id="createOneCommonKnw"
+			parameterType="com.kpms.knw.vo.KnwVO">
+		<selectKey resultType="string" keyProperty="knwId" order="BEFORE">
+			SELECT 'KNW-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_KNW_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO KNW
+		 (KNW_ID
+		, CRT_DT
+		, CRTR
+		, MDFY_DT
+		, MDFYR
+		, USE_YN
+		, DEL_YN
+		, TTL
+		, CNTNT
+		, VW_CNT
+		, PRJ_ID)
+		VALUES
+		 (#{knwId}
+		, SYSDATE
+		, #{crtr}
+		, SYSDATE
+		, #{mdfyr}
+		, NVL(#{useYn}, 'N')
+		, 'N'
+		, #{ttl}
+		, #{cntnt}
+		, '0'
+		, NULL)
 	</insert>
 	
 	<resultMap id="knwVOMap" type="com.kpms.knw.vo.KnwVO" autoMapping="true">

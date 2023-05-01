@@ -328,7 +328,7 @@
 									<div class="align-center">
 										<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 										<div class="file_attachment" hidden="hidden">
-											<div>
+											<div class="fileHead">
 												<div class="remove_all">x</div>
 												<div class="file_name">파일명</div>
 												<div class="file_size">용량</div>
