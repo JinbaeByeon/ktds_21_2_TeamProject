@@ -51,8 +51,29 @@
 		})();
 		
 			
-		$("#cancel_btn").click(function() {
+		$(".listBtn").click(function() {
 			location.href = "${context}/knw/list"
+		});
+		
+		$(".updateBtn").click(function() {
+			location.href = "${context}/knw/update/${knwVO.knwId}"
+		});
+		
+		$(".deleteBtn").click(function() {
+			event.preventDefault();
+			var result = confirm("정말 삭제하시겠습니까?");	
+			
+			if (result) {
+				$.get("${context}/api/knw/delete/${knwVO.knwId}", function(response) {
+					console.log(response);
+					if (response.status == "200 OK") {
+						location.href = "${context}/knw/list";
+					}
+					else {
+						alert(response.errorCode + " / " + response.message);
+					}
+				});
+			}
 		});
 
 		$(".commentSubmitBtn").click(function(event) {
@@ -161,7 +182,7 @@
 				<div class="articleHead">
 					<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 					<div class="articleInfo">
-						<p class="articleTitle">${knwVO.ttl}"</p>
+						<p class="articleTitle">${knwVO.ttl}</p>
 						<div class="writerInfo">
 							<p class="writerId">${knwVO.crtr}</p>
 							<span class="date">${knwVO.crtDt}</span>
@@ -177,12 +198,14 @@
 					${knwVO.cntnt}
 				</div>
 				
-				<div class="fileAttachmentArea">
-					<div class="fileAttachment">
-						<p>첨부파일 <span class="fileSize">${atchFlList.size()}</span></p>
-						<ul id="file_list"></ul>
-					</div>
-				</div>
+				<c:if test="${atchFlList.get(0).frgnId ne null}">
+					<div class="fileAttachmentArea">
+						<div class="fileAttachment">
+							<p>첨부파일 <span class="fileSize">${atchFlList.size()}</span></p>
+							<ul id="file_list"></ul>
+						</div>
+					</div>	
+				</c:if>
 				
 				<div class="articleBtnsArea">
 					<div class="articleBtns">
@@ -190,7 +213,7 @@
 							<button class="updateBtn">수정</button>
 							<button class="deleteBtn">삭제</button>
 						</c:if>
-						<button class="updateBtn">목록</button>
+						<button class="listBtn">목록</button>
 					</div>
 				</div>
 				
