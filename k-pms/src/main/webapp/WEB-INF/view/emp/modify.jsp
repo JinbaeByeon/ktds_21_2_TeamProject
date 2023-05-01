@@ -186,7 +186,9 @@
 								<c:if test="${empty empVO.prflPht}">
 									<img src="${context}/img/base_profile.png" class="profile"/>
 								</c:if>
-								<input type="file" id="prflPht" name="prflPht"/>
+								<div class="input_div">
+	         						<input type="file" id="prflPht" name="prflPht"/>
+                                </div>
 		                    </td>
 		                </tr>
 		                <tr>
@@ -213,14 +215,14 @@
 		                    <th class="required">주소</th>
 		                    <td>
 		                    	<div class="addrss-group">
-									<div class="grow-1">
-										<input type="text" id="pstCd" name="pstCd" readonly value="${empVO.pstCd}"/>
-										<button class='fs-12'>우편번호</button>
+									<div class="input_div">
+										<input type="text" id="pstCd" name="pstCd" readonly value="${empVO.pstCd}" />
+										<button class='btn addrss'>우편번호</button>
 									</div>
-									<div class="grow-1">
-										<input type="text" id="addrss" name="addrss" readonly value="${empVO.addrss}"/>
+									<div class="input_div">
+										<input type="text" id="addrss" name="addrss" readonly value="${empVO.addrss}" style="width: 200px;"/>
 									</div>
-									<div class="grow-1">
+									<div class="input_div">
 										<input type="text" id="dtlAddrss" name="dtlAddrss" value="${empVO.dtlAddrss}"/>
 									</div>
 								</div>

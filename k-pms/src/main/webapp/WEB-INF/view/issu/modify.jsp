@@ -235,17 +235,17 @@
 		                <tr>
 		                    <th>첨부파일</th>
 		                    <td>
-								<button id="add_files">+</button>
-						<div class="file_area">
+								<button id="add_files" class="btn btn-add">+</button>
+						<div class="file_area input_div">
 							<div class="file_upload">
 							</div>
-							<div class="align-center">
+							<div class="align-center input_div">
 								<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 								<div class="file_attachment" hidden="hidden">
 									<div>
 										<div class="remove_all">x</div>
-										<div class="file_name">파일명</div>
-										<div class="file_size">용량</div>
+										<div class="file_name input_div">파일명</div>
+										<div class="file_size input_div">용량</div>
 									</div>
 									<ul id="file_list">
 										<c:if test="${not empty issuVO.atchFlList and issuVO.atchFlList.get(0).flSz != 0}">
@@ -254,7 +254,7 @@
 													data-org='${atchFl.orgFlNm}'
 													data-sz='${atchFl.flSz}'
 													data-ext='${atchFl.flExt}'>
-													<div>
+													<div class="input_div">
 														<span class='remove'>x</span>
 														<span class='file_name'>${atchFl.orgFlNm}</span>
 														<c:if test="${atchFl.flSz < 1024*1024}">
@@ -276,7 +276,7 @@
 		                </tr>
 		                <tr>
 		                    <th>상세내용</th>
-		                    <td><textarea name="dtlCntnt" id="dtlCntnt">${issuVO.dtlCntnt}</textarea></td>
+		                    <td><textarea name="dtlCntnt" id="dtlCntnt" class="input_div">${issuVO.dtlCntnt}</textarea></td>
 		                </tr>
 		            </table>
 				</form>

@@ -409,7 +409,7 @@
                 </tr>
                 <tr>
                     <th>상세요구사항</th>
-                    <td><textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea></td>
+                    <td><textarea id="dtlReq" name="dtlReq" class="input_div">${req.dtlReq}</textarea></td>
                 </tr>
                 <tr>
                     <th>사용여부</th>

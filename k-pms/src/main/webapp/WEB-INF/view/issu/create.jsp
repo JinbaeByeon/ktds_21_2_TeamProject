@@ -255,17 +255,17 @@
 		                <tr>
 		                    <th>첨부파일</th>
 		                    <td>
-										<button id="add_files">+</button>
-								<div class="file_area">
-									<div class="file_upload">
+								<button id="add_files" class="btn-add btn">+</button>
+								<div class="file_area input_div">
+									<div class="file_upload input_div">
 									</div>
-									<div class="align-center">
+									<div class="align-center input_div">
 										<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 										<div class="file_attachment" hidden="hidden">
 											<div>
-												<div class="remove_all">x</div>
-												<div class="file_name">파일명</div>
-												<div class="file_size">용량</div>
+												<div class="remove_all input_div">x</div>
+												<div class="file_name input_div">파일명</div>
+												<div class="file_size input_div">용량</div>
 											</div>
 											<ul id="file_list"></ul>
 										</div>
@@ -276,7 +276,7 @@
 		                </tr>
 		                <tr>
 		                    <th>상세내용</th>
-		                    <td><textarea name="dtlCntnt" id="dtlCntnt"></textarea></td>
+		                    <td><textarea name="dtlCntnt" id="dtlCntnt" class="input_div"></textarea></td>
 		                </tr>
 		            </table>
 				</form>

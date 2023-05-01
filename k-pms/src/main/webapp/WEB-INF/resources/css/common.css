@@ -24,6 +24,10 @@ input:focus {
 	outline: none;
 }
 
+#pstCd, #addrss {
+	border-bottom: 1px solid #2b2b2b !important;
+}
+
 a:link, a:visited {
 	color: #2b2b2b;
 }
@@ -221,6 +225,7 @@ a:link, a:visited {
 	font-size: 14px;
 	line-height: 22px;
 }
+
 
 /* search */
 .search_wrapper {
@@ -469,8 +474,14 @@ a:link, a:visited {
 	padding: 7px 13px;
 }
 
-.btn.add {
+.btn-add {
 	background: rgb(0, 0, 0);
+}
+
+.trRemoveBtn {
+	border: none;
+	position: relative;
+	top: 5px;
 }
 
 /* footer */
@@ -542,11 +553,6 @@ footer {
 	border: none;
 	border-bottom: 1px solid #2b2b2b;
 	background-color: rgba(238, 238, 238, 0.974);
-}
-
-.detail_table input:focus {
-	border-bottom: 1px solid #4158ec;
-	transition: all 0.3s linear;
 }
 
 .detail_table label.required:after {
@@ -941,6 +947,7 @@ footer {
     border-radius: 5px;
     font-size: 14px;
     color: #666;
+    width: 300px;
 }
 
 .file_area .file_attachment{

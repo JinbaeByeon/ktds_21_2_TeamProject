@@ -220,7 +220,7 @@
 		                <tr>
 		                    <th>팀원</th>
 		                    <td>
-		                    	<div>
+		                    	<div class="input_div">
 									<button id="addTmMbrBtn" class="btn regist">팀원 추가</button>
 								</div>
 		                        <table class="list_table inner_table">
