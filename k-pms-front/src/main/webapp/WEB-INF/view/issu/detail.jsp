@@ -108,6 +108,10 @@
 						<label for="dtlCntnt">상세내용</label>
 						<span id="dtlCntnt">${issuVO.dtlCntnt}</span>
 					</div>
+					<div class="create-group">
+						<label for="dtlCntnt">조회수</label>
+						<span id="dtlCntnt">${issuVO.vwCnt}</span>
+					</div>
 				</form>
 				
 				<c:if test="${issuVO.crtr == sessionScope.__USER__.empId}">

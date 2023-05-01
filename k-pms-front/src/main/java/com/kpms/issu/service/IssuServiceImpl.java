@@ -40,7 +40,11 @@ public class IssuServiceImpl implements IssuService {
 
 	@Override
 	public IssuVO readOneIssu(String issuId) {
-		return issuDAO.readOneIssu(issuId);
+		IssuVO issuVO = issuDAO.readOneIssu(issuId);
+		if(issuVO == null) {
+			throw new APIException(APIStatus.NOT_FOUND, "해당 이슈를 찾을 수 없습니다.");
+		}
+		return issuVO;
 	}
 
 	@Override

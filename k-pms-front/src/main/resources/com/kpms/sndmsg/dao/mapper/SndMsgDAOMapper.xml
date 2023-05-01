@@ -147,8 +147,7 @@
 		  FROM SND_MSG
 		 WHERE MSG_ID = (SELECT SND_MSG_ID
 		 				   FROM RCV_MSG
-		 				  WHERE MSG_ID = #{_parameter}
-						    AND DEL_YN = 'N')
+		 				  WHERE MSG_ID = #{_parameter})
 	</select>
 	
 	<select id="readOneSndMsgByMsgId"
@@ -173,8 +172,7 @@
 			   AF.FL_EXT
 		  FROM (SELECT *
 		  		  FROM SND_MSG
-				 WHERE MSG_ID = #{_parameter}
-				   AND DEL_YN = 'N') S
+				 WHERE MSG_ID = #{_parameter}) S
 		  JOIN EMP SE
 		  	ON SE.EMP_ID = S.CRTR
 		  JOIN RCV_MSG R

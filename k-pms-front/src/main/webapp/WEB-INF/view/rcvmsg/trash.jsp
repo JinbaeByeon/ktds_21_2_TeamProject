@@ -75,6 +75,14 @@
 				}
 			});
 		});
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
+			var data = $(this).closest("tr").data();
+			if(data.type == 'RM'){
+				location.href="${context}/rcvmsg/detail/"+data.msgid;
+			} else{
+				location.href="${context}/sndmsg/detail/"+data.msgid;
+			}
+		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 			checkBtn();
@@ -87,31 +95,7 @@
 		$(".check_idx").change(function(){
 			checkIndex();
 		});
-		
-		$(".list_table > tr > td").not(".check").click(function(){
-			var check_idx = $(this).closest("tr").find(".check_idx");
-			check_idx.prop("checked",check_idx.prop("checked")==false);
-			checkIndex();
-		});
 			
-		$("#delete_all_btn").click(function() {
-			var checkLen = $(".check_idx:checked").length;
-			if(checkLen == 0) {
-				alert("삭제할 쪽지가 없습니다.");
-				return;
-			}
-					
-			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
-				console.log($(this).val());
-				form.append("<input type='hidden' name='rcvMsgIdList' value='"+ $(this).val() +"'>");
-			});
-			
-			$.post("${context}/api/rcvmsg/delete", form.serialize(), function(response) {
-				location.reload(); // 새로고침
-			});
-		});
 	});
 </script>
 </head>
@@ -127,7 +111,7 @@
 		            <button id="restore_btn" class="btn restore">복원</button>
 		        </div>
 		      <div class="list_section">
-		        <div class="total">총 ${prjList.size() > 0 ? prjList.get(0).totalCount : 0}건</div>
+		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
@@ -144,9 +128,11 @@
 		                        <tr data-ttl="${rcvMsg.sndMsgVO.ttl}"
 		                            data-crtr="${rcvMsg.crtr}"
 		                            data-crtdt="${rcvMsg.crtDt}"
-		                            data-type="${rcvMsg.type}">
-		                            <td class="check"><input type="checkbox"
-		                                class="check_idx" value="${rcvMsg.msgId}" /></td>
+		                            data-type="${rcvMsg.type}"
+		                            data-msgid="${rcvMsg.msgId}">
+		                            <td class="check">
+		                            	<input type="checkbox" class="check_idx" value="${rcvMsg.msgId}" />
+		                            </td>
 		                            <td>${rcvMsg.sndMsgVO.ttl}</td>
 		                            <td>${rcvMsg.crtr}(${rcvMsg.rcvrEmpVO.lNm}${rcvMsg.rcvrEmpVO.fNm})</td>
 		                            <td>${rcvMsg.crtDt}</td>

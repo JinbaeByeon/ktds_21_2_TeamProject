@@ -66,7 +66,7 @@
 							<div class="option_area">${sndMsgVO.sndEmpVO.lNm}${sndMsgVO.sndEmpVO.fNm} &lt;${sndMsgVO.crtr}&gt;</div>
 						</div>
 						<div class="msg_option rcvr">
-							<s class="option_areas"itle">받는사람</strong>
+							<strong class="option_title">받는사람</strong>
 							<div class="option_areas">
 								<c:forEach items="${sndMsgVO.rcvMsgVO}" var="rcvMsgVO">
 									<div class="option_area">${rcvMsgVO.rcvrEmpVO.lNm}${rcvMsgVO.rcvrEmpVO.fNm} &lt;${rcvMsgVO.rcvr}&gt;</div>
@@ -84,6 +84,7 @@
 							${sndMsgVO.cntnt}
 						</div>
 					</div>
+					<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 					<div class="file_attachment">
 						<div class="file_attachment_summary">
 							<span class="total_count">첨부 개</span>
@@ -92,7 +93,6 @@
 						</div>
 						<div class="file_attachments_inner">
 							<ul id="file_list">
-								<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 									<c:forEach items="${sndMsgVO.atchFlList}" var="atchFl">
 										<li class="file_item"
 											data-uuid='${atchFl.uuidFlNm}'
@@ -108,10 +108,10 @@
 											</c:if>
 										</li>
 									</c:forEach>
-								</c:if>
 							</ul>
 						</div>
 					</div>
+					</c:if>
 				</div>
 				<div class="msg_view_footer">
 					<div class="button_btm_left">

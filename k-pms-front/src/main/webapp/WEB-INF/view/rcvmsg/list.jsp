@@ -101,12 +101,6 @@
 			checkIndex();
 		});
 		
-		$(".list_table > tbody > tr > td").not(".check").click(function(){
-			var check_idx = $(this).closest("tr").find(".check_idx");
-			check_idx.prop("checked",check_idx.prop("checked")==false);
-			checkIndex();
-		});
-		
 	});
 	function movePage(pageNo) {
 		
@@ -159,7 +153,7 @@
 		        </form>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${rcvList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
+		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>

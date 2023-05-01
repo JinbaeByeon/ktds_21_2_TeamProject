@@ -55,6 +55,7 @@ public class IssuController {
 	@GetMapping("/issu/detail/{issuId}")
 	public String viewIssuDetailPage(Model model, @PathVariable String issuId) {
 		IssuVO issuVO = issuService.readOneIssu(issuId);
+		issuService.updateIssuVwCnt(issuId);
 		model.addAttribute("issuVO",issuVO);
 		return "issu/detail";
 	}

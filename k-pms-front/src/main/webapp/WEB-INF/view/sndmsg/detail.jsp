@@ -81,6 +81,7 @@
 							${sndMsgVO.cntnt}
 						</div>
 					</div>
+					<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 					<div class="file_attachment">
 						<div class="file_attachment_summary">
 							<span class="total_count">첨부 개</span>
@@ -89,7 +90,6 @@
 						</div>
 						<div class="file_attachments_inner">
 							<ul id="file_list">
-								<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 									<c:forEach items="${sndMsgVO.atchFlList}" var="atchFl">
 										<li class="file_item"
 											data-uuid='${atchFl.uuidFlNm}'
@@ -105,10 +105,10 @@
 											</c:if>
 										</li>
 									</c:forEach>
-								</c:if>
 							</ul>
 						</div>
 					</div>
+					</c:if>
 				</div>
 				<div class="msg_view_footer">
 					<div class="button_btm_left">

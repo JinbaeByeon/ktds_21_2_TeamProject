@@ -134,11 +134,15 @@
 		  FROM (SELECT *
 		  		  FROM ISSU
 		  		 WHERE DEL_YN = 'N'
-		  		<if test="reqId != null and reqId != ''">
-				   AND REQ_ID = #{reqId}
+				<if test="issuTtl != null and issuTtl != ''">
+				   AND ISSU_TTL LIKE '%' || #{issuTtl} || '%'
 				</if>
 		 	/*조건 추가*/) I
-		  JOIN REQ R
+		  JOIN (SELECT *
+		  		  FROM REQ
+		  		<if test="reqVO != null and reqVO.reqTtl != null and reqVO.reqTtl != ''">
+		  		 WHERE REQ_TTL LIKE '%' || #{reqVO.reqTtl} || '%'
+		  		</if>) R
 		  	ON R.REQ_ID = I.REQ_ID
 		  JOIN EMP CE
 		  	ON CE.EMP_ID = I.CRTR
