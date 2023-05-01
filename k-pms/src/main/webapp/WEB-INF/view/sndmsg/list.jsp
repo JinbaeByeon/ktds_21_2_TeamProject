@@ -56,7 +56,7 @@
 		
 		function checkIndex() {
 			var count = $(".check_idx").length;
-			var checkCount = $(".chck_idx:checked").length;
+			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
 		}
 		
