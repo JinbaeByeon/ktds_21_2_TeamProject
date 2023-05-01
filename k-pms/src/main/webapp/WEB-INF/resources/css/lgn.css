@@ -261,7 +261,7 @@ div.modal {
 div.modal .content .regist-form {
 	overflow-y: auto;
 	height: 500px;
-	padding-right: 20px;
+	width: 370px;
 }
 
 div.modal .content .regist-form div.first-name {

@@ -38,8 +38,12 @@ public class RestEmpController {
 	public APIResponseVO doLoginEmp(EmpVO empVO, HttpServletRequest request, HttpSession session) {
 		empVO.setLtstLgnIp(request.getRemoteAddr());
 		EmpVO user =  empService.readOneEmpByIdAndPwd(empVO);
+		
 		if(user == null) {
 			throw new APIException(APIStatus.DISMATCH, "아이디 또는 비밀번호가 일치하지 않습니다.");
+		}
+		if(user.getAdmnYn().equals("N")) {
+			throw new APIException(APIStatus.FAIL, "관리자 권한이 필요합니다.");
 		}
 		session.setAttribute("__USER__", user);
 		SessionHandler.get().setSession(user.getEmpId(), session);
