@@ -101,7 +101,7 @@
 			
 		empIds.push(tmHdId);
 		
-		/* tmHd.close(); */
+		tmHd.close();
 	}
 	
 	function addEmpFn(message) {
