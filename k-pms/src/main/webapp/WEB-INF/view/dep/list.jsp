@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부서관리</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	
@@ -74,7 +74,7 @@ $().ready(function() {
  		$("#useYn").closest("td").next().show();
  		$("#useYn").closest("td").next().next().show();
 
-		$("#isModify").val("true"); //수정모드
+		$("#isModify").val("true");
 		$(".detail_section").show("fast");
         $(".detail_table").show();
         
@@ -119,7 +119,7 @@ $().ready(function() {
 		$(".detail_section").show("fast");
         $(".detail_table").show();
 		
-		$("#isModify").val("false"); //등록모드
+		$("#isModify").val("false");
 		
 		$("#depId").val("");
 		$("#depNm").val("");
@@ -140,13 +140,13 @@ $().ready(function() {
 			return;
 		}
 		
-		if (!confirm("정말 삭제하시겠습니까?")) { <!-- 사용자에게 확인  확인시 예를 누르면 false값이 return으로 온다.-->
+		if (!confirm("정말 삭제하시겠습니까?")) {
 			return;
 		}
 		
 		$.get("${context}/api/dep/delete/" + depId, function(response) {
 			if (response.status == "200 OK") {
-				location.reload(); //새로고침
+				location.reload();
 			}
 			else {
 				alert(response.errorCode + " / " + response.message);
@@ -159,7 +159,7 @@ $().ready(function() {
 		if($("#isModify").val() == "false") {
 			ajaxUtil.upload("#detail_form","${context}/api/dep/create",function(response){
 				if (response.status == "200 OK") {
-					location.reload(); //새로고침
+					location.reload(); 
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
@@ -169,7 +169,7 @@ $().ready(function() {
 		else {
 			ajaxUtil.upload("#detail_form","${context}/api/dep/update",function(response){
 				if (response.status == "200 OK") {
-					location.reload(); //새로고침
+					location.reload(); 
 				}
 				else {
 					alert(response.errorCode + " / " + response.message);
@@ -197,6 +197,10 @@ $().ready(function() {
 		var checkLen = $(".check_idx:checked").length;
 		if (checkLen == 0) {
 			alert("삭제할 부서가 없습니다.");
+			return;
+		}
+		
+		if (!confirm("정말 삭제하시겠습니까?")) {
 			return;
 		}
 		
@@ -300,10 +304,6 @@ $().ready(function() {
 											<td>${dep.depId}</td>
 											<td>${dep.depCrtDt}</td>
 											<td style="padding-left: 40px; padding-right: 0px;">${dep.useYn}</td>
-<%-- 											<td>${dep.crtr}(${dep.crtrEmpVO.lNm}${dep.crtrEmpVO.fNm})</td>
-											<td>${dep.crtDt}</td>
-											<td>${dep.mdfyr}(${dep.mdfyrEmpVO.lNm}${dep.mdfyrEmpVO.fNm})</td>
-											<td>${dep.mdfyDt}</td> --%>
 										</tr>
 									</c:forEach>
 								</c:when>

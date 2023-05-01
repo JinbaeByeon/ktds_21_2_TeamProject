@@ -13,6 +13,11 @@
 <title>팀 수정</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
 	
 	var tmHd;
 	var tmMbr;
@@ -22,13 +27,12 @@
 	
 	function addHdEmpFn(message) {
 		
-		 for (i = 0; i < empIds.length; i++) { 
+		for (i = 0; i < empIds.length; i++) { 
 			if(empIds[i] === tmHdId) {
 				empIds.splice(i, 1);
 				i--;
 			}
 		} 
-		
 		tmHdId = message.empid;
 		
 		var tmHdIdItems = $("#addTmHeadBtn").closest("td").find(".head-item");
@@ -36,10 +40,21 @@
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
-		
 		var itemDiv = tmHdIdItems.find(".head-item");
 		
 		var itemId = itemDiv.find("#tmHdId");
+		if(itemId.val() == tmHdId){
+			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 팀장입니다.");
+			return;
+		}
+		var empIdList = $(".tmMbr-tbody").children("tr").not(".tmHd-tr");
+		empIdList.each(function(){
+			console.log($(this).data("empid") == tmHdId);
+			if($(this).data("empid") == tmHdId){
+				$(this).remove();
+				return;
+			}
+		});
 		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
@@ -49,7 +64,6 @@
 			
 		var hdTr = $(".tmHd-tr");
 		if (hdTr.length > 0) {
-			
 			var td = hdTr.find("td");
 			hdTr.attr("class", "tmHd-tr " + tmHdId);
 	        td.eq(0).text();
@@ -89,12 +103,11 @@
 		tmHd.close();
 	}
 	
-	function addMbrFn(message) {
+	function addEmpFn(message) {
 
-	    var empItems = $(document).find(".tmMbr-tbody");
+	    var empItems = $(".tmMbr-tbody");
 	    empId = message.empid;
-
-	    if (empItems.find("." + empId).length > 0) {
+	    if (empItems.find("tr." + empId).length > 0) {
 	        tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
 	        return;
 	    }
@@ -103,9 +116,10 @@
 	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
 	    itemId.val(empId);
 
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-empid='" + empId + "' data-index='" + nextIndex + "'></tr>");
 
 	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    td += "<td>" + "팀원" + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + empId + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
@@ -164,7 +178,7 @@
 			event.preventDefault();
 			var tmId = $("#tmId").val();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + tmId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
 		});
 		
 		$("#list-btn").click(function(response) {
@@ -173,15 +187,15 @@
 		
 		$("#save-btn").click(function() {
 			var tmId = $("#tmId").val();
-			console.log($("#tmHdId").val());
-	
+			var empIdList = $(".tmMbr-tbody").children("tr").not(".tmHd-tr");
+			var tmHdId = $("#tmHdId").val();
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
-					empIds.forEach(function(empId) {
-			    		
-				    	createTmmbr(tmId, empId);
-				    		
-				    });
+					empIdList.each(function(){
+						var empId = $(this).data('empid');
+						createTmmbr(tmId,empId);
+					});
+					createTmmbr(tmId,tmHdId);
 					
 					location.href = "${context}" + response.redirectURL;
 				}
@@ -230,7 +244,6 @@
 			});
 		});
 		
-		
 		$("#delete-btn").click(function() {
 			var tmId = $("#tmId").val();
 			if(!confirm("정말 삭제하시겠습니까?")) {
@@ -257,116 +270,116 @@
 			<jsp:include page="../include/content.jsp" />		
 				<div class="path">팀관리 > 팀 수정</div>
 				<form id="create_form" enctype="multipart/form-data">
-			<table class="detail_page detail_table">
-                <tr>
-                    <th>부서ID</th>
-                    <td><input type="text" id="depId" name="depId" value="${tmVO.depIdDepVO.depId}" readonly/></td>
-                </tr>
-                <tr>
-                    <th>팀명</th>
-                    <td><input type="text" id="tmNm" name="tmNm" value="${tmVO.tmNm}"/></td>
-                </tr>
-                <tr>
-                    <th>팀ID</th>
-                    <td><input type="text" id="tmId" name="tmId" value="${tmVO.tmId}" readonly/></td>
-                </tr>
-                <tr>
-                    <th>팀장ID</th>
-                    <td>
-                    	<button id="addTmHeadBtn" class="btn regist">등록</button>
-							<div class="items">
-								<div class='head-item'>
-									<input type="text" id="tmHdId" name="tmHdId" value="${tmVO.tmHdId}" />
-									<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>						
+					<table class="detail_page detail_table">
+		                <tr>
+		                    <th>부서ID</th>
+		                    <td><input type="text" id="depId" name="depId" value="${tmVO.depIdDepVO.depId}" readonly/></td>
+		                </tr>
+		                <tr>
+		                    <th>팀명</th>
+		                    <td><input type="text" id="tmNm" name="tmNm" value="${tmVO.tmNm}"/></td>
+		                </tr>
+		                <tr>
+		                    <th>팀ID</th>
+		                    <td><input type="text" id="tmId" name="tmId" value="${tmVO.tmId}" readonly/></td>
+		                </tr>
+		                <tr>
+		                    <th>팀장ID</th>
+		                    <td>
+		                    	<button id="addTmHeadBtn" class="btn regist">등록</button>
+									<div class="items">
+										<div class='head-item'>
+											<input type="text" class="" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
+											<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>			
+										</div>
+									</div>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>팀 생성일</th>
+		                    <td><input type="date" id="tmCrtDt" name="tmCrtDt" value="${tmVO.tmCrtDt}"/></td>
+		                </tr>
+		                <tr>
+		                    <th>사용여부</th>
+		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y" ${tmVO.useYn eq 'Y' ? 'checked' : ''}/></td>
+		                </tr>
+		                <tr>
+		                    <th>소속 팀원</th>
+		                    <td>
+		                      	<div>
+									<button id="addTmMbrBtn" class="btn regist add">추가</button>
 								</div>
-							</div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>팀 생성일</th>
-                    <td><input type="date" id="tmCrtDt" name="tmCrtDt" value="${tmVO.tmCrtDt}"/></td>
-                </tr>
-                <tr>
-                    <th>사용여부</th>
-                    <td><input type="checkbox" id="useYn" name="useYn" value="Y" ${tmVO.useYn eq 'Y' ? 'checked' : ''}/></td>
-                </tr>
-                <tr>
-                    <th>소속 팀원</th>
-                    <td>
-                      	<div>
-							<button id="addTmMbrBtn" class="btn regist add">추가</button>
-						</div>
-                        <table class="list_table inner_table">
-                        <thead>
-                            <tr>
-								<th><input type="checkbox" id="all_check" /></th>
-								<th>팀 직책</th>
-								<th>직급</th>
-								<th>직원ID</th>
-								<th>이름</th>
-								<th>직무</th>
-								<th>생년월일</th>
-								<th>이메일</th>
-								<th>전화번호</th>
-								<th>직급연차</th>
-                            </tr>
-                        </thead>
-                        <tbody class="tmMbr-tbody">
-							<tr class="tmHd-tr">
-								<td></td>
-								<td>팀장</td>
-								<td>${tmHdEmpVO.pstn.pstnNm}</td>
-								<td>${tmHdEmpVO.empId}</td>
-								<td>${tmHdEmpVO.lNm}${tmHdEmpVO.fNm}</td>
-								<td>${tmHdEmpVO.job.jobNm}</td>
-								<td>${tmHdEmpVO.brthdy}</td>
-								<td>${tmHdEmpVO.eml}</td>
-								<td>${tmHdEmpVO.phn}</td>
-								<td>${tmHdEmpVO.pstnPrd}</td>
-							</tr>
-								<c:choose>
-									<c:when test="${not empty tmVO.tmMbrList}">
-										<c:forEach items="${tmVO.tmMbrList}" 
-													var="tmMbr">
-											<c:if test="${tmMbr.empId != tmVO.tmHdId}">
-												<tr>
-													<td>
-														<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
-													</td>
-													<td>팀원</td>
-													<td>${tmMbr.empVO.pstn.pstnNm}</td>
-													<td>${tmMbr.empId}</td>
-													<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
-													<td>${tmMbr.empVO.job.jobNm}</td>
-													<td>${tmMbr.empVO.brthdy}</td>
-													<td>${tmMbr.empVO.eml}</td>
-													<td>${tmMbr.empVO.phn}</td>
-													<td>${tmMbr.empVO.pstnPrd}</td>
-												</tr>
-											</c:if>
-										</c:forEach>
-									</c:when>
-								<c:otherwise>
-									<td colspan="10" class="no-items">
-										등록된 팀원이 없습니다.
-									</td>
-								</c:otherwise>
-								</c:choose>
-                        </tbody>
-                    </table>
-                <div class="buttons">
-					<button id="delete_all_btn" class="btn delete">팀원 삭제</button>
-				</div>              
+		                        <table class="list_table inner_table">
+			                        <thead>
+			                            <tr>
+											<th><input type="checkbox" id="all_check" /></th>
+											<th>팀 직책</th>
+											<th>직급</th>
+											<th>직원ID</th>
+											<th>이름</th>
+											<th>직무</th>
+											<th>생년월일</th>
+											<th>이메일</th>
+											<th>전화번호</th>
+											<th>직급연차</th>
+			                            </tr>
+			                        </thead>
+			                        <tbody class="tmMbr-tbody">
+										<tr class="tmHd-tr ${tmHdEmpVO.empId}">
+											<td></td>
+											<td>팀장</td>
+											<td>${tmHdEmpVO.pstn.pstnNm}</td>
+											<td>${tmHdEmpVO.empId}</td>
+											<td>${tmHdEmpVO.lNm}${tmHdEmpVO.fNm}</td>
+											<td>${tmHdEmpVO.job.jobNm}</td>
+											<td>${tmHdEmpVO.brthdy}</td>
+											<td>${tmHdEmpVO.eml}</td>
+											<td>${tmHdEmpVO.phn}</td>
+											<td>${tmHdEmpVO.pstnPrd}</td>
+										</tr>
+										<c:choose>
+											<c:when test="${not empty tmVO.tmMbrList}">
+												<c:forEach items="${tmVO.tmMbrList}" 
+															var="tmMbr">
+													<c:if test="${tmMbr.empId != tmVO.tmHdId}">
+														<tr class="${tmMbr.empId}" data-empid="${tmMbr.empId}">
+															<td>
+																<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
+															</td>
+															<td>팀원</td>
+															<td>${tmMbr.empVO.pstn.pstnNm}</td>
+															<td>${tmMbr.empId}</td>
+															<td>${tmMbr.empVO.lNm}${tmMbr.empVO.fNm}</td>
+															<td>${tmMbr.empVO.job.jobNm}</td>
+															<td>${tmMbr.empVO.brthdy}</td>
+															<td>${tmMbr.empVO.eml}</td>
+															<td>${tmMbr.empVO.phn}</td>
+															<td>${tmMbr.empVO.pstnPrd}</td>
+														</tr>
+													</c:if>
+												</c:forEach>
+											</c:when>
+											<c:otherwise>
+												<td colspan="10" class="no-items">
+													등록된 팀원이 없습니다.
+												</td>
+											</c:otherwise>
+										</c:choose>
+			                        </tbody>
+			                    </table>
+				                <div class="buttons">
+									<button id="delete_all_btn" class="btn delete">팀원 삭제</button>
+								</div>              
+							</td>
+						</tr>
+		            </table>
+        		</form>	
 
-            </table>
-            </form>	
-                
-
-        <div class="buttons">
-			<button id="list-btn" class="btn new">목록</button>
-			<button id="save-btn" class="btn regist">저장</button>
-			<button id="delete-btn" class="btn delete">삭제</button>
-        </div>
+		        <div class="buttons">
+					<button id="list-btn" class="btn new">목록</button>
+					<button id="save-btn" class="btn regist">저장</button>
+					<button id="delete-btn" class="btn delete">삭제</button>
+		        </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>

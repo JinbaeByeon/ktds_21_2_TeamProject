@@ -76,7 +76,7 @@
 				return;
 			}
 			
-			if (!confirm("정말 삭제하시겠습니까?")) { <!-- 사용자에게 확인  확인시 예를 누르면 false값이 return으로 온다.-->
+			if (!confirm("정말 삭제하시겠습니까?")) {
 			return;
 			}
 			
@@ -152,12 +152,12 @@
 		            <tr>
 						<th><input type="checkbox" id="all_check" /></th>
 			              <th>순번</th>
-			              <th>부서ID</th>
-			              <th>부서명</th>
-			              <th>팀ID</th>
 			              <th>팀명</th>
+			              <th>팀ID</th>
 			              <th>팀장ID</th>
 			              <th>팀장명</th>
+			              <th>부서명</th>
+			              <th>부서ID</th>
 			              <th>팀생성일</th>
 			              <th>사용여부</th>
 <!-- 			              <th>등록자</th>
@@ -187,12 +187,12 @@
 		                                <input type="checkbox" class="check_idx" value="${tm.tmId}"/>
 		                            </td>
 		                            <td>${tm.rnum}</td>
-		                            <td>${tm.depId}</td>
-		                            <td>${tm.depIdDepVO.depNm}</td>
-		                            <td>${tm.tmId}</td>
 		                            <td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
+		                            <td>${tm.tmId}</td>
 		                            <td>${tm.tmHdId}</td>
 		                            <td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
+		                            <td>${tm.depIdDepVO.depNm}</td>
+		                            <td>${tm.depId}</td>
 		                            <td>${tm.tmCrtDt}</td>
 		                            <td>${tm.useYn}</td>
 <%-- 		                            <td>${tm.crtr}</td>

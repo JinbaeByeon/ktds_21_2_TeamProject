@@ -79,9 +79,11 @@
 					<th>
 						<input type="checkbox" id="all_check" />
 					</th>
-					<th>ID</th>
-					<th>이름</th>
-					<th>부서</th>
+					<th>직원ID</th>
+                    <th>직급</th>
+                    <th>성명</th>
+                    <th>직무</th>
+                    <th>부서ID</th>
             </tr>
         </thead>
             <tbody>
@@ -89,20 +91,28 @@
 						<c:when test="${not empty empList}">
 							<c:forEach items="${empList}" var="emp">
 								<tr data-empid = "${emp.empId}"
-									data-fnm = "${emp.fNm}"
-									data-lnm = "${emp.lNm}">
+	                                data-fnm = "${emp.fNm}"
+	                                data-lnm = "${emp.lNm}"
+	                                data-pstnnm = "${emp.pstn.pstnNm}"
+	                                data-jobnm = "${emp.job.jobNm}"
+	                                data-phn = "${emp.phn}"
+	                                data-brthdy = "${emp.brthdy}"
+	                                data-eml = "${emp.eml}"
+	                                data-pstnprd = "${emp.pstnPrd}">
 									<td class="check">
 										<input type="checkbox" class="check_idx" value="${emp.empId}" />
 									</td>
 									<td>${emp.empId}</td>
+                                	<td>${emp.pstn.pstnNm}</td>
 									<td>${emp.lNm}${emp.fNm}</td>
+									<td>${emp.job.jobNm}</td>
 									<td>${emp.depId} </td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="4">검색된 직원이 없습니다.</td>
+								<td colspan="6">검색된 직원이 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

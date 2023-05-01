@@ -68,13 +68,11 @@
             <div class="hr"></div>
             <div class="path">소속 팀</div>
             <div class="total">
-                총 ${depVO.tmList.size() > 0 ? depVO.tmList.size() : 0}건
+                총 ${depVO.tmList.get(0).tmId ne null ? depVO.tmList.size() : 0}건
             </div>
-            
                 <table class="list_table sub_table">
                     <thead>
                         <tr>
-                            <th>순번</th>
 							<th>팀ID</th>
 							<th>팀명</th>
 							<th>팀장ID</th>
@@ -86,10 +84,8 @@
 						<c:choose>
 							<c:when test="${not empty depVO.tmList}">
 								<c:forEach items="${depVO.tmList}"
-											var="tm"
-											varStatus="index">
+											var="tm">
 										<tr>
-											<td>${index.index + 1}</td>
 											<td>${tm.tmId}</td>
 											<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
 											<td>${tm.tmHdId}</td>
@@ -100,7 +96,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="6" class="no-items">
+									<td colspan="5" class="no-items">
 										등록된 팀이 없습니다.
 									</td>
 								</tr>

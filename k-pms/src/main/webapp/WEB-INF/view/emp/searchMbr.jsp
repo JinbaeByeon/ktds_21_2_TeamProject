@@ -59,31 +59,20 @@
     <div class="search_wrapper">
     	<form>
     	<input type="hidden" name="depId" value="${depId}">
-        <div class="search_box">
-            <select>
-            <option>직원명</option>
-            </select>
-            <div class="search_field">
-           	 <input type="text" name="fNm" class="input" value="${fNm}"/>
-            </div>
-            <div class="search-icon">
-                <button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
-            </div>
-        </div>
         </form>
     </div>
     <div class="total">총 ${empList.size() > 0 ? empList.size() : 0}건</div>
     <table class="list_table search_table">
         <thead>
 			<tr>
-                    <th>
-                        <input type="checkbox" id="all_check" />
-                    </th>
-                    <th>직원ID</th>
-                    <th>직급</th>
-                    <th>성명</th>
-                    <th>직무</th>
-                    <th>부서ID</th>
+               <th>
+                   <input type="checkbox" id="all_check" />
+               </th>
+               <th>직원ID</th>
+               <th>직급</th>
+               <th>성명</th>
+               <th>직무</th>
+               <th>부서ID</th>
 			</tr>
         </thead>
             <tbody>
