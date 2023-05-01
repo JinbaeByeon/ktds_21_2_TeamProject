@@ -85,9 +85,8 @@
 
 	}
 	
-	function fnChkByte(obj, maxByte)
-	{
-	    var str = obj.value;
+	function fnChkByte(obj, maxByte) {
+	    var str = obj.val();
 	    var str_len = str.length;
 
 	    var rbyte = 0;
@@ -262,15 +261,15 @@
 			var frgnId = "${knwVO.knwId}";
 			
 			$.getJSON("${context}/knw/detail/getAttachList", {frgnId: frgnId}, function(files){
-				console.log(files);
 				for(var i = 0; i < files.length; i++){
 					var file = files[i];
 					addFile(file);
 				}
 				checkFile();
 		    });
+			var that = $("#cntnt");	
+			fnChkByte(that, '1000');
 		})();
-
 		
 	});
 </script>
@@ -284,7 +283,7 @@
 			<div class="path"> 프로젝트관리 > 지식 등록</div>
 				<form id="create_form">
 					<table class="detail_table">
-						<input type="hidden" id="prjId" name="prjId"  />
+						<input type="hidden" id="prjId" name="prjId" value="${knwVO.prjId}" />
 						<tr>
 							<th>프로젝트 선택</th>
 							<td>
@@ -301,9 +300,9 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td id="prjNm"></td>
-											<td id="cstmr"></td>
-											<td id="prjStts"></td>
+											<td id="prjNm">${prjVO.prjNm}</td>
+											<td id="cstmr">${prjVO.cstmr}</td>
+											<td id="prjStts">${prjVO.prjStts}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -311,7 +310,7 @@
 						</tr>
 						<tr>
 							<th>제목</th>
-							<td><input type="text" id="ttl" name="ttl" /></td>
+							<td><input type="text" id="ttl" name="ttl" value="${knwVO.ttl}" /></td>
 						</tr>
 						<tr>
 							<th>내용<p id="byteInfo">(0 / 1,000)</p></th>

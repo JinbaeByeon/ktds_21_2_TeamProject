@@ -75,6 +75,9 @@
            AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
          	</when>
          </choose>
+         <if test='prjId != null and prjId != ""'>
+           AND P.PRJ_ID = #{prjId}
+         </if>
          <include refid="Common.pageFooter" />
 	</select>
 	
