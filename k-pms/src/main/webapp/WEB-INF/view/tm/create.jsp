@@ -212,7 +212,6 @@
 			  ajaxUtil.upload("#create_form","${context}/api/tm/create",function(response){
 			    if (response.status == "200 OK") {
 			    	var tmId = response.data;
-			    	console.log(tmId);
 				   	
 			    	empIds.forEach(function(empId) {
 			    		
