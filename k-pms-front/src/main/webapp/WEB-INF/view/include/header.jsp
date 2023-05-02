@@ -66,9 +66,9 @@
 	            </ul>
 	          </li>
 	          <li class="nav_item eqp">
-	            <a href="${context}/eqp/list">비품</a>
+	            <a href="${context}/eqp/rent">비품관리</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/eqp/list">비품 목록</a></li>
+	              <li><a href="${context}/eqp/rent">대여 목록</a></li>
 	              <li><a href="${context}/eqp/apply">대여 신청</a></li>
 	            </ul>
 	          </li>
