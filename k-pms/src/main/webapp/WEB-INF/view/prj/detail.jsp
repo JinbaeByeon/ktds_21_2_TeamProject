@@ -14,6 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#prj_list").addClass("active");
+		
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			var prjStts = $("#prjStts");
 			var sttsNm
@@ -107,7 +110,6 @@
                             <tr>
                                 <th>직원ID</th>
                                 <th>팀</th>
-                                <th>성</th>
                                 <th>이름</th>
                                 <th>권한</th>
                             </tr>
@@ -119,8 +121,7 @@
 										<tr>
 											<td>${ptm.tmMbrVO.empVO.empId}</td>
 											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-											<td>${ptm.tmMbrVO.empVO.fNm}</td>
-											<td>${ptm.tmMbrVO.empVO.lNm}</td>
+											<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
 											<td>
 												<c:if test="${ptm.prjPstn=='PM'}">
 													총책임자
@@ -193,7 +194,7 @@
                                 </c:forEach>
                             </c:when>
                         <c:otherwise>
-                            <td colspan="5" class="no-items">
+                            <td colspan="8" class="no-items">
                                 등록된 요구사항이 없습니다.
                             </td>
                         </c:otherwise>

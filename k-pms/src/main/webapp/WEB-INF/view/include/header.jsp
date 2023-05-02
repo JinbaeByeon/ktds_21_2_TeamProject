@@ -55,6 +55,7 @@
 	    <div class="menu">
 	      <div class="nav_menu">
 	        <ul class="nav">
+	          <li class="index"></li>
 	          <li class="nav_item emp">
 	            <a href="${context}/emp/list">임직원관리</a>
 	            <ul class="sub_item">

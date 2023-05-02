@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 
- <div class="main_container">
+<div class="main_container">
     <div class="sidebar">
         <div class="sidebar__inner">
           <ul>
@@ -14,13 +14,19 @@
               </a>
             </li>
             <li>
-              <a href="${context}/pstn/list"  class="active">
+              <a href="${context}/cmncd/list" id="cmncd_list">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>공통코드 관리</span>
+              </a>
+            </li>
+            <li>
+              <a href="${context}/pstn/list" id="pstn_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>직급관리</span>
               </a>
             </li>
             <li>
-              <a href="${context}/job/list"  class="active">
+              <a href="${context}/job/list" id="job_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>직무관리</span>
               </a>

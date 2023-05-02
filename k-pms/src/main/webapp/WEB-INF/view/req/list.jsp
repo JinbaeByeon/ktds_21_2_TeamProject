@@ -16,6 +16,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#req_list").addClass("active");
 		
 		$("#tskSttsType").val("${reqVO.tskCdNm}").prop("selected", true);
 		$("#tskSttsType").change(function(){

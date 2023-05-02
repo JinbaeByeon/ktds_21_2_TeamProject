@@ -11,6 +11,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#msg_trash").addClass("active");
+		
 		$("#restore_btn").click(function() {
 			var form = $("<form></form>")
 			var checkIdx = $(".check_idx:checked");

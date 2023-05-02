@@ -23,7 +23,6 @@
 </head>
 <body>
 	
-	<div class="main-layout">
 	<div class="container emp_page">
 		<h2>${empVO.empId}(${empVO.lNm}${empVO.fNm})님의 회원정보입니다.</h2>
 			<h3>기본정보</h3>

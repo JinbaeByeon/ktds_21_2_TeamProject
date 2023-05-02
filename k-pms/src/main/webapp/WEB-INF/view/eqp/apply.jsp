@@ -14,6 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function(){
+	$(".sidebar > ul li a").removeClass("active")
+	$("#eqp_apply").addClass("active");
+	
 	$(".detail_section").hide();
 	$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 	

@@ -1,34 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="context" value="${pageContext.request.contextPath}"/>
     
-  <div class="main_container">
+ <div class="main_container">
     <div class="sidebar">
         <div class="sidebar__inner">
           <ul>
             <li>
-              <a href="${context}/prj/list" id="prj_list">
+              <a href="${context}/cmncd/list" id="cmncd_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>프로젝트 목록</span>
+                <span>공통코드 관리</span>
               </a>
             </li>
             <li>
-              <a href="${context}/issu/list" id="issu_list">
+              <a href="${context}/pstn/list" id="pstn_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>이슈</span>
+                <span>직급관리</span>
               </a>
             </li>
             <li>
-              <a href="${context}/req/list" id="req_list">
+              <a href="${context}/job/list" id="job_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>요구사항</span>
-              </a>
-            </li>
-            <li>
-              <a href="${context}/knw/list" id="knw_list">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>지식관리</span>
+                <span>직무관리</span>
               </a>
             </li>
           </ul>

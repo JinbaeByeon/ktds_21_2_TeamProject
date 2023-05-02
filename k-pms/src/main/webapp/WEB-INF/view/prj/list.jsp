@@ -14,6 +14,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function() {
+	$(".sidebar > ul li a").removeClass("active")
+	$("#prj_list").addClass("active");
 	
 	
 	$("#search-btn").click(function() {

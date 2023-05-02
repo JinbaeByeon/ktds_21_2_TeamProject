@@ -8,31 +8,31 @@
         <div class="sidebar__inner">
           <ul>
             <li>
-              <a href="${context}/eqp/list" class="active">
+              <a href="${context}/eqp/list" id="eqp_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>비품관리</span>
               </a>
             </li>
             <li>
-              <a href="${context}/eqp/rent">
+              <a href="${context}/eqp/rent" id="eqp_rent">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>대여 관리</span>
               </a>
             </li>
             <li>
-              <a href="${context}/eqp/apply">
+              <a href="${context}/eqp/apply" id="eqp_apply">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>대여 신청</span>
               </a>
             </li>
             <li>
-              <a href="${context}/eqp/lost">
+              <a href="${context}/eqp/lost" id="eqp_lost">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>분실물 관리</span>
               </a>
             </li>
             <li>
-              <a href="${context}/eqp/log">
+              <a href="${context}/eqp/log" id="eqp_log">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>비품내역 관리</span>
               </a>

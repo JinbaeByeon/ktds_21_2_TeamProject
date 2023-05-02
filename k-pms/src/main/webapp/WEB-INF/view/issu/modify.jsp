@@ -16,6 +16,9 @@
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#issu_list").addClass("active");
+		
 		checkFile();
 		var empId = '${sessionScope.__USER__.empId}';
 

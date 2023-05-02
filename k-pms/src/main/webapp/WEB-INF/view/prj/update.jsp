@@ -19,7 +19,7 @@
 		
 		var tmMbrItems = $(document).find(".tmMbrAddTbody");
 		if (tmMbrItems.find("." + message.tmmbrid).length > 0) {
-			tmMbr.alert(message.fnm + message.lnm + "은(는) 이미 추가된 팀원입니다.");
+			tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
 			return;
 		}
 
@@ -34,8 +34,7 @@
 
 		var td = "<td>" + message.empid + "</td>"
 		td += "<td>" + message.tmnm + "</td>"
-		td += "<td>" + message.fnm + "</td>"
-		td += "<td>" + message.lnm + "</td>"
+		td += "<td>" + message.lnm + message.fnm + "</td>"
 		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
 		var rmbtn = $("<button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button>")
@@ -52,6 +51,9 @@
 	}
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#prj_list").addClass("active");
+		
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			var isSelected
 			
@@ -221,14 +223,13 @@
 		                    <th>팀원</th>
 		                    <td>
 		                    	<div class="input_div">
-									<button id="addTmMbrBtn" class="btn regist">팀원 추가</button>
+									<button id="addTmMbrBtn" class="btn regist add">팀원 추가</button>
 								</div>
 		                        <table class="list_table inner_table">
 		                        <thead>
 		                            <tr>
 		                                <th>직원ID</th>
 		                                <th>팀</th>
-		                                <th>성</th>
 		                                <th>이름</th>
 		                                <th>권한</th>
 		                                <th></th>
@@ -240,8 +241,7 @@
 											<input type="hidden" name="ptmList[${index.index}].tmMbrId" class="tmmbr-item" value="${ptm.prjTmMbrId}">
 											<td>${ptm.tmMbrVO.empVO.empId}</td>
 											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-											<td>${ptm.tmMbrVO.empVO.fNm}</td>
-											<td>${ptm.tmMbrVO.empVO.lNm}</td>
+											<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
 											<td>
 												<select class="pstn ${ptm.prjTmMbrId}" name="ptmList[${index.index}].prjPstn" data-index="${index.index}" data-prjtmmbrid="${ptm.prjTmMbrId}">
 													<option value="DEFAULT">==선택==</option>
@@ -264,7 +264,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="modify-btn" class="btn regist">수정</button>
+          <button id="modify-btn" class="btn regist">저장</button>
           <button id="delete-btn" class="btn delete">삭제</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			

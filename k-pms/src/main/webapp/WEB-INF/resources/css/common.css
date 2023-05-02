@@ -404,7 +404,6 @@ a:link, a:visited {
 }
 
 .container .detail_table tr td input[type=text]{
-	width: 100%;
     margin: 0;
 }
 
@@ -615,8 +614,7 @@ footer {
 	content: " *";
 }
 
-.detail_table button, .detail_table select, .detail_table input,
-	.detail_table p {
+.detail_table button, .detail_table select, 
 	margin: 10px;
 }
 
@@ -686,9 +684,9 @@ footer {
 	appearance: none;
 	font-size: 16px;
 	
-	background: url(../img/dropdown-arrow.png) no-repeat 85% 50%;
-	width: 100px;
-	background-size: 30px;
+	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
+	width: 125px;
+	background-size: 20px;
 }
 
 .list_table > thead > tr > th select option {
