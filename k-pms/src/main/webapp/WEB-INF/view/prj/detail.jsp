@@ -84,10 +84,6 @@
                     <td colspan="3"><input type="hidden" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/></td>
                 </tr>
                 <tr>
-                    <th>사용여부</th>
-                    <td colspan="3"><input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''} onClick="return false" /></td>
-                </tr>
-                <tr>
                     <th>팀</th>
                     <td colspan="3">
                 	<c:choose>
@@ -146,18 +142,7 @@
                     </table>
                     </td>
                 </tr>                
-                <tr>
-                    <th>등록자</th>
-                    <td>${prjVO.crtr}</td>
-                    <th>등록일</th>
-                    <td>${prjVO.crtDt}</td>
-                </tr>
-                <tr>
-                	<th>수정자</th>
-                    <td>${prjVO.mdfyr}</td>
-                    <th>수정일</th>
-                    <td>${prjVO.mdfyDt}</td>
-                  </tr>
+                
             </table>
                 
             <div class="hr"></div>
