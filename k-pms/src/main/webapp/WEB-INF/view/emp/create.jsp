@@ -18,6 +18,9 @@
 		var pstnWindow;
 		
 		$().ready(function(){
+			
+			var modal = new Modal($);
+			
 			$(".sidebar > ul li a").removeClass("active")
 			$("#emp_create").addClass("active");
 			
@@ -75,7 +78,8 @@
 							location.href="${context}"+response.redirectURL;
 						}
 					} else{
-						alert(response.errorCode + " / " + response.message);
+						AjaxUtil.hideSpinner();
+						modal.show(response.message);
 					}
 				},{"prflPht":"uploadFile"});
 			});

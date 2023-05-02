@@ -4,7 +4,9 @@
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
+	AjaxUtil.enableSpinner();
 	$().ready(function(){
+		
 		
 		$("#my-info").children(".my-menu").hide();
 		var empId = "${sessionScope.__USER__.empId}";
@@ -35,6 +37,11 @@
 	});
 </script>
 <div class="header"></div>
+<div id="spinner_panel">
+	<div><span>
+		<img id="spinner" src='${context}/img/spinner.gif'>
+	</span></div>
+</div>
 <div class="wrapper">
 	<div class="top_navbar">
 	    <div class="left_blank">
