@@ -36,38 +36,6 @@
 		, #{prjId})
 	</insert>
 	
-	<insert id="createOneCommonKnw"
-			parameterType="com.kpms.knw.vo.KnwVO">
-		<selectKey resultType="string" keyProperty="knwId" order="BEFORE">
-			SELECT 'KNW-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_KNW_PK.NEXTVAL, 5, '0')
-			  FROM DUAL
-		</selectKey>
-		INSERT INTO KNW
-		 (KNW_ID
-		, CRT_DT
-		, CRTR
-		, MDFY_DT
-		, MDFYR
-		, USE_YN
-		, DEL_YN
-		, TTL
-		, CNTNT
-		, VW_CNT
-		, PRJ_ID)
-		VALUES
-		 (#{knwId}
-		, SYSDATE
-		, #{crtr}
-		, SYSDATE
-		, #{mdfyr}
-		, NVL(#{useYn}, 'N')
-		, 'N'
-		, #{ttl}
-		, #{cntnt}
-		, '0'
-		, NULL)
-	</insert>
-	
 	<resultMap id="knwVOMap" type="com.kpms.knw.vo.KnwVO" autoMapping="true">
 		<id property="knwId" column="KNW_ID" />
 		<association property="prjVO" javaType="com.kpms.prj.vo.PrjVO">
@@ -96,7 +64,7 @@
              , P.PRJ_ID P_PRJ_ID
              , P.PRJ_NM 
           FROM KNW K
-         INNER JOIN PRJ P
+          LEFT JOIN PRJ P
             ON K.PRJ_ID = P.PRJ_ID
          WHERE K.DEL_YN = 'N'
          <choose>
@@ -109,12 +77,13 @@
          </choose>
          <choose>
          	<when test='!isCommon'>
-         		<if test='prjId != null and prjId != ""'>
+           AND P.PRJ_ID IS NOT NULL
+        		<if test='prjId != null and prjId != ""'>
            AND P.PRJ_ID = #{prjId}
          		</if>
          	</when>
          	<when test='isCommon'>
-           AND P.PRJ_ID = NULL
+           AND P.PRJ_ID IS NULL
          	</when>
          </choose>
          <include refid="Common.pageFooter" />

@@ -13,7 +13,7 @@
 	$().ready(function() {
 		
 		$("#new_btn").click(function() {
-			location.href = "${context}/knw/create";
+			location.href = "${context}/comknw/create";
 		});
 		
 		
@@ -95,6 +95,7 @@
 		          </div>
 		        </div>
 		      </div>
+		      
 		      <div class="list_section">
 		        <div class="total">총 ${knwList.size() > 0 ? knwList.get(0).totalCount : 0} 건</div>
 		        <table class="list_table">

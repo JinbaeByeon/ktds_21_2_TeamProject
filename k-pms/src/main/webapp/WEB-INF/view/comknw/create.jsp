@@ -132,10 +132,6 @@
 						alert("내용 입력은 필수입니다.");
 						return;
 					}
-					else if ($("#prjId").val() == "") {
-						alert("프로젝트 선택은 필수입니다.");
-						return;
-					}
 					else {
 						var fileList = $(".file_attachment").find("li");
 						
@@ -158,7 +154,7 @@
 							form.append(inputExt);
 								});
 						
-						ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
+						ajaxUtil.upload($("#create_form"),"${context}/api/knw/create",function(response) {
 											if (response.status == "200 OK") {
 												location.href = "${context}/knw/list";
 											}
@@ -267,34 +263,9 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<div class="path"> 프로젝트관리 > 지식 등록</div>
+			<div class="path"> 프로젝트관리 > 사내 지식 등록</div>
 				<form id="create_form">
 					<table class="detail_table">
-						<input type="hidden" id="prjId" name="prjId"  />
-						<tr>
-							<th>프로젝트 선택</th>
-							<td>
-								<div>
-									<button id="addPrj" class="btn regist add">선택</button>
-								</div>
-								<table class="list_table inner_table" >
-									<thead>
-										<tr>
-											<th>프로젝트명</th>
-											<th>고객사</th>
-											<th>프로젝트 상태</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td id="prjNm"></td>
-											<td id="cstmr"></td>
-											<td id="prjStts"></td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-						</tr>
 						<tr>
 							<th>제목</th>
 							<td><input type="text" id="ttl" name="ttl" /></td>

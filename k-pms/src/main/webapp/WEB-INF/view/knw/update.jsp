@@ -284,30 +284,32 @@
 				<form id="create_form">
 					<table class="detail_table">
 						<input type="hidden" id="prjId" name="prjId" value="${knwVO.prjId}" />
-						<tr>
-							<th>프로젝트 선택</th>
-							<td>
-								<div>
-									<button id="addPrj" class="btn regist add">선택</button>
-								</div>
-								<table class="list_table inner_table" >
-									<thead>
-										<tr>
-											<th>프로젝트명</th>
-											<th>고객사</th>
-											<th>프로젝트 상태</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td id="prjNm">${prjVO.prjNm}</td>
-											<td id="cstmr">${prjVO.cstmr}</td>
-											<td id="prjStts">${prjVO.prjStts}</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-						</tr>
+						<c:if test="${knwVO.prjId ne null}">
+							<tr>
+								<th>프로젝트 선택</th>
+								<td>
+									<div>
+										<button id="addPrj" class="btn regist add">선택</button>
+									</div>
+									<table class="list_table inner_table" >
+										<thead>
+											<tr>
+												<th>프로젝트명</th>
+												<th>고객사</th>
+												<th>프로젝트 상태</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td id="prjNm">${prjVO.prjNm}</td>
+												<td id="cstmr">${prjVO.cstmr}</td>
+												<td id="prjStts">${prjVO.prjStts}</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</c:if>
 						<tr>
 							<th>제목</th>
 							<td><input type="text" id="ttl" name="ttl" value="${knwVO.ttl}" /></td>

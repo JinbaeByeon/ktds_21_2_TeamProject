@@ -60,12 +60,17 @@ public class KnwController {
 		model.addAttribute("pageNo", knwSearchVO.getPageNo());
 		model.addAttribute("viewCnt", knwSearchVO.getViewCnt());
 		model.addAttribute("pageCnt", knwSearchVO.getPageCnt());
-		return "knw/list";
+		return "comknw/list";
 	}
 	
 	@GetMapping("/knw/create")
 	public String viewKnwCreatePage() {
 		return "knw/create";
+	}
+	
+	@GetMapping("/comknw/create")
+	public String viewComKnwCreatePage() {
+		return "comknw/create";
 	}
 	
 	@GetMapping("/knw/detail/{knwId}")

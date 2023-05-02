@@ -187,11 +187,13 @@
 							<p class="writerId">${knwVO.crtr}</p>
 							<span class="date">${knwVO.crtDt}</span>
 						</div>
-						<div class="projectInfo">
-							<p>관련 프로젝트: </p>
-							<p id="prjNm">${prjVO.prjNm}</p>
-							<p id="cstmr">(${prjVO.cstmr})</p>
-						</div>
+						<c:if test="${knwVO.prjId ne null}">
+							<div class="projectInfo">
+								<p>관련 프로젝트: </p>
+								<p id="prjNm">${prjVO.prjNm}</p>
+								<p id="cstmr">(${prjVO.cstmr})</p>
+							</div>
+						</c:if>
 					</div>
 				</div>
 				<div class="articleBody">
