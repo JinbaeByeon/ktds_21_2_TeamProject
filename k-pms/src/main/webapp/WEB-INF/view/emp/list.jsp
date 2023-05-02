@@ -310,20 +310,6 @@
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	                  <c:param name="path" value="${context}/prj"/>
 	               </c:import>
-		        <div class="buttons emplmntStts">
-		          	<c:if test="${empVO.emplmntStts== '001_01'}">
-						<button id="btn-exResign" class="btn">퇴사예정</button>
-					</c:if>
-					<c:if test="${empVO.emplmntStts== '001_03'}">
-						<button id="btn-resign" class="btn">퇴사</button>
-					</c:if>
-					<c:if test="${empVO.emplmntStts== '001_01'}">
-						<button id="btn-leave" class="btn">휴직</button>
-					</c:if>
-					<c:if test="${empVO.emplmntStts== '001_02'}">
-						<button id="btn-return" class="btn">복직</button>
-					</c:if>
-		        </div>
 		      </div>
 		      	<div class="buttons">
 					<button id="pwd-reset" class="btn pwd reset">비밀번호 초기화</button>
@@ -331,6 +317,20 @@
 					<button id="job-change" class="btn job change">직무 변경</button>
 					<button id="dep-change" class="btn dep change">부서 변경</button>
 				</div>
+		        <div class="buttons">
+		          	<c:if test="${empVO.emplmntStts== '001_01'}">
+						<button id="btn-exResign" class="btn applStts">퇴사예정</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_03'}">
+						<button id="btn-resign" class="btn applStts">퇴사</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_01'}">
+						<button id="btn-leave" class="btn applStts2">휴직</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_02'}">
+						<button id="btn-return" class="btn applStts3">복직</button>
+					</c:if>
+		        </div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>
 	</div>

@@ -53,7 +53,7 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${pstnLogList.size() > 0 ? pstnList.get(0).totalCount : 0}건</div>
+		        <div class="total">총 ${pstnLogList.size() > 0 ? pstnLogList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 						<tr>

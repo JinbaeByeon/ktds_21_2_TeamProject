@@ -8,15 +8,27 @@
         <div class="sidebar__inner">
           <ul>
             <li>
-              <a href="#" class="active">
+             <a href="${context}/prj/list" class="active">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>--</span>
+                <span>프로젝트목록</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="${context}/issu/list" class="active">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>--</span>
+                <span>이슈</span>
+              </a>
+            </li>
+            <li>
+              <a href="${context}/req/list" class="active">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>요구사항</span>
+              </a>
+            </li>
+            <li>
+              <a href="${context}/knw/list" class="active">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>지식관리</span>
               </a>
             </li>
           </ul>

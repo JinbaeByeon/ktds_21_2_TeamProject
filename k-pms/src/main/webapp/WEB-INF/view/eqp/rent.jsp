@@ -505,8 +505,8 @@
 							<button id="no_return_all_btn" class="btn applStts">반납취소</button>
 						</c:if>
 						<c:if test="${applStts eq '대여중'}">
-							<button id="lost_all_btn" class="btn applStts">분실신청</button>
-							<button id="return_all_btn" class="btn applStts">반납신청</button>
+							<button id="lost_all_btn" class="btn applStts2">분실신청</button>
+							<button id="return_all_btn" class="btn applStts2">반납신청</button>
 						</c:if>
 			          <button id="apply_all_btn" class="btn apply">승인</button>
 			          <button id="refuse_all_btn" class="btn refuse">반려</button>

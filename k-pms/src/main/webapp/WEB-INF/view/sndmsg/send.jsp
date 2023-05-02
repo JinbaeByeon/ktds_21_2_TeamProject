@@ -280,7 +280,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-   			 <button id="send_btn" class="btn regist">전송</button>
+   			 <button id="send_btn" class="btn regist2">전송</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

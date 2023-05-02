@@ -7,14 +7,20 @@
     <div class="sidebar">
         <div class="sidebar__inner">
           <ul>
+           <li>
+              <a href="${context}/cmncd/list" class="active">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>공통코드 관리</span>
+              </a>
+            </li>
             <li>
-              <a href="#" class="active">
+              <a href="${context}/pstn/list"  class="active">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>직급관리</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="${context}/job/list"  class="active">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>직무관리</span>
               </a>

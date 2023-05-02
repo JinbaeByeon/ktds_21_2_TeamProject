@@ -121,7 +121,7 @@
                
       <div class="buttons">
         <button id="modify_pwd_btn" class="btn regist">비밀번호 변경</button>
-        <button id="modify_btn" class="btn regist">수정</button>
+        <button id="modify_btn" class="btn edit">수정</button>
       </div>			
 </div>
 	

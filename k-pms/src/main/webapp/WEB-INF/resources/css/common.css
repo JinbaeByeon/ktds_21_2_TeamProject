@@ -448,7 +448,6 @@ a:link, a:visited {
 	margin: 0 5px;
 	border: none;
 }
-
 .btn:hover {
 	transition: .3s;
 	-webkit-transition: .3s;
@@ -458,20 +457,29 @@ a:link, a:visited {
 	margin-right: 10px;
 }
 
-.btn.new {
-	background-color: #2b2b2b;
+#modify_pwd_btn {
+	background-color: #a7a7a7;
 }
-
-.btn.new:hover {
-	background-color: #555555;
+.btn.applStts {
+	background-color:#8d72ad;
 }
-
-.btn.regist {
-	background-color: #ffc300;
+.btn.applStts:hover {
+	background-color:#725d8b;
 }
-
+.btn.applStts2 {
+	background-color:#5c66a7;
+}
+.btn.applStts2:hover {
+	background-color:#424978;
+}
+.btn.applStts3 {
+	background-color:#5b7874;
+}
+.btn.applStts3:hover {
+	background-color:#3e5250;
+}
 .btn.regist:hover {
-	background-color: #e6b100;
+	background-color: #727272;
 }
 .btn.pwd.reset,
 .btn.delete {
@@ -481,6 +489,15 @@ a:link, a:visited {
 .btn.delete:hover {
 	background-color: rgb(163, 15, 0);
 }
+.btn.regist2,
+.btn.edit {
+	background-color: #efb700;
+}
+.btn.regist2:hover,
+.btn.edit:hover {
+	background-color: #a27d00;
+}
+.btn.regist,
 .btn.job.change,
 .btn.restore,
 .btn.reply ,
@@ -496,22 +513,22 @@ a:link, a:visited {
 .btn.pstn.change,
 .btn.dep.change,
 .btn.read,
+.btn.new,
 .btn.apply {
 	background-color: #2b2b2b;
 }
 .btn.pstn.change:hover,
 .btn.dep.change:hover,
 .btn.read:hover,
+.btn.new:hover,
 .btn.apply:hover {
 	background-color: #555555;
 }
-
 .btn.addrss {
 	background: rgb(0,0,0);
 	margin: 0;
 	padding: 7px 13px;
 }
-
 .btn-add {
 	background: rgb(0, 0, 0);
 }

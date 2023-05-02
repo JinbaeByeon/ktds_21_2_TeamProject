@@ -192,7 +192,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/cmnCdSidemenu.jsp" />
+			<jsp:include page="../include/sysSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">시스템 관리 > 공통코드 목록</div>
 		      <div class="search_wrapper">

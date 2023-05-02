@@ -274,7 +274,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="new_btn" class="btn regist">등록</button>
+          <button id="new_btn" class="btn regist2">등록</button>
         </div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>

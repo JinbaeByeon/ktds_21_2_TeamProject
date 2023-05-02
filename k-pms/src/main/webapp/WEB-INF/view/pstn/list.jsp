@@ -179,7 +179,7 @@
 		<div>
 			<jsp:include page="../include/sysSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">직급관리</div>
+				<div class="path">시스템 관리 > 직급 관리</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select>
@@ -256,7 +256,7 @@
 		                  <c:param name="path" value="${context}/pstn"/>
 		               	</c:import>
 			        <div class="buttons">
-			          <button id="new_btn" class="btn new">신규 등록</button>
+			          <button id="new_btn" class="btn new">신규등록</button>
 			          <button id="delete_all_btn" class="btn delete">선택삭제</button>
 			        </div>
 			      </div>

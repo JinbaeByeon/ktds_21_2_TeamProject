@@ -350,7 +350,7 @@ $().ready(function() {
 				            <tr>
 				              <th>부서장ID</th>
 				              <td>
-				              	<button id="addDepHeadBtn" class="btn regist">등록</button>
+				              	<button id="addDepHeadBtn" class="btn regist2">등록</button>
 				              	<div class="items">
 									<div class='head-item input_div'>
 										<input type='text' class="" name='depHdId' id="depHdId" readonly value="" />

@@ -51,11 +51,11 @@
 		        <table class="list_table">
 		          <thead>
 						<tr>
-							<th>사원 ID</th>
-							<th>사원명</th>
-							<th>로그인/로그아웃</th>
-							<th>날짜</th>
-							<th>IP</th>
+							<th style="width: 15%;">사원 ID</th>
+							<th style="width: 15%;">사원명</th>
+							<th style="width: 10%;">로그인/로그아웃</th>
+							<th style="width: 25%;">날짜</th>
+							<th style="width: 25%;">IP</th>
 						</tr>
 		          </thead>
 		          <tbody>
