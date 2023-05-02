@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <c:set var="date" value="<%= new Random().nextInt() %>"/>
+<c:set scope="request" var="selected" value="index"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
 	<div class="main-layout">
 		<jsp:include page="./include/header.jsp"/>
 		<div>
-			<jsp:include page="./include/sysSidemenu.jsp"/>
+			<jsp:include page="./include/indexSidemenu.jsp"/>
 			<jsp:include page="./include/content.jsp"/>
 			
 				안녕하세요, ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}님

@@ -185,5 +185,12 @@
 			#{knwId}
 		</foreach>
 	</update>
+	
+	<update id="deleteKnwByPrjId"
+			parameterType="string">
+		UPDATE KNW
+		   SET DEL_YN = 'Y'
+		 WHERE PRJ_ID = #{prjId}
+	</update>
 
 </mapper>
