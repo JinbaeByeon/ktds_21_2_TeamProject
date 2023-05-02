@@ -126,7 +126,6 @@ $().ready(function() {
 								<option value="002_09">완료</option>
 							</select>
 						</th>
-						<th>사용여부</th>
 		            </tr>
 		          </thead>
 		          <tbody>
@@ -150,7 +149,6 @@ $().ready(function() {
 									<td>${prj.strtDt}</td>
 									<td>${prj.endDt}</td>
 									<td>${prj.prjStts}</td>
-									<td>${prj.useYn}</td>
 								</tr>
 							</c:forEach>
 						</c:when>

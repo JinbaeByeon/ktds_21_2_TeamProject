@@ -10,13 +10,25 @@
             <li>
               <a href="#" class="active">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>--</span>
+                <span>프로젝트목록</span>
               </a>
             </li>
             <li>
               <a href="#">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>--</span>
+                <span>요구사항</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>이슈</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>지식관리</span>
               </a>
             </li>
           </ul>
@@ -25,3 +37,4 @@
           <div class="logout"><a href="${context}/emp/lgt">Logout</a></div>
         </div>
     </div>
+  </div>

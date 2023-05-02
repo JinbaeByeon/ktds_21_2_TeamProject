@@ -98,7 +98,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/reqSidemenu.jsp"/>
+			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 요구사항</div>
 				<div class="search-group">
