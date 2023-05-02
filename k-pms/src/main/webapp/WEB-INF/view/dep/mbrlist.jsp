@@ -79,6 +79,9 @@
 	}
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#dep_mbrlist").addClass("active");
+		
 		var activeDepId = ""
 		var activeTmId = ""
 		
@@ -118,6 +121,7 @@
 		});
 		
 		$(document).on("click", ".tm-tbody tr", function() {
+			$("#all_check").prop("checked", false);
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).addClass("active");
 			activeTmId = $(".tm-tbody .active").data("tmid");
@@ -159,7 +163,7 @@
 			
 		});
 		
-		$(".check-idx").change(function() {
+		$(document).on("change",".check-idx" , function() {
 			var count = $(".check-idx").length;
 			var checkCount = $(".check-idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
@@ -229,7 +233,7 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="container search_page">
-				  <div class="path">팀원 조회 및 등록</div>
+				  <div class="path">부서 관리 > 팀원 관리</div>
 				  <form id="create_form" enctype="multipart/form-data">
 					  <div class="scroll_div">
 					  	<h3>부서</h3>

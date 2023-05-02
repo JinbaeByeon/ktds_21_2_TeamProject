@@ -6,6 +6,7 @@ public class KnwSearchVO extends AbstractPagingVO {
 
 	private String searchOption;
 	private String searchKeyword;
+	private String prjId;
 
 	public String getSearchOption() {
 		return searchOption;
@@ -21,6 +22,14 @@ public class KnwSearchVO extends AbstractPagingVO {
 
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
+	}
+
+	public String getPrjId() {
+		return prjId;
+	}
+
+	public void setPrjId(String prjId) {
+		this.prjId = prjId;
 	}
 
 }

@@ -14,6 +14,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function() {
+	$(".sidebar > ul li a").removeClass("active")
+	$("#prj_list").addClass("active");
 	
 	
 	$("#search-btn").click(function() {
@@ -86,7 +88,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			  <div class="path">프로젝트관리 > 프로젝트 목록</div>
+			  <div class="path">프로젝트 관리 > 프로젝트 목록</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option">
@@ -126,7 +128,6 @@ $().ready(function() {
 								<option value="002_09">완료</option>
 							</select>
 						</th>
-						<th>사용여부</th>
 		            </tr>
 		          </thead>
 		          <tbody>
@@ -150,7 +151,6 @@ $().ready(function() {
 									<td>${prj.strtDt}</td>
 									<td>${prj.endDt}</td>
 									<td>${prj.prjStts}</td>
-									<td>${prj.useYn}</td>
 								</tr>
 							</c:forEach>
 						</c:when>

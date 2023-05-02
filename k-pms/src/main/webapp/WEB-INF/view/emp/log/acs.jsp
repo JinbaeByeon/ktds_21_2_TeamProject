@@ -13,6 +13,9 @@
 	<jsp:include page="../../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_log_acs").addClass("active");
+			
 			$(".search-option").change(function(){
 				movePage(0);
 			});
@@ -39,7 +42,7 @@
 		<div>
 			<jsp:include page="../../include/empSidemenu.jsp"/>
 			<jsp:include page="../../include/content.jsp"/>
-			<div class="path">임직원 관리 > 화면접근이력 조회</div>
+			<div class="path">임직원 관리 > 화면 접근 이력</div>
 		      <div class="search_wrapper">
 		      <form>
 		        <div class="search_box">

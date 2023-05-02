@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set scope="request" var="selected" value="cmncd"/>
+<c:set scope="request" var="selected" value="sys"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +14,9 @@
 <script type="text/javascript">
 	$().ready(
 			function() {
+				$(".sidebar > ul li a").removeClass("active")
+				$("#cmncd_list").addClass("active");
+				
 				$(".detail_section").hide();
 				
 				$("#all_check").change(function() {
@@ -192,9 +195,9 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/cmnCdSidemenu.jsp" />
+			<jsp:include page="../include/sysSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<div class="path">시스템 관리 > 공통코드 목록</div>
+			<div class="path">시스템 관리 > 공통코드 관리</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="cdTypes">
@@ -304,7 +307,7 @@
 		        </form>
 		
 		        <div class="buttons">
-		          <button id="save_btn" class="btn regist">저장</button>
+		          <button id="save_btn" class="btn save">저장</button>
 		          <button id="delete_btn" class="btn delete">삭제</button>
 		        </div>
 		      </div>

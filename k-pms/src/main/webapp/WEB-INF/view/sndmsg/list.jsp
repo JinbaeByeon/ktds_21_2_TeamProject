@@ -11,6 +11,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#sndmsg_list").addClass("active");
 		
 		$("#new_btn").click(function() {
 			$("#msgId").val("");
@@ -23,12 +25,16 @@
 		$("#delete_btn").click(function() {
 			console.log("aa");
 			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
+			var checkIdx = $(".check_idx:checked");
+			if(checkIdx.length == 0){
+				alert("체크된 쪽지가 없습니다.");
+				return;
+			}
+			checkIdx.each(function() {
 				console.log($(this).val());
 				form.append("<input type='hidden' name='sndMsgIdList' value='"+ $(this).val() +"'>");
 			});
-			
+
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
@@ -44,7 +50,9 @@
 		});
 		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var msgId = $(this).closest("tr").data("msgid");
-			location.href="${context}/sndmsg/detail/"+msgId;
+			if(msgId){
+				location.href="${context}/sndmsg/detail/"+msgId;
+			}
 		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
@@ -59,8 +67,11 @@
 		$(".check_idx").change(function() {
 			checkIndex(); 
 		});
+		$(".check_idx").click(function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
+		});
 		
-		$(".list_table > tr > td.check").click(function(){
+		$(".list_table > tbody > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -90,7 +101,7 @@
 				<div class="path">쪽지 > 보낸쪽지함</div>
 		      <div class="search_wrapper">
 		      	<div class="buttons upper">
-		          <button id="delete_btn" class="btn delete" disabled>삭제</button>
+		          <button id="delete_btn" class="btn delete">삭제</button>
 		      	</div>
 		        <form class="inline_form">
 		          <div class="search_box">

@@ -16,6 +16,12 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		var pageNo = "${pageNo}";
+		if(${empty reqList} && pageNo > 0){
+			movePage(pageNo-1);
+		}
+		$(".sidebar > ul li a").removeClass("active")
+		$("#req_list").addClass("active");
 		
 		$("#tskSttsType").val("${reqVO.tskCdNm}").prop("selected", true);
 		$("#tskSttsType").change(function(){
@@ -91,9 +97,20 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var reqId = $("#search-keyword").val();
+		var prjId = "${reqVO.prjId}";
+		var selectOption = $("#search-option").val();
+		var searchKeyword = $("#search-keyword").val();
+		var queryString = "prjId=" + prjId;
+		queryString += "&selectOption=" + selectOption;
+
+		if($("#search-option").val() == "요구사항제목"){
+			queryString += "&reqTtl=" + searchKeyword;
+		} else {
+			queryString += "&reqPrjVO.prjNm=" + searchKeyword;
+		}
+		queryString += "&pageNo=" + pageNo;
 		// URL 요청
-		location.href = "${context}/req/list?reqId=" + reqId + "&pageNo=" + pageNo;
+		location.href = "${context}/req/list?" + queryString;
 	}
 </script>
 </head>
@@ -103,7 +120,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">요구사항관리 > 요구사항 목록</div>
+				<div class="path">프로젝트 관리 > 요구사항 목록</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 					<select id="search-option" class="search-input">

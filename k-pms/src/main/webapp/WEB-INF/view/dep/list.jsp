@@ -51,6 +51,8 @@ function addHdEmpFn(message) {
 }
 
 $().ready(function() {
+	$(".sidebar > ul li a").removeClass("active")
+	$("#dep_list").addClass("active");
 	
 	var pageNo = "${pageNo}";
 	if (${empty depList} && pageNo > 0) {
@@ -258,7 +260,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서관리 > 부서 목록</div>
+				<div class="path">부서 관리 > 부서 목록</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select id="search-option">
@@ -362,7 +364,7 @@ $().ready(function() {
 				            <tr>
 				              <th>부서장ID</th>
 				              <td>
-				              	<button id="addDepHeadBtn" class="btn regist">등록</button>
+				              	<button id="addDepHeadBtn" class="btn regist2">등록</button>
 				              	<div class="items">
 									<div class='head-item input_div'>
 										<input type='text' class="" name='depHdId' id="depHdId" readonly value="" />
@@ -389,7 +391,7 @@ $().ready(function() {
 			        </form>
 			
 			        <div class="buttons">
-			          <button id="save_btn" class="btn regist">저장</button>
+			          <button id="save_btn" class="btn save">저장</button>
 			          <button id="delete_btn" class="btn delete">삭제</button>
 			        </div>
 			      </div>

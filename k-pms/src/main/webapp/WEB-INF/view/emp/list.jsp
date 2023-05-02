@@ -18,6 +18,9 @@
 		var pstnWindow;
 		var emplmntSttsData;
 		$().ready(function(){
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_list").addClass("active");
+			
 			$.get("${context}/api/cmncd/list/001", function(response) {
 				var emplmntSttsSelect = $("#emplmntStts-select");
 				emplmntSttsData = response.data;
@@ -60,7 +63,9 @@
 			
 			$(".list_table tbody > tr > td").not(".check").click(function() {
 				var empId = $(this).closest("tr").data("empid");
-				detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=500");
+				if(empId){
+					detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=500");
+				}
 			});
 			
 			$("#all_check").change(function(){
@@ -206,7 +211,7 @@
 		<div>
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-			<div class="path">사원 관리 > 사원 조회</div>
+			<div class="path">임직원 관리 > 임직원 목록</div>
 		      <div class="search_wrapper">
 		      <form>
 		        <div class="search_box">
@@ -310,20 +315,6 @@
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	                  <c:param name="path" value="${context}/prj"/>
 	               </c:import>
-		        <div class="buttons emplmntStts">
-		          	<c:if test="${empVO.emplmntStts== '001_01'}">
-						<button id="btn-exResign" class="btn">퇴사예정</button>
-					</c:if>
-					<c:if test="${empVO.emplmntStts== '001_03'}">
-						<button id="btn-resign" class="btn">퇴사</button>
-					</c:if>
-					<c:if test="${empVO.emplmntStts== '001_01'}">
-						<button id="btn-leave" class="btn">휴직</button>
-					</c:if>
-					<c:if test="${empVO.emplmntStts== '001_02'}">
-						<button id="btn-return" class="btn">복직</button>
-					</c:if>
-		        </div>
 		      </div>
 		      	<div class="buttons">
 					<button id="pwd-reset" class="btn pwd reset">비밀번호 초기화</button>
@@ -331,6 +322,20 @@
 					<button id="job-change" class="btn job change">직무 변경</button>
 					<button id="dep-change" class="btn dep change">부서 변경</button>
 				</div>
+		        <div class="buttons">
+		          	<c:if test="${empVO.emplmntStts== '001_01'}">
+						<button id="btn-exResign" class="btn applStts">퇴사예정</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_03'}">
+						<button id="btn-resign" class="btn applStts">퇴사</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_01'}">
+						<button id="btn-leave" class="btn applStts2">휴직</button>
+					</c:if>
+					<c:if test="${empVO.emplmntStts== '001_02'}">
+						<button id="btn-return" class="btn applStts3">복직</button>
+					</c:if>
+		        </div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>
 	</div>

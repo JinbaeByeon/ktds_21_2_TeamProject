@@ -14,6 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#prj_list").addClass("active");
+		
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			var prjStts = $("#prjStts");
 			var sttsNm
@@ -81,10 +84,6 @@
                     <td colspan="3"><input type="hidden" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/></td>
                 </tr>
                 <tr>
-                    <th>사용여부</th>
-                    <td colspan="3"><input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''} onClick="return false" /></td>
-                </tr>
-                <tr>
                     <th>팀</th>
                     <td colspan="3">
                 	<c:choose>
@@ -107,7 +106,6 @@
                             <tr>
                                 <th>직원ID</th>
                                 <th>팀</th>
-                                <th>성</th>
                                 <th>이름</th>
                                 <th>권한</th>
                             </tr>
@@ -119,8 +117,7 @@
 										<tr>
 											<td>${ptm.tmMbrVO.empVO.empId}</td>
 											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-											<td>${ptm.tmMbrVO.empVO.fNm}</td>
-											<td>${ptm.tmMbrVO.empVO.lNm}</td>
+											<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
 											<td>
 												<c:if test="${ptm.prjPstn=='PM'}">
 													총책임자
@@ -145,24 +142,13 @@
                     </table>
                     </td>
                 </tr>                
-                <tr>
-                    <th>등록자</th>
-                    <td>${prjVO.crtr}</td>
-                    <th>등록일</th>
-                    <td>${prjVO.crtDt}</td>
-                </tr>
-                <tr>
-                	<th>수정자</th>
-                    <td>${prjVO.mdfyr}</td>
-                    <th>수정일</th>
-                    <td>${prjVO.mdfyDt}</td>
-                  </tr>
+                
             </table>
                 
             <div class="hr"></div>
             <div class="req path">요구사항</div>
             <div class="view_all">
-                전체보기
+                <a href="${context}/req/list?prjId=${prjId}&pageNo=0">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">
@@ -193,7 +179,7 @@
                                 </c:forEach>
                             </c:when>
                         <c:otherwise>
-                            <td colspan="5" class="no-items">
+                            <td colspan="8" class="no-items">
                                 등록된 요구사항이 없습니다.
                             </td>
                         </c:otherwise>

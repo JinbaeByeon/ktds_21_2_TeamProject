@@ -16,6 +16,9 @@
 		}
 	}
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#rcvmsg_list").addClass("active");
+		
 		$("#filterType").change(function(){
 			movePage(0);
 		})
@@ -70,7 +73,9 @@
 
 		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var msgId = $(this).closest("tr").data("msgid");
-			location.href="${context}/rcvmsg/detail/"+msgId;
+			if(msgId){
+				location.href="${context}/rcvmsg/detail/"+msgId;
+			}
 		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
@@ -107,8 +112,11 @@
 		$(".check_idx").change(function() {
 			checkIndex();
 		});
+		$(".check_idx").click(function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
+		});
 		
-		$(".list_table > tbody > tr > td").not(".check").click(function(){
+		$(".list_table > tbody > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();

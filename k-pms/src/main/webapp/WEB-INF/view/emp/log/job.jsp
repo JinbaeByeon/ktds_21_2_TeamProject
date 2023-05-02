@@ -11,6 +11,8 @@
 <jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#emp_log_job").addClass("active");
 		
 		$("#search-keyword").keydown(function(e){
 			if(e.keyCode == '13'){
@@ -38,7 +40,7 @@
 		<div>
 		<jsp:include page="../../include/empSidemenu.jsp"/>
 		<jsp:include page="../../include/content.jsp"/>
-			<div class="path">직무변경이력 > </div>
+			<div class="path">임직원 관리 > 직무 변경 이력</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select>

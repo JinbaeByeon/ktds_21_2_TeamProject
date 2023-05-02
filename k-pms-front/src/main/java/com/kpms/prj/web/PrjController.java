@@ -1,11 +1,8 @@
 package com.kpms.prj.web;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,13 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.prj.service.PrjService;
 import com.kpms.prj.vo.PrjSearchVO;
 import com.kpms.prj.vo.PrjVO;
 import com.kpms.prjtmmbr.vo.PrjTmMbrVO;
 import com.kpms.tm.vo.TmVO;
-import com.kpms.tmmbr.vo.TmMbrVO;
 
 @Controller
 public class PrjController {
@@ -46,7 +44,9 @@ public class PrjController {
 	}
 	
 	@GetMapping("/prj/list")
-	public String viewPrjListPage(Model model, PrjSearchVO prjSearchVO) {
+	public String viewPrjListPage(Model model, PrjSearchVO prjSearchVO, @SessionAttribute("__USER__") EmpVO empVO) {
+		String empId = empVO.getEmpId();
+		prjSearchVO.setEmpId(empId);
 		List<PrjVO> prjList = prjService.readAllPrjVO(prjSearchVO);
 		if(!prjList.isEmpty()) {
 	         model.addAttribute("lastPage",prjList.get(0).getLastPage());
@@ -62,7 +62,9 @@ public class PrjController {
 	}
 	
 	@GetMapping("/prj/detail/{prjId}")
-	public String viewPrjDetailPage(Model model, @PathVariable String prjId) {
+	public String viewPrjDetailPage(Model model, @PathVariable String prjId, @SessionAttribute("__USER__") EmpVO empVO) {
+		String empId = empVO.getEmpId();
+		model.addAttribute("empId", empId);
 		PrjVO prjVO = prjService.readOnePrjVOByPrjId(prjId);
 		model.addAttribute("prjVO", prjVO);
 		Map<String, String> tmMap = new HashMap<String, String>();

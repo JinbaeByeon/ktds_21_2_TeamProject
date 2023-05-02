@@ -14,6 +14,10 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		
+		$(".sidebar > ul li a").removeClass("active")
+		$("#eqp_log").addClass("active");
+		
 	      $(".detail_section").hide();
 		$(".list_table > tbody > tr").click(function(){
 			
@@ -65,7 +69,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-			<div class="path">비품관리 > 비품내역 관리</div>
+			<div class="path">비품 관리 > 비품내역 관리</div>
 				<div class="search_wrapper">
 			        <div class="search_box">
 			          <select>

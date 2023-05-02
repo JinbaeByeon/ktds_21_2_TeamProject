@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%=new Random().nextInt()%>" />
-<c:set scope="request" var="selected" value="tm"/>
+<c:set scope="request" var="selected" value="dep"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -168,6 +168,8 @@
 	}
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#tm_list").addClass("active");
 		
 		$("#addTmHeadBtn").click(function(event) {
 			event.preventDefault(); 
@@ -380,7 +382,7 @@
 
 		        <div class="buttons">
 					<button id="list-btn" class="btn new">목록</button>
-					<button id="save-btn" class="btn regist">저장</button>
+					<button id="save-btn" class="btn save">저장</button>
 					<button id="delete-btn" class="btn delete">삭제</button>
 		        </div>
 			<jsp:include page="../include/footer.jsp" />			

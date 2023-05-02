@@ -16,6 +16,9 @@
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#req_list").addClass("active");
+		
 		var empId = '${sessionScope.__USER__.empId}';
 		$("#new_btn").click(function(){
 			$("#isModify").val("false"); //등록모드
@@ -324,7 +327,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/reqSidemenu.jsp"/>
+			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 요구사항 등록</div>
 				<div class="grid-detail">

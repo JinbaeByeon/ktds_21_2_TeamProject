@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="eqp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,28 +14,42 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+
+		$(".sidebar > ul li a").removeClass("active")
+		$("#eqp_rent").addClass("active");
+		
 		$("#applSttsType").val("${eqpVO.applStts}").prop("selected", true);
-		
-		$("li.nav-item.eqp").addClass("active");
-		$("li.nav-item").children("a").mouseover(function(){
-			$(this).closest(".nav").find(".nav-item.active").removeClass("active");
-			if($(this).attr("class")!="nav-item eqp"){
-				$("li.nav-item.eqp").removeClass("active");
-			}
-			$(this).closest("li.nav-item").addClass("active");
-		});
-		$(".nav").mouseleave(function(){
-			$(this).find(".active").removeClass("active");
-			$("li.nav-item.eqp").addClass("active");
-		});
-		$(".sub-item").mouseenter(function(){
-			$(this).addClass("active");
-		});
-		
-		
-		$(".grid > table > tbody > tr").click(function(){
+	     $(".detail_section").hide();
+	     
+		$(".list_table > tbody > tr").click(function(){
+			
+			$("#crtr").closest("td").prev().prev().attr("colspan", 0);
+			$("#crtr").closest("td").prev().show();
+			$("#crtr").closest("td").show();
+			
+			$("#crtDt").closest("td").prev().prev().attr("colspan", 0);
+			$("#crtDt").closest("td").prev().show();
+			$("#crtDt").closest("td").show();
+			
+			$("#mdfyr").closest("td").prev().prev().attr("colspan", 0);
+			$("#mdfyr").closest("td").prev().show();
+			$("#mdfyr").closest("td").show();
+
+			$("#mdfyDt").closest("td").prev().prev().attr("colspan", 0);
+			$("#mdfyDt").closest("td").prev().show();
+			$("#mdfyDt").closest("td").show();
+			
+			$("#prchsDt").closest("td").attr("colspan", 0);
+	 		$("#prchsDt").closest("td").next().show();
+	 		$("#prchsDt").closest("td").next().next().show();
+			
+			$("#useYn").closest("td").attr("colspan", 0);
+	 		$("#useYn").closest("td").next().show();
+	 		$("#useYn").closest("td").next().next().show();
 			
 			$("#isModify").val("true"); //수정모드
+	        $(".detail_section").show("fast");
+	        $(".detail_table").show();
 			
 			var data = $(this).data();
 			
@@ -56,87 +71,9 @@
 			
 		});
 		
-		$("#new_btn").click(function(){
-			$("#isModify").val("false"); //등록모드
-			
-			$("#eqpId").val("");
-			$("#eqpNm").val("");
-			$("#crtr").val("");
-			$("#crtDt").val("");
-			$("#mdfyr").val("");
-			$("#mdfyDt").val("");
-			$("#eqpTp").val("");
-			$("#applStts").val("");
-			$("#eqpPrc").val("");
-			$("#prchsDt").val("");
-			$("#lossStts").val("");
-			$("#lossRprtDt").val("");
-			$("#applDt").val("");
-			
-			$("#useYn").prop("checked", false);
-		});
-		
-		$("#delete_btn").click(function(){
-			var eqpId = $("#eqpId").val();
-			if(eqpId == ""){
-				alert("선택된 비품이 없습니다.");
-				return;
-			}
-			
-			if(!confirm("정말 삭제하시겠습니까?")){
-				return;
-			}
-			
-			$.get("${context}/api/eqp/delete/" + eqpId, function(response){
-				if(response.status == "200 OK"){
-					location.reload(); //새로고침
-				}
-				else{
-					alert(response.errorCode + "/" + response.message);
-				}
-			})
-		});
-					
-		$("#save_btn").click(function(){
-			var ajaxUtil = new AjaxUtil();
-			if($("#isModify").val() == "false"){
-				// 신규등록	
-				ajaxUtil.upload("#detail_form","${context}/eqp/create",function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-					}	
-					else{
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
-			else {
-				
-				if($("#applDt").val() != "" && $("#applDt").val() != null && $("#applDt").val() < $("#prchsDt").val()){
-					alert("신청일은 구매일 이후로 선택해야합니다.");
-					return;
-				}
-				else if($("#lossRprtDt").val() != "" && $("#lossRprtDt").val() != null && $("#lossRprtDt").val() < $("#prchsDt").val()){
-					alert("분실신고일은 구매일 이후로 선택해야합니다.")
-					return;
-				}
-				//수정
-				ajaxUtil.upload("#detail_form","${context}/api/eqp/update",function(response){
-					if(response.status == "200 OK"){
-						location.reload(); //새로고침
-					}	
-					else{
-						alert(response.errorCode + "/" + response.message);
-					}
-				});
-			}
-		});
-		
 		$("#search-btn").click(function(){
 			var eqpNm =$("#search-keyword").val();
 			location.href = "${context}/eqp/rent?eqpNm=" + eqpNm;
-			/* movePage(0) */
-			
 		})
 		
 		
@@ -356,23 +293,27 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">대여 관리</div>
-				<div class="search-group">
-					<label for="search-keyword">비품명</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${eqpVO.eqpNm}"/>
-					<button class="btn-search" id="search-btn">검색</button>
-				</div>
-				
-				<div class="grid">
-					<div class="grid-count align-right">
-						총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건
-					</div>
-					<table>
-						<thead>
-							<tr>
+				<div class="path">비품관리 > 대여 목록</div>
+			      <div class="search_wrapper">
+			        <div class="search_box">
+			          <select>
+			            <option>비품명</option>
+			          </select>
+			          <div class="search_field">
+			          	<input type="text" id="search-keyword" class="input" value="${eqpVO.eqpNm}" placeholder="Search"/>
+			          </div>
+			          <div class="search-icon">
+			          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+			          </div>
+			        </div>
+			      </div>
+			      <div class="list_section">
+			        <div class="total">총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건  </div>
+			        <table class="list_table">
+			          <thead>
+						<tr>
 								<th><input type="checkbox" id="all_check"/></th>
 								<th>순번</th>
-								<th>비품ID</th>
 								<th>비품명</th>
 								<th>비품종류</th>
 								<th>
@@ -388,9 +329,9 @@
 								<th>신청일</th>
 								<th>분실상태</th>
 								<th>분실신고일</th>
-							</tr>
-						</thead>
-						<tbody>
+						</tr>
+			          </thead>
+			          <tbody>
 							<c:choose>
 								<c:when test="${not empty eqpList}">
 									<c:forEach items="${eqpList}"
@@ -416,7 +357,6 @@
 												<input type="checkbox" class="check_idx" value="${eqp.eqpId}">
 											</td>
 											<td>${eqp.rnum}</td>
-											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
 											<td>${eqp.applStts}</td>
@@ -435,31 +375,31 @@
 									</tr>
 								</c:otherwise>
 							</c:choose>
-						</tbody>
-					</table>
-					<div class="align-right mt-10">
-						<c:if test="${applStts eq '분실신청'}">
-							<button id="no_lost_all_btn" class="btn-no-lost">분실신청취소</button>
-						</c:if>
-						<c:if test="${applStts eq '대여신청'}">
-							<button id="no_apply_all_btn" class="btn-no-apply">대여신청취소</button>
-						</c:if>
-						<c:if test="${applStts eq '반납신청'}">
-							<button id="no_return_all_btn" class="btn-no-return">반납취소</button>
-						</c:if>
-						<c:if test="${applStts eq '대여중'}">
-							<button id="lost_all_btn" class="btn-lost">분실신청</button>
-							<button id="return_all_btn" class="btn-return">반납신청</button>
-						</c:if>
-					</div>
+			          </tbody>
+			        </table>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	                  <c:param name="path" value="${context}/eqp"/>
 	               	</c:import>
-					
-				</div>	
+	               	
+			        <div class="buttons">
+			        	<c:if test="${applStts eq '분실신청'}">
+							<button id="no_lost_all_btn" class="btn applStts">분실신청취소</button>
+						</c:if>
+						<c:if test="${applStts eq '대여신청'}">
+							<button id="no_apply_all_btn" class="btn applStts">대여신청취소</button>
+						</c:if>
+						<c:if test="${applStts eq '반납신청'}">
+							<button id="no_return_all_btn" class="btn applStts">반납취소</button>
+						</c:if>
+						<c:if test="${applStts eq '대여중'}">
+							<button id="lost_all_btn" class="btn applStts">분실신청</button>
+							<button id="return_all_btn" class="btn applStts">반납신청</button>
+						</c:if>
+			        </div>
+			      </div>	
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>
