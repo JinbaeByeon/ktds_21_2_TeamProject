@@ -14,6 +14,14 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
+		$(".buttons").hide();
+		var tm = $(".inner_table > tbody").find("tr");
+		
+		console.log(tm);
+		
+		console.log(tm.data("pstn"));
+		console.log(tm.data("empid"));
+
 		$(".sidebar > ul li a").removeClass("active")
 		$("#prj_list").addClass("active");
 		
@@ -63,6 +71,7 @@
         	<div class="path">${prjId} | ${prjVO.prjNm}</div>
 			<table class="detail_page detail_table">
                 <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly/>
+                <input type="hidden" id="empId" name="empId" value="${empId}" readonly/>
                 <tr>
                     <th>프로젝트명</th>
                     <td colspan="3"><input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" readonly/></td>
@@ -110,7 +119,6 @@
                             <tr>
                                 <th>직원ID</th>
                                 <th>팀</th>
-                                <th>성</th>
                                 <th>이름</th>
                                 <th>권한</th>
                             </tr>
@@ -119,11 +127,11 @@
 							<c:choose>
 								<c:when test="${not empty prjVO.ptmList}">
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
-										<tr>
-											<td>${ptm.tmMbrVO.empVO.empId}</td>
+										<tr data-empid="${ptm.tmMbrVO.empVO.empId}"
+											data-pstn="${ptm.prjPstn}">
+											<td >${ptm.tmMbrVO.empVO.empId}</td>
 											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-											<td>${ptm.tmMbrVO.empVO.fNm}</td>
-											<td>${ptm.tmMbrVO.empVO.lNm}</td>
+											<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
 											<td>
 												<c:if test="${ptm.prjPstn=='PM'}">
 													총책임자
@@ -196,7 +204,7 @@
                                 </c:forEach>
                             </c:when>
                         <c:otherwise>
-                            <td colspan="5" class="no-items">
+                            <td colspan="8" class="no-items">
                                 등록된 요구사항이 없습니다.
                             </td>
                         </c:otherwise>
@@ -207,7 +215,7 @@
         <div class="hr"></div>
             <div class="req path">지식관리</div>
             <div class="view_all">
-                <a href="${context}/knw/list?prjId=${prjId}&pageNo=0">전체보기</a>
+                <a href="${context}/knw/list?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">
@@ -235,11 +243,12 @@
                         </c:choose>
                     </tbody>
                 </table>
-
-        <div class="buttons">
-          <button id="modify-btn" class="btn regist">수정</button>
-          <button id="delete-btn" class="btn delete">삭제</button>
-        </div>
+	
+<%--         <div class="buttons">
+			<c:if test="${ptm.prjPstn =='PM'} and ${prjVO.ptmList.tmMbrVO.empVO.empId == empId}">
+	          <button id="modify-btn" class="btn regist">수정</button>
+		    </c:if>
+        </div> --%>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>
