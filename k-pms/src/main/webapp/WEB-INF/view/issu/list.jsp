@@ -116,7 +116,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">이슈</div>
+				<div class="path">프로젝트 관리 > 이슈</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select>
@@ -198,8 +198,8 @@
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	               	</c:import>
 		        <div class="buttons">
-					<button id="delete_all_btn" class="btn delte">삭제</button>
-					<button id="create_btn" class="btn regist">추가</button>
+					<button id="create_btn" class="btn new">추가</button>
+					<button id="delete_all_btn" class="btn delete">삭제</button>
 		        </div>
 		      </div>
 		      		

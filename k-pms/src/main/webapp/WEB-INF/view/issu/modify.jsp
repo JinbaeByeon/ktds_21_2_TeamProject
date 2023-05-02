@@ -284,7 +284,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-					<button id="save_btn" class="btn primary">저장</button>
+					<button id="save_btn" class="btn save">저장</button>
 					<button id="delete_btn" class="btn delete">취소</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />

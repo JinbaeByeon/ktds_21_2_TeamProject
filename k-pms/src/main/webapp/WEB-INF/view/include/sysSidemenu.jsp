@@ -7,6 +7,12 @@
     <div class="sidebar">
         <div class="sidebar__inner">
           <ul>
+           <li>
+              <a href="${context}/cmncd/list" class="active">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>공통코드 관리</span>
+              </a>
+            </li>
             <li>
               <a href="${context}/cmncd/list" id="cmncd_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>

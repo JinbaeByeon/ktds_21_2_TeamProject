@@ -94,7 +94,7 @@
 				<div class="path">쪽지 > 보낸쪽지함</div>
 		      <div class="search_wrapper">
 		      	<div class="buttons upper">
-		          <button id="delete_btn" class="btn delete" disabled>삭제</button>
+		          <button id="delete_btn" class="btn delete">삭제</button>
 		      	</div>
 		        <form class="inline_form">
 		          <div class="search_box">

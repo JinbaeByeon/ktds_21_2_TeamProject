@@ -233,7 +233,7 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="container search_page">
-				  <div class="path">팀원 조회 및 등록</div>
+				  <div class="path">부서 관리 > 팀원 관리</div>
 				  <form id="create_form" enctype="multipart/form-data">
 					  <div class="scroll_div">
 					  	<h3>부서</h3>

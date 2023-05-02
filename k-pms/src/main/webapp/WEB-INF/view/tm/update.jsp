@@ -379,7 +379,7 @@
 
 		        <div class="buttons">
 					<button id="list-btn" class="btn new">목록</button>
-					<button id="save-btn" class="btn regist">저장</button>
+					<button id="save-btn" class="btn save">저장</button>
 					<button id="delete-btn" class="btn delete">삭제</button>
 		        </div>
 			<jsp:include page="../include/footer.jsp" />			

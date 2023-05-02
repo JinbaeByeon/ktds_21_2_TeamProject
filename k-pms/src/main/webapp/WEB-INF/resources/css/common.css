@@ -13,7 +13,7 @@ input {
 }
 
 .input_div {
-	background: rgba(238, 238, 238, 0.974);
+	background: rgba(238, 238, 238, 0.974) !important;
 }
 
 input:read-only {
@@ -327,6 +327,11 @@ a:link, a:visited {
 	color: #2b2b2b;
 }
 
+.container .list_table div,
+.container .list_table span {
+	background: rgba(238, 238, 238, 0.974); 
+}
+
 /* pagenate */
 .pagenate {
 	text-align: center;
@@ -423,6 +428,11 @@ a:link, a:visited {
 	text-align: left;
 }
 
+.container .detail_table div,
+.container .detail_table span {
+	background: rgba(238, 238, 238, 0.974); 
+}
+
 .no-items {
 	text-align: center;
 }
@@ -447,7 +457,12 @@ a:link, a:visited {
 	margin: 0 5px;
 	border: none;
 }
-
+.btn.save {
+	background-color: #1846bb;
+}
+.btn.save:hover {
+	background-color: #0c2870;
+}
 .btn:hover {
 	transition: .3s;
 	-webkit-transition: .3s;
@@ -456,21 +471,26 @@ a:link, a:visited {
 .btn:before {
 	margin-right: 10px;
 }
-
-.btn.new {
-	background-color: #2b2b2b;
+.btn.applStts {
+	background-color:#a76f5c;
 }
-
-.btn.new:hover {
-	background-color: #555555;
+.btn.applStts:hover {
+	background-color:#7e5344;
 }
-
-.btn.regist {
-	background-color: #ffc300;
+.btn.applStts2 {
+	background-color:#a54b4b;
 }
-
+.btn.applStts2:hover {
+	background-color:#833a3a;
+}
+.btn.applStts3 {
+	background-color:#5b7874;
+}
+.btn.applStts3:hover {
+	background-color:#3e5250;
+}
 .btn.regist:hover {
-	background-color: #e6b100;
+	background-color: #727272;
 }
 .btn.pwd.reset,
 .btn.delete {
@@ -480,39 +500,64 @@ a:link, a:visited {
 .btn.delete:hover {
 	background-color: rgb(163, 15, 0);
 }
+#modify_pwd_btn,
+.btn.regist,
 .btn.job.change,
 .btn.restore,
 .btn.reply ,
 .btn.refuse {
 	background-color:#a79393;
 }
+#modify_pwd_btn:hover,
 .btn.job.change:hover,
 .btn.restore:hover ,
 .btn.reply:hover ,
 .btn.refuse:hover {
 	background-color: #836b6b;
 }
+.btn.edit,
 .btn.pstn.change,
 .btn.dep.change,
 .btn.read,
+.btn.new,
 .btn.apply {
 	background-color: #2b2b2b;
 }
+.btn.edit:hover,
 .btn.pstn.change:hover,
 .btn.dep.change:hover,
 .btn.read:hover,
+.btn.new:hover,
 .btn.apply:hover {
 	background-color: #555555;
 }
-
 .btn.addrss {
-	background: rgb(0,0,0);
+	background: rgb(112, 116, 117);
 	margin: 0;
 	padding: 7px 13px;
 }
-
+.btn.addrss:hover {
+	background: rgb(65 68 68);
+	margin: 0;
+	padding: 7px 13px;
+}
+.btn.regist2 {
+	background-color: rgb(112, 116, 117);
+}
+.btn.regist2:hover {
+	background-color: rgb(65 68 68);
+}
+.btn.regist3 {
+	background-color: rgb(65 68 68);
+}
+.btn.regist23:hover {
+	background-color: rgb(112, 116, 117);
+}
 .btn-add {
-	background: rgb(0, 0, 0);
+	background: rgb(164 161 155);
+}
+.btn-add:hover {
+	background: rgb(126 124 119);
 }
 
 .trRemoveBtn {
@@ -655,6 +700,11 @@ footer {
 	border: none;
 }
 
+.list_table.inner_table div,
+.list_table.inner_table span {
+	background: rgba(238, 238, 238, 0.974); 
+}
+
 .list_table > thead > tr > th select {
 	background-color: rgb(187, 39, 32);
 	outline: 0px;
@@ -667,9 +717,9 @@ footer {
 	appearance: none;
 	font-size: 16px;
 	
-	background: url(../img/dropdown-arrow.png) no-repeat 85% 50%;
-	width: 100px;
-	background-size: 30px;
+	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
+	width: 125px;
+	background-size: 20px;
 }
 
 .list_table > thead > tr > th select option {

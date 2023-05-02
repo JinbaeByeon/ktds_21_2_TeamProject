@@ -64,8 +64,8 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="btn-apply" class="btn">비밀번호 변경하기</button>
-			<button id="btn-close" class="btn">다음에 변경하기</button>	
+          <button id="btn-apply" class="btn regist">비밀번호 변경하기</button>
+			<button id="btn-close" class="btn delete">다음에 변경하기</button>	
 		</div>
 	</div>
 </body>

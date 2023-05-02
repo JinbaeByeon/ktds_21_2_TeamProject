@@ -178,7 +178,7 @@
 		<div>
 		<jsp:include page="../include/sysSidemenu.jsp"/>
 		<jsp:include page="../include/content.jsp"/>
-			<div class="path">직무관리 > 직무 목록</div>
+			<div class="path">시스템 관리 > 직무 관리</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select>
@@ -251,7 +251,7 @@
 					      <c:param name="path" value="${context}/job"/>
 					   </c:import>
 			        <div class="buttons">
-			        	<button id="new_btn" class="btn new">신규</button>
+			        	<button id="new_btn" class="btn new">신규등록</button>
 			          <button id="delete_all_btn" class="btn delete">선택삭제</button>
 			        </div>
 			      </div>
@@ -290,7 +290,7 @@
 			        </form>
 			
 			        <div class="buttons">
-			          <button id="save_btn" class="btn regist">저장</button>
+			          <button id="save_btn" class="btn save">저장</button>
 			          <button id="delete_btn" class="btn delete">삭제</button>
 			        </div>
 			      </div>

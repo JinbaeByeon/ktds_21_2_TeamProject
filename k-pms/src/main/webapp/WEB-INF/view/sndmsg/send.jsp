@@ -263,7 +263,7 @@
 						            </div>
 						            <div class="align-center file_div input_div">
 						                <p class="file_drag">파일을 마우스로 끌어 오세요</p>
-						                <div class="file_attachment class="input_div"" hidden="hidden">
+						                <div class="file_attachment input_div" hidden="hidden">
 						                    <div>
 						                        <div class="remove_all input_div">x</div>
 						                        <div class="file_name input_div">파일명</div>
@@ -282,7 +282,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-   			 <button id="send_btn" class="btn regist">전송</button>
+   			 <button id="send_btn" class="btn regist3">전송</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

@@ -269,7 +269,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<div class="path"> 프로젝트관리 > 지식 등록</div>
+			<div class="path"> 프로젝트 관리 > 지식 등록</div>
 				<form id="create_form">
 					<table class="detail_table">
 						<input type="hidden" id="prjId" name="prjId"  />

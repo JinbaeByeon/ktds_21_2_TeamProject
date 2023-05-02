@@ -197,7 +197,7 @@
 		<div>
 			<jsp:include page="../include/sysSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<div class="path">시스템 관리 > 공통코드 목록</div>
+			<div class="path">시스템 관리 > 공통코드 관리</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="cdTypes">
@@ -307,7 +307,7 @@
 		        </form>
 		
 		        <div class="buttons">
-		          <button id="save_btn" class="btn regist">저장</button>
+		          <button id="save_btn" class="btn save">저장</button>
 		          <button id="delete_btn" class="btn delete">삭제</button>
 		        </div>
 		      </div>
