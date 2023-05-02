@@ -28,7 +28,12 @@ function addHdEmpFn(message) {
 	var itemDiv = depHdIdItems.find(".head-item");
 	
 	var itemId = itemDiv.find("#depHdId")
-	console.log(message.empid);
+	if($("#depHdId").val() == message.empid){
+		
+		depHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 부서장입니다.");
+		return;
+	}
+	
 	itemId.val(message.empid);
 	itemDiv.append(itemId);
 	
@@ -38,7 +43,6 @@ function addHdEmpFn(message) {
 	
 	$("#depHdId").val(message.empid);
 	$("#depHdId").attr("class", message.empid);
-	console.log(message.lnm + message.fnm);
 	$("#depHdNm").text(message.lnm + message.fnm);
 	
 	depHdIdItems.append(itemDiv);
@@ -47,6 +51,12 @@ function addHdEmpFn(message) {
 }
 
 $().ready(function() {
+	
+	var pageNo = "${pageNo}";
+	if (${empty depList} && pageNo > 0) {
+		movePage(pageNo -1);
+	}
+	
 	$(".detail_section").hide();
 	
 	$(".list_table > tbody > tr").click(function() {
@@ -83,6 +93,7 @@ $().ready(function() {
 		$("#depId").val(data.depid);
 		$("#depNm").val(data.depnm);
 		$("#depHdId").val(data.dephdid);
+		$("#depHdNm").text(data.dephdnm);
 		$("#depCrtDt").val(data.depcrtdt);
 		$("#crtr").val(data.crtr);
 		$("#crtDt").val(data.crtdt);
@@ -288,6 +299,7 @@ $().ready(function() {
 										<tr data-depid="${dep.depId}"
 											data-depnm="${dep.depNm}"
 											data-dephdid="${dep.depHdId}"
+											data-dephdnm="${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}"
 											data-depcrtdt="${dep.depCrtDt}"
 											data-useyn="${dep.useYn}"
 											data-crtr="${dep.crtr}"

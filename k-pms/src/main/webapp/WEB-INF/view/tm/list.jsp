@@ -49,6 +49,10 @@
 	
 	$().ready(function() {
 		
+		var pageNo = "${pageNo}";
+		if (${empty tmList} && pageNo > 0) {
+			movePage(pageNo -1);
+		}
 		
 		$("#new_btn").click(function() {
 			

@@ -309,7 +309,6 @@
 	
 	<update id="deleteOneDepByDepId"
 			parameterType="string">
-			
 		UPDATE DEP
 	       SET DEL_YN = 'Y' 
 	  	 WHERE DEP_ID = #{_parameter}
