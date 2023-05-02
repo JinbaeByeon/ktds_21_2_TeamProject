@@ -290,7 +290,7 @@
 			        </form>
 			
 			        <div class="buttons">
-			          <button id="save_btn" class="btn regist">저장</button>
+			          <button id="save_btn" class="btn save">저장</button>
 			          <button id="delete_btn" class="btn delete">삭제</button>
 			        </div>
 			      </div>

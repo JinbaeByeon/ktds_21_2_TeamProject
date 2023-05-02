@@ -32,7 +32,7 @@
 		<div>
 			<jsp:include page="../../include/empSidemenu.jsp"/>
 			<jsp:include page="../../include/content.jsp"/>
-				<div class="path">임직원관리 > 로그인 이력 조회</div>
+				<div class="path">임직원 관리 > 로그인 이력</div>
 		      <div class="search_wrapper">
 		      <form>
 		        <div class="search_box">

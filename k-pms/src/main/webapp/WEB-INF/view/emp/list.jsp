@@ -209,7 +209,7 @@
 		<div>
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-			<div class="path">사원 관리 > 사원 조회</div>
+			<div class="path">임직원 관리 > 임직원 목록</div>
 		      <div class="search_wrapper">
 		      <form>
 		        <div class="search_box">

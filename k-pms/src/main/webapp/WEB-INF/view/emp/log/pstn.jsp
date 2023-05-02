@@ -40,7 +40,7 @@
 		<div>
 		<jsp:include page="../../include/empSidemenu.jsp"/>
 		<jsp:include page="../../include/content.jsp"/>
-			<div class="path">직급변경이력 ></div>
+			<div class="path">임직원 관리 > 직급 변경 이력</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select>

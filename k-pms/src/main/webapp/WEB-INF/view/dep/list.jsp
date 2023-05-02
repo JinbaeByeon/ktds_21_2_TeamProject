@@ -250,7 +250,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서관리 > 부서 목록</div>
+				<div class="path">부서 관리 > 부서 목록</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select id="search-option">
@@ -380,7 +380,7 @@ $().ready(function() {
 			        </form>
 			
 			        <div class="buttons">
-			          <button id="save_btn" class="btn regist">저장</button>
+			          <button id="save_btn" class="btn save">저장</button>
 			          <button id="delete_btn" class="btn delete">삭제</button>
 			        </div>
 			      </div>
