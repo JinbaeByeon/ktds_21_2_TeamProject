@@ -28,7 +28,7 @@
 		, #{crtr}
 		, SYSDATE
 		, #{mdfyr}
-		, NVL(#{useYn}, 'N')
+		, NVL(#{useYn}, 'Y')
 		, 'N'
 		, #{ttl}
 		, #{cntnt}

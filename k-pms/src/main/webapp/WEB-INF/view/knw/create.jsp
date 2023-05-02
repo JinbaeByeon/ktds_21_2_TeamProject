@@ -167,7 +167,12 @@
 			
 			ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
 				if (response.status == "200 OK") {
-					location.href = "${context}/knw/list";
+					if(result) {
+						location.href = "${context}/knw/list/common";	
+					}
+					else {
+						location.href = "${context}/knw/list/prj";
+					}
 				}
 				else {
 					alert("지식 등록에 실패하였습니다.");
@@ -286,7 +291,7 @@
 			<div class="path"> 프로젝트관리 > 지식 등록</div>
 				<form id="create_form">
 					<table class="detail_table">
-						<input type="hidden" id="prjId" name="prjId"  />
+						<input type="hidden" id="prjId" name="prjId"  value="${prjId}"/>
 						
 						<tr>
 							<th>프로젝트 선택</th>

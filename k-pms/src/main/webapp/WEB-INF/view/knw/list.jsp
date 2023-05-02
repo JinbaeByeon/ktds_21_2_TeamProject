@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set var="commonMode" value="${knwSearchVO.commonMode}" />
 <c:set scope="request" var="selected" value="knw"/>
 <!DOCTYPE html>
 <html>
@@ -11,10 +12,10 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		console.log($("#kj"));
 		
 		$("#new_btn").click(function() {
-			location.href = "${context}/knw/create";
+			var prjId = $("#prjId").val();
+			location.href = "${context}/knw/create/?prjId=" + prjId;
 		});
 		
 		
@@ -44,9 +45,10 @@
 				form.append("<input type='hidden' name='knwId' value='" + $(this).val() + "'>");
 			});
 			
-			$.post("${context}/api/knw/delete", form.serialize(), function(response) {});
+			$.post("${context}/api/knw/delete", form.serialize(), function(response) {
+				location.reload();				
+			});
 			
-			location.reload();
 		});
 		
 		$(".check_idx").change(function() {
@@ -69,19 +71,24 @@
 		queryString += "&searchKeyword=" + searchKeyword;
 		queryString += "&pageNo=" + pageNo;
 		
-		location.href = "${context}/knw/list" + queryString;
+		location.href = "${context}/knw/list/${commonMode}" + queryString;
 
 	}
 </script>
 </head>
 <body>
+<input type="hidden" id="prjId" value="${knwSearchVO.prjId}" />
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">지식관리 > 지식관리 목록</div>
-				<input type="hidden" value="${knwSearchVO.isCommon}" id="kj"/>
+				<c:if test="${knwSearchVO.commonMode == 'prj'}">
+					<div class="path">지식관리 > 지식 목록</div>
+				</c:if>
+				<c:if test="${knwSearchVO.commonMode == 'common'}">
+					<div class="path">사내지식관리 > 지식 목록</div>
+				</c:if>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option">
@@ -103,8 +110,12 @@
 		          <thead>
 		            <tr>
 		                <th><input type="checkbox" id="all_check"></th>
+		                <th>순번</th>
 		                <th>제목</th>
-		                <th>프로젝트명</th>
+		                <c:if test="${knwSearchVO.commonMode == 'prj'}">
+			                <th>프로젝트명</th>
+		                </c:if>
+		                <th>작성자</th>
 		                <th>사용여부</th>
 		            </tr>
 		          </thead>
@@ -118,10 +129,13 @@
 		                            data-crtdt="${knw.crtDt}" data-mdfyr="${knw.mdfyr}"
 		                            data-mdfydt="${knw.mdfyDt}" data-useyn="${knw.useYn}"
 		                            data-prjNm="${knw.prjVO.prjNm}">
-		                            <td><input type="checkbox" class="check_idx"
-		                                value="${knw.knwId}"></td>
+		                            <td><input type="checkbox" class="check_idx" value="${knw.knwId}"></td>
+		                            <td>${knw.rnum}</td>
 		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
-			                       	<td>${knw.prjVO.prjNm}</td>
+		                            <c:if test="${knwSearchVO.commonMode == 'prj'}">
+				                       	<td>${knw.prjVO.prjNm}</td>
+		                            </c:if>
+		                            <td>${knw.crtr}</td>
 		                            <td>${knw.useYn}</td>
 		                        </tr>
 		                    </c:forEach>

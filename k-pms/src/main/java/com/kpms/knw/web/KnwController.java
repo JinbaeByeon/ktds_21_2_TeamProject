@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -48,7 +49,8 @@ public class KnwController {
 	}
 	
 	@GetMapping("/knw/create")
-	public String viewKnwCreatePage() {
+	public String viewKnwCreatePage(@RequestParam(required=false) String prjId, Model model) {
+		model.addAttribute("prjId", prjId);
 		return "knw/create";
 	}
 	
