@@ -46,7 +46,9 @@
 		});
 		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var msgId = $(this).closest("tr").data("msgid");
-			location.href="${context}/sndmsg/detail/"+msgId;
+			if(msgId){
+				location.href="${context}/sndmsg/detail/"+msgId;
+			}
 		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
@@ -62,7 +64,7 @@
 			checkIndex(); 
 		});
 		
-		$(".list_table > tr > td.check").click(function(){
+		$(".list_table > tbody > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();

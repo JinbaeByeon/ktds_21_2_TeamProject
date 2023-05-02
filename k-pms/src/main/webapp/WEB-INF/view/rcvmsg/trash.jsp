@@ -80,10 +80,12 @@
 		});
 		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var data = $(this).closest("tr").data();
-			if(data.type == 'RM'){
-				location.href="${context}/rcvmsg/detail/"+data.msgid;
-			} else{
-				location.href="${context}/sndmsg/detail/"+data.msgid;
+			if(data.type){
+				if(data.type == 'RM'){
+					location.href="${context}/rcvmsg/detail/"+data.msgid;
+				} else{
+					location.href="${context}/sndmsg/detail/"+data.msgid;
+				}
 			}
 		});
 		$("#all_check").change(function() {

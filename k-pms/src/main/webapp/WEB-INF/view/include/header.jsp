@@ -74,8 +74,8 @@
 	            <a href="${context}/dep/list">부서</a>
 	            <ul class="sub_item">
 	              <li><a href="${context}/dep/list">부서 관리</a></li>
-	              <li><a href="${context}/cmncd/list">팀 관리</a></li>
-	              <li><a href="${context}/cmncd/list">팀원 관리</a></li>
+	              <li><a href="${context}/tm/list">팀 관리</a></li>
+	              <li><a href="${context}/dep/mbrlist">팀원 관리</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item eqp">
