@@ -84,6 +84,23 @@
 		
 		
 		$("#save-btn").click(function() {
+			var flag=false;
+			$(".pstn").each(function() {
+				if(flag) {
+					return;
+				}
+				var pstn = $(this).find("option:selected").val();
+				if (pstn == ("DEFAULT")) {
+					alert("팀원의 권한을 선택해주세요");
+					flag=true;
+					return;
+				}
+			});
+			
+			if(flag){
+				return;
+			}
+			
 			var ajaxUtil = new AjaxUtil();
 			ajaxUtil.upload("#create_form", "${context}/api/prj/create", function(response) {
 				if (response.status == "200 OK") {
@@ -168,7 +185,7 @@
 		                    <th>사용여부</th>
 		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y"/></td>
 		                </tr>
-		                <tr>
+<%-- 		                <tr>
 		                    <th>팀</th>
 		                    <td>
 		                	<c:choose>
@@ -182,7 +199,7 @@
 								</c:otherwise>
 							</c:choose>
 							</td>
-		                </tr>
+		                </tr> --%>
 		                <tr>
 		                    <th>팀원</th>
 		                    <td>

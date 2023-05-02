@@ -19,7 +19,7 @@
 		
 		var tmMbrItems = $(document).find(".tmMbrAddTbody");
 		if (tmMbrItems.find("." + message.tmmbrid).length > 0) {
-			tmMbr.alert(message.fnm + message.lnm + "은(는) 이미 추가된 팀원입니다.");
+			tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
 			return;
 		}
 
@@ -32,8 +32,7 @@
 
 		var td = "<td>" + message.empid + "</td>"
 		td += "<td>" + message.tmnm + "</td>"
-		td += "<td>" + message.fnm + "</td>"
-		td += "<td>" + message.lnm + "</td>"
+		td += "<td>" + message.lnm + message.fnm + "</td>"
 		td += "<td><select class='pstn " +  message.tmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
 		var rmbtn = $("<td><button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button></td>")
@@ -50,6 +49,8 @@
 	}
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#prj_list").addClass("active");
 
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			
@@ -83,6 +84,23 @@
 		
 		
 		$("#save-btn").click(function() {
+			var flag=false;
+			$(".pstn").each(function() {
+				if(flag) {
+					return;
+				}
+				var pstn = $(this).find("option:selected").val();
+				if (pstn == ("DEFAULT")) {
+					alert("팀원의 권한을 선택해주세요");
+					flag=true;
+					return;
+				}
+			});
+			
+			if(flag){
+				return;
+			}
+			
 			var ajaxUtil = new AjaxUtil();
 			ajaxUtil.upload("#create_form", "${context}/api/prj/create", function(response) {
 				if (response.status == "200 OK") {
@@ -127,6 +145,7 @@
 			}
 		});
 		
+		
 	});
 </script>
 </head>
@@ -146,7 +165,7 @@
 		                </tr>
 		                <tr>
 		                    <th>고객사</th>
-		                    <td><input type="text" id="prjNm" name="prjNm" value="" /></td>
+		                    <td><input type="text" id="cstmr" name="cstmr" value="" /></td>
 		                </tr>
 		                <tr>
 		                    <th>시작일</th>
@@ -166,7 +185,7 @@
 		                    <th>사용여부</th>
 		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y"/></td>
 		                </tr>
-		                <tr>
+<%-- 		                <tr>
 		                    <th>팀</th>
 		                    <td>
 		                	<c:choose>
@@ -180,11 +199,11 @@
 								</c:otherwise>
 							</c:choose>
 							</td>
-		                </tr>
+		                </tr> --%>
 		                <tr>
 		                    <th>팀원</th>
 		                    <td>
-		                    	<div>
+		                    	<div class="input_div">
 									<button id="addTmMbrBtn" class="btn regist add">팀원 추가</button>
 								</div>
 		                        <table class="list_table inner_table">
@@ -192,7 +211,6 @@
 		                            <tr>
 		                                <th>직원ID</th>
 		                                <th>팀</th>
-		                                <th>성</th>
 		                                <th>이름</th>
 		                                <th>권한</th>
 		                                <th></th>
@@ -205,8 +223,8 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="modify-btn" class="btn regist">수정</button>
-          <button id="delete-btn" class="btn delete">삭제</button>
+          <button id="save-btn" class="btn regist">등록</button>
+          <button id="delete-btn" class="btn delete">취소</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

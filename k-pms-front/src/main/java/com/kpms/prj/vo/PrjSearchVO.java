@@ -7,11 +7,18 @@ public class PrjSearchVO extends AbstractPagingVO {
 	private String prjNm;
 	private String cstmr;
 	private String prjStts;
+	private String empId;
 	
 	private String searchOption;
 	private String searchKeyword;
 	
 	
+	public String getEmpId() {
+		return empId;
+	}
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
 	public String getPrjStts() {
 		return prjStts;
 	}

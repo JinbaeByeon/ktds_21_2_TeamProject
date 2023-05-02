@@ -24,6 +24,8 @@
 		</collection>
 		<collection property="reqList" ofType="com.kpms.req.vo.ReqVO" autoMapping="true">
 			<id property="reqId" column="REQ_ID" />
+			<result property="strtDt" column="REQ_STRT_DT" />
+			<result property="expctEndDt" column="EXPCT_END_DT" />
 		</collection>
 		<collection property="knwList" ofType="com.kpms.knw.vo.KnwVO"  autoMapping="true">
 			<id property="knwId" column="KNW_ID"/>
@@ -33,7 +35,7 @@
 	</resultMap>
 
 	<select id="readAllPrjVO"
-			parameterType="com.kpms.prj.vo.PrjVO"
+			parameterType="com.kpms.prj.vo.PrjSearchVO"
 			resultType="com.kpms.prj.vo.PrjVO">
 		<include refid="Common.pageHeader" />
 		SELECT P.PRJ_ID PK_COL
@@ -49,15 +51,29 @@
 			 , P.CSTMR
 			 , TO_CHAR(P.STRT_DT, 'YYYY-MM-DD') STRT_DT
 			 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
-			 , P.PRJ_STTS
+			 , CD.CD_NM PRJ_STTS
 		  FROM PRJ P
+		 INNER JOIN CMN_CD CD
+		    ON P.PRJ_STTS = CD.CD_ID
+		 INNER JOIN PRJ_TM_MBR PTM 
+		    ON PTM.PRJ_ID = P.PRJ_ID 
+		 INNER JOIN TM_MBR TM
+		    ON TM.TM_MBR_ID = PTM.TM_MBR_ID 
 		 WHERE P.DEL_YN = 'N'
-		 <if test='prjNm != null and prjNm != ""'>
-		   AND P.PRJ_NM LIKE '%' || #{prjNm} || '%'
+		 <choose>
+			<when test='searchOption == "prjNm"'>
+		   AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "cstmr"'>
+		   AND P.CSTMR LIKE '%' || #{searchKeyword} || '%'
+			</when>
+		</choose>
+		<if test="prjStts != null and prjStts != ''">
+		   AND P.PRJ_STTS LIKE '%' || #{prjStts} || '%'
 		 </if>
-		 <if test='cstmr != null and cstmr != ""'>
-		   AND P.CSTMR LIKE '%' || #{cstmr} || '%'
-		 </if>
+		<if test="empId != null and empId != ''">
+		   AND TM.EMP_ID = #{empId}
+		</if>
 		 ORDER BY P.PRJ_ID ASC
 		 <include refid="Common.pageFooter" />
 	</select>
@@ -76,10 +92,15 @@
 			 , P.CSTMR
 			 , TO_CHAR(P.STRT_DT, 'YYYY-MM-DD') STRT_DT
 			 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
-			 , P.PRJ_STTS
+			 , CD.CD_NM PRJ_STTS
 		  FROM PRJ P
+		 INNER JOIN CMN_CD CD
+		    ON P.PRJ_STTS = CD.CD_ID
 		 WHERE P.DEL_YN = 'N'
+		 <if test = 'prjNm != null and prjNm != ""'>
 		   AND P.PRJ_NM LIKE '%' || #{prjNm} || '%'
+		 </if>
+		 
 		 ORDER BY P.PRJ_ID ASC
 	</select>
 	
@@ -107,6 +128,7 @@
 			 , PTM.PRJ_PSTN
 			 , PTM.PRJ_TM_MBR_ID
 			 , PRK.REQ_ID
+			 , PRK.REQ_TTL
 			 , PRK.REQ_STRT_DT
 			 , PRK.EXPCT_END_DT
 			 , PRK.MN_DVLPR
@@ -131,8 +153,9 @@
 					 , TO_CHAR(P.END_DT, 'YYYY-MM-DD') END_DT
 					 , P.PRJ_STTS
 					 , R.REQ_ID
-					 , R.STRT_DT REQ_STRT_DT
-					 , R.EXPCT_END_DT
+					 , R.REQ_TTL
+					 , TO_CHAR(R.STRT_DT, 'YYYY-MM-DD') REQ_STRT_DT
+					 , TO_CHAR(R.EXPCT_END_DT, 'YYYY-MM-DD') EXPCT_END_DT
 					 , R.MN_DVLPR
 					 , R.TSK_STTS
 					 , R.PRCS_STTS 
@@ -165,6 +188,7 @@
 		 WHERE PTM.DEL_YN ='N'
 		   AND TM.DEL_YN = 'N'
 		   AND E.DEL_YN = 'N'
+		   
 	</select>
 	
 	<insert id="createOnePrj"
@@ -225,6 +249,7 @@
 		   	 , PRJ_STTS =#{prjStts}
 		   	</if>
 		 WHERE PRJ_ID = #{prjId}
+
 	</update>
 	
 	<update id="deleteOnePrjByPrjId"
