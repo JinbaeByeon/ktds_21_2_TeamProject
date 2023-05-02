@@ -163,7 +163,7 @@
             <div class="hr"></div>
             <div class="req path">요구사항</div>
             <div class="view_all">
-                전체보기
+                <a href="${context}/req/list?prjId=${prjId}&pageNo=0">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">
