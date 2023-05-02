@@ -51,6 +51,10 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#tm_list").addClass("active");
 		
+		var pageNo = "${pageNo}";
+		if (${empty tmList} && pageNo > 0) {
+			movePage(pageNo -1);
+		}
 		
 		$("#new_btn").click(function() {
 			

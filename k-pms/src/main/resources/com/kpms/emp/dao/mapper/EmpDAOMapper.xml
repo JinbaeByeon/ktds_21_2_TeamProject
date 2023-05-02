@@ -97,7 +97,7 @@
 		 #{hrPrd},
 		 #{addrss},
 		 #{emplmntStts},
-		 #{admnYn},
+		 NVL(#{admnYn},'N'),
 		 SYSDATE,
 		 '',
 		 '',

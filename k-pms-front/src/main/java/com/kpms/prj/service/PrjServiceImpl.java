@@ -9,6 +9,7 @@ import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.util.StringUtil;
+import com.kpms.knw.dao.KnwDAO;
 import com.kpms.prj.dao.PrjDAO;
 import com.kpms.prj.vo.PrjSearchVO;
 import com.kpms.prj.vo.PrjVO;
@@ -27,6 +28,9 @@ public class PrjServiceImpl implements PrjService {
 	
 	@Autowired
 	private ReqDAO reqDAO;
+	
+	@Autowired
+	private KnwDAO knwDAO;
 
 	@Override
 	public List<PrjVO> readAllPrjVO(PrjSearchVO prjSearchVO) {
@@ -154,6 +158,7 @@ public class PrjServiceImpl implements PrjService {
 		if (prjDeleteCount > 0) {
 			prjTmMbrDAO.deletePrjTmMbrByPrjId(prjId);
 			reqDAO.deleteReqByPrjId(prjId);
+			knwDAO.deleteKnwByPrjId(prjId);
 		}
 		return prjDeleteCount > 0;
 	}

@@ -14,17 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function() {
+	$(".sidebar > ul li a").removeClass("active")
+	$("#prj_list").addClass("active");
 	
-	$("table > tbody > tr").click(function() {
-		var data = $(this).data();
-		$("#prjId").val(data.prjid);
-		$("#prjNm").val(data.prjnm);
-		$("#cstmr").val(data.cstmr);
-		$("#strtDt").val(data.strtdt);
-		$("#endDt").val(data.enddt);
-		$("#prjStts").val(data.prjstts);
-		$("#useYn").prop("checked", data.useyn == "Y");
-	});
 	
 	$("#search-btn").click(function() {
 		movePage(0);
@@ -49,15 +41,21 @@ $().ready(function() {
 		
 		var form = $("<form></form>")
 		$(".check-idx:checked").each(function() {
-			form.append("<input type='hidden' name='prjId' value='" + $(this).val() + "'>");
+			form.append("<input type='hidden' name='prjId' value='" + $(this).val() + "'/>");
 		});
 		
 		if(!confirm("정말 삭제하시겠습니까?")) {
 			return;
 		}
 		
-		$.post("${context}/api/prj/delete", form.serialize(), function(response) {});
-		location.reload(); // 새로고침
+		$.post("${context}/api/prj/delete", form.serialize(), function(response) {
+			if (response.status == "200 OK") {
+				location.reload();
+			}
+			else {
+				alert(response.errorCode + " / " + response.message);
+			}
+		});
 		
 	});
 		
@@ -176,10 +174,10 @@ $().ready(function() {
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	                  <c:param name="path" value="${context}/prj"/>
 	               </c:import>
-		        <div class="buttons">
+<!-- 		        <div class="buttons">
 		          <button id="new-btn" class="btn new">신규등록</button>
 		          <button id="delete-btn" class="btn delete">선택삭제</button>
-		        </div>
+		        </div> -->
 		      </div>
 
 			<jsp:include page="../include/footer.jsp" />			

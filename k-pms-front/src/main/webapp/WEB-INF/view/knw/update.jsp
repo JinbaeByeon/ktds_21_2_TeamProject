@@ -3,6 +3,7 @@
 <%@page import="java.util.Random"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,6 +63,9 @@
 	}
 
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#knw_list").addClass("active");
+		
 		$("#save_btn").click(
 			function() {
 				if ($("#ttl").val() == "") {
@@ -175,7 +179,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/cmnCdSidemenu.jsp" />
+			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 
 			<h1>지식 관리 등록</h1>

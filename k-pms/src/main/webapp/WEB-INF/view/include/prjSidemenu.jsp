@@ -14,15 +14,15 @@
               </a>
             </li>
             <li>
-              <a href="${context}/issu/list" id="issu_list">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>이슈</span>
-              </a>
-            </li>
-            <li>
               <a href="${context}/req/list" id="req_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>요구사항</span>
+              </a>
+            </li>
+            <li>
+              <a href="${context}/issu/list" id="issu_list">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>이슈</span>
               </a>
             </li>
             <li>
@@ -37,3 +37,4 @@
           <div class="logout"><a href="${context}/emp/lgt">Logout</a></div>
         </div>
     </div>
+  </div>

@@ -35,7 +35,7 @@
 		} 
 		tmHdId = message.empid;
 		
-		var tmHdIdItems = $("#addTmHeadBtn").closest("td").find(".head-item");
+		var tmHdIdItems = $("#addTmHeadBtn").closest("tr").find(".head-item");
 		if (tmHdIdItems.find("." + tmHdId).length > 0) {
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
@@ -43,7 +43,8 @@
 		var itemDiv = tmHdIdItems.find(".head-item");
 		
 		var itemId = itemDiv.find("#tmHdId");
-		if(itemId.val() == tmHdId){
+		if($("#tmHdId").val() == tmHdId){
+			
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 팀장입니다.");
 			return;
 		}
@@ -191,12 +192,14 @@
 			var tmId = $("#tmId").val();
 			var empIdList = $(".tmMbr-tbody").children("tr").not(".tmHd-tr");
 			var tmHdId = $("#tmHdId").val();
+			
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
 					empIdList.each(function(){
 						var empId = $(this).data('empid');
 						createTmmbr(tmId,empId);
 					});
+					
 					createTmmbr(tmId,tmHdId);
 					
 					location.href = "${context}" + response.redirectURL;
@@ -291,7 +294,7 @@
 		                    	<button id="addTmHeadBtn" class="btn regist">등록</button>
 									<div class="items">
 										<div class='head-item'>
-											<input type="text" class="" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
+											<input type="text" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
 											<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>			
 										</div>
 									</div>

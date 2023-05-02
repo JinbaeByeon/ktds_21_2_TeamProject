@@ -77,16 +77,24 @@
 			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=500, scrollbars = no");
 		});
 		
-		$(".del-ptm-btn").click(function(){
-			var tr = $(this).closest("td").closest(".tmMbr-tr");
+		$(".del-ptm-btn").click(function(e){
+			e.preventDefault();
 			
-			var index = $(this).data("index");
-			var deleted = $("<input type='hidden' name='ptmList[" + index + "].deleted' />");
-			deleted.val($(this).data("prjtmmbrid"));
-			tr.remove();
-			$(".tmMbrAddTbody").append(deleted);
+			if ($(".tmMbrAddTbody").find("tr").length == 1) {
+				alert("1명 이상의 팀원은 필수입니다.");
+				return;
+			}
+			else {
+				var tr = $(this).closest("td").closest(".tmMbr-tr");
+				var index = $(this).data("index");
+				var deleted = $("<input type='hidden' name='ptmList[" + index + "].deleted' />");
+				deleted.val($(this).data("prjtmmbrid"));
+				tr.remove();
+				$(".tmMbrAddTbody").append(deleted);
+			}
 			
 		});
+		
 		
 		$(document).on("focus", ".pstn", function() {
 			orgPstn = $(this).val();
@@ -137,8 +145,26 @@
 		});
 		
 		$("#modify-btn").click(function() {
+			var flag=false;
+			$(".pstn").each(function() {
+				if(flag) {
+					return;
+				}
+				var pstn = $(this).find("option:selected").val();
+				if (pstn == ("DEFAULT")) {
+					alert("팀원의 권한을 선택해주세요");
+					flag=true;
+					return;
+				}
+			});
+			
+			if(flag){
+				return;
+			}
+
 			var ajaxUtil = new AjaxUtil();
 			ajaxUtil.upload("#create_form", "${context}/api/prj/update", function(response) {
+				
 				if (response.status == "200 OK") {
 					location.href = "${context}" + response.redirectURL;
 				}
@@ -146,6 +172,8 @@
 					alert(response.errorCode + "/" + response.message);
 				}	
 			});
+			
+			
 		});
 		
 		
@@ -164,6 +192,8 @@
 				}
 			});
 		});
+		
+
 	});
 </script>
 </head>
@@ -204,7 +234,7 @@
 		                    <th>사용여부</th>
 		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''}/></td>
 		                </tr>
-		                <tr>
+<%-- 		                <tr>
 		                    <th>팀</th>
 		                    <td>
 		                	<c:choose>
@@ -218,7 +248,7 @@
 								</c:otherwise>
 							</c:choose>
 							</td>
-		                </tr>
+		                </tr> --%>
 		                <tr>
 		                    <th>팀원</th>
 		                    <td>

@@ -309,11 +309,10 @@
 	
 	<update id="deleteOneDepByDepId"
 			parameterType="string">
-			
 		UPDATE DEP
 	       SET DEL_YN = 'Y' 
 	  	 WHERE DEP_ID = #{_parameter}
-	       AND DEP_ID IN  (SELECT DEP_ID 
+	       AND (DEP_ID IN  (SELECT DEP_ID 
 					         FROM TM T
 					        WHERE TM_ID IN (SELECT DISTINCT TM_ID
 						                      FROM TM_MBR 
@@ -323,17 +322,21 @@
 						                                                             FROM PRJ 
 						                                                            WHERE PRJ_STTS = '002_09'))
 						                        OR TM_MBR_ID NOT IN (SELECT TM_MBR_ID
-						                     						   FROM PRJ_TM_MBR)))	
+						                     						   FROM PRJ_TM_MBR)))
+		   	OR DEP_ID NOT IN (SELECT DEP_ID
+								FROM TM
+							   WHERE DEL_YN ='N')
+			OR DEP_HD_ID IS NULL)				                     						   
 	</update>
 	
 	<update id="deleteDepBySelectedDepId"
 			parameterType="arraylist">
 				UPDATE DEP
-			       SET DEL_YN = 'Y' 
+				   SET DEL_YN = 'Y'
 			  	 WHERE DEP_ID IN <foreach collection="list" item="depId" open="(" close=")" separator=", ">
 								 	#{depId}
 								 </foreach>
-			       AND DEP_ID IN  (SELECT DEP_ID 
+			       AND (DEP_ID IN (SELECT DEP_ID 
 							         FROM TM T
 							        WHERE TM_ID IN (SELECT DISTINCT TM_ID
 								                      FROM TM_MBR 
@@ -343,6 +346,10 @@
 								                                                             FROM PRJ 
 								                                                            WHERE PRJ_STTS = '002_09'))
 								                        OR TM_MBR_ID NOT IN (SELECT TM_MBR_ID
-								                     						   FROM PRJ_TM_MBR)))	
+								                     						   FROM PRJ_TM_MBR)))
+					OR DEP_ID NOT IN (SELECT DEP_ID
+										FROM TM
+									   WHERE DEL_YN ='N')
+					OR DEP_HD_ID IS NULL)
 	</update>
 </mapper>

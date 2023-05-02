@@ -6,7 +6,6 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
 <c:set scope="request" var="selected" value="prj"/>
-<c:set var="admnYn" value="${sessionScope.__USER__.admnYn}"/>
 
 <!DOCTYPE html>
 <html>
@@ -16,6 +15,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#req_list").addClass("active");
+		
 		$("#tskSttsType").val("${reqVO.tskCdNm}").prop("selected", true);
 		$("#tskSttsType").change(function(){
 			var tskCdNm = $("#tskSttsType").val();
@@ -98,7 +100,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/reqSidemenu.jsp"/>
+			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 요구사항</div>
 				<div class="search-group">

@@ -20,7 +20,9 @@
 
 		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var issuId = $(this).closest("tr").data("issuid");
-			location.href="${context}/issu/detail/"+issuId;
+			if(issuId){
+				location.href="${context}/issu/detail/"+issuId;
+			}
 		});
 		
 		$("#delete_btn").click(function(){

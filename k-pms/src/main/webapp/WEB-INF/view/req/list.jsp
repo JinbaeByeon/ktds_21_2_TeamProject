@@ -16,6 +16,10 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		var pageNo = "${pageNo}";
+		if(${empty reqList} && pageNo > 0){
+			movePage(pageNo-1);
+		}
 		$(".sidebar > ul li a").removeClass("active")
 		$("#req_list").addClass("active");
 		
@@ -93,9 +97,20 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var reqId = $("#search-keyword").val();
+		var prjId = "${reqVO.prjId}";
+		var selectOption = $("#search-option").val();
+		var searchKeyword = $("#search-keyword").val();
+		var queryString = "prjId=" + prjId;
+		queryString += "&selectOption=" + selectOption;
+
+		if($("#search-option").val() == "요구사항제목"){
+			queryString += "&reqTtl=" + searchKeyword;
+		} else {
+			queryString += "&reqPrjVO.prjNm=" + searchKeyword;
+		}
+		queryString += "&pageNo=" + pageNo;
 		// URL 요청
-		location.href = "${context}/req/list?reqId=" + reqId + "&pageNo=" + pageNo;
+		location.href = "${context}/req/list?" + queryString;
 	}
 </script>
 </head>
