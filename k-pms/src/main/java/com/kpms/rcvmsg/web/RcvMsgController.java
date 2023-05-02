@@ -52,7 +52,7 @@ public class RcvMsgController {
 		return "sndmsg/send";
 	}
 	
-	@GetMapping("/msg/trash") // 이 메소드는요 휴지통 내의 쪽지들을 보여주는 메소드입니다. 근데 보낸쪽지 받은쪽지 전부다
+	@GetMapping("/msg/trash")
 	public String readAllDelMsg(Model model, MsgSearchVO msgSearchVO) {
 		
 		List<RcvMsgVO> rcvMsgList = rcvMsgService.readAllDelMsg(msgSearchVO);
