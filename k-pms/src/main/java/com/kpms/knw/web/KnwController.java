@@ -29,9 +29,9 @@ public class KnwController {
 	@Value("${upload.attchmnt.path:/kpms/files/attchmnt}")
 	private String atchmntPath;
 	
-	@GetMapping("/knw/list")
-	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model) {
-		knwSearchVO.setCommon(false);
+	@GetMapping("/knw/list/{commonMode}")
+	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable String commonMode) {
+		knwSearchVO.setCommonMode(commonMode);
 		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
 		model.addAttribute("knwList", knwList);
 		model.addAttribute("knwSearchVO", knwSearchVO);
@@ -43,34 +43,13 @@ public class KnwController {
 		model.addAttribute("pageNo", knwSearchVO.getPageNo());
 		model.addAttribute("viewCnt", knwSearchVO.getViewCnt());
 		model.addAttribute("pageCnt", knwSearchVO.getPageCnt());
+		
 		return "knw/list";
-	}
-	
-	@GetMapping("/comknw/list")
-	public String viewComKnwListPage(KnwSearchVO knwSearchVO, Model model) {
-		knwSearchVO.setCommon(true);
-		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
-		model.addAttribute("knwList", knwList);
-		model.addAttribute("knwSearchVO", knwSearchVO);
-		
-		if(!knwList.isEmpty()) {
-			model.addAttribute("lastPage", knwList.get(0).getLastPage());
-		}
-		
-		model.addAttribute("pageNo", knwSearchVO.getPageNo());
-		model.addAttribute("viewCnt", knwSearchVO.getViewCnt());
-		model.addAttribute("pageCnt", knwSearchVO.getPageCnt());
-		return "comknw/list";
 	}
 	
 	@GetMapping("/knw/create")
 	public String viewKnwCreatePage() {
 		return "knw/create";
-	}
-	
-	@GetMapping("/comknw/create")
-	public String viewComKnwCreatePage() {
-		return "comknw/create";
 	}
 	
 	@GetMapping("/knw/detail/{knwId}")

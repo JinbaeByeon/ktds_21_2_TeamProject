@@ -76,15 +76,15 @@
          	</when>
          </choose>
          <choose>
-         	<when test='!isCommon'>
+         	<when test='commonMode == "prj" '>
            AND P.PRJ_ID IS NOT NULL
         		<if test='prjId != null and prjId != ""'>
            AND P.PRJ_ID = #{prjId}
          		</if>
          	</when>
-         	<when test='isCommon'>
+         	<otherwise>
            AND P.PRJ_ID IS NULL
-         	</when>
+         	</otherwise>
          </choose>
          <include refid="Common.pageFooter" />
 	</select>

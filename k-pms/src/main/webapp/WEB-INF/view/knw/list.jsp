@@ -11,6 +11,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		console.log($("#kj"));
 		
 		$("#new_btn").click(function() {
 			location.href = "${context}/knw/create";
@@ -74,13 +75,13 @@
 </script>
 </head>
 <body>
-
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">지식관리 > 지식관리 목록</div>
+				<input type="hidden" value="${knwSearchVO.isCommon}" id="kj"/>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option">
@@ -97,19 +98,13 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${knwList.size() > 0 ? knwList.get(0).totalCount : 0} 건</div>
+		        <div class="total">총 ${knwList.size() > 0 ? knwList.get(0).totalCount : 0} 건 </div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
 		                <th><input type="checkbox" id="all_check"></th>
-		                <th>프로젝트ID</th>
-		                <th>프로젝트명</th>
-		                <th>지식관리ID</th>
 		                <th>제목</th>
-<!-- 		                <th>등록자</th>
-		                <th>등록일</th>
-		                <th>수정자</th>
-		                <th>수정일</th> -->
+		                <th>프로젝트명</th>
 		                <th>사용여부</th>
 		            </tr>
 		          </thead>
@@ -125,15 +120,8 @@
 		                            data-prjNm="${knw.prjVO.prjNm}">
 		                            <td><input type="checkbox" class="check_idx"
 		                                value="${knw.knwId}"></td>
-		                            <td>${knw.prjId}</td>
-		                            <td>${knw.prjVO.prjNm}</td>
-		                            <td>${knw.knwId}</td>
-		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a>
-		                            </td>
-<%-- 		                            <td>${knw.crtr}</td>
-		                            <td>${knw.crtDt}</td>
-		                            <td>${knw.mdfyr}</td>
-		                            <td>${knw.mdfyDt}</td> --%>
+		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
+			                       	<td>${knw.prjVO.prjNm}</td>
 		                            <td>${knw.useYn}</td>
 		                        </tr>
 		                    </c:forEach>
