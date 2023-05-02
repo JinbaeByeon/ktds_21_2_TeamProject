@@ -16,6 +16,9 @@
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#req_list").addClass("active");
+		
 		checkFile();
 		var empId = '${sessionScope.__USER__.empId}';
 		var data2 = "${reqVO.reqId}";
@@ -223,7 +226,7 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/reqSidemenu.jsp"/>
+			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path"> 상세 정보</div>
 				<div class="grid-detail">

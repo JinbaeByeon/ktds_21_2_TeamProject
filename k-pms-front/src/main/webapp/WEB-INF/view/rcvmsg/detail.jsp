@@ -13,6 +13,9 @@
 	var file_volume = 0;
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#rcvmsg_list").addClass("active");
+		
 		$("#list_btn").click(function(){
 			window.location = document.referrer;
 		})

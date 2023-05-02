@@ -25,12 +25,16 @@
 		$("#delete_btn").click(function() {
 			console.log("aa");
 			var form = $("<form></form>")
-			
-			$(".check_idx:checked").each(function() {
+			var checkIdx = $(".check_idx:checked");
+			if(checkIdx.length == 0){
+				alert("체크된 쪽지가 없습니다.");
+				return;
+			}
+			checkIdx.each(function() {
 				console.log($(this).val());
 				form.append("<input type='hidden' name='sndMsgIdList' value='"+ $(this).val() +"'>");
 			});
-			
+
 			if(!confirm("정말 삭제하시겠습니까?")) {
 				return;
 			}
@@ -62,6 +66,9 @@
 		
 		$(".check_idx").change(function() {
 			checkIndex(); 
+		});
+		$(".check_idx").click(function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
 		});
 		
 		$(".list_table > tbody > tr > td.check").click(function(){

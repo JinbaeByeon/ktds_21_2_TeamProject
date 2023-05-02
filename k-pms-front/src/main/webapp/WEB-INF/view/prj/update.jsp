@@ -52,6 +52,9 @@
 	}
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#prj_list").addClass("active");
+		
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			var isSelected
 			

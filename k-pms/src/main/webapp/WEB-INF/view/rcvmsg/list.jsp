@@ -112,6 +112,9 @@
 		$(".check_idx").change(function() {
 			checkIndex();
 		});
+		$(".check_idx").click(function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
+		});
 		
 		$(".list_table > tbody > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");

@@ -90,7 +90,6 @@
 		});
 		$("#all_check").change(function() {
 			$(".check_idx").prop("checked", $(this).prop("checked"));
-			checkBtn();
 		});
 		function checkIndex(){
 			var count = $(".check_idx").length;

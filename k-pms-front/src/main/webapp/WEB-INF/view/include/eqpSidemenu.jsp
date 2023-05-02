@@ -6,13 +6,13 @@
         <div class="sidebar__inner">
           <ul>
             <li>
-              <a href="${context}/eqp/rent" class="active">
+              <a href="${context}/eqp/rent" id="eqp_rent">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>대여 목록 </span>
               </a>
             </li>
             <li>
-              <a href="${context}/eqp/apply">
+              <a href="${context}/eqp/apply" id="eqp_apply">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>대여 신청</span>
               </a>

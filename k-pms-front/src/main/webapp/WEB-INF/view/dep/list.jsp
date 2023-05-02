@@ -47,6 +47,8 @@ function addHdEmpFn(message) {
 }
 
 $().ready(function() {
+	$(".sidebar > ul li a").removeClass("active")
+	$("#dep_list").addClass("active");
 	
 	$("#search-btn").click(function() {
 		movePage(0);

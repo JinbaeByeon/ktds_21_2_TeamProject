@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
+<c:set scope="request" var="selected" value="eqp"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function(){
+	$(".sidebar > ul li a").removeClass("active")
+	$("#eqp_apply").addClass("active");
+	
 	$(".detail_section").hide();
 	$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 	

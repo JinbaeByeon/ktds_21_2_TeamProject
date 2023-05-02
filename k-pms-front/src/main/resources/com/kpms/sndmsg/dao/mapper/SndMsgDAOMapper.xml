@@ -109,8 +109,8 @@
 	</insert>
 	
 	<update id="deleteOneSndMsg"
-			parameterType="_int">
-		UPDATE RCV_MSG
+			parameterType="string">
+		UPDATE SND_MSG
 		   SET DEL_YN = 'Y'
 		 WHERE MSG_ID = #{_parameter}
 	</update>

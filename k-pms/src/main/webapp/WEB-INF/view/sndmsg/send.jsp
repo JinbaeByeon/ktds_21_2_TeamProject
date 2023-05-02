@@ -16,7 +16,9 @@
 	$().ready(function() {
 		$(".sidebar > ul li a").removeClass("active")
 		$("#sndmsg_send").addClass("active");
-		
+
+		createUser($("#rcvr").val().replace(" ",""));
+		$("#rcvr").val("");
 		$("#rcvr").keydown(function(e){
 			if(e.keyCode == 13){
 				e.preventDefault();

@@ -14,6 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#prj_list").addClass("active");
+		
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			var prjStts = $("#prjStts");
 			var sttsNm
