@@ -283,9 +283,9 @@
 		                </tr>
 		            </table>
 				</form>
-        <div class="buttons">
-   			 <button id="send_btn" class="btn regist3">전송</button>
-        </div>
+	        <div class="buttons">
+	   			 <button id="send_btn" class="btn regist3">전송</button>
+	        </div>
 			<jsp:include page="../include/footer.jsp" />	
 		</div>
 	</div>
