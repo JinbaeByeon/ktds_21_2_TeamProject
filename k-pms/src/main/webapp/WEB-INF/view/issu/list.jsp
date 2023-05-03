@@ -122,7 +122,16 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">프로젝트 관리 > 이슈</div>
+				<div class="path">
+					<c:if test="${not empty prjNm}">
+						<a href='${context}/prj/detail/${issuVO.reqVO.prjId}'>${prjNm}</a> >
+						<a href='${context}/req/detail/${issuVO.reqId}'>${issuVO.reqVO.reqTtl}</a> > 이슈
+					</c:if>
+					<c:if test="${empty prjNm}">
+						<a href='${context}/prj/list'>프로젝트</a> >
+						<a href='${context}/req/list'>요구사항</a> > 이슈
+					</c:if>
+				</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select>

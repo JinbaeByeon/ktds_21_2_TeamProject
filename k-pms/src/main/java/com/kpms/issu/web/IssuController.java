@@ -29,9 +29,11 @@ public class IssuController {
 
 	
 	@GetMapping("/issu/list")
-	public String viewIssuListPage(Model model, IssuVO issuVO) {
+	public String viewIssuListPage(Model model, IssuVO issuVO, String prjNm) {
 		List<IssuVO> issuList = issuService.readIssuList(issuVO);
 		model.addAttribute("issuList",issuList);
+		model.addAttribute("issuVO",issuVO);
+		model.addAttribute("prjNm",prjNm);
 		if(!issuList.isEmpty()) {
 			model.addAttribute("lastPage",issuList.get(0).getLastPage());
 		}
