@@ -79,6 +79,9 @@
 	}
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#dep_mbrlist").addClass("active");
+		
 		var activeDepId = ""
 		var activeTmId = ""
 		
@@ -118,6 +121,7 @@
 		});
 		
 		$(document).on("click", ".tm-tbody tr", function() {
+			$("#all_check").prop("checked", false);
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).addClass("active");
 			activeTmId = $(".tm-tbody .active").data("tmid");
@@ -159,7 +163,7 @@
 			
 		});
 		
-		$(".check-idx").change(function() {
+		$(document).on("change",".check-idx" , function() {
 			var count = $(".check-idx").length;
 			var checkCount = $(".check-idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
@@ -218,7 +222,18 @@
 			});
 		});
 		
+		$("#search-btn").click(function() {
+			movePage(0);
+		});
 	});
+	 function movePage(pageNo) {
+			var searchOption = $("#search-option").val();
+			var searchKeyword = $("#search-keyword").val();
+			var queryString = "?searchOption=" + searchOption;
+			queryString += "&searchKeyword=" + searchKeyword;
+			
+			location.href = "${context}/dep/mbrlist" + queryString;
+		}
 		 
 </script>
 </head>
@@ -229,7 +244,23 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="container search_page">
-				  <div class="path">팀원 조회 및 등록</div>
+				  <div class="path">부서 관리 > 팀원 관리</div>
+				  		<div class="search_wrapper">
+					        <div class="search_box">
+					          <select id="search-option">
+					            <option value="depNm" ${depVO.searchOption eq "depNm" ? "selected": ""}>부서명</option>
+								<option value="tmNm" ${depVO.searchOption eq "tmNm" ? "selected": ""}>팀명</option>
+								<option value="hdNm" ${depVO.searchOption eq "hdNm" ? "selected": ""}>부서장명</option>
+								<option value="tmHdNm" ${depVO.searchOption eq "tmHdNm" ? "selected": ""}>팀장명</option>
+					          </select>
+					          <div class="search_field">
+					          	<input type="text" id="search-keyword" class="input" placeholder="Search" value="${depVO.searchKeyword}"/>
+					          </div>
+					          <div class="search-icon">
+					          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+					          </div>
+					        </div>
+					      </div>
 				  <form id="create_form" enctype="multipart/form-data">
 					  <div class="scroll_div">
 					  	<h3>부서</h3>
@@ -302,7 +333,7 @@
 						</div>
 				    </form>
 				    <div class="buttons">
-					<button id="addTmMbrBtn" class="btn regist">추가</button>
+					<button id="addTmMbrBtn" class="btn new">추가</button>
 					<button id="regist-btn" class="btn regist">등록</button>
 					<button id="delete-btn" class="btn delete">삭제</button>
 				    </div>

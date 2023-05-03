@@ -14,6 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#prj_list").addClass("active");
+		
 		$.get("${context}/api/cmncd/list/002", function(response) {
 			var prjStts = $("#prjStts");
 			var sttsNm
@@ -62,27 +65,23 @@
                 <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly/>
                 <tr>
                     <th>프로젝트명</th>
-                    <td colspan="3"><input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" readonly/></td>
+                    <td colspan="3">${prjVO.prjNm}</td>
                 </tr>
                 <tr>
                     <th>고객사</th>
-                    <td colspan="3"><input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}" readonly/></td>
+                    <td colspan="3">${prjVO.cstmr}</td>
                 </tr>
                 <tr>
                     <th>시작일</th>
-                    <td colspan="3"><input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}" readonly/></td>
+                    <td colspan="3">${prjVO.strtDt}</td>
                 </tr>
                 <tr>
                     <th>종료일</th>
-                    <td colspan="3"><input type="date" id="endDt" name="endDt" value="${prjVO.endDt}" readonly/></td>
+                    <td colspan="3">${prjVO.endDt}</td>
                 </tr>
                 <tr>
                     <th>프로젝트 상태</th>
-                    <td colspan="3"><input type="hidden" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/></td>
-                </tr>
-                <tr>
-                    <th>사용여부</th>
-                    <td colspan="3"><input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''} onClick="return false" /></td>
+                    <td colspan="3">${prjVO.prjStts}</td>
                 </tr>
                 <tr>
                     <th>팀</th>
@@ -107,7 +106,6 @@
                             <tr>
                                 <th>직원ID</th>
                                 <th>팀</th>
-                                <th>성</th>
                                 <th>이름</th>
                                 <th>권한</th>
                             </tr>
@@ -116,11 +114,36 @@
 							<c:choose>
 								<c:when test="${not empty prjVO.ptmList}">
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
-										<tr>
-											<td>${ptm.tmMbrVO.empVO.empId}</td>
-											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-											<td>${ptm.tmMbrVO.empVO.fNm}</td>
-											<td>${ptm.tmMbrVO.empVO.lNm}</td>
+										<c:if test="${ptm.prjPstn=='PM'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>총잭임자</td>	
+											</tr>									
+										</c:if>
+									</c:forEach>
+									<c:forEach items="${prjVO.ptmList}" var="ptm">
+										<c:if test="${ptm.prjPstn=='PL'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>부책임자</td>	
+											</tr>									
+										</c:if>
+									</c:forEach>
+									<c:forEach items="${prjVO.ptmList}" var="ptm">
+										<c:if test="${ptm.prjPstn=='TM'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>팀원</td>	
+											</tr>									
+										</c:if>
+									</c:forEach>
+				<%-- 						<tr>
 											<td>
 												<c:if test="${ptm.prjPstn=='PM'}">
 													총책임자
@@ -132,8 +155,7 @@
 													팀원
 												</c:if>
 											</td>
-										</tr>
-									</c:forEach>
+										</tr> --%>
 								</c:when>
 								<c:otherwise>
 									<td colspan="4" class="no-items">
@@ -145,24 +167,13 @@
                     </table>
                     </td>
                 </tr>                
-                <tr>
-                    <th>등록자</th>
-                    <td>${prjVO.crtr}</td>
-                    <th>등록일</th>
-                    <td>${prjVO.crtDt}</td>
-                </tr>
-                <tr>
-                	<th>수정자</th>
-                    <td>${prjVO.mdfyr}</td>
-                    <th>수정일</th>
-                    <td>${prjVO.mdfyDt}</td>
-                  </tr>
+                
             </table>
                 
             <div class="hr"></div>
             <div class="req path">요구사항</div>
             <div class="view_all">
-                전체보기
+                <a href="${context}/req/list?prjId=${prjId}&pageNo=0">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">
@@ -180,10 +191,10 @@
                     <tbody>
                         <c:choose>
                             <c:when test="${not empty prjVO.reqList.get(0).reqId}">
-                                <c:forEach items="${prjVO.reqList}" var="req">
+                                <c:forEach items="${prjVO.reqList}" var="req" end="5">
                                     <tr>
                                         <td>${req.prrty}</td>
-                                        <td>${req.reqTtl}</td>
+                                        <td><a href="${context}/req/detail/${req.reqId}">${req.reqTtl}</a></td>
                                         <td>${req.mnDvlpr}</td>
                                         <td>${req.tskStts}</td>
                                         <td>${req.prcsStts}</td>
@@ -193,7 +204,7 @@
                                 </c:forEach>
                             </c:when>
                         <c:otherwise>
-                            <td colspan="5" class="no-items">
+                            <td colspan="8" class="no-items">
                                 등록된 요구사항이 없습니다.
                             </td>
                         </c:otherwise>
@@ -217,9 +228,9 @@
                     <tbody>
                         <c:choose>
                             <c:when test="${not empty prjVO.knwList.get(0).knwId}">
-                                <c:forEach items="${prjVO.knwList}" var="knw">
+                                <c:forEach items="${prjVO.knwList}" var="knw" end="5">
                                     <tr>
-                                        <td>${knw.ttl}</td>
+                                        <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
                                         <td>${knw.crtr}</td>
                                     </tr>
                                 </c:forEach>

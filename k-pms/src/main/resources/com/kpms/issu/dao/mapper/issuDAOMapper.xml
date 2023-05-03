@@ -137,12 +137,11 @@
 				<if test="issuTtl != null and issuTtl != ''">
 				   AND ISSU_TTL LIKE '%' || #{issuTtl} || '%'
 				</if>
+		  		<if test="reqId != null and reqId != ''">
+		  		   AND REQ_ID = #{reqId}
+		  		</if>
 		 	/*조건 추가*/) I
-		  JOIN (SELECT *
-		  		  FROM REQ
-		  		<if test="reqVO != null and reqVO.reqTtl != null and reqVO.reqTtl != ''">
-		  		 WHERE REQ_TTL LIKE '%' || #{reqVO.reqTtl} || '%'
-		  		</if>) R
+		  JOIN REQ R
 		  	ON R.REQ_ID = I.REQ_ID
 		  JOIN EMP CE
 		  	ON CE.EMP_ID = I.CRTR
@@ -181,6 +180,7 @@
 		   SET DEL_YN = 'Y'
 		 WHERE ISSU_ID = #{_parameter}
 	</update>
+	
 	<update id="deleteIssu"
 			parameterType="arraylist">
 		UPDATE ISSU
@@ -189,5 +189,22 @@
 		 <foreach collection="list" item="issuId" open="(" close=")" separator=", ">
 		  #{issuId}
 		 </foreach>
+	
+	</update>
+	
+	<update id="deleteIssuByReqId"
+			parameterType="string">
+		UPDATE ISSU
+		   SET DEL_YN = 'Y'
+		 WHERE REQ_ID = #{_parameter}
+	</update>
+	
+		<update id="deleteIssuByPrjId"
+			parameterType="string">
+		UPDATE ISSU I
+		   SET I.DEL_YN = 'Y'
+		 WHERE I.REQ-ID IN (SELECT R.REQ_ID
+		 					  FROM REQ R
+		 					 WHERE R.PRJ_ID = #{_parameter})
 	</update>
 </mapper>

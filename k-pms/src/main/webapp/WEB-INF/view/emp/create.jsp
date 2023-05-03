@@ -18,6 +18,12 @@
 		var pstnWindow;
 		
 		$().ready(function(){
+			
+			var modal = new Modal($);
+			
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_create").addClass("active");
+			
 			$("img.profile").click(function(e){
 				$("#prflPht").click();
 			});
@@ -72,7 +78,8 @@
 							location.href="${context}"+response.redirectURL;
 						}
 					} else{
-						alert(response.errorCode + " / " + response.message);
+						AjaxUtil.hideSpinner();
+						modal.show(response.message);
 					}
 				},{"prflPht":"uploadFile"});
 			});
@@ -166,7 +173,7 @@
 		<div>
 			<jsp:include page="../include/empSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-				<div class="path">임직원관리 > 임직원등록</div>
+				<div class="path">임직원 관리 > 임직원 등록</div>
 				<form id="create_form" enctype="multipart/form-data">
 					<table class="detail_table">
 		                <tr>
@@ -274,7 +281,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="new_btn" class="btn regist">등록</button>
+          <button id="new_btn" class="btn regist2">등록</button>
         </div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>

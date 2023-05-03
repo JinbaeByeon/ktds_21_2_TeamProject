@@ -28,7 +28,12 @@ function addHdEmpFn(message) {
 	var itemDiv = depHdIdItems.find(".head-item");
 	
 	var itemId = itemDiv.find("#depHdId")
-	console.log(message.empid);
+	if($("#depHdId").val() == message.empid){
+		
+		depHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 부서장입니다.");
+		return;
+	}
+	
 	itemId.val(message.empid);
 	itemDiv.append(itemId);
 	
@@ -38,7 +43,6 @@ function addHdEmpFn(message) {
 	
 	$("#depHdId").val(message.empid);
 	$("#depHdId").attr("class", message.empid);
-	console.log(message.lnm + message.fnm);
 	$("#depHdNm").text(message.lnm + message.fnm);
 	
 	depHdIdItems.append(itemDiv);
@@ -47,6 +51,14 @@ function addHdEmpFn(message) {
 }
 
 $().ready(function() {
+	$(".sidebar > ul li a").removeClass("active")
+	$("#dep_list").addClass("active");
+	
+	var pageNo = "${pageNo}";
+	if (${empty depList} && pageNo > 0) {
+		movePage(pageNo -1);
+	}
+	
 	$(".detail_section").hide();
 	
 	$(".list_table > tbody > tr").click(function() {
@@ -83,6 +95,7 @@ $().ready(function() {
 		$("#depId").val(data.depid);
 		$("#depNm").val(data.depnm);
 		$("#depHdId").val(data.dephdid);
+		$("#depHdNm").text(data.dephdnm);
 		$("#depCrtDt").val(data.depcrtdt);
 		$("#crtr").val(data.crtr);
 		$("#crtDt").val(data.crtdt);
@@ -247,7 +260,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서관리 > 부서 목록</div>
+				<div class="path">부서 관리 > 부서 목록</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select id="search-option">
@@ -257,7 +270,7 @@ $().ready(function() {
 						<option value="tmHdNm" ${depVO.searchOption eq "tmHdNm" ? "selected": ""}>팀장명</option>
 			          </select>
 			          <div class="search_field">
-			          	<input type="text" id="search-keyword" class="input" placeholder="Search"/>
+			          	<input type="text" id="search-keyword" class="input" placeholder="Search" value="${depVO.searchKeyword}"/>
 			          </div>
 			          <div class="search-icon">
 			          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
@@ -288,6 +301,7 @@ $().ready(function() {
 										<tr data-depid="${dep.depId}"
 											data-depnm="${dep.depNm}"
 											data-dephdid="${dep.depHdId}"
+											data-dephdnm="${dep.hdNmEmpVO.lNm}${dep.hdNmEmpVO.fNm}"
 											data-depcrtdt="${dep.depCrtDt}"
 											data-useyn="${dep.useYn}"
 											data-crtr="${dep.crtr}"
@@ -350,7 +364,7 @@ $().ready(function() {
 				            <tr>
 				              <th>부서장ID</th>
 				              <td>
-				              	<button id="addDepHeadBtn" class="btn regist">등록</button>
+				              	<button id="addDepHeadBtn" class="btn regist2">등록</button>
 				              	<div class="items">
 									<div class='head-item input_div'>
 										<input type='text' class="" name='depHdId' id="depHdId" readonly value="" />
@@ -377,7 +391,7 @@ $().ready(function() {
 			        </form>
 			
 			        <div class="buttons">
-			          <button id="save_btn" class="btn regist">저장</button>
+			          <button id="save_btn" class="btn save">저장</button>
 			          <button id="delete_btn" class="btn delete">삭제</button>
 			        </div>
 			      </div>

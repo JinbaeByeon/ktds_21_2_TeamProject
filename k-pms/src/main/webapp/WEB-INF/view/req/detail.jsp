@@ -16,6 +16,9 @@
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#req_list").addClass("active");
+		
 		checkFile();
 		var empId = '${sessionScope.__USER__.empId}';
 		var data2 = "${reqVO.reqId}";
@@ -174,17 +177,17 @@
 		var div = $("<div></div>");
 		li.append(div);
 		
-		var remove =  $("<span class='remove'>x</span>");
+		var remove =  $("<span class='remove input_div'>x</span>");
 		remove.click(removeFn);
 		
-        var nm = "<span class='file_name'>"+fileNm+"</span>";
+        var nm = "<span class='file_name input_div'>"+fileNm+"</span>";
         fileSz = (fileSz / 1024).toFixed(2);
         var sz;
         if(fileSz < 1000){
-        	sz = "<span class='file_size'>"+fileSz+" KB</span>";
+        	sz = "<span class='file_size input_div'>"+fileSz+" KB</span>";
         } else {
         	fileSz = (fileSz/1024).toFixed(2);
-        	sz = "<span class='file_size'>"+fileSz+" MB</span>";
+        	sz = "<span class='file_size input_div'>"+fileSz+" MB</span>";
         }
         div.append(remove);
         div.append(nm);
@@ -261,27 +264,27 @@
                 <tr>
                     <th>첨부파일</th>
                     <td colspan="3">
-                    		<div class="file_attachment">
-								<div class="file_attachment_summary">
-									<span class="total_count">첨부 개</span>
-									<span class="total_volume">전체용량</span>
-									<button class="save_all">모두저장</button>
+                    		<div class="file_attachment input_div">
+								<div class="file_attachment_summary input_div">
+									<span class="total_count input_div">첨부 개</span>
+									<span class="total_volume input_div">전체용량</span>
+									<button class="btn save">모두저장</button>
 								</div>
-								<div class="file_attachments_inner">
+								<div class="file_attachments_inner input_div">
 									<ul id="file_list">
 										<c:if test="${not empty reqVO.atchFlList}">
 										<c:forEach items="${reqVO.atchFlList}" var="atchFl">
-											<li class="file_item"
+											<li class="file_item input_div"
 												data-uuid='${atchFl.uuidFlNm}'
 												data-org='${atchFl.orgFlNm}'
 												data-sz='${atchFl.flSz}'
 												data-ext='${atchFl.flExt}'>
-												<span class='file_name'>${atchFl.orgFlNm}</span>
+												<span class='file_name input_div'>${atchFl.orgFlNm}</span>
 												<c:if test="${atchFl.flSz < 1024*1024}">
-													<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+													<span class='file_size input_div'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
 												</c:if>
 												<c:if test="${atchFl.flSz >= 1024*1024}">
-													<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+													<span class='file_size input_div'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
 												</c:if>
 											</li>
 										</c:forEach>
@@ -306,7 +309,7 @@
                 </tr>
                 <tr>
                     <th>상세요구사항</th>
-                    <td colspan="3">${reqVO.reqCnfrNm}</td>
+                    <td colspan="3">${reqVO.dtlReq}</td>
                 </tr>
                 <tr>
                     <th>사용여부</th>
@@ -393,7 +396,7 @@
                 </table>
 
         <div class="buttons">
-			<button id="update_btn" class="update btn">수정</button>
+			<button id="update_btn" class="btn edit">수정</button>
 			<button id="issu_delete_btn" class="btn delete">삭제</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />

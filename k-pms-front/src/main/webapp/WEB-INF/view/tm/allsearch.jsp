@@ -13,6 +13,7 @@
 	$().ready(function() {
 		
 		$(".tm-tbody tr").click(function() {
+			$("#all_check").prop("checked", false);
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).toggleClass("active");
 			var activeTmId = $(".active").data("tmid");
@@ -31,8 +32,7 @@
 					var tr = $("<tr data-tmmbrid='" + tmmbrId + "'data-empid='" + empId + "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" + lNm + "'data-tmnm='" + tmNm + "'></tr>");
 					var td = "<td><input type='checkbox' class='check-idx' value=" + tmmbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
-					td += "<td>" + fNm + "</td>"
-					td += "<td>" + lNm + "</td>"
+					td += "<td>" + lNm + fNm + "</td>"
 					
 					$(".tmmbr-tbody").append(tr);
 					tr.append(td);
@@ -41,25 +41,15 @@
 
 		});
 		
-/* 		$('.check-idx').change(function() {
-			if ($(this).prop("checked") == true) {
-				 $(this).closest("tr").toggleClass("active")
-			}
-			else {
-				 $(this).closest("tr").removeClass("active")
-			 }
-		}); */
-		
 		$("#search-btn").click(function() {
 			location.href = "${context}/tm/search?tmNm=" + $("#searh-tmNm").val();
 		});
 		
 		$("#all_check").change(function() {
 			$(".check-idx").prop("checked", $(this).prop("checked"));
-			
 		});
 		
-		$(".check-idx").change(function() {
+		$(document).on("change",".check-idx" , function() {
 			var count = $(".check-idx").length;
 			var checkCount = $(".check-idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
@@ -69,7 +59,7 @@
 			window.close();
 		});
 		
-		$("#regist-btn").click(function() {
+		$("#regist_btn").click(function() {
 			var checkOne = $(".check-idx:checked");
 			
 			if (checkOne.length == 0) {
@@ -92,11 +82,12 @@
 	<div class="container search_page">
     <h2>팀원 추가</h2>
     <div class="scroll_div">
+    	<h3>팀</h3>
 	    <table class="list_table search_table scroll_table">
 	        <thead>
 	            <tr>
-	                <th class="fix">팀ID</th>
-	                <th class="fix">팀명</th>
+	                <th>팀ID</th>
+	                <th>팀명</th>
 	            </tr>
 	        </thead>
 	            <tbody class="tm-tbody">
@@ -119,14 +110,15 @@
 	            </tbody>
 	    </table>
     </div>
+    <div style="height: 30px;"></div>
+    <h3>팀원</h3>
     <div class="scroll_div">
 	    <table class="list_table search_table scroll_table">
 	        <thead>
 	            <tr>
-						<th class="input"><input type="checkbox" id="all_check" /></th>
-	                    <th>직원ID</th>
-	                    <th>성</th>
-	                    <th>이름</th>
+					<th class="input"><input type="checkbox" id="all_check" /></th>
+                    <th>직원ID</th>
+                    <th>이름</th>
 	            </tr>
 	        </thead>
 	        <tbody class="tmmbr-tbody"></tbody>

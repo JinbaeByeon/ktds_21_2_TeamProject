@@ -3,7 +3,7 @@
 <%@page import="java.util.Random"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set scope="request" var="selected" value="knw"/>
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +16,8 @@
 	var ajaxUtil = new AjaxUtil();
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#knw_list").addClass("active");
 
 		(function(){
 			var frgnId = "${knwVO.knwId}";
@@ -221,7 +223,7 @@
 							<button class="updateBtn">수정</button>
 							<button class="deleteBtn">삭제</button>
 						</c:if>
-						<button class="listBtn">목록</button>
+						<button class="listBtn btn regist">목록</button>
 					</div>
 				</div>
 				

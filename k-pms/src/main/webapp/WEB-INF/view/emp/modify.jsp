@@ -18,6 +18,12 @@
 		var pstnWindow;
 		
 		$().ready(function(){
+			
+			var modal = new Modal($);
+			
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_create").addClass("active");
+			
 			$(".remove-btn").click(function(e){
 				e.preventDefault();
 				var div = $(this).closest("div");
@@ -79,7 +85,8 @@
 							location.href="${context}"+response.redirectURL;
 						}
 					} else{
-						alert(response.errorCode + " / " + response.message);
+						AjaxUtil.hideSpinner();
+						modal.show(response.message);
 					}
 				},{"prflPht":"uploadFile"});
 			});
@@ -239,7 +246,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="save_btn" class="btn regist">저장</button>
+          <button id="save_btn" class="btn save">저장</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

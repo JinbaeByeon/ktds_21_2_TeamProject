@@ -54,6 +54,10 @@ public class KnwDAOImpl extends SqlSessionDaoSupport implements KnwDAO {
 	public int deleteKnwBySelectedKnwId(List<String> knwIdList) {
 		return getSqlSession().update("Knw.deleteKnwBySelectedKnwId", knwIdList);
 	}
-
+	
+	@Override
+	public int deleteKnwByPrjId(String prjId) {
+		return getSqlSession().update("Knw.deleteKnwByPrjId", prjId);
+	}
 	
 }

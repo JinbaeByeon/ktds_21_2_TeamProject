@@ -16,6 +16,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#eqp_list").addClass("active");
+		
 	     $(".detail_section").hide();
 		$(" .list_table > tbody > tr").click(function(){
 			$("#crtr").closest("td").prev().prev().attr("colspan", 0);
@@ -217,7 +220,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">비품관리 > 비품 목록</div>
+				<div class="path">비품 관리 > 비품 목록</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select>
@@ -338,7 +341,7 @@
 				              <th>비품종류</th>
 				              <td>
 					             <select id="eqpTp"  name="eqpTp" >
-									<option>선택</option>
+									<option selected>선택</option>
 									<option>공기구</option>
 									<option>사무용품</option>
 									<option>소모품</option>
@@ -369,7 +372,7 @@
 			        </form>
 			
 			        <div class="buttons">
-			          <button id="save_btn" class="btn regist">저장</button>
+			          <button id="save_btn" class="btn save">저장</button>
 			          <button id="delete_btn" class="btn delete">삭제</button>
 			        </div>
 			      </div>

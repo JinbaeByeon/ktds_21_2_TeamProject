@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
-<c:set scope="request" var="selected" value="tm"/>
+<c:set scope="request" var="selected" value="dep"/>
 
 <!DOCTYPE html>
 <html>
@@ -48,7 +48,13 @@
 	} 
 	
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#tm_list").addClass("active");
 		
+		var pageNo = "${pageNo}";
+		if (${empty tmList} && pageNo > 0) {
+			movePage(pageNo -1);
+		}
 		
 		$("#new_btn").click(function() {
 			
@@ -128,7 +134,7 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">팀 > 팀관리</div>
+				<div class="path">부서 관리 > 팀 관리</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option" class="search-input">

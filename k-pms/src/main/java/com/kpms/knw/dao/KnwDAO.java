@@ -14,4 +14,5 @@ public interface KnwDAO {
 	public int updateOneKnw(KnwVO knwVO);
 	public int deleteOneKnw(String knwId);
 	public int deleteKnwBySelectedKnwId(List<String> knwIdList);
+	public int deleteKnwByPrjId(String prjId);
 }

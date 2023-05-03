@@ -23,7 +23,6 @@
 </head>
 <body>
 	
-	<div class="main-layout">
 	<div class="container emp_page">
 		<h2>${empVO.empId}(${empVO.lNm}${empVO.fNm})님의 회원정보입니다.</h2>
 			<h3>기본정보</h3>
@@ -121,7 +120,7 @@
                
       <div class="buttons">
         <button id="modify_pwd_btn" class="btn regist">비밀번호 변경</button>
-        <button id="modify_btn" class="btn regist">수정</button>
+        <button id="modify_btn" class="btn edit">수정</button>
       </div>			
 </div>
 	

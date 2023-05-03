@@ -9,9 +9,13 @@ import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.common.util.StringUtil;
+import com.kpms.issu.dao.IssuDAO;
+import com.kpms.knw.dao.KnwDAO;
 import com.kpms.prj.dao.PrjDAO;
 import com.kpms.prj.vo.PrjSearchVO;
 import com.kpms.prj.vo.PrjVO;
+import com.kpms.prjlog.dao.PrjLogDAO;
+import com.kpms.prjlog.vo.PrjLogVO;
 import com.kpms.prjtmmbr.dao.PrjTmMbrDAO;
 import com.kpms.prjtmmbr.vo.PrjTmMbrVO;
 import com.kpms.req.dao.ReqDAO;
@@ -27,6 +31,15 @@ public class PrjServiceImpl implements PrjService {
 	
 	@Autowired
 	private ReqDAO reqDAO;
+	
+	@Autowired
+	private KnwDAO knwDAO;
+	
+	@Autowired
+	private IssuDAO issuDAO;
+	
+	@Autowired
+	private PrjLogDAO prjLogDAO;
 
 	@Override
 	public List<PrjVO> readAllPrjVO(PrjSearchVO prjSearchVO) {
@@ -45,6 +58,8 @@ public class PrjServiceImpl implements PrjService {
 
 	@Override
 	public boolean createOnePrj(PrjVO prjVO) {
+		
+		PrjLogVO prjLogVO = new PrjLogVO();
 
 		if (StringUtil.isEmpty(prjVO.getPrjNm())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트명은 필수 값입니다.");
@@ -84,6 +99,13 @@ public class PrjServiceImpl implements PrjService {
 				ptm.setCrtr(prjVO.getCrtr());
 				ptm.setMdfyr(prjVO.getMdfyr());
 				prjTmMbrDAO.createNewPrjTmMbr(ptm);
+				
+				
+				prjLogVO.setCrtr(prjVO.getCrtr());
+				prjLogVO.setCrtDt(prjVO.getCrtDt());
+				prjLogVO.setPrjId(prjVO.getPrjId());
+				prjLogVO.setStts(prjVO.getPrjStts());
+				prjLogDAO.createPrjLog(prjLogVO);
 			}
 		}
 		return prjCreateCount > 0;
@@ -91,6 +113,8 @@ public class PrjServiceImpl implements PrjService {
 
 	@Override
 	public boolean updateOnePrj(PrjVO prjVO) {
+		PrjLogVO prjLogVO = new PrjLogVO();
+		
 		if (StringUtil.isEmpty(prjVO.getPrjNm())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트명은 필수 값입니다.");
 		}
@@ -144,6 +168,12 @@ public class PrjServiceImpl implements PrjService {
 				}
 			}
 		}
+		
+		prjLogVO.setCrtr(prjVO.getCrtr());
+		prjLogVO.setCrtDt(prjVO.getCrtDt());
+		prjLogVO.setPrjId(prjVO.getPrjId());
+		prjLogVO.setStts(prjVO.getPrjStts());
+		prjLogDAO.createPrjLog(prjLogVO);
 		 
 		return prjUpdateCount > 0;
 	}
@@ -154,6 +184,8 @@ public class PrjServiceImpl implements PrjService {
 		if (prjDeleteCount > 0) {
 			prjTmMbrDAO.deletePrjTmMbrByPrjId(prjId);
 			reqDAO.deleteReqByPrjId(prjId);
+			knwDAO.deleteKnwByPrjId(prjId);
+			issuDAO.deleteIssuByPrjId(prjId);
 		}
 		return prjDeleteCount > 0;
 	}
@@ -168,6 +200,8 @@ public class PrjServiceImpl implements PrjService {
 			for (String prjId: prjIdList) {
 				prjTmMbrDAO.deletePrjTmMbrByPrjId(prjId);
 				reqDAO.deleteReqByPrjId(prjId);
+				knwDAO.deleteKnwByPrjId(prjId);
+				issuDAO.deleteIssuByPrjId(prjId);
 			}
 		}
 		return isSuccess;

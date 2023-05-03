@@ -14,6 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function(){
+	$(".sidebar > ul li a").removeClass("active")
+	$("#eqp_apply").addClass("active");
+	
 	$(".detail_section").hide();
 	$("#applSttsType").val("${eqpVO.applStts}").prop("selected",true);
 	
@@ -257,7 +260,7 @@ function movePage(pageNo) {
 	<div>
 		<jsp:include page="../include/eqpSidemenu.jsp"/>
 		<jsp:include page="../include/content.jsp" />
-			<div class="path">비품관리 > 대여 신청</div>
+			<div class="path">비품 관리 > 대여 신청</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select>
@@ -420,7 +423,7 @@ function movePage(pageNo) {
 			        </form>
 			
 			        <div class="buttons">
-			          <button id="save_btn" class="btn regist">저장</button>
+			          <button id="save_btn" class="btn save">저장</button>
 			          <button id="delete_btn" class="btn delete">삭제</button>
 			        </div>
 			      </div>

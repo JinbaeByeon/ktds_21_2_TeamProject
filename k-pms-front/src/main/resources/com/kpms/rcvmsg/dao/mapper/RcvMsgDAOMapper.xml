@@ -175,7 +175,7 @@
 	</insert>
 	
 	<update id="deleteOneRcvMsg"
-			parameterType="_int">
+			parameterType="string">
 		UPDATE RCV_MSG
 		   SET DEL_YN = 'Y'
 		 WHERE MSG_ID = #{_parameter}

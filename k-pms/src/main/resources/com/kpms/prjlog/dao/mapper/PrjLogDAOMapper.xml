@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PrjLog">
+	
+	<insert id="createPrjLog"
+			parameterType="com.kpms.prjlog.vo.PrjLogVO">
+		INSERT INTO PRJ_LOG
+    	      (LOG_ID
+    	     , CRT_DT
+    	     , CRTR
+    	     , PRJ_ID
+    	     , STTS)
+		VALUES
+			  ('PL-' || TO_CHAR(SYSDATE,'YYYYMMDD') || '-' || LPAD(SEQ_PRJ_LOG_PK.NEXTVAL,5,'0')
+			 , SYSDATE
+			 , #{crtr}
+			 , #{prjId}
+			 , #{stts})
+		
+	</insert>
+	
+	<select id="readAllPrjLog"
+			parameterType="com.kpms.prjlog.vo.PrjLogVO"
+			resultType="com.kpms.prjlog.vo.PrjLogVO">
+		<include refid="Common.pageHeader" />
+		SELECT PL.LOG_ID PK_COL
+			 , PL.LOG_ID
+			 , DENSE_RANK() OVER(ORDER BY PL.CRT_DT || PL.LOG_ID DESC) RNUM
+		     , TO_CHAR(PL.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
+		     , PL.CRTR
+		     , PL.PRJ_ID
+		     , CD.CD_NM STTS 
+		  FROM PRJ_LOG PL
+		  JOIN CMN_CD CD
+		    ON PL.STTS = CD.CD_ID
+		<include refid="Common.pageFooter" />
+	</select>	
+	
+</mapper>

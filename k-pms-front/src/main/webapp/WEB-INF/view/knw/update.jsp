@@ -3,7 +3,7 @@
 <%@page import="java.util.Random"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
-<c:set scope="request" var="selected" value="knw"/>
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,12 +127,30 @@
 	}
 
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#knw_list").addClass("active");
 		
-		$("#save_btn").click(function() {
-			
-					if ($("#ttl").val() == "") {
-						alert("제목 입력은 필수입니다.");
-						return;
+		$("#save_btn").click(
+			function() {
+				if ($("#ttl").val() == "") {
+					alert("제목 입력은 필수입니다.");
+					return;
+				} else if ($("#cntnt").val() == "") {
+					alert("내용 입력은 필수입니다.");
+					return;
+				} else if ($("#prjId").val() == "") {
+					alert("프로젝트 선택은 필수입니다.");
+					return;
+				} else {
+					var ajaxUtil = new AjaxUtil();
+					ajaxUtil.upload("#create-form", "${context}/api/knw/update", function(response) {
+						if (response.status == "200 OK") {
+							location.href = "${context}/knw/list";
+						}
+						else {
+							alert("지식 등록에 실패하였습니다.");
+							}
+						},{"upload-file" : "uploadFile"});
 					}
 					else if ($("#cntnt").val() == "") {
 						alert("내용 입력은 필수입니다.");

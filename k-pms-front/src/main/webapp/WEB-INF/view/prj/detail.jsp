@@ -14,38 +14,20 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
-		$.get("${context}/api/cmncd/list/002", function(response) {
-			var prjStts = $("#prjStts");
-			var sttsNm
-			
-			for (var i in response.data) {
-				if ($("#prjStts").val() == response.data[i].cdId) {
-					sttsNm = response.data[i].cdNm;
-				}
-			}
-			
-			var sttsInput = $("<input type='text' id='prjStts' name='prjStts' value='" + sttsNm + "' readonly/>");
-			prjStts.after(sttsInput);
-		});
+		$(".buttons").hide();
+		var empid = $("#empId").val();
+		var pstn = $("#" + empid).data("pstn");
+		
+		if (pstn == 'PM') {
+			$(".buttons").show();
+		}
+		
+		$(".sidebar > ul li a").removeClass("active")
+		$("#prj_list").addClass("active");
+		
 		
 		$("#modify-btn").click(function() {
 			location.href = "${context}/prj/update/" + $("#prjId").val();
-		});
-		
-		$("#delete-btn").click(function() {
-			var prjId = $("#prjId").val();
-			if(!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			
-			$.get("${context}/api/prj/delete/" + prjId, function(response) {
-				if (response.status == "200 OK") {
-					location.href = "${context}/prj/list"
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
 		});
 			
 	});
@@ -60,29 +42,26 @@
         	<div class="path">${prjId} | ${prjVO.prjNm}</div>
 			<table class="detail_page detail_table">
                 <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly/>
+                <input type="hidden" id="empId" name="empId" value="${empId}" readonly/>
                 <tr>
                     <th>프로젝트명</th>
-                    <td colspan="3"><input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" readonly/></td>
+                    <td colspan="3">${prjVO.prjNm}</td>
                 </tr>
                 <tr>
                     <th>고객사</th>
-                    <td colspan="3"><input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}" readonly/></td>
+                    <td colspan="3">${prjVO.cstmr}</td>
                 </tr>
                 <tr>
                     <th>시작일</th>
-                    <td colspan="3"><input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}" readonly/></td>
+                    <td colspan="3">${prjVO.strtDt}</td>
                 </tr>
                 <tr>
                     <th>종료일</th>
-                    <td colspan="3"><input type="date" id="endDt" name="endDt" value="${prjVO.endDt}" readonly/></td>
+                    <td colspan="3">${prjVO.endDt}</td>
                 </tr>
                 <tr>
                     <th>프로젝트 상태</th>
-                    <td colspan="3"><input type="hidden" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/></td>
-                </tr>
-                <tr>
-                    <th>사용여부</th>
-                    <td colspan="3"><input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''} onClick="return false" /></td>
+                    <td colspan="3">${prjVO.prjStts}</td>
                 </tr>
                 <tr>
                     <th>팀</th>
@@ -107,7 +86,6 @@
                             <tr>
                                 <th>직원ID</th>
                                 <th>팀</th>
-                                <th>성</th>
                                 <th>이름</th>
                                 <th>권한</th>
                             </tr>
@@ -116,23 +94,34 @@
 							<c:choose>
 								<c:when test="${not empty prjVO.ptmList}">
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
-										<tr>
-											<td>${ptm.tmMbrVO.empVO.empId}</td>
-											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-											<td>${ptm.tmMbrVO.empVO.fNm}</td>
-											<td>${ptm.tmMbrVO.empVO.lNm}</td>
-											<td>
-												<c:if test="${ptm.prjPstn=='PM'}">
-													총책임자
-												</c:if>
-												<c:if test="${ptm.prjPstn=='PL'}">
-													부책임자
-												</c:if>
-												<c:if test="${ptm.prjPstn=='TM'}">
-													팀원
-												</c:if>
-											</td>
-										</tr>
+										<c:if test="${ptm.prjPstn=='PM'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>총잭임자</td>	
+											</tr>									
+										</c:if>
+									</c:forEach>
+									<c:forEach items="${prjVO.ptmList}" var="ptm">
+										<c:if test="${ptm.prjPstn=='PL'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>부책임자</td>	
+											</tr>									
+										</c:if>
+									</c:forEach>
+									<c:forEach items="${prjVO.ptmList}" var="ptm">
+										<c:if test="${ptm.prjPstn=='TM'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>팀원</td>	
+											</tr>									
+										</c:if>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
@@ -180,10 +169,10 @@
                     <tbody>
                         <c:choose>
                             <c:when test="${not empty prjVO.reqList.get(0).reqId}">
-                                <c:forEach items="${prjVO.reqList}" var="req">
+                                <c:forEach items="${prjVO.reqList}" var="req" end="5">
                                     <tr>
                                         <td>${req.prrty}</td>
-                                        <td>${req.reqTtl}</td>
+                                        <td><a href="${context}/req/detail/${req.reqId}">${req.reqTtl}</a></td>
                                         <td>${req.mnDvlpr}</td>
                                         <td>${req.tskStts}</td>
                                         <td>${req.prcsStts}</td>
@@ -193,7 +182,7 @@
                                 </c:forEach>
                             </c:when>
                         <c:otherwise>
-                            <td colspan="5" class="no-items">
+                            <td colspan="8" class="no-items">
                                 등록된 요구사항이 없습니다.
                             </td>
                         </c:otherwise>
@@ -204,7 +193,7 @@
         <div class="hr"></div>
             <div class="req path">지식관리</div>
             <div class="view_all">
-                <a href="${context}/knw/list?prjId=${prjId}&pageNo=0">전체보기</a>
+                <a href="${context}/knw/list?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">
@@ -217,9 +206,9 @@
                     <tbody>
                         <c:choose>
                             <c:when test="${not empty prjVO.knwList.get(0).knwId}">
-                                <c:forEach items="${prjVO.knwList}" var="knw">
+                                <c:forEach items="${prjVO.knwList}" var="knw" end="5">
                                     <tr>
-                                        <td>${knw.ttl}</td>
+                                        <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
                                         <td>${knw.crtr}</td>
                                     </tr>
                                 </c:forEach>
@@ -232,11 +221,10 @@
                         </c:choose>
                     </tbody>
                 </table>
-
+	
         <div class="buttons">
-          <button id="modify-btn" class="btn regist">수정</button>
-          <button id="delete-btn" class="btn delete">삭제</button>
-        </div>
+	          <button id="modify-btn" class="btn regist">팀원 수정</button>
+        </div> 
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>

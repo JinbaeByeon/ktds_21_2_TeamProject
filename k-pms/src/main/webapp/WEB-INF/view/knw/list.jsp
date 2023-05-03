@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="commonMode" value="${knwSearchVO.commonMode}" />
-<c:set scope="request" var="selected" value="knw"/>
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +12,8 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#knw_list").addClass("active");
 		
 		$("#new_btn").click(function() {
 			var prjId = $("#prjId").val();

@@ -18,8 +18,40 @@ function AjaxUtil() {
 		"input[type=week]",
 		"textarea",
 		"select"
-	]
+	];
+
 }
+
+AjaxUtil.hideSpinner = function () {
+	$('#spinner_panel').hide();
+}
+
+AjaxUtil.disableSpinner = function () {
+	$('#spinner_panel').hide();
+	
+	$(document).off("ajaxStart");
+	$(document).off("ajaxStop");
+}
+
+AjaxUtil.enableSpinner = function () {
+	$(document).on("ajaxStart", function () {
+		var oWidth = 540 / 2;
+		var oHeight = 360 / 2;
+		var wWidth = $(window).width() / 2;
+		var wHeight = $(window).height() / 2;
+		
+		$('#spinner').css({
+			"top": wHeight -  oHeight,
+			"left": wWidth - oWidth
+		});
+		
+		$('#spinner_panel').show();
+	}) 
+	$(document).on("ajaxStop", function () {
+		$('#spinner_panel').hide();
+	});
+}
+
 
 AjaxUtil.prototype.deleteFile = function(fileNames, url, fnCallback) {
 	function makeFormData(){

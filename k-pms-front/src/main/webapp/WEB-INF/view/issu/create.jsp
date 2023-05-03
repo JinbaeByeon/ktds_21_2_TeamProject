@@ -24,6 +24,9 @@
 		reqTtl.text(req.reqttl);
 	}
 	$().ready(function(){
+		$(".sidebar > ul li a").removeClass("active")
+		$("#issu_list").addClass("active");
+		
 		var empId = '${sessionScope.__USER__.empId}';
 		$("#reqId").click(function(e){
 			reqWindow = window.open("${context}/req/search/req","요구사항 검색","width=500,height=500");

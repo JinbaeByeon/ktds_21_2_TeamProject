@@ -11,6 +11,8 @@
 <jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
+		$(".sidebar > ul li a").removeClass("active")
+		$("#emp_log_dep").addClass("active");
 
 		$("#search-keyword").keydown(function(e){
 			if(e.keyCode == '13'){
@@ -38,7 +40,7 @@
 		<div>
 		<jsp:include page="../../include/empSidemenu.jsp"/>
 		<jsp:include page="../../include/content.jsp"/>
-			<div class="path">부서변경이력 ></div>
+			<div class="path">임직원 관리 > 부서 변경 이력</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select>
@@ -53,7 +55,7 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${depLogList.size() > 0 ? depList.get(0).totalCount : 0}건</div>
+		        <div class="total">총 ${depLogList.size() > 0 ? depLogList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 						<tr>

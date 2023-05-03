@@ -14,17 +14,9 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function() {
+	$(".sidebar > ul li a").removeClass("active")
+	$("#prj_list").addClass("active");
 	
-	$("table > tbody > tr").click(function() {
-		var data = $(this).data();
-		$("#prjId").val(data.prjid);
-		$("#prjNm").val(data.prjnm);
-		$("#cstmr").val(data.cstmr);
-		$("#strtDt").val(data.strtdt);
-		$("#endDt").val(data.enddt);
-		$("#prjStts").val(data.prjstts);
-		$("#useYn").prop("checked", data.useyn == "Y");
-	});
 	
 	$("#search-btn").click(function() {
 		movePage(0);
@@ -35,41 +27,7 @@ $().ready(function() {
 		console.log(prjStts);
 		location.href = "${context}/prj/list?prjStts=" + prjStts;
 	});
-	
-	$("#new-btn").click(function() {
-		location.href = "${context}/prj/create"
-	});
-	
-	$("#delete-btn").click(function() {
-		var checkLen = $(".check-idx:checked").length;
-		if (checkLen == 0) {
-			alert("삭제할 프로젝트를 선택해주세요");
-			return;
-		}
-		
-		var form = $("<form></form>")
-		$(".check-idx:checked").each(function() {
-			form.append("<input type='hidden' name='prjId' value='" + $(this).val() + "'>");
-		});
-		
-		if(!confirm("정말 삭제하시겠습니까?")) {
-			return;
-		}
-		
-		$.post("${context}/api/prj/delete", form.serialize(), function(response) {});
-		location.reload(); // 새로고침
-		
-	});
-		
-	$("#all_check").change(function() {
-		$(".check-idx").prop("checked", $(this).prop("checked"));
-	});
-	
-	$(".check-idx").change(function() {
-		var count = $(".check-idx").length;
-		var checkCount = $(".check-idx:checked").length;
-		$("#all_check").prop("checked", count == checkCount);
-	});
+
 	
 });
 	function movePage(pageNo) {
@@ -110,7 +68,6 @@ $().ready(function() {
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-						<th><input type="checkbox" id="all_check" /></th>
 						<th>프로젝트ID</th>
 						<th>프로젝트명</th>
 						<th>고객사</th>
@@ -145,9 +102,6 @@ $().ready(function() {
 									data-enddt="${prj.endDt}"
 									data-prjstts="${prj.prjStts}"
 									data-useyn="${prj.useYn}" >
-									<td>
-										<input type="checkbox" class="check-idx" value="${prj.prjId}" />
-									</td>
 									<td>${prj.prjId}</td>
 									<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
 									<td>${prj.cstmr}</td>
@@ -176,10 +130,6 @@ $().ready(function() {
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	                  <c:param name="path" value="${context}/prj"/>
 	               </c:import>
-		        <div class="buttons">
-		          <button id="new-btn" class="btn new">신규등록</button>
-		          <button id="delete-btn" class="btn delete">선택삭제</button>
-		        </div>
 		      </div>
 
 			<jsp:include page="../include/footer.jsp" />			

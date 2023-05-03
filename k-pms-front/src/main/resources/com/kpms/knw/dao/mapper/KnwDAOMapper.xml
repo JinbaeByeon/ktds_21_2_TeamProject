@@ -6,6 +6,10 @@
 
 	<insert id="createOneKnw"
 			parameterType="com.kpms.knw.vo.KnwVO">
+		<selectKey resultType="string" keyProperty="knwId" order="BEFORE">
+			SELECT 'KNW-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_KNW_PK.NEXTVAL, 5, '0')
+			  FROM DUAL
+		</selectKey>
 		INSERT INTO KNW
 		 (KNW_ID
 		, CRT_DT
@@ -19,7 +23,7 @@
 		, VW_CNT
 		, PRJ_ID)
 		VALUES
-		 ('KNW-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_KNW_PK.NEXTVAL, 5, '0')
+		 (#{knwId}
 		, SYSDATE
 		, #{crtr}
 		, SYSDATE
@@ -71,11 +75,14 @@
            AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
          	</when>
          </choose>
+         <if test='prjId != null and prjId != ""'>
+           AND P.PRJ_ID = #{prjId}
+         </if>
          <include refid="Common.pageFooter" />
 	</select>
 	
 	<resultMap id="oneKnwVOMap"
-			   type="com.kpms.knw.vo.KnwVO">
+			   type="com.kpms.knw.vo.KnwVO" autoMapping="true">
 		<id property="knwId" column="KNW_ID" />
 		<result property="ttl" column="TTL" />
 		<result property="cntnt" column="CNTNT" />
@@ -88,6 +95,7 @@
 		</association>
 		<collection property="rplList" ofType="com.kpms.knwrpl.vo.KnwRplVO">
 			<id property="rplId" column="RPL_ID" />
+			<result property="knwId" column="KR_KNW_ID" />
 			<result property="depth" column="DEPTH" />
 			<result property="cnt" column="CNT" />
 			<result property="prcdncRplId" column="PRCDNC_RPL_ID" />
@@ -96,6 +104,9 @@
 			<result property="mdfyr" column="KR_MDFYR" />
 			<result property="mdfyDt" column="KR_MDFY_DT" />
 			<result property="delYn" column="KR_DEL_YN" />
+		</collection>
+		<collection property="atchFlList" ofType="com.kpms.atchfl.vo.AtchFlVO" autoMapping="true">
+			<id property="uuidFlNm" column="UUID_FL_NM" />
 		</collection>
 	</resultMap>
 	
@@ -128,14 +139,20 @@
              , KR.MDFYR KR_MDFYR
              , TO_CHAR(KR.MDFY_DT, 'YYYY-MM-DD HH24:MI:SS') KR_MDFY_DT
              , KR.PRCDNC_RPL_ID
+             , AF.FRGN_ID
+             , AF.ORG_FL_NM
+             , AF.UUID_FL_NM
+             , AF.FL_SZ
+             , AF.FL_EXT
 		  FROM KNW K
 		  LEFT JOIN PRJ P
 			ON K.PRJ_ID = P.PRJ_ID
 		  LEFT JOIN KNW_RPL KR
 		    ON K.KNW_ID = KR.KNW_ID
+		  LEFT JOIN ATCH_FL AF
+		    ON K.KNW_ID = AF.FRGN_ID
 		 WHERE K.KNW_ID = #{_parameter}
 		   AND (KR.DEL_YN IS NULL OR KR.DEL_YN = 'N') 
-		   
 		 START WITH KR.PRCDNC_RPL_ID IS NULL
        CONNECT BY PRIOR KR.RPL_ID = KR.PRCDNC_RPL_ID
 		 
@@ -167,6 +184,13 @@
 		 <foreach collection="list" item="knwId" open="( " close=" )" separator=", ">
 			#{knwId}
 		</foreach>
+	</update>
+	
+	<update id="deleteKnwByPrjId"
+			parameterType="string">
+		UPDATE KNW
+		   SET DEL_YN = 'Y'
+		 WHERE PRJ_ID = #{prjId}
 	</update>
 
 </mapper>

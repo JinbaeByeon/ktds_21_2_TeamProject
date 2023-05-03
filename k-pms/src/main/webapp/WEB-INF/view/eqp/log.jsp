@@ -14,49 +14,12 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-	      $(".detail_section").hide();
-		$(".list_table > tbody > tr").click(function(){
-			
-			$("#isModify").val("true"); //수정모드
-	        $(".detail_section").show("fast");
-	        $(".detail_table").show();
-			
-			var data = $(this).data();
-			
-			$("#eqpId").val(data.eqpid);
-			$("#eqpNm").val(data.eqpnm);
-			$("#crtr").val(data.crtr);
-			$("#crtDt").val(data.crtdt);
-			$("#mdfyr").val(data.mdfyr);
-			$("#mdfyDt").val(data.mdfydt);
-			$("#eqpTp").val(data.eqptp);
-			$("#applStts").val(data.applstts);
-			$("#eqpPrc").val(data.eqpprc);
-			$("#prchsDt").val(data.prchsdt);
-			$("#lossStts").val(data.lossstts);
-			$("#lossRprtDt").val(data.lossrprtdt);
-			$("#applDt").val(data.appldt);
-			
-			$("#useYn").prop("checked", data.useyn == "Y");
-			
-		});
 		
-		$("#search-btn").click(function(){
-			var eqpNm =$("#search-keyword").val();
-			location.href = "${context}/eqp/log?eqpId=" + eqpId;
-			/* movePage(0) */
-			
-		})
+		$(".sidebar > ul li a").removeClass("active")
+		$("#eqp_log").addClass("active");
 		
 	});
 	
-	function movePage(pageNo) {
-		// 전송
-		// 입력값
-		var eqpId = $("#search-keyword").val();
-		// URL 요청
-		location.href = "${context}/eqp/log?eqpId=" + eqpId + "&pageNo=" + pageNo;
-	}
 </script>
 </head>
 <body>
@@ -65,20 +28,8 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-			<div class="path">비품관리 > 비품내역 관리</div>
-				<div class="search_wrapper">
-			        <div class="search_box">
-			          <select>
-			            <option>비품명</option>
-			          </select>
-			          <div class="search_field">
-			          	<input type="text" id="search-keyword" class="input" value="${eqpVO.eqpNm}" placeholder="여기 검색창은 어디갓나여...."/>
-			          </div>
-			          <div class="search-icon">
-			          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
-			          </div>
-			        </div>
-			      </div>
+			<div class="path">비품 관리 > 비품 변경 이력</div>
+
 		      <div class="list_section">
 		        <div class="total">총 ${eqpLogList.size() > 0 ? eqpLogList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
@@ -133,9 +84,7 @@
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	                  <c:param name="path" value="${context}/eqp"/>
 	               	</c:import>
-		        <div class="buttons">
-		          <button id="delete_all_btn" class="btn delete">삭제</button>
-		        </div>
+
 		      </div>	
 			<jsp:include page="../include/footer.jsp" />
 		</div>

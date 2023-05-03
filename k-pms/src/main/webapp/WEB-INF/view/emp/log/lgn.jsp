@@ -13,6 +13,8 @@
 	<jsp:include page="../../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
+			$(".sidebar > ul li a").removeClass("active")
+			$("#emp_log_lgn").addClass("active");
 			
 		});
 		
@@ -30,7 +32,7 @@
 		<div>
 			<jsp:include page="../../include/empSidemenu.jsp"/>
 			<jsp:include page="../../include/content.jsp"/>
-				<div class="path">임직원관리 > 로그인 이력 조회</div>
+				<div class="path">임직원 관리 > 로그인 이력</div>
 		      <div class="search_wrapper">
 		      <form>
 		        <div class="search_box">
@@ -51,11 +53,11 @@
 		        <table class="list_table">
 		          <thead>
 						<tr>
-							<th>사원 ID</th>
-							<th>사원명</th>
-							<th>로그인/로그아웃</th>
-							<th>날짜</th>
-							<th>IP</th>
+							<th style="width: 15%;">사원 ID</th>
+							<th style="width: 15%;">사원명</th>
+							<th style="width: 10%;">로그인/로그아웃</th>
+							<th style="width: 25%;">날짜</th>
+							<th style="width: 25%;">IP</th>
 						</tr>
 		          </thead>
 		          <tbody>

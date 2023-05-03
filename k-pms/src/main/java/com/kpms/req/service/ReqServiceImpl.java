@@ -9,6 +9,7 @@ import com.kpms.atchfl.dao.AtchFlDAO;
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIException;
+import com.kpms.issu.dao.IssuDAO;
 import com.kpms.req.dao.ReqDAO;
 import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
@@ -20,6 +21,8 @@ public class ReqServiceImpl implements ReqService {
 	private ReqDAO reqDAO;
 	@Autowired
 	private AtchFlDAO atchFlDAO;
+	@Autowired
+	private IssuDAO issuDAO;
 
 	@Override
 	public boolean createNewReq(ReqVO reqVO) {
@@ -75,6 +78,10 @@ public class ReqServiceImpl implements ReqService {
 
 	@Override
 	public boolean deleteReqByReqId(String reqId) {
+		int deleteCount = reqDAO.deleteReqByReqId(reqId);
+		if (deleteCount > 0) {
+			issuDAO.deleteIssuByReqId(reqId);
+		}
 		return reqDAO.deleteReqByReqId(reqId) > 0;
 	}
 
@@ -82,4 +89,5 @@ public class ReqServiceImpl implements ReqService {
 	public boolean deleteReqBySelectedReqId(List<String> reqId) {
 		return reqDAO.deleteReqBySelectedReqId(reqId) > 0;
 	}
+	
 }
