@@ -8,7 +8,7 @@ import com.kpms.prj.vo.PrjVO;
 public interface PrjService {
 	
 	public List<PrjVO> readAllPrjVO(PrjSearchVO prjSearchVO);
-	public List<PrjVO> readAllPrjVONoPagination(String prjNm);
+	public List<PrjVO> readAllPrjVONoPagination(PrjSearchVO prjSearchVO);
 	public PrjVO readOnePrjVOByPrjId(String prjId);
 	public boolean createOnePrj(PrjVO prjVO);
 	public boolean updateOnePrj(PrjVO prjVO);

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.tmmbr.dao.TmMbrDAO;
 import com.kpms.tmmbr.vo.TmMbrVO;
