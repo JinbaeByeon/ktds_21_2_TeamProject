@@ -130,6 +130,7 @@
 			
 			var tr = $(this).closest("td").closest(".tmMbr-tr");
 			var index = $(this).data("index");
+			console.log("mdfy" + index)
 			if (orgPstn == chngPstn) {
 				tr.children(".mdfy").remove();
 			}
