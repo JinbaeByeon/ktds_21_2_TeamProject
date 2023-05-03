@@ -328,6 +328,10 @@ a:link, a:visited {
 	color: #2b2b2b;
 }
 
+.container .list_table input {
+	font-size: 15px;
+}
+
 /* pagenate */
 .pagenate {
 	text-align: center;
@@ -405,7 +409,6 @@ a:link, a:visited {
 }
 
 .container .detail_table tr td input[type=text]{
-	width: 100%;
     margin: 0;
 }
 
@@ -420,6 +423,9 @@ a:link, a:visited {
     resize: none;
 }
 
+.container .detail_table input {
+	font-size: 15px;
+}
 
 .container .detail_table th {
 	text-align: left;
@@ -725,9 +731,10 @@ footer {
 	appearance: none;
 	font-size: 16px;
 	
-	background: url(../img/dropdown-arrow.png) no-repeat 85% 50%;
-	width: 100px;
-	background-size: 30px;
+	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
+	width: auto;
+	padding-right: 30px;
+	background-size: 20px;
 }
 
 .list_table > thead > tr > th select option {
@@ -817,15 +824,18 @@ footer {
 
 .fileAttachmentArea {
 	padding: 10px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment {
 	border: 1px solid #2b2b2b30;
 	padding: 10px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment p {
 	font-size: 8pt;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment .fileSize {
@@ -841,12 +851,14 @@ footer {
 .fileAttachmentArea .fileAttachment #file_list li {
 	display: inline-block;
 	padding-right: 5px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .articleBtnsArea {
 	position: relative;
 	height: 24px;
     margin-bottom: 24px;
+    background: rgba(238, 238, 238, 0.974);
 }
 
 .articleBtns {
@@ -862,6 +874,7 @@ footer {
 	margin-top: 1px;
 	margin-bottom: 20px;
 	border-top: 1px solid #2b2b2b30;
+	
 }
 
 .commentBoxArea {
@@ -1013,6 +1026,7 @@ footer {
 .create-group input[type=text].underBar {
 	border: none;
 	border-bottom: 1px solid #ddd;
+	width: 500px;
 }
 
 .create-group .msg-cntnt {
@@ -1213,4 +1227,24 @@ div.button_btm_left {
 select {
 	background: rgba(238, 238, 238, 0.974);
 	
+}
+
+#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
+#eml, #eqpNm, #ttl, #title {
+	width: 400px;
+}
+
+.container .list_table div,
+.container .list_table span {
+	background: rgba(238, 238, 238, 0.974); 
+}
+
+.container .detail_table div,
+.container .detail_table span {
+	background: rgba(238, 238, 238, 0.974); 
+}
+
+.list_table.inner_table div,
+.list_table.inner_table span {
+	background: rgba(238, 238, 238, 0.974); 
 }

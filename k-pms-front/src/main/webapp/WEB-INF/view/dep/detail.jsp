@@ -18,10 +18,6 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#dep_list").addClass("active");
 		
-		$("#list-btn").click(function(response) {
-			location.href = "${context}/dep/list"
-		});
-		
 	});
 </script>
 </head>
@@ -141,9 +137,7 @@
                     </tbody>
                 </table>
 
-        <div class="buttons">
-	       	<button id="list-btn" class="btn regist">목록</button>
-        </div>
+
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>
