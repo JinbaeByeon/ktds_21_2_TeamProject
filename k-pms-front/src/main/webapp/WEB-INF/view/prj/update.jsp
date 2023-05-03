@@ -35,7 +35,7 @@
 		var td = "<td>" + message.empid + "</td>"
 		td += "<td>" + message.tmnm + "</td>"
 		td += "<td>" + message.lnm + message.fnm + "</td>"
-		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
+		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn' data-index='" + len + "'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
 		var rmbtn = $("<button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button>")
 		
@@ -68,8 +68,8 @@
 				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
 				option.append(cdNm);
 				$("#prjStts-select").append(option)
-			} */
-		});
+			} 
+		}); */
 		
 		
 		$("#addTmMbrBtn").click(function(event) {
@@ -175,11 +175,8 @@
 			
 			
 		});
-		
-	
-		
-
 	});
+
 </script>
 </head>
 <body>
@@ -194,23 +191,23 @@
 		                <input type="hidden" id="prjId" name="prjId" value="${prjVO.prjId}" />
 		                <tr>
 		                    <th>프로젝트명</th>
-		                    <td>${prjVO.prjNm}</td>
+		                    <td><input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" readonly/></td>
 		                </tr>
 		                <tr>
 		                    <th>고객사</th>
-		                    <td>${prjVO.cstmr}</td>
+		                    <td><input type="text" id="cstmr" name="cstmr" value="${prjVO.cstmr}" readonly/></td>
 		                </tr>
 		                <tr>
 		                    <th>시작일</th>
-		                    <td>${prjVO.strtDt}</td>
+		                    <td><input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}" readonly/></td>
 		                </tr>
 		                <tr>
 		                    <th>종료일</th>
-		                    <td>${prjVO.endDt}</td>
+		                    <td><input type="date" id="endDt" name="endDt" value="${prjVO.endDt}" readonly/></td>
 		                </tr>
 		                <tr>
 		                    <th>프로젝트 상태</th>
-		                    <td>${prjVO.prjStts}</td>
+		                    <td><input type="text" id="original-prjStts" name="original-prjStts" value="${prjVO.prjStts}" readonly/></td>
 		                </tr>
 <%-- 		                <tr>
 		                    <th>팀</th>

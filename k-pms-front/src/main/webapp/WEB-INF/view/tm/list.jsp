@@ -74,7 +74,7 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">팀 > 팀 조회</div>
+				<div class="path">부서 > 팀 조회</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option" class="search-input">

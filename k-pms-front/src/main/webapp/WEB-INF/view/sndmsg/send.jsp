@@ -245,7 +245,7 @@
 						<div id="user_list"></div>
 						<div>
 							<input type="text" class="underBar" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
-							<button id="search-emp">+</button>
+							<button id="search-emp" class="btn btn-add">+</button>
 						</div>
 					</div>
 				</div>
@@ -257,7 +257,7 @@
 					<label for="files">첨부파일</label>
 					<div class="file_area">
 						<div class="file_upload">
-							<button id="add_files">+</button>
+							<button id="add_files" class="btn btn-add">+</button>
 						</div>
 						<div class="align-center file_div">
 							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
@@ -278,7 +278,7 @@
 				</div>
 			</form>
 			<div class="align-right">
-				<button id="send_btn" class="btn-primary">전송</button>
+				<button id="send_btn" class="btn regist3">전송</button>
 			</div>
 		</div>
 	</div>

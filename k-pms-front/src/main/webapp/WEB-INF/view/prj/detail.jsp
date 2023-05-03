@@ -95,7 +95,7 @@
 								<c:when test="${not empty prjVO.ptmList}">
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
 										<c:if test="${ptm.prjPstn=='PM'}">
-											<tr>
+											<tr id="${ptm.tmMbrVO.empVO.empId}" data-pstn="PM">
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
 												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
@@ -105,7 +105,7 @@
 									</c:forEach>
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
 										<c:if test="${ptm.prjPstn=='PL'}">
-											<tr>
+											<tr id="${ptm.tmMbrVO.empVO.empId}" data-pstn="PL">
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
 												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
@@ -115,7 +115,7 @@
 									</c:forEach>
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
 										<c:if test="${ptm.prjPstn=='TM'}">
-											<tr>
+											<tr id="${ptm.tmMbrVO.empVO.empId}" data-pstn="TM">
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
 												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>

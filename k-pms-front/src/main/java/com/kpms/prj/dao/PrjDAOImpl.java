@@ -25,8 +25,8 @@ public class PrjDAOImpl extends SqlSessionDaoSupport implements PrjDAO {
 	}
 	
 	@Override
-	public List<PrjVO> readAllPrjVONoPagination(String prjNm) {
-		return getSqlSession().selectList("Prj.readAllPrjVONoPagination", prjNm);
+	public List<PrjVO> readAllPrjVONoPagination(PrjSearchVO prjSearchVO) {
+		return getSqlSession().selectList("Prj.readAllPrjVONoPagination", prjSearchVO);
 	}
 	
 	@Override

@@ -151,15 +151,9 @@
 				</div>
 				
 				<div class="grid">
-					<div class="grid-count">
-						<div class="align-left left">
-							<button id="delete_all_btn">삭제</button>
-							<button id="create_btn">추가</button>
-						</div>
 						<div class="align-right right">
 							총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
 						</div>
-					</div>
 					<table>
 						<thead>
 							<tr>
@@ -224,6 +218,12 @@
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	               	</c:import>
+	               	<div class="buttons">
+						<div class="align-left left">
+							<button id="create_btn" class="btn new">추가</button>
+							<button id="delete_all_btn" class="btn delete">삭제</button>
+						</div>
+					</div>
 				</div>	
 			<jsp:include page="../include/footer.jsp" />
 		</div>

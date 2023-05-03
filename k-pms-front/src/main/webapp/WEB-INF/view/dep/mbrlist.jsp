@@ -293,9 +293,9 @@
 							</table>
 				</form>
 				<div class="align-right">
-					<button id="addTmMbrBtn" class="btn-primary">추가</button>
-					<button id="regist-btn" class="btn-primary">등록</button>
-					<button id="delete-btn" class="btn-delete">삭제</button>
+					<button id="addTmMbrBtn" class="btn new">추가</button>
+					<button id="regist-btn" class="btn regist">등록</button>
+					<button id="delete-btn" class="btn delete">삭제</button>
 				</div>
 						
 			<jsp:include page="../include/footer.jsp" />

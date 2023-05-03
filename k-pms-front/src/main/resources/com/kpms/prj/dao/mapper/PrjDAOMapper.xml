@@ -81,7 +81,7 @@
 	</select>
 	
 	<select id="readAllPrjVONoPagination"
-			parameterType="string"
+			parameterType="com.kpms.prj.vo.PrjSearchVO"
 			resultType="com.kpms.prj.vo.PrjVO">
 		SELECT P.PRJ_ID
 			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
@@ -98,10 +98,19 @@
 		  FROM PRJ P
 		 INNER JOIN CMN_CD CD
 		    ON P.PRJ_STTS = CD.CD_ID
+		 INNER JOIN PRJ_TM_MBR PTM 
+		    ON PTM.PRJ_ID = P.PRJ_ID 
+		 INNER JOIN TM_MBR TM
+		    ON TM.TM_MBR_ID = PTM.TM_MBR_ID 
 		 WHERE P.DEL_YN = 'N'
+		   AND PTM.DEL_YN = 'N'
+		   AND TM.DEL_YN = 'N'
 		 <if test = 'prjNm != null and prjNm != ""'>
 		   AND P.PRJ_NM LIKE '%' || #{prjNm} || '%'
 		 </if>
+		 <if test="empId != null and empId != ''">
+		   AND TM.EMP_ID = #{empId}
+		</if>
 		 
 		 ORDER BY P.PRJ_ID ASC
 	</select>
