@@ -220,8 +220,8 @@
 				<div class="articleBtnsArea">
 					<div class="articleBtns">
 						<c:if test="${(rplVO.crtr eq sessionScope.__USER__.empId) or (sessionScope.__USER__.admnYn eq 'Y')}">
-							<button class="updateBtn">수정</button>
-							<button class="deleteBtn">삭제</button>
+							<button class="updateBtn btn save">수정</button>
+							<button class="deleteBtn btn delete">삭제</button>
 						</c:if>
 						<button class="listBtn btn regist">목록</button>
 					</div>
@@ -257,12 +257,12 @@
 													<p>${rplVO.cnt}</p>
 												</div>
 												<div class="commentBtns">
-													<button class="replyBtn">답글</button>
+													<button class="replyBtn btn save">답글</button>
 													<c:if test="${(rplVO.crtr eq sessionScope.__USER__.empId) or (sessionScope.__USER__.admnYn eq 'Y')}">
-														<button class="commentUpdateBtn" value="update">수정</button>
+														<button class="commentUpdateBtn btn save" value="update">수정</button>
 													</c:if>
 													<c:if test="${(rplVO.crtr eq sessionScope.__USER__.empId) or (sessionScope.__USER__.admnYn eq 'Y')}">
-														<button class="commentDeleteBtn">삭제</button>
+														<button class="commentDeleteBtn btn delete">삭제</button>
 													</c:if>
 												</div>
 												<div class="commentBoxArea" style="width: ${920 - rplVO.depth * 30}px" hidden>
