@@ -268,7 +268,7 @@
 								<div class="file_attachment_summary input_div">
 									<span class="total_count input_div">첨부 개</span>
 									<span class="total_volume input_div">전체용량</span>
-									<button class="btn save">모두저장</button>
+									<button class="save_all btn save">모두저장</button>
 								</div>
 								<div class="file_attachments_inner input_div">
 									<ul id="file_list">

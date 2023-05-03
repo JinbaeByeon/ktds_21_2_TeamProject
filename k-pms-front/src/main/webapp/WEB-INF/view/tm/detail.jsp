@@ -32,40 +32,37 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">팀 > 팀 조회 > 팀 상세조회</div>
-					<div>
-						<div class="create-group">
-							<label for="tmNm">팀명</label>
-							${tmVO.tmNm}
-						</div>
-						<div class="create-group">
-							<label for="tmHdNm">팀장명</label>
-							${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}
-						</div>
-						<div class="create-group">
-							<label for="tmCrtDt">팀 생성일</label>
-							${tmVO.tmCrtDt}
-						</div>
-					</div>
-					
-					<div class="grid">
-						<div>소속 팀원</div>
-						<div class="grid-count align-right">
-							 총 ${tmVO.tmMbrList.size() > 0 ? tmVO.tmMbrList.size() : 0}건
-						</div>
-						<table>
-							<thead>
-								<tr>
-									<th>팀 직책</th>
-									<th>직급</th>
-									<th>이름</th>
-									<th>직무</th>
-									<th>생년월일</th>
-									<th>이메일</th>
-									<th>전화번호</th>
-									<th>직급연차</th>
-								</tr>
-							</thead>
-						<tbody>
+			<table class="detail_page detail_table">
+                <tr>
+                    <th>팀명</th>
+                    <td colspan="3">${tmVO.tmNm}</td>
+                </tr>
+                <tr>
+                    <th>팀장명</th>
+                    <td colspan="3">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</td>
+                </tr>
+                <tr>
+                    <th>팀 생성일</th>
+                    <td colspan="3">${tmVO.tmCrtDt}</td>
+                </tr>
+                <tr>
+                    <th>소속 팀원</th>
+                    <td colspan="3">
+                        <div class="total">총 ${tmVO.tmMbrList.size() > 0 ? tmVO.tmMbrList.size() : 0}건</div>
+                        <table class="list_table inner_table">
+                        <thead>
+							<tr>
+								<th>팀 직책</th>
+								<th>직급</th>
+								<th>이름</th>
+								<th>직무</th>
+								<th>생년월일</th>
+								<th>이메일</th>
+								<th>전화번호</th>
+								<th>직급연차</th>
+							</tr>
+                        </thead>
+                        <tbody>
 							<tr>
 								<td>팀장</td>
 								<td>${tmHdEmpVO.pstn.pstnNm}</td>
@@ -103,12 +100,15 @@
 									</tr>
 								</c:otherwise>
 							</c:choose>
-						</tbody>
-					</table>
-				</div>
-				<div class="align-right">
-					<button id="list-btn" class="btn-primary">목록</button>
-				</div>
+                        </tbody>
+                    </table>              
+
+            </table>
+                
+
+        <div class="buttons">
+			<button id="list-btn" class="btn new">목록</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />	
 			</div>			
 		</div>

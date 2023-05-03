@@ -129,7 +129,7 @@
 			 , PRK.CSTMR
 			 , PRK.STRT_DT
 			 , PRK.END_DT
-			 , CD.CD_NM PRJ_STTS
+			 , P_CD.CD_NM PRJ_STTS
 			 , PTM.TM_MBR_ID
 			 , TM.EMP_ID
 			 , T.TM_ID 
@@ -143,8 +143,8 @@
 			 , PRK.REQ_STRT_DT
 			 , PRK.EXPCT_END_DT
 			 , PRK.MN_DVLPR
-			 , PRK.TSK_STTS
-			 , PRK.PRCS_STTS 
+			 , T_CD.CD_NM TSK_STTS
+			 , PS_CD.CD_NM PRCS_STTS 
 			 , PRK.PRRTY 
 			 , PRK.KNW_ID
 			 , PRK.TTL
@@ -196,8 +196,12 @@
 		    ON TM.TM_ID = T.TM_ID 
 		  JOIN EMP E
 		    ON TM.EMP_ID = E.EMP_ID
-		  JOIN CMN_CD CD
-		    ON CD.CD_ID = PRK.PRJ_STTS
+	      JOIN CMN_CD P_CD
+		    ON P_CD.CD_ID = PRK.PRJ_STTS
+	      LEFT JOIN CMN_CD T_CD
+		    ON T_CD.CD_ID = PRK.TSK_STTS
+	      LEFT JOIN CMN_CD PS_CD
+		    ON PS_CD.CD_ID = PRK.PRCS_STTS
 		 WHERE PTM.DEL_YN ='N'
 		   AND TM.DEL_YN = 'N'
 		   AND E.DEL_YN = 'N'

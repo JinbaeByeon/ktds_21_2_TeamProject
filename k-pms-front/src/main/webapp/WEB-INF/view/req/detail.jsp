@@ -228,44 +228,44 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 상세 정보</div>
-				<div class="grid-detail">
-					<form id="detail_form" >
-						<div class="create-group">
-							<label for="reqTtl" style="width: 180px;">제목</label>
-							<div>${reqVO.reqTtl}</div>
-						</div>
-						<div class="create-group">
-							<label for="prrty" style="width: 180px;">우선순위</label>
-							<div>${reqVO.prrty}</div>
-						</div>
-						<div class="create-group">
-							<label for="strtDt" style="width: 180px;">시작일</label>
-							<div>${reqVO.strtDt}</div>
-						</div>
-						<div class="create-group">
-							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<div>${reqVO.expctEndDt}</div>
-						</div>
-						<div class="create-group">
-							<label for="prjNm" style="width: 180px;">프로젝트명</label>
-							<div>${reqVO.reqPrjVO.prjNm}</div>
-						</div>
-						<div class="create-group">
-							<label for="mnDvlpr" style="width: 180px;">담당개발자</label>
-							<div>${reqVO.mnDvlpr}</div>
-						</div>
-						<div class="create-group">
-							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<div>${reqVO.reqCnfrNm}</div>
-						</div>
-						<div class="create-group">
-							<label for="files" style="width: 180px;">첨부파일</label>
+				<div class="path">${reqVO.reqTtl}</div>
+				<table class="detail_page detail_table">
+                <tr>
+                    <th>제목</th>
+                    <td colspan="3">${reqVO.reqTtl}</td>
+                </tr>
+                <tr>
+                    <th>우선순위</th>
+                    <td colspan="3">${reqVO.prrty}</td>
+                </tr>
+                <tr>
+                    <th>시작일</th>
+                    <td colspan="3">${reqVO.strtDt}</td>
+                </tr>
+                <tr>
+                    <th>종료예정일</th>
+                    <td colspan="3">${reqVO.expctEndDt}</td>
+                </tr>
+                <tr>
+                    <th>프로젝트명</th>
+                    <td colspan="3">${reqVO.reqPrjVO.prjNm}</td>
+                </tr>
+                <tr>
+                    <th>담당개발자</th>
+                    <td colspan="3">${reqVO.mnDvlpr}</td>
+                </tr>
+                <tr>
+                    <th>확인자</th>
+                    <td colspan="3">${reqVO.reqCnfrNm}</td>
+                </tr>
+                <tr>
+                    <th>첨부파일</th>
+                    <td colspan="3">
 							<div class="file_attachment">
 								<div class="file_attachment_summary">
 									<span class="total_count">첨부 개</span>
 									<span class="total_volume">전체용량</span>
-									<button class="save_all">모두저장</button>
+									<button class="save_all btn save">모두저장</button>
 								</div>
 								<div class="file_attachments_inner">
 									<ul id="file_list">
@@ -290,100 +290,102 @@
 								</div>
 							</div>
 						<input type="file" id="files" multiple/>
-						</div>
-						<div class="create-group">
-							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<div>${reqVO.prcsCdNm}</div>
-						</div>
-						<div class="create-group">
-							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<div>${reqVO.tskCdNm}</div>
-						</div>
-						<div class="create-group">
-							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<div>${reqVO.rsltCdNm}</div>
-						</div>
-						<div class="create-group">
-							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
-							<div>${reqVO.dtlReq}</div>
-						</div>
-					</form>		
-				</div>
-				<div class="align-right">
-					<button id="update_btn" class="btn-primary">수정</button>
-					<button id="back-btn" class="btn-delete">뒤로</button>
-				</div>	
-				<div class="create-group">
-				<label for="issue" style="width: 180px;">이슈</label>
-				</div>	
-				<div class="grid">
-					<div class="grid-count align-right">
-						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
-						<a href="${context}/issu/list?reqId=${reqVO.reqId}&reqVO.reqTtl=${reqVO.reqTtl}&reqVO.prjId=${reqVO.prjId}&prjNm=${reqVO.reqPrjVO.prjNm}">[전체보기]</a>
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th><input type="checkbox" id="all_issu_check"/></th>
-								<th>순번</th>
-								<th>이슈제목</th>
-								<th>등록팀원</th>
-								<th>이슈내용</th>
-								<th>조회수</th>
-								<th>난이도</th>
-								<th>담당팀원</th>
-								<th>관리상태</th>
-								<th>등록일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty issuList}">
-									<c:forEach items="${issuList}"
-											   var="issu"
-											   begin="0"
-											   end="4">
-										<tr data-issuid="${issu.issuId}"
-											data-issuttl="${issu.issuTtl}"
-											data-crtr="${issu.crtr}"
-											data-vwcnt="${issu.vwCnt}"
-											data-issucntnt="${issu.issuCntnt}"
-											data-dffclty="${issu.dffclty}"
-											data-mntmmbrid="${issu.mnTmMbrId}"
-											data-stts="${issu.stts}"
-											data-crtdt="${issu.crtDt}"
-											data-mdfyr="${issu.mdfyr}"
-											data-mdfydt="${issu.mdfyDt}"
-											data-useyn="${issu.useYn}"
-											data-delyn="${issu.delYn}">
-											<td>
-												<input type="checkbox" class="check_idx" value="${issu.issuId}">
-											</td>
-											<td>${issu.rnum}</td>
-											<td>${issu.issuTtl}</td>
-											<td>${issu.crtr}</td>
-											<td>${issu.issuCntnt}</td>
-											<td>${issu.vwCnt}</td>
-											<td>${issu.dffclty}</td>
-											<td>${issu.mnTmMbrId}</td>
-											<td>${issu.stts}</td>
-											<td>${issu.crtDt}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="10" class="no-items">
-											등록된 이슈가 없습니다.
+                    </td>
+                </tr>
+                <tr>
+                    <th>진행상태</th>
+                    <td colspan="3">${reqVO.prcsCdNm}</td>
+                </tr>
+                <tr>
+                    <th>일정상태</th>
+                    <td colspan="3">${reqVO.tskCdNm}</td>
+                </tr>
+                <tr>
+                    <th>테스트 결과</th>
+                    <td colspan="3">${reqVO.rsltCdNm}</td>
+                </tr>
+                <tr>
+                    <th>상세요구사항</th>
+                    <td colspan="3">${reqVO.dtlReq}</td>
+                </tr>
+                <tr>
+                    <th>사용여부</th>
+                    <td colspan="3">${reqVO.useYn}</td>
+                </tr>
+            </table>
+                
+        <div class="hr"></div>
+            <div class="req path">이슈</div>
+            <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
+            <div class="view_all">
+                <a href="${context}/issu/list?reqId=${reqVO.reqId}&reqVO.reqTtl=${reqVO.reqTtl}&reqVO.prjId=${reqVO.prjId}&prjNm=${reqVO.reqPrjVO.prjNm}">[전체보기]</a>
+            </div>
+            
+                <table class="list_table sub_table">
+                    <thead>
+                        <tr>
+							<th><input type="checkbox" id="all_issu_check"/></th>
+							<th>순번</th>
+							<th>이슈제목</th>
+							<th>등록팀원</th>
+							<th>이슈내용</th>
+							<th>조회수</th>
+							<th>난이도</th>
+							<th>담당팀원</th>
+							<th>관리상태</th>
+							<th>등록일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+						<c:choose>
+							<c:when test="${not empty issuList}">
+								<c:forEach items="${issuList}"
+										   var="issu"
+										   begin="0"
+										   end="4">
+									<tr data-issuid="${issu.issuId}"
+										data-issuttl="${issu.issuTtl}"
+										data-crtr="${issu.crtr}"
+										data-vwcnt="${issu.vwCnt}"
+										data-issucntnt="${issu.issuCntnt}"
+										data-dffclty="${issu.dffclty}"
+										data-mntmmbrid="${issu.mnTmMbrId}"
+										data-stts="${issu.stts}"
+										data-crtdt="${issu.crtDt}"
+										data-mdfyr="${issu.mdfyr}"
+										data-mdfydt="${issu.mdfyDt}"
+										data-useyn="${issu.useYn}"
+										data-delyn="${issu.delYn}">
+										<td>
+											<input type="checkbox" class="check_idx" value="${issu.issuId}">
 										</td>
+										<td>${issu.rnum}</td>
+										<td>${issu.issuTtl}</td>
+										<td>${issu.crtr}</td>
+										<td>${issu.issuCntnt}</td>
+										<td>${issu.vwCnt}</td>
+										<td>${issu.dffclty}</td>
+										<td>${issu.mnTmMbrId}</td>
+										<td>${issu.stts}</td>
+										<td>${issu.crtDt}</td>
 									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-					<button id="issu_create_btn">추가</button>
-					<button id="issu_delete_btn">삭제</button>
-				</div>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="10" class="no-items">
+										등록된 이슈가 없습니다.
+									</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+                    </tbody>
+                </table>
+
+        <div class="buttons">
+			<button id="update_btn" class="btn edit">수정</button>
+			<button id="issu_delete_btn" class="btn delete">삭제</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

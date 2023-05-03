@@ -160,7 +160,7 @@
 					 , K.VW_CNT
 		  		  FROM (SELECT *
 				  		  FROM PRJ
-						 WHERE PRJ_ID = 'PRJ-20230503-00244'
+						 WHERE PRJ_ID = #{_parameter}
 						   AND DEL_YN = 'N') P
 			      LEFT JOIN (SELECT *
 			      			   FROM REQ
@@ -180,9 +180,9 @@
 		    ON TM.EMP_ID = E.EMP_ID
 	      JOIN CMN_CD P_CD
 		    ON P_CD.CD_ID = PRK.PRJ_STTS
-	      JOIN CMN_CD T_CD
+	      LEFT JOIN CMN_CD T_CD
 		    ON T_CD.CD_ID = PRK.TSK_STTS
-	      JOIN CMN_CD PS_CD
+	      LEFT JOIN CMN_CD PS_CD
 		    ON PS_CD.CD_ID = PRK.PRCS_STTS
 		 WHERE PTM.DEL_YN ='N'
 		   AND TM.DEL_YN = 'N'
