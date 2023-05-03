@@ -91,7 +91,20 @@ public class TmServiceImpl implements TmService {
 
 	@Override
 	public boolean updateOneTmAndTmMbr(TmVO tmVO) {
-		return tmDAO.updateOneTmAndTmMbr(tmVO) > 0;
+		int tmMbrUpdateCount = tmDAO.updateOneTmAndTmMbr(tmVO);
+		if (tmMbrUpdateCount > 0) {
+			List<TmMbrVO> tmMbrList = tmVO.getTmMbrList();
+			if (tmMbrList == null || tmMbrList.isEmpty()) {
+				throw new APIArgsException("404", "팀원을 추가해주세요");
+			}
+			for (TmMbrVO tmMbr: tmMbrList) {
+				tmMbr.setTmId(tmVO.getTmId());
+				tmMbr.setCrtr(tmVO.getCrtr());
+				tmMbr.setMdfyr(tmVO.getMdfyr());
+				tmMbrDAO.createOneTmMbr(tmMbr);
+			}
+		}
+		return tmMbrUpdateCount > 0;
 	}
 	
 	@Override

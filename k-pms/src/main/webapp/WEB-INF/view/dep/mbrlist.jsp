@@ -16,8 +16,9 @@
 	    }
 	}
 	var empId;
-	var empIds = [];
 	var tmMbr;
+	var tmMbrList=[];
+	var nextIndex=0;
 		
 	function addMbrFn(message) {
 	
@@ -29,11 +30,10 @@
 	        return;
 	    }
 	
-	    var nextIndex = empIds.length;
-	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
+	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].empId' class='emp-item'/>");
 	    itemId.val(empId);
 	
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex++ + "'></tr>");
 	
 	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
 	    td += "<td>" + empId + "</td>"
@@ -46,12 +46,12 @@
 	    rmbtn.click(function() {
 	        var empTrToRemove = $(this).closest(".emp-tr");
 	        var empIndexToRemove = empTrToRemove.data("index");
-	        empIds.splice(empIndexToRemove, 1);
 	        empTrToRemove.remove();
 	        $(".emp-tr[data-index]").each(function(i, tr) {
 	            $(tr).data("index", i);
-	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
+	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].empId");
 	        });
+	        --nextIndex;
 	    });
 	
 	    empItems.append(empTr);
@@ -59,23 +59,6 @@
 	    empTr.append(td);
 	    empTr.append(rmbtn);
 	
-	    empIds.push(empId);
-	
-	}
-	
-	function createTmmbr(tmId, empId) {
-	    $.ajax({
-	        url: "${context}/api/tmmbr/create",
-	        type: "POST",
-	        data: {tmId: tmId, empId: empId},
-	        success: function(response) {
-	            if (response.status == "200 OK") {
-	            } 
-	            else {
-	            	alert(response.errorCode + " / " + response.message);
-	            }
-	        }
-	    });
 	}
 	
 	$().ready(function() {
@@ -209,12 +192,6 @@
 				if (response.status == "200 OK") {
 					location.href = "${context}" + response.redirectURL;
 					
-					empIds.forEach(function(empId) {
-			    		
-				    	createTmmbr(tmId, empId);
-				    		
-				    });
-					
 				}
 				else {
 					alert(response.errorCode + "/" + response.message);
@@ -308,7 +285,7 @@
 				    <div class="buttons">
 					<button id="addTmMbrBtn" class="btn regist">추가</button>
 					<button id="regist-btn" class="btn regist">등록</button>
-					<button id="delete-btn" class="btn delete">삭제</button>
+					<button id="delete-btn" class="btn delete">팀원 삭제</button>
 				    </div>
 				</div>
 			<jsp:include page="../include/footer.jsp" />
