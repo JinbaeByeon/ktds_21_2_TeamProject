@@ -13,14 +13,6 @@ public interface DepService {
 	
 	public DepVO readOneDepVOByDepId(String depId);
 	
-	public boolean createOneDep(DepVO depVO);
-	
-	public boolean updateOneDepByDepId(DepVO depVO);
-	
-	public boolean deleteOneDepByDepId(String depId);
-	
-	public boolean deleteDepBySelectedDepId(List<String> depId);
-	
 	public List<DepVO> readAllDepToTmMbr(DepVO depVO);
 	
 }

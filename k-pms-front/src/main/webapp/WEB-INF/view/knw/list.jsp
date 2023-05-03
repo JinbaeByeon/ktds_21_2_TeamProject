@@ -82,7 +82,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">지식관리 > 지식관리 목록</div>
+				<div class="path">프로젝트 관리 > 지식관리 목록</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option">

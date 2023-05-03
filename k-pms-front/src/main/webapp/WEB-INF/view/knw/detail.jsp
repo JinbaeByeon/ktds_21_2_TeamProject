@@ -192,7 +192,7 @@
 							<button class="updateBtn">수정</button>
 							<button class="deleteBtn">삭제</button>
 						</c:if>
-						<button class="updateBtn">목록</button>
+						<button class="btn regist">목록</button>
 					</div>
 				</div>
 				
@@ -201,7 +201,7 @@
 						<form class="commentForm">
 							<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 							<input type="text" class="cnt" name="cnt" placeholder="댓글을 입력해 주세요." />
-							<button class="commentSubmitBtn">등록</button>
+							<button class="commentSubmitBtn btn regist2">등록</button>
 						</form>
 					</div>
 				</div>
@@ -226,12 +226,12 @@
 													<p>${rplVO.cnt}</p>
 												</div>
 												<div class="commentBtns">
-													<button class="replyBtn">답글</button>
+													<button class="replyBtn btn sreply">답글</button>
 													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
-														<button class="commentUpdateBtn" value="update">수정</button>
+														<button class="commentUpdateBtn btn sedit" value="update">수정</button>
 													</c:if>
 													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
-														<button class="commentDeleteBtn">삭제</button>
+														<button class="commentDeleteBtn btn sdelete">삭제</button>
 													</c:if>
 												</div>
 												<div class="commentBoxArea" style="width: ${920 - rplVO.depth * 30}px" hidden>
@@ -239,7 +239,7 @@
 														<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 														<input type="hidden" name="prcdncRplId" value="${rplVO.rplId}" />
 														<input type="text" class="cnt" name="cnt" placeholder="답글을 입력해 주세요." />
-														<button class="commentSubmitBtn">등록</button>
+														<button class="commentSubmitBtn btn regist2">등록</button>
 													</form>
 												</div>
 											</div>
