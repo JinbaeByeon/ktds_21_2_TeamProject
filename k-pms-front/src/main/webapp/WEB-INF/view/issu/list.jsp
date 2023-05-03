@@ -112,7 +112,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">프로젝트 관리 > 이슈</div>
+				<div class="path">프로젝트 관리 > 이슈 목록</div>
 				<div class="search-group">
 					<label for="search-keyword">이슈ID</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${issuVO.issuId}"/>

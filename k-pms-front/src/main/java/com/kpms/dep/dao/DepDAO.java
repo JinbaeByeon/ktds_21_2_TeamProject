@@ -13,14 +13,6 @@ public interface DepDAO {
 	
 	public DepVO readOneDepVOByDepId(String depId);
 	
-	public int createOneDep(DepVO depVO);
-	
-	public int updateOneDepByDepId(DepVO depVO);
-	
-	public int deleteOneDepByDepId(String depId);
-	
-	public int deleteDepBySelectedDepId(List<String> depId);
-	
 	public List<DepVO> readAllDepToTmMbr(DepVO depVO);
 	
 }

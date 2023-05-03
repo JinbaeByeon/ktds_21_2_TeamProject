@@ -550,7 +550,28 @@ a:link, a:visited {
 .btn-add:hover {
 	background: rgb(126 124 119);
 }
-
+.btn.sedit {
+	background: #5b7874;
+	padding: 3px;
+	margin: 0px;
+}
+.btn.sedit:hover {
+	background: #3e5250;
+}
+.btn.sdelete {
+	background: rgb(187, 39, 32);
+	padding: 3px;
+	margin: 0px;
+}
+.btn.sreply {
+	background: #cbbbb6;
+}
+.btn.sreply:hover {
+	background: #9b8f8b;
+}
+.btn.sdelete:hover {
+	background: rgb(163, 15, 0);
+}
 .trRemoveBtn {
 	border: none;
 	position: relative;
