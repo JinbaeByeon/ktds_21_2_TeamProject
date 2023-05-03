@@ -38,7 +38,6 @@
 	<div class="search-popup content">
 		<h1>요구사항 검색</h1>
 		<form>
-			<input type="hidden" name="empId" value="${empId}">
 			<div class="search-group">
 				<label for="">프로젝트명</label>
 				<input type="text" name="prjNm" class="grow-1 mr-10" value="${prjNm}"/>

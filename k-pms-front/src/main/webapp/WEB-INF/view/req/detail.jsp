@@ -319,12 +319,12 @@
 				<div class="grid">
 					<div class="grid-count align-right">
 						총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
-						<a href="${context}/issu/list?reqId=${reqVO.reqId}">[전체보기]</a>
+						<a href="${context}/issu/list?reqId=${reqVO.reqId}&reqVO.reqTtl=${reqVO.reqTtl}&reqVO.prjId=${reqVO.prjId}&prjNm=${reqVO.reqPrjVO.prjNm}">[전체보기]</a>
 					</div>
 					<table>
 						<thead>
 							<tr>
-								<th><input type="checkbox" id="all_issu_check"/></th>							
+								<th><input type="checkbox" id="all_issu_check"/></th>
 								<th>순번</th>
 								<th>이슈제목</th>
 								<th>등록팀원</th>

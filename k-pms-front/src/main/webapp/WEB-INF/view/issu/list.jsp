@@ -14,6 +14,11 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event){
+	    if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+			location.reload();
+		}
+	}
 	$().ready(function(){
 		$(".sidebar > ul li a").removeClass("active")
 		$("#issu_list").addClass("active");
@@ -100,9 +105,26 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var issuId = $("#search-keyword").val();
+		var searchKeyword = $("#search-keyword").val();
+		var reqId = "${issuVO.reqId}";
+		var reqTtl = "${issuVO.reqVO.reqTtl}";
+		var prjId = "${issuVO.reqVO.prjId}";
+		var prjNm = "${prjNm}";
+		var queryString = "?pageNo=" +pageNo;
+		if(reqId){
+			queryString += "&reqId="+reqId;
+		}
+		if(reqTtl){
+			queryString += "&reqVO.reqTtl="+reqTtl;
+		}
+		if(prjId){
+			queryString += "&reqVO.prjId="+prjId;
+		}
+		if(prjNm){
+			queryString += "&prjNm="+prjNm;
+		}
 		// URL 요청
-		location.href = "${context}/issu/list?issuId=" + issuId + "&pageNo=" + pageNo;
+		location.href = "${context}/issu/list" + queryString;
 	}
 </script>
 </head>
@@ -112,7 +134,16 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 이슈</div>
+				<div class="path">
+					<c:if test="${not empty prjNm}">
+						<a href='${context}/prj/detail/${issuVO.reqVO.prjId}'>${prjNm}</a> >
+						<a href='${context}/req/detail/${issuVO.reqId}'>${issuVO.reqVO.reqTtl}</a> > 이슈
+					</c:if>
+					<c:if test="${empty prjNm}">
+						<a href='${context}/prj/list'>프로젝트</a> >
+						<a href='${context}/req/list'>요구사항</a> > 이슈
+					</c:if>
+				</div>
 				<div class="search-group">
 					<label for="search-keyword">이슈ID</label>
 					<input type="text" id="search-keyword" class="search-input"  value="${issuVO.issuId}"/>

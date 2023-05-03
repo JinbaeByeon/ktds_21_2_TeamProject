@@ -41,8 +41,8 @@
 			<jsp:include page="../include/content.jsp" />	
         	<div class="path">${prjId} | ${prjVO.prjNm}</div>
 			<table class="detail_page detail_table">
-                <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly/>
-                <input type="hidden" id="empId" name="empId" value="${empId}" readonly/>
+                <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly />
+                <input type="hidden" id="empId" name="empId" value="${empId}" readonly />
                 <tr>
                     <th>프로젝트명</th>
                     <td colspan="3">${prjVO.prjNm}</td>
@@ -151,7 +151,7 @@
             <div class="hr"></div>
             <div class="req path">요구사항</div>
             <div class="view_all">
-                <a href="${context}/req/list?prjId=${prjId}&pageNo=0">전체보기</a>
+                <a href="${context}/req/list?prjId=${prjId}&prjNm=${prjVO.prjNm}">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">

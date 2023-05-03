@@ -38,7 +38,7 @@ public class IssuController {
 		model.addAttribute("pageNo",issuVO.getPageNo());
 		model.addAttribute("pageCnt",issuVO.getPageCnt());
 		model.addAttribute("viewCnt",issuVO.getViewCnt());
-		model.addAttribute("empVO",issuVO);
+		model.addAttribute("issuVO",issuVO);
 		return "issu/list";
 	}
 	
@@ -55,6 +55,7 @@ public class IssuController {
 	@GetMapping("/issu/detail/{issuId}")
 	public String viewIssuDetailPage(Model model, @PathVariable String issuId) {
 		IssuVO issuVO = issuService.readOneIssu(issuId);
+		issuService.updateIssuVwCnt(issuId);
 		model.addAttribute("issuVO",issuVO);
 		return "issu/detail";
 	}
