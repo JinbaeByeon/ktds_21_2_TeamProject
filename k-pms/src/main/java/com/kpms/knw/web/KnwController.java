@@ -31,7 +31,7 @@ public class KnwController {
 	private String atchmntPath;
 	
 	@GetMapping("/knw/list/{commonMode}")
-	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable String commonMode) {
+	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable boolean commonMode) {
 		knwSearchVO.setCommonMode(commonMode);
 		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
 		model.addAttribute("knwList", knwList);

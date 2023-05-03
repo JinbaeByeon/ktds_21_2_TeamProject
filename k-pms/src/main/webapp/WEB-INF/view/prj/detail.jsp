@@ -204,7 +204,7 @@
         <div class="hr"></div>
             <div class="req path">지식관리</div>
             <div class="view_all">
-                <a href="${context}/knw/list/prj?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
+                <a href="${context}/knw/list/0?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">

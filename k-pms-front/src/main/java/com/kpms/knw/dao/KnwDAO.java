@@ -8,6 +8,7 @@ import com.kpms.knw.vo.KnwVO;
 public interface KnwDAO {
 	
 	public int createOneKnw(KnwVO knwVO);
+	public int createOneCommonKnw(KnwVO knwVO);
 	public List<KnwVO> readAllKnw(KnwSearchVO knwSearchVO);
 	public KnwVO readOneKnwByKnwId(String KnwId);
 	public int updateOneKnw(KnwVO knwVO);
