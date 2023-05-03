@@ -54,7 +54,7 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#prj_list").addClass("active");
 		
-		$.get("${context}/api/cmncd/list/002", function(response) {
+		/* $.get("${context}/api/cmncd/list/002", function(response) {
 			var isSelected
 			
 			for (var i in response.data) {
@@ -68,7 +68,7 @@
 				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
 				option.append(cdNm);
 				$("#prjStts-select").append(option)
-			}
+			} */
 		});
 		
 		
@@ -176,22 +176,7 @@
 			
 		});
 		
-		
-		$("#delete-btn").click(function() {
-			var prjId = $("#prjId").val();
-			if(!confirm("정말 삭제하시겠습니까?")) {
-				return;
-			}
-			
-			$.get("${context}/api/prj/delete/" + prjId, function(response) {
-				if (response.status == "200 OK") {
-					location.href = "${context}/prj/list"
-				}
-				else {
-					alert(response.errorCode + "/" + response.message);
-				}
-			});
-		});
+	
 		
 
 	});
@@ -209,30 +194,23 @@
 		                <input type="hidden" id="prjId" name="prjId" value="${prjVO.prjId}" />
 		                <tr>
 		                    <th>프로젝트명</th>
-		                    <td><input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" /></td>
+		                    <td>${prjVO.prjNm}</td>
 		                </tr>
 		                <tr>
 		                    <th>고객사</th>
-		                    <td><input type="text" id="cstmr" name="cstmr" value="${prjVO.cstmr}" /></td>
+		                    <td>${prjVO.cstmr}</td>
 		                </tr>
 		                <tr>
 		                    <th>시작일</th>
-		                    <td><input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}" readonly/></td>
+		                    <td>${prjVO.strtDt}</td>
 		                </tr>
 		                <tr>
 		                    <th>종료일</th>
-		                    <td><input type="date" id="endDt" name="endDt" value="${prjVO.endDt}" readonly/></td>
+		                    <td>${prjVO.endDt}</td>
 		                </tr>
 		                <tr>
 		                    <th>프로젝트 상태</th>
-		                    <td>
-		                    	<input type="hidden" id="original-prjStts" name="original-prjStts" value="${prjVO.prjStts}"/>
-								<select id="prjStts-select" name="prjStts"></select>
-							</td>
-		                </tr>
-		                <tr>
-		                    <th>사용여부</th>
-		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y" ${prjVO.useYn eq 'Y' ? 'checked' : ''}/></td>
+		                    <td>${prjVO.prjStts}</td>
 		                </tr>
 <%-- 		                <tr>
 		                    <th>팀</th>
@@ -295,7 +273,6 @@
 				</form>
         <div class="buttons">
           <button id="modify-btn" class="btn regist">저장</button>
-          <button id="delete-btn" class="btn delete">삭제</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="date" value="<%= new Random().nextInt() %>" />
-<c:set scope="request" var="selected" value="eqp"/>
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
 	$().ready(function(){
 		
 		$(".sidebar > ul li a").removeClass("active")
-		$("#eqp_log").addClass("active");
+		$("#prj_log").addClass("active");
 		
 	});
 	
@@ -26,50 +26,44 @@
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
-			<jsp:include page="../include/eqpSidemenu.jsp"/>
+			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-			<div class="path">비품 관리 > 비품 변경 이력</div>
+			<div class="path">프로젝트 관리 > 프로젝트 변경 이력</div>
 
 		      <div class="list_section">
-		        <div class="total">총 ${eqpLogList.size() > 0 ? eqpLogList.get(0).totalCount : 0}건</div>
+		        <div class="total">총 ${prjLogList.size() > 0 ? prjLogList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-						<th>순번</th>
 						<th>로그ID</th>
-						<th>비품ID</th>
-						<th>신청자명</th>
-						<th>신청내용</th>
-						<th>등록자명</th>
+						<th>프로젝트ID</th>
+						<th>프로젝트 상태</th>
+						<th>등록자</th>
 						<th>등록일</th>
 		            </tr>
 		          </thead>
 		          <tbody>
 					<c:choose>
-						<c:when test="${not empty eqpLogList}">
-							<c:forEach items="${eqpLogList}"
-									   var="eqpLog"
-									   varStatus="index">
-								<tr data-logid="${eqpLog.logId}"
-									data-eqpid="${eqpLog.eqpId}"
-									data-empid="${eqpLog.empId}"
-									data-stts="${eqpLog.stts}"
-									data-crtr="${eqpLog.crtr}"
-									data-crtdt="${eqpLog.crtDt}">
-									<td>${eqpLog.rnum}</td>
-									<td>${eqpLog.logId}</td>
-									<td>${eqpLog.eqpId}</td>
-									<td>${eqpLog.empId}</td>
-									<td>${eqpLog.stts}</td>
-									<td>${eqpLog.crtr}(${eqpLog.crtrEmpVO.fNm}${eqpLog.crtrEmpVO.lNm})</td>
-									<td>${eqpLog.crtDt}</td>
+						<c:when test="${not empty prjLogList}">
+							<c:forEach items="${prjLogList}"
+									   var="prjLog">
+								<tr data-logid="${prjLog.logId}"
+									data-prjid="${prjLog.prjId}"
+									data-stts="${prjLog.stts}"
+									data-crtr="${prjLog.crtr}"
+									data-crtdt="${prjLog.crtDt}">
+									<td>${prjLog.logId}</td>
+									<td>${prjLog.prjId}</td>
+									<td>${prjLog.stts}</td>
+									<td>${prjLog.crtr}</td>
+									<td>${prjLog.crtDt}</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="7" class="no-items">
-									등록된 로그이력이 없습니다.
+								<td colspan="5" class="no-items">
+									등록된 프로젝트 로그이력이 없습니다.
 								</td>
 							</tr>
 						</c:otherwise>
@@ -82,7 +76,7 @@
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
-	                  <c:param name="path" value="${context}/eqp"/>
+	                  <c:param name="path" value="${context}/prj"/>
 	               	</c:import>
 
 		      </div>	

@@ -60,6 +60,8 @@
 		 INNER JOIN TM_MBR TM
 		    ON TM.TM_MBR_ID = PTM.TM_MBR_ID 
 		 WHERE P.DEL_YN = 'N'
+		   AND PTM.DEL_YN = 'N'
+		   AND TM.DEL_YN = 'N'
 		 <choose>
 			<when test='searchOption == "prjNm"'>
 		   AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
@@ -118,7 +120,7 @@
 			 , PRK.CSTMR
 			 , PRK.STRT_DT
 			 , PRK.END_DT
-			 , PRK.PRJ_STTS
+			 , CD.CD_NM PRJ_STTS
 			 , PTM.TM_MBR_ID
 			 , TM.EMP_ID
 			 , T.TM_ID 
@@ -185,6 +187,8 @@
 		    ON TM.TM_ID = T.TM_ID 
 		  JOIN EMP E
 		    ON TM.EMP_ID = E.EMP_ID
+		  JOIN CMN_CD CD
+		    ON CD.CD_ID = PRK.PRJ_STTS
 		 WHERE PTM.DEL_YN ='N'
 		   AND TM.DEL_YN = 'N'
 		   AND E.DEL_YN = 'N'

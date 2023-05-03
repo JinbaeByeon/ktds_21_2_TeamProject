@@ -65,23 +65,23 @@
                 <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly/>
                 <tr>
                     <th>프로젝트명</th>
-                    <td colspan="3"><input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" readonly/></td>
+                    <td colspan="3">${prjVO.prjNm}</td>
                 </tr>
                 <tr>
                     <th>고객사</th>
-                    <td colspan="3"><input type="text" id="prjNm" name="prjNm" value="${prjVO.cstmr}" readonly/></td>
+                    <td colspan="3">${prjVO.cstmr}</td>
                 </tr>
                 <tr>
                     <th>시작일</th>
-                    <td colspan="3"><input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}" readonly/></td>
+                    <td colspan="3">${prjVO.strtDt}</td>
                 </tr>
                 <tr>
                     <th>종료일</th>
-                    <td colspan="3"><input type="date" id="endDt" name="endDt" value="${prjVO.endDt}" readonly/></td>
+                    <td colspan="3">${prjVO.endDt}</td>
                 </tr>
                 <tr>
                     <th>프로젝트 상태</th>
-                    <td colspan="3"><input type="hidden" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/></td>
+                    <td colspan="3">${prjVO.prjStts}</td>
                 </tr>
                 <tr>
                     <th>팀</th>
@@ -114,10 +114,36 @@
 							<c:choose>
 								<c:when test="${not empty prjVO.ptmList}">
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
-										<tr>
-											<td>${ptm.tmMbrVO.empVO.empId}</td>
-											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
-											<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+										<c:if test="${ptm.prjPstn=='PM'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>총잭임자</td>	
+											</tr>									
+										</c:if>
+									</c:forEach>
+									<c:forEach items="${prjVO.ptmList}" var="ptm">
+										<c:if test="${ptm.prjPstn=='PL'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>부책임자</td>	
+											</tr>									
+										</c:if>
+									</c:forEach>
+									<c:forEach items="${prjVO.ptmList}" var="ptm">
+										<c:if test="${ptm.prjPstn=='TM'}">
+											<tr>
+												<td>${ptm.tmMbrVO.empVO.empId}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
+												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>팀원</td>	
+											</tr>									
+										</c:if>
+									</c:forEach>
+				<%-- 						<tr>
 											<td>
 												<c:if test="${ptm.prjPstn=='PM'}">
 													총책임자
@@ -129,8 +155,7 @@
 													팀원
 												</c:if>
 											</td>
-										</tr>
-									</c:forEach>
+										</tr> --%>
 								</c:when>
 								<c:otherwise>
 									<td colspan="4" class="no-items">
@@ -166,10 +191,10 @@
                     <tbody>
                         <c:choose>
                             <c:when test="${not empty prjVO.reqList.get(0).reqId}">
-                                <c:forEach items="${prjVO.reqList}" var="req">
+                                <c:forEach items="${prjVO.reqList}" var="req" end="5">
                                     <tr>
                                         <td>${req.prrty}</td>
-                                        <td>${req.reqTtl}</td>
+                                        <td><a href="${context}/req/detail/${req.reqId}">${req.reqTtl}</a></td>
                                         <td>${req.mnDvlpr}</td>
                                         <td>${req.tskStts}</td>
                                         <td>${req.prcsStts}</td>
@@ -203,9 +228,9 @@
                     <tbody>
                         <c:choose>
                             <c:when test="${not empty prjVO.knwList.get(0).knwId}">
-                                <c:forEach items="${prjVO.knwList}" var="knw">
+                                <c:forEach items="${prjVO.knwList}" var="knw" end="5">
                                     <tr>
-                                        <td>${knw.ttl}</td>
+                                        <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
                                         <td>${knw.crtr}</td>
                                     </tr>
                                 </c:forEach>

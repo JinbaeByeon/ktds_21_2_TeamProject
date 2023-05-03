@@ -31,6 +31,12 @@
                 <span>지식관리</span>
               </a>
             </li>
+            <li>
+              <a href="${context}/prj/log" id="prj_log">
+                <span class="material-symbols-outlined">fiber_manual_record</span>
+                <span>상태 변경 이력</span>
+              </a>
+            </li>
           </ul>
         </div>
         <div class="sidebar_bottom">

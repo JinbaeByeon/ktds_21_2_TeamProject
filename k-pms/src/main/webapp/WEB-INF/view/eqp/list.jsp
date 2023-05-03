@@ -341,7 +341,7 @@
 				              <th>비품종류</th>
 				              <td>
 					             <select id="eqpTp"  name="eqpTp" >
-									<option>선택</option>
+									<option selected>선택</option>
 									<option>공기구</option>
 									<option>사무용품</option>
 									<option>소모품</option>

@@ -223,7 +223,7 @@
 							<button class="updateBtn">수정</button>
 							<button class="deleteBtn">삭제</button>
 						</c:if>
-						<button class="listBtn">목록</button>
+						<button class="listBtn btn regist">목록</button>
 					</div>
 				</div>
 				

@@ -92,7 +92,7 @@
 	              <li><a href="${context}/eqp/rent">대여 관리</a></li>
 	              <li><a href="${context}/eqp/apply">대여 신청</a></li>
 	              <li><a href="${context}/eqp/lost">분실물 관리</a></li>
-	              <li><a href="${context}/eqp/log">비품내역 관리</a></li>
+	              <li><a href="${context}/eqp/log">비품 변경 이력</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item prj">
@@ -103,6 +103,7 @@
 	              <li><a href="${context}/req/list">요구사항</a></li>
 	              <li><a href="${context}/knw/list/prj">지식관리</a></li>
 	              <li><a href="${context}/knw/list/common">사내지식관리</a></li>
+	              <li><a href="${context}/prj/log">프로젝트 변경 이력</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item sys">

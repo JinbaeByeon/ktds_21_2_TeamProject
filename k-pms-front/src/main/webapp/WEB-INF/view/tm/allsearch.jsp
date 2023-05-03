@@ -32,8 +32,7 @@
 					var tr = $("<tr data-tmmbrid='" + tmmbrId + "'data-empid='" + empId + "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" + lNm + "'data-tmnm='" + tmNm + "'></tr>");
 					var td = "<td><input type='checkbox' class='check-idx' value=" + tmmbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
-					td += "<td>" + fNm + "</td>"
-					td += "<td>" + lNm + "</td>"
+					td += "<td>" + lNm + fNm + "</td>"
 					
 					$(".tmmbr-tbody").append(tr);
 					tr.append(td);
@@ -119,7 +118,6 @@
 	            <tr>
 					<th class="input"><input type="checkbox" id="all_check" /></th>
                     <th>직원ID</th>
-                    <th>성</th>
                     <th>이름</th>
 	            </tr>
 	        </thead>
