@@ -13,8 +13,12 @@
 	var file_volume = 0;
 	
 	$().ready(function() {
-		$(".sidebar > ul li a").removeClass("active")
-		$("#rcvmsg_list").addClass("active");
+		if(${rcvMsgVO.delYn == 'Y'}){
+			$("#msg_trash").addClass("active");
+		}
+		else{
+			$("#rcvmsg_list").addClass("active");
+		}
 		
 		$("#list_btn").click(function(){
 			window.location = document.referrer;
@@ -62,7 +66,6 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-			<div class="path"> 받은쪽지함</div>
 			<div class="grid">
 				<div class="msg_view_header">
 					<h4 class="msg_title">${sndMsgVO.ttl}</h4>
@@ -86,7 +89,7 @@
 				</div>
 				<div class="msg_view_body">
 					<div class="msg_view_contents">
-						<div style="font-size: 14px; font-family: Gulim, 굴림, sans-serif;">
+						<div style="font-size: 14px;">
 							${sndMsgVO.cntnt}
 						</div>
 					</div>

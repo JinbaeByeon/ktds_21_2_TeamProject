@@ -11,10 +11,14 @@
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	var file_volume = 0;
+	
 	$().ready(function() {
-		$(".sidebar > ul li a").removeClass("active")
-		$("#sndmsg_list").addClass("active");
-		
+		if(${rcvMsgVO.delYn == 'Y'}){
+			$("#msg_trash").addClass("active");
+		}
+		else{
+			$("#rcvmsg_list").addClass("active");
+		}
 		$("#list_btn").click(function(){
 			window.location = document.referrer;
 		})
@@ -61,7 +65,6 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-			<div class="path"> 보낸쪽지함</div>
 			<div class="grid">
 				<div class="msg_view_header">
 					<h4 class="msg_title">${sndMsgVO.ttl}</h4>
