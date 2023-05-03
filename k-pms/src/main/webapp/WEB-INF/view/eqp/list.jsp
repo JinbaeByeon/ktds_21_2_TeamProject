@@ -314,7 +314,7 @@
 	                  <c:param name="path" value="${context}/eqp"/>
 	               	</c:import>
 			        <div class="buttons">
-			          <button id="new_btn" class="btn new">신규신청</button>
+			          <button id="new_btn" class="btn new">신규등록</button>
 			          <button id="delete_all_btn" class="btn delete">선택삭제</button>
 			        </div>
 			      </div>
