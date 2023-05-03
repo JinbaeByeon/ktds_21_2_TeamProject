@@ -24,6 +24,11 @@ public class KnwDAOImpl extends SqlSessionDaoSupport implements KnwDAO {
 	public int createOneKnw(KnwVO knwVO) {
 		return getSqlSession().insert("Knw.createOneKnw", knwVO);
 	}
+	
+	@Override
+	public int createOneCommonKnw(KnwVO knwVO) {
+		return getSqlSession().insert("Knw.createOneCommonKnw", knwVO);
+	}
 
 	@Override
 	public List<KnwVO> readAllKnw(KnwSearchVO knwSearchVO) {

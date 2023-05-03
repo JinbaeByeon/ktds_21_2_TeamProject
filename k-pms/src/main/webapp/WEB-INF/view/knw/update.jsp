@@ -69,7 +69,16 @@
 	}
 	
 	function addPrjFn(data) {
-
+		
+		if($("#prjHead").find("table") != null) {
+			$("#prjHead").find("table").remove();
+		}
+		var prjHead = $("#prjHead");
+		var table = $("<table class='list_table inner_table'></table>");
+		prjHead.append(table);
+		table.append("<thead><tr><th>프로젝트명</th><th>고객사</th><th>프로젝트 상태</th></tr></thead>");
+		table.append("<tbody><tr><td id='prjNm'></td><td id='cstmr'></td><td id='prjStts'></td></tr></tbody>")
+		
 		$("#prjId").val("");
 		$("#prjNm").empty();
 		$("#cstmr").empty();
@@ -80,9 +89,6 @@
 		$("#cstmr").append(data.cstmr);
 		$("#prjStts").append(data.prjstts);
 		
-		$("#addPrj").empty();
-		$("#addPrj").append("변경");
-
 	}
 	
 	function fnChkByte(obj, maxByte) {
@@ -162,7 +168,12 @@
 						
 						ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
 											if (response.status == "200 OK") {
-												location.href = "${context}/knw/list";
+												if(result) {
+													location.href = "${context}/knw/list/com";	
+												}
+												else{
+													location.href = "${context}/knw/list/prj";
+												}
 											}
 											else {
 												alert("지식 등록에 실패하였습니다.");
@@ -173,7 +184,12 @@
 				});
 
 		$("#cancel_btn").click(function() {
-			location.href = "${context}/knw/list"
+			if($("#commonMode").val() != "") {
+				location.href = "${context}/knw/list/prj";
+			}
+			else {
+				location.href = "${context}/knw/list/common";	
+			}
 		});
 
 		$("#addPrj").click(function(event) {
@@ -181,6 +197,16 @@
 							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
 						});
 
+		$("#comPrj").click(function(event) {
+			event.preventDefault();
+			
+			if($("#prjHead").find("table") != null) {
+				$("#prjHead").find("table").remove();
+			}
+			$("#prjId").val("");
+			
+		});
+		
 		$("#add_files").click(function(e) {
 			e.preventDefault();
 			$("#files").click();
@@ -286,30 +312,34 @@
 				<form id="create_form">
 					<table class="detail_table">
 						<input type="hidden" id="prjId" name="prjId" value="${knwVO.prjId}" />
-						<tr>
-							<th>프로젝트 선택</th>
-							<td>
-								<div>
-									<button id="addPrj" class="btn regist add">선택</button>
-								</div>
-								<table class="list_table inner_table" >
-									<thead>
-										<tr>
-											<th>프로젝트명</th>
-											<th>고객사</th>
-											<th>프로젝트 상태</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td id="prjNm">${prjVO.prjNm}</td>
-											<td id="cstmr">${prjVO.cstmr}</td>
-											<td id="prjStts">${prjVO.prjStts}</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-						</tr>
+						<input type="hidden" id="commonMode" value="${knwVO.prjId}" />
+						<c:if test="${knwVO.prjId ne null}">
+							<tr>
+								<th>프로젝트 선택</th>
+								<td id="prjHead">
+									<div>
+										<button id="addPrj" class="btn regist add">선택</button>
+										<button id="comPrj" class="btn delete add">삭제</button>
+									</div>
+									<table class="list_table inner_table" >
+										<thead>
+											<tr>
+												<th>프로젝트명</th>
+												<th>고객사</th>
+												<th>프로젝트 상태</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td id="prjNm">${prjVO.prjNm}</td>
+												<td id="cstmr">${prjVO.cstmr}</td>
+												<td id="prjStts">${prjVO.prjStts}</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</c:if>
 						<tr>
 							<th>제목</th>
 							<td><input type="text" id="ttl" name="ttl" value="${knwVO.ttl}" /></td>
@@ -330,7 +360,7 @@
 									<div class="align-center">
 										<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 										<div class="file_attachment" hidden="hidden">
-											<div>
+											<div class="fileHead">
 												<div class="remove_all">x</div>
 												<div class="file_name">파일명</div>
 												<div class="file_size">용량</div>

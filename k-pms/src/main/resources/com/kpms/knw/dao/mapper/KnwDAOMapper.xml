@@ -28,7 +28,7 @@
 		, #{crtr}
 		, SYSDATE
 		, #{mdfyr}
-		, NVL(#{useYn}, 'N')
+		, NVL(#{useYn}, 'Y')
 		, 'N'
 		, #{ttl}
 		, #{cntnt}
@@ -64,7 +64,7 @@
              , P.PRJ_ID P_PRJ_ID
              , P.PRJ_NM 
           FROM KNW K
-         INNER JOIN PRJ P
+          LEFT JOIN PRJ P
             ON K.PRJ_ID = P.PRJ_ID
          WHERE K.DEL_YN = 'N'
          <choose>
@@ -75,9 +75,17 @@
            AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
          	</when>
          </choose>
-         <if test='prjId != null and prjId != ""'>
+         <choose>
+         	<when test='commonMode == "prj" '>
+           AND P.PRJ_ID IS NOT NULL
+        		<if test='prjId != null and prjId != ""'>
            AND P.PRJ_ID = #{prjId}
-         </if>
+         		</if>
+         	</when>
+         	<otherwise>
+           AND P.PRJ_ID IS NULL
+         	</otherwise>
+         </choose>
          <include refid="Common.pageFooter" />
 	</select>
 	

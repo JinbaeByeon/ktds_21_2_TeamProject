@@ -68,7 +68,16 @@
 	}
 	
 	function addPrjFn(data) {
-
+		
+		if($("#prjHead").find("table") != null) {
+			$("#prjHead").find("table").remove();
+		}
+		var prjHead = $("#prjHead");
+		var table = $("<table class='list_table inner_table'></table>");
+		prjHead.append(table);
+		table.append("<thead><tr><th>프로젝트명</th><th>고객사</th><th>프로젝트 상태</th></tr></thead>");
+		table.append("<tbody><tr><td id='prjNm'></td><td id='cstmr'></td><td id='prjStts'></td></tr></tbody>")
+		
 		$("#prjId").val("");
 		$("#prjNm").empty();
 		$("#cstmr").empty();
@@ -79,9 +88,6 @@
 		$("#cstmr").append(data.cstmr);
 		$("#prjStts").append(data.prjstts);
 		
-		$("#addPrj").empty();
-		$("#addPrj").append("변경");
-
 	}
 	
 	function fnChkByte(obj, maxByte)
@@ -125,61 +131,76 @@
 		$("#knw_list").addClass("active");
 		
 		$("#save_btn").click(function() {
+	
+			if ($("#ttl").val() == "") {
+				alert("제목 입력은 필수입니다.");
+				return;
+			}
+			else if ($("#cntnt").val() == "") {
+				alert("내용 입력은 필수입니다.");
+				return;
+			}
+			else if ($("#prjId").val() == "") {
+				var result = confirm("사내 지식으로 등록하시겠습니까?");
+				if(!result) {
+					return;
+				}
+			}
+			var fileList = $(".file_attachment").find("li");
 			
-					if ($("#ttl").val() == "") {
-						alert("제목 입력은 필수입니다.");
-						return;
-					}
-					else if ($("#cntnt").val() == "") {
-						alert("내용 입력은 필수입니다.");
-						return;
-					}
-					else if ($("#prjId").val() == "") {
-						alert("프로젝트 선택은 필수입니다.");
-						return;
+			cnt=0;
+			fileList.each(function(){
+				var form = $("#create_form");
+				
+				var fileNm = $(this).data("org");
+				var uuidNm = $(this).data("uuid");
+				var fileSz = $(this).data("sz");
+				var ext = $(this).data("ext");
+				
+				var inputOrgNm = $("<input type='hidden' name='atchFlList["+ cnt +"].orgFlNm' value='"+fileNm+"'/>");
+				form.append(inputOrgNm);
+				var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
+				form.append(inputUuid);
+				var inputSz = $("<input type='hidden' name='atchFlList["+ cnt +"].flSz' value='"+parseInt(fileSz)+"'/>");
+				form.append(inputSz);
+				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
+				form.append(inputExt);
+					});
+			
+			ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
+				if (response.status == "200 OK") {
+					if(result) {
+						location.href = "${context}/knw/list/common";	
 					}
 					else {
-						var fileList = $(".file_attachment").find("li");
-						
-						cnt=0;
-						fileList.each(function(){
-							var form = $("#create_form");
-							
-							var fileNm = $(this).data("org");
-							var uuidNm = $(this).data("uuid");
-							var fileSz = $(this).data("sz");
-							var ext = $(this).data("ext");
-							
-							var inputOrgNm = $("<input type='hidden' name='atchFlList["+ cnt +"].orgFlNm' value='"+fileNm+"'/>");
-							form.append(inputOrgNm);
-							var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
-							form.append(inputUuid);
-							var inputSz = $("<input type='hidden' name='atchFlList["+ cnt +"].flSz' value='"+parseInt(fileSz)+"'/>");
-							form.append(inputSz);
-							var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
-							form.append(inputExt);
-								});
-						
-						ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
-											if (response.status == "200 OK") {
-												location.href = "${context}/knw/list";
-											}
-											else {
-												alert("지식 등록에 실패하였습니다.");
-											}
-										});
+						location.href = "${context}/knw/list/prj";
 					}
-	
-				});
+				}
+				else {
+					alert("지식 등록에 실패하였습니다.");
+				}
+			});
+
+		});
 
 		$("#cancel_btn").click(function() {
 			location.href = "${context}/knw/list"
 		});
 
 		$("#addPrj").click(function(event) {
-							event.preventDefault();
-							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
-						});
+			event.preventDefault();
+			gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
+		});
+		
+		$("#comPrj").click(function(event) {
+			event.preventDefault();
+			
+			if($("#prjHead").find("table") != null) {
+				$("#prjHead").find("table").remove();
+			}
+			$("#prjId").val("");
+			
+		});
 
 		$("#add_files").click(function(e) {
 			e.preventDefault();
@@ -272,29 +293,15 @@
 			<div class="path"> 프로젝트 관리 > 지식 등록</div>
 				<form id="create_form">
 					<table class="detail_table">
-						<input type="hidden" id="prjId" name="prjId"  />
+						<input type="hidden" id="prjId" name="prjId"  value="${prjId}"/>
+						
 						<tr>
 							<th>프로젝트 선택</th>
-							<td>
+							<td id="prjHead">
 								<div>
 									<button id="addPrj" class="btn regist add">선택</button>
+									<button id="comPrj" class="btn delete add">삭제</button>
 								</div>
-								<table class="list_table inner_table" >
-									<thead>
-										<tr>
-											<th>프로젝트명</th>
-											<th>고객사</th>
-											<th>프로젝트 상태</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td id="prjNm"></td>
-											<td id="cstmr"></td>
-											<td id="prjStts"></td>
-										</tr>
-									</tbody>
-								</table>
 							</td>
 						</tr>
 						<tr>
@@ -317,7 +324,7 @@
 									<div class="align-center">
 										<p class="file_drag">파일을 마우스로 끌어 오세요</p>
 										<div class="file_attachment" hidden="hidden">
-											<div>
+											<div class="fileHead">
 												<div class="remove_all">x</div>
 												<div class="file_name">파일명</div>
 												<div class="file_size">용량</div>
