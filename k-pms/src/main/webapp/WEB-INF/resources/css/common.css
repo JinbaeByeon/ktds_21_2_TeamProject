@@ -1287,6 +1287,7 @@ file_area>.file_upload>button {
 
 #file_list>li>div>.remove {
 	margin: 0 10px;
+}
 /* form */
 .inline_form {
 	display: inline-block;
