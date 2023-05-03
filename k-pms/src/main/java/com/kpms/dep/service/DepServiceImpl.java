@@ -103,8 +103,8 @@ public class DepServiceImpl implements DepService {
 	}
 
 	@Override
-	public List<DepVO> readAllDepToTmMbr(DepVO depVO) {
-		return depDAO.readAllDepToTmMbr(depVO);
+	public List<DepVO> readAllDepToTmMbr(DeptSearchVO deptSearchVO) {
+		return depDAO.readAllDepToTmMbr(deptSearchVO);
 	}
 
 	

@@ -54,7 +54,12 @@
 		
 			
 		$(".listBtn").click(function() {
-			location.href = "${context}/knw/list"
+			if($("#commonMode").val() != "") {
+				location.href = "${context}/knw/list/prj";
+			}
+			else {
+				location.href = "${context}/knw/list/common";	
+			}
 		});
 		
 		$(".updateBtn").click(function() {
@@ -183,17 +188,20 @@
 			<div class="articleBox">
 				<div class="articleHead">
 					<input type="hidden" name="knwId" value="${knwVO.knwId}" />
+					<input type="hidden" id="commonMode" value="${knwVO.prjId}" />
 					<div class="articleInfo">
 						<p class="articleTitle">${knwVO.ttl}</p>
 						<div class="writerInfo">
 							<p class="writerId">${knwVO.crtr}</p>
 							<span class="date">${knwVO.crtDt}</span>
 						</div>
-						<div class="projectInfo">
-							<p>관련 프로젝트: </p>
-							<p id="prjNm">${prjVO.prjNm}</p>
-							<p id="cstmr">(${prjVO.cstmr})</p>
-						</div>
+						<c:if test="${knwVO.prjId ne null}">
+							<div class="projectInfo">
+								<p>관련 프로젝트: </p>
+								<p id="prjNm">${prjVO.prjNm}</p>
+								<p id="cstmr">(${prjVO.cstmr})</p>
+							</div>
+						</c:if>
 					</div>
 				</div>
 				<div class="articleBody">

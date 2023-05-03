@@ -4,7 +4,9 @@
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
+	AjaxUtil.enableSpinner();
 	$().ready(function(){
+		
 		
 		$("#my-info").children(".my-menu").hide();
 		var empId = "${sessionScope.__USER__.empId}";
@@ -35,6 +37,11 @@
 	});
 </script>
 <div class="header"></div>
+<div id="spinner_panel">
+	<div><span>
+		<img id="spinner" src='${context}/img/spinner.gif'>
+	</span></div>
+</div>
 <div class="wrapper">
 	<div class="top_navbar">
 	    <div class="left_blank">
@@ -91,10 +98,11 @@
 	          <li class="nav_item prj">
 	            <a href="${context}/prj/list">프로젝트</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/prj/list">프로젝트 관리</a></li>
-	              <li><a href="${context}/req/list">요구사항 관리</a></li>
-	              <li><a href="${context}/issu/list">이슈 관리</a></li>
-	              <li><a href="${context}/knw/list">지식관리</a></li>
+	              <li><a href="${context}/prj/list">프로젝트 목록</a></li>
+	              <li><a href="${context}/issu/list">이슈</a></li>
+	              <li><a href="${context}/req/list">요구사항</a></li>
+	              <li><a href="${context}/knw/list/prj">지식관리</a></li>
+	              <li><a href="${context}/knw/list/common">사내지식관리</a></li>
 	              <li><a href="${context}/prj/log">프로젝트 변경 이력</a></li>
 	            </ul>
 	          </li>

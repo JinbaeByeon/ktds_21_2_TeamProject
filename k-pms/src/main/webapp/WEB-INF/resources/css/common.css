@@ -1203,6 +1203,90 @@ div.button_btm_left {
 	position: relative;
 }
 
+/* 지식관리 등록 페이지 */
+.create-group>.file_area {
+	width: 85%;
+	display: flex;
+}
+
+.file_area>.file_div {
+	flex: 1 1 auto;
+	text-align: center;
+}
+
+.file_area>.file_upload {
+	display: flex;
+	margin: 10px 0;
+}
+
+file_area>.file_upload>button {
+	padding: 0 5px;
+}
+
+.file_area .file_drag {
+	margin: 10px;
+	padding: 17px 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 14px;
+	color: #666;
+}
+
+.file_area .file_attachment {
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	margin: 10px;
+	padding: 0 5px;
+}
+
+.file_area .file_attachment .fileHead {
+	border-bottom: 1px solid #2b2b2b30;
+}
+
+
+.file_area .file_attachment>div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #eee;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	padding: 3px 0;
+}
+
+.file_area .file_attachment div>.remove_all {
+	margin: 0 10px;
+}
+
+.file_area .file_attachment div>.file_name {
+	flex: 1 1 auto;
+	text-align: left;
+}
+
+.file_area .file_attachment div>.file_size {
+	margin-right: 15px;
+}
+
+#file_list {
+	padding: 0;
+}
+
+#file_list>li {
+	display: flex;
+}
+
+#file_list>li>div {
+	display: flex;
+	flex: 1 1 auto;
+}
+
+#file_list>li>div>.file_name {
+	flex: 1 1 auto;
+	text-align: left;
+}
+
+#file_list>li>div>.remove {
+	margin: 0 10px;
 /* form */
 .inline_form {
 	display: inline-block;
@@ -1219,4 +1303,49 @@ select {
 	
 }
 
+#spinner_panel {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #000A;
+	z-index:999;
+}
+#spinner {
+	position: fixed;
+	background: none;
+}
 
+#spinner * {
+	background: none;
+}
+
+.modal {
+	background-color: #0009;
+	position: fixed;
+	z-index: 100;
+	top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal .window {
+    width: 40%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+ 
+.modal .title {
+	background: none;
+	color: #2b2b2b;
+}

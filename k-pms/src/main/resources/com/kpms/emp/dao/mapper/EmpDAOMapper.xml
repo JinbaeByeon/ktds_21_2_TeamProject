@@ -426,9 +426,9 @@
 			   ADDRSS = #{addrss},
 			   DTL_ADDRSS =#{dtlAddrss},
 			   PST_CD = #{pstCd},
-			   L_NM = #{lNm},
+			   L_NM = #{lNm}
 			<if test="prflPht != null and prflPht != ''">
-			   PRFL_PHT = #{prflPht}
+			  , PRFL_PHT = #{prflPht}
 			</if>
 			</otherwise>
 		</choose>

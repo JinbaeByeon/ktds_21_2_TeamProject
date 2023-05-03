@@ -270,7 +270,7 @@ $().ready(function() {
 						<option value="tmHdNm" ${depVO.searchOption eq "tmHdNm" ? "selected": ""}>팀장명</option>
 			          </select>
 			          <div class="search_field">
-			          	<input type="text" id="search-keyword" class="input" placeholder="Search"/>
+			          	<input type="text" id="search-keyword" class="input" placeholder="Search" value="${depVO.searchKeyword}"/>
 			          </div>
 			          <div class="search-icon">
 			          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>

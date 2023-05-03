@@ -55,8 +55,8 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 	}
 
 	@Override
-	public List<DepVO> readAllDepToTmMbr(DepVO depVO) {
-		return getSqlSession().selectList("Dep.readAllDepToTmMbr", depVO);
+	public List<DepVO> readAllDepToTmMbr(DeptSearchVO deptSearchVO) {
+		return getSqlSession().selectList("Dep.readAllDepToTmMbr", deptSearchVO);
 	}
 
 	
