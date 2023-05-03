@@ -85,18 +85,34 @@
 	
 	<update id="deleteOneTmMbrByTmMbrId"
 			parameterType="string">
+			
 		UPDATE TM_MBR
 		   SET DEL_YN = 'Y'
-		 WHERE TM_MBR_ID = #{_parameter}		
+		 WHERE TM_MBR_ID = #{_parameter}
+		   AND (TM_MBR_ID NOT IN (SELECT TM_MBR_ID
+                               	  FROM PRJ_TM_MBR)                            	  
+		    OR TM_MBR_ID IN (SELECT DISTINCT TM_MBR_ID 
+                               FROM PRJ_TM_MBR 
+                              WHERE PRJ_ID IN (SELECT PRJ_ID
+                                                 FROM PRJ 
+                                                WHERE PRJ_STTS = '002_09')))	
 	</update>
 	
 	<update id="deleteTmMbrBySelectedTmMbrId"
 			parameterType="arraylist">
-		UPDATE TM_MBR
+		 
+		 UPDATE TM_MBR
 		   SET DEL_YN = 'Y'
 		 WHERE TM_MBR_ID IN
-		 <foreach collection="list" item="tmMbrId" open="(" close=")" separator=", ">
-		 	#{tmMbrId}
-		 </foreach>		
+					 <foreach collection="list" item="tmMbrId" open="(" close=")" separator=", ">
+					 	#{tmMbrId}
+					 </foreach>
+		   AND (TM_MBR_ID NOT IN (SELECT TM_MBR_ID
+                               	  FROM PRJ_TM_MBR)                            	  
+		    OR TM_MBR_ID IN (SELECT DISTINCT TM_MBR_ID 
+                               FROM PRJ_TM_MBR 
+                              WHERE PRJ_ID IN (SELECT PRJ_ID
+                                                 FROM PRJ 
+                                                WHERE PRJ_STTS = '002_09')))			
 	</update>
 </mapper>

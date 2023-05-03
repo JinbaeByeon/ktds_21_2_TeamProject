@@ -160,6 +160,7 @@
 			   S.TTL,
 			   S.CNTNT,
 			   S.ATTCH,
+			   S.DEL_YN,
 			   R.RCVR,
 			   R.MSG_ID RCV_MSG_ID,
 			   SE.L_NM SE_L_NM,

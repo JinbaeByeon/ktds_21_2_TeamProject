@@ -12,8 +12,13 @@
 <script type="text/javascript">
 	var file_volume = 0;
 	$().ready(function() {
-		$(".sidebar > ul li a").removeClass("active")
-		$("#sndmsg_list").addClass("active");
+		
+		if(${sndMsgVO.delYn == 'Y'}){
+			$("#msg_trash").addClass("active");
+		}
+		else{
+			$("#sndmsg_list").addClass("active");
+		}
 		
 		$("#list_btn").click(function(){
 			window.location = document.referrer;
@@ -60,7 +65,6 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-			<div class="path"> 보낸쪽지함</div>
 			<div class="grid">
 				<div class="msg_view_header">
 					<h4 class="msg_title">${sndMsgVO.ttl}</h4>
@@ -82,7 +86,7 @@
 				</div>
 				<div class="msg_view_body">
 					<div class="msg_view_contents">
-						<div style="font-size: 14px; font-family: Gulim, 굴림, sans-serif;">
+						<div>
 							${sndMsgVO.cntnt}
 						</div>
 					</div>
@@ -91,7 +95,7 @@
 						<div class="file_attachment_summary">
 							<span class="total_count">첨부 개</span>
 							<span class="total_volume">전체용량</span>
-							<button class="save_all">모두저장</button>
+							<button class="save_all btn save">모두저장</button>
 						</div>
 						<div class="file_attachments_inner">
 							<ul id="file_list">
@@ -117,8 +121,8 @@
 				</div>
 				<div class="msg_view_footer">
 					<div class="button_btm_left">
-						<button id="list_btn" class="btn-list">목록</button>
-						<button id="delete_btn" class="btn-delete">삭제</button>
+						<button id="list_btn" class="btn reply">목록</button>
+						<button id="delete_btn" class="btn delete">삭제</button>
 					</div>
 				</div>
 			</div>

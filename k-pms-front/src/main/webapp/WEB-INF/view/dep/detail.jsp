@@ -18,10 +18,6 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#dep_list").addClass("active");
 		
-		$("#list-btn").click(function(response) {
-			location.href = "${context}/dep/list"
-		});
-		
 	});
 </script>
 </head>
@@ -31,7 +27,7 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서관리 > 부서 상세조회</div>
+				<div class="path">부서 관리 > 부서 상세조회</div>
 			<table class="detail_page detail_table">
                 <tr>
                     <th>부서명</th>
@@ -141,9 +137,7 @@
                     </tbody>
                 </table>
 
-        <div class="buttons">
-	       	<button id="list-btn" class="btn list">목록</button>
-        </div>
+
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>

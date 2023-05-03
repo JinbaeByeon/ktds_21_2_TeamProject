@@ -161,7 +161,7 @@
 					<table class="detail_table">
 		                <tr>
 		                    <th>프로젝트명</th>
-		                    <td><input type="text" id="prjNm" name="prjNm" value="" /></td>
+		                    <td><input type="text" id="prjNm" name="prjNm" value=""/></td>
 		                </tr>
 		                <tr>
 		                    <th>고객사</th>

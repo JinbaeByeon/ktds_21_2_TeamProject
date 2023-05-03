@@ -202,7 +202,7 @@
 							  	<div class="addrss-group">
 					                <div class="grow-1">
 					                    <input type="text" id="pstCd" name="pstCd" readonly="readonly"/>
-					                    <button class='fs-12'>우편번호</button>
+					                    <button class='btn addrss'>우편번호</button>
 					                </div>
 					                <div class="grow-1">
 					                    <input type="text" id="addrss" name="addrss" readonly="readonly"/>
@@ -239,7 +239,7 @@
 		                    <th class="required">직급</th>
 		                    <td>
 		                    	<div>
-		                    		<button id="btn-add-pstn" class="btn-add">+</button>
+		                    		<button id="btn-add-pstn" class="btn-add btn">+</button>
 		                    	</div>
 		                    </td>
 		                    <th>직급연차</th>
@@ -249,7 +249,7 @@
 		                    <th class="required">직무</th>
 		                    <td colspan=3>
 		                        <div>
-					                <button id="btn-add-job" class="btn-add">+</button>
+					                <button id="btn-add-job" class="btn-add btn">+</button>
 					            </div>
 		                    </td>
 		                </tr>
@@ -257,7 +257,7 @@
 		                    <th class="required">부서</th>
 		                    <td colspan=3>
 		                    	<div>
-					                <button id="btn-add-dep" class="btn-add">+</button>
+					                <button id="btn-add-dep" class="btn-add btn">+</button>
 					            </div>
 		                    </td>
 		                </tr>
@@ -272,7 +272,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="new_btn" class="btn regist">등록</button>
+          <button id="new_btn" class="btn regist2">등록</button>
         </div>
 			<jsp:include page="../include/footer.jsp"/>
 		</div>

@@ -43,15 +43,15 @@
 		});
 		
 		$("#search-btn").click(function(){
-			
-			if($("#search-option").val() == "요구사항제목"){
+			movePage(0);
+			/* if($("#search-option").val() == "요구사항제목"){
 				var reqTtl = $("#search-keyword").val();
 				location.href = "${context}/req/list?selectOption=요구사항제목&reqTtl=" + reqTtl;
 			}
 			if($("#search-option").val() == "프로젝트명"){
 				var prjNm = $("#search-keyword").val();
 				location.href = "${context}/req/list?selectOption=프로젝트명&reqPrjVO.prjNm=" + prjNm;
-			}
+			} */
 		});
 		
 		$(".detail_path").click(function(){
@@ -98,11 +98,14 @@
 		// 전송
 		// 입력값
 		var prjId = "${reqVO.prjId}";
+		var prjNm = "${prjNm}";
 		var selectOption = $("#search-option").val();
 		var searchKeyword = $("#search-keyword").val();
 		var queryString = "prjId=" + prjId;
 		queryString += "&selectOption=" + selectOption;
-
+		if(prjNm){
+			queryString += "&prjNm=" + prjNm;
+		}
 		if($("#search-option").val() == "요구사항제목"){
 			queryString += "&reqTtl=" + searchKeyword;
 		} else {
@@ -120,7 +123,16 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">프로젝트 관리 > 요구사항 목록</div>
+				<div class="path">
+					<c:if test="${not empty prjNm}">
+						<a href ='${context}/prj/detail/${reqVO.prjId}'>${prjNm}</a>
+					</c:if>
+					<c:if test="${empty prjNm}">
+						<a href ='${context}/prj/list'>프로젝트</a>
+					</c:if>
+					 > 요구사항
+				</div>
+				
 		      <div class="search_wrapper">
 		        <div class="search_box">
 					<select id="search-option" class="search-input">

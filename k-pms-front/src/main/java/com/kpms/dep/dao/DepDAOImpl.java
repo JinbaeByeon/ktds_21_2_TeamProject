@@ -35,26 +35,6 @@ public class DepDAOImpl extends SqlSessionDaoSupport implements DepDAO {
 	}
 	
 	@Override
-	public int createOneDep(DepVO depVO) {
-		return getSqlSession().insert("Dep.createOneDep", depVO);
-	}
-
-	@Override
-	public int updateOneDepByDepId(DepVO depVO) {
-		return getSqlSession().update("Dep.updateOneDepByDepId", depVO);
-	}
-
-	@Override
-	public int deleteOneDepByDepId(String depId) {
-		return getSqlSession().update("Dep.deleteOneDepByDepId", depId);
-	}
-
-	@Override
-	public int deleteDepBySelectedDepId(List<String> depId) {
-		return getSqlSession().update("Dep.deleteDepBySelectedDepId", depId);
-	}
-
-	@Override
 	public List<DepVO> readAllDepToTmMbr(DepVO depVO) {
 		return getSqlSession().selectList("Dep.readAllDepToTmMbr", depVO);
 	}

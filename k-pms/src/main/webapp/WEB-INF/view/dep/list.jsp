@@ -65,10 +65,8 @@ $().ready(function() {
 		$(".hide").removeClass("hide");
 
 		$("#addDepHeadBtn").closest("tr").show();
-		
-		$("#crtr").closest("td").prev().prev().attr("colspan", 0);
-		$("#crtr").closest("td").prev().show();
-		$("#crtr").closest("td").show();
+
+		$("#crtr").closest("tr").show();
 		
 		$("#crtDt").closest("td").prev().prev().attr("colspan", 0);
 		$("#crtDt").closest("td").prev().show();
@@ -109,9 +107,7 @@ $().ready(function() {
 	$("#new_btn").click(function() {
 		$("#addDepHeadBtn").closest("tr").hide();
 
-		$("#crtr").closest("td").prev().prev().attr("colspan", 3);
-		$("#crtr").closest("td").prev().hide();
-		$("#crtr").closest("td").hide();
+		$("#crtr").closest("tr").hide();
 		
 		$("#crtDt").closest("td").prev().prev().attr("colspan", 3);
 		$("#crtDt").closest("td").prev().hide();

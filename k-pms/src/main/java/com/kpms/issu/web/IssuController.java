@@ -29,16 +29,18 @@ public class IssuController {
 
 	
 	@GetMapping("/issu/list")
-	public String viewIssuListPage(Model model, IssuVO issuVO) {
+	public String viewIssuListPage(Model model, IssuVO issuVO, String prjNm) {
 		List<IssuVO> issuList = issuService.readIssuList(issuVO);
 		model.addAttribute("issuList",issuList);
+		model.addAttribute("issuVO",issuVO);
+		model.addAttribute("prjNm",prjNm);
 		if(!issuList.isEmpty()) {
 			model.addAttribute("lastPage",issuList.get(0).getLastPage());
 		}
 		model.addAttribute("pageNo",issuVO.getPageNo());
 		model.addAttribute("pageCnt",issuVO.getPageCnt());
 		model.addAttribute("viewCnt",issuVO.getViewCnt());
-		model.addAttribute("empVO",issuVO);
+		model.addAttribute("issuVO",issuVO);
 		return "issu/list";
 	}
 	
@@ -55,6 +57,7 @@ public class IssuController {
 	@GetMapping("/issu/detail/{issuId}")
 	public String viewIssuDetailPage(Model model, @PathVariable String issuId) {
 		IssuVO issuVO = issuService.readOneIssu(issuId);
+		issuService.updateIssuVwCnt(issuId);
 		model.addAttribute("issuVO",issuVO);
 		return "issu/detail";
 	}

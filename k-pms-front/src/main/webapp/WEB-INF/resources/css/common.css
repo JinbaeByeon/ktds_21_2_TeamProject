@@ -44,6 +44,7 @@ a:link, a:visited {
 	top: 0;
 	width: 100%;
 	opacity: 0;
+	z-index: -1;
 }
 
 .top_navbar {
@@ -327,6 +328,10 @@ a:link, a:visited {
 	color: #2b2b2b;
 }
 
+.container .list_table input {
+	font-size: 15px;
+}
+
 /* pagenate */
 .pagenate {
 	text-align: center;
@@ -404,7 +409,6 @@ a:link, a:visited {
 }
 
 .container .detail_table tr td input[type=text]{
-	width: 100%;
     margin: 0;
 }
 
@@ -419,6 +423,9 @@ a:link, a:visited {
     resize: none;
 }
 
+.container .detail_table input {
+	font-size: 15px;
+}
 
 .container .detail_table th {
 	text-align: left;
@@ -448,7 +455,12 @@ a:link, a:visited {
 	margin: 0 5px;
 	border: none;
 }
-
+.btn.save {
+	background-color: #1846bb;
+}
+.btn.save:hover {
+	background-color: #0c2870;
+}
 .btn:hover {
 	transition: .3s;
 	-webkit-transition: .3s;
@@ -457,21 +469,26 @@ a:link, a:visited {
 .btn:before {
 	margin-right: 10px;
 }
-
-.btn.new {
-	background-color: #2b2b2b;
+.btn.applStts {
+	background-color:#a76f5c;
 }
-
-.btn.new:hover {
-	background-color: #555555;
+.btn.applStts:hover {
+	background-color:#7e5344;
 }
-
-.btn.regist {
-	background-color: #ffc300;
+.btn.applStts2 {
+	background-color:#a54b4b;
 }
-
+.btn.applStts2:hover {
+	background-color:#833a3a;
+}
+.btn.applStts3 {
+	background-color:#5b7874;
+}
+.btn.applStts3:hover {
+	background-color:#3e5250;
+}
 .btn.regist:hover {
-	background-color: #e6b100;
+	background-color: #727272;
 }
 .btn.pwd.reset,
 .btn.delete {
@@ -481,47 +498,92 @@ a:link, a:visited {
 .btn.delete:hover {
 	background-color: rgb(163, 15, 0);
 }
+#modify_pwd_btn,
+.btn.regist,
 .btn.job.change,
 .btn.restore,
 .btn.reply ,
 .btn.refuse {
 	background-color:#a79393;
 }
+#modify_pwd_btn:hover,
 .btn.job.change:hover,
 .btn.restore:hover ,
 .btn.reply:hover ,
 .btn.refuse:hover {
 	background-color: #836b6b;
 }
+.btn.edit,
 .btn.pstn.change,
 .btn.dep.change,
 .btn.read,
+.btn.new,
 .btn.apply {
 	background-color: #2b2b2b;
 }
+.btn.edit:hover,
 .btn.pstn.change:hover,
 .btn.dep.change:hover,
 .btn.read:hover,
+.btn.new:hover,
 .btn.apply:hover {
 	background-color: #555555;
 }
-
 .btn.addrss {
-	background: rgb(0,0,0);
+	background: rgb(112, 116, 117);
 	margin: 0;
 	padding: 7px 13px;
 }
-
-.btn-add {
-	background: rgb(0, 0, 0);
+.btn.addrss:hover {
+	background: rgb(65 68 68);
+	margin: 0;
+	padding: 7px 13px;
 }
-
+.btn.regist2 {
+	background-color: rgb(112, 116, 117);
+}
+.btn.regist2:hover {
+	background-color: rgb(65 68 68);
+}
+.btn.regist3 {
+	background-color: rgb(65 68 68);
+}
+.btn.regist23:hover {
+	background-color: rgb(112, 116, 117);
+}
+.btn-add {
+	background: rgb(164 161 155);
+}
+.btn-add:hover {
+	background: rgb(126 124 119);
+}
+.btn.sedit {
+	background: #5b7874;
+	padding: 3px;
+	margin: 0px;
+}
+.btn.sedit:hover {
+	background: #3e5250;
+}
+.btn.sdelete {
+	background: rgb(187, 39, 32);
+	padding: 3px;
+	margin: 0px;
+}
+.btn.sreply {
+	background: #cbbbb6;
+}
+.btn.sreply:hover {
+	background: #9b8f8b;
+}
+.btn.sdelete:hover {
+	background: rgb(163, 15, 0);
+}
 .trRemoveBtn {
 	border: none;
 	position: relative;
 	top: 5px;
 }
-
 /* footer */
 footer {
 	background: rgb(187, 39, 32);
@@ -669,9 +731,10 @@ footer {
 	appearance: none;
 	font-size: 16px;
 	
-	background: url(../img/dropdown-arrow.png) no-repeat 85% 50%;
-	width: 100px;
-	background-size: 30px;
+	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
+	width: auto;
+	padding-right: 30px;
+	background-size: 20px;
 }
 
 .list_table > thead > tr > th select option {
@@ -761,15 +824,18 @@ footer {
 
 .fileAttachmentArea {
 	padding: 10px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment {
 	border: 1px solid #2b2b2b30;
 	padding: 10px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment p {
 	font-size: 8pt;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment .fileSize {
@@ -785,12 +851,14 @@ footer {
 .fileAttachmentArea .fileAttachment #file_list li {
 	display: inline-block;
 	padding-right: 5px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .articleBtnsArea {
 	position: relative;
 	height: 24px;
     margin-bottom: 24px;
+    background: rgba(238, 238, 238, 0.974);
 }
 
 .articleBtns {
@@ -806,6 +874,7 @@ footer {
 	margin-top: 1px;
 	margin-bottom: 20px;
 	border-top: 1px solid #2b2b2b30;
+	
 }
 
 .commentBoxArea {
@@ -957,6 +1026,7 @@ footer {
 .create-group input[type=text].underBar {
 	border: none;
 	border-bottom: 1px solid #ddd;
+	width: 500px;
 }
 
 .create-group .msg-cntnt {
@@ -1157,4 +1227,24 @@ div.button_btm_left {
 select {
 	background: rgba(238, 238, 238, 0.974);
 	
+}
+
+#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
+#eml, #eqpNm, #ttl, #title {
+	width: 400px;
+}
+
+.container .list_table div,
+.container .list_table span {
+	background: rgba(238, 238, 238, 0.974); 
+}
+
+.container .detail_table div,
+.container .detail_table span {
+	background: rgba(238, 238, 238, 0.974); 
+}
+
+.list_table.inner_table div,
+.list_table.inner_table span {
+	background: rgba(238, 238, 238, 0.974); 
 }

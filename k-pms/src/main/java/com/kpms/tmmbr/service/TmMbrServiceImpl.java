@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
 import com.kpms.tmmbr.dao.TmMbrDAO;
 import com.kpms.tmmbr.vo.TmMbrVO;
@@ -32,7 +33,14 @@ public class TmMbrServiceImpl implements TmMbrService {
 	
 	@Override
 	public boolean deleteOneTmMbrByTmMbrId(String tmMbrId) {
-		return tmMbrDAO.deleteOneTmMbrByTmMbrId(tmMbrId) > 0;
+		int delCount = tmMbrDAO.deleteOneTmMbrByTmMbrId(tmMbrId);
+		if (delCount > 0) {
+		}
+		else {
+			throw new APIArgsException("400", "프로젝트를 진행중인 팀원이 존재합니다.");
+		}
+		
+		return delCount > 0;
 	}
 
 	@Override
@@ -41,7 +49,7 @@ public class TmMbrServiceImpl implements TmMbrService {
 		boolean isSuccess = delCount == tmMbrId.size();
 		
 		if (!isSuccess) {
-			throw new APIException("500", "삭제에 실패했습니다. 요청건수:("+tmMbrId.size() +"건), 삭제건수:("+delCount+"건)");
+			throw new APIException("400", "프로젝트를 진행중인 팀원이 존재합니다.");
 		}
 		
 		return isSuccess;

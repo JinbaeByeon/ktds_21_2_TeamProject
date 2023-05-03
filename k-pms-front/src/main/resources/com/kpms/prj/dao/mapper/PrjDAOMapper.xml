@@ -81,7 +81,7 @@
 	</select>
 	
 	<select id="readAllPrjVONoPagination"
-			parameterType="string"
+			parameterType="com.kpms.prj.vo.PrjSearchVO"
 			resultType="com.kpms.prj.vo.PrjVO">
 		SELECT P.PRJ_ID
 			 , TO_CHAR(P.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
@@ -98,10 +98,19 @@
 		  FROM PRJ P
 		 INNER JOIN CMN_CD CD
 		    ON P.PRJ_STTS = CD.CD_ID
+		 INNER JOIN PRJ_TM_MBR PTM 
+		    ON PTM.PRJ_ID = P.PRJ_ID 
+		 INNER JOIN TM_MBR TM
+		    ON TM.TM_MBR_ID = PTM.TM_MBR_ID 
 		 WHERE P.DEL_YN = 'N'
+		   AND PTM.DEL_YN = 'N'
+		   AND TM.DEL_YN = 'N'
 		 <if test = 'prjNm != null and prjNm != ""'>
 		   AND P.PRJ_NM LIKE '%' || #{prjNm} || '%'
 		 </if>
+		 <if test="empId != null and empId != ''">
+		   AND TM.EMP_ID = #{empId}
+		</if>
 		 
 		 ORDER BY P.PRJ_ID ASC
 	</select>
@@ -120,7 +129,7 @@
 			 , PRK.CSTMR
 			 , PRK.STRT_DT
 			 , PRK.END_DT
-			 , CD.CD_NM PRJ_STTS
+			 , P_CD.CD_NM PRJ_STTS
 			 , PTM.TM_MBR_ID
 			 , TM.EMP_ID
 			 , T.TM_ID 
@@ -134,8 +143,8 @@
 			 , PRK.REQ_STRT_DT
 			 , PRK.EXPCT_END_DT
 			 , PRK.MN_DVLPR
-			 , PRK.TSK_STTS
-			 , PRK.PRCS_STTS 
+			 , T_CD.CD_NM TSK_STTS
+			 , PS_CD.CD_NM PRCS_STTS 
 			 , PRK.PRRTY 
 			 , PRK.KNW_ID
 			 , PRK.TTL
@@ -187,8 +196,12 @@
 		    ON TM.TM_ID = T.TM_ID 
 		  JOIN EMP E
 		    ON TM.EMP_ID = E.EMP_ID
-		  JOIN CMN_CD CD
-		    ON CD.CD_ID = PRK.PRJ_STTS
+	      JOIN CMN_CD P_CD
+		    ON P_CD.CD_ID = PRK.PRJ_STTS
+	      LEFT JOIN CMN_CD T_CD
+		    ON T_CD.CD_ID = PRK.TSK_STTS
+	      LEFT JOIN CMN_CD PS_CD
+		    ON PS_CD.CD_ID = PRK.PRCS_STTS
 		 WHERE PTM.DEL_YN ='N'
 		   AND TM.DEL_YN = 'N'
 		   AND E.DEL_YN = 'N'
