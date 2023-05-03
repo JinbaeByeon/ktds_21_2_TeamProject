@@ -239,13 +239,13 @@
 					  	<h3>부서</h3>
 					   <table class="list_table search_table scroll_table">
 					       <thead>
-					           <tr>
-									<th>순번</th>
-									<th>부서ID</th>
-									<th>부서명</th>
-									<th>부서장ID</th>
-									<th>부서장명</th>
-					           </tr>
+					          <tr>
+								<th>순번</th>
+								<th>부서ID</th>
+								<th>부서명</th>
+								<th>부서장ID</th>
+								<th>부서장명</th>
+					          </tr>
 					       </thead>
 							<tbody class="dep-tbody">
 								<c:choose>

@@ -35,7 +35,7 @@ public class RestTmController {
 		boolean createResult = tmService.createOneTm(tmVO);
 		
 		if (createResult) {
-			return new APIDataResponseVO(APIStatus.OK, tmVO.getTmId());
+			return new APIResponseVO(APIStatus.OK, "/tm/detail/"+tmVO.getTmId());
 		}
 		else {
 			return new APIResponseVO(APIStatus.FAIL, "팀을 등록할 수 없습니다.", "500", "");
@@ -50,12 +50,6 @@ public class RestTmController {
 		tmVO.setMdfyr(empVO.getEmpId());
 		tmVO.setDepId(depVO.getDepId());
 
-		String tmNm = tmVO.getTmNm();
-		
-		if (tmNm == null || tmNm.trim().length() == 0) {
-			throw new APIArgsException("400", "팀명이 누락되었습니다.");
-		}
-		
 		boolean updateResult = tmService.updateOneTm(tmVO);
 		
 		if (updateResult) {
