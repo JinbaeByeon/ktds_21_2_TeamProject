@@ -114,7 +114,6 @@
 	    }
 			
 		$("#tmHdId").attr("class", tmHdId);
-		console.log($("#tmHdId").val());
 		
 		tmHdIdItems.append(itemDiv);
 		tmHd.close();

@@ -84,8 +84,21 @@ public class TmServiceImpl implements TmService {
 		}
 		
 		tmMbrDAO.deleteTmMbrByTmId(tmVO.getTmId());
-		boolean result = tmDAO.updateOneTm(tmVO) > 0;
-		return result; 
+		
+		int tmMbrUpdateCount = tmDAO.updateOneTm(tmVO);
+		if (tmMbrUpdateCount > 0) {
+			List<TmMbrVO> tmMbrList = tmVO.getTmMbrList();
+			if (tmMbrList == null || tmMbrList.isEmpty()) {
+				throw new APIArgsException("404", "팀원을 추가해주세요");
+			}
+			for (TmMbrVO tmMbr: tmMbrList) {
+				tmMbr.setTmId(tmVO.getTmId());
+				tmMbr.setCrtr(tmVO.getCrtr());
+				tmMbr.setMdfyr(tmVO.getMdfyr());
+				tmMbrDAO.createOneTmMbr(tmMbr);
+			}
+		}
+		return tmMbrUpdateCount > 0;
 	}
 
 
