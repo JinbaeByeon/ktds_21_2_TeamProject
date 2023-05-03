@@ -1349,3 +1349,9 @@ select {
 	background: none;
 	color: #2b2b2b;
 }
+
+/* input-width */
+#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
+#eml, #eqpNm, #ttl, #title {
+	width: 400px;
+}
