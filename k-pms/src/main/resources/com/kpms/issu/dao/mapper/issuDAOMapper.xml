@@ -203,7 +203,7 @@
 			parameterType="string">
 		UPDATE ISSU I
 		   SET I.DEL_YN = 'Y'
-		 WHERE I.REQ-ID IN (SELECT R.REQ_ID
+		 WHERE I.REQ_ID IN (SELECT R.REQ_ID
 		 					  FROM REQ R
 		 					 WHERE R.PRJ_ID = #{_parameter})
 	</update>

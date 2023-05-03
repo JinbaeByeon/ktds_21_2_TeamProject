@@ -335,10 +335,10 @@
 				<div class="path">새 요구사항 생성</div>
 					<form id="detail_form" >
 						<table class="detail_table">
-			                <tr>
+<!-- 			                <tr>
 			                    <th>요구사항 ID</th>
 			                    <td><input type="text" id="reqId"  name="reqId" value="" readonly /></td>
-			                </tr>
+			                </tr> -->
 			                <tr>
 			                    <th>제목</th>
 			                    <td><input type="text" id="reqTtl"  name="reqTtl" value=""/></td>

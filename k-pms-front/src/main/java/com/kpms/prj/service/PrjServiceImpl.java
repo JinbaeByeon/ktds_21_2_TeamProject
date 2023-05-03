@@ -38,8 +38,8 @@ public class PrjServiceImpl implements PrjService {
 	}
 
 	@Override
-	public List<PrjVO> readAllPrjVONoPagination(String prjNm) {
-		return prjDAO.readAllPrjVONoPagination(prjNm);
+	public List<PrjVO> readAllPrjVONoPagination(PrjSearchVO prjSearchVO) {
+		return prjDAO.readAllPrjVONoPagination(prjSearchVO);
 	}
 
 	@Override

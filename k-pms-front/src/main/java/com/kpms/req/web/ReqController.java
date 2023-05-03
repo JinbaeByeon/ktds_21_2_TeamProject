@@ -13,6 +13,7 @@ import com.kpms.emp.vo.EmpVO;
 import com.kpms.issu.service.IssuService;
 import com.kpms.issu.vo.IssuVO;
 import com.kpms.req.service.ReqService;
+import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
 import com.kpms.tmmbr.vo.TmMbrVO;
 
@@ -25,7 +26,7 @@ public class ReqController {
 	private IssuService issuService;
 
 	@GetMapping("/req/{searchMode}")
-	public String viewReqListPage(@PathVariable String searchMode, Model model, ReqVO reqVO, TmMbrVO tmMbrVO , @SessionAttribute("__USER__") EmpVO empVO) {
+	public String viewReqListPage(@PathVariable String searchMode, Model model, ReqVO reqVO, TmMbrVO tmMbrVO , @SessionAttribute("__USER__") EmpVO empVO, String prjNm) {
 		reqVO.setSearchMode(searchMode);
 		
 		String empId = empVO.getEmpId();
@@ -36,6 +37,7 @@ public class ReqController {
 		
 		model.addAttribute("reqList", reqList);
 		model.addAttribute("reqVO", reqVO);
+		model.addAttribute("prjNm",prjNm);
 		
 		if (!reqList.isEmpty()) {
 			model.addAttribute("lastPage", reqList.get(0).getLastPage());
@@ -57,6 +59,7 @@ public class ReqController {
 		 
 		 IssuVO issuVO = new IssuVO();
 		 issuVO.setReqId(reqId);
+		 issuVO.setCrtr(empVO.getEmpId());
 		 List<IssuVO> issuList = issuService.readIssuList(issuVO);
 		 model.addAttribute("issuList", issuList);
 		 
@@ -80,5 +83,14 @@ public class ReqController {
 		 
 		 return "req/update"; 
 	 }
-	 
+
+	@GetMapping("/req/search/req")
+	public String viewReqSearchPage(Model model, ReqSearchVO reqSearchVO, @SessionAttribute("__USER__") EmpVO user) {
+		reqSearchVO.setEmpId(user.getEmpId());
+		List<ReqVO> reqList = reqService.readAllReqSearch(reqSearchVO);
+		model.addAttribute("reqList", reqList);
+		model.addAttribute("reqTtl", reqSearchVO.getReqTtl());
+		model.addAttribute("prjNm", reqSearchVO.getPrjNm());
+		return "req/search";
+	}
 }

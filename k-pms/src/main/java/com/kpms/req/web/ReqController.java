@@ -25,13 +25,13 @@ public class ReqController {
 	private IssuService issuService;
 	
 	@GetMapping("/req/{searchMode}")
-	public String viewReqListPage(@PathVariable String searchMode, Model model, ReqVO reqVO) {
+	public String viewReqListPage(@PathVariable String searchMode, Model model, ReqVO reqVO, String prjNm) {
 		reqVO.setSearchMode(searchMode);
 		List<ReqVO> reqList = reqService.readAllReq(reqVO);
 
 		model.addAttribute("reqList", reqList);
 		model.addAttribute("reqVO", reqVO);
-
+		model.addAttribute("prjNm",prjNm);
 		if (!reqList.isEmpty()) {
 			model.addAttribute("lastPage", reqList.get(0).getLastPage());
 		}

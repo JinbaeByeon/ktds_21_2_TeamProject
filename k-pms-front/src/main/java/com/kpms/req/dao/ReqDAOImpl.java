@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
 @Repository
 public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO{
@@ -21,7 +22,11 @@ public class ReqDAOImpl extends SqlSessionDaoSupport implements ReqDAO{
 	public int createNewReq(ReqVO reqVO) {
 		return getSqlSession().insert("Req.createNewReq", reqVO);
 	}
-
+	
+	@Override
+	public List<ReqVO> readAllReqSearch(ReqSearchVO reqSearchVO) {
+		return getSqlSession().selectList("Req.readAllReqSearch", reqSearchVO);
+	}
 	@Override
 	public List<ReqVO> readAllReq(ReqVO reqVO) {
 		return getSqlSession().selectList("Req.readAllReq", reqVO);

@@ -31,7 +31,7 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서관리 > 부서 상세조회</div>
+				<div class="path">부서 관리 > 부서 상세조회</div>
 			<table class="detail_page detail_table">
                 <tr>
                     <th>부서명</th>
@@ -142,7 +142,7 @@
                 </table>
 
         <div class="buttons">
-	       	<button id="list-btn" class="btn list">목록</button>
+	       	<button id="list-btn" class="btn regist">목록</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>

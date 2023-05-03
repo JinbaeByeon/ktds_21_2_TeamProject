@@ -120,11 +120,7 @@
 					</c:if>
 				</div>
 				<div class="msg_view_footer">
-<<<<<<< HEAD
-					<div class="buttons">
-=======
 					<div class="button_btm_left">
->>>>>>> 79551332833d5dc06fb066e4062b11d1168e361a
 						<button id="list_btn" class="btn reply">목록</button>
 						<button id="delete_btn" class="btn delete">삭제</button>
 					</div>

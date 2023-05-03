@@ -14,6 +14,11 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event){
+	    if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+			location.reload();
+		}
+	}
 	$().ready(function(){
 		$(".sidebar > ul li a").removeClass("active")
 		$("#issu_list").addClass("active");
@@ -105,8 +110,9 @@
 		// 전송
 		// 입력값
 		var issuId = $("#search-keyword").val();
+		var reqId = "${issuVO.reqId}";
 		// URL 요청
-		location.href = "${context}/issu/list?issuId=" + issuId + "&pageNo=" + pageNo;
+		location.href = "${context}/issu/list?reqId=" + reqId + "&pageNo=" + pageNo;
 	}
 </script>
 </head>
