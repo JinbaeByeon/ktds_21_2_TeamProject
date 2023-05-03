@@ -86,7 +86,7 @@
 				</div>
 				<div class="msg_view_body">
 					<div class="msg_view_contents">
-						<div style="font-size: 14px; font-family: Gulim, 굴림, sans-serif;">
+						<div style="font-size: 14px;">
 							${sndMsgVO.cntnt}
 						</div>
 					</div>
