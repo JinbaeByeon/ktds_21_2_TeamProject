@@ -134,6 +134,7 @@
 	</select>
 	
 	<select id="readAllDepToTmMbr"
+			parameterType="com.kpms.dep.vo.DeptSearchVO"
 			resultMap="depVOMap">
 		SELECT D.DEP_ID
 			 , TO_CHAR(D.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
@@ -162,15 +163,33 @@
 		 	ON D.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
 		    ON D.MDFYR = MDFYR_E.EMP_ID
-		  LEFT OUTER JOIN EMP HD_EMP
+		  LEFT OUTER JOIN (SELECT HD_EMP.*
+		  				  , HD_EMP.L_NM || HD_EMP.F_NM NM
+		  			   FROM EMP HD_EMP) HD_EMP
 		    ON D.DEP_HD_ID = HD_EMP.EMP_ID
 		  LEFT JOIN TM T
 		 	ON D.DEP_ID = T.DEP_ID
-		  LEFT JOIN EMP TM_HD_EMP
+		  LEFT JOIN (SELECT TM_EMP.*
+		  				  , TM_EMP.L_NM || TM_EMP.F_NM NM
+		  			   FROM EMP TM_EMP)	TM_HD_EMP
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		  LEFT JOIN TM_MBR TM
 		  	ON TM.TM_ID = T.TM_ID
 		 WHERE D.DEL_YN = 'N'
+		<choose>
+			<when test='searchOption == "depNm"'>
+		   AND D.DEP_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "hdNm"'>
+		   AND HD_EMP.NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmNm"'>
+		   AND T.TM_NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+			<when test='searchOption == "tmHdNm"'>
+		   AND TM_HD_EMP.NM LIKE '%' || #{searchKeyword} || '%'
+			</when>
+		</choose>
 	</select>
 	
 	<resultMap id="tmVOMap" 

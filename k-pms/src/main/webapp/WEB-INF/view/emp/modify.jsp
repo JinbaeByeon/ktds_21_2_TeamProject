@@ -246,7 +246,7 @@
 		            </table>
 				</form>
         <div class="buttons">
-          <button id="save_btn" class="btn regist">저장</button>
+          <button id="save_btn" class="btn save">저장</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
