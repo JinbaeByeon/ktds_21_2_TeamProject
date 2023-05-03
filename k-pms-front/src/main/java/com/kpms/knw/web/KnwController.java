@@ -20,6 +20,7 @@ import com.kpms.emp.vo.EmpVO;
 import com.kpms.knw.service.KnwService;
 import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
+import com.kpms.prj.vo.PrjSearchVO;
 
 @Controller
 public class KnwController {
@@ -31,8 +32,9 @@ public class KnwController {
 	private String atchmntPath;
 	
 	@GetMapping("/knw/list/{commonMode}")
-	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable String commonMode) {
+	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable boolean commonMode, @SessionAttribute("__USER__") EmpVO empVO) {
 		knwSearchVO.setCommonMode(commonMode);
+		knwSearchVO.setEmpId(empVO.getEmpId());
 		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
 		model.addAttribute("knwList", knwList);
 		model.addAttribute("knwSearchVO", knwSearchVO);

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="commonMode" value="${knwSearchVO.commonMode}" />
-<c:set scope="request" var="selected" value="knw"/>
+<c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,10 +92,10 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<c:if test="${knwSearchVO.commonMode == 'prj'}">
+				<c:if test="${not knwSearchVO.commonMode}">
 					<div class="path">지식관리 > 지식 목록</div>
 				</c:if>
-				<c:if test="${knwSearchVO.commonMode == 'common'}">
+				<c:if test="${knwSearchVO.commonMode}">
 					<div class="path">사내지식관리 > 지식 목록</div>
 				</c:if>
 		      <div class="search_wrapper">
@@ -121,7 +121,7 @@
 		                <th><input type="checkbox" id="all_check"></th>
 		                <th>순번</th>
 		                <th>제목</th>
-		                <c:if test="${knwSearchVO.commonMode == 'prj'}">
+		                <c:if test="${not knwSearchVO.commonMode}">
 			                <th>프로젝트명</th>
 		                </c:if>
 		                <th>작성자</th>
@@ -141,7 +141,7 @@
 		                            <td><input type="checkbox" class="check_idx" value="${knw.knwId}"><input type="hidden" class="crtr" value="${knw.crtr}"></td>
 		                            <td>${knw.rnum}</td>
 		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
-		                            <c:if test="${knwSearchVO.commonMode == 'prj'}">
+		                            <c:if test="${not knwSearchVO.commonMode}">
 				                       	<td>${knw.prjVO.prjNm}</td>
 		                            </c:if>
 		                            <td>${knw.crtr}</td>

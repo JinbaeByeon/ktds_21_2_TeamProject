@@ -170,10 +170,10 @@
 			ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
 				if (response.status == "200 OK") {
 					if(result) {
-						location.href = "${context}/knw/list/common";	
+						location.href = "${context}/knw/list/1";	
 					}
 					else {
-						location.href = "${context}/knw/list/prj";
+						location.href = "${context}/knw/list/0";
 					}
 				}
 				else {

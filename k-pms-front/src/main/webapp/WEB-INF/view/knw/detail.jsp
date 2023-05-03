@@ -55,10 +55,10 @@
 			
 		$(".listBtn").click(function() {
 			if($("#commonMode").val() != "") {
-				location.href = "${context}/knw/list/prj";
+				location.href = "${context}/knw/list/0";
 			}
 			else {
-				location.href = "${context}/knw/list/common";	
+				location.href = "${context}/knw/list/1";	
 			}
 		});
 		
@@ -219,11 +219,11 @@
 				
 				<div class="articleBtnsArea">
 					<div class="articleBtns">
-						<c:if test="${knwVO.crtr eq sessionScope.__USER__.empId}">
+						<c:if test="${(rplVO.crtr eq sessionScope.__USER__.empId) or (sessionScope.__USER__.admnYn eq 'Y')}">
 							<button class="updateBtn">수정</button>
 							<button class="deleteBtn">삭제</button>
 						</c:if>
-						<button class="listBtn">목록</button>
+						<button class="listBtn btn regist">목록</button>
 					</div>
 				</div>
 				
@@ -258,10 +258,10 @@
 												</div>
 												<div class="commentBtns">
 													<button class="replyBtn">답글</button>
-													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
+													<c:if test="${(rplVO.crtr eq sessionScope.__USER__.empId) or (sessionScope.__USER__.admnYn eq 'Y')}">
 														<button class="commentUpdateBtn" value="update">수정</button>
 													</c:if>
-													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
+													<c:if test="${(rplVO.crtr eq sessionScope.__USER__.empId) or (sessionScope.__USER__.admnYn eq 'Y')}">
 														<button class="commentDeleteBtn">삭제</button>
 													</c:if>
 												</div>

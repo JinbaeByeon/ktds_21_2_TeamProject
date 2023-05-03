@@ -131,7 +131,8 @@
 		$("#knw_list").addClass("active");
 		
 		$("#save_btn").click(function() {
-			
+					
+				
 					if ($("#ttl").val() == "") {
 						alert("제목 입력은 필수입니다.");
 						return;
@@ -140,16 +141,14 @@
 						alert("내용 입력은 필수입니다.");
 						return;
 					}
-					else if ($("#prjId").val() == "") {
-						alert("프로젝트 선택은 필수입니다.");
-						return;
-					}
 					else {
 						var fileList = $(".file_attachment").find("li");
 						
 						cnt=0;
+						$("#atchFlList").empty();
+						
 						fileList.each(function(){
-							var form = $("#create_form");
+							var form = $("#atchFlList");
 							
 							var fileNm = $(this).data("org");
 							var uuidNm = $(this).data("uuid");
@@ -164,31 +163,38 @@
 							form.append(inputSz);
 							var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 							form.append(inputExt);
-								});
+							
+							});
 						
-						ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
-											if (response.status == "200 OK") {
-												if(result) {
-													location.href = "${context}/knw/list/com";	
-												}
-												else{
-													location.href = "${context}/knw/list/prj";
-												}
-											}
-											else {
-												alert("지식 등록에 실패하였습니다.");
-											}
-										});
+						ajaxUtil.upload("#create_form","${context}/api/knw/update", function(response) {
+							var result = confirm("정말 수정하시겠습니까?");
+							if(result) {
+								if (response.status == "200 OK") {
+									if($("#commonMode").val() != "") {
+										location.href = "${context}/knw/list/0";
+									}
+									else {
+										location.href = "${context}/knw/list/1";	
+									}
+								}
+								else {
+									alert("지식 등록에 실패하였습니다.");
+								}
+							}
+							else {
+								return;
+							}
+						});
 					}
 	
 				});
 
 		$("#cancel_btn").click(function() {
 			if($("#commonMode").val() != "") {
-				location.href = "${context}/knw/list/prj";
+				location.href = "${context}/knw/list/0";
 			}
 			else {
-				location.href = "${context}/knw/list/common";	
+				location.href = "${context}/knw/list/1";	
 			}
 		});
 
@@ -248,8 +254,7 @@
 							e.preventDefault();
 
 							var files = event.dataTransfer.files;
-							if (files) {
-								ajaxUtil.uploadImmediatly(files, "${context}/api/knw/upload", function(response) {
+							if (files) {ajaxUtil.uploadImmediatly(files, "${context}/api/knw/upload", function(response) {
 													for (var i = 0; i < response.data.length; i++) {
 														var file = response.data[i];
 														addFile(file);
@@ -277,7 +282,7 @@
 		});
 		
 		$("#byteInfo").keyup(function() {
-
+			
 	        if($(this).val().length > 80) {
 	            $(this).val($(this).val().substring(0, 80));
 	        }
@@ -285,16 +290,26 @@
 
 	    });
 		
+		$("#cntnt").keyup(function() {
+			fnChkByte($(this), '1000');
+		});
+		
+		
 		(function(){
 			var frgnId = "${knwVO.knwId}";
 			
 			$.getJSON("${context}/knw/detail/getAttachList", {frgnId: frgnId}, function(files){
-				for(var i = 0; i < files.length; i++){
-					var file = files[i];
-					addFile(file);
+				if(files.length != 1) {
+					for(var i = 0; i < files.length; i++){
+						if(files[i].orgFlNm != null) {
+							var file = files[i];
+							addFile(file);
+						}
+					}
+					checkFile();
 				}
-				checkFile();
 		    });
+			
 			var that = $("#cntnt");	
 			fnChkByte(that, '1000');
 		})();
@@ -312,6 +327,7 @@
 				<form id="create_form">
 					<table class="detail_table">
 						<input type="hidden" id="prjId" name="prjId" value="${knwVO.prjId}" />
+						<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 						<input type="hidden" id="commonMode" value="${knwVO.prjId}" />
 						<c:if test="${knwVO.prjId ne null}">
 							<tr>
@@ -347,7 +363,7 @@
 						<tr>
 							<th>내용<p id="byteInfo">(0 / 1,000)</p></th>
 							<td>
-								<textarea id="cntnt" name="cntnt" onKeyUp="javascript:fnChkByte(this,'1000')">${knwVO.cntnt}</textarea>
+								<textarea id="cntnt" name="cntnt">${knwVO.cntnt}</textarea>
 							</td> 
 						</tr>
 						<tr>
@@ -373,6 +389,7 @@
 							</td>
 						</tr>
 					</table>
+					<div id="atchFlList" hidden="true"></div>
 				</form>
 				
 			<div class="buttons">
