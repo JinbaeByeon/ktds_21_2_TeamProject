@@ -1,11 +1,8 @@
 package com.kpms.prj.web;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kpms.prj.service.PrjService;
 import com.kpms.prj.vo.PrjSearchVO;
 import com.kpms.prj.vo.PrjVO;
+import com.kpms.prjlog.vo.PrjLogVO;
 import com.kpms.prjtmmbr.vo.PrjTmMbrVO;
 import com.kpms.tm.vo.TmVO;
-import com.kpms.tmmbr.vo.TmMbrVO;
 
 @Controller
 public class PrjController {
@@ -81,5 +78,6 @@ public class PrjController {
 		model.addAttribute("prjList", prjList);
 		return "prj/search";
 	}
+	
 	
 }

@@ -17,4 +17,8 @@ public interface IssuDAO {
 	public int deleteOneIssu(String issuId);
 
 	public int deleteIssu(List<String> issuId);
+
+	public int deleteIssuByReqId(String reqId);
+	
+	public int deleteIssuByPrjId(String prjId);
 }

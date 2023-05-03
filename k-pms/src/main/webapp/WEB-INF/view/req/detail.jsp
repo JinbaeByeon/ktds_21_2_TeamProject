@@ -309,7 +309,7 @@
                 </tr>
                 <tr>
                     <th>상세요구사항</th>
-                    <td colspan="3">${reqVO.reqCnfrNm}</td>
+                    <td colspan="3">${reqVO.dtlReq}</td>
                 </tr>
                 <tr>
                     <th>사용여부</th>

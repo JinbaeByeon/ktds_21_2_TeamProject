@@ -332,6 +332,10 @@ a:link, a:visited {
 	background: rgba(238, 238, 238, 0.974); 
 }
 
+.container .list_table input {
+	font-size: 15px;
+}
+
 /* pagenate */
 .pagenate {
 	text-align: center;
@@ -431,6 +435,10 @@ a:link, a:visited {
 .container .detail_table div,
 .container .detail_table span {
 	background: rgba(238, 238, 238, 0.974); 
+}
+
+.container .detail_table input {
+	font-size: 15px;
 }
 
 .no-items {
@@ -603,6 +611,8 @@ footer {
 	padding: 10px;
 }
 
+
+
 /* scroll_table */
 .scroll_div {
 	height: 200px;
@@ -718,7 +728,8 @@ footer {
 	font-size: 16px;
 	
 	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
-	width: 125px;
+	width: auto;
+	padding-right: 30px;
 	background-size: 20px;
 }
 
@@ -1005,6 +1016,7 @@ footer {
 .create-group input[type=text].underBar {
 	border: none;
 	border-bottom: 1px solid #ddd;
+	width: 500px;
 }
 
 .create-group .msg-cntnt {
@@ -1206,3 +1218,5 @@ select {
 	background: rgba(238, 238, 238, 0.974);
 	
 }
+
+

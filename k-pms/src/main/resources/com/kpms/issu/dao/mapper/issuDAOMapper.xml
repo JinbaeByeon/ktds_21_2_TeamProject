@@ -180,6 +180,7 @@
 		   SET DEL_YN = 'Y'
 		 WHERE ISSU_ID = #{_parameter}
 	</update>
+	
 	<update id="deleteIssu"
 			parameterType="arraylist">
 		UPDATE ISSU
@@ -188,5 +189,22 @@
 		 <foreach collection="list" item="issuId" open="(" close=")" separator=", ">
 		  #{issuId}
 		 </foreach>
+	
+	</update>
+	
+	<update id="deleteIssuByReqId"
+			parameterType="string">
+		UPDATE ISSU
+		   SET DEL_YN = 'Y'
+		 WHERE REQ_ID = #{_parameter}
+	</update>
+	
+		<update id="deleteIssuByPrjId"
+			parameterType="string">
+		UPDATE ISSU I
+		   SET I.DEL_YN = 'Y'
+		 WHERE I.REQ-ID IN (SELECT R.REQ_ID
+		 					  FROM REQ R
+		 					 WHERE R.PRJ_ID = #{_parameter})
 	</update>
 </mapper>

@@ -34,7 +34,7 @@
             <li>
               <a href="${context}/eqp/log" id="eqp_log">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
-                <span>비품내역 관리</span>
+                <span>비품 변경 이력</span>
               </a>
             </li>
           </ul>
