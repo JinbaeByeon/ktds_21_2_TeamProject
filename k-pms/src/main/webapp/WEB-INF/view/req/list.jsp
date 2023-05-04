@@ -130,7 +130,7 @@
 					<c:if test="${empty prjNm}">
 						<a href ='${context}/prj/list'>프로젝트</a>
 					</c:if>
-					 > 요구사항 목록
+					 > 요구사항
 				</div>
 				
 		      <div class="search_wrapper">

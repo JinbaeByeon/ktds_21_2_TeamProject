@@ -333,7 +333,7 @@
             <div class="req path">이슈</div>
             <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
             <div class="view_all">
-                <a href="${context}/issu/list?reqId=${reqVO.reqId}">[전체보기]</a>
+				<a href="${context}/issu/list?reqId=${reqVO.reqId}&reqVO.reqTtl=${reqVO.reqTtl}&reqVO.prjId=${reqVO.prjId}&prjNm=${reqVO.reqPrjVO.prjNm}">[전체보기]</a>
             </div>
             
                 <table class="list_table sub_table">
