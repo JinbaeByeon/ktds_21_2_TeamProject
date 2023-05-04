@@ -93,7 +93,7 @@
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<c:if test="${not knwSearchVO.commonMode}">
-					<div class="path">지식관리 > 지식 목록</div>
+					<div class="path">프로젝트 > 지식 목록</div>
 				</c:if>
 				<c:if test="${knwSearchVO.commonMode}">
 					<div class="path">사내지식관리 > 지식 목록</div>

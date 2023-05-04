@@ -20,7 +20,6 @@ import com.kpms.emp.vo.EmpVO;
 import com.kpms.knw.service.KnwService;
 import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
-import com.kpms.prj.vo.PrjSearchVO;
 
 @Controller
 public class KnwController {
