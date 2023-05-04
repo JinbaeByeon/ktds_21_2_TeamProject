@@ -9,10 +9,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
 <script type="text/javascript">
 	var file_volume = 0;
+	const Viewer = toastui.Editor;
 	
 	$().ready(function() {
+		const viewer = new Viewer({
+			  el: document.querySelector('#viewer'),
+			  initialValue: `${sndMsgVO.cntnt}`
+			});
 		if(${rcvMsgVO.delYn == 'Y'}){
 			$("#msg_trash").addClass("active");
 		}
@@ -86,9 +92,7 @@
 				</div>
 				<div class="msg_view_body">
 					<div class="msg_view_contents">
-						<div style="font-size: 14px;">
-							${sndMsgVO.cntnt}
-						</div>
+						<div id="viewer"></div>
 					</div>
 					<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 					<div class="file_attachment">

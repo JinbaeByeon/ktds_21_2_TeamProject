@@ -641,13 +641,6 @@ footer {
 }
 
 /* table of detail page */
-.detail_table label {
-	background-color: rgb(187, 39, 32);
-	min-width: 130px;
-	padding: 10px;
-	color: #fff;
-	font-size: 10pt;
-}
 
 .detail_table input {
 	border: none;

@@ -18,6 +18,7 @@
 		var pstnWindow;
 		var emplmntSttsData;
 		$().ready(function(){
+			AjaxUtil.disableSpinner();
 			$(".sidebar > ul li a").removeClass("active")
 			$("#emp_list").addClass("active");
 			

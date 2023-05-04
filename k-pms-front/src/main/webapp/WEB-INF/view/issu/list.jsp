@@ -23,7 +23,7 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#issu_list").addClass("active");
 
-		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var issuId = $(this).closest("tr").data("issuid");
 			if(issuId){
 				location.href="${context}/issu/detail/"+issuId;
@@ -65,7 +65,7 @@
 			$("#all_check").prop("checked", count == checkCount);
 		}
 
-		$(".grid > table > tbody > tr > td.check").click(function(){
+		$(".list_table > tbody > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
