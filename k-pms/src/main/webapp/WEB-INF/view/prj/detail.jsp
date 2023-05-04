@@ -14,6 +14,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
+		AjaxUtil.disableSpinner();
 		$(".sidebar > ul li a").removeClass("active")
 		$("#prj_list").addClass("active");
 		

@@ -18,6 +18,7 @@
 		var pstnWindow;
 		var emplmntSttsData;
 		$().ready(function(){
+			AjaxUtil.disableSpinner();
 			$.get("${context}/api/cmncd/list/001", function(response) {
 				var emplmntSttsSelect = $("#emplmntStts-select");
 				emplmntSttsData = response.data;
