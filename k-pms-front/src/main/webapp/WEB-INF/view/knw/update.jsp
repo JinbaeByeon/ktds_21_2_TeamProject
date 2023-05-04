@@ -13,7 +13,8 @@
 <script type="text/javascript">
 	var fileCnt = 0;
 	var ajaxUtil = new AjaxUtil();
-
+	const Editor = toastui.Editor;
+	
 	function addFile(file){
 		var fileList = $("#file_list");
 		
@@ -131,8 +132,17 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#knw_list").addClass("active");
 		
+		const editor = new Editor({
+			  el: document.querySelector('#cntnt'),
+			  height: '650px',
+			  initialEditType: 'wysiwyg',
+			  previewStyle: 'vertical',
+			  initialValue: `${knwVO.cntnt}`
+		});
+		
 		$("#save_btn").click(function() {
-	
+			var form = $("#atchFlList");
+			
 			if ($("#ttl").val() == "") {
 				alert("제목 입력은 필수입니다.");
 				return;
@@ -147,7 +157,6 @@
 				cnt=0;
 				$("#atchFlList").empty();
 				fileList.each(function(){
-					var form = $("#atchFlList");
 					
 					var fileNm = $(this).data("org");
 					var uuidNm = $(this).data("uuid");
@@ -163,6 +172,10 @@
 					var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 					form.append(inputExt);
 						});
+				
+				var cntnt = $("<textarea name='cntnt'></textarea>");
+				cntnt.text(editor.getMarkdown());
+				form.append(cntnt);
 				
 				ajaxUtil.upload("#create_form","${context}/api/knw/update", function(response) {
 					var result = confirm("정말 수정하시겠습니까?");
@@ -280,16 +293,6 @@
 					});
 		});
 		
-		$("#byteInfo").keyup(function() {
-	        if($(this).val().length > 80) {
-	            $(this).val($(this).val().substring(0, 80));
-	        }
-	    });
-		
-		$("#cntnt").keyup(function() {
-			fnChkByte($(this), '1000');
-		});
-		
 		(function(){
 			var frgnId = "${knwVO.knwId}";
 			
@@ -302,9 +305,6 @@
 					checkFile();
 				}
 		    });
-			
-			var that = $("#cntnt");	
-			fnChkByte(that, '1000');
 			
 		})();
 		
@@ -352,12 +352,11 @@
 						</c:if>
 						<tr>
 							<th>제목</th>
-							<td><input type="text" id="ttl" name="ttl" value="${knwVO.ttl}" /></td>
+							<td><input type="text" id="ttl" name="ttl" value= "${knwVO.ttl}" /></td>
 						</tr>
 						<tr>
-							<th>내용<p id="byteInfo">(0 / 1,000)</p></th>
-							<td>
-								<textarea id="cntnt" name="cntnt">${knwVO.cntnt}</textarea>
+							<td colspan="2">
+								<div id="cntnt" name="cntnt"></div>
 							</td> 
 						</tr>
 						<tr>

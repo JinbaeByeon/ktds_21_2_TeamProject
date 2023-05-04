@@ -13,7 +13,8 @@
 <script type="text/javascript">
 	var fileCnt = 0;
 	var ajaxUtil = new AjaxUtil();
-
+	const Editor = toastui.Editor;
+	
 	function addFile(file){
 		var fileList = $("#file_list");
 		
@@ -125,18 +126,26 @@
 	    	 $("#byteInfo").text("(" + rbyte + "/ 1,000)");
 	     }
 	}
-
+	
 	$().ready(function() {
 		$(".sidebar > ul li a").removeClass("active")
 		$("#knw_list").addClass("active");
 		
+		const editor = new Editor({
+			  el: document.querySelector('#cntnt'),
+			  height: '650px',
+			  initialEditType: 'wysiwyg',
+			  previewStyle: 'vertical'
+		});
+		
 		$("#save_btn").click(function() {
-	
+			var form = $("#create_form");
+			
 			if ($("#ttl").val() == "") {
 				alert("제목 입력은 필수입니다.");
 				return;
 			}
-			else if ($("#cntnt").val() == "") {
+			else if ($(".toastui-editor-contents").text() == "") {
 				alert("내용 입력은 필수입니다.");
 				return;
 			}
@@ -150,7 +159,6 @@
 			
 			cnt=0;
 			fileList.each(function(){
-				var form = $("#create_form");
 				
 				var fileNm = $(this).data("org");
 				var uuidNm = $(this).data("uuid");
@@ -166,6 +174,10 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 					});
+			
+			var cntnt = $("<textarea name='cntnt'></textarea>");
+			cntnt.text(editor.getMarkdown());
+			form.append(cntnt);
 			
 			ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
 				if (response.status == "200 OK") {
@@ -277,9 +289,11 @@
 	            $(this).val($(this).val().substring(0, 80));
 	        }
 
-
 	    });
-
+		
+		$("#cntnt").keyup(function() {
+			fnChkByte($(this), '1000');
+		});
 		
 	});
 </script>
@@ -309,9 +323,9 @@
 							<td><input type="text" id="ttl" name="ttl" /></td>
 						</tr>
 						<tr>
-							<th>내용<p id="byteInfo">(0 / 1,000)</p></th>
+							<th>내용</th>
 							<td>
-								<textarea id="cntnt" name="cntnt" onKeyUp="javascript:fnChkByte(this,'1000')"></textarea>
+								<div id="cntnt" name="cntnt"></div>
 							</td> 
 						</tr>
 						<tr>

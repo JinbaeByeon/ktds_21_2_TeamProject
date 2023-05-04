@@ -96,7 +96,7 @@
 					<div class="path">프로젝트 > 지식 목록</div>
 				</c:if>
 				<c:if test="${knwSearchVO.commonMode}">
-					<div class="path">사내지식관리 > 지식 목록</div>
+					<div class="path">사내 지식 목록</div>
 				</c:if>
 		      <div class="search_wrapper">
 		        <div class="search_box">
@@ -118,14 +118,12 @@
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-		                <th><input type="checkbox" id="all_check"></th>
 		                <th>순번</th>
 		                <th>제목</th>
 		                <c:if test="${not knwSearchVO.commonMode}">
 			                <th>프로젝트명</th>
 		                </c:if>
 		                <th>작성자</th>
-		                <th>사용여부</th>
 		            </tr>
 		          </thead>
 		          <tbody>
@@ -138,14 +136,12 @@
 		                            data-crtdt="${knw.crtDt}" data-mdfyr="${knw.mdfyr}"
 		                            data-mdfydt="${knw.mdfyDt}" data-useyn="${knw.useYn}"
 		                            data-prjNm="${knw.prjVO.prjNm}">
-		                            <td><input type="checkbox" class="check_idx" value="${knw.knwId}"><input type="hidden" class="crtr" value="${knw.crtr}"></td>
 		                            <td>${knw.rnum}</td>
 		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
 		                            <c:if test="${not knwSearchVO.commonMode}">
 				                       	<td>${knw.prjVO.prjNm}</td>
 		                            </c:if>
 		                            <td>${knw.crtr}</td>
-		                            <td>${knw.useYn}</td>
 		                        </tr>
 		                    </c:forEach>
 		                </c:when>
@@ -165,8 +161,8 @@
 					</c:import>
 		        <div class="buttons">
 		          <button id="new_btn" class="btn new">신규등록</button>
-		          <c:if test="${sessionScope.__USER__.admnYn eq 'Y'}">
-			      <button id="delete_btn" class="btn delete">선택삭제</button>
+		          <c:if test='${sessionScope.__USER__.admnYn == "Y"}'>
+			    	  <button id="delete_btn" class="btn delete">선택삭제</button>
 		          </c:if>
 		        </div>
 		      </div>

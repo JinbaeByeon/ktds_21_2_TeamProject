@@ -7,7 +7,9 @@ public class KnwSearchVO extends AbstractPagingVO {
 	private String searchOption;
 	private String searchKeyword;
 	private boolean commonMode;
+	private String empId;
 	private String prjId;
+	private String admnYn;
 
 	public String getSearchOption() {
 		return searchOption;
@@ -25,6 +27,22 @@ public class KnwSearchVO extends AbstractPagingVO {
 		this.searchKeyword = searchKeyword;
 	}
 
+	public boolean isCommonMode() {
+		return commonMode;
+	}
+
+	public void setCommonMode(boolean commonMode) {
+		this.commonMode = commonMode;
+	}
+
+	public String getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
+
 	public String getPrjId() {
 		return prjId;
 	}
@@ -33,12 +51,12 @@ public class KnwSearchVO extends AbstractPagingVO {
 		this.prjId = prjId;
 	}
 
-	public boolean isCommonMode() {
-		return commonMode;
+	public String getAdmnYn() {
+		return admnYn;
 	}
 
-	public void setCommonMode(boolean commonMode) {
-		this.commonMode = commonMode;
+	public void setAdmnYn(String admnYn) {
+		this.admnYn = admnYn;
 	}
 
 }

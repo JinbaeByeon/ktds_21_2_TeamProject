@@ -74,11 +74,24 @@
          	<when test='searchOption == "프로젝트명"'>
            AND P.PRJ_NM LIKE '%' || #{searchKeyword} || '%'
          	</when>
+         	<when test='searchOption == ""'>
+           AND (K.TTL LIKE '%' || #{searchKeyword} || '%'
+            OR P.PRJ_NM LIKE '%' || #{searchKeyword} || '%')
+         	</when>
          </choose>
          <choose>
          	<when test='!commonMode'>
            AND P.PRJ_ID IS NOT NULL
-        		<if test='prjId != null and prjId != ""'>
+        		<if test='admnYn == "N" and empId != null and empId !=""'>
+           AND P.PRJ_ID IN (SELECT P.PRJ_ID 
+							  FROM PRJ P
+							  JOIN PRJ_TM_MBR PTM
+							    ON P.PRJ_ID = PTM.PRJ_ID
+							  JOIN TM_MBR TM
+							    ON PTM.TM_MBR_ID = TM.TM_MBR_ID 
+							 WHERE TM.EMP_ID = #{empId})
+         		</if>
+         		<if test='prjId != null and prjId !=""'>
            AND P.PRJ_ID = #{prjId}
          		</if>
          	</when>

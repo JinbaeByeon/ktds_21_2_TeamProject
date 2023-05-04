@@ -16,15 +16,12 @@ import com.kpms.knw.dao.KnwDAO;
 import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
 import com.kpms.knwrpl.dao.KnwRplDAO;
-import com.kpms.prj.dao.PrjDAO;
 
 @Service
 public class KnwServiceImpl implements KnwService {
 
 	@Autowired
 	private KnwDAO knwDAO;
-	@Autowired
-	private PrjDAO prjDAO;
 	@Autowired
 	private KnwRplDAO knwRplDAO;
 	@Autowired
@@ -62,7 +59,6 @@ public class KnwServiceImpl implements KnwService {
 
 	@Override
 	public List<KnwVO> readAllKnw(KnwSearchVO knwSearchVO) {
-		
 		return knwDAO.readAllKnw(knwSearchVO);
 	}
 

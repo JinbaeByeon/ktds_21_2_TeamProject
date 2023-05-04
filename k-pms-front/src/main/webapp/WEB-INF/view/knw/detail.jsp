@@ -10,12 +10,21 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
 <script type="text/javascript">
 
 	var fileCnt = 0;
 	var ajaxUtil = new AjaxUtil();
+	const Viewer = toastui.Editor;
 	
 	$().ready(function() {
+		
+		const viewer = new Viewer({
+		  el: document.querySelector('#viewer'),
+		  height: '600px',
+		  initialValue: `${knwVO.cntnt}`
+		});
+		
 		$(".sidebar > ul li a").removeClass("active")
 		$("#knw_list").addClass("active");
 
@@ -203,7 +212,7 @@
 					</div>
 				</div>
 				<div class="articleBody">
-					${knwVO.cntnt}
+					<div id="viewer"></div>
 				</div>
 				
 				<c:if test="${atchFlList.get(0).frgnId ne null}">
@@ -217,7 +226,7 @@
 				
 				<div class="articleBtnsArea">
 					<div class="articleBtns">
-						<c:if test="${(rplVO.crtr eq sessionScope.__USER__.empId) or (sessionScope.__USER__.admnYn eq 'Y')}">
+						<c:if test="${knwVO.crtr eq sessionScope.__USER__.empId}">
 							<button class="updateBtn btn save size">수정</button>
 							<button class="deleteBtn btn delete size">삭제</button>
 						</c:if>
@@ -255,10 +264,10 @@
 													<p class="replyBtn">${rplVO.cnt}</p>
 												</div>
 												<div class="commentBtns">
-													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId or sessionScope.__USER__.admnYn eq 'Y'}">
+													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
 														<button class="commentUpdateBtn btn sedit" value="update">수정</button>
 													</c:if>
-													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId or sessionScope.__USER__.admnYn eq 'Y'}">
+													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
 														<button class="commentDeleteBtn btn sdelete">삭제</button>
 													</c:if>
 												</div>

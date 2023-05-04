@@ -32,7 +32,7 @@
               </a>
             </li>
             <li>
-              <a href="${context}/knw/list/common" id="knw_list">
+              <a href="${context}/knw/list/1" id="knw_list">
                 <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>사내지식관리</span>
               </a>

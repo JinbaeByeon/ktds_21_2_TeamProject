@@ -782,10 +782,11 @@ footer {
 	padding-left: 29px;
 	margin-top: 50px;
 	margin-bottom: 50px;
+	margin-left: 30px;
 	position: relative;
 	background: rgba(238, 238, 238, 0.974);
-	border: 1px solid #2b2b2b30;
 	border-right: 3px solid rgb(163, 15, 0);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .articleBox * {
@@ -840,15 +841,18 @@ footer {
 
 .fileAttachmentArea {
 	padding: 10px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment {
 	border: 1px solid #2b2b2b30;
 	padding: 10px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment p {
 	font-size: 8pt;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .fileAttachmentArea .fileAttachment .fileSize {
@@ -864,12 +868,14 @@ footer {
 .fileAttachmentArea .fileAttachment #file_list li {
 	display: inline-block;
 	padding-right: 5px;
+	background: rgba(238, 238, 238, 0.974);
 }
 
 .articleBtnsArea {
 	position: relative;
 	height: 24px;
     margin-bottom: 24px;
+    background: rgba(238, 238, 238, 0.974);
 }
 
 .articleBtns {
@@ -885,6 +891,7 @@ footer {
 	margin-top: 1px;
 	margin-bottom: 20px;
 	border-top: 1px solid #2b2b2b30;
+	
 }
 
 .commentBoxArea {
@@ -897,7 +904,8 @@ footer {
 .commentBoxArea .cnt {
 	border: none;
     border-bottom: 1px solid #2b2b2b30;
-    width: 80%;
+    width: 885px;
+    height: 40px;
     padding-bottom: 5px;
     display: inline-block;
 }
@@ -956,18 +964,22 @@ footer {
 	width: 100%;
 	height: 40px;
 	position: relative;
-}
-
-#comments .comment p {
-	padding-left: 1px;
-}
+	}
 
 #comments .comment .cnt {
-	width: 100%;
+	width: 95%;
 	height: 40px;
 	font-size: 16px;
-	border: 1px solid;
+	border: none;
+    border-bottom: 1px solid #2b2b2b30;
+    display: inline-block;
+    margin-bottom: 3px;
 }
+
+.cntArea .replyBtn {
+	padding-bottom: 4px
+}
+
 
 /* msg */
 #previewPrfl {
