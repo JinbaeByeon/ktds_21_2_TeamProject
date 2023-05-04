@@ -141,13 +141,13 @@
 		$("#prj_search").click(function(event){
 			event.preventDefault();
 			window.open("${context}/prj/search",
-					"프로젝트 검색", "width=500, height=500");
+					"프로젝트 검색", "width=800, height=600");
 		});
 
 		$("#prjtmmbr_search").click(function(event){
 			event.preventDefault();
 			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
-					"프로젝트팀원 검색", "width=500, height=500");
+					"프로젝트팀원 검색", "width=500, height=600");
 		});
 		
 		$("#add_files").click(function(e){
@@ -300,7 +300,7 @@
 				<form id="detail_form" >
 					<table class="detail_page detail_table">
 		                <tr>
-		                    <th>요구사항 ID</th>
+		                    <th>요구사항 관리번호</th>
 		                    <td><input type="text" id="reqId"  name="reqId" value="" readonly /></td>
 		                </tr>
 		                <tr>
@@ -327,7 +327,7 @@
 		                    <td><input type="date" id="expctEndDt"  name="expctEndDt" value=""/></td>
 		                </tr>
 		                <tr>
-		                    <th>프로젝트ID</th>
+		                    <th>프로젝트 관리번호</th>
 		                    <td>
 		                    	<div>${reqVO.prjId}</div>
 								<input type="hidden" id="prjId"  name="prjId" value=""/>

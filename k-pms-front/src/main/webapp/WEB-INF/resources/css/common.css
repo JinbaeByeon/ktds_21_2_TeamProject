@@ -57,7 +57,7 @@ a:link, a:visited {
 }
 
 .top_navbar .left_blank {
-	width: 125px;
+	width: 160px;
 	position: relative;
 	text-align: center;
 	border-right: 1px solid #2b2b2b30;
@@ -90,7 +90,7 @@ a:link, a:visited {
 }
 
 .top_navbar .menu {
-	width: calc(100% - 125px);
+	width: calc(100% - 160px);
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
@@ -149,13 +149,13 @@ a:link, a:visited {
 	position: fixed;
 	top: 100px;
 	left: 0;
-	width: 125px;
+	width: 160px;
 	height: 100%;
 	border-right: 1px solid #2b2b2b30;
 }
 
 .sidebar .sidebar__inner {
-	margin-top: 10px;
+	margin-top: 60px;
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -189,14 +189,14 @@ a:link, a:visited {
 	letter-spacing: 3px;
 	font-weight: 600;
 	bottom: 56px;
-	left: 30px;
+	left: 50px;
 }
 
 /* container */
 .container {
 	margin-top: 100px;
-	width: calc(100% - 125px);
-	margin-left: 125px;
+	width: calc(100% - 160px);
+	margin-left: 160px;
 	padding: 10px;
 	transition: all 0.3s ease;
 }
@@ -232,6 +232,8 @@ a:link, a:visited {
 	background-color: rgba(238, 238, 238, 0.974);
 	display: inline-block;
 	top: 10px;
+	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
+    background-size: 15px;
 }
 
 .search_box select {

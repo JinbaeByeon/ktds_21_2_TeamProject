@@ -155,7 +155,7 @@
 		      <form class="inline_form">
 		        <div class="search_box">
 		          <select class="search-option" id="searchType" name="searchType">
-		            <option value="id" ${searchType eq "id" ? "selected" : ""}>ID</option>
+		            <option value="id" ${searchType eq "id" ? "selected" : ""}>직원ID</option>
 		            <option value="sndrNm" ${searchType eq "sndrNm" ? "selected" : ""}>발신자명</option>
 		        </select>
 		          <div class="search_field">

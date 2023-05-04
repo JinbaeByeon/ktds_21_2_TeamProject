@@ -64,8 +64,8 @@
         <thead>
             <tr>
                 <th></th>
+                <th>직급 관리번호</th>
                 <th>직급명</th>
-                <th>직급ID</th>
             </tr>
         </thead>
             <tbody>

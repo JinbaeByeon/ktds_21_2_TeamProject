@@ -106,7 +106,7 @@
 		        <form class="inline_form">
 		          <div class="search_box">
 		            <select>
-				  		<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
+				  		<option value="ID" ${searchType eq "id" ? "selected" : ""}>직원ID</option>
 				  		<option value="rcvrNm" ${searchType eq "rcvrNm" ? "selected": ""}>수신자명</option>
 		            </select>
 		            <div class="search_field">
@@ -124,8 +124,8 @@
 		          <thead>
 		            <tr>
 		                <th><input type="checkbox" id="all_check"/></th>
-		                <th>수신자</th>
 		                <th>제목</th>
+		                <th>수신자</th>
 		                <th>발신일</th>
 		            </tr>
 		          </thead>
@@ -141,8 +141,8 @@
 		                            <td class="check">
 		                                <input type="checkbox" class="check_idx" value="${sndMsg.msgId}"/>
 		                            </td>
-		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm}${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 		                            <td>${sndMsg.ttl}</td>
+		                            <td>${sndMsg.rcvMsgVO.get(0).rcvr} (${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.lNm}${sndMsg.rcvMsgVO.get(0).rcvrEmpVO.fNm})</td>
 		                            <td>${sndMsg.crtDt}</td>
 		                        </tr>
 		                    </c:forEach>

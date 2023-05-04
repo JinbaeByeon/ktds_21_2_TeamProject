@@ -45,7 +45,6 @@
         <thead>
             <tr>
                  <th>팀명</th>
-                 <th>팀ID</th>
             </tr>
         </thead>
             <tbody>
@@ -55,7 +54,6 @@
                             <tr data-tmid="${tm.tmId}"
                                 data-tmnm="${tm.tmNm}">
                                 <td>${tm.tmNm}</td>
-                                <td>${tm.tmId}</td>
                             </tr>
                         </c:forEach>
                     </c:when>

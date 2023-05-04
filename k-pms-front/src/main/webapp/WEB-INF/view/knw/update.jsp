@@ -100,7 +100,7 @@
 			gnr = window.open(
 					"${context}/prj/search",
 					"프로젝트 검색",
-					"width=500, height=500");
+					"width=800, height=600");
 			});
 
 		$("#deletePrj").click(function(event) {
@@ -239,7 +239,7 @@
 					</div>
 					<div class="create-group">
 						<label for="cntnt">내용</label>
-						<textarea id="cntnt" name="cntnt">${knwVO.cntnt}</textarea>
+						<textarea id="cntnt" name="cntnt" class="input_div">${knwVO.cntnt}</textarea>
 					</div>
 				</form>
 			</div>

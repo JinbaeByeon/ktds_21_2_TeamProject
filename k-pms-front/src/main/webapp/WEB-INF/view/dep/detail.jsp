@@ -51,10 +51,9 @@
                     <thead>
                         <tr>
                             <th>순번</th>
-							<th>팀ID</th>
 							<th>팀명</th>
 							<th>팀장ID</th>
-							<th>팀장 성명</th>
+							<th>팀장명</th>
 							<th>팀생성일</th>
                         </tr>
                     </thead>
@@ -66,7 +65,6 @@
 											varStatus="index">
 										<tr>
 											<td>${index.index + 1}</td>
-											<td>${tm.tmId}</td>
 											<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
 											<td>${tm.tmHdId}</td>
 											<td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>

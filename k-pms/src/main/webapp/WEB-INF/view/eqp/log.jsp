@@ -36,8 +36,8 @@
 		          <thead>
 		            <tr>
 						<th>순번</th>
-						<th>로그ID</th>
-						<th>비품ID</th>
+						<th>로그 관리번호</th>
+						<th>비품 관리번호</th>
 						<th>신청자명</th>
 						<th>신청내용</th>
 						<th>등록자명</th>

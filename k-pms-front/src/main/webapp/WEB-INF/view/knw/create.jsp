@@ -138,7 +138,7 @@
 
 						$("#addPrj").click(function(event) {
 											event.preventDefault();
-											gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
+											gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=800, height=600");
 										});
 
 						$("#add_files").click(function(e) {
@@ -273,7 +273,7 @@
 					</div>
 					<div class="create-group">
 						<label for="cntnt">내용</label>
-						<textarea id="cntnt" name="cntnt"></textarea>
+						<textarea id="cntnt" name="cntnt" class="input_div"></textarea>
 					</div>
 				</form>
 			</div>

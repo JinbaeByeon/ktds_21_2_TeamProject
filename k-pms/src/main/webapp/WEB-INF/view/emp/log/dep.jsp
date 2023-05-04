@@ -61,13 +61,12 @@
 						<tr>
 							<th>직원ID</th>
 							<th>이름</th>
-							<th>이전부서ID</th>
+							<th>이전 부서 관리번호</th>
 							<th>이전부서</th>
-							<th>변경된부서ID</th>
-							<th>변경된부서</th>
+							<th>변경 부서 관리번호</th>
+							<th>변경 부서</th>
 							<th>변경일</th>
 							<th>변경사유</th>
-							<th>생성일</th>
 							<th>생성자</th>
 						</tr>
 		          </thead>
@@ -95,7 +94,6 @@
 									<td>${depLog.chngDepNmVO.depNm}</td>
 									<td>${depLog.chngDt}</td>
 									<td>${depLog.chngRsn}</td>
-									<td>${depLog.crtDt}</td>
 									<td>${depLog.crtr}</td>
 									</tr>
 								</c:forEach>

@@ -69,7 +69,7 @@
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-						<th>사원 ID</th>
+						<th>직원ID</th>
 						<th>사원명</th>
 						<th>액세스 기록</th>
 						<th>액세스 날짜</th>

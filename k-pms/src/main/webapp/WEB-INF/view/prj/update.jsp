@@ -13,6 +13,11 @@
 <title>프로젝트 수정</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
 	var tmMbr;
 	
 	function addTmMbrFn(message) {
@@ -77,7 +82,7 @@
 		$("#addTmMbrBtn").click(function(event) {
 			alert("!!");
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=500, scrollbars = no");
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=600, scrollbars = no");
 		});
 		
 		$(".del-ptm-btn").click(function(e){

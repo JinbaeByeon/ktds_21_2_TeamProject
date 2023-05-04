@@ -105,12 +105,12 @@
 		
 		$("#addTmHeadBtn").click(function(event) {
 			event.preventDefault(); 
-			var tmHd = window.open("${context}/emp/search", "팀장 검색", "width=500,height=500");
+			var tmHd = window.open("${context}/emp/search", "팀장 검색", "width=600,height=700");
 		});
 		
 		$("#addDepIdBtn").click(function(event) {
 			event.preventDefault();
-			depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=500");
+			depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=600");
 		});
 		
 		
@@ -159,11 +159,11 @@
 						<th><input type="checkbox" id="all_check" /></th>
 			              <th>순번</th>
 			              <th>팀명</th>
-			              <th>팀ID</th>
+			              <th>팀 관리번호</th>
 			              <th>팀장ID</th>
 			              <th>팀장명</th>
 			              <th>부서명</th>
-			              <th>부서ID</th>
+			              <th>부서 관리번호</th>
 			              <th>팀생성일</th>
 			              <th>사용여부</th>
 <!-- 			              <th>등록자</th>

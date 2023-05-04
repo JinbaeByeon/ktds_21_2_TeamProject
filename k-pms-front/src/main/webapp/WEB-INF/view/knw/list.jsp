@@ -32,7 +32,7 @@
 		$("#delete_btn").click(function() {
 			var checkLen = $(".check_idx:checked").length;
 			if(checkLen == 0) {
-				alert("삭제할 지식ID가 없습니다.");
+				alert("삭제할 지식이 없습니다.");
 				return;
 			}
 			
@@ -104,10 +104,9 @@
 		          <thead>
 		            <tr>
 		                <th><input type="checkbox" id="all_check"></th>
-		                <th>프로젝트ID</th>
-		                <th>프로젝트명</th>
-		                <th>지식관리ID</th>
+		                <td>순번</td>
 		                <th>제목</th>
+		                <th>프로젝트명</th>
 <!-- 		                <th>등록자</th>
 		                <th>등록일</th>
 		                <th>수정자</th>
@@ -127,10 +126,9 @@
 		                            data-prjNm="${knw.prjVO.prjNm}">
 		                            <td><input type="checkbox" class="check_idx"
 		                                value="${knw.knwId}"></td>
-		                            <td>${knw.prjId}</td>
-		                            <td>${knw.prjVO.prjNm}</td>
-		                            <td>${knw.knwId}</td>
+		                            <td>${knw.rnum}</td>
 		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a>
+		                            <td>${knw.prjVO.prjNm}</td>
 		                            </td>
 <%-- 		                            <td>${knw.crtr}</td>
 		                            <td>${knw.crtDt}</td>

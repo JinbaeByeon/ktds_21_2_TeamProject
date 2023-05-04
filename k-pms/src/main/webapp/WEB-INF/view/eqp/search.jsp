@@ -93,8 +93,8 @@
             </tbody>
     </table>
     <div class="buttons">
-        <button id="cancel_btn" class="btn delete">취소</button>
         <button id="regist_btn" class="btn regist">등록</button>
+        <button id="cancel_btn" class="btn delete">취소</button>
     </div>
 </div>
 </body>

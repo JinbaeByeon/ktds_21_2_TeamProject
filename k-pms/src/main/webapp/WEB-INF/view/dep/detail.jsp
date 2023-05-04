@@ -37,10 +37,8 @@
                 <tr>
                     <th>부서명</th>
                     <td><input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/></td>
-               		<th>부서ID</th>
+               		<th>부서 관리번호</th>
                     <td><input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/></td>
-                    <th>부서 생성일</th>
-                    <td><input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/></td>
                 </tr>
                 <tr>
                     <th>부서장ID</th>
@@ -76,7 +74,7 @@
                 <table class="list_table sub_table">
                     <thead>
                         <tr>
-							<th>팀ID</th>
+							<th>팀 관리번호</th>
 							<th>팀명</th>
 							<th>팀장ID</th>
 							<th>팀장 성명</th>

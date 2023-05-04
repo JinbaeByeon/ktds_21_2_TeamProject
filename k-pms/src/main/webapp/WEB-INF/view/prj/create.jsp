@@ -13,6 +13,11 @@
 <title>프로젝트 생성</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
 	var tmMbr;
 	
 	function addTmMbrFn(message) {
@@ -79,7 +84,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=500, scrollbars = no");
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=600, scrollbars = no");
 		});
 		
 		
@@ -210,8 +215,8 @@
 		                        <thead>
 		                            <tr>
 		                                <th>직원ID</th>
-		                                <th>팀</th>
 		                                <th>이름</th>
+		                                <th>팀</th>
 		                                <th>권한</th>
 		                                <th></th>
 		                            </tr>

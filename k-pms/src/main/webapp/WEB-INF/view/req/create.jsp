@@ -94,13 +94,13 @@
 		$("#prj_search").click(function(event){
 			event.preventDefault();
 			window.open("${context}/prj/search",
-					"프로젝트 검색", "width=500, height=500");
+					"프로젝트 검색", "width=800, height=600");
 		});
 
 		$("#prjtmmbr_search").click(function(event){
 			event.preventDefault();
 			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
-					"프로젝트팀원 검색", "width=500, height=500");
+					"프로젝트팀원 검색", "width=500, height=600");
 		});
 		
 		
@@ -262,7 +262,7 @@
 	});
 	
 	function addPrjFn(data) {
-		$("#prjId").val(data.prjid);
+		$("#").val(data.prjid);
 	}
 
 	function addPrjTmMbrFn(data) {
@@ -363,7 +363,7 @@
 			                    <td><input type="date" id="expctEndDt"  name="expctEndDt" value=""/></td>
 			                </tr>
 			                <tr>
-			                    <th>프로젝트ID</th>
+			                    <th>프로젝트 관리번호</th>
 			                    <td>
 			                    	<input type="text" id="prjId"  name="prjId" value="${reqVO.prjId}"/>
 			                    	<button id="prj_search" class="btn regist">검색</button>

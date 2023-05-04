@@ -238,7 +238,7 @@
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>순번</th>
-							<th>비품ID</th>
+							<th>비품 관리번호</th>
 							<th>비품명</th>
 							<th>비품종류</th>
 							<th>비품가격</th>
@@ -250,7 +250,6 @@
 							<th>수정자</th>
 							<th>수정일</th> -->
 							<th>사용여부</th>
-							<th>삭제여부</th>
 						</tr>
 			          </thead>
 			          <tbody>
@@ -290,7 +289,6 @@
 											<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
 											<td>${eqp.mdfyDt}</td> --%>
 											<td>${eqp.useYn}</td>
-											<td>${eqp.delYn}</td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -323,7 +321,7 @@
 			        	<input type="hidden" id="isModify" value="false" />
 				        <table class="detail_table">
 				            <tr>
-				              <th>비품 ID</th>
+				              <th>비품 관리번호</th>
 				              <td><input type="text" id="eqpId"  name="eqpId" value="" readonly /></td>
 				              <th>등록자</th>
 				              <td><input type="text" id="crtr"  disabled value=""/></td>

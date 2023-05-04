@@ -194,7 +194,7 @@
 
 		$("#addPrj").click(function(event) {
 							event.preventDefault();
-							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
+							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=800, height=600");
 						});
 
 		$("#comPrj").click(function(event) {
@@ -347,7 +347,7 @@
 						<tr>
 							<th>내용<p id="byteInfo">(0 / 1,000)</p></th>
 							<td>
-								<textarea id="cntnt" name="cntnt" onKeyUp="javascript:fnChkByte(this,'1000')">${knwVO.cntnt}</textarea>
+								<textarea id="cntnt" name="cntnt" class="input_div" onKeyUp="javascript:fnChkByte(this,'1000')">${knwVO.cntnt}</textarea>
 							</td> 
 						</tr>
 						<tr>

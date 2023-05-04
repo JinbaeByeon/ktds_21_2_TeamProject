@@ -53,7 +53,7 @@
 		        <table class="list_table">
 		          <thead>
 						<tr>
-							<th style="width: 15%;">사원 ID</th>
+							<th style="width: 15%;">직원ID</th>
 							<th style="width: 15%;">사원명</th>
 							<th style="width: 10%;">로그인/로그아웃</th>
 							<th style="width: 25%;">날짜</th>
