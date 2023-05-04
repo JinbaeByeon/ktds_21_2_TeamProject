@@ -11,13 +11,11 @@
           <ul>
             <li>
               <a href="${context}/dep/list" id="dep_list">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>부서 조회</span>
               </a>
             </li>
             <li>
               <a href="${context}/tm/list" id="tm_list">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>팀 조회</span>
               </a>
             </li>

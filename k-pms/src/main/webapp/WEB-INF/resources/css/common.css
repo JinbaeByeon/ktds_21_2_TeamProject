@@ -752,7 +752,7 @@ footer {
 	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
 	width: auto;
 	padding-right: 30px;
-	background-size: 20px;
+	background-size: 15px;
 }
 
 .list_table > thead > tr > th select option {
@@ -1376,5 +1376,5 @@ select {
 /* input-width */
 #prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
 #eml, #eqpNm, #ttl, #title {
-	width: 400px;
+	width: 300px;
 }

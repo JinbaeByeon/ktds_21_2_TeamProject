@@ -38,11 +38,10 @@ public class PstnController {
 												Model model) {
 		
 		model.addAttribute("pstnNm", pstnNm);
+
+		List<PstnVO> pstnList = pstnService.readAllPstnNoPagination(pstnNm);
+		model.addAttribute("pstnList", pstnList);
 		
-		if (pstnNm != null && pstnNm.length() > 0) {
-			List<PstnVO> pstnList = pstnService.readAllPstnNoPagination(pstnNm);
-			model.addAttribute("pstnList", pstnList);
-		}
 
 		return "pstn/search";
 	}

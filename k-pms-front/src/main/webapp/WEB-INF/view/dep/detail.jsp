@@ -31,13 +31,11 @@
 			<table class="detail_page detail_table">
                 <tr>
                     <th>부서명</th>
-                    <td colspan="3">${depVO.depNm}</td>
-                </tr>
-                <tr>
+                    <td colspan="3" style="border: none;">${depVO.depNm}</td>
+
                     <th>부서장명</th>
-                    <td colspan="3">${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}</td>
-                </tr>
-                <tr>
+                    <td colspan="3" style="border: none;">${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}</td>
+
                     <th>부서 생성일</th>
                     <td colspan="3">${depVO.depCrtDt}</td>
                 </tr>

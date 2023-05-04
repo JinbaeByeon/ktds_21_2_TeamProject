@@ -70,7 +70,7 @@
             <tr>
                  <th></th>
                  <th>직무명</th>
-                 <th>등록일</th>
+                 <th>직무ID</th>
             </tr>
         </thead>
             <tbody>
@@ -83,7 +83,7 @@
                                     <input type="radio" name="check_idx" class="check_idx" value="${job.jobId}"/>
                                 </td>
                                 <td>${job.jobNm}</td>
-                                <td>${job.crtDt}</td>
+                                <td>${job.jobId}</td>
                             </tr>
                         </c:forEach>
                     </c:when>

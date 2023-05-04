@@ -63,11 +63,9 @@
     <table class="list_table search_table">
         <thead>
             <tr>
-                <th>
-                    <input type="checkbox" id="all_check" />
-                </th>
+                <th></th>
                 <th>직급명</th>
-                <th>등록일</th>
+                <th>직급ID</th>
             </tr>
         </thead>
             <tbody>
@@ -77,10 +75,10 @@
                             <tr data-pstnid = "${pstn.pstnId}"
                                 data-pstnnm = "${pstn.pstnNm}">
                                 <td>
-                                    <input type="checkbox" class="check_idx" value="${pstn.pstnId}" />
+                                     <input type="radio" name="check_idx" class="check_idx" value="${job.jobId}"/>
                                 </td>
                                 <td>${pstn.pstnNm}</td>
-                                <td>${pstn.crtDt}</td>
+                                <td>${pstn.pstnId}</td>
                             </tr>
                         </c:forEach>
                     </c:when>
@@ -93,8 +91,8 @@
             </tbody>
     </table>
     <div class="buttons">
-        <button id="cancel_btn" class="btn delete">취소</button>
         <button id="regist_btn" class="btn regist">등록</button>
+        <button id="cancel_btn" class="btn delete">취소</button>
     </div>
 </div>
 </body>

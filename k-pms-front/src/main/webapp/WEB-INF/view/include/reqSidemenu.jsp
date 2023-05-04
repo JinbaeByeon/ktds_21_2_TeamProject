@@ -6,13 +6,11 @@
           <ul>
             <li>
               <a href="#" class="active">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>--</span>
               </a>
             </li>
             <li>
               <a href="#">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>--</span>
               </a>
             </li>

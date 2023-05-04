@@ -9,7 +9,6 @@
           <ul>
             <li>
               <a href="${context}/emp/create" class="active">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>개인정보 수정</span>
               </a>
             </li>
