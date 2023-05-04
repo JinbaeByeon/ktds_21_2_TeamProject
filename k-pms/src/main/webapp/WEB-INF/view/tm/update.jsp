@@ -44,10 +44,14 @@
 		var empIdList = $(".tmMbr-tbody").children("tr").not(".tmHd-tr");
 		empIdList.each(function(){
 			if($(this).data("empid") == tmHdId){
+				$(this).remove();
+				$(".tmMbr-tbody").find(".emp-tr").each(function(i, tr) {
+		            $(tr).data("index", i);
+		            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].empId");
+		        });
 				if($(this).find("input[type=hidden]").length > 0){
 					--mbrIdx;
 				}
-				$(this).remove();
 				return;
 			}
 		});
@@ -102,10 +106,10 @@
 
 	    var itemId = $("<input type='hidden' name='tmMbrList[" + mbrIdx + "].empId' class='emp-item'/>");
 	    itemId.val(empId);
-
+	    
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-empid='" + empId + "' data-index='" + mbrIdx++ + "'></tr>");
 
-	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    var td = "<td></td>"
 	    td += "<td>" + "팀원" + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + empId + "</td>"

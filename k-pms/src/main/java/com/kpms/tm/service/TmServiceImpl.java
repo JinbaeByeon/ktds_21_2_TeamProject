@@ -73,34 +73,53 @@ public class TmServiceImpl implements TmService {
 
 	@Override
 	public boolean updateOneTm(TmVO tmVO) {
-		if (tmVO.getTmNm() == null || tmVO.getTmNm().trim().length() == 0) {
-			throw new APIArgsException("400", "팀명이 누락되었습니다.");
-		}
-		if (tmVO.getTmHdId() == null || tmVO.getTmHdId().trim().length() == 0) {
-			throw new APIArgsException("400", "팀장이 누락되었습니다.");
-		}
-		if (tmVO.getTmCrtDt() == null || tmVO.getTmCrtDt().trim().length() == 0) {
-			throw new APIArgsException("400", "팀생성일이 누락되었습니다.");
-		}
-		
-		tmMbrDAO.deleteTmMbrByTmId(tmVO.getTmId());
-		
-		int tmMbrUpdateCount = tmDAO.updateOneTm(tmVO);
-		if (tmMbrUpdateCount > 0) {
-			List<TmMbrVO> tmMbrList = tmVO.getTmMbrList();
-			if (tmMbrList == null || tmMbrList.isEmpty()) {
-				throw new APIArgsException("404", "팀원을 추가해주세요");
-			}
-			for (TmMbrVO tmMbr: tmMbrList) {
-				tmMbr.setTmId(tmVO.getTmId());
-				tmMbr.setCrtr(tmVO.getCrtr());
-				tmMbr.setMdfyr(tmVO.getMdfyr());
-				tmMbrDAO.createOneTmMbr(tmMbr);
-			}
-		}
-		return tmMbrUpdateCount > 0;
+	    if (tmVO.getTmNm() == null || tmVO.getTmNm().trim().length() == 0) {
+	        throw new APIArgsException("400", "팀명이 누락되었습니다.");
+	    }
+	    if (tmVO.getTmHdId() == null || tmVO.getTmHdId().trim().length() == 0) {
+	        throw new APIArgsException("400", "팀장이 누락되었습니다.");
+	    }
+	    if (tmVO.getTmCrtDt() == null || tmVO.getTmCrtDt().trim().length() == 0) {
+	        throw new APIArgsException("400", "팀생성일이 누락되었습니다.");
+	    }
+	    
+	    TmVO orgnTmVO = tmDAO.readOneTmVOByTmId(tmVO.getTmId());
+	    String hdTmMbrId = tmMbrDAO.readAllTmMbrVO(tmVO.getTmId())
+	    		.stream()
+	    		.filter(vo -> vo.getEmpId().equals(orgnTmVO.getTmHdId()))
+	    		.map(vo -> vo.getTmMbrId())
+	    		.findFirst()
+	    		.orElse(null);
+	    
+	    boolean result = tmDAO.updateOneTm(tmVO) > 0;
+	    
+	    if (result) {
+	        List<TmMbrVO> tmMbrList = tmVO.getTmMbrList();
+	        if (tmMbrList == null || tmMbrList.isEmpty()) {
+	            throw new APIArgsException("404", "팀원을 추가해주세요");
+	        }
+	        for (TmMbrVO tmMbr: tmMbrList) {
+	            tmMbr.setTmId(tmVO.getTmId());
+	            tmMbr.setCrtr(tmVO.getCrtr());
+	            tmMbr.setMdfyr(tmVO.getMdfyr());
+	            tmMbrDAO.createOneTmMbr(tmMbr);
+	        }
+	        
+	        
+	        String newTmHdId = tmVO.getTmHdId();
+	        System.out.println(hdTmMbrId + "  " + newTmHdId);
+	         
+	        // 원래 팀장과 신규팀장이 같으면 delete 안하고 바뀌면 delete 
+	        if (hdTmMbrId != null) { 
+	            if (orgnTmVO.getTmHdId().equals(newTmHdId)) {
+	            }
+	            else {
+	            	tmMbrDAO.deleteOneTmMbrByTmMbrId(hdTmMbrId);
+	            }
+	        } 
+	    } 
+	    return result; 
 	}
-
 
 	@Override
 	public boolean updateOneTmAndTmMbr(TmVO tmVO) {
