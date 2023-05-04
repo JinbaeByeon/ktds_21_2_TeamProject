@@ -609,6 +609,11 @@ a:link, a:visited {
 	position: relative;
 	top: 5px;
 }
+
+.size {
+	padding: 3px;
+    margin: 0px;
+}
 /* footer */
 footer {
 	background: rgb(187, 39, 32);
@@ -784,10 +789,11 @@ footer {
 	padding-left: 29px;
 	margin-top: 50px;
 	margin-bottom: 50px;
+	margin-left: 30px;
 	position: relative;
 	background: rgba(238, 238, 238, 0.974);
-	border: 1px solid #2b2b2b30;
 	border-right: 3px solid rgb(163, 15, 0);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .articleBox * {
@@ -896,23 +902,34 @@ footer {
 }
 
 .commentBoxArea {
-	width: 920px;
+	width: 100%;
 	height: 88px;
 	position: relative;
 	padding-top: 10px;
 }
 
+.commentBoxArea.commentForm {
+	position: relative;
+}
+
 .commentBoxArea .cnt {
-	width: 100%;
-	height: 40px;
-	border: 1px solid #2b2b2b30;
+	border: none;
+    border-bottom: 1px solid #2b2b2b30;
+    width: 100%;
+    height: 40px;
+    padding-bottom: 5px;
+    display: inline-block;
 }
 
 .commentBoxArea .commentSubmitBtn {
-	position: absolute;
 	bottom: 0px;
 	right: 0px;
 	margin-bottom: 2px;
+	display: inline-block;
+	position: absolute;
+	top: 12px;
+    height: 26px;
+    right: 0;
 }
 
 .commentsTop {
@@ -962,17 +979,20 @@ footer {
 	width: 100%;
 	height: 40px;
 	position: relative;
-}
-
-#comments .comment p {
-	padding-left: 1px;
-}
+	}
 
 #comments .comment .cnt {
 	width: 100%;
 	height: 40px;
 	font-size: 16px;
-	border: 1px solid;
+	border: none;
+    border-bottom: 1px solid #2b2b2b30;
+    display: inline-block;
+    margin-bottom: 3px;
+}
+
+.cntArea .replyBtn {
+	padding-bottom: 4px
 }
 
 /* msg */
