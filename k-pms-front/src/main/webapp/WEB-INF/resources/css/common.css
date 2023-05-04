@@ -280,6 +280,30 @@ a:link, a:visited {
 	background-color: rgba(238, 238, 238, 0.974);
 }
 
+/* view_info */
+.container .view_info {
+    position: relative;
+    margin-top: 10px;
+}
+
+.container .view_info > .view_cnt{
+    display: inline-block;
+    position: absolute;
+    right: 0;
+}
+
+.container .view_info > .view_cnt > select {
+    outline: 0px;
+    border-style: none;
+    border: 1px solid #b5b5b5;
+    border-radius: 3px;
+}
+
+.container .filter {
+	display: inline-block;
+	margin-left: 5px;
+}
+
 /* list_table */
 .container .total {
 	font-size: 10pt;
@@ -445,6 +469,7 @@ a:link, a:visited {
 	display: inline-block;
 	bottom: 4px;
 	position: relative;
+	margin: 0;
 }
 
 .btn, #file-upload-button {

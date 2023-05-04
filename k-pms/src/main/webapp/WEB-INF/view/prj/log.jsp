@@ -19,6 +19,14 @@
 		$("#prj_log").addClass("active");
 		
 	});
+
+	function movePage(pageNo) {
+		var queryString = "pageNo=" + pageNo;
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
+		
+		location.href = "${context}/prj/log?" + queryString;
+	}
 	
 </script>
 </head>
@@ -31,6 +39,7 @@
 			<div class="path">프로젝트 관리 > 프로젝트 변경 이력</div>
 
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${prjLogList.size() > 0 ? prjLogList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>

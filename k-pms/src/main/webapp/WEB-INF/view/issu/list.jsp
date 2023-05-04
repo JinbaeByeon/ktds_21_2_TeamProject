@@ -111,8 +111,8 @@
 		// 입력값
 		var issuId = $("#search-keyword").val();
 		var reqId = "${issuVO.reqId}";
-		// URL 요청
-		location.href = "${context}/issu/list?reqId=" + reqId + "&pageNo=" + pageNo;
+		var viewCnt = $("#view_cnt").val();
+		location.href = "${context}/issu/list?reqId=" + reqId + "&pageNo=" + pageNo + "&viewCnt=" + viewCnt;
 	}
 </script>
 </head>
@@ -147,6 +147,7 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>

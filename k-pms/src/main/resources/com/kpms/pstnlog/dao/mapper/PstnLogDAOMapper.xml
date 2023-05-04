@@ -41,17 +41,23 @@
 			 , PL.CHNG_RSN
 			 , E.F_NM
 			 , E.L_NM
-		  FROM PSTN_LOG PL
-		 INNER JOIN PSTN P
+		  FROM (SELECT *
+		  		  FROM PSTN_LOG
+				<if test="empId != null and empId != ''">
+				 WHERE EMP_ID = #{empId}
+				</if>) PL
+		  JOIN PSTN P
 		    ON P.PSTN_ID = PL.PRVS_PSTN_ID
-		 INNER JOIN PSTN PT
+		  JOIN PSTN PT
 		    ON PT.PSTN_ID = PL.CHNG_PSTN_ID
-		 INNER JOIN EMP E
+		  JOIN (SELECT E.*
+		  			 , E.L_NM || E.F_NM NM
+		  		  FROM EMP E) E
 		    ON E.EMP_ID = PL.EMP_ID
-		<if test="empId != null and empId != ''">
-		 WHERE PL.EMP_ID = #{empId}
-		 </if>
-		 <include refid="Common.pageFooter"/>
+		<if test="empVO != null and empVO.fNm != null and empVO.fNm != ''">
+		 WHERE E.NM LIKE '%' || #{empVO.fNm} || '%'
+		</if>
+		<include refid="Common.pageFooter"/>
 	</select>
 	
 	<insert id="createPstnLog"

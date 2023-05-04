@@ -55,7 +55,7 @@
 		if (${empty tmList} && pageNo > 0) {
 			movePage(pageNo -1);
 		}
-		
+
 		$("#new_btn").click(function() {
 			
 			location.href = "${context}/tm/create"
@@ -122,6 +122,9 @@
 		var queryString = "?pageNo=" + pageNo;
 		queryString += "&searchOption=" + searchOption;
 		queryString += "&searchKeyword=" + searchKeyword;
+
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
 		
 		location.href = "${context}/tm/list" + queryString;
 		 
@@ -152,6 +155,7 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total"> 총 ${tmList.size() > 0 ? tmList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>

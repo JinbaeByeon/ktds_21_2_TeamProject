@@ -47,10 +47,12 @@
 		  		<if test="crtr != null and crtr != ''">
 		  		 WHERE CRTR = #{crtr}
 		  		</if>) AL
-		  JOIN EMP E
+		  JOIN (SELECT E.*
+		  			 , E.L_NM || E.F_NM NM
+		  		  FROM EMP E) E
 		 	ON E.EMP_ID = AL.CRTR
 		<if test="emp != null and emp.fNm != null and emp.fNm != ''">
-		 WHERE E.F_NM LIKE '%' || #{emp.fNm} || '%'
+		 WHERE E.NM LIKE '%' || #{emp.fNm} || '%'
 		</if>
 		<include refid="Common.pageFooter"/>
 	</select>

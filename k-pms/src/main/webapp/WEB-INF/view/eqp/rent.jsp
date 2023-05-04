@@ -166,10 +166,7 @@
 		});
 		
 		$("#search-btn").click(function(){
-			var eqpNm =$("#search-keyword").val();
-			location.href = "${context}/eqp/rent?eqpNm=" + eqpNm;
-			/* movePage(0) */
-			
+			movePage(0);
 		})
 		
 		
@@ -378,8 +375,9 @@
 		// 전송
 		// 입력값
 		var eqpNm = $("#search-keyword").val();
-		// URL 요청
-		location.href = "${context}/eqp/rent?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+		
+		var viewCnt = $("#view_cnt").val();
+		location.href = "${context}/eqp/rent?eqpNm=" + eqpNm + "&pageNo=" + pageNo + "&viewCnt=" + viewCnt;
 	}
 </script>
 </head>
@@ -404,6 +402,7 @@
 			        </div>
 			      </div>
 			      <div class="list_section">
+					<jsp:include page="../include/viewCnt.jsp" />
 			        <div class="total">총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건  </div>
 			        <table class="list_table">
 			          <thead>

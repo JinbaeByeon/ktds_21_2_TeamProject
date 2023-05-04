@@ -184,8 +184,9 @@
 		var queryString = "?searchOption=" + searchOption;
 		queryString += "&searchKeyword=" + searchKeyword;
 		queryString += "&pageNo=" + pageNo;
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
 		
-		// URL 요청
 		location.href = "${context}/cmncd/list" + queryString;
 	}
 </script>
@@ -215,6 +216,7 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${cmnCdList.size() > 0 ? cmnCdList.get(0).getTotalCount() : 0} 건</div>
 		        <table class="list_table">
 		          <thead>

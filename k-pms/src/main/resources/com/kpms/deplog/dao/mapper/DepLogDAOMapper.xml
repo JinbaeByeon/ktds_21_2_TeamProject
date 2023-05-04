@@ -42,15 +42,20 @@
 			 , E.F_NM
 			 , E.L_NM
 		  FROM DEP_LOG DL
-		 INNER JOIN DEP PD
+		  JOIN DEP PD
 		    ON PD.DEP_ID = DL.PRVS_DEP_ID
-		 INNER JOIN DEP CD
+		  JOIN DEP CD
 		    ON CD.DEP_ID = DL.CHNG_DEP_ID
-		 INNER JOIN EMP E
+		  JOIN (SELECT E.*
+		  			 , E.L_NM || E.F_NM NM
+		  		  FROM EMP E) E
 		    ON E.EMP_ID = DL.EMP_ID
 		<if test="empId != null and empId != ''">
 		 WHERE DL.EMP_ID = #{empId}
 		 </if>
+		<if test="empVO != null and empVO.fNm != null and empVO.fNm != ''">
+		 WHERE E.NM LIKE '%' || #{empVO.fNm} || '%'
+		</if>
 		 <include refid="Common.pageFooter"/>
 	</select>
 	

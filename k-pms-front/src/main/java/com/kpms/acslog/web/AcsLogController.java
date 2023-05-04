@@ -18,7 +18,6 @@ public class AcsLogController {
 	
 	@GetMapping("/emp/log/acs")
 	public String viewAcsLogPage(Model model, AcsLogVO acsLogVO,String searchType) {
-		acsLogVO.setViewCnt(15);
 		List<AcsLogVO> acsLogList = acsLogService.readAllAcsLog(acsLogVO);
 		model.addAttribute("acsLogList",acsLogList);
 		if(!acsLogList.isEmpty()) {

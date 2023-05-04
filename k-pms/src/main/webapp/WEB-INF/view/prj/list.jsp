@@ -77,6 +77,8 @@ $().ready(function() {
 		var queryString = "pageNo=" + pageNo;
 		queryString += "&searchOption=" + searchOption;
 		queryString += "&searchKeyword=" + searchKeyword;
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
 		
 		location.href = "${context}/prj/list?" + queryString;
 	}
@@ -104,6 +106,7 @@ $().ready(function() {
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${prjList.size() > 0 ? prjList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>

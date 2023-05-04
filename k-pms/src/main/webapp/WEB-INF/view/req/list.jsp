@@ -44,14 +44,6 @@
 		
 		$("#search-btn").click(function(){
 			movePage(0);
-			/* if($("#search-option").val() == "요구사항제목"){
-				var reqTtl = $("#search-keyword").val();
-				location.href = "${context}/req/list?selectOption=요구사항제목&reqTtl=" + reqTtl;
-			}
-			if($("#search-option").val() == "프로젝트명"){
-				var prjNm = $("#search-keyword").val();
-				location.href = "${context}/req/list?selectOption=프로젝트명&reqPrjVO.prjNm=" + prjNm;
-			} */
 		});
 		
 		$(".detail_path").click(function(){
@@ -112,7 +104,9 @@
 			queryString += "&reqPrjVO.prjNm=" + searchKeyword;
 		}
 		queryString += "&pageNo=" + pageNo;
-		// URL 요청
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
+		
 		location.href = "${context}/req/list?" + queryString;
 	}
 </script>
@@ -148,6 +142,7 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${reqList.size() > 0 ? reqList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>

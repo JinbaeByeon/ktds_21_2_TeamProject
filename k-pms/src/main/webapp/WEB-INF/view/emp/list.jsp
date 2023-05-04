@@ -138,7 +138,8 @@
 			if(fNm != null && fNm != ''){
 				qryStr += "&fNm="+fNm;
 			}
-
+			var viewCnt = $("#view_cnt").val();
+			qryStr += "&viewCnt=" + viewCnt;
 
 			location.href = "${context}/emp/list?"  + qryStr;
 		}
@@ -235,7 +236,8 @@
 		        </form>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건</div>
+				<jsp:include page="../include/viewCnt.jsp" />
+			    <div class="total">총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 						<tr>

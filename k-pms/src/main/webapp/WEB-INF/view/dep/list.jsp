@@ -243,6 +243,9 @@ $().ready(function() {
 		var queryString = "?pageNo=" + pageNo;
 		queryString += "&searchOption=" + searchOption;
 		queryString += "&searchKeyword=" + searchKeyword;
+
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
 		
 		location.href = "${context}/dep/list" + queryString;
 	}
@@ -274,6 +277,7 @@ $().ready(function() {
 			        </div>
 			      </div>
 			      <div class="list_section">
+					<jsp:include page="../include/viewCnt.jsp" />
 			        <div class="total">총 ${depList.size() > 0 ? depList.get(0).totalCount : 0}건  </div>
 			        <table class="list_table">
 			          <thead>

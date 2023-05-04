@@ -72,6 +72,8 @@
 		var queryString = "?searchOption=" + searchOption;
 		queryString += "&searchKeyword=" + searchKeyword;
 		queryString += "&pageNo=" + pageNo;
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
 		
 		location.href = "${context}/knw/list/${commonMode}" + queryString;
 
@@ -107,6 +109,7 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${knwList.size() > 0 ? knwList.get(0).totalCount : 0} 건 </div>
 		        <table class="list_table">
 		          <thead>

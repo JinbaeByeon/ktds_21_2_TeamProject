@@ -11,7 +11,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		$(".sidebar > ul li a").removeClass("active")
 		$("#sndmsg_list").addClass("active");
 		
 		$("#new_btn").click(function() {
@@ -76,19 +75,27 @@
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
 		});
+		$("#search-keyword").keydown(function(e){
+			if(e.keyCode == '13'){
+				movePage(0);
+			}
+		});
+		$("#search-btn").click(function() {
+			movePage(0)
+		});
 		
 	});
 	function movePage(pageNo) {
 		var searchType = $("#searchType").val();
-		alert(searchType);
-		if(searchType == "id") {
-			var empId = $("#searchBar").val();
-			location.href = "${context}/sndmsg/list?searchType=ID$rcvEmpId=" + empId + "$pageNo=" + pageNo;
-		}
-		else if(searchType == "rcvrNm") {
-			var nm = $("#searchBar").val();
-			location.href="${context}/sndmsg/list?searchType=rcvrNm&nm=" + nm + "&pageNo=" + pageNo;
-		}
+		var viewCnt = $("#view_cnt").val();
+		var search = $("#search-keyword").val();
+		
+		var qryStr = "?pageNo=" + pageNo;
+		qryStr += "&viewCnt=" + viewCnt;
+		qryStr += "&searchKeyword=" + search;
+		qryStr += "&searchType="+searchType;
+		
+		location.href = "${context}/sndmsg/list" + qryStr;
 	}
 </script>
 </head>
@@ -103,10 +110,9 @@
 		      	<div class="buttons upper">
 		          <button id="delete_btn" class="btn delete">삭제</button>
 		      	</div>
-		        <form class="inline_form">
 		          <div class="search_box">
-		            <select>
-				  		<option value="ID" ${searchType eq "id" ? "selected" : ""}>ID</option>
+		            <select id="searchType">
+				  		<option value="ID" ${searchType eq "ID" ? "selected" : ""}>ID</option>
 				  		<option value="rcvrNm" ${searchType eq "rcvrNm" ? "selected": ""}>수신자명</option>
 		            </select>
 		            <div class="search_field">
@@ -116,9 +122,9 @@
 		            	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
 		            </div>
 		          </div>
-		        </form>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${sndMsgList.size() > 0 ? sndMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
