@@ -96,7 +96,16 @@ public class TmServiceImpl implements TmService {
 	    if (result) {
 	        List<TmMbrVO> tmMbrList = tmVO.getTmMbrList();
 	        if (tmMbrList != null) {
+	        	
+	        	boolean isThBeforeMbr = orgnTmVO.getTmMbrList().stream()
+	                    .anyMatch(tmMbr -> tmMbr.getEmpId().equals(tmVO.getTmHdId()));
+	        	
 		        for (TmMbrVO tmMbr: tmMbrList) {
+		        	
+		        	if (isThBeforeMbr && tmMbr.getEmpId().equals(tmVO.getTmHdId())) {
+		                   continue;
+		            }
+		        	
 		            tmMbr.setTmId(tmVO.getTmId());
 		            tmMbr.setCrtr(tmVO.getCrtr());
 		            tmMbr.setMdfyr(tmVO.getMdfyr());
