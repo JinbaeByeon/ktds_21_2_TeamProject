@@ -35,7 +35,7 @@
 	
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex++ + "'></tr>");
 	
-	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    var td = "<td></td>"
 	    td += "<td>" + empId + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
@@ -283,7 +283,7 @@
 						</div>
 				    </form>
 				    <div class="buttons">
-					<button id="addTmMbrBtn" class="btn regist">추가</button>
+					<button id="addTmMbrBtn" class="btn regist">팀원 추가</button>
 					<button id="regist-btn" class="btn regist">등록</button>
 					<button id="delete-btn" class="btn delete">팀원 삭제</button>
 				    </div>

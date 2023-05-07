@@ -95,21 +95,18 @@ public class TmServiceImpl implements TmService {
 	    
 	    if (result) {
 	        List<TmMbrVO> tmMbrList = tmVO.getTmMbrList();
-	        if (tmMbrList == null || tmMbrList.isEmpty()) {
-	            throw new APIArgsException("404", "팀원을 추가해주세요");
+	        if (tmMbrList != null) {
+		        for (TmMbrVO tmMbr: tmMbrList) {
+		            tmMbr.setTmId(tmVO.getTmId());
+		            tmMbr.setCrtr(tmVO.getCrtr());
+		            tmMbr.setMdfyr(tmVO.getMdfyr());
+		            tmMbrDAO.createOneTmMbr(tmMbr);
+		        }
 	        }
-	        for (TmMbrVO tmMbr: tmMbrList) {
-	            tmMbr.setTmId(tmVO.getTmId());
-	            tmMbr.setCrtr(tmVO.getCrtr());
-	            tmMbr.setMdfyr(tmVO.getMdfyr());
-	            tmMbrDAO.createOneTmMbr(tmMbr);
-	        }
-	        
 	        
 	        String newTmHdId = tmVO.getTmHdId();
 	        System.out.println(hdTmMbrId + "  " + newTmHdId);
 	         
-	        // 원래 팀장과 신규팀장이 같으면 delete 안하고 바뀌면 delete 
 	        if (hdTmMbrId != null) { 
 	            if (orgnTmVO.getTmHdId().equals(newTmHdId)) {
 	            }
@@ -125,16 +122,15 @@ public class TmServiceImpl implements TmService {
 	public boolean updateOneTmAndTmMbr(TmVO tmVO) {
 		int tmMbrUpdateCount = tmDAO.updateOneTmAndTmMbr(tmVO);
 		if (tmMbrUpdateCount > 0) {
-			List<TmMbrVO> tmMbrList = tmVO.getTmMbrList();
-			if (tmMbrList == null || tmMbrList.isEmpty()) {
-				throw new APIArgsException("404", "팀원을 추가해주세요");
-			}
-			for (TmMbrVO tmMbr: tmMbrList) {
-				tmMbr.setTmId(tmVO.getTmId());
-				tmMbr.setCrtr(tmVO.getCrtr());
-				tmMbr.setMdfyr(tmVO.getMdfyr());
-				tmMbrDAO.createOneTmMbr(tmMbr);
-			}
+		   List<TmMbrVO> tmMbrList = tmVO.getTmMbrList();
+	        if (tmMbrList != null) {
+		        for (TmMbrVO tmMbr: tmMbrList) {
+		            tmMbr.setTmId(tmVO.getTmId());
+		            tmMbr.setCrtr(tmVO.getCrtr());
+		            tmMbr.setMdfyr(tmVO.getMdfyr());
+		            tmMbrDAO.createOneTmMbr(tmMbr);
+		        }
+	        }
 		}
 		return tmMbrUpdateCount > 0;
 	}
