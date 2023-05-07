@@ -16,13 +16,35 @@
 			$(".sidebar > ul li a").removeClass("active")
 			$("#emp_log_lgn").addClass("active");
 			
+			$("#search-keyword").keydown(function(e){
+				if(e.keyCode == '13'){
+					movePage(0);
+				}
+			})
+			
+			$("#search-btn").click(function() {
+				movePage(0)
+			});
 		});
 		
 		function movePage(pageNo) {
-			var empId = $("#empId").val();
-			var qryStr = "&crtr=" + empId;
+			var empId = $("#search-keyword").val();
+			var startDt = $("#search-keyword-startdt").val();
+			var endDt = $("#search-keyword-enddt").val();
+			
+			var intstartDt = parseInt(startDt.split("-").join(""));
+			var intEndDt = parseInt(endDt.split("-").join(""));
+			
+			if (intstartDt > intEndDt) {
+				alert("시작일자를 확인해 주세요")
+				return;
+			}
+			
+			var qryStr = "crtr=" + empId;
+			qryStr += "&startDt=" + startDt;
+			qryStr += "&endDt=" + endDt;
 			qryStr += "&pageNo=" + pageNo;
-			location.href = "${context}/emp/log/lgn?"  + qryStr;
+			location.href = "${context}/emp/log/lgn?" + qryStr;
 		}
 	</script>
 </head>
@@ -34,19 +56,21 @@
 			<jsp:include page="../../include/content.jsp"/>
 				<div class="path">임직원 관리 > 로그인 이력</div>
 		      <div class="search_wrapper">
-		      <form>
 		        <div class="search_box">
 		          <select>
 		            <option>ID</option>
 		          </select>
 		          <div class="search_field">
-		          <input type="text" id="empId" name="crtr" class="input" value="${empId}" placeholder="Search"/>
+		          <input type="text" id="search-keyword" name="crtr" class="input" value="${empId}" placeholder="Search"/>
+		          
+		            <label for="search-keyword-startdt">조회기간</label>
+					<input type="date" id="search-keyword-startdt" class="search-input" value="${lgnHstVO.startDt}"/>
+					<input type="date" id="search-keyword-enddt" class="search-input" value="${lgnHstVO.endDt}"/>
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
 		          </div>
 		        </div>
-		      </form>
 		      </div>
 		      <div class="list_section">
 		        <div class="total">총 ${lgnHstList.size() > 0 ? lgnHstList.get(0).totalCount : 0} 건</div>
@@ -80,7 +104,7 @@
 							<c:otherwise>
 								<tr>
 									<td colspan="5" class="no-items">
-									등록된 사원이 없습니다.
+									등록된 기록이 없습니다.
 									</td>
 								</tr>
 							</c:otherwise>

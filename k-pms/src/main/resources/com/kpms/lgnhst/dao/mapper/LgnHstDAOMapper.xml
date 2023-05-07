@@ -36,6 +36,8 @@
 		  		 </if>) LH
 		  JOIN EMP E
 		  	ON E.EMP_ID = LH.CRTR
+		 WHERE LH.CRT_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND LH.CRT_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		<include refid="Common.pageFooter"/>
 	</select>
 	

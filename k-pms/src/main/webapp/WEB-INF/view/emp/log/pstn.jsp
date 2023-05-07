@@ -28,8 +28,23 @@
 		// 전송
 		// 입력 값
 		var empId=$("#search-keyword").val();
+		var startDt = $("#search-keyword-startdt").val();
+		var endDt = $("#search-keyword-enddt").val();
+		
+		var intstartDt = parseInt(startDt.split("-").join(""));
+		var intEndDt = parseInt(endDt.split("-").join(""));
+		
+		if (intstartDt > intEndDt) {
+			alert("시작일자를 확인해 주세요")
+			return;
+		}
+		
+		var queryString = "empId=" + empId;
+		queryString += "&startDt=" + startDt;
+		queryString += "&endDt=" + endDt;
+		queryString += "&pageNo=" + pageNo;
 		// URL 요청
-		location.href= "${context}/emp/log/pstn?empId=" + empId + "&pageNo=" + pageNo;
+		location.href= "${context}/emp/log/pstn?" + queryString;
 	}
 
 </script>
@@ -48,6 +63,10 @@
 		          </select>
 		          <div class="search_field">
 		            <input type="text" id="search-keyword" class="input" value="${pstnLogVO.empId}" placeholder="Search"/>
+		            
+		            <label for="search-keyword-startdt">조회기간</label>
+					<input type="date" id="search-keyword-startdt" class="search-input" value="${pstnLogVO.startDt}"/>
+					<input type="date" id="search-keyword-enddt" class="search-input" value="${pstnLogVO.endDt}"/>
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>

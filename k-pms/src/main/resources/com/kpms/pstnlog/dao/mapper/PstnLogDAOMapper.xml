@@ -51,6 +51,8 @@
 		<if test="empId != null and empId != ''">
 		 WHERE PL.EMP_ID = #{empId}
 		 </if>
+		   AND PL.CHNG_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND PL.CHNG_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		 <include refid="Common.pageFooter"/>
 	</select>
 	

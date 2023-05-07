@@ -19,20 +19,38 @@
 			$(".search-option").change(function(){
 				movePage(0);
 			});
+			
+			$("#search-btn").click(function() {
+				movePage(0)
+			});
 		});
 		
 		function movePage(pageNo) {
 			var empId = $("#empId").val();
 			var fNm = $("#fNm").val();
+			
+			var startDt = $("#search-keyword-startdt").val();
+			var endDt = $("#search-keyword-enddt").val();
+			
+			var intstartDt = parseInt(startDt.split("-").join(""));
+			var intEndDt = parseInt(endDt.split("-").join(""));
+			
+			if (intstartDt > intEndDt) {
+				alert("시작일자를 확인해 주세요")
+				return;
+			}
+			
 			var searchType = $(".search-option").val();
 			var qryStr = "searchType=" + searchType;
+			qryStr += "&startDt=" + startDt;
+			qryStr += "&endDt=" + endDt;
 			qryStr +=  "&pageNo=" + pageNo;
-			if(fNm=="undefined"){
-				qryStr +=  "&emp.fNm=" + fNm;
-			} else if(empId=="undefined"){
-				qryStr +=  "&crtr=" + empId;
-			}
-			location.href = "${context}/emp/log/acs?"  + qryStr;
+			if(fNm){
+	            qryStr += "&emp.fNm=" + encodeURIComponent(fNm);
+	        } else if(empId){
+	            qryStr += "&crtr=" + encodeURIComponent(empId);
+	        }
+			location.href = "${context}/emp/log/acs?" + qryStr;
 		}
 	</script>
 </head>
@@ -44,7 +62,6 @@
 			<jsp:include page="../../include/content.jsp"/>
 			<div class="path">임직원 관리 > 화면 접근 이력</div>
 		      <div class="search_wrapper">
-		      <form>
 		        <div class="search_box">
 					<select class="search-option" name="searchType">
 						<option ${searchType== "ID" ? "selected" : ""}>ID</option>
@@ -57,12 +74,15 @@
 					<c:if test="${searchType== '이름'}">
 						<input type="text" id="fNm" name="emp.fNm" class="input" value="${acsLogVO.emp.fNm}" placeholder="Search"/>
 					</c:if>
+					 <label for="search-keyword-startdt">조회기간</label>
+					<input type="date" id="search-keyword-startdt" class="search-input" value="${acsLogVO.startDt}"/>
+					<input type="date" id="search-keyword-enddt" class="search-input" value="${acsLogVO.endDt}"/>
+					
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
 		          </div>
 		        </div>
-		        </form>
 		      </div>
 		      <div class="list_section">
 		        <div class="total">총 ${acsLogList.size() > 0? acsLogList.get(0).totalCount : 0}건</div>
