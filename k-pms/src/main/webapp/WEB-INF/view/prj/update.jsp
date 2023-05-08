@@ -80,9 +80,8 @@
 		
 		
 		$("#addTmMbrBtn").click(function(event) {
-			alert("!!");
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=600, scrollbars = no");
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=600, height=700, scrollbars = no");
 		});
 		
 		$(".del-ptm-btn").click(function(e){

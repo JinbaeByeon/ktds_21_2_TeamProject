@@ -249,6 +249,9 @@ a:link, a:visited {
 	position: absolute;
 	top: 5px;
 	left: 10px;
+	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
+    background-size: 15px;
+    background: rgba(238, 238, 238, 0.974);
 }
 
 .search_box .search_field {
@@ -332,6 +335,10 @@ a:link, a:visited {
 
 .container .list_table input {
 	font-size: 15px;
+}
+
+.container .list_table a {
+	background: rgba(238, 238, 238, 0.974);
 }
 
 /* pagenate */
@@ -1249,4 +1256,77 @@ select {
 .list_table.inner_table div,
 .list_table.inner_table span {
 	background: rgba(238, 238, 238, 0.974); 
+}
+
+/* input-width */
+#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
+#eml, #eqpNm, #ttl, #title {
+	width: 300px;
+}
+
+#addDepHeadBtn {
+	margin: 0px;
+    padding: 5px 13px;
+    margin-left: 20px;
+}
+
+.items.dep {
+	display: inline-block;
+}
+
+/* scrolltable */
+
+.tableWrapper {
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+}
+
+#userListTable {
+    height: auto;
+    width: 100%;
+}
+
+#userListTable th {
+    position: sticky;
+    top: -1px;
+}
+.scroll_table {
+  border-collapse: collapse;
+  line-height:16px;
+} 
+.scroll_table th, .scroll_table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.scroll_table th {
+  color: #fff;
+  background-color: rgb(187, 39, 32);
+  font-weight: 500;
+}
+
+.scroll_table td {
+	border-bottom: 1px solid #2b2b2b30;
+	color: #2b2b2b80;
+	background: rgba(238, 238, 238, 0.974);
+}
+
+.scroll_table tbody tr {
+	height: 45px;
+}
+
+.scroll_table tbody tr:hover td {
+	color: #2b2b2b;
+}
+
+.scroll_table tbody tr:last-child {
+	border-bottom: 3px solid rgb(187, 39, 32);
+}
+
+.scroll_table .input {
+	width: 0%;
 }
