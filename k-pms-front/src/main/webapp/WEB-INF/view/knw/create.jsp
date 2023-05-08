@@ -173,7 +173,7 @@
 				form.append(inputSz);
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
-					});
+			});
 			
 			var cntnt = $("<textarea name='cntnt'></textarea>");
 			cntnt.text(editor.getMarkdown());
@@ -201,7 +201,7 @@
 
 		$("#addPrj").click(function(event) {
 			event.preventDefault();
-			gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
+			gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=800, height=600");
 		});
 		
 		$("#comPrj").click(function(event) {
@@ -306,9 +306,8 @@
 			<jsp:include page="../include/content.jsp" />
 			<div class="path"> 프로젝트 관리 > 지식 등록</div>
 				<form id="create_form">
+					<input type="hidden" id="prjId" name="prjId" value="${prjId}"/>
 					<table class="detail_table">
-						<input type="hidden" id="prjId" name="prjId"  value="${prjId}"/>
-						
 						<tr>
 							<th>프로젝트 선택</th>
 							<td id="prjHead">

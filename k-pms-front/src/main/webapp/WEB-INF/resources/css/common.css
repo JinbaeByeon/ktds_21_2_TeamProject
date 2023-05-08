@@ -57,7 +57,7 @@ a:link, a:visited {
 }
 
 .top_navbar .left_blank {
-	width: 125px;
+	width: 160px;
 	position: relative;
 	text-align: center;
 	border-right: 1px solid #2b2b2b30;
@@ -90,7 +90,7 @@ a:link, a:visited {
 }
 
 .top_navbar .menu {
-	width: calc(100% - 125px);
+	width: calc(100% - 160px);
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
@@ -149,13 +149,13 @@ a:link, a:visited {
 	position: fixed;
 	top: 100px;
 	left: 0;
-	width: 125px;
+	width: 160px;
 	height: 100%;
 	border-right: 1px solid #2b2b2b30;
 }
 
 .sidebar .sidebar__inner {
-	margin-top: 10px;
+	margin-top: 60px;
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -189,14 +189,14 @@ a:link, a:visited {
 	letter-spacing: 3px;
 	font-weight: 600;
 	bottom: 56px;
-	left: 30px;
+	left: 50px;
 }
 
 /* container */
 .container {
 	margin-top: 100px;
-	width: calc(100% - 125px);
-	margin-left: 125px;
+	width: calc(100% - 160px);
+	margin-left: 160px;
 	padding: 10px;
 	transition: all 0.3s ease;
 }
@@ -232,6 +232,8 @@ a:link, a:visited {
 	background-color: rgba(238, 238, 238, 0.974);
 	display: inline-block;
 	top: 10px;
+	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
+    background-size: 15px;
 }
 
 .search_box select {
@@ -247,6 +249,9 @@ a:link, a:visited {
 	position: absolute;
 	top: 5px;
 	left: 10px;
+	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
+    background-size: 15px;
+    background: rgba(238, 238, 238, 0.974);
 }
 
 .search_box .search_field {
@@ -278,6 +283,30 @@ a:link, a:visited {
 	color: rgb(187, 39, 32);
 	border: none;
 	background-color: rgba(238, 238, 238, 0.974);
+}
+
+/* view_info */
+.container .view_info {
+    position: relative;
+    margin-top: 10px;
+}
+
+.container .view_info > .view_cnt{
+    display: inline-block;
+    position: absolute;
+    right: 0;
+}
+
+.container .view_info > .view_cnt > select {
+    outline: 0px;
+    border-style: none;
+    border: 1px solid #b5b5b5;
+    border-radius: 3px;
+}
+
+.container .filter {
+	display: inline-block;
+	margin-left: 5px;
 }
 
 /* list_table */
@@ -332,6 +361,10 @@ a:link, a:visited {
 	font-size: 15px;
 }
 
+.container .list_table a {
+	background: rgba(238, 238, 238, 0.974);
+}
+
 /* pagenate */
 .pagenate {
 	text-align: center;
@@ -344,6 +377,10 @@ a:link, a:visited {
 .pagenate ul li {
 	display: inline-block;
 	margin: 0 5px;
+}
+
+.pagenate .page-no.active{
+	color: #a00;
 }
 
 /* hr */
@@ -445,6 +482,7 @@ a:link, a:visited {
 	display: inline-block;
 	bottom: 4px;
 	position: relative;
+	margin: 0;
 }
 
 .btn, #file-upload-button {
@@ -732,7 +770,7 @@ footer {
 	background: url(../img/dropdown-gray-arrow.png) no-repeat 90% 60%;
 	width: auto;
 	padding-right: 30px;
-	background-size: 20px;
+	background-size: 15px;
 }
 
 .list_table > thead > tr > th select option {
@@ -1244,7 +1282,7 @@ select {
 
 #prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
 #eml, #eqpNm, #ttl, #title {
-	width: 400px;
+	width: 300px;
 }
 
 .container .list_table div,
@@ -1260,4 +1298,77 @@ select {
 .list_table.inner_table div,
 .list_table.inner_table span {
 	background: rgba(238, 238, 238, 0.974); 
+}
+
+/* input-width */
+#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
+#eml, #eqpNm, #ttl, #title {
+	width: 300px;
+}
+
+#addDepHeadBtn {
+	margin: 0px;
+    padding: 5px 13px;
+    margin-left: 20px;
+}
+
+.items.dep {
+	display: inline-block;
+}
+
+/* scrolltable */
+
+.tableWrapper {
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+}
+
+#userListTable {
+    height: auto;
+    width: 100%;
+}
+
+#userListTable th {
+    position: sticky;
+    top: -1px;
+}
+.scroll_table {
+  border-collapse: collapse;
+  line-height:16px;
+} 
+.scroll_table th, .scroll_table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.scroll_table th {
+  color: #fff;
+  background-color: rgb(187, 39, 32);
+  font-weight: 500;
+}
+
+.scroll_table td {
+	border-bottom: 1px solid #2b2b2b30;
+	color: #2b2b2b80;
+	background: rgba(238, 238, 238, 0.974);
+}
+
+.scroll_table tbody tr {
+	height: 45px;
+}
+
+.scroll_table tbody tr:hover td {
+	color: #2b2b2b;
+}
+
+.scroll_table tbody tr:last-child {
+	border-bottom: 3px solid rgb(187, 39, 32);
+}
+
+.scroll_table .input {
+	width: 0%;
 }

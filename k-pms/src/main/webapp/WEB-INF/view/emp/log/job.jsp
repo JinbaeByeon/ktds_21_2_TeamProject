@@ -25,11 +25,31 @@
 		});
 	});
 	function movePage(pageNo) {
-		// 전송
-		// 입력 값
-		var empId =$("#search-keyword").val();
-		// URL 요청
-		location.href= "${context}/emp/log/job?empId=" + empId + "&pageNo=" + pageNo;
+		var searchType = $(".search-option").val();
+		var searchKeyword = $("#search-keyword").val();
+		var startDt = $("#search-keyword-startdt").val();
+		var endDt = $("#search-keyword-enddt").val();
+		
+		var intstartDt = parseInt(startDt.split("-").join(""));
+		var intEndDt = parseInt(endDt.split("-").join(""));
+		
+		if (intstartDt > intEndDt) {
+			alert("시작일자를 확인해 주세요")
+			return;
+		}
+		var qryStr = "?searchType=" + searchType;
+		if (searchType=="ID"){
+			qryStr += "&empId=" + searchKeyword;
+		} else if (searchType=="이름"){
+			qryStr += "&empVO.fNm=" + searchKeyword;
+		}
+		qryStr += "&startDt=" + startDt;
+		qryStr += "&endDt=" + endDt;
+		qryStr +=  "&pageNo=" + pageNo;
+		var viewCnt = $("#view_cnt").val();
+		qryStr += "&viewCnt=" + viewCnt;
+		
+		location.href= "${context}/emp/log/job" + qryStr;
 	}
 
 </script>
@@ -43,11 +63,15 @@
 			<div class="path">임직원 관리 > 직무 변경 이력</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
-		          <select>
-		            <option>직원ID</option>
-		          </select>
+					<select class="search-option" name="searchType">
+						<option ${searchType== "ID" ? "selected" : ""}>ID</option>
+						<option ${searchType== "이름" ? "selected" : ""}>이름</option>
+					</select>
 		          <div class="search_field">
-		            <input type="text" id="search-keyword" class="input" value="${jobLogVO.empId}"  placeholder="Search"/>
+					<input type="text" id="search-keyword" class="input" value="${searchKeyword}" placeholder="Search"/>
+		            <label for="search-keyword-startdt">조회기간</label>
+					<input type="date" id="search-keyword-startdt" class="search-input" value="${jobLogVO.startDt}"/>
+					<input type="date" id="search-keyword-enddt" class="search-input" value="${jobLogVO.endDt}"/>
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
@@ -55,15 +79,16 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../../include/viewCnt.jsp" />
 		        <div class="total">총 ${jobLogList.size() > 0 ? jobLogList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 						<tr>
 							<th>직원ID</th>
 							<th>이름</th>
-							<th>이전직무ID</th>
+							<th>이전 직무 관리번호</th>
 							<th>이전직무명</th>
-							<th>변경직무ID</th>
+							<th>변경 직무 관리번호</th>
 							<th>변경직무명</th>
 							<th>변경일</th>
 							<th>변경사유</th>

@@ -34,8 +34,15 @@
 		  		 <if test="crtr != null and crtr != ''">
 		  		 WHERE CRTR = #{crtr}
 		  		 </if>) LH
-		  JOIN EMP E
+		  JOIN (SELECT E.*
+		  			 , E.L_NM || E.F_NM NM
+		  		  FROM EMP E) E
 		  	ON E.EMP_ID = LH.CRTR
+		 WHERE LH.CRT_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+		   AND LH.CRT_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		<if test="emp != null and emp.fNm != null and emp.fNm != ''">
+		   AND E.NM LIKE '%' || #{emp.fNm} || '%'
+		</if>
 		<include refid="Common.pageFooter"/>
 	</select>
 	

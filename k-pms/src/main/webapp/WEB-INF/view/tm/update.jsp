@@ -23,16 +23,11 @@
 	var tmMbr;
 	var empId;
 	var tmHdId;
-	var empIds = [];
+	var tmMbrList=[];
+	var mbrIdx=0;
 	
 	function addHdEmpFn(message) {
 		
-		for (i = 0; i < empIds.length; i++) { 
-			if(empIds[i] === tmHdId) {
-				empIds.splice(i, 1);
-				i--;
-			}
-		} 
 		tmHdId = message.empid;
 		
 		var tmHdIdItems = $("#addTmHeadBtn").closest("tr").find(".head-item");
@@ -40,22 +35,27 @@
 			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀장입니다.");
 			return;
 		}
+		
+		$("#tmHdId").attr("value", tmHdId);
+		
 		var itemDiv = tmHdIdItems.find(".head-item");
 		
 		var itemId = itemDiv.find("#tmHdId");
-		if($("#tmHdId").val() == tmHdId){
-			
-			tmHd.alert(message.lnm + message.fnm + "은(는) 이미 팀장입니다.");
-			return;
-		}
 		var empIdList = $(".tmMbr-tbody").children("tr").not(".tmHd-tr");
 		empIdList.each(function(){
-			console.log($(this).data("empid") == tmHdId);
 			if($(this).data("empid") == tmHdId){
 				$(this).remove();
+				$(".tmMbr-tbody").find(".emp-tr").each(function(i, tr) {
+		            $(tr).data("index", i);
+		            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].empId");
+		        });
+				if($(this).find("input[type=hidden]").length > 0){
+					--mbrIdx;
+				}
 				return;
 			}
 		});
+		
 		itemId.val(tmHdId);
 		itemDiv.append(itemId);
 			
@@ -64,43 +64,34 @@
 		itemDiv.append(itemSpan);
 			
 		var hdTr = $(".tmHd-tr");
-		if (hdTr.length > 0) {
-			var td = hdTr.find("td");
-			hdTr.attr("class", "tmHd-tr " + tmHdId);
-	        td.eq(0).text();
-	        td.eq(1).text("팀장");
-	        td.eq(2).text(message.pstnnm);
-	        td.eq(3).text(tmHdId);
-	        td.eq(4).text(message.lnm + message.fnm);
-	        td.eq(5).text(message.jobnm);
-	        td.eq(6).text(message.brthdy);
-	        td.eq(7).text(message.eml);
-	        td.eq(8).text(message.phn);
-	        td.eq(9).text(message.pstnprd);
-		} else {
-	    	var hdTr = $("<tr class='tm-hd-tr " + tmHdId + "'></tr>");
-	        var td = "<td>"+""+"</td>"
-	        td += "<td>" + 팀장 + "</td>"
-	        td += "<td>" + message.pstnnm + "</td>"
-		    td += "<td>" + tmHdId + "</td>"
-		    td += "<td>" + message.lnm  + message.fnm + "</td>"
-		    td += "<td>" + message.jobnm + "</td>"
-		    td += "<td>" + message.brthdy + "</td>"
-		    td += "<td>" + message.eml + "</td>"
-		    td += "<td>" + message.phn + "</td>"
-		    td += "<td>" + message.pstnprd + "</td>"
-
-	        hdTr.append(td);
-	        $(".tmMbr-tbody").append(hdTr);
-	    }
 		
+		var itemEmpId = hdTr.find(".emp-hd-item");
+		console.log(itemEmpId.length);
+		if(itemEmpId.length == 0){
+			itemEmpId = $("<input type='hidden' name='tmMbrList[" + mbrIdx++ + "].empId' class='emp-hd-item'/>");
+		}
+		itemEmpId.val(tmHdId);
+		
+		var td = hdTr.find("td");
+		hdTr.attr("class", "tmHd-tr " + tmHdId);
+        td.eq(0).text();
+        td.eq(1).text("팀장");
+        td.eq(2).text(message.pstnnm);
+        td.eq(3).text(tmHdId);
+        td.eq(4).text(message.lnm + message.fnm);
+        td.eq(5).text(message.jobnm);
+        td.eq(6).text(message.brthdy);
+        td.eq(7).text(message.eml);
+        td.eq(8).text(message.phn);
+        td.eq(9).text(message.pstnprd);
+		
+		$("#tmHdId").attr("class", tmHdId);
 		$("#tmHdId").val(tmHdId);
 		$("#tmHdNm").text(message.lnm + message.fnm);
-			
-		tmHdIdItems.append(itemDiv);
-			
-		empIds.push(tmHdId);
 		
+		hdTr.prepend(itemEmpId);
+		
+		tmHdIdItems.append(itemDiv);
 		tmHd.close();
 	}
 	
@@ -113,13 +104,12 @@
 	        return;
 	    }
 
-	    var nextIndex = empIds.length;
-	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
+	    var itemId = $("<input type='hidden' name='tmMbrList[" + mbrIdx + "].empId' class='emp-item'/>");
 	    itemId.val(empId);
+	    
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-empid='" + empId + "' data-index='" + mbrIdx++ + "'></tr>");
 
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-empid='" + empId + "' data-index='" + nextIndex + "'></tr>");
-
-	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    var td = "<td></td>"
 	    td += "<td>" + "팀원" + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + empId + "</td>"
@@ -135,12 +125,17 @@
 	    rmbtn.click(function() {
 	        var empTrToRemove = $(this).closest(".emp-tr");
 	        var empIndexToRemove = empTrToRemove.data("index");
-	        empIds.splice(empIndexToRemove, 1);
 	        empTrToRemove.remove();
-	        $(".emp-tr[data-index]").each(function(i, tr) {
+	        var cnt = 0;
+	        $(".emp-tr").each(function(i, tr) {
 	            $(tr).data("index", i);
-	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
+	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].empId");
+	            ++cnt;
 	        });
+	        
+	        $(".tmHd-tr").find(".emp-hd-item").attr("name", "tmMbrList[" + cnt + "].empId");
+	        
+	        --mbrIdx;
 	    });
 
 	    empItems.append(empTr);
@@ -148,23 +143,6 @@
 	    empTr.append(td);
 	    empTr.append(rmbtn);
 
-	    empIds.push(empId);
-
-	}
-	
-	function createTmmbr(tmId, empId) {
-	    $.ajax({
-	        url: "${context}/api/tmmbr/create",
-	        type: "POST",
-	        data: {tmId: tmId, empId: empId},
-	        success: function(response) {
-	            if (response.status == "200 OK") {
-	            } 
-	            else {
-	            	alert(response.errorCode + " / " + response.message);
-	            }
-	        }
-	    });
 	}
 	
 	$().ready(function() {
@@ -174,14 +152,13 @@
 		$("#addTmHeadBtn").click(function(event) {
 			event.preventDefault(); 
 			var depId = $("#depId").val();
-			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
+			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=600,height=700");
 		});
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			var tmId = $("#tmId").val();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=600, height=700")
 		});
 		
 		$("#list-btn").click(function(response) {
@@ -190,17 +167,10 @@
 		
 		$("#save-btn").click(function() {
 			var tmId = $("#tmId").val();
-			var empIdList = $(".tmMbr-tbody").children("tr").not(".tmHd-tr");
 			var tmHdId = $("#tmHdId").val();
 			
 			$.post("${context}/api/tm/update/" + tmId, $("#create_form").serialize(), function(response) {
 				if (response.status == "200 OK") {
-					empIdList.each(function(){
-						var empId = $(this).data('empid');
-						createTmmbr(tmId,empId);
-					});
-					
-					createTmmbr(tmId,tmHdId);
 					
 					location.href = "${context}" + response.redirectURL;
 				}
@@ -277,7 +247,7 @@
 				<form id="create_form" enctype="multipart/form-data">
 					<table class="detail_page detail_table">
 		                <tr>
-		                    <th>부서ID</th>
+		                    <th>부서 관리번호</th>
 		                    <td><input type="text" id="depId" name="depId" value="${tmVO.depIdDepVO.depId}" readonly/></td>
 		                </tr>
 		                <tr>
@@ -285,7 +255,7 @@
 		                    <td><input type="text" id="tmNm" name="tmNm" value="${tmVO.tmNm}"/></td>
 		                </tr>
 		                <tr>
-		                    <th>팀ID</th>
+		                    <th>팀 관리번호</th>
 		                    <td><input type="text" id="tmId" name="tmId" value="${tmVO.tmId}" readonly/></td>
 		                </tr>
 		                <tr>
@@ -294,7 +264,7 @@
 		                    	<button id="addTmHeadBtn" class="btn regist">등록</button>
 									<div class="items">
 										<div class='head-item'>
-											<input type="text" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
+											<input type="text" class="" id="tmHdId" name="tmHdId" readonly value="${tmVO.tmHdId}" />
 											<span id="tmHdNm">${tmVO.tmHdEmpVO.lNm}${tmVO.tmHdEmpVO.fNm}</span>			
 										</div>
 									</div>
@@ -379,7 +349,6 @@
 						</tr>
 		            </table>
         		</form>	
-
 		        <div class="buttons">
 					<button id="list-btn" class="btn new">목록</button>
 					<button id="save-btn" class="btn save">저장</button>

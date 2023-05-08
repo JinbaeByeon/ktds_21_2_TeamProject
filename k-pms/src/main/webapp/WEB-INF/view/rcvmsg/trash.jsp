@@ -101,7 +101,8 @@
 			
 	});
 	function movePage(pageNo) {
-		location.href= "${context}/msg/trash?pageNo=" + pageNo;
+		var viewCnt = $("#view_cnt").val();
+		location.href= "${context}/msg/trash?pageNo=" + pageNo + "&viewCnt=" + viewCnt;
 	}
 </script>
 </head>
@@ -112,8 +113,8 @@
 			<jsp:include page="../include/msgSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">쪽지 > 휴지통</div>
-
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>

@@ -32,27 +32,25 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서관리 > 부서 상세조회</div>
+				<div class="path">${depVO.depNm} (${depVO.depId})</div>
 			<table class="detail_page detail_table">
                 <tr>
                     <th>부서명</th>
-                    <td colspan="3"><input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/></td>
-                </tr>
-                <tr>
-                    <th>부서ID</th>
-                    <td colspan="3"><input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/></td>
+                    <td><input type="text" id="depNm" name="depNm" value="${depVO.depNm}" readonly/></td>
+               		<th>부서 관리번호</th>
+                    <td><input type="text" id="depId" name="depId" value="${depVO.depId}" readonly/></td>
                 </tr>
                 <tr>
                     <th>부서장ID</th>
-                    <td colspan="3"><input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/></td>
-                </tr>
-                <tr>
+                    <td><input type="text" id="depHdId" name="depHdId" value="${depVO.depHdId}" readonly/></td>
                     <th>부서장명</th>
-                    <td colspan="3"><input type="text" id="depHdNm" name="depHdNm" value="${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}" readonly/></td>
+                    <td><input type="text" id="depHdNm" name="depHdNm" value="${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}" readonly/></td>
                 </tr>
                 <tr>
                     <th>부서 생성일</th>
-                    <td colspan="3"><input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/></td>
+                    <td><input type="date" id="depCrtDt" name="depCrtDt" value="${depVO.depCrtDt}" readonly/></td>
+                    <th></th>
+                    <td></td>
                 </tr>
                 <tr>
                     <th>등록자</th>
@@ -76,7 +74,7 @@
                 <table class="list_table sub_table">
                     <thead>
                         <tr>
-							<th>팀ID</th>
+							<th>팀 관리번호</th>
 							<th>팀명</th>
 							<th>팀장ID</th>
 							<th>팀장 성명</th>

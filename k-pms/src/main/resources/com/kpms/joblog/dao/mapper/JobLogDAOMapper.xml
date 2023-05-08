@@ -43,16 +43,24 @@
 			 , JL.CHNG_RSN
 			 , E.F_NM
 			 , E.L_NM
-  		  FROM JOB_LOG JL
- 		 INNER JOIN JOB J
+  		  FROM (SELECT *
+ 		  		  FROM JOB_LOG
+		 		 WHERE CHNG_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+				   AND CHNG_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+				<if test="empId != null and empId != ''">
+				   AND EMP_ID = #{empId}
+				</if>) JL
+		  JOIN JOB J
    		    ON J.JOB_ID = JL.PRVS_JOB_ID
- 		 INNER JOIN JOB JB
+ 		  JOIN JOB JB
    		    ON JB.JOB_ID = JL.CHNG_JOB_ID
-		 INNER JOIN EMP E
-		    ON E.EMP_ID = JL.EMP_ID
-		 <if test="empId != null and empId != ''">
-		 WHERE JL.EMP_ID = #{empId}
-		 </if>
+		  JOIN (SELECT E.*
+		  			 , E.L_NM || E.F_NM NM
+		  		  FROM EMP E) E
+		 	ON E.EMP_ID = JL.CRTR
+		<if test="empVO != null and empVO.fNm != null and empVO.fNm != ''">
+		 WHERE E.NM LIKE '%' || #{empVO.fNm} || '%'
+		</if>
 		<include refid="Common.pageFooter"/>
 	</select>
 

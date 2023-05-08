@@ -9,26 +9,22 @@
           <ul>
             <li>
               <a href="${context}/sndmsg/send" id="sndmsg_send">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>쪽지보내기</span>
               </a>
             </li>
             <li>
               <a href="${context}/rcvmsg/list" id="rcvmsg_list">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>받은쪽지함</span>
               </a>
             </li>
             <li>
               <a href="${context}/sndmsg/list" id="sndmsg_list">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>보낸쪽지함</span>
               </a>
             </li>
             
             <li>
               <a href="${context}/msg/trash" id="msg_trash">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>휴지통</span>
               </a>
             </li>

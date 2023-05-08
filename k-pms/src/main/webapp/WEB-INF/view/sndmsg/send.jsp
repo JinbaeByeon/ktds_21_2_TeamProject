@@ -90,7 +90,7 @@
 		
 		$("#search-emp").click(function(e){
 			e.preventDefault();
-			empWindow = window.open("${context}/emp/search","직원 검색","width=500,height=500");
+			empWindow = window.open("${context}/emp/search","직원 검색","width=600,height=600");
 		});
 		$("#add_files").click(function(e){
 			e.preventDefault();

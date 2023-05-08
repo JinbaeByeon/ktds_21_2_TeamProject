@@ -44,14 +44,6 @@
 		
 		$("#search-btn").click(function(){
 			movePage(0);
-			/* if($("#search-option").val() == "요구사항제목"){
-				var reqTtl = $("#search-keyword").val();
-				location.href = "${context}/req/list?selectOption=요구사항제목&reqTtl=" + reqTtl;
-			}
-			if($("#search-option").val() == "프로젝트명"){
-				var prjNm = $("#search-keyword").val();
-				location.href = "${context}/req/list?selectOption=프로젝트명&reqPrjVO.prjNm=" + prjNm;
-			} */
 		});
 		
 		$(".detail_path").click(function(){
@@ -112,7 +104,9 @@
 			queryString += "&reqPrjVO.prjNm=" + searchKeyword;
 		}
 		queryString += "&pageNo=" + pageNo;
-		// URL 요청
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
+		
 		location.href = "${context}/req/list?" + queryString;
 	}
 </script>
@@ -148,14 +142,15 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${reqList.size() > 0 ? reqList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
 						<th><input type="checkbox" id="all_check"/></th>
 						<th>순번</th>
-						<th>요구사항ID</th>
-						<th>요구사항제목</th>
+						<th>요구사항명</th>
+						<th>요구사항 관리번호</th>
 						<th>
 							<select id="prcsSttsType" name="prcsSttsType">
 								<option value="">진행상태</option>
@@ -175,7 +170,6 @@
 						</th>
 						<th>시작일</th>
 						<th>종료예정일</th>
-						<th>프로젝트ID</th>
 						<th>프로젝트명</th>
 						<th>우선순위</th>
            			 </tr>
@@ -207,14 +201,13 @@
 												<input type="checkbox" class="check_idx" value="${req.reqId}" />
 											</td>
 											<td>${req.rnum}</td>
-											<td class="detail_value">${req.reqId}</td>
 											<td class="detail_path">${req.reqTtl}</td>
+											<td class="detail_value">${req.reqId}</td>
 											<td>${req.prcsCdNm}</td>
 											<td>${req.tskCdNm}</td>
 											<td>${req.strtDt}</td>
 											<td>${req.expctEndDt}</td>
-											<td>${req.prjId}</td>
-											<td>${req.reqPrjVO.prjNm}</td>
+											<td>${req.reqPrjVO.prjNm} (${req.prjId})</td>
 											<td>${req.prrty}</td>
 									</tr>
 								</c:forEach>

@@ -17,19 +17,28 @@ public class PstnLogController {
 	private PstnLogService pstnLogService;
 	
 	@GetMapping("/emp/log/pstn")
-	public String viewPstnLogListPage(Model model, PstnLogVO pstnLogVO) {
+	public String viewPstnLogListPage(Model model, PstnLogVO pstnLogVO, String searchType) {
 		List<PstnLogVO> pstnLogList = pstnLogService.readAllPstnLogVO(pstnLogVO);
 		
 		model.addAttribute("pstnLogList", pstnLogList);
 		model.addAttribute("pstnLogVO", pstnLogVO);
 		
 		if(!pstnLogList.isEmpty()) {
-	         model.addAttribute("lastPage",pstnLogList.get(0).getLastPage());
-	      }
-	      model.addAttribute("pageNo", pstnLogVO.getPageNo());
-	      model.addAttribute("viewCnt", pstnLogVO.getViewCnt());
-	      model.addAttribute("pageCnt", pstnLogVO.getPageCnt());
-	      
+			model.addAttribute("lastPage",pstnLogList.get(0).getLastPage());
+	    }
+	    model.addAttribute("pageNo", pstnLogVO.getPageNo());
+	    model.addAttribute("viewCnt", pstnLogVO.getViewCnt());
+	    model.addAttribute("pageCnt", pstnLogVO.getPageCnt());
+		if(searchType==null) {
+			searchType= "ID";
+		}
+		model.addAttribute("searchType",searchType);
+		if(searchType.equals("ID")) {
+			model.addAttribute("searchKeyword",pstnLogVO.getEmpId());
+		}
+		else if(searchType.equals("이름")) {
+			model.addAttribute("searchKeyword",pstnLogVO.getEmpVO().getfNm());
+		}
 		return "/emp/log/pstn";
 	}
 

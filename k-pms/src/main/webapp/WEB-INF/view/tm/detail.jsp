@@ -56,7 +56,7 @@
                     <td colspan="3"><input type="text" id="tmNm" name="tmNm" value="${tmVO.tmNm}" readonly/></td>
                 </tr>
                 <tr>
-                    <th>팀ID</th>
+                    <th>팀 관리번호</th>
                     <td colspan="3"><input type="text" id="tmId" name="tmId" value="${tmVO.tmId}" readonly/></td>
                 </tr>
                 <tr>

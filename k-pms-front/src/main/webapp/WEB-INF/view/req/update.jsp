@@ -142,13 +142,13 @@
 		$("#prj_search").click(function(event){
 			event.preventDefault();
 			window.open("${context}/prj/search",
-					"프로젝트 검색", "width=500, height=500");
+					"프로젝트 검색", "width=800, height=600");
 		});
 
 		$("#prjtmmbr_search").click(function(event){
 			event.preventDefault();
 			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
-					"프로젝트팀원 검색", "width=500, height=500");
+					"프로젝트팀원 검색", "width=500, height=600");
 		});
 		
 		$("#add_files").click(function(e){

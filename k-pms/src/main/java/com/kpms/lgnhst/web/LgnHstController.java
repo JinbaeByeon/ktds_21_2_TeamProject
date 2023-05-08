@@ -17,8 +17,7 @@ public class LgnHstController {
 	private LgnHstService lgnHstService;
 	
 	@GetMapping("/emp/log/lgn")
-	public String readLgnHst(Model model,LgnHstVO lgnHstVO)
-	{
+	public String readLgnHst(Model model,LgnHstVO lgnHstVO,String searchType) {
 		List<LgnHstVO> lgnHstList = lgnHstService.readAllLgnHst(lgnHstVO);
 		model.addAttribute("lgnHstList",lgnHstList);
 		if(!lgnHstList.isEmpty()) {
@@ -28,6 +27,16 @@ public class LgnHstController {
 		model.addAttribute("pageNo",lgnHstVO.getPageNo());
 		model.addAttribute("pageCnt",lgnHstVO.getPageCnt());
 		model.addAttribute("viewCnt",lgnHstVO.getViewCnt());
+		if(searchType==null) {
+			searchType= "ID";
+		}
+		model.addAttribute("searchType",searchType);
+		if(searchType.equals("ID")) {
+			model.addAttribute("searchKeyword",lgnHstVO.getCrtr());
+		}
+		else if(searchType.equals("이름")) {
+			model.addAttribute("searchKeyword",lgnHstVO.getEmp().getfNm());
+		}
 		return "emp/log/lgn";
 	}
 }

@@ -80,13 +80,13 @@
 				e.preventDefault();
 				var id = $(this).attr("id");
 				if(id == "btn-add-pstn"){
-					pstnWindow = window.open("${context}/pstn/search","직급검색","width=500,height=500");
+					pstnWindow = window.open("${context}/pstn/search","직급검색","width=400,height=600");
 				}
 				if(id == "btn-add-job"){
-					jobWindow = window.open("${context}/job/search","직무검색","width=500,height=500");
+					jobWindow = window.open("${context}/job/search","직무검색","width=400,height=600");
 				}
 				if(id == "btn-add-dep"){
-					depWindow = window.open("${context}/dep/search","부서검색","width=500,height=500");
+					depWindow = window.open("${context}/dep/search","부서검색","width=500,height=600");
 				}
 			});
 		});

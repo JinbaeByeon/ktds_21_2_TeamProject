@@ -111,8 +111,8 @@
 		// 입력값
 		var issuId = $("#search-keyword").val();
 		var reqId = "${issuVO.reqId}";
-		// URL 요청
-		location.href = "${context}/issu/list?reqId=" + reqId + "&pageNo=" + pageNo;
+		var viewCnt = $("#view_cnt").val();
+		location.href = "${context}/issu/list?reqId=" + reqId + "&pageNo=" + pageNo + "&viewCnt=" + viewCnt;
 	}
 </script>
 </head>
@@ -147,14 +147,15 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
 						<th><input type="checkbox" id="all_check"/></th>
 						<th>순번</th>
-						<th>이슈ID</th>
 						<th>이슈제목</th>
+						<th>이슈 관리번호</th>
 						<th>이슈내용</th>
 						<th>조회수</th>
 						<th>난이도</th>
@@ -184,8 +185,8 @@
 												<input type="checkbox" class="check_idx" value="${issu.issuId}">
 											</td>
 											<td>${issu.rnum}</td>
-											<td>${issu.issuId}</td>
 											<td>${issu.issuTtl}</td>
+											<td>${issu.issuId}</td>
 											<td>${issu.issuCntnt}</td>
 											<td>${issu.vwCnt}</td>
 											<td>${issu.dffclty}</td>

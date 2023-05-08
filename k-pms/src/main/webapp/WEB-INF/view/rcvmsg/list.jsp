@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <c:set scope="request" var="selected" value="msg"/>
@@ -11,7 +11,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	window.onpageshow = function(event){
-	    if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+		if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
 			location.reload();
 		}
 	}
@@ -121,21 +121,29 @@
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
 		});
+		$("#search-btn").click(function() {
+			movePage(0);
+		});
+		$("#searchKeyword").keydown(function(e){
+			if(e.keyCode == '13'){
+				movePage(0);
+			}
+		});
 		
 	});
 	function movePage(pageNo) {
-		
 		var searchType = $("#searchType").val();
 		var filterType = $("#filterType").val();
+		var viewCnt = $("#view_cnt").val();
+		var search = $("#searchKeyword").val();
 		
-		if(searchType == "id") {
-			var empId = $("#searchBar").val();
-			location.href= "${context}/rcvmsg/list?searchType=ID&sndEmpId=" + empId + "&pageNo=" + pageNo + "&filterType=" + filterType;
-		}
-		else if(searchType == "sndrNm") {
-			var nm = $("#searchBar").val();
-			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo + "&filterType=" + filterType;
-		}
+		var qryStr = "?pageNo=" + pageNo;
+		qryStr += "&filterType=" + filterType;
+		qryStr += "&viewCnt=" + viewCnt;
+		qryStr += "&searchKeyword=" + search;
+		qryStr += "&searchType="+searchType;
+		
+		location.href = "${context}/rcvmsg/list" + qryStr;
 	}
 </script>
 </head>
@@ -168,6 +176,8 @@
 		        </form>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
+				<div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <div class='filter'>
 		          <select class="filter-option" id="filterType" name="filterType">
 		            <option value="all" ${rcvMsgVO.filterType eq "all" ? "selected" : ""}>모든 쪽지</option>
@@ -175,7 +185,6 @@
 		            <option value="read" ${rcvMsgVO.filterType eq "read" ? "selected" : ""}>읽은 쪽지</option>
 		          </select>
 		        </div>
-		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>

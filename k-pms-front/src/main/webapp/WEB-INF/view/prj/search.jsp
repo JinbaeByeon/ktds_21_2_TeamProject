@@ -63,7 +63,6 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th>프로젝트ID</th>
 					<th>프로젝트명</th>
 					<th>고객사</th>
 					<th>프로젝트 상태</th>
@@ -94,8 +93,8 @@
 			</tbody>
 		</table>
 		<div class="buttons">
-			<button id="cancel_btn" class="btn delete">취소</button>
 			<button id="regist_btn" class="btn regist">등록</button>
+			<button id="cancel_btn" class="btn delete">취소</button>
 		</div>
 	</div>
 </body>

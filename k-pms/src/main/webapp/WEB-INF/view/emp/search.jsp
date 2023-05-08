@@ -83,7 +83,7 @@
                     <th>직급</th>
                     <th>성명</th>
                     <th>직무</th>
-                    <th>부서ID</th>
+                    <th>부서 관리번호</th>
             </tr>
         </thead>
             <tbody>
@@ -112,15 +112,15 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="6">검색된 직원이 없습니다.</td>
+								<td colspan="6" class="no-items">검색된 직원이 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
             </tbody>
     </table>
     <div class="buttons">
-        <button id="cancel_btn" class="btn delete">취소</button>
         <button id="regist_btn" class="btn regist">등록</button>
+        <button id="cancel_btn" class="btn delete">취소</button>
     </div>
 </div>
 </body>

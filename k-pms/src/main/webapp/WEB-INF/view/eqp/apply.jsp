@@ -165,10 +165,7 @@ $().ready(function(){
 	});
 	
 	$("#search-btn").click(function(){
-		var eqpNm =$("#search-keyword").val();
-		location.href = "${context}/eqp/rent?eqpNm=" + eqpNm;
-		/* movePage(0) */
-		
+		movePage(0);
 	})
 	
 	
@@ -241,17 +238,11 @@ function movePage(pageNo) {
 	// 전송
 	// 입력값
 	var eqpNm = $("#search-keyword").val();
-	// URL 요청
-	location.href = "${context}/eqp/apply?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
+	var viewCnt = $("#view_cnt").val();
+	
+	location.href = "${context}/eqp/apply?eqpNm=" + eqpNm + "&pageNo=" + pageNo + "&viewCnt=" + viewCnt;
 }
 
-function movePage(pageNo) {
-	// 전송
-	// 입력값
-	var eqpNm = $("#search-keyword").val();
-	// URL 요청
-	location.href = "${context}/eqp/apply?eqpNm=" + eqpNm + "&pageNo=" + pageNo;
-}
 </script>
 </head>
 <body>
@@ -275,13 +266,14 @@ function movePage(pageNo) {
 			        </div>
 			      </div>
 			      <div class="list_section">
+					<jsp:include page="../include/viewCnt.jsp" />
 			        <div class="total">총 ${eqpList.size() > 0 ? eqpList.get(0).totalCount : 0}건  </div>
 			        <table class="list_table">
 			          <thead>
 						<tr>
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>순번</th>
-							<th>비품ID</th>
+							<th>비품 관리번호</th>
 							<th>비품명</th>
 							<th>비품종류</th>
 							<th>신청상태</th>
@@ -370,7 +362,7 @@ function movePage(pageNo) {
 			        	<input type="hidden" id="isModify" value="false" />
 				        <table class="detail_table">
 				            <tr>
-				              <th>비품 ID</th>
+				              <th>비품 관리번호</th>
 				              <td><input type="text" id="eqpId"  name="eqpId" value="" readonly /></td>
 				              <th>사용여부</th>
 				              <td><input type="checkbox" id="useYn"  name="useYn" value="Y"/></td>

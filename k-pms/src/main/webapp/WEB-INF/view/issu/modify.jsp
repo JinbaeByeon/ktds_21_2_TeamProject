@@ -219,7 +219,7 @@
 		                    <td><input type="text" id="issuCntnt" name="issuCntnt" class="grow-1" value="${issuVO.issuCntnt}"/></td>
 		                </tr>
 		                <tr>
-		                    <th>요구사항ID</th>
+		                    <th>요구사항 관리번호</th>
 		                    <td>
 		                    	<input type="text" id="reqId" name="reqId" value="${issuVO.reqId}" disabled/>
 								<span id="reqTtl">${issuVO.reqVO.reqTtl}</span>

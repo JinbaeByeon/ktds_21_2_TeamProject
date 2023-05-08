@@ -89,8 +89,8 @@
 			</table>
 		</div>
 		<div class="align-right">
-					<button id="cancel_btn" class="btn-delete">취소</button>
 					<button id="regist_btn" class="btn-primary">등록</button>
+					<button id="cancel_btn" class="btn-delete">취소</button>
 		</div>
 	</div>
 </body>

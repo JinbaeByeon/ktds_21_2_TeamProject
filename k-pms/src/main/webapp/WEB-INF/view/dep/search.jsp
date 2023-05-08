@@ -56,7 +56,7 @@
                 <tr>
                     <th></th>
                     <th>부서명</th>
-                    <th>부서ID</th>
+                    <th>부서 관리번호</th>
                 </tr>
             </thead>
 				<tbody>
@@ -82,8 +82,8 @@
 				</tbody>
         </table>
         <div class="buttons">
-            <button id="cancel_btn" class="btn delete">취소</button>
             <button id="regist_btn" class="btn regist">등록</button>
+            <button id="cancel_btn" class="btn delete">취소</button>
         </div>
     </div>
 </body>

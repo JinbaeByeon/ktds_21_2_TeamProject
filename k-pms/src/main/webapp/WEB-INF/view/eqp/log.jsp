@@ -19,7 +19,14 @@
 		$("#eqp_log").addClass("active");
 		
 	});
-	
+
+	function movePage(pageNo) {
+		// 전송
+		// 입력값
+		var eqpNm = $("#search-keyword").val();
+		var viewCnt = $("#view_cnt").val();
+		location.href = "${context}/eqp/log?&pageNo=" + pageNo + "&viewCnt=" + viewCnt;
+	}
 </script>
 </head>
 <body>
@@ -29,15 +36,15 @@
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">비품 관리 > 비품 변경 이력</div>
-
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${eqpLogList.size() > 0 ? eqpLogList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
 						<th>순번</th>
-						<th>로그ID</th>
-						<th>비품ID</th>
+						<th>로그 관리번호</th>
+						<th>비품 관리번호</th>
 						<th>신청자명</th>
 						<th>신청내용</th>
 						<th>등록자명</th>
