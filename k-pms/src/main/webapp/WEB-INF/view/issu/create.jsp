@@ -17,7 +17,6 @@
 	var ajaxUtil = new AjaxUtil();
 	var reqWindow;
 	function addReqFn(req){
-		reqWindow.close();
 		var reqId = $("#reqId");
 		reqId.val(req.reqid);
 		var reqTtl = $("#reqTtl");
@@ -30,6 +29,7 @@
 		
 		var empId = '${sessionScope.__USER__.empId}';
 		$("#req_search").click(function(e){
+			e.preventDefault();
 			reqWindow = window.open("${context}/req/search/req","요구사항 검색","width=800,height=600");
 		});
 		

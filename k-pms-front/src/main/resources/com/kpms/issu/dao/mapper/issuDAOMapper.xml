@@ -143,8 +143,15 @@
 				</if>
 		 	/*조건 추가*/) I
 		  JOIN (SELECT *
-		  		  FROM REQ
-		  		/*crtr를 통해 세션 empId를 비교*/
+				  FROM REQ
+				 WHERE DEL_YN = 'N'
+				   AND PRJ_ID IN (SELECT PRJ_ID
+								    FROM PRJ_TM_MBR
+								   WHERE DEL_YN = 'N'
+								     AND TM_MBR_ID IN (SELECT TM_MBR_ID
+													     FROM TM_MBR 
+													    WHERE DEL_YN = 'N'
+													      AND EMP_ID = #{crtr}))
 		  		<if test="reqVO != null and reqVO.reqTtl != null and reqVO.reqTtl != ''">
 		  		   AND REQ_TTL LIKE '%' || #{reqVO.reqTtl} || '%'
 		  		</if>) R
