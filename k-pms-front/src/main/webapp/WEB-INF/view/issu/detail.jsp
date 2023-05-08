@@ -21,11 +21,11 @@
 		var empId = '${sessionScope.__USER__.empId}';
 		var issuId = '${issuVO.issuId}';
 		
-		$("#modify_btn").click(function(){
+		$("#modify-btn").click(function(e){
 			location.href="${context}/issu/modify/"+issuId;
 		});
 
-		$("#delete_btn").click(function(){
+		$("#delete-btn").click(function(){
 			$.get("${context}/api/issu/delete/"+issuId,function(response){
 				if (response.status != "200 OK") {
 					alert(response.errorCode + " / " + response.message);
@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <th>조회수</th>
-                    <td colspan="3"  id="vwCnt">{issuVO.vwCnt}</td>
+                    <td colspan="3"  id="vwCnt">${issuVO.vwCnt}</td>
                 </tr>
                 <tr>
                     <th>설명</th>
