@@ -29,7 +29,6 @@
             </li>
             <li>
               <a href="${context}/knw/list/1" id="com_knw_list">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>사내지식관리</span>
               </a>
             </li>

@@ -83,7 +83,7 @@
 				$.get("${context}/api/knw/delete/${knwVO.knwId}", function(response) {
 					console.log(response);
 					if (response.status == "200 OK") {
-						location.href = "${context}/knw/list";
+						location.href = "${context}/knw/list/0";
 					}
 					else {
 						alert(response.errorCode + " / " + response.message);
