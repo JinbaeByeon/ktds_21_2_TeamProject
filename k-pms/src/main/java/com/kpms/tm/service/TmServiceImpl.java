@@ -60,6 +60,7 @@ public class TmServiceImpl implements TmService {
 	public boolean updateOneTm(TmVO tmVO) {
 		tmMbrDAO.deleteTmMbrByTmId(tmVO.getTmId());
 		boolean result = tmDAO.updateOneTm(tmVO) > 0;
+		
 		/*
 		 * TmVO orgnTmVO = tmDAO.readOneTmVOByTmId(tmVO.getTmId()); if (result) { String
 		 * hdTmMbrId = tmMbrDAO.readAllTmMbrVO(tmVO.getTmId()) .stream() .filter(vo ->
@@ -69,9 +70,7 @@ public class TmServiceImpl implements TmService {
 		 * // 원래 팀장과 신규팀장이 같으면 delete 안하고 바뀌면 delete if (hdTmMbrId != null) { if
 		 * (orgnTmVO.getTmHdId().equals(newTmHdId)) {
 		 * 
-		 * } else {
-		 * 
-		 * tmMbrDAO.deleteOneTmMbrByTmMbrId(hdTmMbrId); } } }
+		 * } else { tmMbrDAO.deleteOneTmMbrByTmMbrId(hdTmMbrId); } } }
 		 */
 		return result; 
 	}
