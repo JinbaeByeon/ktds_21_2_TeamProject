@@ -150,7 +150,6 @@ a:link, a:visited {
 	left: 0;
 	width: 125px;
 	height: 100%;
-	border-right: 1px solid #2b2b2b30;
 }
 
 .sidebar .sidebar__inner {
@@ -189,6 +188,9 @@ a:link, a:visited {
 	font-weight: 600;
 	bottom: 56px;
 	left: 30px;
+}
+.sidebar, .sidebar__inner, .sidebar_battom, .sidebar ul li, .sidebar ul li a, .sidebar ul li span, .sidebar ul, .sidebar_bottom > div > a, .profile, .profile > div, #my-info {
+    background: #d1ceca;
 }
 
 /* container */
