@@ -278,7 +278,7 @@
 											<td>${eqp.eqpId}</td>
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
-											<td>${eqp.eqpPrc}</td>
+											<td><fmt:formatNumber>${eqp.eqpPrc}</fmt:formatNumber></td>
 											<td>${eqp.prchsDt}</td>
 											<td>${eqp.applStts}</td>
 											<td>${eqp.lossStts}</td>

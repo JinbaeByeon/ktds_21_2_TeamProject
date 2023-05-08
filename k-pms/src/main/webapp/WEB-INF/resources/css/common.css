@@ -1473,4 +1473,7 @@ select {
 .scroll_table .input {
 	width: 0%;
 }
-
+/* 오른쪽 정렬 */
+.container .list_table tbody .number_format {
+	float: right;
+}

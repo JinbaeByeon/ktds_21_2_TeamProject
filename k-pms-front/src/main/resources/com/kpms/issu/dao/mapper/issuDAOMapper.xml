@@ -145,7 +145,6 @@
 		  JOIN (SELECT *
 		  		  FROM REQ
 		  		/*crtr를 통해 세션 empId를 비교*/
-		  		 WHERE crtr = #{crtr}
 		  		<if test="reqVO != null and reqVO.reqTtl != null and reqVO.reqTtl != ''">
 		  		   AND REQ_TTL LIKE '%' || #{reqVO.reqTtl} || '%'
 		  		</if>) R
