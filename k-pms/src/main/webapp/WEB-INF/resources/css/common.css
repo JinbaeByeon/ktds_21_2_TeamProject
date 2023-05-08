@@ -158,7 +158,8 @@ a:link, a:visited {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: flex-start;
+    padding: 20px;
 	justify-content: center;
 }
 
