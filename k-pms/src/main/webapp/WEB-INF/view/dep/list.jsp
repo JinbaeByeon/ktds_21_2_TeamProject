@@ -239,7 +239,7 @@ $().ready(function() {
 	$("#addDepHeadBtn").click(function(event) {
 		event.preventDefault();
 		var depId = $("#depId").val();
-		depHd = window.open("${context}/emp/search/head?depId=" + depId, "부서장 검색", "width=500,height=500");
+		depHd = window.open("${context}/emp/search/head?depId=" + depId, "부서장 검색", "width=500,height=600");
 	});
 	
 });
@@ -293,7 +293,7 @@ $().ready(function() {
 							<th style="width: 12%;">부서명</th>
 							<th style="width: 17%;">부서장ID</th>
 							<th style="width: 18%;">부서장명</th>
-							<th style="width: 21%;">부서ID</th>
+							<th style="width: 21%;">부서 관리번호</th>
 							<th style="width: 15%;">부서생성일</th>
 							<th style="width: 80px;">사용여부</th>
 			            </tr>
@@ -356,7 +356,7 @@ $().ready(function() {
 			        	<input type="hidden" id="isModify" value="false" />
 				        <table class="detail_table">
 				            <tr>
-				              <th>부서ID</th>
+				              <th>부서 관리번호</th>
 				              <td><input type="text" id="depId" name="depId" readonly value="" /></td>
 				              <th>등록자</th>
 				              <td><input type="text" id="crtr" disabled value=""/></td>
@@ -370,13 +370,13 @@ $().ready(function() {
 				            <tr>
 				              <th>부서장ID</th>
 				              <td>
-				              	<button id="addDepHeadBtn" class="btn regist2">등록</button>
-				              	<div class="items">
-									<div class='head-item input_div'>
+				              	<div class="items dep">
+									<div class='head-item'>
 										<input type='text' class="" name='depHdId' id="depHdId" readonly value="" />
 										<span id="depHdNm"></span>
 									</div>
 								</div>
+				              	<button id="addDepHeadBtn" class="btn regist2">변경</button>
 				              </td>
 				              <th>수정자</th>
 				              <td><input type="text" id="mdfyr" disabled value=""/></td>

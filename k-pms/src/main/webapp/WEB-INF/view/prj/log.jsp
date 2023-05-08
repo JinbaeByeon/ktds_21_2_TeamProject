@@ -44,8 +44,8 @@
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-						<th>로그ID</th>
-						<th>프로젝트ID</th>
+						<th>로그 관리번호</th>
+						<th>프로젝트 관리번호</th>
 						<th>프로젝트 상태</th>
 						<th>등록자</th>
 						<th>등록일</th>

@@ -201,7 +201,7 @@
 
 		$("#addPrj").click(function(event) {
 			event.preventDefault();
-			gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
+			gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=800, height=600");
 		});
 		
 		$("#comPrj").click(function(event) {

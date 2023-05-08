@@ -157,14 +157,14 @@
 		$("#addTmHeadBtn").click(function(event) {
 			event.preventDefault(); 
 			var depId = $("#depId").val();
-			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
+			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=600,height=700");
 		});
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
 			var tmId = $("#tmId").val();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + tmId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + tmId, "팀원검색", "width=600, height=700")
 		});
 		
 		$("#list-btn").click(function(response) {

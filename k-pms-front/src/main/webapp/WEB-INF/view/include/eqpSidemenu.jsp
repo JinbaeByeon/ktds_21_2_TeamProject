@@ -9,13 +9,11 @@
           <ul>
             <li>
               <a href="${context}/eqp/rent" id="eqp_rent">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>대여 관리</span>
               </a>
             </li>
             <li>
               <a href="${context}/eqp/apply" id="eqp_apply">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>대여 신청</span>
               </a>
             </li>

@@ -226,7 +226,7 @@
 			<div class="path">${reqVO.reqTtl}</div>
 				<table class="detail_page detail_table">
                 <tr>
-                    <th>요구사항 ID</th>
+                    <th>요구사항 관리번호</th>
                     <td colspan="3">${reqVO.reqId}</td>
                 </tr>
                 <tr>
@@ -246,7 +246,7 @@
                     <td colspan="3">${reqVO.expctEndDt}</td>
                 </tr>
                 <tr>
-                    <th>프로젝트ID</th>
+                    <th>프로젝트 관리번호</th>
                     <td colspan="3">${reqVO.prjId}</td>
                 </tr>
                 <tr>

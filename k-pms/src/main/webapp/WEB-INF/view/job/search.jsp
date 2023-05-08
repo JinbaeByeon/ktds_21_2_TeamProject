@@ -70,7 +70,7 @@
             <tr>
                  <th></th>
                  <th>직무명</th>
-                 <th>등록일</th>
+                 <th>직무 관리번호</th>
             </tr>
         </thead>
             <tbody>
@@ -83,7 +83,7 @@
                                     <input type="radio" name="check_idx" class="check_idx" value="${job.jobId}"/>
                                 </td>
                                 <td>${job.jobNm}</td>
-                                <td>${job.crtDt}</td>
+                                <td>${job.jobId}</td>
                             </tr>
                         </c:forEach>
                     </c:when>
@@ -91,8 +91,8 @@
             </tbody>
     </table>
     <div class="buttons">
-        <button id="cancel_btn" class="btn delete">취소</button>
         <button id="regist_btn" class="btn regist">등록</button>
+        <button id="cancel_btn" class="btn delete">취소</button>
     </div>
 </div>
 	

@@ -149,8 +149,8 @@
 		            <tr>
 						<th><input type="checkbox" id="all_check"/></th>
 						<th>순번</th>
-						<th>요구사항ID</th>
-						<th>요구사항제목</th>
+						<th>요구사항명</th>
+						<th>요구사항 관리번호</th>
 						<th>
 							<select id="prcsSttsType" name="prcsSttsType">
 								<option value="">진행상태</option>
@@ -170,7 +170,6 @@
 						</th>
 						<th>시작일</th>
 						<th>종료예정일</th>
-						<th>프로젝트ID</th>
 						<th>프로젝트명</th>
 						<th>우선순위</th>
            			 </tr>
@@ -202,14 +201,13 @@
 												<input type="checkbox" class="check_idx" value="${req.reqId}" />
 											</td>
 											<td>${req.rnum}</td>
-											<td class="detail_value">${req.reqId}</td>
 											<td class="detail_path">${req.reqTtl}</td>
+											<td class="detail_value">${req.reqId}</td>
 											<td>${req.prcsCdNm}</td>
 											<td>${req.tskCdNm}</td>
 											<td>${req.strtDt}</td>
 											<td>${req.expctEndDt}</td>
-											<td>${req.prjId}</td>
-											<td>${req.reqPrjVO.prjNm}</td>
+											<td>${req.reqPrjVO.prjNm} (${req.prjId})</td>
 											<td>${req.prrty}</td>
 									</tr>
 								</c:forEach>

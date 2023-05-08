@@ -112,8 +112,9 @@ $().ready(function() {
 		          <thead>
 		            <tr>
 						<th><input type="checkbox" id="all_check" /></th>
-						<th>프로젝트ID</th>
+						<th>순번</th>
 						<th>프로젝트명</th>
+						<th>프로젝트 관리번호</th>
 						<th>고객사</th>
 						<th>시작일</th>
 						<th>종료일</th>
@@ -148,8 +149,9 @@ $().ready(function() {
 									<td>
 										<input type="checkbox" class="check-idx" value="${prj.prjId}" />
 									</td>
-									<td>${prj.prjId}</td>
+									<td>${prj.rnum}</td>
 									<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
+									<td>${prj.prjId}</td>
 									<td>${prj.cstmr}</td>
 									<td>${prj.strtDt}</td>
 									<td>${prj.endDt}</td>

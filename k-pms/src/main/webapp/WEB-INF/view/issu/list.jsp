@@ -154,8 +154,8 @@
 		            <tr>
 						<th><input type="checkbox" id="all_check"/></th>
 						<th>순번</th>
-						<th>이슈ID</th>
 						<th>이슈제목</th>
+						<th>이슈 관리번호</th>
 						<th>이슈내용</th>
 						<th>조회수</th>
 						<th>난이도</th>
@@ -185,8 +185,8 @@
 												<input type="checkbox" class="check_idx" value="${issu.issuId}">
 											</td>
 											<td>${issu.rnum}</td>
-											<td>${issu.issuId}</td>
 											<td>${issu.issuTtl}</td>
+											<td>${issu.issuId}</td>
 											<td>${issu.issuCntnt}</td>
 											<td>${issu.vwCnt}</td>
 											<td>${issu.dffclty}</td>

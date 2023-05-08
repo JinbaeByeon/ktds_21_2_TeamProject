@@ -45,7 +45,7 @@
         <thead>
             <tr>
                  <th>팀명</th>
-                 <th>팀ID</th>
+                 <th>팀 관리번호</th>
             </tr>
         </thead>
             <tbody>

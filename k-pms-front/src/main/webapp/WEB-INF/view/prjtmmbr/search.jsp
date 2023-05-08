@@ -60,8 +60,6 @@
         <thead>
             <tr>
                 <th></th>
-                 <th>직원ID</th>
-                 <th>성</th>
                  <th>이름</th>
                  <th>권한</th>
             </tr>
@@ -80,9 +78,7 @@
                                 <td>
                                     <input type="radio" class="check-idx" name="check-one" value="${ptm.prjTmMbrId}" />
                                 </td>
-                                <td>${ptm.tmMbrVO.empId}</td>
-                                <td>${ptm.tmMbrVO.empVO.fNm}</td>
-                                <td>${ptm.tmMbrVO.empVO.lNm}</td>
+                                <td>${ptm.tmMbrVO.empVO.lNm}${ptm.tmMbrVO.empVO.fNm}</td>
                                 <td>${ptm.prjPstn}</td>
                             </tr>
                         </c:forEach>
@@ -96,8 +92,8 @@
             </tbody>
     </table>
     <div class="buttons">
-        <button id="cancel-btn" class="btn delete">취소</button>
         <button id="regist-btn" class="btn regist">등록</button>
+        <button id="cancel-btn" class="btn delete">취소</button>
     </div>
 </div>
 </body>

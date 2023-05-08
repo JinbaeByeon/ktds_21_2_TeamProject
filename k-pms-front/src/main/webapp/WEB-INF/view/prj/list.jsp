@@ -68,7 +68,7 @@ $().ready(function() {
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-						<th>프로젝트ID</th>
+		            	<th>순번</th>
 						<th>프로젝트명</th>
 						<th>고객사</th>
 						<th>시작일</th>
@@ -101,7 +101,7 @@ $().ready(function() {
 									data-enddt="${prj.endDt}"
 									data-prjstts="${prj.prjStts}"
 									data-useyn="${prj.useYn}" >
-									<td>${prj.prjId}</td>
+									<td>${prj.rnum}</td>
 									<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
 									<td>${prj.cstmr}</td>
 									<td>${prj.strtDt}</td>

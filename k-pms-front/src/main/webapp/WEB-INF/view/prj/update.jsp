@@ -13,6 +13,12 @@
 <title>프로젝트 수정</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
+	
 	var tmMbr;
 	
 	function addTmMbrFn(message) {
@@ -74,7 +80,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=500, scrollbars = no");
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=600, scrollbars = no");
 		});
 		
 		$(".del-ptm-btn").click(function(e){
@@ -234,8 +240,8 @@
 		                        <thead>
 		                            <tr>
 		                                <th>직원ID</th>
-		                                <th>팀</th>
 		                                <th>이름</th>
+		                                <th>팀</th>
 		                                <th>권한</th>
 		                                <th></th>
 		                            </tr>
@@ -245,8 +251,8 @@
 										<tr class="tmMbr-tr">
 											<input type="hidden" name="ptmList[${index.index}].tmMbrId" class="tmmbr-item" value="${ptm.prjTmMbrId}">
 											<td>${ptm.tmMbrVO.empVO.empId}</td>
-											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 											<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 											<td>
 												<select class="pstn ${ptm.prjTmMbrId}" name="ptmList[${index.index}].prjPstn" data-index="${index.index}" data-prjtmmbrid="${ptm.prjTmMbrId}">
 													<option value="DEFAULT">==선택==</option>

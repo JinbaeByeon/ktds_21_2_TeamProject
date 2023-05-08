@@ -233,7 +233,7 @@
 							<tr>
 								<th><input type="checkbox" id="all_check"/></th>
 								<th>순번</th>
-								<th>비품ID</th>
+								<th>비품 관리번호</th>
 								<th>비품명</th>
 								<th>비품종류</th>
 								<th>신청상태</th>
@@ -325,7 +325,7 @@
 			        	<input type="hidden" id="isModify" value="false" />
 				        <table class="detail_table">
 				            <tr>
-				              <th>비품 ID</th>
+				              <th>비품 관리번호</th>
 				              <td><input type="text" id="eqpId"  name="eqpId" value="" readonly /></td>
 				              <th>사용여부</th>
 				              <td><input type="checkbox" id="useYn"  name="useYn" value="Y"/></td>

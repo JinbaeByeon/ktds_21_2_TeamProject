@@ -152,13 +152,13 @@
 		$("#addTmHeadBtn").click(function(event) {
 			event.preventDefault(); 
 			var depId = $("#depId").val();
-			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=500,height=500");
+			tmHd = window.open("${context}/emp/search/head?depId=" + depId, "팀장 검색", "width=600,height=700");
 		});
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
 			var depId = $("#depId").val();
-			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search?depId=" + depId, "팀원검색", "width=600, height=700")
 		});
 		
 		$("#list-btn").click(function(response) {
@@ -247,7 +247,7 @@
 				<form id="create_form" enctype="multipart/form-data">
 					<table class="detail_page detail_table">
 		                <tr>
-		                    <th>부서ID</th>
+		                    <th>부서 관리번호</th>
 		                    <td><input type="text" id="depId" name="depId" value="${tmVO.depIdDepVO.depId}" readonly/></td>
 		                </tr>
 		                <tr>
@@ -255,7 +255,7 @@
 		                    <td><input type="text" id="tmNm" name="tmNm" value="${tmVO.tmNm}"/></td>
 		                </tr>
 		                <tr>
-		                    <th>팀ID</th>
+		                    <th>팀 관리번호</th>
 		                    <td><input type="text" id="tmId" name="tmId" value="${tmVO.tmId}" readonly/></td>
 		                </tr>
 		                <tr>

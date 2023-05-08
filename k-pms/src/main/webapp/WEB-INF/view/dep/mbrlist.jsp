@@ -41,7 +41,7 @@
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
 	    td += "<td>" + message.jobnm + "</td>"
 	
-	    var rmbtn = $("<td><button class='trRemoveBtn'>X</button></td>")
+	    var rmbtn = $("<td><button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button></td>")
 	
 	    rmbtn.click(function() {
 	        var empTrToRemove = $(this).closest(".emp-tr");
@@ -183,7 +183,7 @@
 				return;
 			}
 			var depId = activeDepId;
-			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + activeTmId, "팀원검색", "width=500, height=500")
+			tmMbr = window.open("${context}/emp/search/mbr?depId=" + depId +"&tmMbr.tmId=" + activeTmId, "팀원검색", "width=600, height=600")
 		});
 		
 		$("#regist-btn").click(function() {
@@ -243,13 +243,13 @@
 					  	<h3>부서</h3>
 					   <table class="list_table search_table scroll_table">
 					       <thead>
-					          <tr>
-								<th>순번</th>
-								<th>부서ID</th>
-								<th>부서명</th>
-								<th>부서장ID</th>
-								<th>부서장명</th>
-					          </tr>
+					           <tr>
+									<th>순번</th>
+									<th>부서 관리번호</th>
+									<th>부서명</th>
+									<th>부서장ID</th>
+									<th>부서장명</th>
+					           </tr>
 					       </thead>
 							<tbody class="dep-tbody">
 								<c:choose>
@@ -282,7 +282,7 @@
 						    <table class="list_table search_table scroll_table">
 						        <thead>
 									<tr>
-										<th>팀ID</th>
+										<th>팀 관리번호</th>
 										<th>팀명</th>
 										<th>팀장ID</th>
 										<th>팀장명</th>

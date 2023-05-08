@@ -124,7 +124,8 @@
 		                <th><input type="checkbox" id="all_check"></th>
 		                <th>순번</th>
 		                <th>제목</th>
-		                <c:if test="${not knwSearchVO.commonMode}">
+		                <th>지식관리 관리번호</th>
+		                <c:if test="${knwSearchVO.commonMode == 'prj'}">
 			                <th>프로젝트명</th>
 		                </c:if>
 		                <th>작성자</th>
@@ -144,8 +145,9 @@
 		                            <td><input type="checkbox" class="check_idx" value="${knw.knwId}"><input type="hidden" class="crtr" value="${knw.crtr}"></td>
 		                            <td>${knw.rnum}</td>
 		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
-		                            <c:if test="${not knwSearchVO.commonMode}">
-				                       	<td>${knw.prjVO.prjNm}</td>
+		                            <td>${knw.knwId}</td>
+		                            <c:if test="${knwSearchVO.commonMode == 'prj'}">
+				                       	<td>${knw.prjVO.prjNm} (${knw.prjVO.prjId})</td>
 		                            </c:if>
 		                            <td>${knw.crtr}</td>
 		                            <td>${knw.useYn}</td>

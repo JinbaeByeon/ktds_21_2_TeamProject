@@ -106,8 +106,8 @@
                         <thead>
                             <tr>
                                 <th>직원ID</th>
-                                <th>팀</th>
                                 <th>이름</th>
+                                <th>팀</th>
                                 <th>권한</th>
                             </tr>
                         </thead>
@@ -118,8 +118,8 @@
 										<c:if test="${ptm.prjPstn=='PM'}">
 											<tr>
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>총잭임자</td>	
 											</tr>									
 										</c:if>
@@ -128,8 +128,8 @@
 										<c:if test="${ptm.prjPstn=='PL'}">
 											<tr>
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>부책임자</td>	
 											</tr>									
 										</c:if>
@@ -138,8 +138,8 @@
 										<c:if test="${ptm.prjPstn=='TM'}">
 											<tr>
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>팀원</td>	
 											</tr>									
 										</c:if>
