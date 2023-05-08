@@ -375,6 +375,10 @@ a:link, a:visited {
 	margin: 0 5px;
 }
 
+.pagenate .page-no.active{
+	color: #a00;
+}
+
 /* hr */
 .hr {
 	margin-top: 30px;
