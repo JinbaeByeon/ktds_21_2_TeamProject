@@ -12,8 +12,15 @@
 <script type="text/javascript">
 	var empWindow;
 	var ajaxUtil = new AjaxUtil();
-	
+	const Editor = toastui.Editor;
 	$().ready(function() {
+		const editor = new Editor({
+			  el: document.querySelector('#msg-cntnt'),
+			  height: '500px',
+			  initialEditType: 'wysiwyg',
+			  previewStyle: 'vertical'
+		});
+		
 		$(".sidebar > ul li a").removeClass("active")
 		$("#sndmsg_send").addClass("active");
 		
@@ -52,8 +59,6 @@
 			
 			cnt=0;
 			fileList.each(function(){
-				var form = $("#create-form");
-				
 				var fileNm = $(this).data("org");
 				var uuidNm = $(this).data("uuid");
 				var fileSz = $(this).data("sz");
@@ -68,7 +73,9 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 			});
-			
+			var cntnt = $("<textarea name='cntnt'></textarea>");
+			cntnt.text(editor.getMarkdown());
+			form.append(cntnt);
 			ajaxUtil.upload("#create-form","${context}/api/sndmsg/snd",function(response){
 				if (response.status != "200 OK") {
 					alert(response.errorCode + " / " + response.message);
@@ -81,7 +88,7 @@
 		
 		$("#search-emp").click(function(e){
 			e.preventDefault();
-			empWindow = window.open("${context}/emp/search","직원 검색","width=500,height=500");
+			empWindow = window.open("${context}/emp/search","직원 검색","width=600,height=600");
 		});
 		$("#add_files").click(function(e){
 			e.preventDefault();
@@ -236,50 +243,59 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-			<div class="path">쪽지 > 쪽지보내기</div>
-			<form id="create-form">
-				<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
-				<div class="create-group">
-					<label for="rcvr">받는사람</label>
-					<div>
-						<div id="user_list"></div>
-						<div>
-							<input type="text" class="underBar" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
-							<button id="search-emp" class="btn btn-add">+</button>
-						</div>
-					</div>
-				</div>
-				<div class="create-group">
-					<label for="title">제목</label> 
-					<input type="text" class="underBar" id="title" name="ttl" value="${sndMsgVO.ttl}"/>
-				</div>
-				<div class="create-group">
-					<label for="files">첨부파일</label>
-					<div class="file_area">
-						<div class="file_upload">
-							<button id="add_files" class="btn btn-add">+</button>
-						</div>
-						<div class="align-center file_div">
-							<p class="file_drag">파일을 마우스로 끌어 오세요</p>
-							<div class="file_attachment" hidden="hidden">
-								<div>
-									<div class="remove_all">x</div>
-									<div class="file_name">파일명</div>
-									<div class="file_size">용량</div>
-								</div>
-								<ul id="file_list"></ul>
-							</div>
-						</div>
-					</div>
-					<input type="file" id="files" multiple hidden/>
-				</div>
-				<div class="create-group">
-					<textarea name="cntnt" class="msg-cntnt">${sndMsgVO.cntnt}</textarea>
-				</div>
-			</form>
-			<div class="align-right">
-				<button id="send_btn" class="btn regist3">전송</button>
-			</div>
+				<div class="path">쪽지 > 쪽지보내기</div>
+				<form id="create-form">
+					<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
+					<table class="detail_table">
+		                <tr>
+		                    <th>받는사람</th>
+		                    <td>
+		                    	 <div class="input_div">
+						            <div id="user_list"></div>
+						            <div class="input_div">
+						                <input type="text" class="underBar" id="rcvr" name="rcvr" value="${sndMsgVO.crtr}"/>
+						                <button id="search-emp" class="btn btn-add">+</button>
+						            </div>
+						        </div>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>제목</th>
+		                    <td><input type="text" class="underBar" id="title" name="ttl" value="${sndMsgVO.ttl}"/></td>
+		                </tr>
+		                <tr>
+		                    <th>첨부파일</th>
+		                    <td>
+						         <button id="add_files" class="btn btn-add">+</button>
+		                    	 <div class="file_area input_div">
+						            <div class="file_upload">
+						            </div>
+						            <div class="align-center file_div input_div">
+						                <p class="file_drag">파일을 마우스로 끌어 오세요</p>
+						                <div class="file_attachment input_div" hidden="hidden">
+						                    <div>
+						                        <div class="remove_all input_div">x</div>
+						                        <div class="file_name input_div">파일명</div>
+						                        <div class="file_size input_div">용량</div>
+						                    </div>
+						                    <ul id="file_list"></ul>
+						                </div>
+						            </div>
+						        </div>
+						        <input type="file" id="files" multiple hidden/>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <td colspan="2">
+		                    	<div id="msg-cntnt"></div>
+		                    </td>
+		                </tr>
+		            </table>
+				</form>
+	        <div class="buttons">
+	   			 <button id="send_btn" class="btn regist3">전송</button>
+	        </div>
+			<jsp:include page="../include/footer.jsp" />	
 		</div>
 	</div>
 </body>

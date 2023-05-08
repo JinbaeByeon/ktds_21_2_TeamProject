@@ -141,13 +141,13 @@
 		$("#prj_search").click(function(event){
 			event.preventDefault();
 			window.open("${context}/prj/search",
-					"프로젝트 검색", "width=500, height=500");
+					"프로젝트 검색", "width=800, height=600");
 		});
 
 		$("#prjtmmbr_search").click(function(event){
 			event.preventDefault();
 			window.open("${context}/prjtmmbr/search?prjId=" + $("#prjId").val(),
-					"프로젝트팀원 검색", "width=500, height=500");
+					"프로젝트팀원 검색", "width=500, height=600");
 		});
 		
 		$("#add_files").click(function(e){
@@ -297,130 +297,130 @@
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">${reqVO.reqTtl}</div>
-				<table class="detail_page detail_table">
-                <tr>
-                    <th>요구사항 ID</th>
-                    <td><input type="text" id="reqId"  name="reqId" value="" readonly /></td>
-                </tr>
-                <tr>
-                    <th>제목</th>
-                    <td><input type="text" id="reqTtl"  name="reqTtl" value=""/></td>
-                </tr>
-                <tr>
-                    <th>우선순위</th>
-                    <td>
-                    	<select id="prrty"  name="prrty" >
-								<option>선택</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-						</select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>시작일</th>
-                    <td><input type="date" id="strtDt"  name="strtDt" value=""/></td>
-                </tr>
-                <tr>
-                    <th>종료예정일</th>
-                    <td><input type="date" id="expctEndDt"  name="expctEndDt" value=""/></td>
-                </tr>
-                <tr>
-                    <th>프로젝트ID</th>
-                    <td>
-                    	<div>${reqVO.prjId}</div>
-						<input type="hidden" id="prjId"  name="prjId" value=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>프로젝트명</th>
-                    <td>${reqVO.reqPrjVO.prjNm}</td>
-                </tr>
-                <tr>
-                    <th>담당개발자</th>
-                    <td>
-                    	<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
-						<button id="prjtmmbr_search" class="btn regist">검색</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th>확인자</th>
-                    <td><input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/></td>
-                </tr>
-                <tr>
-                    <th>첨부파일</th>
-                    <td>
-						<button id="add_files" class="btn btn-add">+</button>
-							<div class="file_area input_div">
-								<div class="file_upload">
-								</div>
-								<div class="align-center input_div">
-									<p class="file_drag">파일을 마우스로 끌어 오세요</p>
-									<div class="file_attachment input_div" hidden="hidden">
-										<div>
-											<div class="remove_all">x</div>
-											<div class="file_name">파일명</div>
-											<div class="file_size">용량</div>
+				<form id="detail_form" >
+					<table class="detail_page detail_table">
+		                <tr>
+		                    <th>요구사항 관리번호</th>
+		                    <td><input type="text" id="reqId"  name="reqId" value="" readonly /></td>
+		                </tr>
+		                <tr>
+		                    <th>제목</th>
+		                    <td><input type="text" id="reqTtl"  name="reqTtl" value=""/></td>
+		                </tr>
+		                <tr>
+		                    <th>우선순위</th>
+		                    <td>
+		                    	<select id="prrty"  name="prrty" >
+										<option>선택</option>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+								</select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>시작일</th>
+		                    <td><input type="date" id="strtDt"  name="strtDt" value=""/></td>
+		                </tr>
+		                <tr>
+		                    <th>종료예정일</th>
+		                    <td><input type="date" id="expctEndDt"  name="expctEndDt" value=""/></td>
+		                </tr>
+		                <tr>
+		                    <th>프로젝트 관리번호</th>
+		                    <td>
+		                    	<div>${reqVO.prjId}</div>
+								<input type="hidden" id="prjId"  name="prjId" value=""/>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>프로젝트명</th>
+		                    <td>${reqVO.reqPrjVO.prjNm}</td>
+		                </tr>
+		                <tr>
+		                    <th>담당개발자</th>
+		                    <td>
+		                    	<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
+								<button id="prjtmmbr_search" class="btn regist">검색</button>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>확인자</th>
+		                    <td><input type="text" id="reqCnfrNm"  name="reqCnfrNm" value=""/></td>
+		                </tr>
+		                <tr>
+		                    <th>첨부파일</th>
+		                    <td>
+								<button id="add_files" class="btn btn-add">+</button>
+									<div class="file_area input_div">
+										<div class="file_upload">
 										</div>
-										<ul id="file_list">
-											<c:if test="${not empty reqVO.atchFlList}">
-											<c:forEach items="${reqVO.atchFlList}" var="atchFl">
-												<li data-uuid='${atchFl.uuidFlNm}'
-													data-org='${atchFl.orgFlNm}'
-													data-sz='${atchFl.flSz}'
-													data-ext='${atchFl.flExt}'>
-													<div>
-														<span class='remove'>x</span>
-														<span class='file_name'>${atchFl.orgFlNm}</span>
-														<c:if test="${atchFl.flSz < 1024*1024}">
-															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
-														</c:if>
-														<c:if test="${atchFl.flSz >= 1024*1024}">
-															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
-														</c:if>
-													</div>
-												</li>
-											</c:forEach>
-										</c:if>
-										</ul>
+										<div class="align-center input_div">
+											<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+											<div class="file_attachment input_div" hidden="hidden">
+												<div>
+													<div class="remove_all">x</div>
+													<div class="file_name">파일명</div>
+													<div class="file_size">용량</div>
+												</div>
+												<ul id="file_list">
+													<c:if test="${not empty reqVO.atchFlList}">
+													<c:forEach items="${reqVO.atchFlList}" var="atchFl">
+														<li data-uuid='${atchFl.uuidFlNm}'
+															data-org='${atchFl.orgFlNm}'
+															data-sz='${atchFl.flSz}'
+															data-ext='${atchFl.flExt}'>
+															<div>
+																<span class='remove'>x</span>
+																<span class='file_name'>${atchFl.orgFlNm}</span>
+																<c:if test="${atchFl.flSz < 1024*1024}">
+																	<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+																</c:if>
+																<c:if test="${atchFl.flSz >= 1024*1024}">
+																	<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+																</c:if>
+															</div>
+														</li>
+													</c:forEach>
+												</c:if>
+												</ul>
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
-							<input type="file" id="files" multiple/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>진행상태</th>
-                    <td>
-                    	<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
-						<select id="prcsStts-select"  name="prcsStts" ></select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>일정상태</th>
-                    <td>
-                    	<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
-						<select id="tskStts-select"  name="tskStts" ></select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>테스트 결과</th>
-                    <td>
-                    	<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
-						<select id="tstRslt-select"  name="tstRslt" ></select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>상세요구사항</th>
-                    <td><textarea id="dtlReq" name="dtlReq" class="input_div">${req.dtlReq}</textarea></td>
-                </tr>
-                <tr>
-                    <th>사용여부</th>
-                    <td><input type="checkbox" id="useYn"  name="useYn" value="Y"/></td>
-                </tr>
-            </table>
-                
-
+									<input type="file" id="files" multiple/>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>진행상태</th>
+		                    <td>
+		                    	<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
+								<select id="prcsStts-select"  name="prcsStts" ></select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>일정상태</th>
+		                    <td>
+		                    	<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
+								<select id="tskStts-select"  name="tskStts" ></select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>테스트 결과</th>
+		                    <td>
+		                    	<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
+								<select id="tstRslt-select"  name="tstRslt" ></select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>상세요구사항</th>
+		                    <td><textarea id="dtlReq" name="dtlReq" class="input_div">${req.dtlReq}</textarea></td>
+		                </tr>
+		                <tr>
+		                    <th>사용여부</th>
+		                    <td><input type="checkbox" id="useYn"  name="useYn" value="Y"/></td>
+		                </tr>
+		            </table>
+				</form>
         <div class="buttons">
 			<button id="save_btn" class="btn save">저장</button>
 			<button id="back-btn" class="btn delete">뒤로</button>

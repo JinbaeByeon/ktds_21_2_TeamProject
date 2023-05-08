@@ -83,6 +83,36 @@
 		, #{reqCnfrNm})
 	</insert>
 
+	<select id="readAllReqSearch"
+			parameterType="com.kpms.req.vo.ReqSearchVO"
+			resultMap="reqVOMap">
+		SELECT R.REQ_ID
+			 , R.REQ_TTL
+			 , PRCS_STTS
+			 , R.CRTR 
+			 , TO_CHAR(R.STRT_DT,'YYYY-MM-DD') STRT_DT
+			 , TO_CHAR(R.EXPCT_END_DT,'YYYY-MM-DD') EXPCT_END_DT
+			 , R.PRJ_ID
+			 , P.PRJ_NM PJ_PRJ_NM
+		  FROM REQ R
+		  JOIN (SELECT *
+				  FROM PRJ 
+				 WHERE PRJ_ID IN (SELECT PRJ_ID
+								    FROM PRJ_TM_MBR
+								   WHERE TM_MBR_ID IN (SELECT TM_MBR_ID 
+														 FROM TM_MBR
+														WHERE EMP_ID = #{empId}))) P
+		  	ON P.PRJ_ID = R.PRJ_ID
+		 WHERE R.TSK_STTS = '003_02'
+		   AND R.DEL_YN = 'N'
+	  	<if test="prjNm != null and prjNm != ''">
+		   AND PRJ_NM LIKE '%' || #{prjNm} || '%')
+	  	</if>
+	  	<if test="reqTtl != null and reqTtl != ''">
+	  	   AND REQ_TTL LIKE '%' || #{reqTtl} || '%'
+	  	</if>
+	</select>
+	
 	<select id="readAllReq"
 			parameterType="com.kpms.req.vo.ReqVO"
 			resultMap="reqVOMap">

@@ -13,7 +13,8 @@
 <script type="text/javascript">
 	var fileCnt = 0;
 	var ajaxUtil = new AjaxUtil();
-
+	const Editor = toastui.Editor;
+	
 	function addFile(file){
 		var fileList = $("#file_list");
 		
@@ -34,7 +35,7 @@
 		remove.click(function(e){
 			var item = $(this).closest("li");
 			
-			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/sndmsg/delete", function(response) {
+			ajaxUtil.deleteFile([item.data("uuid")], "${context}/api/knw/delfiles", function(response) {
 				item.remove();
 				--fileCnt;
 				checkFile();
@@ -68,7 +69,16 @@
 	}
 	
 	function addPrjFn(data) {
-
+		
+		if($("#prjHead").find("table") != null) {
+			$("#prjHead").find("table").remove();
+		}
+		var prjHead = $("#prjHead");
+		var table = $("<table class='list_table inner_table'></table>");
+		prjHead.append(table);
+		table.append("<thead><tr><th>프로젝트명</th><th>고객사</th><th>프로젝트 상태</th></tr></thead>");
+		table.append("<tbody><tr><td id='prjNm'></td><td id='cstmr'></td><td id='prjStts'></td></tr></tbody>")
+		
 		$("#prjId").val("");
 		$("#prjNm").empty();
 		$("#cstmr").empty();
@@ -79,138 +89,213 @@
 		$("#cstmr").append(data.cstmr);
 		$("#prjStts").append(data.prjstts);
 		
-		$("#addPrj").empty();
-		$("#addPrj").append("변경");
-
 	}
+	
+	function fnChkByte(obj, maxByte)
+	{
+	    var str = obj.value;
+	    var str_len = str.length;
 
+	    var rbyte = 0;
+	    var rlen = 0;
+	    var one_char = "";
+	    var str2 = "";
+
+	    for(var i=0; i<str_len; i++) {
+	        one_char = str.charAt(i);
+	        if(escape(one_char).length > 4) {
+	            rbyte += 2;                                         //한글2Byte
+	        }
+	        else {
+	            rbyte++;                                            //영문 등 나머지 1Byte
+	        }
+
+	        if(rbyte <= maxByte) {
+	            rlen = i+1;                                          //return할 문자열 갯수
+	        }
+	     }
+
+	     if(rbyte > maxByte) {
+			  // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+			  alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
+			  str2 = str.substr(0,rlen); //문자열 자르기
+			  obj.value = str2;
+			  fnChkByte(obj, maxByte);
+	     }
+	     else {
+	    	 $("#byteInfo").text("(" + rbyte + "/ 1,000)");
+	     }
+	}
+	
 	$().ready(function() {
 		$(".sidebar > ul li a").removeClass("active")
 		$("#knw_list").addClass("active");
 		
-		$("#save_btn").click(
-				function() {
-					if ($("#ttl").val() == "") {
-						alert("제목 입력은 필수입니다.");
-						return;
-					} else if ($("#cntnt").val() == "") {
-						alert("내용 입력은 필수입니다.");
-						return;
-					} else if ($("#prjId").val() == "") {
-						alert("프로젝트 선택은 필수입니다.");
-						return;
-					} else {
-						var fileList = $(".file_attachment").find("li");
-						
-						cnt=0;
-						fileList.each(function(){
-							var form = $("#create-form");
-							
-							var fileNm = $(this).data("org");
-							var uuidNm = $(this).data("uuid");
-							var fileSz = $(this).data("sz");
-							var ext = $(this).data("ext");
-							
-							var inputOrgNm = $("<input type='hidden' name='atchFlList["+ cnt +"].orgFlNm' value='"+fileNm+"'/>");
-							form.append(inputOrgNm);
-							var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
-							form.append(inputUuid);
-							var inputSz = $("<input type='hidden' name='atchFlList["+ cnt +"].flSz' value='"+parseInt(fileSz)+"'/>");
-							form.append(inputSz);
-							var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
-							form.append(inputExt);
-								});
-						ajaxUtil.upload("#create-form","${context}/api/knw/create",function(response) {
-											if (response.status == "200 OK") {
-												location.href = "${context}/knw/list";
-											}
-											else {
-												alert("지식 등록에 실패하였습니다.");
-											}
-										});
+		const editor = new Editor({
+			  el: document.querySelector('#cntnt'),
+			  height: '650px',
+			  initialEditType: 'wysiwyg',
+			  previewStyle: 'vertical'
+		});
+		
+		$("#save_btn").click(function() {
+			var form = $("#create_form");
+			
+			if ($("#ttl").val() == "") {
+				alert("제목 입력은 필수입니다.");
+				return;
+			}
+			else if ($(".toastui-editor-contents").text() == "") {
+				alert("내용 입력은 필수입니다.");
+				return;
+			}
+			else if ($("#prjId").val() == "") {
+				var result = confirm("사내 지식으로 등록하시겠습니까?");
+				if(!result) {
+					return;
+				}
+			}
+			var fileList = $(".file_attachment").find("li");
+			
+			cnt=0;
+			fileList.each(function(){
+				
+				var fileNm = $(this).data("org");
+				var uuidNm = $(this).data("uuid");
+				var fileSz = $(this).data("sz");
+				var ext = $(this).data("ext");
+				
+				var inputOrgNm = $("<input type='hidden' name='atchFlList["+ cnt +"].orgFlNm' value='"+fileNm+"'/>");
+				form.append(inputOrgNm);
+				var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
+				form.append(inputUuid);
+				var inputSz = $("<input type='hidden' name='atchFlList["+ cnt +"].flSz' value='"+parseInt(fileSz)+"'/>");
+				form.append(inputSz);
+				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
+				form.append(inputExt);
+			});
+			
+			var cntnt = $("<textarea name='cntnt'></textarea>");
+			cntnt.text(editor.getMarkdown());
+			form.append(cntnt);
+			
+			ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
+				if (response.status == "200 OK") {
+					if(result) {
+						location.href = "${context}/knw/list/1";	
 					}
-	
-				});
+					else {
+						location.href = "${context}/knw/list/0";
+					}
+				}
+				else {
+					alert("지식 등록에 실패하였습니다.");
+				}
+			});
 
-						$("#cancel_btn").click(function() {
-							location.href = "${context}/knw/list"
+		});
+
+		$("#cancel_btn").click(function() {
+			location.href = "${context}/knw/list"
+		});
+
+		$("#addPrj").click(function(event) {
+			event.preventDefault();
+			gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=800, height=600");
+		});
+		
+		$("#comPrj").click(function(event) {
+			event.preventDefault();
+			
+			if($("#prjHead").find("table") != null) {
+				$("#prjHead").find("table").remove();
+			}
+			$("#prjId").val("");
+			
+		});
+
+		$("#add_files").click(function(e) {
+			e.preventDefault();
+			$("#files").click();
+		})
+		$("#files").change(function(e) {
+							var files = $(this)[0].files;
+							if (files) {
+								ajaxUtil.uploadImmediatly(files, "${context}/api/knw/upload", function(response) {
+													for (var i = 0; i < response.data.length; i++) {
+														var file = response.data[i];
+														addFile(file);
+													}
+													checkFile();
+												});
+							}
+							$(this).value = '';
 						});
-
-						$("#addPrj").click(function(event) {
-											event.preventDefault();
-											gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
-										});
-
-						$("#add_files").click(function(e) {
+		$(".file_drag").on("dragover", function(e) {
+			e.preventDefault();
+		});
+		$(".file_drag").on("drop", function(e) {
 							e.preventDefault();
-							$("#files").click();
-						})
-						$("#files").change(function(e) {
-											var files = $(this)[0].files;
-											if (files) {
-												ajaxUtil.uploadImmediatly(files, "${context}/api/knw/upload", function(response) {
-																	for (var i = 0; i < response.data.length; i++) {
-																		var file = response.data[i];
-																		addFile(file);
-																	}
-																	checkFile();
-																});
-											}
-											$(this).value = '';
-										});
-						$(".file_drag").on("dragover", function(e) {
-							e.preventDefault();
+
+							var files = event.dataTransfer.files;
+							if (files) {
+								ajaxUtil.uploadImmediatly(files, "${context}/api/knw/upload", function(response) {
+													for (var i = 0; i < response.data.length; i++) {
+														var file = response.data[i];
+														addFile(file);
+													}
+													checkFile();
+												});
+							}
 						});
-						$(".file_drag").on("drop", function(e) {
-											e.preventDefault();
-
-											var files = event.dataTransfer.files;
-											if (files) {
-												ajaxUtil.uploadImmediatly(files, "${context}/api/knw/upload", function(response) {
-																	for (var i = 0; i < response.data.length; i++) {
-																		var file = response.data[i];
-																		addFile(file);
-																	}
-																	checkFile();
-																});
-											}
-										});
-						$(".file_attachment").on("dragover", function(e) {
+		$(".file_attachment").on("dragover", function(e) {
+			e.preventDefault();
+		});
+		$(".file_attachment").on("drop", function(e) {
 							e.preventDefault();
-						});
-						$(".file_attachment").on("drop", function(e) {
-											e.preventDefault();
 
-											var files = event.dataTransfer.files;
-											if (files) {
-												ajaxUtil.uploadImmediatly(files, "${context}/api/knw/upload", function(response) {
-																	for (var i = 0; i < response.data.length; i++) {
-																		var file = response.data[i];
-																		addFile(file);
-																	}
-																	checkFile();
-																});
-											}
-										});
-						$(".file_attachment").find(".remove_all").click(function(e) {
-							e.preventDefault();
-							var fileList = $(this).closest(".file_attachment").find("ul").children("li");
-							console.log(fileList);
-							var fileNames = [];
-							fileList.each(function() {
-								var fileNm = $(this).data("uuid");
-								fileNames.push(fileNm);
-							});
-							ajaxUtil.deleteFile(fileNames, "${context}/api/knw/delfiles",
-									function(response) {
-										$("#file_list").find("li").remove();
-										fileCnt = 0;
-										checkFile();
-										$("#files").val("");
-									});
+							var files = event.dataTransfer.files;
+							if (files) {
+								ajaxUtil.uploadImmediatly(files, "${context}/api/knw/upload", function(response) {
+													for (var i = 0; i < response.data.length; i++) {
+														var file = response.data[i];
+														addFile(file);
+													}
+													checkFile();
+												});
+							}
 						});
-
+		$(".file_attachment").find(".remove_all").click(function(e) {
+			e.preventDefault();
+			var fileList = $(this).closest(".file_attachment").find("ul").children("li");
+			console.log(fileList);
+			var fileNames = [];
+			fileList.each(function() {
+				var fileNm = $(this).data("uuid");
+				fileNames.push(fileNm);
+			});
+			ajaxUtil.deleteFile(fileNames, "${context}/api/knw/delfiles",
+					function(response) {
+						$("#file_list").find("li").remove();
+						fileCnt = 0;
+						checkFile();
+						$("#files").val("");
 					});
+		});
+		
+		$("#byteInfo").keyup(function() {
+
+	        if($(this).val().length > 80) {
+	            $(this).val($(this).val().substring(0, 80));
+	        }
+
+	    });
+		
+		$("#cntnt").keyup(function() {
+			fnChkByte($(this), '1000');
+		});
+		
+	});
 </script>
 </head>
 <body>
@@ -219,68 +304,57 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<div class="path"> 프로젝트관리 > 지식 등록</div>
-			<div>
-				<form id="create-form">
-					<input type="hidden" name="knwId" value="${knwVO.knwId}" />
-					<div class="create-group">
-						<label for="">프로젝트 선택</label>
-						<div>
-							<div class="grid">
-								<input type="hidden" id="prjId" name="prjId" />
-								<table>
-									<thead>
-										<tr>
-											<th>프로젝트명</th>
-											<th>고객사</th>
-											<th>프로젝트 상태</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td id="prjNm"></td>
-											<td id="cstmr"></td>
-											<td id="prjStts"></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<button id="addPrj" class="btn-primary">선택</button>
-						</div>
-					</div>
-					<div class="create-group">
-						<label for="files">첨부파일</label>
-						<div class="file_area">
-							<div class="file_upload">
-								<button id="add_files">+</button>
-							</div>
-							<div class="align-center">
-								<p class="file_drag">파일을 마우스로 끌어 오세요</p>
-								<div class="file_attachment" hidden="hidden">
-									<div>
-										<div class="remove_all">x</div>
-										<div class="file_name">파일명</div>
-										<div class="file_size">용량</div>
-									</div>
-									<ul id="file_list"></ul>
+			<div class="path"> 프로젝트 관리 > 지식 등록</div>
+				<form id="create_form">
+					<input type="hidden" id="prjId" name="prjId" value="${prjId}"/>
+					<table class="detail_table">
+						<tr>
+							<th>프로젝트 선택</th>
+							<td id="prjHead">
+								<div>
+									<button id="addPrj" class="btn regist add">선택</button>
+									<button id="comPrj" class="btn delete add">삭제</button>
 								</div>
-							</div>
-						</div>
-						<input type="file" id="files" multiple />
-					</div>
-					<div class="create-group">
-						<label for="ttl">제목</label> <input type="text" id="ttl" name="ttl" />
-					</div>
-					<div class="create-group">
-						<label for="cntnt">내용</label>
-						<textarea id="cntnt" name="cntnt"></textarea>
-					</div>
+							</td>
+						</tr>
+						<tr>
+							<th>제목</th>
+							<td><input type="text" id="ttl" name="ttl" /></td>
+						</tr>
+						<tr>
+							<th>내용</th>
+							<td>
+								<div id="cntnt" name="cntnt"></div>
+							</td> 
+						</tr>
+						<tr>
+							<th>파일첨부</th>
+							<td>
+								<div class="file_area">
+									<div class="file_upload">
+										<button id="add_files" class="btn regist">+</button>
+									</div>
+									<div class="align-center">
+										<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+										<div class="file_attachment" hidden="hidden">
+											<div class="fileHead">
+												<div class="remove_all">x</div>
+												<div class="file_name">파일명</div>
+												<div class="file_size">용량</div>
+											</div>
+											<ul id="file_list"></ul>
+										</div>
+									</div>
+								</div>
+								<input type="file" id="files" multiple hidden="true" />
+							</td>
+						</tr>
+					</table>
 				</form>
-			</div>
-
-			<div class="align-right">
-				<button id="save_btn" class="btn-primary">등록</button>
-				<button id="cancel_btn" class="btn-delete">취소</button>
+				
+			<div class="buttons">
+				<button id="save_btn" class="btn regist">등록</button>
+				<button id="cancel_btn" class="btn delete">취소</button>
 			</div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>

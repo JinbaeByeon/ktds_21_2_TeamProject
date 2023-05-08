@@ -10,12 +10,21 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
 <script type="text/javascript">
 
 	var fileCnt = 0;
 	var ajaxUtil = new AjaxUtil();
+	const Viewer = toastui.Editor;
 	
 	$().ready(function() {
+		
+		const viewer = new Viewer({
+		  el: document.querySelector('#viewer'),
+		  height: '600px',
+		  initialValue: `${knwVO.cntnt}`
+		});
+		
 		$(".sidebar > ul li a").removeClass("active")
 		$("#knw_list").addClass("active");
 
@@ -55,10 +64,10 @@
 			
 		$(".listBtn").click(function() {
 			if($("#commonMode").val() != "") {
-				location.href = "${context}/knw/list/prj";
+				location.href = "${context}/knw/list/0";
 			}
 			else {
-				location.href = "${context}/knw/list/common";	
+				location.href = "${context}/knw/list/1";	
 			}
 		});
 		
@@ -98,7 +107,7 @@
 
 		$(".replyBtn").click(function() {
 			event.preventDefault();
-			var that = $(this).closest(".commentBtns").closest(".comment").find(".commentBoxArea");
+			var that = $(this).closest(".cntArea").closest(".comment").find(".commentBoxArea");
 			
 			if (that.attr("style").includes("display: block")) {
 				that.hide();
@@ -184,7 +193,12 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			
+			<c:if test="${knwVO.prjId ne null}">
+				<div class="path">프로젝트 > 관련 프로젝트: <a href="${context}/knw/list/0?prjId=${prjVO.prjId}">${prjVO.prjNm}</a></div>
+			</c:if>
+			<c:if test="${knwVO.prjId eq null}">
+				<div class="path">사내지식관리 > 사내지식</div>
+			</c:if>
 			<div class="articleBox">
 				<div class="articleHead">
 					<input type="hidden" name="knwId" value="${knwVO.knwId}" />
@@ -195,17 +209,10 @@
 							<p class="writerId">${knwVO.crtr}</p>
 							<span class="date">${knwVO.crtDt}</span>
 						</div>
-						<c:if test="${knwVO.prjId ne null}">
-							<div class="projectInfo">
-								<p>관련 프로젝트: </p>
-								<p id="prjNm">${prjVO.prjNm}</p>
-								<p id="cstmr">(${prjVO.cstmr})</p>
-							</div>
-						</c:if>
 					</div>
 				</div>
 				<div class="articleBody">
-					${knwVO.cntnt}
+					<div id="viewer"></div>
 				</div>
 				
 				<c:if test="${atchFlList.get(0).frgnId ne null}">
@@ -219,11 +226,11 @@
 				
 				<div class="articleBtnsArea">
 					<div class="articleBtns">
-						<c:if test="${knwVO.crtr eq sessionScope.__USER__.empId}">
-							<button class="updateBtn">수정</button>
-							<button class="deleteBtn">삭제</button>
+						<c:if test="${(rplVO.crtr eq sessionScope.__USER__.empId) or (sessionScope.__USER__.admnYn eq 'Y')}">
+							<button class="updateBtn btn save size">수정</button>
+							<button class="deleteBtn btn delete size">삭제</button>
 						</c:if>
-						<button class="btn regist">목록</button>
+						<button class="listBtn btn regist size">목록</button>
 					</div>
 				</div>
 				
@@ -232,7 +239,7 @@
 						<form class="commentForm">
 							<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 							<input type="text" class="cnt" name="cnt" placeholder="댓글을 입력해 주세요." />
-							<button class="commentSubmitBtn btn regist2">등록</button>
+							<button class="commentSubmitBtn btn regist2 size">등록</button>
 						</form>
 					</div>
 				</div>
@@ -254,14 +261,13 @@
 												<div class="cntArea">
 													<input type="hidden" class="rplId" name="rplId" value="${rplVO.rplId}" />
 													<input type="hidden" class="cnt" name="cnt" value="${rplVO.cnt}" />
-													<p>${rplVO.cnt}</p>
+													<p class="replyBtn">${rplVO.cnt}</p>
 												</div>
 												<div class="commentBtns">
-													<button class="replyBtn btn sreply">답글</button>
-													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
+													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId or sessionScope.__USER__.admnYn eq 'Y'}">
 														<button class="commentUpdateBtn btn sedit" value="update">수정</button>
 													</c:if>
-													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
+													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId or sessionScope.__USER__.admnYn eq 'Y'}">
 														<button class="commentDeleteBtn btn sdelete">삭제</button>
 													</c:if>
 												</div>
@@ -270,7 +276,7 @@
 														<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 														<input type="hidden" name="prcdncRplId" value="${rplVO.rplId}" />
 														<input type="text" class="cnt" name="cnt" placeholder="답글을 입력해 주세요." />
-														<button class="commentSubmitBtn btn regist2">등록</button>
+														<button class="commentSubmitBtn btn regist2 size">등록</button>
 													</form>
 												</div>
 											</div>

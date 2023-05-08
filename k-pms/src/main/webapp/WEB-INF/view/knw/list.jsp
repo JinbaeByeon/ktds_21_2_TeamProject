@@ -34,7 +34,7 @@
 		$("#delete_btn").click(function() {
 			var checkLen = $(".check_idx:checked").length;
 			if(checkLen == 0) {
-				alert("삭제할 지식ID가 없습니다.");
+				alert("삭제할 지식을 선택하십시오.");
 				return;
 			}
 			
@@ -47,9 +47,15 @@
 				form.append("<input type='hidden' name='knwId' value='" + $(this).val() + "'>");
 			});
 			
-			$.post("${context}/api/knw/delete", form.serialize(), function(response) {
-				location.reload();				
-			});
+			
+			var result = confirm("정말 삭제하시겠습니까?");
+			
+			if(result) {
+				$.post("${context}/api/knw/delete", form.serialize(), function(response) {
+					location.reload();
+				});
+			}
+				
 			
 		});
 		
@@ -72,6 +78,8 @@
 		var queryString = "?searchOption=" + searchOption;
 		queryString += "&searchKeyword=" + searchKeyword;
 		queryString += "&pageNo=" + pageNo;
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
 		
 		location.href = "${context}/knw/list/${commonMode}" + queryString;
 
@@ -79,17 +87,18 @@
 </script>
 </head>
 <body>
+<input type="hidden" id="session" value="${sessionScope.__USER__.empId}">
 <input type="hidden" id="prjId" value="${knwSearchVO.prjId}" />
 	<div class="main-layout">
 		<jsp:include page="../include/header.jsp" />
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<c:if test="${knwSearchVO.commonMode == 'prj'}">
-					<div class="path">프로젝트 관리 > 지식관리 > 지식 목록</div>
+				<c:if test="${not knwSearchVO.commonMode}">
+					<div class="path">프로젝트 > 지식 목록</div>
 				</c:if>
-				<c:if test="${knwSearchVO.commonMode == 'common'}">
-					<div class="path">프로젝트 관리 > 사내지식관리 > 지식 목록</div>
+				<c:if test="${knwSearchVO.commonMode}">
+					<div class="path">사내지식관리 > 지식 목록</div>
 				</c:if>
 		      <div class="search_wrapper">
 		        <div class="search_box">
@@ -107,6 +116,7 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${knwList.size() > 0 ? knwList.get(0).totalCount : 0} 건 </div>
 		        <table class="list_table">
 		          <thead>
@@ -114,6 +124,7 @@
 		                <th><input type="checkbox" id="all_check"></th>
 		                <th>순번</th>
 		                <th>제목</th>
+		                <th>지식관리 관리번호</th>
 		                <c:if test="${knwSearchVO.commonMode == 'prj'}">
 			                <th>프로젝트명</th>
 		                </c:if>
@@ -131,11 +142,12 @@
 		                            data-crtdt="${knw.crtDt}" data-mdfyr="${knw.mdfyr}"
 		                            data-mdfydt="${knw.mdfyDt}" data-useyn="${knw.useYn}"
 		                            data-prjNm="${knw.prjVO.prjNm}">
-		                            <td><input type="checkbox" class="check_idx" value="${knw.knwId}"></td>
+		                            <td><input type="checkbox" class="check_idx" value="${knw.knwId}"><input type="hidden" class="crtr" value="${knw.crtr}"></td>
 		                            <td>${knw.rnum}</td>
 		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
+		                            <td>${knw.knwId}</td>
 		                            <c:if test="${knwSearchVO.commonMode == 'prj'}">
-				                       	<td>${knw.prjVO.prjNm}</td>
+				                       	<td>${knw.prjVO.prjNm} (${knw.prjVO.prjId})</td>
 		                            </c:if>
 		                            <td>${knw.crtr}</td>
 		                            <td>${knw.useYn}</td>
@@ -158,7 +170,9 @@
 					</c:import>
 		        <div class="buttons">
 		          <button id="new_btn" class="btn new">신규등록</button>
-		          <button id="delete_btn" class="btn delete">선택삭제</button>
+		          <c:if test="${sessionScope.__USER__.admnYn eq 'Y'}">
+			      <button id="delete_btn" class="btn delete">선택삭제</button>
+		          </c:if>
 		        </div>
 		      </div>
 			<jsp:include page="../include/footer.jsp" />

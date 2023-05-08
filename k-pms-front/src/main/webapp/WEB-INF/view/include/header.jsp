@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>   
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
-<jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	$().ready(function(){
 		
@@ -76,9 +75,10 @@
 	            <a href="${context}/prj/list">프로젝트</a>
 	            <ul class="sub_item">
 	              <li><a href="${context}/prj/list">프로젝트 목록</a></li>
-	              <li><a href="${context}/req/list">요구사항</a></li>
 	              <li><a href="${context}/issu/list">이슈</a></li>
-	              <li><a href="${context}/knw/list">지식관리</a></li>
+	              <li><a href="${context}/req/list">요구사항</a></li>
+	              <li><a href="${context}/knw/list/0">프로젝트 지식</a></li>
+	              <li><a href="${context}/knw/list/1">사내 지식</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item msg">

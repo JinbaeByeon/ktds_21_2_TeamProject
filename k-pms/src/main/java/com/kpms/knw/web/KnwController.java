@@ -31,8 +31,10 @@ public class KnwController {
 	private String atchmntPath;
 	
 	@GetMapping("/knw/list/{commonMode}")
-	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable String commonMode) {
+	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable boolean commonMode, @SessionAttribute("__USER__") EmpVO empVO) {
 		knwSearchVO.setCommonMode(commonMode);
+		knwSearchVO.setEmpId(empVO.getEmpId());
+		knwSearchVO.setAdmnYn(empVO.getAdmnYn());
 		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
 		model.addAttribute("knwList", knwList);
 		model.addAttribute("knwSearchVO", knwSearchVO);
@@ -71,7 +73,8 @@ public class KnwController {
 	public String viewKnwUpdatePage(@PathVariable String knwId, Model model, @SessionAttribute("__USER__") EmpVO empVO) {
 		KnwVO knwVO = knwService.readOneKnwByKnwId(knwId);
 		List<AtchFlVO> atchFlList = knwVO.getAtchFlList();
-		
+		String ttl = knwVO.getTtl().replaceAll("\"", "&#34;").replaceAll("\'", "&#39;");
+		knwVO.setTtl(ttl);
 		model.addAttribute("knwVO", knwVO);
 		model.addAttribute("prjVO", knwVO.getPrjVO());
 		model.addAttribute("atchFlList", atchFlList);

@@ -13,7 +13,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
-		$(".grid > table > tbody > tr").click(function(){
+		$(".list_table > tbody > tr").click(function(){
 			$(this).find(".radio_idx").prop("checked",true);
 		});
 		
@@ -30,6 +30,7 @@
 
 			var req = radiobox.closest("tr").data();
 			opener.addReqFn(req);
+			window.close();
 		});
 	});
 </script>
@@ -93,8 +94,8 @@
             </tbody>
         </table>
         <div class="buttons">
-	        <button id="cancel_btn" class="btn delete">취소</button>
 	        <button id="regist_btn" class="btn primary">등록</button>
+	        <button id="cancel_btn" class="btn delete">취소</button>
         </div>
     </div>
 </body>

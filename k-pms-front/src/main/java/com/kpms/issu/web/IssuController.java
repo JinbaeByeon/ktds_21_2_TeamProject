@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.handler.DownloadUtil;
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.issu.service.IssuService;
 import com.kpms.issu.vo.IssuVO;
 
@@ -28,16 +30,19 @@ public class IssuController {
 
 	
 	@GetMapping("/issu/list")
-	public String viewIssuListPage(Model model, IssuVO issuVO) {
+	public String viewIssuListPage(Model model, IssuVO issuVO, @SessionAttribute("__USER__") EmpVO user
+								 , String prjNm) {
+		issuVO.setCrtr(user.getEmpId());
 		List<IssuVO> issuList = issuService.readIssuList(issuVO);
 		model.addAttribute("issuList",issuList);
+		model.addAttribute("issuVO",issuVO);
+		model.addAttribute("prjNm",prjNm);
 		if(!issuList.isEmpty()) {
 			model.addAttribute("lastPage",issuList.get(0).getLastPage());
 		}
 		model.addAttribute("pageNo",issuVO.getPageNo());
 		model.addAttribute("pageCnt",issuVO.getPageCnt());
 		model.addAttribute("viewCnt",issuVO.getViewCnt());
-		model.addAttribute("empVO",issuVO);
 		return "issu/list";
 	}
 	

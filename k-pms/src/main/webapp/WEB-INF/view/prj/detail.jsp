@@ -14,6 +14,7 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">	
 	$().ready(function() {
+		AjaxUtil.disableSpinner();
 		$(".sidebar > ul li a").removeClass("active")
 		$("#prj_list").addClass("active");
 		
@@ -105,8 +106,8 @@
                         <thead>
                             <tr>
                                 <th>직원ID</th>
-                                <th>팀</th>
                                 <th>이름</th>
+                                <th>팀</th>
                                 <th>권한</th>
                             </tr>
                         </thead>
@@ -117,8 +118,8 @@
 										<c:if test="${ptm.prjPstn=='PM'}">
 											<tr>
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>총잭임자</td>	
 											</tr>									
 										</c:if>
@@ -127,8 +128,8 @@
 										<c:if test="${ptm.prjPstn=='PL'}">
 											<tr>
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>부책임자</td>	
 											</tr>									
 										</c:if>
@@ -137,8 +138,8 @@
 										<c:if test="${ptm.prjPstn=='TM'}">
 											<tr>
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>팀원</td>	
 											</tr>									
 										</c:if>
@@ -173,7 +174,7 @@
             <div class="hr"></div>
             <div class="req path">요구사항</div>
             <div class="view_all">
-                <a href="${context}/req/list?prjId=${prjId}&pageNo=0">전체보기</a>
+                <a href="${context}/req/list?prjId=${prjId}&prjNm=${prjVO.prjNm}">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">
@@ -215,7 +216,7 @@
         <div class="hr"></div>
             <div class="req path">지식관리</div>
             <div class="view_all">
-                <a href="${context}/knw/list/prj?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
+                <a href="${context}/knw/list/0?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">

@@ -18,7 +18,6 @@ public class TmMbrVO extends AbstractVO {
 	private EmpVO empVO;
 	private TmVO tmVO;
 	
-	
 	public String getTmMbrId() {
 		return tmMbrId;
 	}

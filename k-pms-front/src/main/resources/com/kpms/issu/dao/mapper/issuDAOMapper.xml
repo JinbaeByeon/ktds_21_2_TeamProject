@@ -105,6 +105,7 @@
 		  LEFT JOIN ATCH_FL AF
 		  	ON AF.FRGN_ID = I.ISSU_ID
 	</select>
+	
 	<select id="readIssuList"
 			parameterType="com.kpms.issu.vo.IssuVO"
 			resultMap="IssuMap">
@@ -137,11 +138,22 @@
 				<if test="issuTtl != null and issuTtl != ''">
 				   AND ISSU_TTL LIKE '%' || #{issuTtl} || '%'
 				</if>
+				<if test="reqId != null and reqId != ''">
+				   AND REQ_ID LIKE '%' || #{reqId} || '%'
+				</if>
 		 	/*조건 추가*/) I
 		  JOIN (SELECT *
-		  		  FROM REQ
+				  FROM REQ
+				 WHERE DEL_YN = 'N'
+				   AND PRJ_ID IN (SELECT PRJ_ID
+								    FROM PRJ_TM_MBR
+								   WHERE DEL_YN = 'N'
+								     AND TM_MBR_ID IN (SELECT TM_MBR_ID
+													     FROM TM_MBR 
+													    WHERE DEL_YN = 'N'
+													      AND EMP_ID = #{crtr}))
 		  		<if test="reqVO != null and reqVO.reqTtl != null and reqVO.reqTtl != ''">
-		  		 WHERE REQ_TTL LIKE '%' || #{reqVO.reqTtl} || '%'
+		  		   AND REQ_TTL LIKE '%' || #{reqVO.reqTtl} || '%'
 		  		</if>) R
 		  	ON R.REQ_ID = I.REQ_ID
 		  JOIN EMP CE

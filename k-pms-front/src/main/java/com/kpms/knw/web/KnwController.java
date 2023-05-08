@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -29,8 +30,10 @@ public class KnwController {
 	@Value("${upload.attchmnt.path:/kpms/files/attchmnt}")
 	private String atchmntPath;
 	
-	@GetMapping("/knw/list")
-	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model) {
+	@GetMapping("/knw/list/{commonMode}")
+	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable boolean commonMode, @SessionAttribute("__USER__") EmpVO empVO) {
+		knwSearchVO.setCommonMode(commonMode);
+		knwSearchVO.setEmpId(empVO.getEmpId());
 		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
 		model.addAttribute("knwList", knwList);
 		model.addAttribute("knwSearchVO", knwSearchVO);
@@ -42,11 +45,13 @@ public class KnwController {
 		model.addAttribute("pageNo", knwSearchVO.getPageNo());
 		model.addAttribute("viewCnt", knwSearchVO.getViewCnt());
 		model.addAttribute("pageCnt", knwSearchVO.getPageCnt());
+		
 		return "knw/list";
 	}
 	
 	@GetMapping("/knw/create")
-	public String viewKnwCreatePage() {
+	public String viewKnwCreatePage(@RequestParam(required=false) String prjId, Model model) {
+		model.addAttribute("prjId", prjId);
 		return "knw/create";
 	}
 	

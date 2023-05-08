@@ -12,8 +12,16 @@
 <script type="text/javascript">
 	var empWindow;
 	var ajaxUtil = new AjaxUtil();
+	const Editor = toastui.Editor;
 	
 	$().ready(function() {
+		const editor = new Editor({
+			  el: document.querySelector('#msg-cntnt'),
+			  height: '500px',
+			  initialEditType: 'wysiwyg',
+			  previewStyle: 'vertical'
+		});
+		
 		$(".sidebar > ul li a").removeClass("active")
 		$("#sndmsg_send").addClass("active");
 
@@ -52,7 +60,6 @@
 			
 			cnt=0;
 			fileList.each(function(){
-				var form = $("#create-form");
 				
 				var fileNm = $(this).data("org");
 				var uuidNm = $(this).data("uuid");
@@ -68,7 +75,9 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 			});
-			
+			var cntnt = $("<textarea name='cntnt'></textarea>");
+			cntnt.text(editor.getMarkdown());
+			form.append(cntnt);
 			ajaxUtil.upload("#create-form","${context}/api/sndmsg/snd",function(response){
 				if (response.status != "200 OK") {
 					alert(response.errorCode + " / " + response.message);
@@ -81,7 +90,7 @@
 		
 		$("#search-emp").click(function(e){
 			e.preventDefault();
-			empWindow = window.open("${context}/emp/search","직원 검색","width=500,height=500");
+			empWindow = window.open("${context}/emp/search","직원 검색","width=600,height=600");
 		});
 		$("#add_files").click(function(e){
 			e.preventDefault();
@@ -279,7 +288,9 @@
 		                    </td>
 		                </tr>
 		                <tr>
-		                    <td colspan="2"><textarea name="cntnt" class="msg-cntnt input_div">${sndMsgVO.cntnt}</textarea></td>
+		                    <td colspan="2">
+		                    	<div id="msg-cntnt"></div>
+							</td>
 		                </tr>
 		            </table>
 				</form>

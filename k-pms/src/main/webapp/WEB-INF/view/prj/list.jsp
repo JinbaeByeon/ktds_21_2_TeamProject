@@ -77,6 +77,8 @@ $().ready(function() {
 		var queryString = "pageNo=" + pageNo;
 		queryString += "&searchOption=" + searchOption;
 		queryString += "&searchKeyword=" + searchKeyword;
+		var viewCnt = $("#view_cnt").val();
+		queryString += "&viewCnt=" + viewCnt;
 		
 		location.href = "${context}/prj/list?" + queryString;
 	}
@@ -88,7 +90,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			  <div class="path">프로젝트 관리 > 프로젝트 목록</div>
+			  <div class="path">프로젝트</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option">
@@ -104,13 +106,15 @@ $().ready(function() {
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${prjList.size() > 0 ? prjList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
 						<th><input type="checkbox" id="all_check" /></th>
-						<th>프로젝트ID</th>
+						<th>순번</th>
 						<th>프로젝트명</th>
+						<th>프로젝트 관리번호</th>
 						<th>고객사</th>
 						<th>시작일</th>
 						<th>종료일</th>
@@ -145,8 +149,9 @@ $().ready(function() {
 									<td>
 										<input type="checkbox" class="check-idx" value="${prj.prjId}" />
 									</td>
-									<td>${prj.prjId}</td>
+									<td>${prj.rnum}</td>
 									<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
+									<td>${prj.prjId}</td>
 									<td>${prj.cstmr}</td>
 									<td>${prj.strtDt}</td>
 									<td>${prj.endDt}</td>

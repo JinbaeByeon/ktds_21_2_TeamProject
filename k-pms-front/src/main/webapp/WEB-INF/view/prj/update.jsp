@@ -13,6 +13,12 @@
 <title>프로젝트 수정</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
+	
 	var tmMbr;
 	
 	function addTmMbrFn(message) {
@@ -35,7 +41,7 @@
 		var td = "<td>" + message.empid + "</td>"
 		td += "<td>" + message.tmnm + "</td>"
 		td += "<td>" + message.lnm + message.fnm + "</td>"
-		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
+		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn' data-index='" + len + "'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
 		var rmbtn = $("<button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button>")
 		
@@ -68,13 +74,13 @@
 				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
 				option.append(cdNm);
 				$("#prjStts-select").append(option)
-			} */
-		});
+			} 
+		}); */
 		
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=500, scrollbars = no");
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=600, scrollbars = no");
 		});
 		
 		$(".del-ptm-btn").click(function(e){
@@ -175,11 +181,8 @@
 			
 			
 		});
-		
-	
-		
-
 	});
+
 </script>
 </head>
 <body>
@@ -194,23 +197,23 @@
 		                <input type="hidden" id="prjId" name="prjId" value="${prjVO.prjId}" />
 		                <tr>
 		                    <th>프로젝트명</th>
-		                    <td>${prjVO.prjNm}</td>
+		                    <td><input type="text" id="prjNm" name="prjNm" value="${prjVO.prjNm}" readonly/></td>
 		                </tr>
 		                <tr>
 		                    <th>고객사</th>
-		                    <td>${prjVO.cstmr}</td>
+		                    <td><input type="text" id="cstmr" name="cstmr" value="${prjVO.cstmr}" readonly/></td>
 		                </tr>
 		                <tr>
 		                    <th>시작일</th>
-		                    <td>${prjVO.strtDt}</td>
+		                    <td><input type="date" id="strtDt" name="strtDt" value="${prjVO.strtDt}" readonly/></td>
 		                </tr>
 		                <tr>
 		                    <th>종료일</th>
-		                    <td>${prjVO.endDt}</td>
+		                    <td><input type="date" id="endDt" name="endDt" value="${prjVO.endDt}" readonly/></td>
 		                </tr>
 		                <tr>
 		                    <th>프로젝트 상태</th>
-		                    <td>${prjVO.prjStts}</td>
+		                    <td><input type="text" id="original-prjStts" name="original-prjStts" value="${prjVO.prjStts}" readonly/></td>
 		                </tr>
 <%-- 		                <tr>
 		                    <th>팀</th>
@@ -237,8 +240,8 @@
 		                        <thead>
 		                            <tr>
 		                                <th>직원ID</th>
-		                                <th>팀</th>
 		                                <th>이름</th>
+		                                <th>팀</th>
 		                                <th>권한</th>
 		                                <th></th>
 		                            </tr>
@@ -248,8 +251,8 @@
 										<tr class="tmMbr-tr">
 											<input type="hidden" name="ptmList[${index.index}].tmMbrId" class="tmmbr-item" value="${ptm.prjTmMbrId}">
 											<td>${ptm.tmMbrVO.empVO.empId}</td>
-											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 											<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+											<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 											<td>
 												<select class="pstn ${ptm.prjTmMbrId}" name="ptmList[${index.index}].prjPstn" data-index="${index.index}" data-prjtmmbrid="${ptm.prjTmMbrId}">
 													<option value="DEFAULT">==선택==</option>

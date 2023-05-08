@@ -17,7 +17,6 @@
 	var ajaxUtil = new AjaxUtil();
 	var reqWindow;
 	function addReqFn(req){
-		reqWindow.close();
 		var reqId = $("#reqId");
 		reqId.val(req.reqid);
 		var reqTtl = $("#reqTtl");
@@ -28,8 +27,9 @@
 		$("#issu_list").addClass("active");
 		
 		var empId = '${sessionScope.__USER__.empId}';
-		$("#reqId").click(function(e){
-			reqWindow = window.open("${context}/req/search/req","요구사항 검색","width=500,height=500");
+		$("#req_search").click(function(e){
+			e.preventDefault();
+			reqWindow = window.open("${context}/req/search/req","요구사항 검색","width=800,height=600");
 		});
 		
 		
@@ -226,60 +226,68 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 이슈 등록</div>
+				<div class="path">이슈 등록</div>
 				<form id="create-form">
-				<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
-					<div class="create-group">
-						<label for="issuTtl">제목</label> 
-						<input type="text" id="issuTtl" name="issuTtl" class="grow-1"/>
-					</div>
-					<div class="create-group">
-						<label for="issuCntnt">설명</label>
-						<input type="text" id="issuCntnt" name="issuCntnt" class="grow-1"/>
-					</div>
-					<div class="create-group">
-						<label for="reqId">요구사항ID</label>
-						<input type="text" id="reqId" name="reqId" readonly/>
-						<span id="reqTtl"></span>
-					</div>
-					<div class="create-group">
-						<label for="dffclty">난이도</label> 
-						<select id="dffclty" name="dffclty">
-							<option>상</option>
-							<option>중</option>
-							<option>하</option>
-						</select>
-					</div>
-					<div class="create-group">
-						<label for="files">첨부파일</label>
-						<div class="file_area">
-							<div class="file_upload">
-								<button id="add_files">+</button>
-							</div>
-							<div class="align-center">
-								<p class="file_drag">파일을 마우스로 끌어 오세요</p>
-								<div class="file_attachment" hidden="hidden">
-									<div>
-										<div class="remove_all">x</div>
-										<div class="file_name">파일명</div>
-										<div class="file_size">용량</div>
+					<table class="detail_table">
+						<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
+		                <tr>
+		                    <th>제목</th>
+		                    <td><input type="text" id="issuTtl" name="issuTtl" /></td>
+		                </tr>
+		                <tr>
+		                    <th>설명</th>
+		                    <td><input type="text" id="issuCntnt" name="issuCntnt" /></td>
+		                </tr>
+		                <tr>
+		                    <th>요구사항</th>
+		                    <td>
+		                    	<input id="reqId" name="reqId" readonly/>
+		                    	<span id="reqTtl"></span>
+		                    	<button id="req_search" class="btn regist">검색</button>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>난이도</th>
+		                    <td>
+				                <select id="dffclty" name="dffclty">
+									<option>상</option>
+									<option>중</option>
+									<option>하</option>
+								</select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>첨부파일</th>
+		                    <td>
+								<button id="add_files" class="btn-add btn">+</button>
+								<div class="file_area input_div">
+									<div class="file_upload input_div">
 									</div>
-									<ul id="file_list"></ul>
+									<div class="align-center input_div">
+										<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+										<div class="file_attachment" hidden="hidden">
+											<div>
+												<div class="remove_all input_div">x</div>
+												<div class="file_name input_div">파일명</div>
+												<div class="file_size input_div">용량</div>
+											</div>
+											<ul id="file_list"></ul>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-						<input type="file" id="files" multiple/>
-					</div>
-					<div class="create-group">
-						<label for="dtlCntnt">상세내용</label>
-						<textarea name="dtlCntnt" id="dtlCntnt"></textarea>
-					</div>
+								<input type="file" id="files" multiple/>
+							</td>
+		                </tr>
+		                <tr>
+		                    <th>상세내용</th>
+		                    <td><textarea name="dtlCntnt" id="dtlCntnt"></textarea></td>
+		                </tr>
+		            </table>
 				</form>
-					
-				<div class="align-right">
-					<button id="new_btn" class="btn-primary">등록</button>
-					<button id="delete_btn" class="btn-delete">취소</button>
-				</div>		
+        <div class="buttons">
+	       	<button id="new_btn" class="btn regist">등록</button>
+			<button id="delete_btn" class="btn delete">취소</button>
+        </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

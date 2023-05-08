@@ -38,9 +38,6 @@ public class KnwServiceImpl implements KnwService {
 		if (StringUtil.isEmpty(knwVO.getCntnt())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "내용은 필수값입니다.");
 		}
-		if (StringUtil.isEmpty(knwVO.getPrjId())) {
-			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 선택은 필수입니다.");
-		}
 
 		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
 		
@@ -79,16 +76,13 @@ public class KnwServiceImpl implements KnwService {
 		if (StringUtil.isEmpty(knwVO.getCntnt())) {
 			throw new APIArgsException(APIStatus.MISSING_ARG, "내용은 필수값입니다.");
 		}
-		if (StringUtil.isEmpty(knwVO.getPrjId())) {
-			throw new APIArgsException(APIStatus.MISSING_ARG, "프로젝트 선택은 필수입니다.");
-		}
 
 		boolean isSuccess = knwDAO.updateOneKnw(knwVO) > 0;
 		atchFlDAO.deleteAtchFlsByFrgnId(knwVO.getKnwId());
 		
 		List<AtchFlVO> fileList = knwVO.getAtchFlList();
 		
-		if (!fileList.isEmpty()) {
+		if (fileList != null) {
 			fileList.forEach(file -> {
 				file.setCrtr(knwVO.getMdfyr());
 				file.setFrgnId(knwVO.getKnwId());

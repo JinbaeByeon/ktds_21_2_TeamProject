@@ -9,43 +9,36 @@
           <ul>
             <li>
               <a href="${context}/emp/create" id="emp_create">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>임직원 등록</span>
               </a>
             </li>
             <li>
               <a href="${context}/emp/list" id="emp_list">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>임직원 목록</span>
               </a>
             </li>
             <li>
               <a href="${context}/emp/log/lgn" id="emp_log_lgn">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>로그인 이력</span>
               </a>
             </li>
             <li>
               <a href="${context}/emp/log/acs" id="emp_log_acs">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>화면 접근 이력</span>
               </a>
             </li>
             <li>
               <a href="${context}/emp/log/pstn" id="emp_log_pstn">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>직급 변경 이력</span>
               </a>
             </li>
             <li>
               <a href="${context}/emp/log/job" id="emp_log_job">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>직무 변경 이력</span>
               </a>
             </li>
             <li>
               <a href="${context}/emp/log/dep" id="emp_log_dep">
-                <span class="material-symbols-outlined">fiber_manual_record</span>
                 <span>부서 변경 이력</span>
               </a>
             </li>

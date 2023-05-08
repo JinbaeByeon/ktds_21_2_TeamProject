@@ -18,6 +18,7 @@
 		var pstnWindow;
 		var emplmntSttsData;
 		$().ready(function(){
+			AjaxUtil.disableSpinner();
 			$(".sidebar > ul li a").removeClass("active")
 			$("#emp_list").addClass("active");
 			
@@ -48,13 +49,13 @@
 			});
 			
 			$("#pstn-change").click(function(){
-				pstnWindow = window.open("${context}/pstn/search","직급 변경","width=500,height=500");
+				pstnWindow = window.open("${context}/pstn/search","직급 변경","width=400,height=600");
 			});
 			$("#job-change").click(function(){
-				jobWindow = window.open("${context}/job/search","직무 변경","width=500,height=500");
+				jobWindow = window.open("${context}/job/search","직무 변경","width=400,height=600");
 			});
 			$("#dep-change").click(function(){
-				depWindow = window.open("${context}/dep/search","부서 변경","width=500,height=500");
+				depWindow = window.open("${context}/dep/search","부서 변경","width=500,height=600");
 			});
 
 			$(".search-option").change(function(){
@@ -64,7 +65,7 @@
 			$(".list_table tbody > tr > td").not(".check").click(function() {
 				var empId = $(this).closest("tr").data("empid");
 				if(empId){
-					detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=500");
+					detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=700");
 				}
 			});
 			
@@ -137,7 +138,8 @@
 			if(fNm != null && fNm != ''){
 				qryStr += "&fNm="+fNm;
 			}
-
+			var viewCnt = $("#view_cnt").val();
+			qryStr += "&viewCnt=" + viewCnt;
 
 			location.href = "${context}/emp/list?"  + qryStr;
 		}
@@ -234,7 +236,8 @@
 		        </form>
 		      </div>
 		      <div class="list_section">
-		        <div class="total">총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건</div>
+				<jsp:include page="../include/viewCnt.jsp" />
+			    <div class="total">총 ${empList.size() > 0 ? empList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 						<tr>

@@ -77,9 +77,11 @@ public class PrjController {
 	}
 	
 	@GetMapping("/prj/search")
-	public String viewPrjSearchPage(@RequestParam(required=false) String prjNm, Model model) {
-		model.addAttribute("prjNm", prjNm);
-		List<PrjVO> prjList = prjService.readAllPrjVONoPagination(prjNm);
+	public String viewPrjSearchPage(PrjSearchVO prjSearchVO, Model model, @SessionAttribute("__USER__") EmpVO empVO) {
+		String empId = empVO.getEmpId();
+		prjSearchVO.setEmpId(empId);
+		model.addAttribute("prjNm", prjSearchVO.getPrjNm());
+		List<PrjVO> prjList = prjService.readAllPrjVONoPagination(prjSearchVO);
 		model.addAttribute("prjList", prjList);
 		return "prj/search";
 	}

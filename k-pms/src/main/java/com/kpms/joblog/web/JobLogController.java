@@ -18,19 +18,29 @@ public class JobLogController {
 	private JobLogService jobLogService;
 	
 	@GetMapping("/emp/log/job")
-	public String viewJobLogListPage(Model model, JobLogVO jobLogVO) {
+	public String viewJobLogListPage(Model model, JobLogVO jobLogVO,String searchType) {
 		List<JobLogVO> jobLogList = jobLogService.readAllJobLogVO(jobLogVO);
 			
-			model.addAttribute("jobLogList", jobLogList);
-			model.addAttribute("jobLogVO", jobLogVO);
-			
-			if(!jobLogList.isEmpty()) {
-				model.addAttribute("lastPage",jobLogList.get(0).getLastPage());
-		      }
-		      model.addAttribute("pageNo", jobLogVO.getPageNo());
-		      model.addAttribute("viewCnt", jobLogVO.getViewCnt());
-		      model.addAttribute("pageCnt", jobLogVO.getPageCnt());
-		      
-			return "/emp/log/job";
+		model.addAttribute("jobLogList", jobLogList);
+		model.addAttribute("jobLogVO", jobLogVO);
+		
+		if(!jobLogList.isEmpty()) {
+			model.addAttribute("lastPage",jobLogList.get(0).getLastPage());
+		}
+		model.addAttribute("pageNo", jobLogVO.getPageNo());
+		model.addAttribute("viewCnt", jobLogVO.getViewCnt());
+		model.addAttribute("pageCnt", jobLogVO.getPageCnt());
+		if(searchType==null) {
+			searchType= "ID";
+		}
+		model.addAttribute("searchType",searchType);
+		if(searchType.equals("ID")) {
+			model.addAttribute("searchKeyword",jobLogVO.getEmpId());
+		}
+		else if(searchType.equals("이름")) {
+			model.addAttribute("searchKeyword",jobLogVO.getEmpVO().getfNm());
+		}
+		
+		return "/emp/log/job";
 	}
 }

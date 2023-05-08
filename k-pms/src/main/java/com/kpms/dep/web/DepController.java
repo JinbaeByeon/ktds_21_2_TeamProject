@@ -59,10 +59,8 @@ public class DepController {
 	public String viewDepSearchPage(@RequestParam(required = false) String depNm,
 									Model model) {
 		model.addAttribute("depNm", depNm);
-		if (depNm != null && depNm.length() > 0) {
-			List<DepVO> depList = depService.readAllDepVONopagination(depNm);
-			model.addAttribute("depList", depList);
-		}
+		List<DepVO> depList = depService.readAllDepVONopagination(depNm);
+		model.addAttribute("depList", depList);
 		
 		return "dep/search";
 	}

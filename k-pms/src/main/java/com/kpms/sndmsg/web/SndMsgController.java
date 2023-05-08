@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.atchfl.vo.AtchFlVO;
+import com.kpms.common.util.MarkDownUtil;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.sndmsg.service.SndMsgService;

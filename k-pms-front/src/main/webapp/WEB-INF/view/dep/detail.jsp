@@ -18,10 +18,6 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#dep_list").addClass("active");
 		
-		$("#list-btn").click(function(response) {
-			location.href = "${context}/dep/list"
-		});
-		
 	});
 </script>
 </head>
@@ -35,13 +31,11 @@
 			<table class="detail_page detail_table">
                 <tr>
                     <th>부서명</th>
-                    <td colspan="3">${depVO.depNm}</td>
-                </tr>
-                <tr>
+                    <td colspan="3" style="border: none;">${depVO.depNm}</td>
+
                     <th>부서장명</th>
-                    <td colspan="3">${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}</td>
-                </tr>
-                <tr>
+                    <td colspan="3" style="border: none;">${depVO.hdNmEmpVO.lNm}${depVO.hdNmEmpVO.fNm}</td>
+
                     <th>부서 생성일</th>
                     <td colspan="3">${depVO.depCrtDt}</td>
                 </tr>
@@ -57,10 +51,9 @@
                     <thead>
                         <tr>
                             <th>순번</th>
-							<th>팀ID</th>
 							<th>팀명</th>
 							<th>팀장ID</th>
-							<th>팀장 성명</th>
+							<th>팀장명</th>
 							<th>팀생성일</th>
                         </tr>
                     </thead>
@@ -72,7 +65,6 @@
 											varStatus="index">
 										<tr>
 											<td>${index.index + 1}</td>
-											<td>${tm.tmId}</td>
 											<td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
 											<td>${tm.tmHdId}</td>
 											<td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
@@ -141,9 +133,7 @@
                     </tbody>
                 </table>
 
-        <div class="buttons">
-	       	<button id="list-btn" class="btn regist">목록</button>
-        </div>
+
 			<jsp:include page="../include/footer.jsp" />			
 		</div>
 	</div>

@@ -14,11 +14,16 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event){
+	    if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+			location.reload();
+		}
+	}
 	$().ready(function(){
 		$(".sidebar > ul li a").removeClass("active")
 		$("#issu_list").addClass("active");
 
-		$(".grid > table > tbody > tr > td").not(".check").click(function() {
+		$(".list_table > tbody > tr > td").not(".check").click(function() {
 			var issuId = $(this).closest("tr").data("issuid");
 			if(issuId){
 				location.href="${context}/issu/detail/"+issuId;
@@ -60,7 +65,7 @@
 			$("#all_check").prop("checked", count == checkCount);
 		}
 
-		$(".grid > table > tbody > tr > td.check").click(function(){
+		$(".list_table > tbody > tr > td.check").click(function(){
 			var check_idx = $(this).closest("tr").find(".check_idx");
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
@@ -100,9 +105,26 @@
 	function movePage(pageNo) {
 		// 전송
 		// 입력값
-		var issuId = $("#search-keyword").val();
+		var searchKeyword = $("#search-keyword").val();
+		var reqId = "${issuVO.reqId}";
+		var reqTtl = "${issuVO.reqVO.reqTtl}";
+		var prjId = "${issuVO.reqVO.prjId}";
+		var prjNm = "${prjNm}";
+		var queryString = "?pageNo=" +pageNo;
+		if(reqId){
+			queryString += "&reqId="+reqId;
+		}
+		if(reqTtl){
+			queryString += "&reqVO.reqTtl="+reqTtl;
+		}
+		if(prjId){
+			queryString += "&reqVO.prjId="+prjId;
+		}
+		if(prjNm){
+			queryString += "&prjNm="+prjNm;
+		}
 		// URL 요청
-		location.href = "${context}/issu/list?issuId=" + issuId + "&pageNo=" + pageNo;
+		location.href = "${context}/issu/list" + queryString;
 	}
 </script>
 </head>
@@ -112,88 +134,101 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">프로젝트 관리 > 이슈 목록</div>
-				<div class="search-group">
-					<label for="search-keyword">이슈ID</label>
-					<input type="text" id="search-keyword" class="search-input"  value="${issuVO.issuId}"/>
-					<button class="btn-search" id="search-btn">검색</button>
+				<div class="path">
+					<c:if test="${not empty prjNm}">
+						<a href='${context}/prj/detail/${issuVO.reqVO.prjId}'>${prjNm}</a> >
+						<a href='${context}/req/detail/${issuVO.reqId}'>${issuVO.reqVO.reqTtl}</a> > 이슈
+					</c:if>
+					<c:if test="${empty prjNm}">
+						<a href='${context}/prj/list'>프로젝트</a> >
+						<a href='${context}/req/list'>요구사항</a> > 이슈
+					</c:if>
 				</div>
-				
-				<div class="grid">
-						<div class="align-right right">
-							총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건
-						</div>
-					<table>
-						<thead>
+		      <div class="search_wrapper">
+		        <div class="search_box">
+		          <select>
+		            <option>이슈제목</option>
+		            <option>요구사항제목</option>
+		          </select>
+		          <div class="search_field">
+		            <input type="text" id="search-keyword" class="input" name="issuId" value="${issuVO.issuId}" placeholder="Search"/>
+		          </div>
+		          <div class="search-icon">
+		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="list_section">
+		        <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
+		        <table class="list_table">
+		          <thead>
+						<tr>
+							<th><input type="checkbox" id="all_check"/></th>
+							<th>순번</th>
+							<th>이슈제목</th>
+							<th>이슈ID</th>
+							<th>이슈내용</th>
+							<th>조회수</th>
+							<th>난이도</th>
+							<th>담당팀원</th>
+							<th>관리상태</th>
+							<th>요구사항</th>
+							<th>등록자</th>
+							<th>등록일</th>
+						</tr>
+		          </thead>
+		          <tbody>
+					<c:choose>
+						<c:when test="${not empty issuList}">
+							<c:forEach items="${issuList}"
+									   var="issu"
+									   varStatus="index">
+								<tr data-issuid="${issu.issuId}"
+									data-issuttl="${issu.issuTtl}"
+									data-crtr="${issu.crtr}"
+									data-issucntnt="${issu.issuCntnt}"
+									data-vwcnt="${issu.vwCnt}"
+									data-dffclty="${issu.dffclty}"
+									data-mntmmbrid="${issu.mnTmMbrId}"
+									data-stts="${issu.stts}"
+									data-crtdt="${issu.crtDt}">
+									<td class="check">
+										<input type="checkbox" class="check_idx" value="${issu.issuId}">
+									</td>
+									<td>${issu.rnum}</td>
+									<td>${issu.issuTtl}</td>
+									<td>${issu.issuId}</td>
+									<td>${issu.issuCntnt}</td>
+									<td>${issu.vwCnt}</td>
+									<td>${issu.dffclty}</td>
+									<td>${issu.mnTmMbrId}</td>
+									<td>${issu.stts}</td>
+									<td>${issu.reqVO.reqTtl} (${issu.reqId})</td>
+									<td>${issu.crtEmp.lNm}${issu.crtEmp.fNm} (${issu.crtr})</td>
+									<td>${issu.crtDt}</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
 							<tr>
-								<th><input type="checkbox" id="all_check"/></th>
-								<th>순번</th>
-								<th>이슈ID</th>
-								<th>이슈제목</th>
-								<th>이슈내용</th>
-								<th>조회수</th>
-								<th>난이도</th>
-								<th>담당팀원</th>
-								<th>관리상태</th>
-								<th>요구사항</th>
-								<th>등록자</th>
-								<th>등록일</th>
+								<td colspan="12" class="no-items">
+									등록된 이슈가 없습니다.
+								</td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty issuList}">
-									<c:forEach items="${issuList}"
-											   var="issu"
-											   varStatus="index">
-										<tr data-issuid="${issu.issuId}"
-											data-issuttl="${issu.issuTtl}"
-											data-crtr="${issu.crtr}"
-											data-issucntnt="${issu.issuCntnt}"
-											data-vwcnt="${issu.vwCnt}"
-											data-dffclty="${issu.dffclty}"
-											data-mntmmbrid="${issu.mnTmMbrId}"
-											data-stts="${issu.stts}"
-											data-crtdt="${issu.crtDt}">
-											<td class="check">
-												<input type="checkbox" class="check_idx" value="${issu.issuId}">
-											</td>
-											<td>${issu.rnum}</td>
-											<td>${issu.issuId}</td>
-											<td>${issu.issuTtl}</td>
-											<td>${issu.issuCntnt}</td>
-											<td>${issu.vwCnt}</td>
-											<td>${issu.dffclty}</td>
-											<td>${issu.mnTmMbrId}</td>
-											<td>${issu.stts}</td>
-											<td>${issu.reqVO.reqTtl} (${issu.reqId})</td>
-											<td>${issu.crtEmp.lNm}${issu.crtEmp.fNm} (${issu.crtr})</td>
-											<td>${issu.crtDt}</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<tr>
-										<td colspan="12" class="no-items">
-											등록된 이슈가 없습니다.
-										</td>
-									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
+						</c:otherwise>
+					</c:choose>
+		          </tbody>
+		        </table>
 					<c:import url="../include/pagenate.jsp">
 	                  <c:param name="pageNo" value="${pageNo}"/>
 	                  <c:param name="pageCnt" value="${pageCnt}"/>
 	                  <c:param name="lastPage" value="${lastPage}"/>
 	               	</c:import>
-	               	<div class="buttons">
-						<div class="align-left left">
-							<button id="create_btn" class="btn new">추가</button>
-							<button id="delete_all_btn" class="btn delete">삭제</button>
-						</div>
-					</div>
-				</div>	
+		        <div class="buttons">
+					<button id="create_btn" class="btn new">추가</button>
+					<button id="delete_all_btn" class="btn delete">삭제</button>
+		        </div>
+		      </div>
 			<jsp:include page="../include/footer.jsp" />
 		</div>
 	</div>

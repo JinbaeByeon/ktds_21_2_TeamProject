@@ -14,6 +14,11 @@
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event){
+	    if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+			location.reload();
+		}
+	}
 	$().ready(function(){
 		$(".sidebar > ul li a").removeClass("active")
 		$("#issu_list").addClass("active");
@@ -105,8 +110,9 @@
 		// 전송
 		// 입력값
 		var issuId = $("#search-keyword").val();
-		// URL 요청
-		location.href = "${context}/issu/list?issuId=" + issuId + "&pageNo=" + pageNo;
+		var reqId = "${issuVO.reqId}";
+		var viewCnt = $("#view_cnt").val();
+		location.href = "${context}/issu/list?reqId=" + reqId + "&pageNo=" + pageNo + "&viewCnt=" + viewCnt;
 	}
 </script>
 </head>
@@ -116,7 +122,16 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">프로젝트 관리 > 이슈</div>
+				<div class="path">
+					<c:if test="${not empty prjNm}">
+						<a href='${context}/prj/detail/${issuVO.reqVO.prjId}'>${prjNm}</a> >
+						<a href='${context}/req/detail/${issuVO.reqId}'>${issuVO.reqVO.reqTtl}</a> > 이슈
+					</c:if>
+					<c:if test="${empty prjNm}">
+						<a href='${context}/prj/list'>프로젝트</a> >
+						<a href='${context}/req/list'>요구사항</a> > 이슈
+					</c:if>
+				</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select>
@@ -132,14 +147,15 @@
 		        </div>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>
 						<th><input type="checkbox" id="all_check"/></th>
 						<th>순번</th>
-						<th>이슈ID</th>
 						<th>이슈제목</th>
+						<th>이슈 관리번호</th>
 						<th>이슈내용</th>
 						<th>조회수</th>
 						<th>난이도</th>
@@ -169,8 +185,8 @@
 												<input type="checkbox" class="check_idx" value="${issu.issuId}">
 											</td>
 											<td>${issu.rnum}</td>
-											<td>${issu.issuId}</td>
 											<td>${issu.issuTtl}</td>
+											<td>${issu.issuId}</td>
 											<td>${issu.issuCntnt}</td>
 											<td>${issu.vwCnt}</td>
 											<td>${issu.dffclty}</td>

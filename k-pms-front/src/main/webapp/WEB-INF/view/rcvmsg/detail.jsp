@@ -9,12 +9,22 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="../include/stylescript.jsp"/>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
 <script type="text/javascript">
 	var file_volume = 0;
+	const Viewer = toastui.Editor;
 	
 	$().ready(function() {
-		$(".sidebar > ul li a").removeClass("active")
-		$("#rcvmsg_list").addClass("active");
+		const viewer = new Viewer({
+			  el: document.querySelector('#viewer'),
+			  initialValue: `${sndMsgVO.cntnt}`
+			});
+		if(${rcvMsgVO.delYn == 'Y'}){
+			$("#msg_trash").addClass("active");
+		}
+		else{
+			$("#rcvmsg_list").addClass("active");
+		}
 		
 		$("#list_btn").click(function(){
 			window.location = document.referrer;
@@ -62,7 +72,6 @@
 		<div>
 			<jsp:include page="../include/msgSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp"/>
-			<div class="path"> 받은쪽지함</div>
 			<div class="grid">
 				<div class="msg_view_header">
 					<h4 class="msg_title">${sndMsgVO.ttl}</h4>
@@ -86,16 +95,14 @@
 				</div>
 				<div class="msg_view_body">
 					<div class="msg_view_contents">
-						<div style="font-size: 14px; font-family: Gulim, 굴림, sans-serif;">
-							${sndMsgVO.cntnt}
-						</div>
+						<div id="viewer"></div>
 					</div>
 					<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 					<div class="file_attachment">
 						<div class="file_attachment_summary">
 							<span class="total_count">첨부 개</span>
 							<span class="total_volume">전체용량</span>
-							<button class="btn save">모두저장</button>
+							<button class="save_all btn save">모두저장</button>
 						</div>
 						<div class="file_attachments_inner">
 							<ul id="file_list">

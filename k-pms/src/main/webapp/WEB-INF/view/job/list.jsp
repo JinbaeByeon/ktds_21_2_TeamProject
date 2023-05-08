@@ -199,7 +199,7 @@
 						<tr>
 						 	<th><input type="checkbox" id="all_check"/></th>
 			                <th>순번</th>
-			                <th>직무ID</th>
+			                <th>직무 관리번호</th>
 			                <th>직무명</th>
 			                <th>사용여부</th>
 <!-- 			                <th>등록자</th>
@@ -263,7 +263,7 @@
 			        	<input type="hidden" id="isModify" value="false" />
 				        <table class="detail_table">
 				            <tr>
-				              <th>직무ID</th>
+				              <th>직무 관리번호</th>
 				              <td><input type="text" id="jobId" name="jobId" value="" readonly/></td>
 				              <th>등록자</th>
 				              <td><input type="text" id="crtr" disabled value=""/></td>

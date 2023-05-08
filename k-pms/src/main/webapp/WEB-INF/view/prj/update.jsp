@@ -13,6 +13,11 @@
 <title>프로젝트 수정</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+	window.onpageshow = function(event) {
+	    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	        location.reload();
+	    }
+	}
 	var tmMbr;
 	
 	function addTmMbrFn(message) {
@@ -25,7 +30,7 @@
 
 		var tmMbrTr = $("<tr class='tmMbr-tr'></tr>");
 		
-		var len = tmMbrItems.find(".tmmbr-item").length;
+		var len = $(".tmmbr-item").length;
 		var itemId = $("<input type='hidden' name='ptmList[" + len + "].tmMbrId' class='tmmbr-item'/>");
 		itemId.val(message.tmmbrid);
 
@@ -35,7 +40,7 @@
 		var td = "<td>" + message.empid + "</td>"
 		td += "<td>" + message.tmnm + "</td>"
 		td += "<td>" + message.lnm + message.fnm + "</td>"
-		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
+		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn' data-index='" + len + "'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
 		var rmbtn = $("<button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button>")
 		
@@ -48,6 +53,8 @@
 		tmMbrTr.append(added);
 		tmMbrTr.append(td);
 		tmMbrTr.append(rmbtn);
+		console.log(message)
+		console.log($(".tmmbr-item"));
 	}
 	
 	$().ready(function() {
@@ -74,7 +81,7 @@
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
-			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=800, height=500, scrollbars = no");
+			tmMbr = window.open("${context}/tm/allsearch", "팀원 추가", "width=600, height=700, scrollbars = no");
 		});
 		
 		$(".del-ptm-btn").click(function(e){
@@ -87,6 +94,7 @@
 			else {
 				var tr = $(this).closest("td").closest(".tmMbr-tr");
 				var index = $(this).data("index");
+				console.log("delete" + index)
 				var deleted = $("<input type='hidden' name='ptmList[" + index + "].deleted' />");
 				deleted.val($(this).data("prjtmmbrid"));
 				tr.remove();

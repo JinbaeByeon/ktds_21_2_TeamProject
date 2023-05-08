@@ -17,7 +17,6 @@
 	var ajaxUtil = new AjaxUtil();
 	var reqWindow;
 	function addReqFn(req){
-		reqWindow.close();
 		var reqId = $("#reqId");
 		reqId.val(req.reqid);
 		var reqTtl = $("#reqTtl");
@@ -29,8 +28,9 @@
 		$("#issu_list").addClass("active");
 		
 		var empId = '${sessionScope.__USER__.empId}';
-		$("#reqId").click(function(e){
-			reqWindow = window.open("${context}/req/search/req","요구사항 검색","width=500,height=500");
+		$("#req_search").click(function(e){
+			e.preventDefault();
+			reqWindow = window.open("${context}/req/search/req","요구사항 검색","width=800,height=600");
 		});
 		
 		
@@ -240,10 +240,11 @@
 		                    <td><input type="text" id="issuCntnt" name="issuCntnt" /></td>
 		                </tr>
 		                <tr>
-		                    <th>요구사항ID</th>
+		                    <th>요구사항 관리번호</th>
 		                    <td>
-		                    	<input type="text" id="reqId" name="reqId" readonly/>
 		                    	<span id="reqTtl"></span>
+		                    	<input type="text" id="reqId" name="reqId" />
+		                    	<button id="req_search" class="btn regist">검색</button>
 		                    </td>
 		                </tr>
 		                <tr>

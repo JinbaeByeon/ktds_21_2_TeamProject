@@ -41,8 +41,8 @@
 			<jsp:include page="../include/content.jsp" />	
         	<div class="path">${prjId} | ${prjVO.prjNm}</div>
 			<table class="detail_page detail_table">
-                <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly/>
-                <input type="hidden" id="empId" name="empId" value="${empId}" readonly/>
+                <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly />
+                <input type="hidden" id="empId" name="empId" value="${empId}" readonly />
                 <tr>
                     <th>프로젝트명</th>
                     <td colspan="3">${prjVO.prjNm}</td>
@@ -85,8 +85,8 @@
                         <thead>
                             <tr>
                                 <th>직원ID</th>
-                                <th>팀</th>
                                 <th>이름</th>
+                                <th>팀</th>
                                 <th>권한</th>
                             </tr>
                         </thead>
@@ -95,30 +95,30 @@
 								<c:when test="${not empty prjVO.ptmList}">
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
 										<c:if test="${ptm.prjPstn=='PM'}">
-											<tr>
+											<tr id="${ptm.tmMbrVO.empVO.empId}" data-pstn="PM">
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>총잭임자</td>	
 											</tr>									
 										</c:if>
 									</c:forEach>
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
 										<c:if test="${ptm.prjPstn=='PL'}">
-											<tr>
+											<tr id="${ptm.tmMbrVO.empVO.empId}" data-pstn="PL">
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>부책임자</td>	
 											</tr>									
 										</c:if>
 									</c:forEach>
 									<c:forEach items="${prjVO.ptmList}" var="ptm">
 										<c:if test="${ptm.prjPstn=='TM'}">
-											<tr>
+											<tr id="${ptm.tmMbrVO.empVO.empId}" data-pstn="TM">
 												<td>${ptm.tmMbrVO.empVO.empId}</td>
-												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>
+												<td>${ptm.tmMbrVO.tmVO.tmNm}</td>
 												<td>팀원</td>	
 											</tr>									
 										</c:if>
@@ -151,7 +151,7 @@
             <div class="hr"></div>
             <div class="req path">요구사항</div>
             <div class="view_all">
-                <a href="${context}/req/list?prjId=${prjId}&pageNo=0">전체보기</a>
+                <a href="${context}/req/list?prjId=${prjId}&prjNm=${prjVO.prjNm}">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">
@@ -193,7 +193,7 @@
         <div class="hr"></div>
             <div class="req path">지식관리</div>
             <div class="view_all">
-                <a href="${context}/knw/list?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
+                <a href="${context}/knw/list/0?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
             </div>
             
                 <table class="list_table sub_table">

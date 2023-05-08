@@ -80,7 +80,6 @@
 						<input type="checkbox" id="all_check" />
 					</th>
 					<th>이름</th>
-					<th>부서ID</th>
             </tr>
         </thead>
             <tbody>
@@ -94,7 +93,6 @@
 										<input type="checkbox" class="check_idx" value="${emp.empId}" />
 									</td>
 									<td>${emp.lNm}${emp.fNm}</td>
-									<td>${emp.depId} </td>
 								</tr>
 							</c:forEach>
 						</c:when>
@@ -107,8 +105,8 @@
             </tbody>
     </table>
     <div class="buttons">
-        <button id="cancel_btn" class="btn delete">취소</button>
         <button id="regist_btn" class="btn regist">등록</button>
+        <button id="cancel_btn" class="btn delete">취소</button>
     </div>
 </div>
 </body>

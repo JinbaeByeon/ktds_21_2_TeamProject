@@ -10,6 +10,7 @@ import com.kpms.atchfl.vo.AtchFlVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIException;
 import com.kpms.req.dao.ReqDAO;
+import com.kpms.req.vo.ReqSearchVO;
 import com.kpms.req.vo.ReqVO;
 
 @Service
@@ -39,6 +40,10 @@ public class ReqServiceImpl implements ReqService{
 		return true;
 	}
 
+	@Override
+	public List<ReqVO> readAllReqSearch(ReqSearchVO reqSearchVO) {
+		return reqDAO.readAllReqSearch(reqSearchVO);
+	}
 	@Override
 	public List<ReqVO> readAllReq(ReqVO reqVO) {
 		return reqDAO.readAllReq(reqVO);

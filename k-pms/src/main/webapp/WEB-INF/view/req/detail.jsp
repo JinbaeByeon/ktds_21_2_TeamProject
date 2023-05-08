@@ -226,7 +226,7 @@
 			<div class="path">${reqVO.reqTtl}</div>
 				<table class="detail_page detail_table">
                 <tr>
-                    <th>요구사항 ID</th>
+                    <th>요구사항 관리번호</th>
                     <td colspan="3">${reqVO.reqId}</td>
                 </tr>
                 <tr>
@@ -246,7 +246,7 @@
                     <td colspan="3">${reqVO.expctEndDt}</td>
                 </tr>
                 <tr>
-                    <th>프로젝트ID</th>
+                    <th>프로젝트 관리번호</th>
                     <td colspan="3">${reqVO.prjId}</td>
                 </tr>
                 <tr>
@@ -268,7 +268,7 @@
 								<div class="file_attachment_summary input_div">
 									<span class="total_count input_div">첨부 개</span>
 									<span class="total_volume input_div">전체용량</span>
-									<button class="btn save">모두저장</button>
+									<button class="save_all btn save">모두저장</button>
 								</div>
 								<div class="file_attachments_inner input_div">
 									<ul id="file_list">
@@ -333,7 +333,7 @@
             <div class="req path">이슈</div>
             <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
             <div class="view_all">
-                <a href="${context}/issu/list?reqId=${reqVO.reqId}">[전체보기]</a>
+				<a href="${context}/issu/list?reqId=${reqVO.reqId}&reqVO.reqTtl=${reqVO.reqTtl}&reqVO.prjId=${reqVO.prjId}&prjNm=${reqVO.reqPrjVO.prjNm}">[전체보기]</a>
             </div>
             
                 <table class="list_table sub_table">

@@ -122,23 +122,29 @@
 			check_idx.prop("checked",check_idx.prop("checked")==false);
 			checkIndex();
 		});
+		$("#search-btn").click(function() {
+			movePage(0);
+		});
+		$("#searchKeyword").keydown(function(e){
+			if(e.keyCode == '13'){
+				movePage(0);
+			}
+		});
 		
 	});
 	function movePage(pageNo) {
-		
 		var searchType = $("#searchType").val();
 		var filterType = $("#filterType").val();
-
-		if(searchType == "id") {
-			var empId = $("#searchBar").val();
-			location.href= "${context}/rcvmsg/list?searchType=ID&sndEmpId=" + empId + "&pageNo=" + pageNo + "&filterType=" + filterType;
-		}
-		else if(searchType == "sndrNm") {
-			var nm = $("#searchBar").val();
-			location.href= "${context}/rcvmsg/list?searchType=발신자명&nm=" + nm + "&pageNo=" + pageNo + "&filterType=" + filterType;
-		}
+		var viewCnt = $("#view_cnt").val();
+		var search = $("#searchKeyword").val();
 		
+		var qryStr = "?pageNo=" + pageNo;
+		qryStr += "&filterType=" + filterType;
+		qryStr += "&viewCnt=" + viewCnt;
+		qryStr += "&searchKeyword=" + search;
+		qryStr += "&searchType="+searchType;
 		
+		location.href = "${context}/rcvmsg/list" + qryStr;
 	}
 </script>
 </head>
@@ -151,15 +157,15 @@
 
 			<div class="path">쪽지 > 받은쪽지함</div>
 		      <div class="search_wrapper">
-		      	<div class="buttons upper">
-		      	  <button id="read_btn" class="btn read" disabled>읽음</button>
-		          <button id="reply_btn" class="btn reply" disabled>답장</button>
-		          <button id="delete_btn" class="btn delete" disabled>삭제</button>
+		      	<div class="msg_buttons">
+		      	  <button id="read_btn" class="btn read msg" disabled>읽음</button>
+		          <button id="reply_btn" class="btn reply msg" disabled>답장</button>
+		          <button id="delete_btn" class="btn delete msg" disabled>삭제</button>
 		         </div>
 		      <form class="inline_form">
 		        <div class="search_box">
 		          <select class="search-option" id="searchType" name="searchType">
-		            <option value="id" ${searchType eq "id" ? "selected" : ""}>ID</option>
+		            <option value="id" ${searchType eq "id" ? "selected" : ""}>직원ID</option>
 		            <option value="sndrNm" ${searchType eq "sndrNm" ? "selected" : ""}>발신자명</option>
 		        </select>
 		          <div class="search_field">
@@ -169,9 +175,10 @@
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
 		          </div>
 		        </div>
-		        </form>
 		      </div>
 		      <div class="list_section">
+				<jsp:include page="../include/viewCnt.jsp" />
+		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <div class='filter'>
 		          <select class="filter-option" id="filterType" name="filterType">
 		            <option value="all" ${rcvMsgVO.filterType eq "all" ? "selected" : ""}>모든 쪽지</option>
@@ -179,7 +186,6 @@
 		            <option value="read" ${rcvMsgVO.filterType eq "read" ? "selected" : ""}>읽은 쪽지</option>
 		          </select>
 		        </div>
-		        <div class="total">총 ${rcvMsgList.size() > 0 ? rcvMsgList.get(0).totalCount : 0}건</div>
 		        <table class="list_table">
 		          <thead>
 		            <tr>

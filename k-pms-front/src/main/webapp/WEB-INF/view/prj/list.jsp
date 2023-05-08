@@ -48,7 +48,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			  <div class="path">프로젝트 관리 > 프로젝트 목록</div>
+			  <div class="path">프로젝트</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option">
@@ -68,7 +68,7 @@ $().ready(function() {
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-						<th>프로젝트ID</th>
+		            	<th>순번</th>
 						<th>프로젝트명</th>
 						<th>고객사</th>
 						<th>시작일</th>
@@ -87,7 +87,6 @@ $().ready(function() {
 								<option value="002_09">완료</option>
 							</select>
 						</th>
-						<th>사용여부</th>
 		            </tr>
 		          </thead>
 		          <tbody>
@@ -102,13 +101,12 @@ $().ready(function() {
 									data-enddt="${prj.endDt}"
 									data-prjstts="${prj.prjStts}"
 									data-useyn="${prj.useYn}" >
-									<td>${prj.prjId}</td>
+									<td>${prj.rnum}</td>
 									<td><a href="${context}/prj/detail/${prj.prjId}">${prj.prjNm}</a></td>
 									<td>${prj.cstmr}</td>
 									<td>${prj.strtDt}</td>
 									<td>${prj.endDt}</td>
 									<td>${prj.prjStts}</td>
-									<td>${prj.useYn}</td>
 								</tr>
 							</c:forEach>
 						</c:when>

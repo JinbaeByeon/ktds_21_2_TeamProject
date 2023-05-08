@@ -13,7 +13,8 @@
 <script type="text/javascript">
 	var fileCnt = 0;
 	var ajaxUtil = new AjaxUtil();
-
+	const Editor = toastui.Editor;
+	
 	function addFile(file){
 		var fileList = $("#file_list");
 		
@@ -92,6 +93,7 @@
 	}
 	
 	function fnChkByte(obj, maxByte) {
+		console.log(obj);
 	    var str = obj.val();
 	    var str_len = str.length;
 
@@ -130,58 +132,73 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#knw_list").addClass("active");
 		
+		const editor = new Editor({
+			  el: document.querySelector('#cntnt'),
+			  height: '650px',
+			  initialEditType: 'wysiwyg',
+			  previewStyle: 'vertical',
+			  initialValue: `${knwVO.cntnt}`
+		});
+		
 		$("#save_btn").click(function() {
+			var form = $("#atchFlList");
 			
-					if ($("#ttl").val() == "") {
-						alert("제목 입력은 필수입니다.");
-						return;
-					}
-					else if ($("#cntnt").val() == "") {
-						alert("내용 입력은 필수입니다.");
-						return;
-					}
-					else if ($("#prjId").val() == "") {
-						alert("프로젝트 선택은 필수입니다.");
-						return;
+			if ($("#ttl").val() == "") {
+				alert("제목 입력은 필수입니다.");
+				return;
+			}
+			else if ($("#cntnt").val() == "") {
+				alert("내용 입력은 필수입니다.");
+				return;
+			}
+			else {
+				var fileList = $(".file_attachment").find("li");
+				
+				cnt=0;
+				$("#atchFlList").empty();
+				fileList.each(function(){
+					
+					var fileNm = $(this).data("org");
+					var uuidNm = $(this).data("uuid");
+					var fileSz = $(this).data("sz");
+					var ext = $(this).data("ext");
+					
+					var inputOrgNm = $("<input type='hidden' name='atchFlList["+ cnt +"].orgFlNm' value='"+fileNm+"'/>");
+					form.append(inputOrgNm);
+					var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
+					form.append(inputUuid);
+					var inputSz = $("<input type='hidden' name='atchFlList["+ cnt +"].flSz' value='"+parseInt(fileSz)+"'/>");
+					form.append(inputSz);
+					var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
+					form.append(inputExt);
+						});
+				
+				var cntnt = $("<textarea name='cntnt'></textarea>");
+				cntnt.text(editor.getMarkdown());
+				form.append(cntnt);
+				
+				ajaxUtil.upload("#create_form","${context}/api/knw/update", function(response) {
+					var result = confirm("정말 수정하시겠습니까?");
+					if(result) {
+						if (response.status == "200 OK") {
+							if($("#commonMode").val() != "") {
+								location.href = "${context}/knw/list/0";
+							}
+							else {
+								location.href = "${context}/knw/list/1";	
+							}
+						}
+						else {
+							alert("지식 등록에 실패하였습니다.");
+						}
 					}
 					else {
-						var fileList = $(".file_attachment").find("li");
-						
-						cnt=0;
-						fileList.each(function(){
-							var form = $("#create_form");
-							
-							var fileNm = $(this).data("org");
-							var uuidNm = $(this).data("uuid");
-							var fileSz = $(this).data("sz");
-							var ext = $(this).data("ext");
-							
-							var inputOrgNm = $("<input type='hidden' name='atchFlList["+ cnt +"].orgFlNm' value='"+fileNm+"'/>");
-							form.append(inputOrgNm);
-							var inputUuid = $("<input type='hidden' name='atchFlList["+ cnt +"].uuidFlNm' value='"+uuidNm+"'/>");
-							form.append(inputUuid);
-							var inputSz = $("<input type='hidden' name='atchFlList["+ cnt +"].flSz' value='"+parseInt(fileSz)+"'/>");
-							form.append(inputSz);
-							var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
-							form.append(inputExt);
-								});
-						
-						ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
-											if (response.status == "200 OK") {
-												if(result) {
-													location.href = "${context}/knw/list/com";	
-												}
-												else{
-													location.href = "${context}/knw/list/prj";
-												}
-											}
-											else {
-												alert("지식 등록에 실패하였습니다.");
-											}
-										});
+						return;
 					}
-	
 				});
+			}
+
+			});
 
 		$("#cancel_btn").click(function() {
 			if($("#commonMode").val() != "") {
@@ -194,7 +211,7 @@
 
 		$("#addPrj").click(function(event) {
 							event.preventDefault();
-							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=500, height=500");
+							gnr = window.open("${context}/prj/search", "프로젝트 검색", "width=800, height=600");
 						});
 
 		$("#comPrj").click(function(event) {
@@ -276,27 +293,19 @@
 					});
 		});
 		
-		$("#byteInfo").keyup(function() {
-
-	        if($(this).val().length > 80) {
-	            $(this).val($(this).val().substring(0, 80));
-	        }
-
-
-	    });
-		
 		(function(){
 			var frgnId = "${knwVO.knwId}";
 			
 			$.getJSON("${context}/knw/detail/getAttachList", {frgnId: frgnId}, function(files){
-				for(var i = 0; i < files.length; i++){
-					var file = files[i];
-					addFile(file);
+				if(files.length != 1) {
+					for(var i = 0; i < files.length; i++){
+						var file = files[i];
+						addFile(file);
+					}
+					checkFile();
 				}
-				checkFile();
 		    });
-			var that = $("#cntnt");	
-			fnChkByte(that, '1000');
+			
 		})();
 		
 	});
@@ -310,9 +319,10 @@
 			<jsp:include page="../include/content.jsp" />
 			<div class="path"> 프로젝트 관리 > 지식 등록</div>
 				<form id="create_form">
-					<table class="detail_table">
 						<input type="hidden" id="prjId" name="prjId" value="${knwVO.prjId}" />
+						<input type="hidden" name="knwId" value="${knwVO.knwId}" />
 						<input type="hidden" id="commonMode" value="${knwVO.prjId}" />
+					<table class="detail_table">
 						<c:if test="${knwVO.prjId ne null}">
 							<tr>
 								<th>프로젝트 선택</th>
@@ -342,12 +352,11 @@
 						</c:if>
 						<tr>
 							<th>제목</th>
-							<td><input type="text" id="ttl" name="ttl" value="${knwVO.ttl}" /></td>
+							<td><input type="text" id="ttl" name="ttl" value='${knwVO.ttl}'/></td>
 						</tr>
 						<tr>
-							<th>내용<p id="byteInfo">(0 / 1,000)</p></th>
-							<td>
-								<textarea id="cntnt" name="cntnt" onKeyUp="javascript:fnChkByte(this,'1000')">${knwVO.cntnt}</textarea>
+							<td colspan="2">
+								<div id="cntnt" name="cntnt"></div>
 							</td> 
 						</tr>
 						<tr>
@@ -373,6 +382,7 @@
 							</td>
 						</tr>
 					</table>
+					<div id="atchFlList" hidden="true"></div>
 				</form>
 				
 			<div class="buttons">

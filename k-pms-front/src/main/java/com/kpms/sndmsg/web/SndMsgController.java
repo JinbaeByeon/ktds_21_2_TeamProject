@@ -2,6 +2,9 @@ package com.kpms.sndmsg.web;
 
 import java.util.List;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kpms.atchfl.vo.AtchFlVO;
+import com.kpms.common.util.MarkDownUtil;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.vo.MsgSearchVO;
 import com.kpms.sndmsg.service.SndMsgService;

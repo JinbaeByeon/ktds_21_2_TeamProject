@@ -30,7 +30,7 @@
 					var tmNm = response.data[i].tmVO.tmNm;
 					
 					var tr = $("<tr data-tmmbrid='" + tmmbrId + "'data-empid='" + empId + "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" + lNm + "'data-tmnm='" + tmNm + "'></tr>");
-					var td = "<td><input type='checkbox' class='check-idx' value=" + tmmbrId + " /></td>"
+					var td = "<td class='input'><input type='checkbox' class='check-idx' value=" + tmmbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
 					td += "<td>" + lNm + fNm + "</td>"
 					
@@ -86,7 +86,6 @@
 	    <table class="list_table search_table scroll_table">
 	        <thead>
 	            <tr>
-	                <th>팀ID</th>
 	                <th>팀명</th>
 	            </tr>
 	        </thead>
@@ -96,7 +95,6 @@
 	                        <c:forEach items="${tmList}" var="tm">
 	                            <tr data-tmid="${tm.tmId}"
 	                                data-tmnm="${tm.tmNm}">
-	                                <td>${tm.tmId}</td>
 	                                <td>${tm.tmNm}</td>
 	                            </tr>
 	                        </c:forEach>
@@ -126,8 +124,8 @@
 	</div>
     
     <div class="buttons">
-        <button id="cancel_btn" class="btn delete">취소</button>
         <button id="regist_btn" class="btn regist">등록</button>
+        <button id="cancel_btn" class="btn delete">취소</button>
     </div>
 </div>
 </body>
