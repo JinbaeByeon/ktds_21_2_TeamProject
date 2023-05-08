@@ -25,14 +25,27 @@
 		});
 	});
 	function movePage(pageNo) {
+<<<<<<< HEAD
 		var searchType = $(".search-option").val();
 		var searchKeyword = $("#search-keyword").val();
+		var startDt = $("#search-keyword-startdt").val();
+		var endDt = $("#search-keyword-enddt").val();
+		
+		var intstartDt = parseInt(startDt.split("-").join(""));
+		var intEndDt = parseInt(endDt.split("-").join(""));
+		
+		if (intstartDt > intEndDt) {
+			alert("시작일자를 확인해 주세요")
+			return;
+		}
 		var qryStr = "?searchType=" + searchType;
 		if (searchType=="ID"){
 			qryStr += "&empId=" + searchKeyword;
 		} else if (searchType=="이름"){
 			qryStr += "&empVO.fNm=" + searchKeyword;
 		}
+		qryStr += "&startDt=" + startDt;
+		qryStr += "&endDt=" + endDt;
 		qryStr +=  "&pageNo=" + pageNo;
 		var viewCnt = $("#view_cnt").val();
 		qryStr += "&viewCnt=" + viewCnt;
@@ -57,10 +70,14 @@
 					</select>
 		          <div class="search_field">
 					<input type="text" id="search-keyword" class="input" value="${searchKeyword}" placeholder="Search"/>
+					<label for="search-keyword-startdt">조회기간</label>
+					<input type="date" id="search-keyword-startdt" class="search-input" value="${depLogVO.startDt}"/>
+					<input type="date" id="search-keyword-enddt" class="search-input" value="${depLogVO.endDt}"/>
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
 		          </div>
+						
 		        </div>
 		      </div>
 		      <div class="list_section">

@@ -16,8 +16,9 @@
 	    }
 	}
 	var empId;
-	var empIds = [];
 	var tmMbr;
+	var tmMbrList=[];
+	var nextIndex=0;
 		
 	function addMbrFn(message) {
 	
@@ -29,13 +30,12 @@
 	        return;
 	    }
 	
-	    var nextIndex = empIds.length;
-	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
+	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].empId' class='emp-item'/>");
 	    itemId.val(empId);
 	
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex++ + "'></tr>");
 	
-	    var td = "<td><input type='checkbox' class='check-idx' value=" + empId + " /></td>"
+	    var td = "<td></td>"
 	    td += "<td>" + empId + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
@@ -46,12 +46,12 @@
 	    rmbtn.click(function() {
 	        var empTrToRemove = $(this).closest(".emp-tr");
 	        var empIndexToRemove = empTrToRemove.data("index");
-	        empIds.splice(empIndexToRemove, 1);
 	        empTrToRemove.remove();
 	        $(".emp-tr[data-index]").each(function(i, tr) {
 	            $(tr).data("index", i);
-	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
+	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].empId");
 	        });
+	        --nextIndex;
 	    });
 	
 	    empItems.append(empTr);
@@ -59,23 +59,6 @@
 	    empTr.append(td);
 	    empTr.append(rmbtn);
 	
-	    empIds.push(empId);
-	
-	}
-	
-	function createTmmbr(tmId, empId) {
-	    $.ajax({
-	        url: "${context}/api/tmmbr/create",
-	        type: "POST",
-	        data: {tmId: tmId, empId: empId},
-	        success: function(response) {
-	            if (response.status == "200 OK") {
-	            } 
-	            else {
-	            	alert(response.errorCode + " / " + response.message);
-	            }
-	        }
-	    });
 	}
 	
 	$().ready(function() {
@@ -209,12 +192,6 @@
 				if (response.status == "200 OK") {
 					location.href = "${context}" + response.redirectURL;
 					
-					empIds.forEach(function(empId) {
-			    		
-				    	createTmmbr(tmId, empId);
-				    		
-				    });
-					
 				}
 				else {
 					alert(response.errorCode + "/" + response.message);
@@ -266,13 +243,13 @@
 					  	<h3>부서</h3>
 					   <table class="list_table search_table scroll_table">
 					       <thead>
-					           <tr>
-									<th>순번</th>
-									<th>부서ID</th>
-									<th>부서명</th>
-									<th>부서장ID</th>
-									<th>부서장명</th>
-					           </tr>
+					          <tr>
+								<th>순번</th>
+								<th>부서ID</th>
+								<th>부서명</th>
+								<th>부서장ID</th>
+								<th>부서장명</th>
+					          </tr>
 					       </thead>
 							<tbody class="dep-tbody">
 								<c:choose>
@@ -333,9 +310,9 @@
 						</div>
 				    </form>
 				    <div class="buttons">
-					<button id="addTmMbrBtn" class="btn new">추가</button>
+					<button id="addTmMbrBtn" class="btn regist">팀원 추가</button>
 					<button id="regist-btn" class="btn regist">등록</button>
-					<button id="delete-btn" class="btn delete">삭제</button>
+					<button id="delete-btn" class="btn delete">팀원 삭제</button>
 				    </div>
 				</div>
 			<jsp:include page="../include/footer.jsp" />

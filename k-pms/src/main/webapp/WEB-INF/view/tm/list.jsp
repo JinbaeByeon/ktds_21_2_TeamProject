@@ -61,6 +61,12 @@
 			location.href = "${context}/tm/create"
 		});
 		
+		$("#search-keyword").keydown(function(e){
+			if(e.keyCode == '13'){
+				movePage(0);
+			}
+		});
+		
 		$("#search-btn").click(function() {
 			movePage(0);
 		});

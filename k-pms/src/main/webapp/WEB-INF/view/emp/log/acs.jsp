@@ -25,17 +25,39 @@
 			$("#search-btn").click(function() {
 				movePage(0)
 			});
+			
+			$("#search-btn").click(function() {
+				movePage(0)
+			});
 		});
 		
 		function movePage(pageNo) {
+			var empId = $("#empId").val();
+			var fNm = $("#fNm").val();
+			
+			var startDt = $("#search-keyword-startdt").val();
+			var endDt = $("#search-keyword-enddt").val();
+			
+			var intstartDt = parseInt(startDt.split("-").join(""));
+			var intEndDt = parseInt(endDt.split("-").join(""));
+			
+			if (intstartDt > intEndDt) {
+				alert("시작일자를 확인해 주세요")
+				return;
+			}
+			
 			var searchType = $(".search-option").val();
 			var searchKeyword = $("#search-keyword").val();
 			var qryStr = "searchType=" + searchType;
+
+			qryStr += "&startDt=" + startDt;
+			qryStr += "&endDt=" + endDt;
 			if (searchType=="ID"){
 				qryStr += "&crtr=" + searchKeyword;
 			} else if (searchType=="이름"){
 				qryStr += "&emp.fNm=" + searchKeyword;
 			}
+
 			qryStr +=  "&pageNo=" + pageNo;
 			var viewCnt = $("#view_cnt").val();
 			qryStr += "&viewCnt=" + viewCnt;
@@ -58,7 +80,10 @@
 						<option ${searchType== "이름" ? "selected" : ""}>이름</option>
 					</select>
 		          <div class="search_field">
-						<input type="text" id="search-keyword" class="input" value="${searchKeyword}" placeholder="Search"/>
+					<input type="text" id="search-keyword" class="input" value="${searchKeyword}" placeholder="Search"/>
+					<label for="search-keyword-startdt">조회기간</label>
+					<input type="date" id="search-keyword-startdt" class="search-input" value="${acsLogVO.startDt}"/>
+					<input type="date" id="search-keyword-enddt" class="search-input" value="${acsLogVO.endDt}"/>
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>

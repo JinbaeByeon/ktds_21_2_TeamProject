@@ -24,7 +24,8 @@
 	var tmMbr;
 	var empId;
 	var tmHdId;
-	var empIds = [];
+	var tmMbrList=[];
+	var mbrIdx=0;
 	
 	function addDepFn(message) {
 		
@@ -56,8 +57,6 @@
 	
 	function addHdEmpFn(message) {
 		
-	
-		empIds = [];
 		$(".emp-tr").remove();
 		
 		tmHdId = message.empid;
@@ -69,7 +68,7 @@
 		}
 			
 		var itemDiv = tmHdIdItems.find(".head-item");
-			
+	    
 		var itemId = itemDiv.find("#tmHdId");
 		itemId.val(tmHdId);
 		itemDiv.append(itemId);
@@ -80,6 +79,8 @@
 		
 		var empTr = $(".emp-hd-tr");  
 	    if (empTr.length > 0) {
+	    	var itemEmpId = empTr.find(".emp-hd-item");
+	    	itemEmpId.val(tmHdId);
 	    	
 	        var td = empTr.find("td");
 	        empTr.attr("class", "emp-hd-tr " + tmHdId);
@@ -93,6 +94,9 @@
 	        td.eq(7).text(message.phn);
 	        td.eq(8).text(message.pstnprd);
 	    } else {
+		    var itemEmpId = $("<input type='hidden' name='tmMbrList[" + mbrIdx++ + "].empId' class='emp-hd-item'/>");
+		    itemEmpId.val(tmHdId);
+		    
 	    	var empTr = $("<tr class='emp-hd-tr " + tmHdId + "'></tr>");
 	        var td = "<td>" + "팀장" + "</td>"
 	        td += "<td>" + message.pstnnm + "</td>"
@@ -104,18 +108,15 @@
 		    td += "<td>" + message.phn + "</td>"
 		    td += "<td>" + message.pstnprd + "</td>"
 
+		    empTr.append(itemEmpId);
 	        empTr.append(td);
 	        $(".tmMbr-tbody").append(empTr);
 	    }
 			
 		$("#tmHdId").attr("class", tmHdId);
-			
-		tmHdIdItems.append(itemDiv);
-			
-		tmHd.close();
-		empIds.push(tmHdId);
 		
-
+		tmHdIdItems.append(itemDiv);
+		tmHd.close();
 	}
 	
 	function addMbrFn(message) {
@@ -127,17 +128,15 @@
 	        tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
 	        return;
 	    }
-
-	    var nextIndex = empIds.length;
-	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].tmMbrId' class='emp-item'/>");
+	    
+	    var itemId = $("<input type='hidden' name='tmMbrList[" + mbrIdx + "].empId' class='emp-item'/>");
 	    itemId.val(empId);
-
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex + "'></tr>");
-
+	    
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + mbrIdx++ + "'></tr>");
 	    var td = "<td>" + "팀원" + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"
 	    td += "<td>" + empId + "</td>"
-	    td += "<td>" + message.lnm  + message.fnm + "</td>"
+	    td += "<td>" + message.lnm + message.fnm + "</td>"
 	    td += "<td>" + message.jobnm + "</td>"
 	    td += "<td>" + message.brthdy + "</td>"
 	    td += "<td>" + message.eml + "</td>"
@@ -147,39 +146,21 @@
 	    var rmbtn = $("<td><button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button></td>")
 
 	    rmbtn.click(function() {
-	        var empTrToRemove = $(this).closest(".emp-tr");
+	        var empTrToRemove = $(this).closest(".emp-tr").remove();
 	        var empIndexToRemove = empTrToRemove.data("index");
-	        empIds.splice(empIndexToRemove, 1);
 	        empTrToRemove.remove();
-	        $(".emp-tr[data-index]").each(function(i, tr) {
+	        $(".emp-tr").each(function(i, tr) {
 	            $(tr).data("index", i);
-	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + i + "].tmMbrId");
+	            var idx = i+1;
+	            $(tr).find(".emp-item").attr("name", "tmMbrList[" + idx + "].empId");
 	        });
+	        --mbrIdx;
 	    });
 		
 	    empItems.append(empTr);
 	    empTr.append(itemId);
 	    empTr.append(td);
 	    empTr.append(rmbtn);
-
-	    empIds.push(empId);
-
-	}
-
-	
-	function createTmmbr(tmId, empId) {
-	    $.ajax({
-	        url: "${context}/api/tmmbr/create",
-	        type: "POST",
-	        data: {tmId: tmId, empId: empId},
-	        success: function(response) {
-	            if (response.status == "200 OK") {
-	            } 
-	            else {
-	            	alert(response.errorCode + " / " + response.message);
-	            }
-	        }
-	    });
 	}
 	
 	$().ready(function() {
@@ -214,24 +195,15 @@
 			    
 			  ajaxUtil.upload("#create_form","${context}/api/tm/create",function(response){
 			    if (response.status == "200 OK") {
-			    	var tmId = response.data;
-			    	console.log(tmId);
 				   	
-			    	empIds.forEach(function(empId) {
-			    		
-			    	createTmmbr(tmId, empId);
-			    		
-			    	location.href = "${context}/tm/detail/" + tmId;
-			    	});
-			    	
+			    	location.href = "${context}" + response.redirectURL;
 			    } 
 			    else {
 			      alert(response.errorCode + " / " + response.message);
 			    }
 				
 			  });
-			  
-			});
+		});
 	});
 </script>
 </head>
@@ -266,7 +238,7 @@
 						        <button id="addTmHeadBtn" class="btn regist">등록</button>
 						        <div class="items">
 						            <div class='head-item'>
-						                <input type="text" class="" id="tmHdId" name="tmHdId" readonly value=" " />
+						                <input type="text" class="" id="tmHdId" name="tmHdId" readonly/>
 						                <span id="tmHdNm"></span>						
 						            </div>
 						        </div>
