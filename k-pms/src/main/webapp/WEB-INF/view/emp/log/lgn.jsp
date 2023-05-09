@@ -65,9 +65,11 @@
 				<div class="path">임직원 관리 > 로그인 이력</div>
 		      <div class="search_wrapper">
 		          <div class="search_field">
-		            <label for="search-keyword-startdt">조회기간</label>
-					<input type="date" id="search-keyword-startdt" class="search-input" value="${lgnHstVO.startDt}"/>
-					<input type="date" id="search-keyword-enddt" class="search-input" value="${lgnHstVO.endDt}"/>
+		          	<div class="search_date">
+			            <label for="search-keyword-startdt">조회기간</label>
+						<input type="date" id="search-keyword-startdt" class="search-input" value="${lgnHstVO.startDt}"/>
+						<input type="date" id="search-keyword-enddt" class="search-input" value="${lgnHstVO.endDt}"/>
+		          	</div>
 		          </div>
 		        <div class="search_box">
 					<select class="search-option" name="searchType">
