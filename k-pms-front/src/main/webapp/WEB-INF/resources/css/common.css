@@ -197,7 +197,7 @@ a:link, a:visited {
 	left: 50px;
 }
 
-.sidebar, .sidebar__inner, .sidebar_battom, .sidebar ul li, .sidebar ul li a, .sidebar ul li span, .sidebar ul, .sidebar_bottom > div > a, .profile, .profile > div, #my-info {
+.sidebar, .sidebar__inner, .sidebar_battom, .sidebar ul li, .sidebar ul li a, .sidebar ul li span, .sidebar ul, .sidebar_bottom > div > a, .profile, .profile > div, #my-info, #my-info > span {
     background: #d1ceca;
 }
 
@@ -451,7 +451,8 @@ a:link, a:visited {
 	padding: 15px;
 }
 
-.container .detail_table tr td input[type=text]{
+.container .detail_table tr td input[type=text],
+.container .detail_table tr td input[type=date]{
     margin: 0;
 }
 
@@ -1383,3 +1384,81 @@ select {
 #msg_cnt {
     color: rgb(255 95 88);
 }
+
+/* prj_detail_title */
+.prj_detail_title {
+	font-weight: 400;
+	color: #2b2b2b;
+	margin: 5px;
+}
+
+/* skill php */
+.skill_bar {
+    background-color: #d1ceca !important;
+    width: 95%;
+    border-radius: 10px;
+    height: 10px;
+    margin: 10px;
+}
+
+.skill {
+    background-color: rgb(141, 133, 172) !important;
+    color: white;
+    text-align: right;
+    border-radius: 10px;
+    height: 10px;
+}
+
+.skill.s_001 {
+	width: calc(100% / 9);	
+}
+
+.skill.s_002 {
+	width: calc((100% / 9) * 2);	
+}
+
+.skill.s_003 {
+	width: calc((100% / 9) * 3);	
+}
+
+.skill.s_004 {
+	width: calc((100% / 9) * 4);	
+}
+
+.skill.s_005 {
+	width: calc((100% / 9) * 5);	
+}
+
+.skill.s_006 {
+	width: calc((100% / 9) * 6);	
+}
+
+.skill.s_007 {
+	width: calc((100% / 9) * 7);	
+}
+
+.skill.s_008 {
+	width: calc((100% / 9) * 8);	
+}
+
+.skill.s_009 {
+	width: 100%;	
+}
+
+
+/* dDay */
+.left_day {
+	color: #2b2b2b;
+	letter-spacing: 2px;
+	font-size: 17px;
+	margin: 10px;
+	
+}
+.dDay {
+	border: none;
+	outline: none;
+	font-size: 17px !important;
+	width: 50px;
+}
+
+

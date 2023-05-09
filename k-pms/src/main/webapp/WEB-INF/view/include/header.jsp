@@ -46,7 +46,7 @@
 		});
 
 		$("#my-info").click(function(){
-			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=500");
+			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=800");
 		});
 	});
 </script>
@@ -68,6 +68,7 @@
                    <img src="${context}/img/base_profile.png" />
                </c:if>
 	          <p id="my-info">
+	          	  <span style="font-size: 15px;">관리자</span><br/>
 	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}
 	          </p>
 	        </div>
