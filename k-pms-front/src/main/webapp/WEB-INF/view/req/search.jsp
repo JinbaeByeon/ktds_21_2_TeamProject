@@ -42,7 +42,7 @@
 			<div class="search-group">
 				<label for="">프로젝트명</label>
 				<input type="text" name="prjNm" class="grow-1 mr-10" value="${prjNm}"/>
-				<button class="btn-search" id="search-btn">검색</button>
+				<button class="btn-search" id="btn regist">검색</button>
 			</div>
 		</form>
 		<div class="grid">
@@ -87,8 +87,8 @@
 			</table>
 		</div>
 		<div class="align-right">
-			<button id="regist_btn" class="btn-primary">등록</button>
-			<button id="cancel_btn" class="btn-delete">취소</button>
+			<button id="regist_btn" class="btn regist">등록</button>
+			<button id="cancel_btn" class="btn delete">취소</button>
 		</div>
 	</div>
 </body>

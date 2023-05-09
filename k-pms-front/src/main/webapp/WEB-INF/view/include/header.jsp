@@ -73,14 +73,14 @@
 	          <li class="nav_item dep">
 	            <a href="${context}/dep/detail">부서</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/dep/detail">부서 조회</a></li>
+	              <li><a href="${context}/dep/detail">부서 상세</a></li>
 	              <li><a href="${context}/tm/list">팀 조회</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item eqp">
 	            <a href="${context}/eqp/rent">비품</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/eqp/rent">대여 관리</a></li>
+	              <li><a href="${context}/eqp/rent">대여 목록</a></li>
 	              <li><a href="${context}/eqp/apply">대여 신청</a></li>
 	            </ul>
 	          </li>

@@ -220,7 +220,7 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="container search_page">
+				<div class="search_page">
 				  <div class="path">부서 관리 > 팀원 관리</div>
 				  		<div class="search_wrapper">
 					        <div class="search_box">
@@ -310,7 +310,7 @@
 						</div>
 				    </form>
 				    <div class="buttons">
-					<button id="addTmMbrBtn" class="btn regist">팀원 추가</button>
+					<button id="addTmMbrBtn" class="btn edit">팀원 추가</button>
 					<button id="regist-btn" class="btn regist">등록</button>
 					<button id="delete-btn" class="btn delete">팀원 삭제</button>
 				    </div>
