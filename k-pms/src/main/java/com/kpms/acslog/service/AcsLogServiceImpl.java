@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kpms.acslog.dao.AcsLogDAO;
+import com.kpms.acslog.vo.AcsLogExcelVO;
 import com.kpms.acslog.vo.AcsLogVO;
 
 @Service
@@ -53,6 +54,11 @@ public class AcsLogServiceImpl implements AcsLogService {
 		}
 		
 		return acsLogDAO.readAllAcsLog(acsLog);
+	}
+
+	@Override
+	public List<AcsLogExcelVO> readAllAcsLogToExcel(AcsLogVO acsLogVO) {
+		return acsLogDAO.readAllAcsLogToExcel(acsLogVO);
 	}
 
 }

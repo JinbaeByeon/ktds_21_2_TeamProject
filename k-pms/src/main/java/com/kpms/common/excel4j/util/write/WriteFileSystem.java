@@ -22,7 +22,9 @@ public class WriteFileSystem {
 			}
 			
 			ZipSecureFile.setMinInflateRatio(0);
-			fos = new FileOutputStream(getFile(downloadPath, WriteShare.writeOption.getFileName()));
+			File f = getFile(downloadPath, WriteShare.writeOption.getFileName());
+			WriteShare.writeOption.setFileName(f.getName());
+			fos = new FileOutputStream(f);
 			WriteShare.wb.write(fos);
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage(), e);

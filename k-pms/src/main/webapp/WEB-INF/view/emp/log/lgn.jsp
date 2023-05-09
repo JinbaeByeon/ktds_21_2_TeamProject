@@ -25,6 +25,21 @@
 			$("#search-btn").click(function() {
 				movePage(0)
 			});
+			$("#export_excel").click(function(){
+				var startDt = $("#search-keyword-startdt").val();
+				var endDt = $("#search-keyword-enddt").val();
+				
+				var intstartDt = parseInt(startDt.split("-").join(""));
+				var intEndDt = parseInt(endDt.split("-").join(""));
+				
+				if (intstartDt > intEndDt) {
+					alert("시작일자를 확인해 주세요")
+					return;
+				}
+				var qryStr = "?startDt=" + startDt;
+				qryStr += "&endDt=" + endDt;
+				location.href = "${context}/lgnlog/export/excel"+ qryStr; 
+			});
 		});
 		
 		function movePage(pageNo) {
@@ -83,6 +98,7 @@
 		      <div class="list_section">
 				<jsp:include page="../../include/viewCnt.jsp" />
 		        <div class="total">총 ${lgnHstList.size() > 0 ? lgnHstList.get(0).totalCount : 0} 건</div>
+			    <img id = "export_excel" src="${context}/img/excel-export.png" />
 		        <table class="list_table">
 		          <thead>
 						<tr>

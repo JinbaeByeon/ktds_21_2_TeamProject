@@ -1,13 +1,23 @@
 package com.kpms.lgnhst.web;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.excel4j.write.ExcelWrite;
+import com.kpms.common.exception.APIException;
+import com.kpms.common.handler.DownloadUtil;
+import com.kpms.common.util.ExcelUtil;
 import com.kpms.lgnhst.service.LgnHstService;
+import com.kpms.lgnhst.vo.LgnHstExcelVO;
 import com.kpms.lgnhst.vo.LgnHstVO;
 
 @Controller
@@ -38,5 +48,23 @@ public class LgnHstController {
 			model.addAttribute("searchKeyword",lgnHstVO.getEmp().getfNm());
 		}
 		return "emp/log/lgn";
+	}
+
+	@GetMapping("/lgnlog/export/excel")
+	public void doExportExcelEmp(LgnHstVO lgnHstVO
+								, HttpServletRequest request
+								, HttpServletResponse response) {
+		List<LgnHstExcelVO> contents = lgnHstService.readAllLgnHstToExcel(lgnHstVO);
+		String path = "C:/kpms/files/excel";
+		String fileName = "LgnLogs.xlsx";
+		File excelFile = ExcelUtil.writeExcel(contents, fileName, path);
+		if(!excelFile.exists()) {
+			throw new APIException(APIStatus.FAIL, "엑셀 추출을 실패하였습니다.");
+		}
+		else {
+			path = excelFile.getPath();
+			new DownloadUtil(response, request, path)
+			.download(fileName);
+		}
 	}
 }

@@ -22,6 +22,7 @@
 		checkFile();
 		var empId = '${sessionScope.__USER__.empId}';
 		var data2 = "${reqVO.reqId}";
+		
 		console.log(data2);
 		$("#isModify").val("true");	
 		$("#reqId").val("${reqVO.reqId}");

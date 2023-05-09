@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kpms.common.excel4j.annotations.ExcelSheet;
-import com.kpms.common.excel4j.annotations.Field;
 import com.kpms.common.excel4j.annotations.Format;
 import com.kpms.common.excel4j.annotations.Title;
 import com.kpms.common.util.StringUtil;
@@ -68,8 +67,13 @@ public class EmpExcelVO{
 
 	public EmpExcelVO(EmpVO empVO) {
 		this.empId = empVO.getEmpId();
-		
-		this.nm = empVO.getlNm() + empVO.getfNm();
+		String lNm = empVO.getlNm();
+		if(StringUtil.isEmpty(lNm)) {
+			this.nm = "";
+		} else {
+			this.nm = lNm;
+		}
+		this.nm += empVO.getfNm();
 		this.brthdy = empVO.getBrthdy();
 		this.eml = empVO.getEml();
 		this.phn = empVO.getPhn();

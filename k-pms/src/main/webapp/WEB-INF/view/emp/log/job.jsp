@@ -23,6 +23,9 @@
 		$("#search-btn").click(function() {
 			movePage(0)
 		});
+		$("#export_excel").click(function(){
+			location.href = "${context}/emp/export/excel"; 
+		});
 	});
 	function movePage(pageNo) {
 		var searchType = $(".search-option").val();
@@ -81,6 +84,7 @@
 		      <div class="list_section">
 				<jsp:include page="../../include/viewCnt.jsp" />
 		        <div class="total">총 ${jobLogList.size() > 0 ? jobLogList.get(0).totalCount : 0}건</div>
+			    <img id = "export_excel" src="${context}/img/excel-export.png" />
 		        <table class="list_table">
 		          <thead>
 						<tr>

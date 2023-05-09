@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kpms.lgnhst.vo.LgnHstExcelVO;
 import com.kpms.lgnhst.vo.LgnHstVO;
 
 @Repository
@@ -26,5 +27,9 @@ public class LgnHstDAOImpl extends SqlSessionDaoSupport implements LgnHstDAO {
 		return getSqlSession().selectList("LgnHst.readAllLgnHst",lgnHst);
 	}
 	
+	@Override
+	public List<LgnHstExcelVO> readAllLgnHstToExcel(LgnHstVO lgnHstVO) {
+		return getSqlSession().selectList("LgnHst.readAllLgnHstToExcel",lgnHstVO);
+	}
 
 }
