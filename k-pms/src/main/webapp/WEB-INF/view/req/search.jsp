@@ -64,7 +64,7 @@
                     <th>등록자</th>
                     <th>시작일</th>
                     <th>종료일</th>
-                    <th>프로젝트</th>
+                    <th>프로젝트명</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,7 +94,7 @@
             </tbody>
         </table>
         <div class="buttons">
-	        <button id="regist_btn" class="btn primary">등록</button>
+	        <button id="regist_btn" class="btn regist">등록</button>
 	        <button id="cancel_btn" class="btn delete">취소</button>
         </div>
     </div>
