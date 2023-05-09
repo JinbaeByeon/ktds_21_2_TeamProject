@@ -51,13 +51,13 @@
 		  		  FROM EMP E) E
 		    ON E.EMP_ID = DL.EMP_ID
 		 WHERE DL.CHNG_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
-		   AND DL.CHNG_DT <![CDATA[<=]]> T
+		   AND DL.CHNG_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		<if test="empId != null and empId != ''">
 		   AND DL.EMP_ID = #{empId}
 		 </if>
 		<if test="empVO != null and empVO.fNm != null and empVO.fNm != ''">
 		   AND E.NM LIKE '%' || #{empVO.fNm} || '%'
-		</if>O_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		</if>
 		<include refid="Common.pageFooter"/>
 	</select>
 	

@@ -33,7 +33,8 @@
 	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].empId' class='emp-item'/>");
 	    itemId.val(empId);
 	
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex++ + "'></tr>");
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex++ + "' data-empid='" + empId 
+				+ "'></tr>");
 	
 	    var td = "<td></td>"
 	    td += "<td>" + empId + "</td>"
@@ -60,6 +61,8 @@
 	    empTr.append(rmbtn);
 	
 	}
+	
+	var detailWindow
 	
 	$().ready(function() {
 		$(".sidebar > ul li a").removeClass("active")
@@ -125,7 +128,7 @@
 					var tr = $("<tr data-tmmbrid='" + tmMbrId + "'data-empid='" + empId 
 							+ "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" 
 							+ lNm + "'data-tmnm='" + tmNm + "' data-jobnm='" + jobNm + "' data-pstnnm='" + pstnNm + "'></tr>");
-					var td = "<td><input type='checkbox' class='check-idx' value=" + tmMbrId + " /></td>"
+					var td = "<td class='check'><input type='checkbox' class='check-idx' value=" + tmMbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
 					td += "<td>" + pstnNm + "</td>"
 					td += "<td>" + lNm + fNm + "</td>"
@@ -197,6 +200,15 @@
 					alert(response.errorCode + "/" + response.message);
 				}
 			});
+		});
+		
+		$(document).on("click", ".tmMbr-tbody .emp-tr", function() {
+			var empId = $(this).closest("tr").data("empid");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+		});
+		$(document).on("click", ".tmMbr-tbody > tr > td:not(.check)", function() {
+			var empId = $(this).closest("tr").data("empid");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
 		});
 		
 		$("#search-btn").click(function() {
@@ -294,7 +306,7 @@
 					  <div style="height: 30px;"></div>
 					    <h3>팀원</h3>
 					    <div class="scroll_div">
-						    <table class="list_table search_table scroll_table">
+						    <table class="list_table search_table scroll_table" id="mbrtable">
 						        <thead>
 									<tr>
 										<th class="input"><input type="checkbox" id="all_check" /></th>

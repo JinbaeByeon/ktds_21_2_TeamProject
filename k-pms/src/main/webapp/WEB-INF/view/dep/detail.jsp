@@ -14,6 +14,9 @@
 <title>부서 상세조회</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
+
+	var detailWindow
+	
 	$().ready(function() {
 		$(".sidebar > ul li a").removeClass("active")
 		$("#dep_list").addClass("active");
@@ -21,6 +24,11 @@
 		
 		$("#list-btn").click(function(response) {
 			location.href = "${context}/dep/list"
+		});
+		
+		$("#mbrtable tbody > tr > td").click(function() {
+			var empId = $(this).closest("tr").data("empid");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
 		});
 		
 	});
@@ -111,8 +119,7 @@
             <div class="total">
                 총 ${depVO.empList.size() > 0 ? depVO.empList.size() : 0}건
             </div>
-            
-                <table class="list_table sub_table">
+                <table class="list_table sub_table" id="mbrtable">
                     <thead>
                         <tr>
 							<th>순번</th>
@@ -132,7 +139,7 @@
 								<c:forEach items="${depVO.empList}"
 											var="emp"
 											varStatus="index">
-										<tr>
+										<tr data-empid="${emp.empId}">
 											<td>${index.index + 1}</td>
 											<td>${emp.pstn.pstnNm}</td>
 											<td>${emp.empId}</td>

@@ -124,13 +124,7 @@
 			parameterType="string">
 	    UPDATE TM_MBR TM
 	       SET DEL_YN = 'Y'
-	     WHERE TM.TM_MBR_ID = #{_parameter}
-	       AND TM.TM_MBR_ID IN (SELECT TM_MBR_ID 
-								  FROM PRJ_TM_MBR 
-								 WHERE PRJ_ID IN (SELECT PRJ_ID
-								 				    FROM PRJ
-								 				   WHERE PRJ_STTS != '002_09') 
-									 AND PRJ_TM_MBR.DEL_YN = 'N')	
+	     WHERE TM_MBR_ID = #{_parameter}
 	</update>
 	
 	<update id="deleteTmMbrByTmId"
@@ -140,22 +134,23 @@
 		 WHERE TM_ID = #{_parameter}		
 	</update>
 	
+	<update id="deleteTmMbrByTmMbrId"
+			parameterType="string">
+		UPDATE TM_MBR
+		   SET DEL_YN = 'Y'
+		 WHERE TM_MBR_ID = #{_parameter}		
+	</update>
+	
 	<update id="deleteTmMbrBySelectedTmMbrId"
 			parameterType="arraylist">
 			
-	    UPDATE TM_MBR TM
+	    UPDATE TM_MBR
 	       SET DEL_YN = 'Y'
-	     WHERE TM.TM_MBR_ID IN
+	     WHERE TM_MBR_ID IN
 					 <foreach collection="list" item="tmMbrId" open="(" close=")" separator=", ">
 					 	#{tmMbrId}
 					 </foreach>
-	       AND TM.TM_MBR_ID IN (SELECT TM_MBR_ID 
-								  FROM PRJ_TM_MBR 
-								 WHERE PRJ_ID IN (SELECT PRJ_ID
-								 				    FROM PRJ
-								 				   WHERE PRJ_STTS != '002_09') 
-									 AND PRJ_TM_MBR.DEL_YN = 'N')	
-									 
+		    				 
 	</update>
 	
 	<update id="deleteTmMbrByDepId"
