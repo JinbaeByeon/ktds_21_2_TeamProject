@@ -234,6 +234,16 @@
 				}
 			});
 		});
+		
+		$(document).on("click", ".tmMbr-tbody .emp-tr", function() {
+			var empId = $(this).closest("tr").data("empid");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+		});
+		
+		$(".tmMbr-tbody > tr > td").not(".check").click(function() {
+			var empId = $(this).closest("tr").data("empid");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=700");
+		});
 	});
 </script>
 </head>
@@ -300,7 +310,7 @@
 			                            </tr>
 			                        </thead>
 			                        <tbody class="tmMbr-tbody">
-										<tr class="tmHd-tr ${tmHdEmpVO.empId}">
+										<tr class="tmHd-tr ${tmHdEmpVO.empId}" data-empid="${tmHdEmpVO.empId}">
 											<td></td>
 											<td>팀장</td>
 											<td>${tmHdEmpVO.pstn.pstnNm}</td>
@@ -318,7 +328,7 @@
 															var="tmMbr">
 													<c:if test="${tmMbr.empId != tmVO.tmHdId}">
 														<tr class="${tmMbr.empId}" data-empid="${tmMbr.empId}">
-															<td>
+															<td class="check">
 																<input type="checkbox" class="check_idx" value="${tmMbr.tmMbrId}"/>
 															</td>
 															<td>팀원</td>

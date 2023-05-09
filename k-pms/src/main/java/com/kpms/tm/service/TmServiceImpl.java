@@ -120,7 +120,7 @@ public class TmServiceImpl implements TmService {
 	            if (orgnTmVO.getTmHdId().equals(newTmHdId)) {
 	            }
 	            else {
-	            	tmMbrDAO.deleteOneTmMbrByTmMbrId(hdTmMbrId);
+	            	tmMbrDAO.deleteTmMbrByTmMbrId(hdTmMbrId);
 	            }
 	        } 
 	    } 

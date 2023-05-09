@@ -83,7 +83,7 @@
                     <th>직급</th>
                     <th>성명</th>
                     <th>직무</th>
-                    <th>부서 관리번호</th>
+                    <th>부서</th>
             </tr>
         </thead>
             <tbody>
@@ -106,7 +106,7 @@
                                 	<td>${emp.pstn.pstnNm}</td>
 									<td>${emp.lNm}${emp.fNm}</td>
 									<td>${emp.job.jobNm}</td>
-									<td>${emp.depId} </td>
+									<td>${emp.dep.depNm} (${emp.depId}) </td>
 								</tr>
 							</c:forEach>
 						</c:when>
