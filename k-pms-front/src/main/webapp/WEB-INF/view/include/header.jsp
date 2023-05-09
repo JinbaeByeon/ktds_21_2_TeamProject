@@ -8,7 +8,11 @@
 			$.get("${context}/api/rcvmsg/cnt",function(response){
 				var cnt = response.data;
 				var msgCnt = $("#msg_cnt");
-				msgCnt.text(cnt);
+				if(cnt==0){
+					msgCnt.text("");
+				} else{
+					msgCnt.text(cnt);
+				}
 			});
 		}
 		readCnt();
