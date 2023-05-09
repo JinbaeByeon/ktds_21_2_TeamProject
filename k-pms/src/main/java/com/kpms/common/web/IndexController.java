@@ -25,6 +25,7 @@ public class IndexController {
 	private EmpService empService;
 	@Autowired
 	private PrjService prjService;
+	
 	@GetMapping("/index")
 	public String viewIndexPage(DeptSearchVO deptSearchVO, Model model, EmpVO empVO, String searchType, PrjSearchVO prjSearchVO) {
 		List<PrjVO> prjList = prjService.readAllPrjVO(prjSearchVO);

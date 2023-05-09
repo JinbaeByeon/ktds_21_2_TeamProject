@@ -1485,3 +1485,29 @@ select {
 #msg_cnt {
     color: rgb(255 95 88);
 }
+
+/* index page */
+.firstPart {
+	position: relative;
+	width: 1300px;
+	height: 450px;
+}
+
+.halfTable {
+	width: 600px;
+}
+
+.leftTable {
+	position: absolute;
+	left: 0;
+}
+
+.rightTable {
+	position: absolute;
+	left: 700px;
+}
+
+.lastTable {
+	width: 1300px;
+	margin-bottom: 30px;
+}
