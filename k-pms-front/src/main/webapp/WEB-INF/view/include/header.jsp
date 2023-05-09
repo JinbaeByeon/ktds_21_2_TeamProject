@@ -4,6 +4,19 @@
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <script type="text/javascript">
 	$().ready(function(){
+		function readCnt(){
+			$.get("${context}/api/rcvmsg/cnt",function(response){
+				var cnt = response.data;
+				var msgCnt = $("#msg_cnt");
+				if(cnt==0){
+					msgCnt.text("");
+				} else{
+					msgCnt.text(cnt);
+				}
+			});
+		}
+		readCnt();
+		setInterval(readCnt, 3000);
 		
 		$("#my-info").children(".my-menu").hide();
 		var empId = "${sessionScope.__USER__.empId}";
@@ -82,7 +95,7 @@
 	            </ul>
 	          </li>
 	          <li class="nav_item msg">
-	            <a href="${context}/rcvmsg/list">쪽지</a>
+	            <a href="${context}/rcvmsg/list">쪽지 <span id= "msg_cnt"></span></a>
 	            <ul class="sub_item">
 	              <li><a href="${context}/sndmsg/send">쪽지보내기</a></li>
 	            </ul>

@@ -12,7 +12,7 @@
 	<title>비밀번호변경</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
-		
+		AjaxUtil.enableSpinner();
 		$().ready(function(){
 			
 			$("#btn-apply").click(function(e){

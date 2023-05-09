@@ -13,6 +13,8 @@ public interface RcvMsgService {
 	
 	public SndMsgVO readOneSndMsgVO(String rcvmsgId);
 	
+	public int readCntUnReadSndMsg(String empId);
+	
 	public boolean createOneRcvMsg(RcvMsgVO rcvMsgVO);
 	
 	public boolean deleteOneRcvMsg(String msgId);
