@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kpms.common.api.vo.APIDataResponseVO;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
+import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.service.RcvMsgService;
 import com.kpms.rcvmsg.vo.MsgVOList;
 import com.kpms.rcvmsg.vo.RcvMsgVO;
@@ -75,5 +78,11 @@ public class RestRcvMsgController {
 				return new APIResponseVO(APIStatus.FAIL);
 			}
 		}
+	}
+	
+	@GetMapping("/api/rcvmsg/cnt")
+	public APIDataResponseVO doReadCntUnReadRcvMsg(@SessionAttribute("__USER__") EmpVO user) {
+		int cnt = rcvMsgService.readCntUnReadSndMsg(user.getEmpId());
+		return new APIDataResponseVO(APIStatus.OK, cnt);
 	}
 }

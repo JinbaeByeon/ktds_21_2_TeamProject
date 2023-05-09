@@ -120,7 +120,18 @@
 			 , RCVR
 			 , RD_YN
 		  FROM RCV_MSG
-		
+	</select>
+	
+	<select id="readCntUnReadSndMsg"
+			parameterType="string"
+			resultType="_int">
+		SELECT COUNT(1)
+		  FROM RCV_MSG
+		 WHERE RCVR = #{_parameter}
+		   AND RD_YN = 'N'
+		   AND DEL_YN = 'N'
+		   AND SND_MSG_ID IN (SELECT MSG_ID
+		   						FROM SND_MSG)
 	</select>
 	
 	<insert id="createOneRcvMsg"
