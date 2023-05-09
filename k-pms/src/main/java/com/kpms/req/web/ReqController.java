@@ -32,6 +32,7 @@ public class ReqController {
 		model.addAttribute("reqList", reqList);
 		model.addAttribute("reqVO", reqVO);
 		model.addAttribute("prjNm",prjNm);
+		
 		if (!reqList.isEmpty()) {
 			model.addAttribute("lastPage", reqList.get(0).getLastPage());
 		}
@@ -54,6 +55,7 @@ public class ReqController {
 
 		IssuVO issuVO = new IssuVO();
 		issuVO.setReqId(reqId);
+		
 		List<IssuVO> issuList = issuService.readIssuList(issuVO);
 		model.addAttribute("issuList", issuList);
 		

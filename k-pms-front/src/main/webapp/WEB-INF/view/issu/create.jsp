@@ -73,6 +73,7 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 			});
+			
 			if(${reqId != null && reqId != ''}){
 				ajaxUtil.upload("#create-form","${context}/api/issu/create",function(response){
 					if (response.status != "200 OK") {

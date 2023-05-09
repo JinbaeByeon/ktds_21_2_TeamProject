@@ -50,6 +50,7 @@ public class IssuController {
 	public String viewIssuCreatePage() {
 		return "issu/create";
 	}
+	
 	@GetMapping("/issu/create/{reqId}")
 	public String viewIssuCreatePageTwo(Model model, @PathVariable String reqId) {
 		model.addAttribute("reqId", reqId);
