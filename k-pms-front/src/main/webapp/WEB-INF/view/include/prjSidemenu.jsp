@@ -24,7 +24,12 @@
             </li>
             <li>
               <a href="${context}/knw/list/0" id="knw_list">
-                <span>지식관리</span>
+                <span>프로젝트 지식</span>
+              </a>
+            </li>
+            <li>
+              <a href="${context}/knw/list/1" id="com_knw_list">
+                <span>사내 지식</span>
               </a>
             </li>
           </ul>

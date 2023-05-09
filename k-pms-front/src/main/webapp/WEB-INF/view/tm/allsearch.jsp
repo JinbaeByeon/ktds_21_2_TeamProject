@@ -30,7 +30,7 @@
 					var tmNm = response.data[i].tmVO.tmNm;
 					
 					var tr = $("<tr data-tmmbrid='" + tmmbrId + "'data-empid='" + empId + "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" + lNm + "'data-tmnm='" + tmNm + "'></tr>");
-					var td = "<td><input type='checkbox' class='check-idx' value=" + tmmbrId + " /></td>"
+					var td = "<td class='input'><input type='checkbox' class='check-idx' value=" + tmmbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
 					td += "<td>" + lNm + fNm + "</td>"
 					
@@ -81,52 +81,55 @@
 <body>
 	<div class="container search_page">
     <h2>팀원 추가</h2>
-    <div class="scroll_div">
-    	<h3>팀</h3>
-	    <table class="list_table search_table scroll_table">
-	        <thead>
-	            <tr>
-	                <th>팀명</th>
-	            </tr>
-	        </thead>
-	            <tbody class="tm-tbody">
-	                <c:choose>
-	                    <c:when test="${not empty tmList}">
-	                        <c:forEach items="${tmList}" var="tm">
-	                            <tr data-tmid="${tm.tmId}"
-	                                data-tmnm="${tm.tmNm}">
-	                                <td>${tm.tmNm}</td>
-	                            </tr>
-	                        </c:forEach>
-	                    </c:when>
-	                    <c:otherwise>
-	                        <tr>
-	                            <td colspan="2">검색된 팀이 없습니다.</td>
-	                        </tr>
-	                    </c:otherwise>
-	                </c:choose>
-	            </tbody>
-	    </table>
-    </div>
+    <h3>팀</h3>
+	<div class="tableWrapper">
+		 <table class="scroll_table" id="userListTable">
+			 <thead>
+				  <tr>
+				    <th>팀명</th>
+					<th>팀 관리번호</th>
+				  </tr>
+			  </thead>
+		      <tbody class="tm-tbody">
+		        <c:choose>
+		            <c:when test="${not empty tmList}">
+		                <c:forEach items="${tmList}" var="tm">
+		                    <tr data-tmid="${tm.tmId}"
+		                        data-tmnm="${tm.tmNm}">
+		                        <td>${tm.tmNm}</td>
+		                        <td>${tm.tmId}</td>
+		                    </tr>
+		                </c:forEach>
+		            </c:when>
+		            <c:otherwise>
+		                <tr>
+		                    <td colspan="2">검색된 팀이 없습니다.</td>
+		                </tr>
+		            </c:otherwise>
+		        </c:choose>
+		      </tbody>
+		 </table>                      
+	</div>
     <div style="height: 30px;"></div>
     <h3>팀원</h3>
-    <div class="scroll_div">
-	    <table class="list_table search_table scroll_table">
-	        <thead>
-	            <tr>
-					<th class="input"><input type="checkbox" id="all_check" /></th>
+    <div class="tableWrapper">
+		 <table class="scroll_table" id="userListTable">
+			 <thead>
+				  <tr>
+				    <th class="input"><input type="checkbox" id="all_check" /></th>
                     <th>직원ID</th>
                     <th>이름</th>
-	            </tr>
-	        </thead>
-	        <tbody class="tmmbr-tbody"></tbody>
-	    </table>
+				  </tr>
+			  </thead>
+		      <tbody class="tmmbr-tbody"></tbody>
+		 </table>                      
 	</div>
     
     <div class="buttons">
         <button id="regist_btn" class="btn regist">등록</button>
         <button id="cancel_btn" class="btn delete">취소</button>
     </div>
+    
 </div>
 </body>
 </html>
