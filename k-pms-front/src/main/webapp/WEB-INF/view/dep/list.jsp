@@ -75,7 +75,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서 > 부서 목록</div>
+				<div class="path">부서 상세</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select id="search-option">

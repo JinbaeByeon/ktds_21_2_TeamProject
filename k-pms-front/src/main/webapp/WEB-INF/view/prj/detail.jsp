@@ -150,6 +150,9 @@
                 
             <div class="hr"></div>
             <div class="req path">요구사항</div>
+            <div class="total">
+            	총 ${reqVO.reqList.size() > 0 ? reqVO.reqList.size() : 0}건
+            </div>
             <div class="view_all">
                 <a href="${context}/req/list?prjId=${prjId}&prjNm=${prjVO.prjNm}">전체보기</a>
             </div>
@@ -169,7 +172,7 @@
                     <tbody>
                         <c:choose>
                             <c:when test="${not empty prjVO.reqList.get(0).reqId}">
-                                <c:forEach items="${prjVO.reqList}" var="req" end="5">
+                                <c:forEach items="${prjVO.reqList}" var="req" end="4">
                                     <tr>
                                         <td>${req.prrty}</td>
                                         <td><a href="${context}/req/detail/${req.reqId}">${req.reqTtl}</a></td>
@@ -192,6 +195,9 @@
         
         <div class="hr"></div>
             <div class="req path">지식관리</div>
+            <div class="total">
+            	총 ${knwVO.knwList.size() > 0 ? knwVO.knwList.size() : 0}건
+            </div>
             <div class="view_all">
                 <a href="${context}/knw/list/0?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>
             </div>
@@ -206,7 +212,7 @@
                     <tbody>
                         <c:choose>
                             <c:when test="${not empty prjVO.knwList.get(0).knwId}">
-                                <c:forEach items="${prjVO.knwList}" var="knw" end="5">
+                                <c:forEach items="${prjVO.knwList}" var="knw" end="4">
                                     <tr>
                                         <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
                                         <td>${knw.crtr}</td>

@@ -25,6 +25,9 @@ function AjaxUtil() {
 AjaxUtil.hideSpinner = function () {
 	$('#spinner_panel').hide();
 }
+AjaxUtil.showSpinner = function () {
+	$('#spinner_panel').show();
+}
 
 AjaxUtil.disableSpinner = function () {
 	$('#spinner_panel').hide();

@@ -39,8 +39,8 @@
 		added.val("true");
 
 		var td = "<td>" + message.empid + "</td>"
-		td += "<td>" + message.tmnm + "</td>"
 		td += "<td>" + message.lnm + message.fnm + "</td>"
+		td += "<td>" + message.tmnm + "</td>"
 		td += "<td><select class='pstn " +  message.prjtmmbrid + "' name='ptmList[" + len + "].prjPstn' data-index='" + len + "'><option value='DEFAULT'>== 선택 ==</option><option value='PM'>총책임자</option><option value='PL'>부책임자</option><option value='TM'>팀원</option></select></td>"
 		
 		var rmbtn = $("<button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button>")
@@ -60,23 +60,14 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#prj_list").addClass("active");
 		
-		/* $.get("${context}/api/cmncd/list/002", function(response) {
-			var isSelected
-			
+ 		 $.get("${context}/api/cmncd/list/002", function(response) {
 			for (var i in response.data) {
-				var cdNm = response.data[i].cdNm;
-				if ($("#original-prjStts").val() == response.data[i].cdId) {
-					isSelected = "selected";
-				}
-				else {
-					isSelected = "";
-				}
-				var option = $("<option value='" + response.data[i].cdId + "' " + isSelected + "></option>");
-				option.append(cdNm);
-				$("#prjStts-select").append(option)
-			} 
-		}); */
-		
+				var cdId = response.data[i].cdId;
+				if ($("#prjStts").val() == response.data[i].cdNm) {
+					$("#prjStts").val(cdId)
+				}				
+			}
+		});
 		
 		$("#addTmMbrBtn").click(function(event) {
 			event.preventDefault();
@@ -213,7 +204,10 @@
 		                </tr>
 		                <tr>
 		                    <th>프로젝트 상태</th>
-		                    <td><input type="text" id="original-prjStts" name="original-prjStts" value="${prjVO.prjStts}" readonly/></td>
+		                    <td>
+		                    	${prjVO.prjStts}
+		                    	<input type="hidden" id="prjStts" name="prjStts" value="${prjVO.prjStts}" readonly/>
+		                    </td>
 		                </tr>
 <%-- 		                <tr>
 		                    <th>팀</th>

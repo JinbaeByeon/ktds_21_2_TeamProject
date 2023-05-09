@@ -12,8 +12,15 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		$(".sidebar > ul li a").removeClass("active")
-		$("#knw_list").addClass("active");
+		
+		$(".sidebar > ul li a").removeClass("active");
+		if(${commonMode} == true) {
+			$("#com_knw_list").addClass("active");
+		}
+		else {
+			$("#knw_list").addClass("active");
+		}
+		
 		
 		$("#new_btn").click(function() {
 			var prjId = $("#prjId").val();
@@ -95,10 +102,10 @@
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<c:if test="${not knwSearchVO.commonMode}">
-					<div class="path">프로젝트 > 지식 목록</div>
+					<div class="path"><a href="${context}/prj/list">프로젝트</a> > 프로젝트 지식</div>
 				</c:if>
 				<c:if test="${knwSearchVO.commonMode}">
-					<div class="path">사내지식관리 > 지식 목록</div>
+					<div class="path">프로젝트 > 사내 지식</div>
 				</c:if>
 		      <div class="search_wrapper">
 		        <div class="search_box">

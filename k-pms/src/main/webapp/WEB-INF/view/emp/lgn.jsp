@@ -10,6 +10,7 @@
 	<title>Login</title>
 	<script type="text/javascript" src="${context}/js/jquery-3.6.4.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<link rel="icon" href="${context}/img/kpms_favicon.png">
 	<link rel ="stylesheet" href="${context}/css/lgn.css"/>
 	<script type="text/javascript">
 		$().ready(function(){

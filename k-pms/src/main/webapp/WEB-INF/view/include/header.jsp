@@ -4,9 +4,23 @@
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
-	AjaxUtil.enableSpinner();
 	$().ready(function(){
-		
+		function readCnt(){
+			$.get("${context}/api/rcvmsg/cnt",function(response){
+				if(response.status != "200 OK"){
+					location.reload();
+				}
+				var cnt = response.data;
+				var msgCnt = $("#msg_cnt");
+				if(cnt==0){
+					msgCnt.text("");
+				} else{
+					msgCnt.text(cnt);
+				}
+			});
+		}
+		readCnt();
+		setInterval(readCnt, 3000);
 		
 		$("#my-info").children(".my-menu").hide();
 		var empId = "${sessionScope.__USER__.empId}";
@@ -32,7 +46,7 @@
 		});
 
 		$("#my-info").click(function(){
-			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=500");
+			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=800");
 		});
 	});
 </script>
@@ -54,6 +68,7 @@
                    <img src="${context}/img/base_profile.png" />
                </c:if>
 	          <p id="my-info">
+	          	  <span style="font-size: 15px;">관리자</span><br/>
 	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}
 	          </p>
 	        </div>
@@ -80,7 +95,7 @@
 	          <li class="nav_item dep">
 	            <a href="${context}/dep/list">부서</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/dep/list">부서 관리</a></li>
+	              <li><a href="${context}/dep/list">부서 상세</a></li>
 	              <li><a href="${context}/tm/list">팀 관리</a></li>
 	              <li><a href="${context}/dep/mbrlist">팀원 관리</a></li>
 	            </ul>
@@ -101,8 +116,8 @@
 	              <li><a href="${context}/prj/list">프로젝트 목록</a></li>
 	              <li><a href="${context}/req/list">요구사항</a></li>
 	              <li><a href="${context}/issu/list">이슈</a></li>
-	              <li><a href="${context}/knw/list/0">지식관리</a></li>
-	              <li><a href="${context}/knw/list/1">사내지식관리</a></li>
+	              <li><a href="${context}/knw/list/0">프로젝트 지식</a></li>
+	              <li><a href="${context}/knw/list/1">사내 지식</a></li>
 	              <li><a href="${context}/prj/log">프로젝트 변경 이력</a></li>
 	            </ul>
 	          </li>
@@ -115,7 +130,7 @@
 	            </ul>
 	          </li>
 	          <li class="nav_item msg">
-	            <a href="${context}/rcvmsg/list">쪽지</a>
+	            <a href="${context}/rcvmsg/list">쪽지 <span id= "msg_cnt"></span></a>
 	            <ul class="sub_item">
 	              <li><a href="${context}/sndmsg/send">쪽지보내기</a></li>
 	            </ul>

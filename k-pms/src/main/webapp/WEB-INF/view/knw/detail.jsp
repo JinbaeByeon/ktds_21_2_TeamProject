@@ -25,8 +25,13 @@
 		  initialValue: `${knwVO.cntnt}`
 		});
 		
-		$(".sidebar > ul li a").removeClass("active")
-		$("#knw_list").addClass("active");
+		$(".sidebar > ul li a").removeClass("active");
+		if($("#commonMode").val() == "") {
+			$("#com_knw_list").addClass("active");
+		}
+		else {
+			$("#knw_list").addClass("active");
+		}
 
 		(function(){
 			var frgnId = "${knwVO.knwId}";
@@ -83,7 +88,12 @@
 				$.get("${context}/api/knw/delete/${knwVO.knwId}", function(response) {
 					console.log(response);
 					if (response.status == "200 OK") {
-						location.href = "${context}/knw/list";
+						if("${knwVO.prjId}" == ""){
+							location.href = "${context}/knw/list/1";	
+						}
+						else {
+							location.href = "${context}/knw/list/0";
+						}
 					}
 					else {
 						alert(response.errorCode + " / " + response.message);
@@ -194,10 +204,10 @@
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 			<c:if test="${knwVO.prjId ne null}">
-				<div class="path">프로젝트 > 관련 프로젝트: <a href="${context}/knw/list/0?prjId=${prjVO.prjId}">${prjVO.prjNm}</a></div>
+				<div class="path">관련 프로젝트: <a href="${context}/knw/list/0?prjId=${prjVO.prjId}">${prjVO.prjNm}</a></div>
 			</c:if>
 			<c:if test="${knwVO.prjId eq null}">
-				<div class="path">사내지식관리 > 사내지식</div>
+				<div class="path"><a href="${context}/knw/list/1">프로젝트 > 사내 지식</a></div>
 			</c:if>
 			<div class="articleBox">
 				<div class="articleHead">

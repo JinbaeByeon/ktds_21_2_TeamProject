@@ -1,12 +1,17 @@
 package com.kpms.emp.web;
 
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +22,10 @@ import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
 import com.kpms.common.exception.APIArgsException;
 import com.kpms.common.exception.APIException;
+import com.kpms.common.handler.DownloadUtil;
 import com.kpms.common.handler.SessionHandler;
+import com.kpms.common.handler.UploadHandler;
+import com.kpms.common.util.ExcelUtil;
 import com.kpms.common.util.SHA256Util;
 import com.kpms.common.util.StringUtil;
 import com.kpms.emp.service.EmpService;
@@ -25,6 +33,7 @@ import com.kpms.emp.vo.EmpChngDepVO;
 import com.kpms.emp.vo.EmpChngEmplmntVO;
 import com.kpms.emp.vo.EmpChngJobVO;
 import com.kpms.emp.vo.EmpChngPstnVO;
+import com.kpms.emp.vo.EmpExcelVO;
 import com.kpms.emp.vo.EmpPwdVO;
 import com.kpms.emp.vo.EmpVO;
 
@@ -163,6 +172,5 @@ public class RestEmpController {
 
 		return new APIResponseVO(APIStatus.FAIL,"재직상태 변경 실패","");
 	}
-	
 	
 }

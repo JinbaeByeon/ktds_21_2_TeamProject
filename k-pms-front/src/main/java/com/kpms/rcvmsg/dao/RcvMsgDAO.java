@@ -9,8 +9,8 @@ import com.kpms.sndmsg.vo.SndMsgVO;
 public interface RcvMsgDAO {
 	
 	public List<RcvMsgVO> readAllRcvMsgVO(MsgSearchVO rcvMsgVO);
-	
 	public SndMsgVO readOneSndMsgVO(String rcvmsgId);
+	public int readCntUnReadSndMsg(String empId);
 	
 	public int createOneRcvMsg(RcvMsgVO rcvMsgVO);
 	public int createRcvMsg(SndMsgVO sndMsgVO);

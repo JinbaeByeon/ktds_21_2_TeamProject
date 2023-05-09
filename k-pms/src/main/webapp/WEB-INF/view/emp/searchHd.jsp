@@ -57,10 +57,12 @@
     <table class="list_table search_table">
         <thead>
 			<tr>
-				<th></th>
-				<th>직원ID</th>
-				<th>이름</th>
-				<th>부서 관리번호</th>
+			   <th></th>
+			   <th>직원ID</th>
+               <th>직급</th>
+               <th>성명</th>
+               <th>직무</th>
+               <th>부서</th>
 			</tr>
         </thead>
             <tbody>
@@ -80,14 +82,16 @@
 										<input type="radio" name ="radio_idx" class="radio_idx" value="${emp.empId}" />
 									</td>
 									<td>${emp.empId}</td>
-									<td>${emp.lNm}${emp.fNm}</td>
-									<td>${emp.depId} </td>
+	                                <td>${emp.pstn.pstnNm}</td>
+	                                <td>${emp.lNm}${emp.fNm}</td>
+	                                <td>${emp.job.jobNm}</td>
+	                                <td>${emp.dep.depNm} (${emp.depId})</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="4">검색된 직원이 없습니다.</td>
+								<td colspan="6">검색된 직원이 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

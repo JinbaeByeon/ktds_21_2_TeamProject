@@ -140,7 +140,7 @@
 						<a href='${context}/req/detail/${issuVO.reqId}'>${issuVO.reqVO.reqTtl}</a> > 이슈
 					</c:if>
 					<c:if test="${empty prjNm}">
-						<a href='${context}/prj/list'>프로젝트</a> >
+						<a href='${context}/prj/list'>프로젝트 목록</a> >
 						<a href='${context}/req/list'>요구사항</a> > 이슈
 					</c:if>
 				</div>

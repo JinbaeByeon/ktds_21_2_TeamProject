@@ -19,11 +19,11 @@
 			  el: document.querySelector('#viewer'),
 			  initialValue: `${sndMsgVO.cntnt}`
 			});
-		if(${rcvMsgVO.delYn == 'Y'}){
+		if(${sndMsgVO.delYn == 'Y'}){
 			$("#msg_trash").addClass("active");
 		}
 		else{
-			$("#rcvmsg_list").addClass("active");
+			$("#sndmsg_list").addClass("active");
 		}
 		$("#list_btn").click(function(){
 			window.location = document.referrer;

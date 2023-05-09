@@ -16,9 +16,7 @@
 		var depWindow;
 		var jobWindow;
 		var pstnWindow;
-		
 		$().ready(function(){
-			
 			var modal = new Modal($);
 			
 			$(".sidebar > ul li a").removeClass("active")
@@ -71,6 +69,10 @@
 			// 사원 등록
 			$("#new_btn").click(function(e){
 				e.preventDefault();
+				if(!validateForm()){
+					return;
+				}
+				AjaxUtil.enableSpinner();
 				var ajaxUtil = new AjaxUtil();
 				ajaxUtil.upload("#create_form","${context}/api/emp/rgst",function(response){
 					if(response.status == "200 OK"){
@@ -78,7 +80,7 @@
 							location.href="${context}"+response.redirectURL;
 						}
 					} else{
-						AjaxUtil.hideSpinner();
+						AjaxUtil.disableSpinner();
 						modal.show(response.message);
 					}
 				},{"prflPht":"uploadFile"});
@@ -96,6 +98,60 @@
 					depWindow = window.open("${context}/dep/search","부서검색","width=500,height=600");
 				}
 			});
+			
+			function validateForm() {
+				let id = $("#empId").val();
+				let name = $("#fNm").val();
+				let email = $("#eml").val();
+				let phone = $("#phn").val();
+				let address = $("#addrss").val();
+				let dob = $("#brthdy").val();
+				let status = $("#emplmntStts").val();
+				let hireDate = $("#hrDt").val();
+				console.log(status);
+
+				if (id == "") {
+				    modal.show("ID를 입력해주세요.","#empId");
+				    return false;
+				}
+
+				if (name == "") {
+				    modal.show("이름을 입력해주세요.","#fNm");
+				    return false;
+				}
+
+				if (email == "") {
+				    modal.show("이메일을 입력해주세요.","#eml");
+				    return false;
+				}
+
+				if (phone == "") {
+				    modal.show("휴대폰 번호를 입력해주세요.","#phn");
+				    return false;
+				}
+
+				if (address == "") {
+				    modal.show("주소를 입력해주세요.","#addrss");
+				    return false;
+				}
+
+				if (dob == "") {
+				    modal.show("생년월일을 입력해주세요.","#brthdy");
+				    return false;
+				}
+
+				if (!status) {
+				    modal.show("재직상태를 입력해주세요.","#emplmntStts");
+				    return false;
+				}
+
+				if (hireDate == "") {
+				    modal.show("입사일을 입력해주세요.","#hrDt");
+				    return false;
+				}
+				return true;
+			}
+			
 		});
 		function addPstnFn(pstnData){
 			$("#btn-add-pstn").hide();
