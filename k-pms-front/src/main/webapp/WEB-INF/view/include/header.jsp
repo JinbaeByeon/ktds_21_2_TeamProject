@@ -59,7 +59,8 @@
                    <img src="${context}/img/base_profile.png" />
                </c:if>
 	          <p id="my-info">
-	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}
+	          	  <span style="font-size: 15px;">${sessionScope.__USER__.job.jobNm}</span><br/>
+	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm} ${sessionScope.__USER__.pstn.pstnNm}
 	          </p>
 	        </div>
 	      </div>

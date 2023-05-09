@@ -14,8 +14,26 @@
 	<script type="text/javascript">
 		$().ready(function(){
 			$(".prj_detail").hide();
+			$(".prj_detail").addClass("hide");
 			$("#prj_list > tbody > tr").click(function(){
-				$(this).next().children().show();
+				
+				$("#prj_list td").css("border-bottom", "1px solid #2b2b2b30");
+				$(".prj_detail").hide();
+				$(".prj_detail").removeClass("show");
+				$(".prj_detail").addClass("hide");
+				
+				
+				$(this).children().css("border-bottom", "none");
+				$(this).next().show();
+				$(this).next().removeClass("hide");
+				$(this).next().addClass("show");
+				
+				
+				var startDt = parseInt($(this).data("strtdt").split("-").join(""));
+				var endDt = parseInt($(this).data("enddt").split("-").join(""));
+				var dDay = (endDt - startDt > 0 ? endDt - startDt : 0)
+				
+				$(".dDay").attr('value', dDay);
 			});
 		});
 	</script>
@@ -119,8 +137,46 @@
 									<td>${prj.endDt}</td>
 									<td>${prj.prjStts}</td>
 								</tr>
-								<tr>
-									<td colspan="6" class="prj_detail">detail</td>
+								<tr class="prj_detail">
+									<td colspan="6" style="padding-top: 0px;">
+									<span class="prj_detail_title">목표현황</span>
+			                             <div class="skill_bar">
+											 <c:if test="${prj.prjStts == '분석중'}">
+											        <div class="skill s_001"></div>
+					                         </c:if>
+											 <c:if test="${prj.prjStts == '설계중'}">
+					                             <div class="skill s_002"></div>
+					                         </c:if>
+											 <c:if test="${prj.prjStts == '개발중'}">
+					                             <div class="skill s_003"></div>
+					                         </c:if>
+											 <c:if test="${prj.prjStts == '단위 테스트 진행중'}">
+					                             <div class="skill s_004"></div>
+					                         </c:if>
+											 <c:if test="${prj.prjStts == '통합 테스트 진행중'}">
+					                             <div class="skill s_005"></div>
+					                         </c:if>
+											 <c:if test="${prj.prjStts == '오픈 대기중'}">
+					                             <div class="skill s_006"></div>
+					                         </c:if>
+					                         <c:if test="${prj.prjStts == '오픈'}">
+					                             <div class="skill s_007"></div>
+					                         </c:if>
+					                         <c:if test="${prj.prjStts == '하자 보수 진행중'}">
+					                             <div class="skill s_008"></div>
+					                         </c:if>
+					                         <c:if test="${prj.prjStts == '완료'}">
+					                             <div class="skill s_009"></div>
+					                         </c:if>
+									    </div>
+			                         
+			                         <span class="prj_detail_title">남은기간</span>
+			                         <div class=left_day>
+			                         	D-<input class="dDay" value="" />
+			                         	<span style="color: #2b2b2b80; font-size: 15px">${prj.strtDt} ~ ${prj.endDt}</span>
+			                         </div>
+			                         
+									</td>
 								</tr>
 							</c:forEach>
 						</c:when>

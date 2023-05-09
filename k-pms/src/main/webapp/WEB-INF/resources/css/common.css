@@ -196,7 +196,7 @@ a:link, a:visited {
 	bottom: 56px;
 	left: 50px;
 }
-.sidebar, .sidebar__inner, .sidebar_battom, .sidebar ul li, .sidebar ul li a, .sidebar ul li span, .sidebar ul, .sidebar_bottom > div > a, .profile, .profile > div, #my-info {
+.sidebar, .sidebar__inner, .sidebar_battom, .sidebar ul li, .sidebar ul li a, .sidebar ul li span, .sidebar ul, .sidebar_bottom > div > a, .profile, .profile > div, #my-info, #my-info > span {
     background: #d1ceca;
 }
 

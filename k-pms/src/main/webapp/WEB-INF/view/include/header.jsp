@@ -65,6 +65,7 @@
                    <img src="${context}/img/base_profile.png" />
                </c:if>
 	          <p id="my-info">
+	          	  <span style="font-size: 15px;">관리자</span><br/>
 	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}
 	          </p>
 	        </div>

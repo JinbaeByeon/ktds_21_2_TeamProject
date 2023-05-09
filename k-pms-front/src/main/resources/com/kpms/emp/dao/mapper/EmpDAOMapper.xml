@@ -152,40 +152,46 @@
 	</select>
 	<select id="readOneEmpByIdAndPwd"
 			parameterType="com.kpms.emp.vo.EmpVO"
-			resultType="com.kpms.emp.vo.EmpVO">
-		SELECT EMP_ID,
-			   TO_CHAR(CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
-			   CRTR,
-			   TO_CHAR(MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT,
-			   MDFYR,
-			   USE_YN,
-			   DEL_YN,
-			   F_NM,
-			   BRTHDY,
-			   EML,
-			   PHN,
-			   PSTN_PRD,
-			   PRFL_PHT,
-			   TO_CHAR(HR_DT,'YYYY-MM-DD HH24:MI:SS') HR_DT,
-			   HR_PRD,
-			   ADDRSS,
-			   EMPLMNT_STTS,
-			   ADMN_YN,
-			   TO_CHAR(PWD_CHNG_DT,'YYYY-MM-DD HH24:MI:SS') PWD_CHNG_DT,
-			   LTST_LGN_IP,
-			   TO_CHAR(LTST_LGN_DT,'YYYY-MM-DD HH24:MI:SS') LTST_LGN_DT,
-			   PWD_SALT,
-			   PWD,
-			   PSTN_ID,
-			   JOB_ID,
-			   DEP_ID,
-			   L_NM,
-			   LGN_CNT,
-			   TO_CHAR(FAIL_DT,'YYYY-MM-DD HH24:MI:SS') FAIL_DT
-		  FROM EMP
-		 WHERE EMP_ID = #{empId}
-		   AND PWD = #{pwd}
-		   AND DEL_YN = 'N'
+			resultMap="EmpMap">
+		SELECT EMP.EMP_ID,
+			   TO_CHAR(EMP.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
+			   EMP.CRTR,
+			   TO_CHAR(EMP.MDFY_DT,'YYYY-MM-DD HH24:MI:SS') MDFY_DT,
+			   EMP.MDFYR,
+			   EMP.USE_YN,
+			   EMP.DEL_YN,
+			   EMP.F_NM,
+			   EMP.BRTHDY,
+			   EMP.EML,
+			   EMP.PHN,
+			   EMP.PSTN_PRD,
+			   EMP.PRFL_PHT,
+			   TO_CHAR(EMP.HR_DT,'YYYY-MM-DD HH24:MI:SS') HR_DT,
+			   EMP.HR_PRD,
+			   EMP.ADDRSS,
+			   EMP.EMPLMNT_STTS,
+			   EMP.ADMN_YN,
+			   TO_CHAR(EMP.PWD_CHNG_DT,'YYYY-MM-DD HH24:MI:SS') PWD_CHNG_DT,
+			   EMP.LTST_LGN_IP,
+			   TO_CHAR(EMP.LTST_LGN_DT,'YYYY-MM-DD HH24:MI:SS') LTST_LGN_DT,
+			   EMP.PWD_SALT,
+			   EMP.PWD,
+			   EMP.PSTN_ID,
+			   EMP.JOB_ID,
+			   EMP.DEP_ID,
+			   EMP.L_NM,
+			   EMP.LGN_CNT,
+			   TO_CHAR(EMP.FAIL_DT,'YYYY-MM-DD HH24:MI:SS') FAIL_DT,
+			   JOB.JOB_NM,
+			   PSTN.PSTN_NM
+		  FROM EMP EMP
+		 INNER JOIN JOB
+		    ON EMP.JOB_ID = JOB.JOB_ID
+		 INNER JOIN PSTN
+		    ON EMP.PSTN_ID = PSTN.PSTN_ID
+		 WHERE EMP.EMP_ID = #{empId}
+		   AND EMP.PWD = #{pwd}
+		   AND EMP.DEL_YN = 'N'
 	</select>
 	
 	<select id="readOneEmpByEmpId"
