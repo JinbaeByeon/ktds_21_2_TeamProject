@@ -13,7 +13,10 @@
 	<jsp:include page="./include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
-			
+			$(".prj_detail").hide();
+			$("#prj_list > tbody > tr").click(function(){
+				$(this).next().children().show();
+			});
 		});
 	</script>
 </head>
@@ -86,7 +89,7 @@
 		        <div class="view_all">
                 <a href="${context}/prj/detail">전체보기</a>
             	</div>
-		        <table class="list_table">
+		        <table class="list_table" id="prj_list">
 		          <thead>
 		            <tr>
 		            	<th>순번</th>
@@ -115,6 +118,9 @@
 									<td>${prj.strtDt}</td>
 									<td>${prj.endDt}</td>
 									<td>${prj.prjStts}</td>
+								</tr>
+								<tr>
+									<td colspan="6" class="prj_detail">detail</td>
 								</tr>
 							</c:forEach>
 						</c:when>
