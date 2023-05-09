@@ -86,6 +86,7 @@
 		        <table class="list_table">
 		          <thead>
 						<tr>
+							<th style="width: 15%;">순번</th>
 							<th style="width: 15%;">직원ID</th>
 							<th style="width: 15%;">사원명</th>
 							<th style="width: 10%;">로그인/로그아웃</th>
@@ -102,6 +103,7 @@
 									    data-act="${lgnHst.act}"
 									    data-crtDt="${lgnHst.crtDt}"
 									    data-ip="${lgnHst.ip}">
+										<td>${lgnHst.rnum}</td>
 										<td>${lgnHst.crtr}</td>
 										<td>${lgnHst.emp.lNm}${lgnHst.emp.fNm}</td>
 										<td>${lgnHst.act}</td>
