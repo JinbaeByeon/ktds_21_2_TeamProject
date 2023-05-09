@@ -41,6 +41,9 @@
 				}
 			});
 		});
+		$("#reply_btn").click(function() {
+			location.href = "${context}/sndmsg/send?sndMsgId=${rcvMsgVO.msgId}";
+		}); 
 		$("#file_list").find(".file_name").click(function(e){
 			var data = $(this).closest(".file_item").data();
 			location.href= "${context}/api/file/download?uuidFlNm="+data.uuid+"&orgFlNm="+data.org;
@@ -127,7 +130,8 @@
 					</c:if>
 				</div>
 				<div class="msg_view_footer">
-					<div class="button_btm_left">
+					<div class="buttons">
+						<button id="reply_btn" class="btn reply">답장</button>
 						<button id="list_btn" class="btn reply">목록</button>
 						<button id="delete_btn" class="btn delete">삭제</button>
 					</div>
