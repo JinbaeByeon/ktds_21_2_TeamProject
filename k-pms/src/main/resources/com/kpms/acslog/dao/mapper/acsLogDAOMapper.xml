@@ -58,4 +58,23 @@
 		   AND AL.CRT_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		<include refid="Common.pageFooter"/>
 	</select>
+	
+	<select id="readAllAcsLogToExcel"
+			parameterType="com.kpms.acslog.vo.AcsLogVO"
+			resultType="com.kpms.acslog.vo.AcsLogExcelVO">
+		SELECT AL.ACS_LOG
+			 , AL.CRT_DT 
+			 , E.EMP_ID
+			 , E.NM
+		  FROM (SELECT ACS_LOG
+					 , TO_CHAR(CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT
+					 , CRTR
+		  		  FROM ACS_LOG
+		  		 WHERE CRT_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+				   AND CRT_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')) AL
+		  JOIN (SELECT EMP_ID
+		  			 , L_NM || F_NM NM
+		  		  FROM EMP ) E
+		 	ON E.EMP_ID = AL.CRTR
+	</select>
 </mapper>

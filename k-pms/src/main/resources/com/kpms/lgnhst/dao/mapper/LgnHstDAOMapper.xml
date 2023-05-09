@@ -46,6 +46,27 @@
 		<include refid="Common.pageFooter"/>
 	</select>
 	
+	<select id="readAllLgnHstToExcel"
+			parameterType="com.kpms.lgnhst.vo.LgnHstVO"
+			resultType="com.kpms.lgnhst.vo.LgnHstExcelVO">
+		SELECT LH.IP,
+			   LH.ACT,
+			   LH.CRT_DT,
+			   E.EMP_ID,
+			   E.NM
+		  FROM (SELECT IP
+		  			 , ACT
+		  			 , CRTR
+		  			 , TO_CHAR(CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT
+		  		  FROM LGN_HST
+				 WHERE CRT_DT >= TO_DATE(#{startDt} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+				   AND CRT_DT <![CDATA[<=]]> TO_DATE(#{endDt} || ' 23:59:59', 'YYYY-MM-DD HH24:MI:SS')) LH
+		  JOIN (SELECT EMP_ID
+		  			 , L_NM || F_NM NM
+		  		  FROM EMP) E
+		  	ON E.EMP_ID = LH.CRTR
+	</select>
+	
 	<insert id="createEmpLgnHst"
 			parameterType="com.kpms.lgnhst.vo.LgnHstVO">
 		INSERT INTO LGN_HST

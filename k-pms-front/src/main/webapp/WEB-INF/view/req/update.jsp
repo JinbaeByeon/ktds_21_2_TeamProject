@@ -121,7 +121,7 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 			});
-			
+
 			var reqId = $("#reqId").val();
 			ajaxUtil.upload("#detail_form","${context}/api/req/update",function(response){
 				if(response.status == "200 OK"){
@@ -296,100 +296,207 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path"> 상세 정보</div>
-				<div class="grid-detail">
-					<form id="detail_form" >
-						<div class="create-group">
-							<label for="reqTtl" style="width: 180px;">제목</label>
-							<div>${reqVO.reqTtl}</div>
-						</div>
-						<div class="create-group">
-							<label for="prrty" style="width: 180px;">우선순위</label>
-							<div>${reqVO.prrty}</div>
-						</div>
-						<div class="create-group">
-							<label for="strtDt" style="width: 180px;">시작일</label>
-							<div>${reqVO.strtDt}</div>
-						</div>
-						<div class="create-group">
-							<label for="expctEndDt" style="width: 180px;">종료예정일</label>
-							<div>${reqVO.expctEndDt}</div>
-						</div>
-						<div class="create-group">
-							<label for="prjNm" style="width: 180px;">프로젝트명</label>
-							<input type="hidden" id="prjId"  name="prjId" value=""/>
-							<div>${reqVO.reqPrjVO.prjNm}</div>
-						</div>
-						<div class="create-group">
-							<label for="prjId" style="width: 180px;">담당개발자</label>
-							<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
-							<button id="prjtmmbr_search">검색</button>
-						</div>
-						<div class="create-group">
-							<label for="reqCnfrNm" style="width: 180px;">확인자</label>
-							<div>${reqVO.reqCnfrNm}</div>
-						</div>
-						<div class="create-group">
-							<label for="files" style="width: 180px;">첨부파일</label>
-							<div class="file_area">
-								<div class="file_upload">
-									<button id="add_files">+</button>
-								</div>
-								<div class="align-center">
-									<p class="file_drag">파일을 마우스로 끌어 오세요</p>
-									<div class="file_attachment" hidden="hidden">
-										<div>
-											<div class="remove_all">x</div>
-											<div class="file_name">파일명</div>
-											<div class="file_size">용량</div>
+				<div class="path">${reqVO.reqTtl}</div>
+				<form id="detail_form" >
+					<input type="hidden" id="reqId"  name="reqId" value="${reqVO.reqId}" />
+					<input type="hidden" id="prjId"  name="prjId" value=""/>
+					<table class="detail_page detail_table">
+		                <tr>
+		                    <th>제목</th>
+		                    <td><input type="text" id="reqTtl"  name="reqTtl" value="" readonly/></td>
+		                </tr>
+		                <tr>
+		                    <th>우선순위</th>
+		                    <td>
+		                    	<select id="prrty"  name="prrty" >
+										<option>선택</option>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+								</select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>시작일</th>
+		                    <td><input type="date" id="strtDt"  name="strtDt" value="" readonly/></td>
+		                </tr>
+		                <tr>
+		                    <th>종료예정일</th>
+		                    <td><input type="date" id="expctEndDt"  name="expctEndDt" value="" readonly	/></td>
+		                </tr>
+		                <tr>
+		                    <th>프로젝트명</th>
+		                    <td>${reqVO.reqPrjVO.prjNm}</td>
+		                </tr>
+		                <tr>
+		                    <th>담당개발자</th>
+		                    <td>
+		                    	<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
+								<button id="prjtmmbr_search" class="btn regist">검색</button>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>확인자</th>
+		                    <td><input type="text" id="reqCnfrNm"  name="reqCnfrNm" value="" readonly/></td>
+		                </tr>
+		                <tr>
+		                    <th>첨부파일</th>
+		                    <td>
+								<button id="add_files" class="btn btn-add">+</button>
+									<div class="file_area input_div">
+										<div class="file_upload">
 										</div>
-										<ul id="file_list">
-											<c:if test="${not empty reqVO.atchFlList}">
-											<c:forEach items="${reqVO.atchFlList}" var="atchFl">
-												<li data-uuid='${atchFl.uuidFlNm}'
-													data-org='${atchFl.orgFlNm}'
-													data-sz='${atchFl.flSz}'
-													data-ext='${atchFl.flExt}'>
-													<div>
-														<span class='remove'>x</span>
-														<span class='file_name'>${atchFl.orgFlNm}</span>
-														<c:if test="${atchFl.flSz < 1024*1024}">
-															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
-														</c:if>
-														<c:if test="${atchFl.flSz >= 1024*1024}">
-															<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
-														</c:if>
-													</div>
-												</li>
-											</c:forEach>
-										</c:if>
-										</ul>
+										<div class="align-center input_div">
+											<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+											<div class="file_attachment input_div" hidden="hidden">
+												<div>
+													<div class="remove_all">x</div>
+													<div class="file_name">파일명</div>
+													<div class="file_size">용량</div>
+												</div>
+												<ul id="file_list">
+													<c:if test="${not empty reqVO.atchFlList}">
+													<c:forEach items="${reqVO.atchFlList}" var="atchFl">
+														<li data-uuid='${atchFl.uuidFlNm}'
+															data-org='${atchFl.orgFlNm}'
+															data-sz='${atchFl.flSz}'
+															data-ext='${atchFl.flExt}'>
+															<div>
+																<span class='remove'>x</span>
+																<span class='file_name'>${atchFl.orgFlNm}</span>
+																<c:if test="${atchFl.flSz < 1024*1024}">
+																	<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+																</c:if>
+																<c:if test="${atchFl.flSz >= 1024*1024}">
+																	<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+																</c:if>
+															</div>
+														</li>
+													</c:forEach>
+												</c:if>
+												</ul>
+											</div>
+										</div>
 									</div>
+									<input type="file" id="files" multiple/>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>진행상태</th>
+		                    <td>
+		                    	<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
+								<select id="prcsStts-select"  name="prcsStts" ></select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>일정상태</th>
+		                    <td>
+		                    	<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
+								<select id="tskStts-select"  name="tskStts" ></select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>테스트 결과</th>
+		                    <td>
+		                    	<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
+								<select id="tstRslt-select"  name="tstRslt" ></select>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th>상세요구사항</th>
+		                    <td><textarea id="dtlReq" name="dtlReq" class="input_div">${req.dtlReq}</textarea></td>
+		                </tr>
+		            </table>
+					<%-- <div class="create-group">
+						<label for="reqTtl" style="width: 180px;">제목</label>
+						<div>${reqVO.reqTtl}</div>
+					</div>
+					<div class="create-group">
+						<label for="prrty" style="width: 180px;">우선순위</label>
+						<div>${reqVO.prrty}</div>
+					</div>
+					<div class="create-group">
+						<label for="strtDt" style="width: 180px;">시작일</label>
+						<div>${reqVO.strtDt}</div>
+					</div>
+					<div class="create-group">
+						<label for="expctEndDt" style="width: 180px;">종료예정일</label>
+						<div>${reqVO.expctEndDt}</div>
+					</div>
+					<div class="create-group">
+						<label for="prjNm" style="width: 180px;">프로젝트명</label>
+						<input type="hidden" id="prjId"  name="prjId" value=""/>
+						<div>${reqVO.reqPrjVO.prjNm}</div>
+					</div>
+					<div class="create-group">
+						<label for="prjId" style="width: 180px;">담당개발자</label>
+						<input type="text" id="mnDvlpr"  name="mnDvlpr" value=""/>
+						<button id="prjtmmbr_search">검색</button>
+					</div>
+					<div class="create-group">
+						<label for="reqCnfrNm" style="width: 180px;">확인자</label>
+						<div>${reqVO.reqCnfrNm}</div>
+					</div>
+					<div class="create-group">
+						<label for="files" style="width: 180px;">첨부파일</label>
+						<div class="file_area">
+							<div class="file_upload">
+								<button id="add_files">+</button>
+							</div>
+							<div class="align-center">
+								<p class="file_drag">파일을 마우스로 끌어 오세요</p>
+								<div class="file_attachment" hidden="hidden">
+									<div>
+										<div class="remove_all">x</div>
+										<div class="file_name">파일명</div>
+										<div class="file_size">용량</div>
+									</div>
+									<ul id="file_list">
+										<c:if test="${not empty reqVO.atchFlList}">
+										<c:forEach items="${reqVO.atchFlList}" var="atchFl">
+											<li data-uuid='${atchFl.uuidFlNm}'
+												data-org='${atchFl.orgFlNm}'
+												data-sz='${atchFl.flSz}'
+												data-ext='${atchFl.flExt}'>
+												<div>
+													<span class='remove'>x</span>
+													<span class='file_name'>${atchFl.orgFlNm}</span>
+													<c:if test="${atchFl.flSz < 1024*1024}">
+														<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
+													</c:if>
+													<c:if test="${atchFl.flSz >= 1024*1024}">
+														<span class='file_size'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
+													</c:if>
+												</div>
+											</li>
+										</c:forEach>
+									</c:if>
+									</ul>
 								</div>
 							</div>
-							<input type="file" id="files" multiple/>
 						</div>
-						<div class="create-group">
-							<label for="prcsStts" style="width: 180px;">진행상태</label>
-							<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
-							<select id="prcsStts-select"  name="prcsStts" ></select>
-						</div>
-						<div class="create-group">
-							<label for="tskStts" style="width: 180px;">일정상태</label>
-							<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
-							<select id="tskStts-select"  name="tskStts" ></select>
-						</div>
-						<div class="create-group">
-							<label for="tstRslt" style="width: 180px;">테스트 결과</label>
-							<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
-							<select id="tstRslt-select"  name="tstRslt" ></select>
-						</div>
-						<div class="create-group">
-							<label for="dtlReq" style="width: 180px;">상세요구사항</label>
-							<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
-						</div>
-					</form>		
-				</div>
+						<input type="file" id="files" multiple/>
+					</div>
+					<div class="create-group">
+						<label for="prcsStts" style="width: 180px;">진행상태</label>
+						<input type="hidden" id="original-prcsStts"  name="original-prcsStts" value="${reqVO.prcsStts}"/>
+						<select id="prcsStts-select"  name="prcsStts" ></select>
+					</div>
+					<div class="create-group">
+						<label for="tskStts" style="width: 180px;">일정상태</label>
+						<input type="hidden" id="original-tskStts"  name="original-tskStts" value="${reqVO.tskStts}"/>
+						<select id="tskStts-select"  name="tskStts" ></select>
+					</div>
+					<div class="create-group">
+						<label for="tstRslt" style="width: 180px;">테스트 결과</label>
+						<input type="hidden" id="original-tstRslt"  name="original-tstRslt" value="${reqVO.tstRslt}"/>
+						<select id="tstRslt-select"  name="tstRslt" ></select>
+					</div>
+					<div class="create-group">
+						<label for="dtlReq" style="width: 180px;">상세요구사항</label>
+						<textarea id="dtlReq" name="dtlReq" >${req.dtlReq}</textarea>
+					</div> --%>
+				</form>		
 				<div class="align-right">
 					<button id="save_btn" class="btn-primary">저장</button>
 					<button id="back-btn" class="btn-delete">뒤로</button>

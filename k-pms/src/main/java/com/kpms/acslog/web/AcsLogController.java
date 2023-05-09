@@ -1,6 +1,10 @@
 package com.kpms.acslog.web;
 
+import java.io.File;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,7 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.kpms.acslog.service.AcsLogService;
+import com.kpms.acslog.vo.AcsLogExcelVO;
 import com.kpms.acslog.vo.AcsLogVO;
+import com.kpms.common.handler.DownloadUtil;
+import com.kpms.common.util.ExcelUtil;
 
 @Controller
 public class AcsLogController {
@@ -38,5 +45,21 @@ public class AcsLogController {
 			model.addAttribute("searchKeyword",acsLogVO.getEmp().getfNm());
 		}
 		return "emp/log/acs";
+	}
+
+	@GetMapping("/acslog/export/excel")
+	public void doExportExcelEmp(AcsLogVO acsLogVO
+								, HttpServletRequest request
+								, HttpServletResponse response) {
+		List<AcsLogExcelVO> contents = acsLogService.readAllAcsLogToExcel(acsLogVO);
+		String path = "C:/kpms/files/excel";
+		String fileName = "AcsLogs.xlsx";
+		File excelFile = ExcelUtil.writeExcel(contents, fileName, path);
+		
+		if(excelFile.exists()) {
+			path = excelFile.getPath();
+			new DownloadUtil(response, request, path)
+			.download(fileName);
+		}
 	}
 }

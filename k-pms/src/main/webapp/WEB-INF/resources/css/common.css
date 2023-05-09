@@ -1490,7 +1490,10 @@ select {
 	height:35px;
 	margin-bottom: -10px
 }
-
+#export_excel:hover {
+    box-shadow: 1px 1px 1px 1px #4c4646;
+    -webkit-transition: 0.3s;
+}
 /* index page */
 .firstPart {
 	position: relative;
