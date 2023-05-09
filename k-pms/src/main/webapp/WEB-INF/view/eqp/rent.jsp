@@ -387,7 +387,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">비품 관리 > 대여 관리</div>
+				<div class="path">비품 > 대여 관리</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select>

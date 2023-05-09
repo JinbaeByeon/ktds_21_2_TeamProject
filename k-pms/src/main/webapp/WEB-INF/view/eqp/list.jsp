@@ -214,7 +214,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">비품 관리 > 비품 목록</div>
+				<div class="path">비품 > 비품 목록</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select>

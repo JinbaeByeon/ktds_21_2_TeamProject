@@ -35,7 +35,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-			<div class="path">비품 관리 > 비품 변경 이력</div>
+			<div class="path">비품 > 비품 변경 이력</div>
 		      <div class="list_section">
 				<jsp:include page="../include/viewCnt.jsp" />
 		        <div class="total">총 ${eqpLogList.size() > 0 ? eqpLogList.get(0).totalCount : 0}건</div>
