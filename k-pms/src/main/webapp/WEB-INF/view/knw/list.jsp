@@ -105,7 +105,7 @@
 					<div class="path"><a href="${context}/prj/list">프로젝트</a> > 프로젝트 지식</div>
 				</c:if>
 				<c:if test="${knwSearchVO.commonMode}">
-					<div class="path">사내 지식</div>
+					<div class="path">프로젝트 > 사내 지식</div>
 				</c:if>
 		      <div class="search_wrapper">
 		        <div class="search_box">
