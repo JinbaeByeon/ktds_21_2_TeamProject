@@ -52,7 +52,7 @@
 		});
 					
 		$("#create_btn").click(function(){
-			location.href = "${context}/issu/create" 
+			location.href = "${context}/issu/create/${issuVO.reqId}";  
 		});
 		
 		$("#all_check").change(function(){

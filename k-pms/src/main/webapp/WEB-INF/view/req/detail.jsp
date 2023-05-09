@@ -135,6 +135,7 @@
 		$("#issu_create_btn").click(function(){
 			var reqId = data2;
 			location.href="${context}/issu/create/"+reqId;
+			
 		});
 		$("#issu_delete_btn").click(function(){
 			var checkLen = $(".check_idx:checked").length;
@@ -328,7 +329,9 @@
                     <td>${reqVO.mdfyDt}</td>
                   </tr>
             </table>
-                
+        <div class="buttons">
+			<button id="update_btn" class="btn edit">수정</button>
+        </div>         
         <div class="hr"></div>
             <div class="req path">이슈</div>
             <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
@@ -396,7 +399,7 @@
                 </table>
 
         <div class="buttons">
-			<button id="update_btn" class="btn edit">수정</button>
+			<button id="issu_create_btn" class="btn edit">추가</button>
 			<button id="issu_delete_btn" class="btn delete">삭제</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />
