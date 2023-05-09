@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.kpms.common.api.vo.APIDataResponseVO;
 import com.kpms.common.api.vo.APIResponseVO;
 import com.kpms.common.api.vo.APIStatus;
+import com.kpms.common.exception.APIException;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.rcvmsg.service.RcvMsgService;
 import com.kpms.rcvmsg.vo.MsgVOList;
@@ -81,6 +82,7 @@ public class RestRcvMsgController {
 	
 	@GetMapping("/api/rcvmsg/cnt")
 	public APIDataResponseVO doReadCntUnReadRcvMsg(@SessionAttribute("__USER__") EmpVO user) {
+		if(user == null) throw new APIException(APIStatus.NOT_FOUND, "세션이 만료되었습니다.");
 		int cnt = rcvMsgService.readCntUnReadSndMsg(user.getEmpId());
 		return new APIDataResponseVO(APIStatus.OK, cnt);
 	}

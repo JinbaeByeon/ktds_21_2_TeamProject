@@ -158,10 +158,11 @@
 			<div class="path">쪽지 > 받은쪽지함</div>
 		      <div class="search_wrapper">
 		      	<div class="msg_buttons">
-		      	  <button type="button" id="read_btn" class="btn read msg" disabled>읽음</button>
-		          <button type="button" id="reply_btn" class="btn reply msg" disabled>답장</button>
-		          <button type="button" id="delete_btn" class="btn delete msg" disabled>삭제</button>
+		      	  <button id="read_btn" class="btn read msg" disabled>읽음</button>
+		          <button id="reply_btn" class="btn reply msg" disabled>답장</button>
+		          <button id="delete_btn" class="btn delete msg" disabled>삭제</button>
 		         </div>
+		      <form class="inline_form">
 		        <div class="search_box">
 		          <select class="search-option" id="searchType" name="searchType">
 		            <option value="id" ${searchType eq "id" ? "selected" : ""}>직원ID</option>

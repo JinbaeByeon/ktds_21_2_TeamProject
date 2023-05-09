@@ -139,7 +139,7 @@
 		$("#issu_delete_btn").click(function(){
 			var checkLen = $(".check_idx:checked").length;
 			if(checkLen == 0) {
-				alert("삭제할 요구사항이 없습니다.");
+				alert("삭제할 이슈가 없습니다.");
 				return;
 			}
 			var form = $("<form></form>")
@@ -313,7 +313,10 @@
                     <td colspan="3">${reqVO.useYn}</td>
                 </tr>
             </table>
-                
+        <div class="buttons">
+			<button id="update_btn" class="btn edit">수정</button>
+			<button id="issu_delete_btn" class="btn delete">삭제</button>
+        </div>        
         <div class="hr"></div>
             <div class="req path">이슈</div>
             <div class="total">총 ${issuList.size() > 0 ? issuList.get(0).totalCount : 0}건</div>
@@ -383,7 +386,7 @@
                 </table>
 
         <div class="buttons">
-			<button id="update_btn" class="btn edit">수정</button>
+			<button id="issu_create_btn" class="btn edit">추가</button>
 			<button id="issu_delete_btn" class="btn delete">삭제</button>
         </div>
 			<jsp:include page="../include/footer.jsp" />

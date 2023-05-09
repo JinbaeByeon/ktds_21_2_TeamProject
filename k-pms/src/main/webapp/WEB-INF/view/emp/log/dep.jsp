@@ -25,7 +25,6 @@
 		});
 	});
 	function movePage(pageNo) {
-<<<<<<< HEAD
 		var searchType = $(".search-option").val();
 		var searchKeyword = $("#search-keyword").val();
 		var startDt = $("#search-keyword-startdt").val();
