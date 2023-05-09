@@ -7,6 +7,9 @@
 	$().ready(function(){
 		function readCnt(){
 			$.get("${context}/api/rcvmsg/cnt",function(response){
+				if(response.status != "200 OK"){
+					location.reload();
+				}
 				var cnt = response.data;
 				var msgCnt = $("#msg_cnt");
 				if(cnt==0){

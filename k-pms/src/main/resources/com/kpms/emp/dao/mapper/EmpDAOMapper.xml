@@ -254,15 +254,20 @@
 		SELECT E.EMP_ID,
 			   E.F_NM,
 			   E.L_NM,
+			   E.BRTHDY,
 			   E.EML,
 			   E.PHN,
 			   E.PRFL_PHT,
 			   E.EMPLMNT_STTS,
+			   TO_CHAR(E.HR_DT,'YYYY-MM-DD') HR_DT,
+			   E.PST_CD,
+			   E.ADDRSS,
+			   E.DTL_ADDRSS,
 			   E.DEP_ID,
-			   E.BRTHDY,
 			   J.JOB_NM,
 			   D.DEP_NM,
-			   P.PSTN_NM
+			   P.PSTN_NM,
+			   ES.CD_NM
 		  FROM (SELECT E.*
 		  			 , E.L_NM || E.F_NM NM
 		  		  FROM EMP E
@@ -281,6 +286,8 @@
 		  	ON J.JOB_ID = E.JOB_ID
 		  JOIN PSTN P
 		  	ON P.PSTN_ID = E.PSTN_ID
+		  JOIN CMN_CD ES
+		  	ON ES.CD_ID = E.EMPLMNT_STTS
 		<if test="fNm != null and fNm != ''">
 		 WHERE E.NM LIKE '%' || #{fNm} || '%'
 		</if>

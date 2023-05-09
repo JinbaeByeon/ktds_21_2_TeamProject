@@ -1485,3 +1485,8 @@ select {
 #msg_cnt {
     color: rgb(255 95 88);
 }
+
+#export_excel {
+	height:35px;
+	margin-bottom: -10px
+}

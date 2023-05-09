@@ -1,6 +1,11 @@
 package com.kpms.emp.vo;
 
+import org.springframework.stereotype.Indexed;
+
 import com.kpms.cmncd.vo.CmnCdVO;
+import com.kpms.common.excel4j.annotations.ExcelSheet;
+import com.kpms.common.excel4j.annotations.Field;
+import com.kpms.common.excel4j.annotations.Format;
 import com.kpms.common.vo.AbstractFileVO;
 import com.kpms.dep.vo.DepVO;
 import com.kpms.job.vo.JobVO;
@@ -10,17 +15,35 @@ import com.kpms.tmmbr.vo.TmMbrVO;
 /**
  * EMP
  */
+@ExcelSheet("Employees")
 public class EmpVO extends AbstractFileVO{
+	@Field("ID")
+	@Format(alignment = Format.LEFT, verticalAlignment = Format.V_CENTER, bold = true)
 	private String empId;
+	
+	@Field("이름")
+	@Format(alignment = Format.LEFT, verticalAlignment = Format.V_CENTER)
 	private String fNm;
+	
 	private String brthdy;
+	@Field("이메일")
+	@Format(alignment = Format.LEFT, verticalAlignment = Format.V_CENTER)
 	private String eml;
+	@Field("전화번호")
+	@Format(alignment = Format.LEFT, verticalAlignment = Format.V_CENTER)
 	private String phn;
 	private int pstnPrd;
 	private String prflPht;
+	
+	@Field(value = "입사일", date = true)
+	@Format(alignment = Format.LEFT, verticalAlignment = Format.V_CENTER)
 	private String hrDt;
 	private int hrPrd;
+	@Field(value = "우편번호")
+	@Format(alignment = Format.LEFT, verticalAlignment = Format.V_CENTER)
 	private String pstCd;
+	@Field(value = "주소")
+	@Format(alignment = Format.LEFT, verticalAlignment = Format.V_CENTER)
 	private String addrss;
 	private String dtlAddrss;
 	private String emplmntStts;
@@ -33,6 +56,9 @@ public class EmpVO extends AbstractFileVO{
 	private int pstnId;
 	private int jobId;
 	private String depId;
+	
+	@Field("성")
+	@Format(alignment = Format.LEFT, verticalAlignment = Format.V_CENTER)
 	private String lNm;
 	private int lgnCnt;
 	private String failDt;
