@@ -27,6 +27,37 @@ $().ready(function() {
 		console.log(prjStts);
 		location.href = "${context}/prj/list?prjStts=" + prjStts;
 	});
+	
+  $('.list_table th').each(function (column) {
+	   var sortdir
+	    $(this).click(function() {
+	      if($(this).is('.asc')) {
+	        $(this).removeClass('asc');
+	        $(this).addClass('desc');
+	        sortdir=-1;
+
+	      } else {
+	        $(this).addClass('asc');
+	        $(this).removeClass('desc'); sortdir=1;
+	      }
+
+	      $(this).siblings().removeClass('asc');
+	      $(this).siblings().removeClass('desc');
+
+	      var rec = $('.list_table').find('tbody>tr').get();
+		
+	      console.log(rec);
+	      rec.sort(function (a, b) {
+	        var val1 = $(a).children('td').eq(column).text().toUpperCase();
+	        var val2 = $(b).children('td').eq(column).text().toUpperCase();
+	        return (val1 < val2)?-sortdir:(val1>val2)?sortdir:0;
+	      });
+
+	      $.each(rec, function(index, row) {
+	          $('.list_table tbody').append(row);
+	      });
+	    });
+	 });
 
 	
 });
@@ -40,6 +71,8 @@ $().ready(function() {
 		
 		location.href = "${context}/prj/list?" + queryString;
 	}
+	
+	
 </script>
 </head>
 <body>
