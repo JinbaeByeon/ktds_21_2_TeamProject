@@ -34,6 +34,11 @@ public class RcvMsgServiceImpl implements RcvMsgService{
 	}
 	
 	@Override
+	public int readCntUnReadSndMsg(String empId) {
+		return rcvMsgDAO.readCntUnReadSndMsg(empId);
+	}
+	
+	@Override
 	public boolean createOneRcvMsg(RcvMsgVO rcvMsgVO) {
 		return rcvMsgDAO.createOneRcvMsg(rcvMsgVO) > 0;
 	}
