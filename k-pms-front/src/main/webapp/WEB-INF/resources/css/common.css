@@ -1370,3 +1370,7 @@ select {
 .scroll_table .input {
 	width: 0%;
 }
+
+#msg_cnt {
+    color: rgb(255 95 88);
+}

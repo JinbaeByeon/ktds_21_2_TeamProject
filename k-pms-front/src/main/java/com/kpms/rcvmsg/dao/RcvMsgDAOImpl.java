@@ -32,6 +32,11 @@ public class RcvMsgDAOImpl extends SqlSessionDaoSupport implements RcvMsgDAO {
 	}
 	
 	@Override
+	public int readCntUnReadSndMsg(String empId) {
+		return getSqlSession().selectOne("RcvMsg.readCntUnReadSndMsg", empId);
+	}
+	
+	@Override
 	public int createOneRcvMsg(RcvMsgVO rcvMsgVO) {
 		return getSqlSession().insert("RcvMsg.createOneRcvMsg", rcvMsgVO);
 	}

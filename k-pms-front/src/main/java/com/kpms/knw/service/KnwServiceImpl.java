@@ -16,6 +16,7 @@ import com.kpms.knw.dao.KnwDAO;
 import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
 import com.kpms.knwrpl.dao.KnwRplDAO;
+import com.kpms.knwrpl.vo.KnwRplVO;
 
 @Service
 public class KnwServiceImpl implements KnwService {
@@ -40,7 +41,7 @@ public class KnwServiceImpl implements KnwService {
 		}
 
 		boolean isSuccess = knwDAO.createOneKnw(knwVO) > 0;
-		
+
 		List<AtchFlVO> fileList = knwVO.getAtchFlList();
 
 		if (fileList != null) {
@@ -79,9 +80,9 @@ public class KnwServiceImpl implements KnwService {
 
 		boolean isSuccess = knwDAO.updateOneKnw(knwVO) > 0;
 		atchFlDAO.deleteAtchFlsByFrgnId(knwVO.getKnwId());
-		
+
 		List<AtchFlVO> fileList = knwVO.getAtchFlList();
-		
+
 		if (fileList != null) {
 			fileList.forEach(file -> {
 				file.setCrtr(knwVO.getMdfyr());
@@ -97,7 +98,12 @@ public class KnwServiceImpl implements KnwService {
 
 	@Override
 	public boolean deleteOneKnw(String knwId) {
-		knwRplDAO.deleteSelectedKnwRplByKnwId(knwId);
+		KnwVO knwVO = knwDAO.readOneKnwByKnwId(knwId);
+		List<KnwRplVO> rplList = knwVO.getRplList();
+		if (rplList.get(0).getKnwId() != null) {
+			knwRplDAO.deleteSelectedKnwRplByKnwId(knwId);
+		}
+		;
 		return knwDAO.deleteOneKnw(knwId) > 0;
 	}
 

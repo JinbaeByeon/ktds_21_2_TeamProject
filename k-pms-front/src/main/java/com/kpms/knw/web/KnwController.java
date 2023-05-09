@@ -58,14 +58,19 @@ public class KnwController {
 	@GetMapping("/knw/detail/{knwId}")
 	public String viewKnwDetailPage(@PathVariable String knwId, Model model, @SessionAttribute("__USER__") EmpVO empVO) {
 		KnwVO knwVO = knwService.readOneKnwByKnwId(knwId);
-		List<AtchFlVO> atchFlList = knwVO.getAtchFlList();
+		if(knwVO.getDelYn().equals("N")) {
+			List<AtchFlVO> atchFlList = knwVO.getAtchFlList();
+			
+			model.addAttribute("knwVO", knwVO);
+			model.addAttribute("prjVO", knwVO.getPrjVO());
+			model.addAttribute("atchFlList", atchFlList);
+			model.addAttribute("atchmntPath", atchmntPath);
+			return "knw/detail";
+		}
+		else {
+			return "error/404";
+		}
 		
-		model.addAttribute("knwVO", knwVO);
-		model.addAttribute("prjVO", knwVO.getPrjVO());
-		model.addAttribute("atchFlList", atchFlList);
-		model.addAttribute("atchmntPath", atchmntPath);
-		
-		return "knw/detail";
 	}
 	
 	@GetMapping("/knw/update/{knwId}")

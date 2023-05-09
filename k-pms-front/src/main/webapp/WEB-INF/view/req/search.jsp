@@ -30,6 +30,7 @@
 
 			var req = radiobox.closest("tr").data();
 			opener.addReqFn(req);
+			window.close();	
 		});
 	});
 </script>
