@@ -12,6 +12,9 @@ import com.kpms.dep.vo.DepVO;
 import com.kpms.dep.vo.DeptSearchVO;
 import com.kpms.emp.service.EmpService;
 import com.kpms.emp.vo.EmpVO;
+import com.kpms.prj.service.PrjService;
+import com.kpms.prj.vo.PrjSearchVO;
+import com.kpms.prj.vo.PrjVO;
 
 @Controller
 public class IndexController {
@@ -20,36 +23,19 @@ public class IndexController {
 	private DepService depService;
 	@Autowired
 	private EmpService empService;
-	
+	@Autowired
+	private PrjService prjService;
 	@GetMapping("/index")
-	public String viewIndexPage(DeptSearchVO deptSearchVO, Model model, EmpVO empVO, String searchType) {
-		
+	public String viewIndexPage(DeptSearchVO deptSearchVO, Model model, EmpVO empVO, String searchType, PrjSearchVO prjSearchVO) {
+		List<PrjVO> prjList = prjService.readAllPrjVO(prjSearchVO);
+		model.addAttribute("prjList", prjList);
+	    
 		List<EmpVO> empList = empService.readEmpList(empVO);
 		model.addAttribute("empList",empList);
-		if(!empList.isEmpty()) {
-			model.addAttribute("lastPage",empList.get(0).getLastPage());
-		}
-		model.addAttribute("pageNo",empVO.getPageNo());
-		model.addAttribute("pageCnt",empVO.getPageCnt());
-		model.addAttribute("viewCnt",empVO.getViewCnt());
-		model.addAttribute("empVO",empVO);
-		if(searchType==null) {
-			searchType= "ID";
-		}
 		
-		
-		model.addAttribute("searchType",searchType);
 		List<DepVO> depList = depService.readAllDepVO(deptSearchVO);
-		
 		model.addAttribute("depList", depList);
-		model.addAttribute("depVO", deptSearchVO);
 		
-		if (!depList.isEmpty()) {
-			model.addAttribute("lastPage", depList.get(0).getLastPage());
-		}
-		model.addAttribute("pageNo", deptSearchVO.getPageNo());
-		model.addAttribute("viewCnt", deptSearchVO.getViewCnt());
-		model.addAttribute("pageCnt", deptSearchVO.getPageCnt());
 		return "index";
 	}
 }

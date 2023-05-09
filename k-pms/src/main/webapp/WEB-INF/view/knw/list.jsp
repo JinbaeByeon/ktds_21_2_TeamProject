@@ -102,10 +102,10 @@
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<c:if test="${not knwSearchVO.commonMode}">
-					<div class="path">프로젝트 > 지식 목록</div>
+					<div class="path"><a href="${context}/prj/list">프로젝트</a> > 프로젝트 지식</div>
 				</c:if>
 				<c:if test="${knwSearchVO.commonMode}">
-					<div class="path">사내지식관리 > 지식 목록</div>
+					<div class="path">사내 지식</div>
 				</c:if>
 		      <div class="search_wrapper">
 		        <div class="search_box">
