@@ -11,7 +11,7 @@
           <ul>
             <li>
               <a href="${context}/dep/list" id="dep_list">
-                <span>부서 관리</span>
+                <span>부서 상세</span>
               </a>
             </li>
             <li>

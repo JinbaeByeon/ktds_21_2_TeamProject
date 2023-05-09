@@ -77,7 +77,6 @@
 								class="prjtr">
 								<td><input type="radio" id="check-one" name="check-one"
 									value="${prj.prjId}" /></td>
-								<td>${prj.prjId}</td>
 								<td>${prj.prjNm}</td>
 								<td>${prj.cstmr}</td>
 								<td>${prj.prjStts}</td>
