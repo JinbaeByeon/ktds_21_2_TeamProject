@@ -16,10 +16,7 @@
 		var depWindow;
 		var jobWindow;
 		var pstnWindow;
-
-		AjaxUtil.enableSpinner();
 		$().ready(function(){
-			
 			var modal = new Modal($);
 			
 			$(".sidebar > ul li a").removeClass("active")
@@ -75,6 +72,7 @@
 				if(!validateForm()){
 					return;
 				}
+				AjaxUtil.enableSpinner();
 				var ajaxUtil = new AjaxUtil();
 				ajaxUtil.upload("#create_form","${context}/api/emp/rgst",function(response){
 					if(response.status == "200 OK"){
@@ -82,7 +80,7 @@
 							location.href="${context}"+response.redirectURL;
 						}
 					} else{
-						AjaxUtil.hideSpinner();
+						AjaxUtil.disableSpinner();
 						modal.show(response.message);
 					}
 				},{"prflPht":"uploadFile"});
