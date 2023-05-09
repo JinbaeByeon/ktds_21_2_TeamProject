@@ -84,6 +84,7 @@
 		        <table class="list_table">
 		          <thead>
 						<tr>
+							<th>순번</th>
 							<th>직원ID</th>
 							<th>이름</th>
 							<th>이전 직무 관리번호</th>
@@ -112,6 +113,7 @@
 										data-chngrsn="${jobLog.chngRsn}"
 										data-crtdt="${jobLog.crtDt}"
 										data-crtr="${jobLog.crtr}">
+									<td>${jobLog.rnum}</td>
 									<td>${jobLog.empId}</td>
 									<td>${jobLog.empVO.lNm}${jobLog.empVO.fNm}</td>
 									<td>${jobLog.prvsJobId}</td>

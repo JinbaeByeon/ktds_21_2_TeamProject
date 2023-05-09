@@ -20,8 +20,20 @@
 		if(${empty reqList} && pageNo > 0){
 			movePage(pageNo-1);
 		}
+		
 		$(".sidebar > ul li a").removeClass("active")
 		$("#req_list").addClass("active");
+		
+		$(".list_table > tbody > tr > td").not(".path_prj").not(".check_idx").click(function(){
+			var reqId =$(this).closest("tr").data("reqid");
+			location.href = "${context}/req/detail/" + reqId;
+		});
+		
+		$(".list_table > tbody > tr > td.path_prj").click(function(){
+			var prjId = $(this).closest("tr").data("prjid");
+			location.href = "${context}/prj/detail/" + prjId;
+			console.log(prjId);
+		});
 		
 		$("#tskSttsType").val("${reqVO.tskCdNm}").prop("selected", true);
 		$("#tskSttsType").change(function(){
@@ -49,12 +61,12 @@
 		$(".detail_path").click(function(){
 			var reqId =$(this).closest("tr").data("reqid");
 			location.href = "${context}/req/detail/" + reqId;
-			
 		});
 		
 		$("#all_check").change(function(){
 			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
+		
 		$(".check_idx").change(function(){
 			var count = $(".check_idx").length;
 			var checkCount = $(".check_idx:checked").length;
@@ -178,14 +190,13 @@
 						<c:choose>
 							<c:when test="${not empty reqList}">
 								<c:forEach items="${reqList}"
-											   var="req"
-											   varStatus="index">
+											var="req" >
 										<tr data-reqid="${req.reqId}"
 											data-reqttl="${req.reqTtl}"
 											data-strtdt="${req.strtDt}"
 											data-expctenddt="${req.expctEndDt}"
-											data-eqpprc="${req.prjId}"
-											data-prchsdt="${req.prrty}"
+											data-prjid="${req.prjId}"
+											data-prrty="${req.prrty}"
 											data-prcsstts="${req.prcsStts}"
 											data-tskstts="${req.tskStts}"
 											data-tskcdnm="${req.tskCdNm}"
@@ -207,7 +218,7 @@
 											<td>${req.tskCdNm}</td>
 											<td>${req.strtDt}</td>
 											<td>${req.expctEndDt}</td>
-											<td>${req.reqPrjVO.prjNm} (${req.prjId})</td>
+											<td class="path_prj">${req.reqPrjVO.prjNm} (${req.prjId})</td>
 											<td>${req.prrty}</td>
 									</tr>
 								</c:forEach>

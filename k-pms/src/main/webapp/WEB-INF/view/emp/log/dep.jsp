@@ -85,6 +85,7 @@
 		        <table class="list_table">
 		          <thead>
 						<tr>
+							<th>순번</th>
 							<th>직원ID</th>
 							<th>이름</th>
 							<th>이전 부서 관리번호</th>
@@ -112,6 +113,7 @@
 										data-chngrsn="${depLog.chngRsn}"
 										data-crtdt="${depLog.crtDt}"
 										data-crtr="${depLog.crtr}">
+									<td>${depLog.rnum}</td>
 									<td>${depLog.empId}</td>
 									<td>${depLog.empVO.lNm}${depLog.empVO.fNm}</td>
 									<td>${depLog.prvsDepId}</td>

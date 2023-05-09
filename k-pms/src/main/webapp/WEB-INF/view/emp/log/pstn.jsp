@@ -84,6 +84,7 @@
 		        <table class="list_table">
 		          <thead>
 						<tr>
+							<th>순번</th>
 							<th>직원ID</th>
 							<th>이름</th>
 							<th>이전 직급 관리번호</th>
@@ -112,6 +113,7 @@
 										data-chngrsn="${pstnLog.chngRsn}"
 										data-crtdt="${pstnLog.crtDt}"
 										data-crtr="${pstnLog.crtr}">
+									<td>${pstnLog.rnum}</td>
 									<td>${pstnLog.empId}</td>
 									<td>${pstnLog.empVO.lNm}${pstnLog.empVO.fNm}</td>
 									<td>${pstnLog.prvsPstnId}</td>

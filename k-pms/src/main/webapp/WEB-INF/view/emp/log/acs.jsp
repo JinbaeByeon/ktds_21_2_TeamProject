@@ -96,6 +96,7 @@
 		        <table class="list_table">
 		          <thead>
 		            <tr>
+						<th>순번</th>
 						<th>직원ID</th>
 						<th>사원명</th>
 						<th>액세스 기록</th>
@@ -108,6 +109,7 @@
 								<c:forEach items="${acsLogList}"
 										   var="acsLog">
 									<tr>
+										<td>${acsLog.rnum}</td>
 										<td>${acsLog.crtr}</td>
 										<td>${acsLog.emp.lNm}${acsLog.emp.fNm}</td>
 										<td>${acsLog.acsLog}</td>
