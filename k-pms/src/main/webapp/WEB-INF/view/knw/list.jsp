@@ -102,7 +102,7 @@
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<c:if test="${not knwSearchVO.commonMode}">
-					<div class="path"><a href="${context}/prj/list">프로젝트</a> > 프로젝트 지식</div>
+					<div class="path"><a href="${context}/prj/list">프로젝트</a> > <a href="${context}/knw/list/0">프로젝트 지식</a><c:if test="${prjVO.prjId != null}"> > 관련 프로젝트: ${prjVO.prjNm}</c:if></div>
 				</c:if>
 				<c:if test="${knwSearchVO.commonMode}">
 					<div class="path">프로젝트 > 사내 지식</div>
@@ -128,8 +128,8 @@
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-		                <th><input type="checkbox" id="all_check"></th>
-		                <th>순번</th>
+		                <th style="width: 3%"><input type="checkbox" id="all_check"></th>
+		                <th style="width: 4%">순번</th>
 		                <th>제목</th>
 		                <th>지식관리 관리번호</th>
 		                <c:if test="${knwSearchVO.commonMode == 'prj'}">

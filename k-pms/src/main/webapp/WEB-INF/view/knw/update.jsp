@@ -202,10 +202,10 @@
 
 		$("#cancel_btn").click(function() {
 			if($("#commonMode").val() != "") {
-				location.href = "${context}/knw/list/prj";
+				location.href = "${context}/knw/list/0";
 			}
 			else {
-				location.href = "${context}/knw/list/common";	
+				location.href = "${context}/knw/list/1";	
 			}
 		});
 

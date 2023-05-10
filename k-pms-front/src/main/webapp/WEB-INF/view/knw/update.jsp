@@ -92,41 +92,6 @@
 		
 	}
 	
-	function fnChkByte(obj, maxByte) {
-		console.log(obj);
-	    var str = obj.val();
-	    var str_len = str.length;
-
-	    var rbyte = 0;
-	    var rlen = 0;
-	    var one_char = "";
-	    var str2 = "";
-
-	    for(var i=0; i<str_len; i++) {
-	        one_char = str.charAt(i);
-	        if(escape(one_char).length > 4) {
-	            rbyte += 2;                                         //한글2Byte
-	        }
-	        else {
-	            rbyte++;                                            //영문 등 나머지 1Byte
-	        }
-
-	        if(rbyte <= maxByte) {
-	            rlen = i+1;                                          //return할 문자열 갯수
-	        }
-	     }
-
-	     if(rbyte > maxByte) {
-			  // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-			  alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
-			  str2 = str.substr(0,rlen); //문자열 자르기
-			  obj.value = str2;	
-			  fnChkByte(obj, maxByte);
-	     }
-	     else {
-	    	 $("#byteInfo").text("(" + rbyte + "/ 1,000)");
-	     }
-	}
 
 	$().ready(function() {
 		$(".sidebar > ul li a").removeClass("active")
@@ -202,10 +167,10 @@
 
 		$("#cancel_btn").click(function() {
 			if($("#commonMode").val() != "") {
-				location.href = "${context}/knw/list/prj";
+				location.href = "${context}/knw/list/0";
 			}
 			else {
-				location.href = "${context}/knw/list/common";	
+				location.href = "${context}/knw/list/1";	
 			}
 		});
 
@@ -297,7 +262,7 @@
 			var frgnId = "${knwVO.knwId}";
 			
 			$.getJSON("${context}/knw/detail/getAttachList", {frgnId: frgnId}, function(files){
-				if(files.length != 1) {
+				if(files[0].orgFlNm != null) {
 					for(var i = 0; i < files.length; i++){
 						var file = files[i];
 						addFile(file);
@@ -317,7 +282,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<div class="path"> 프로젝트 관리 > 지식 등록</div>
+			<div class="path"><a href="${context}/prj/list">프로젝트</a> > 지식 수정</div>
 				<form id="create_form">
 						<input type="hidden" id="prjId" name="prjId" value="${knwVO.prjId}" />
 						<input type="hidden" name="knwId" value="${knwVO.knwId}" />
@@ -325,28 +290,9 @@
 					<table class="detail_table">
 						<c:if test="${knwVO.prjId ne null}">
 							<tr>
-								<th>프로젝트 선택</th>
+								<th>관련 프로젝트</th>
 								<td id="prjHead">
-									<div>
-										<button id="addPrj" class="btn regist add">선택</button>
-										<button id="comPrj" class="btn delete add">삭제</button>
-									</div>
-									<table class="list_table inner_table" >
-										<thead>
-											<tr>
-												<th>프로젝트명</th>
-												<th>고객사</th>
-												<th>프로젝트 상태</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td id="prjNm">${prjVO.prjNm}</td>
-												<td id="cstmr">${prjVO.cstmr}</td>
-												<td id="prjStts">${prjVO.prjStts}</td>
-											</tr>
-										</tbody>
-									</table>
+									${prjVO.prjNm}
 								</td>
 							</tr>
 						</c:if>

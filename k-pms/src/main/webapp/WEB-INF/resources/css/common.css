@@ -1528,3 +1528,7 @@ select {
 	width: 1300px;
 	margin-bottom: 30px;
 }
+
+.list_section {
+	padding: 30px;
+}

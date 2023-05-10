@@ -20,12 +20,15 @@ import com.kpms.emp.vo.EmpVO;
 import com.kpms.knw.service.KnwService;
 import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
+import com.kpms.prj.service.PrjService;
 
 @Controller
 public class KnwController {
 
 	@Autowired
 	private KnwService knwService;
+	@Autowired
+	private PrjService prjService;
 	
 	@Value("${upload.attchmnt.path:/kpms/files/attchmnt}")
 	private String atchmntPath;
@@ -38,6 +41,7 @@ public class KnwController {
 		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
 		model.addAttribute("knwList", knwList);
 		model.addAttribute("knwSearchVO", knwSearchVO);
+		model.addAttribute("prjVO", prjService.readOnePrjVOByPrjId(knwSearchVO.getPrjId()));
 		
 		if(!knwList.isEmpty()) {
 			model.addAttribute("lastPage", knwList.get(0).getLastPage());
@@ -52,7 +56,9 @@ public class KnwController {
 	
 	@GetMapping("/knw/create")
 	public String viewKnwCreatePage(@RequestParam(required=false) String prjId, Model model) {
-		model.addAttribute("prjId", prjId);
+		if(prjId != "") {
+			model.addAttribute("prjVO", prjService.readOnePrjVOByPrjId(prjId));
+		}
 		return "knw/create";
 	}
 	

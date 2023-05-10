@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="commonMode" value="${knwSearchVO.commonMode}" />
 <c:set scope="request" var="selected" value="prj"/>
@@ -124,7 +125,7 @@
 		        <table class="list_table">
 		          <thead>
 		            <tr>
-		                <th>순번</th>
+		                <th style="width: 4%">순번</th>
 		                <th>제목</th>
 		                <c:if test="${not knwSearchVO.commonMode}">
 			                <th>프로젝트명</th>
@@ -168,9 +169,6 @@
 		        <div class="buttons">
 		          <c:if test="${not knwSearchVO.commonMode}">
 			          <button id="new_btn" class="btn new">신규등록</button>
-		          </c:if>
-		          <c:if test='${sessionScope.__USER__.admnYn == "Y"}'>
-			    	  <button id="delete_btn" class="btn delete">선택삭제</button>
 		          </c:if>
 		        </div>
 		      </div>
