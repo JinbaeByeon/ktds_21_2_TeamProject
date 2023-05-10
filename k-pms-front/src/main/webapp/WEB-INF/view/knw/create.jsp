@@ -91,41 +91,6 @@
 		
 	}
 	
-	function fnChkByte(obj, maxByte)
-	{
-	    var str = obj.value;
-	    var str_len = str.length;
-
-	    var rbyte = 0;
-	    var rlen = 0;
-	    var one_char = "";
-	    var str2 = "";
-
-	    for(var i=0; i<str_len; i++) {
-	        one_char = str.charAt(i);
-	        if(escape(one_char).length > 4) {
-	            rbyte += 2;                                         //한글2Byte
-	        }
-	        else {
-	            rbyte++;                                            //영문 등 나머지 1Byte
-	        }
-
-	        if(rbyte <= maxByte) {
-	            rlen = i+1;                                          //return할 문자열 갯수
-	        }
-	     }
-
-	     if(rbyte > maxByte) {
-			  // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-			  alert("메세지는 최대 " + maxByte + "byte를 초과할 수 없습니다.");
-			  str2 = str.substr(0,rlen); //문자열 자르기
-			  obj.value = str2;
-			  fnChkByte(obj, maxByte);
-	     }
-	     else {
-	    	 $("#byteInfo").text("(" + rbyte + "/ 1,000)");
-	     }
-	}
 	
 	$().ready(function() {
 		$(".sidebar > ul li a").removeClass("active")
@@ -140,8 +105,11 @@
 		
 		$("#save_btn").click(function() {
 			var form = $("#create_form");
-			
-			if ($("#ttl").val() == "") {
+			if($("#prjId").val() == "") {
+				alert("프로젝트 선택은 필수입니다.");
+				return;
+			}
+			else if ($("#ttl").val() == "") {
 				alert("제목 입력은 필수입니다.");
 				return;
 			}
@@ -149,12 +117,7 @@
 				alert("내용 입력은 필수입니다.");
 				return;
 			}
-			else if ($("#prjId").val() == "") {
-				var result = confirm("사내 지식으로 등록하시겠습니까?");
-				if(!result) {
-					return;
-				}
-			}
+			
 			var fileList = $(".file_attachment").find("li");
 			
 			cnt=0;
@@ -283,18 +246,6 @@
 					});
 		});
 		
-		$("#byteInfo").keyup(function() {
-
-	        if($(this).val().length > 80) {
-	            $(this).val($(this).val().substring(0, 80));
-	        }
-
-	    });
-		
-		$("#cntnt").keyup(function() {
-			fnChkByte($(this), '1000');
-		});
-		
 	});
 </script>
 </head>
@@ -306,7 +257,7 @@
 			<jsp:include page="../include/content.jsp" />
 			<div class="path"> 프로젝트 관리 > 지식 등록</div>
 				<form id="create_form">
-					<input type="hidden" id="prjId" name="prjId" value="${prjId}"/>
+					<input type="hidden" id="prjId" name="prjId" value="${prjVO.prjId}"/>
 					<table class="detail_table">
 						<tr>
 							<th>프로젝트 선택</th>
@@ -315,6 +266,24 @@
 									<button id="addPrj" class="btn regist add">선택</button>
 									<button id="comPrj" class="btn delete add">삭제</button>
 								</div>
+								<c:if test='${prjVO.prjId != null}'>
+									<table class="list_table inner_table">
+										 <thead>
+										 	<tr>
+										 		<th>프로젝트명</th>
+										 		<th>고객사</th>
+										 		<th>프로젝트 상태</th>
+										 	</tr>
+										 </thead>
+										 <tbody>
+										 	<tr>
+											 	<td id="prjNm">${prjVO.prjNm}</td>
+											 	<td id="cstmr">${prjVO.cstmr}</td>
+											 	<td id="prjStts">${prjVO.prjStts}</td>
+										 	</tr>
+										 </tbody>
+									</table>
+								</c:if>
 							</td>
 						</tr>
 						<tr>

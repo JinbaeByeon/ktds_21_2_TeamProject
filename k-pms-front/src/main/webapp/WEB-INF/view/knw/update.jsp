@@ -147,7 +147,7 @@
 				alert("제목 입력은 필수입니다.");
 				return;
 			}
-			else if ($("#cntnt").val() == "") {
+			else if ($(".toastui-editor-contents").text() == "") {
 				alert("내용 입력은 필수입니다.");
 				return;
 			}
