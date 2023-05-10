@@ -101,14 +101,18 @@ public class EmpServiceImpl implements EmpService {
 		String randomPwd = StringUtil.getRandomPassword(10);
 		
 		MailVO mailVO = new MailVO();
-		mailVO.setFrom("ktds21b@gmail.com");
+		mailVO.setFrom("kpms21b@gmail.com");
 		mailVO.setTo(empVO.getEml());
 		mailVO.setSubject("KPMS 로그인 비밀번호 발송");
 		
 		String content = "아이디: " +empVO.getEmpId() +"\n";
 		content +="비밀번호: " +randomPwd;
 		mailVO.setContent(content);
-		mailService.sendMail(mailVO);
+		try {
+			mailService.sendMail(mailVO);
+		} catch (Exception e) {
+			throw new APIException(APIStatus.FAIL, "이메일을 발송할 수 없습니다. " + e.getMessage());
+		}
 		
 		String salt = SHA256Util.generateSalt();
 		empVO.setPwdSalt(salt);
@@ -293,14 +297,18 @@ public class EmpServiceImpl implements EmpService {
 			String randomPwd = StringUtil.getRandomPassword(10);
 			
 			MailVO mailVO = new MailVO();
-			mailVO.setFrom("ktds21b@gmail.com");
+			mailVO.setFrom("kpms21b@gmail.com");
 			mailVO.setTo(empVO.getEml());
 			mailVO.setSubject("KPMS 로그인 비밀번호 발송 메일입니다.");
 			
 			String content = "아이디: " +empVO.getEmpId() +"\n";
 			content +="비밀번호: " +randomPwd;
 			mailVO.setContent(content);
-			mailService.sendMail(mailVO);
+			try {
+				mailService.sendMail(mailVO);
+			} catch (Exception e) {
+				throw new APIException(APIStatus.FAIL, "비밀번호를 초기화할 수 없습니다.\n" + e.getMessage());
+			}
 			
 			String salt = SHA256Util.generateSalt();
 			empVO.setPwdSalt(salt);
