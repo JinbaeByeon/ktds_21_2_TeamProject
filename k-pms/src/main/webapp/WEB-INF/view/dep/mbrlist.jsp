@@ -204,11 +204,11 @@
 		
 		$(document).on("click", ".tmMbr-tbody .emp-tr", function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700, top= 100, left = 500");
 		});
 		$(document).on("click", ".tmMbr-tbody > tr > td:not(.check)", function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700, top= 100, left = 500");
 		});
 		
 		$("#search-btn").click(function() {

@@ -237,12 +237,12 @@
 		
 		$(document).on("click", ".tmMbr-tbody .emp-tr", function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700, top= 100, left = 500");
 		});
 		
 		$(".tmMbr-tbody > tr > td").not(".check").click(function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height=700, top= 100, left = 500");
 		});
 	});
 </script>

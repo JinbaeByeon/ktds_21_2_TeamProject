@@ -46,7 +46,7 @@
 		});
 
 		$("#my-info").click(function(){
-			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=800");
+			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=700, top= 100, left = 500");
 		});
 	});
 </script>

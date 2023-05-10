@@ -16,6 +16,7 @@
 			});
 			$("#modify_pwd_btn").click(function(e){
 				location.href = "${context}/emp/modify/password/${empVO.empId}";
+				window.resizeTo(550, 450);
 			})
 		});
 	
