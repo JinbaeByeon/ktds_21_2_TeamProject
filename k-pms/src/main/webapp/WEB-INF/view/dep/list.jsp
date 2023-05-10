@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>부서관리</title>
+<title>부서 목록</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	

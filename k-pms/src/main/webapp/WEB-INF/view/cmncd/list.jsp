@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공통코드 관리</title>
 
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">

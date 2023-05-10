@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부서 변경 이력</title>
 <jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -38,7 +38,7 @@
 		<div>
 		<jsp:include page="../../include/empSidemenu.jsp"/>
 		<jsp:include page="../../include/content.jsp"/>
-			<div class="path">부서변경이력 ></div>
+			<div class="path">부서 변경 이력 ></div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select>

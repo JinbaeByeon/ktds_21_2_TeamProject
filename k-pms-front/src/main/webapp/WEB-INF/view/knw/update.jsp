@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>지식관리 수정 - ${knwVO.ttl}</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	var fileCnt = 0;
@@ -317,7 +317,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			<div class="path"> 프로젝트 관리 > 지식 등록</div>
+			<div class="path"> 프로젝트 관리 > 지식 수정</div>
 				<form id="create_form">
 						<input type="hidden" id="prjId" name="prjId" value="${knwVO.prjId}" />
 						<input type="hidden" name="knwId" value="${knwVO.knwId}" />

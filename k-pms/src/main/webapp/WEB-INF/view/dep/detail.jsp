@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>부서 상세조회</title>
+<title>부서 상세 - ${depVO.depNm}</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 

@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>홈페이지</title>
+	<title>사원 목록</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		var detailWindow;

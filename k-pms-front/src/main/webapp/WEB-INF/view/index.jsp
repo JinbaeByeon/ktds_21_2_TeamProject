@@ -45,7 +45,7 @@
 			<jsp:include page="./include/sidemenu.jsp"/>
 			<jsp:include page="./include/content.jsp"/>
 			
-			<h3>나의 부서</h3>
+			<h3><a href= "${context}/dep/detail">나의 부서</a></h3>
 			<table class="detail_page detail_table">
                 <tr>
                     <th>부서명</th>

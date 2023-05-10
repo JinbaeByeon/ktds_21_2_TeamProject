@@ -653,6 +653,7 @@ footer {
 	position: fixed;
 	width: 100%;
 	bottom: 0;
+	z-index: 30;
 }
 
 /* search_page */

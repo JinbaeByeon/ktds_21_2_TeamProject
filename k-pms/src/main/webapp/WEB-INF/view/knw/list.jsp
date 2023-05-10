@@ -8,7 +8,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>
+	<c:if test="${not knwSearchVO.commonMode}">
+		지식 목록
+	</c:if>
+	<c:if test="${knwSearchVO.commonMode}">
+		사내 지식 목록
+	</c:if>
+</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {

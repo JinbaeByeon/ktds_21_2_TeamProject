@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>홈페이지</title>
+	<title>로그인 이력</title>
 	<jsp:include page="../../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		$().ready(function(){
