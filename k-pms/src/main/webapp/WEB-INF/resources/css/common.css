@@ -651,6 +651,7 @@ footer {
 	position: fixed;
 	width: 100%;
 	bottom: 0;
+	z-index: 30;
 }
 
 /* search_page */
@@ -1531,4 +1532,34 @@ select {
 
 .list_section {
 	padding: 30px;
+}
+
+.search_date {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    background: rgba(238, 238, 238, 0.974);
+    width: 400px;
+    display: inline-block;
+    position: relative;
+    height: 40px;
+}
+
+.search_date > label{
+    top: 6px;
+    line-height: 27px;
+    height: 30px;
+    width: 111px;
+    position: absolute;
+    left: 0px;
+    background: rgba(238, 238, 238, 0.974);
+    border-right: 3px solid rgb(187, 39, 32);
+    padding-right: 34px;
+}
+
+input#search-keyword-startdt, input#search-keyword-enddt {
+    border: none;
+    background: rgba(238, 238, 238, 0.974);
+    border-bottom: 1px solid #2b2b2b;
+    font-size: 13pt;
+    line-height: 12pt;
 }

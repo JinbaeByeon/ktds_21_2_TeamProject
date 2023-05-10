@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>지식관리 - ${knwVO.ttl}</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.js"></script>
 <script type="text/javascript">

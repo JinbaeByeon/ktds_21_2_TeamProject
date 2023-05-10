@@ -118,9 +118,13 @@
 			depId = window.open("${context}/dep/search", "부서 검색", "width=500,height=600");
 		});
 		
-		
+		$(".tm-tbody > tr > td").not(".check").click(function() {
+			var tmId = $(this).closest("tr").data("tmid");
+			location.href = "${context}/tm/detail/"+ tmId;
+		});
 		
 	});
+	
 	function movePage(pageNo) {
 		var searchOption = $("#search-option").val();
 		var searchKeyword = $("#search-keyword").val();
@@ -175,13 +179,9 @@
 			              <th>부서 관리번호</th>
 			              <th>팀생성일</th>
 			              <th>사용여부</th>
-<!-- 			              <th>등록자</th>
-			              <th>등록일</th>
-			              <th>수정자</th>
-			              <th>수정일</th> -->
 		            </tr>
 		          </thead>
-		          <tbody>
+		          <tbody class="tm-tbody">
 		            <c:choose>
 		                <c:when test="${not empty tmList}">
 		                    <c:forEach items="${tmList}"
@@ -198,11 +198,11 @@
 		                            data-crtdt="${tm.crtDt}"
 		                            data-mdfyr="${tm.mdfyr}"
 		                            data-mdfydt="${tm.mdfyDt}">
-		                            <td>
+		                            <td class="check">
 		                                <input type="checkbox" class="check_idx" value="${tm.tmId}"/>
 		                            </td>
 		                            <td>${tm.rnum}</td>
-		                            <td><a href="${context}/tm/detail/${tm.tmId}">${tm.tmNm}</a></td>
+		                            <td>${tm.tmNm}</td>
 		                            <td>${tm.tmId}</td>
 		                            <td>${tm.tmHdId}</td>
 		                            <td>${tm.tmHdEmpVO.lNm}${tm.tmHdEmpVO.fNm}</td>
@@ -210,16 +210,12 @@
 		                            <td>${tm.depId}</td>
 		                            <td>${tm.tmCrtDt}</td>
 		                            <td>${tm.useYn}</td>
-<%-- 		                            <td>${tm.crtr}</td>
-		                            <td>${tm.crtDt}</td>
-		                            <td>${tm.mdfyr}</td>
-		                            <td>${tm.mdfyDt}</td> --%>
 		                        </tr>
 		                    </c:forEach>
 		                </c:when>
 		                <c:otherwise>
 		                    <tr>
-		                        <td colspan="12" class="no-items">
+		                        <td colspan="9" class="no-items">
 		                            등록된 팀이 없습니다.
 		                        </td>
 		                    </tr>

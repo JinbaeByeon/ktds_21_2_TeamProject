@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>부서 변경 이력</title>
 <jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
@@ -65,6 +65,13 @@
 		<jsp:include page="../../include/content.jsp"/>
 			<div class="path">임직원 관리 > 부서 변경 이력</div>
 		      <div class="search_wrapper">
+		      	<div class="search_field">
+		          	<div class="search_date">
+			            <label for="search-keyword-startdt">조회기간</label>
+						<input type="date" id="search-keyword-startdt" class="search-input" value="${depLogVO.startDt}"/>
+						<input type="date" id="search-keyword-enddt" class="search-input" value="${depLogVO.endDt}"/>
+		          	</div>
+		        </div>
 		        <div class="search_box">
 					<select class="search-option" name="searchType">
 						<option ${searchType== "ID" ? "selected" : ""}>ID</option>
@@ -72,9 +79,6 @@
 					</select>
 		          <div class="search_field">
 					<input type="text" id="search-keyword" class="input" value="${searchKeyword}" placeholder="Search"/>
-					<label for="search-keyword-startdt">조회기간</label>
-					<input type="date" id="search-keyword-startdt" class="search-input" value="${depLogVO.startDt}"/>
-					<input type="date" id="search-keyword-enddt" class="search-input" value="${depLogVO.endDt}"/>
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
@@ -85,7 +89,7 @@
 		      <div class="list_section">
 				<jsp:include page="../../include/viewCnt.jsp" />
 			    <div class="total">총 ${depLogList.size() > 0 ? depLogList.get(0).totalCount : 0}건</div>
-			    <img id = "export_excel" src="${context}/img/excel-export.png" />
+			    <%-- <img id = "export_excel" src="${context}/img/excel-export.png" /> --%>
 		        <table class="list_table">
 		          <thead>
 						<tr>

@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>${issuVO.issuTtl}</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
@@ -62,8 +62,6 @@
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">${issuVO.reqVO.reqTtl} (${issuVO.reqId})</div>
 			<table class="detail_page detail_table">
-                <input type="hidden" name="issuId" value="${issuVO.issuId}"/>
-				<input type="hidden" name="mdfyr" value="${sessionScope.__USER__.empId}"/>
                 <tr>
                     <th>제목</th>
                     <td colspan="3" id="issuTtl">${issuVO.issuTtl}</td>

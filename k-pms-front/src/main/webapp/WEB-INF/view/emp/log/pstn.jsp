@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>직급변경이력</title>
 <jsp:include page="../../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {

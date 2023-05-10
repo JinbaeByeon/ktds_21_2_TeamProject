@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>쪽지 발신</title>
 <jsp:include page="../include/stylescript.jsp"/>
 <script type="text/javascript">
 	var empWindow;

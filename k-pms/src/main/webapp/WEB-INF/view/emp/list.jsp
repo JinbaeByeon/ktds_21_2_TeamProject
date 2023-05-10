@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>홈페이지</title>
+	<title>사원 목록</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
 		var detailWindow;
@@ -40,21 +40,42 @@
 				movePage(0);
 			});
 			$("#pwd-reset").click(function(){
+				if(!checkIdx()){
+					return;
+				}
 				if(!confirm("해당 사원들의 비밀번호를 초기화하시겠습니까?")){
 					return;
 				}
-				var data;
-				data.url = '/api/emp/reset/password';
-				postCheckIdx(data);
+				var form = $("<form></form>")
+				
+				$(".check_idx:checked").each(function() {
+					form.append("<input type='hidden' name='empIdList' value='"+ $(this).val() +"'>");
+				});
+				$.post("${context}/api/emp/reset/password",form.serialize(), function(response) {
+					if (response.status == "200 OK") {
+						location.reload();
+					} else {
+						alert(response.message);
+					}
+				});
 			});
 			
 			$("#pstn-change").click(function(){
+				if(!checkIdx()){
+					return;
+				}
 				pstnWindow = window.open("${context}/pstn/search","직급 변경","width=400,height=600");
 			});
 			$("#job-change").click(function(){
+				if(!checkIdx()){
+					return;
+				}
 				jobWindow = window.open("${context}/job/search","직무 변경","width=400,height=600");
 			});
 			$("#dep-change").click(function(){
+				if(!checkIdx()){
+					return;
+				}
 				depWindow = window.open("${context}/dep/search","부서 변경","width=500,height=600");
 			});
 
@@ -124,6 +145,15 @@
 			$("#export_excel").click(function(){
 				location.href = "${context}/emp/export/excel"; 
 			});
+
+			function checkIdx(){
+				var check = $(".check_idx:checked");
+				if(check.length == 0){
+					alert("선택된 사원이 없습니다.");
+					return false;
+				}
+				return true;
+			}
 		});
 		function movePage(pageNo) {
 			var empId = $("#empId").val();

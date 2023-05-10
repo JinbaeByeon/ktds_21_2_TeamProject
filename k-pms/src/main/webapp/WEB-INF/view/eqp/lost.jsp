@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>분실물 관리</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function(){
@@ -211,7 +211,7 @@
 		<div>
 			<jsp:include page="../include/eqpSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">비품 관리 > 분실물 관리</div>
+				<div class="path">비품 > 분실물 관리</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select>

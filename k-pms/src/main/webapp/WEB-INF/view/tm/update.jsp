@@ -108,7 +108,7 @@
 	    itemId.val(empId);
 	    
 	    var empTr = $("<tr class='emp-tr " + empId + "' data-empid='" + empId + "' data-index='" + mbrIdx++ + "'></tr>");
-
+		
 	    var td = "<td></td>"
 	    td += "<td>" + "팀원" + "</td>"
 	    td += "<td>" + message.pstnnm + "</td>"

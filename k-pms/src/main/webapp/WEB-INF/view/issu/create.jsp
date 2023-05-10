@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>이슈 등록</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
@@ -58,7 +58,6 @@
 			
 			cnt=0;
 			fileList.each(function(){
-				var form = $("#create-form");
 				
 				var fileNm = $(this).data("org");
 				var uuidNm = $(this).data("uuid");
@@ -74,26 +73,19 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 			});
-			if(${reqId != null && reqId != ''}){
-				ajaxUtil.upload("#create-form","${context}/api/issu/create",function(response){
-					if (response.status != "200 OK") {
-						alert(response.errorCode + " / " + response.message);
-					}
-					if(response.redirectURL){
+			ajaxUtil.upload("#create-form","${context}/api/issu/create",function(response){
+				if (response.status != "200 OK") {
+					alert(response.errorCode + " / " + response.message);
+				}
+				if(response.redirectURL){
+					if(${reqId != null && reqId != ''}){
 						location.href = "${context}/req/detail/${reqId}";
 					}
-				});
-			}
-			else {
-				ajaxUtil.upload("#create-form","${context}/api/issu/create",function(response){
-					if (response.status != "200 OK") {
-						alert(response.errorCode + " / " + response.message);
-					}
-					if(response.redirectURL){
+					else {
 						location.href = "${context}" + response.redirectURL;
 					}
-				});
-			}
+				}
+			});
 		});
 		
 		$("#add_files").click(function(e){
@@ -229,8 +221,8 @@
 			<jsp:include page="../include/content.jsp" />
 				<div class="path">이슈 등록</div>
 				<form id="create-form">
+					<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
 					<table class="detail_table">
-						<input type="hidden" name="crtr" value="${sessionScope.__USER__.empId}"/>
 		                <tr>
 		                    <th>제목</th>
 		                    <td><input type="text" id="issuTtl" name="issuTtl" /></td>
