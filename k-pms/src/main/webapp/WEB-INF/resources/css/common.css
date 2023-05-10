@@ -443,7 +443,7 @@ a:link, a:visited {
 .container .detail_table tr th {
 	color: rgb(187, 39, 32);
 	padding: 15px;
-	width: 150px;
+	width: 160px;
 	font-weight: 500;
 }
 
@@ -1486,6 +1486,14 @@ select {
 
 .scroll_table .input {
 	width: 0%;
+}
+
+.scroll_table .active {
+	background: rgb(0, 0, 0);
+}
+
+.scroll_table .active td {
+	color: #2b2b2b;
 }
 
 #msg_cnt {

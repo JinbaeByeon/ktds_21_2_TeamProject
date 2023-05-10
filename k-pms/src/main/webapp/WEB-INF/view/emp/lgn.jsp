@@ -12,6 +12,9 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<link rel="icon" href="${context}/img/kpms_favicon.png">
 	<link rel ="stylesheet" href="${context}/css/lgn.css"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 	<script type="text/javascript">
 		$().ready(function(){
 			$('a.modal').click(function(e) {
@@ -115,6 +118,7 @@
 </head>
 <body>
 	<div class="container">
+	  <span id="kpms">KPMS</span>
 	  <div class="actions">
 	    <a href="/login" data-target="login" class="btn nav login modal">Login</a>
 	  </div>
