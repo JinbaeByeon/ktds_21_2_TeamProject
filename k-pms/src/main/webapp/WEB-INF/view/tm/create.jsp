@@ -199,7 +199,7 @@
 			    	location.href = "${context}" + response.redirectURL;
 			    } 
 			    else {
-			      alert(response.errorCode + " / " + response.message);
+			      alert(response.message);
 			    }
 				
 			  });
