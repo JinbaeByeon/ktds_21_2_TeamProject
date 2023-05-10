@@ -12,9 +12,7 @@
 	<title>홈페이지</title>
 	<jsp:include page="./include/stylescript.jsp"/>
 	<script type="text/javascript">
-		$().ready(function(){
-			
-		});
+		$().ready(function(){});
 	</script>
 </head>
 <body>
@@ -33,11 +31,11 @@
 				        <table class="list_table">
 				          <thead>
 								<tr>
-									<th style="width: 8%;">ID</th>
-									<th style="width: 9%;">이름</th>
-									<th style="width: 7%;">직급</th>
-									<th style="width: 7%;">직무</th>
-									<th style="width: 7%;">부서</th>
+									<th style="width: 20%;">ID</th>
+									<th style="width: 15%;">이름</th>
+									<th style="width: 15%;">직급</th>
+									<th style="width: 25%;">직무</th>
+									<th style="width: 35%;">부서</th>
 								</tr>
 				          </thead>
 				          <tbody>
@@ -75,9 +73,9 @@
 				        <table class="list_table">
 					          <thead>
 					            <tr>
-									<th style="width: 12%;">부서명</th>
-									<th style="width: 17%;">부서장ID</th>
-									<th style="width: 18%;">부서장명</th>
+									<th style="width: 33%;">부서명</th>
+									<th style="width: 33%;">부서장ID</th>
+									<th style="width: 33%;">부서장명</th>
 					            </tr>
 					          </thead>
 					          <tbody>

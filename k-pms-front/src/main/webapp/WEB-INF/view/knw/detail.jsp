@@ -267,11 +267,6 @@
 													<p class="crtrInfo">${rplVO.crtr}</p>
 													<span class="crtDtInfo">${rplVO.crtDt}</span>
 												</div>
-												<div class="cntArea">
-													<input type="hidden" class="rplId" name="rplId" value="${rplVO.rplId}" />
-													<input type="hidden" class="cnt" name="cnt" value="${rplVO.cnt}" />
-													<p class="replyBtn">${rplVO.cnt}</p>
-												</div>
 												<div class="commentBtns">
 													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
 														<button class="commentUpdateBtn btn sedit" value="update">수정</button>
@@ -279,6 +274,11 @@
 													<c:if test="${rplVO.crtr eq sessionScope.__USER__.empId}">
 														<button class="commentDeleteBtn btn sdelete">삭제</button>
 													</c:if>
+												</div>
+												<div class="cntArea">
+													<input type="hidden" class="rplId" name="rplId" value="${rplVO.rplId}" />
+													<input type="hidden" class="cnt" name="cnt" value="${rplVO.cnt}" />
+													<p class="replyBtn">${rplVO.cnt}</p>
 												</div>
 												<div class="commentBoxArea" style="width: ${920 - rplVO.depth * 30}px" hidden>
 													<form class="commentForm">
