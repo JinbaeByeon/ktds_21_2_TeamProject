@@ -1,3 +1,4 @@
+
 package com.kpms.joblog.vo;
 
 import com.kpms.common.vo.AbstractPagingVO;

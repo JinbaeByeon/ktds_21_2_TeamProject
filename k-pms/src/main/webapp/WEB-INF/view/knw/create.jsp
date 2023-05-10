@@ -286,7 +286,7 @@
 							<td>
 								<div class="file_area">
 									<div class="file_upload">
-										<button id="add_files" class="btn regist">+</button>
+										<button id="add_files" class="btn-add btn">+</button>
 									</div>
 									<div class="align-center">
 										<p class="file_drag">파일을 마우스로 끌어 오세요</p>

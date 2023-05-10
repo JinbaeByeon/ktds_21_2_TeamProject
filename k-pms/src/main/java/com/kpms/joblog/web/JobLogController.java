@@ -20,7 +20,7 @@ public class JobLogController {
 	@GetMapping("/emp/log/job")
 	public String viewJobLogListPage(Model model, JobLogVO jobLogVO,String searchType) {
 		List<JobLogVO> jobLogList = jobLogService.readAllJobLogVO(jobLogVO);
-			
+		
 		model.addAttribute("jobLogList", jobLogList);
 		model.addAttribute("jobLogVO", jobLogVO);
 		

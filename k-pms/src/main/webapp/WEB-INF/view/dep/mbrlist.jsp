@@ -233,7 +233,7 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="search_page">
-				  <div class="path">부서 관리 > 팀원 관리</div>
+				  <div class="path">부서 > 팀원 관리</div>
 				  		<div class="search_wrapper">
 					        <div class="search_box">
 					          <select id="search-option">

@@ -57,7 +57,7 @@
 		  JOIN (SELECT E.*
 		  			 , E.L_NM || E.F_NM NM
 		  		  FROM EMP E) E
-		 	ON E.EMP_ID = JL.CRTR
+		 	ON E.EMP_ID = JL.EMP_ID
 		<if test="empVO != null and empVO.fNm != null and empVO.fNm != ''">
 		 WHERE E.NM LIKE '%' || #{empVO.fNm} || '%'
 		</if>
