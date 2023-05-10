@@ -39,14 +39,14 @@
 					location.href = "${context}/tm/list"
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					alert(response.message);
 				}
 			});
 		});
 		
 		$(".list_table.inner_table tbody > tr > td").click(function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700, top= 100, left = 500");
 		});
 		
 	});
@@ -60,6 +60,16 @@
 			<jsp:include page="../include/content.jsp" />
 			<div class="path">팀관리 > 팀 상세조회</div>
 			<table class="detail_page detail_table">
+				<tr>
+					<th>부서명</th>
+					<td colspan="3"><input type="text" id="depNm" name="depNm"
+						value="${tmVO.depIdDepVO.depNm}" readonly /></td>
+				</tr>
+				<tr>
+					<th>부서 관리번호</th>
+					<td colspan="3"><input type="text" id="depId" name="depId"
+						value="${tmVO.depId}" readonly /></td>
+				</tr>
 				<tr>
 					<th>팀명</th>
 					<td colspan="3"><input type="text" id="tmNm" name="tmNm"

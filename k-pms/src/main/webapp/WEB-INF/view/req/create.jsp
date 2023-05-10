@@ -16,6 +16,7 @@
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
+		var modal = new Modal($);
 		
 		$(".sidebar > ul li a").removeClass("active")
 		$("#req_list").addClass("active");
@@ -50,6 +51,9 @@
 		});
 					
 		$("#save_btn").click(function(){
+			if(!validateForm()){
+				return;
+			}
 			var cnt = 0;
 			var fileList = $(".file_attachment").find("li");
 			console.log(fileList);
@@ -79,6 +83,61 @@
 			});
 			
 		});
+		
+		function validateForm() {
+			let reqTtl = $("#reqTtl").val();
+			let prrty = $("#prrty").val();
+			let strtDt = $("#strtDt").val();
+			let expctEndDt = $("#expctEndDt").val();
+			let prjId = $("#prjId").val();
+			let reqCnfrNm = $("#reqCnfrNm").val();
+			let originalPrcsStts = $("#original-prcsStts").val();
+			let originalTskStts = $("#original-tskStts").val();
+			let originalTstRslt = $("#original-tstRslt").val();
+			let dtlReq = $("#dtlReq").val();
+
+			if (reqTtl == "") {
+			    modal.show("제목을 입력해주세요.","#reqTtl");
+			    return false;
+			}
+			if (prrty == "") {
+			    modal.show("우선순위를 입력해주세요.","#prrty");
+			    return false;
+			}
+			if (strtDt == "") {
+			    modal.show("시작일을 입력해주세요.","#strtDt");
+			    return false;
+			}
+			if (expctEndDt == "") {
+			    modal.show("종료예정일을 입력해주세요.","#expctEndDt");
+			    return false;
+			}
+			if (prjId == "") {
+			    modal.show("프로젝트ID를 입력해주세요.","#prjId");
+			    return false;
+			}
+			if (reqCnfrNm == "") {
+			    modal.show("확인자를 입력해주세요.","#reqCnfrNm");
+			    return false;
+			}
+			if (originalPrcsStts == "") {
+			    modal.show("진행상태 입력해주세요.","#original-prcsStts");
+			    return false;
+			}
+			if (originalTskStts == "") {
+			    modal.show("일정상태를 입력해주세요.","#original-tskStts");
+			    return false;
+			}
+			if (originalTstRslt == "") {
+			    modal.show("테스트결과를 입력해주세요.","#original-tstRslt");
+			    return false;
+			}
+			if (dtlReq == "") {
+			    modal.show("내용을 입력해주세요.","#dtlReq");
+			    return false;
+			}
+			return true;
+		}
 		
 		$(".detail_path").click(function(){
 			var reqId =$(this).closest("tr").data("reqid");

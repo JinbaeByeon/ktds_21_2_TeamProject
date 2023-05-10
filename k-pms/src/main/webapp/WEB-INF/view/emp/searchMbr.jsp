@@ -49,6 +49,7 @@
 				var emp = $(this).closest("tr").data();
 				opener.addMbrFn(emp);
 			});
+			$(".check_idx, #all_check").prop("checked", false);
 		});
 	});
 </script>

@@ -215,7 +215,7 @@
 		                    	<div class="addrss-group">
 									<div class="grow-1">
 										<input type="text" id="pstCd" name="pstCd" readonly value="${empVO.pstCd}"/>
-										<button class='fs-12'>우편번호</button>
+										<button class='btn addrss'>우편번호</button>
 									</div>
 									<div class="grow-1">
 										<input type="text" id="addrss" name="addrss" readonly value="${empVO.addrss}"/>

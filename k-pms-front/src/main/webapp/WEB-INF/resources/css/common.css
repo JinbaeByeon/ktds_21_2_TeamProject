@@ -48,7 +48,6 @@ a:link, a:visited {
 	top: 0;
 	width: 100%;
 	opacity: 0;
-	z-index: -1;
 }
 
 .top_navbar {
@@ -330,6 +329,7 @@ a:link, a:visited {
 
 .container .list_table tbody td {
 	background-color: rgba(238, 238, 238, 0.974);
+    white-space: nowrap;
 }
 
 .container .list_table thead tr th {
@@ -437,7 +437,7 @@ a:link, a:visited {
 .container .detail_table tr th {
 	color: rgb(187, 39, 32);
 	padding: 15px;
-	width: 150px;
+	width: 160px;
 	font-weight: 500;
 }
 
@@ -450,7 +450,9 @@ a:link, a:visited {
 }
 
 .container .detail_table tr td input[type=text],
-.container .detail_table tr td input[type=date]{
+.container .detail_table tr td input[type=date],
+.container .detail_table tr td input[type=email],
+.container .detail_table tr td input[type=password]{
     margin: 0;
 }
 
@@ -1309,10 +1311,54 @@ select {
 	background: rgba(238, 238, 238, 0.974);
 }
 
-#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl, #eml, #eqpNm, #ttl,
-	#title {
-	width: 300px;
+#spinner_panel {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #000A;
+	z-index:999;
 }
+#spinner {
+	position: fixed;
+	background: none;
+}
+
+#spinner * {
+	background: none;
+}
+
+.modal {
+	background-color: #0009;
+	position: fixed;
+	z-index: 100;
+	top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal .window {
+    width: 40%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+ 
+.modal .title {
+	background: none;
+	color: #2b2b2b;
+}
+
+
 
 .container .list_table div, .container .list_table span {
 	background: rgba(238, 238, 238, 0.974);
@@ -1327,10 +1373,10 @@ select {
 }
 
 /* input-width */
-#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl, #eml, #eqpNm, #ttl,
+/* #prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl, #eml, #eqpNm, #ttl,
 	#title {
 	width: 300px;
-}
+} */
 
 #addDepHeadBtn {
 	margin: 0px;

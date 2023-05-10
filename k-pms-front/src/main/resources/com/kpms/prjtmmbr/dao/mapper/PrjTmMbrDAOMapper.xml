@@ -88,7 +88,7 @@
 		         , #{crtr}
 		         , SYSDATE
 		         , #{mdfyr}
-		         , NVL(#{useYn}, 'N')
+		         , NVL(#{useYn}, 'Y')
 		         , 'N'
 		         , #{prjPstn}
 		         , #{prjId}

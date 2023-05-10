@@ -465,7 +465,7 @@
 											<td>${eqp.eqpNm}</td>
 											<td>${eqp.eqpTp}</td>
 											<td>${eqp.applStts}</td>
-											<td>${eqp.applId}</td>
+											<td>${eqp.applEmpVO.lNm}${eqp.applEmpVO.fNm}(${eqp.applId})</td>
 											<td>${eqp.applDt}</td>
 											<td>${eqp.lossStts}</td>
 											<td>${eqp.lossRprtDt}</td>

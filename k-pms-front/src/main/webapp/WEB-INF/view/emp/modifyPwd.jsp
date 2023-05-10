@@ -12,10 +12,10 @@
 	<title>비밀번호변경</title>
 	<jsp:include page="../include/stylescript.jsp"/>
 	<script type="text/javascript">
-		
+		AjaxUtil.enableSpinner();
 		$().ready(function(){
 			
-			$(".btn-apply").click(function(e){
+			$("#btn-apply").click(function(e){
 				e.preventDefault();
 				var ajaxUtil = new AjaxUtil();
 				ajaxUtil.upload("#create-form","${context}/api/emp/update/password",function(response){
@@ -27,7 +27,7 @@
 					}
 				});
 			});
-			$(".btn-close").click(function(e){
+			$("#btn-close").click(function(e){
 				window.close();
 			});
 		});
@@ -35,39 +35,37 @@
 	</script>
 </head>
 <body>
-	<div class="main-layout">
-		<div class="item-align-center fullscreen">
-			<h1 class="m-10">비밀번호 변경</h1>
-			<form id="create-form" enctype="multipart/form-data">
-				<div class="create-group mb-5">
-					<label for="empId">ID</label>
-					<input type="text" id="empId" name="empId" value="${empVO.empId}" disabled/>
-				</div>
-				<div class="create-group mb-5">
-					<label for="pwd" class="required">현재 비밀번호</label>
-					<input type="password" id="pwd" name="pwd"/>
-				</div>
-				<div class="create-group mb-5">	
-					<label for="newPwd" class="required">새 비밀번호</label>
-					<div class="column">
-						<input type="password" id="newPwd" name="newPwd"/>
-						<p class="notice-pwd">10자리 이상의 영문자,숫자,특수문자 조합</p>
-					</div>
-				</div>
-				<div class="create-group">
-					<label for="newPwdCnfrm" class="required">새 비밀번호 확인</label>
-					<input type="password" id="newPwdCnfrm" name="newPwdCnfrm"/>
-				</div>
-				
-			</form>
-				<div class="btn-group">
-					<div class="btn-apply">
-						비밀번호 변경하기
-					</div>
-					<div class="btn-close">
-						다음에 변경하기
-					</div>
-				</div>
+	<div class="container search_page">
+			<h2>비밀번호 변경</h2>
+				<form id="create-form" enctype="multipart/form-data">
+					<table class="detail_table">
+		                <tr>
+		                    <th>ID</th>
+		                    <td><input type="text" id="empId" name="empId" value="${empVO.empId}" disabled/></td>
+		                </tr>
+		                <tr>
+		                    <th  class="required">현재 비밀번호</th>
+		                    <td><input type="password" id="pwd" name="pwd"/></td>
+		                </tr>
+		                <tr>
+		                    <th  class="required">새 비밀번호</th>
+		                    <td>
+		                    	<div class="column input_div">
+									<input type="password" id="newPwd" name="newPwd"/>
+									<p class="notice-pwd input_div">10자리 이상의 영문자,숫자,특수문자 조합</p>
+								</div>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <th  class="required">새 비밀번호 확인</th>
+		                    <td><input type="password" id="newPwdCnfrm" name="newPwdCnfrm"/></td>
+		                </tr>
+		               
+		            </table>
+				</form>
+        <div class="buttons">
+          <button id="btn-apply" class="btn regist">비밀번호 변경하기</button>
+			<button id="btn-close" class="btn delete">다음에 변경하기</button>	
 		</div>
 	</div>
 </body>

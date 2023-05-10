@@ -103,7 +103,7 @@
 					location.reload();
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					alert(response.message);
 				}
 			});
 		});
@@ -146,7 +146,7 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서 관리 > 팀 관리</div>
+				<div class="path">부서 > 팀 관리</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option" class="search-input">

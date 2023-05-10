@@ -175,7 +175,7 @@
 					location.href = "${context}" + response.redirectURL;
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					alert(response.message);
 				}
 			});
 		});
@@ -214,7 +214,7 @@
 					location.reload();
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					alert(response.message);
 				}
 			});
 		});
@@ -230,19 +230,19 @@
 					location.href = "${context}/tm/list"
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					alert(response.message);
 				}
 			});
 		});
 		
 		$(document).on("click", ".tmMbr-tbody .emp-tr", function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700, top= 100, left = 500");
 		});
 		
 		$(".tmMbr-tbody > tr > td").not(".check").click(function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height=700, top= 100, left = 500");
 		});
 	});
 </script>
@@ -256,6 +256,10 @@
 				<div class="path">팀관리 > 팀 수정</div>
 				<form id="create_form" enctype="multipart/form-data">
 					<table class="detail_page detail_table">
+		                <tr>
+		                    <th>부서명</th>
+		                    <td><input type="text" id="depNm" name="depNm" value="${tmVO.depIdDepVO.depNm}" readonly/></td>
+		                </tr>
 		                <tr>
 		                    <th>부서 관리번호</th>
 		                    <td><input type="text" id="depId" name="depId" value="${tmVO.depIdDepVO.depId}" readonly/></td>

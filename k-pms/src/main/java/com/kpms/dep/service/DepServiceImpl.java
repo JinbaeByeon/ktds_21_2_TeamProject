@@ -91,7 +91,7 @@ public class DepServiceImpl implements DepService {
 		boolean isSuccess = delCount == depId.size();
 		
 		if (!isSuccess) {
-			throw new APIException("400", "프로젝트를 진행중인 소속팀이 존재합니다.");
+			throw new APIException("400", "부서를 삭제할 수 없습니다. (프로젝트 진행중인 팀이 존재합니다.)");
 		}
 		else {
 			for (String depid : depId) {

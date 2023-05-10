@@ -35,7 +35,7 @@
 			$(this).addClass("active");
 			$(this).find(".sub_item").addClass("active");
 		});
-		$("div.header").mouseleave(function(){
+		$("div.header").mouseout(function(){
 			$(".top_navbar > .menu > .nav_menu > .nav").find(".active").removeClass("active");
 			<c:if test="${not empty selected}">
 				$("li.nav_item.${selected}").addClass("active");
@@ -46,7 +46,7 @@
 		});
 
 		$("#my-info").click(function(){
-			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=800");
+			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=700, top= 100, left = 500");
 		});
 	});
 </script>

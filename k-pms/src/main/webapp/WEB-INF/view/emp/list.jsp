@@ -86,7 +86,7 @@
 			$(".list_table tbody > tr > td").not(".check").click(function() {
 				var empId = $(this).closest("tr").data("empid");
 				if(empId){
-					detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=700");
+					detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600,height=700, top= 100, left = 500");
 				}
 			});
 			

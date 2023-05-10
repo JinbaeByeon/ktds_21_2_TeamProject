@@ -42,7 +42,7 @@
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
 	    td += "<td>" + message.jobnm + "</td>"
 	
-	    var rmbtn = $("<td><button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button></td>")
+	    var rmbtn = $("<td><button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button></td>")
 	
 	    rmbtn.click(function() {
 	        var empTrToRemove = $(this).closest(".emp-tr");
@@ -204,11 +204,11 @@
 		
 		$(document).on("click", ".tmMbr-tbody .emp-tr", function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700, top= 100, left = 500");
 		});
 		$(document).on("click", ".tmMbr-tbody > tr > td:not(.check)", function() {
 			var empId = $(this).closest("tr").data("empid");
-			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700, top= 100, left = 500");
 		});
 		
 		$("#search-btn").click(function() {
@@ -233,7 +233,7 @@
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
 				<div class="search_page">
-				  <div class="path">부서 관리 > 팀원 관리</div>
+				  <div class="path">부서 > 팀원 관리</div>
 				  		<div class="search_wrapper">
 					        <div class="search_box">
 					          <select id="search-option">

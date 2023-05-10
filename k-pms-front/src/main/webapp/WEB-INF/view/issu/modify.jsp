@@ -16,6 +16,8 @@
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
 	$().ready(function(){
+		var modal = new Modal($);
+		
 		$(".sidebar > ul li a").removeClass("active")
 		$("#issu_list").addClass("active");
 		
@@ -43,6 +45,9 @@
 			
 			cnt=0;
 			fileList.each(function(){
+				if(!validateForm()){
+					return;
+				}
 				var form = $("#create-form");
 				
 				var fileNm = $(this).data("org");
@@ -139,6 +144,25 @@
 			});
 		});
 		$(".remove").click(removeFn);
+		function validateForm() {
+			let issuTtl = $("#issuTtl").val();
+			let issuCntnt = $("#issuCntnt").val();
+			let reqId = $("#reqId").val();
+
+			if (issuTtl == "") {
+			    modal.show("제목을 입력해주세요.","#issuTtl");
+			    return false;
+			}
+			if (issuCntnt == "") {
+			    modal.show("설명을 입력해주세요.","#issuCntnt");
+			    return false;
+			}
+			if (reqId == "") {
+			    modal.show("요구사항을 선택해주세요.","#req_search");
+			    return false;
+			}
+			return true;
+		}
 	});
 	var fileCnt=${issuVO.atchFlList.size() > 0 ? (issuVO.atchFlList.get(0).flSz != 0 ? issuVO.atchFlList.size() : 0)  : 0};
 	

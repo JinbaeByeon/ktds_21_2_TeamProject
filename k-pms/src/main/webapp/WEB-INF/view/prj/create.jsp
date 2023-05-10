@@ -23,12 +23,12 @@
 	function addTmMbrFn(message) {
 		
 		var tmMbrItems = $(document).find(".tmMbrAddTbody");
-		if (tmMbrItems.find("." + message.tmmbrid).length > 0) {
+		if (tmMbrItems.find("." + message.empid).length > 0) {
 			tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
 			return;
 		}
 
-		var tmMbrTr = $("<tr class='tmMbr-tr " + message.tmmbrid + "'></tr>");
+		var tmMbrTr = $("<tr class='tmMbr-tr " + message.empid + "'></tr>");
 		
 		var len = tmMbrItems.find(".tmmbr-item").length;
 		var itemId = $("<input type='hidden' name='ptmList[" + len + "].tmMbrId' class='tmmbr-item'/>");
@@ -112,7 +112,7 @@
 					location.href = "${context}" + response.redirectURL;
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					alert(response.message);
 				}	
 			});
 		});

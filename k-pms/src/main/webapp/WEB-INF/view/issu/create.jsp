@@ -23,6 +23,7 @@
 		reqTtl.text(req.reqttl);
 	}
 	$().ready(function(){
+		var modal = new Modal($);
 		
 		$(".sidebar > ul li a").removeClass("active")
 		$("#issu_list").addClass("active");
@@ -52,6 +53,9 @@
 		});
 		
 		$("#new_btn").click(function(){
+			if(!validateForm()){
+				return;
+			}
 			var form = $("#create-form");
 			
 			var fileList = $(".file_attachment").find("li");
@@ -156,6 +160,26 @@
 				$("#files").val("");
 			});
 		});
+
+		function validateForm() {
+			let issuTtl = $("#issuTtl").val();
+			let issuCntnt = $("#issuCntnt").val();
+			let reqId = $("#reqId").val();
+
+			if (issuTtl == "") {
+			    modal.show("제목을 입력해주세요.","#issuTtl");
+			    return false;
+			}
+			if (issuCntnt == "") {
+			    modal.show("설명을 입력해주세요.","#issuCntnt");
+			    return false;
+			}
+			if (reqId == "") {
+			    modal.show("요구사항을 선택해주세요.","#req_search");
+			    return false;
+			}
+			return true;
+		}
 	});
 	var fileCnt=0;
 	function addFile(file){
@@ -235,7 +259,7 @@
 		                    <th>요구사항 관리번호</th>
 		                    <td>
 		                    	<span id="reqTtl"></span>
-		                    	<input type="text" id="reqId" name="reqId" />
+		                    	<input type="text" id="reqId" name="reqId" readonly/>
 		                    	<button id="req_search" class="btn regist">검색</button>
 		                    </td>
 		                </tr>

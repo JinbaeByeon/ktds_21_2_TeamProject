@@ -100,7 +100,7 @@
 											<td>${eqpLog.eqpId}</td>
 											<td>${eqpLog.empId}</td>
 											<td>${eqpLog.stts}</td>
-											<td>${eqpLog.crtr}(${eqpLog.crtrEmpVO.fNm}${eqpLog.crtrEmpVO.lNm})</td>
+											<td>${eqpLog.crtrEmpVO.lNm}${eqpLog.crtrEmpVO.fNm}(${eqpLog.crtr})</td>
 											<td>${eqpLog.crtDt}</td>
 										</tr>
 									</c:forEach>
