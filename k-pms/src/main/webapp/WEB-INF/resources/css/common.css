@@ -914,7 +914,7 @@ footer {
 	padding-top: 30px;
 	margin-top: 1px;
 	margin-bottom: 20px;
-	border-top: 1px solid #2b2b2b30;
+	border-top: 3px solid #2b2b2b30;
 	
 }
 
@@ -956,7 +956,6 @@ footer {
 
 #comments {
 	padding: 15px;
-	border: 1px solid #2b2b2b30;
 }
 
 #comments .commentArea {
@@ -972,6 +971,10 @@ footer {
 #comments .comment {
 	margin-bottom: 15px;
 	position: relative;
+}
+
+#comments .comment .replyInfo {
+	display: inline-block;
 }
 
 #comments .comment .replyInfo .crtrInfo {
@@ -1004,7 +1007,10 @@ footer {
 	padding-bottom: 4px
 }
 
-
+.commentBtns {
+	display: inline-block;
+	margin-left: 10px;
+}
 /* msg */
 #previewPrfl {
 	width: 30px;
@@ -1499,6 +1505,9 @@ select {
 	position: relative;
 	width: 1300px;
 	height: 450px;
+	border-bottom: 1px solid #2b2b2b30;
+	padding-bottom: 20px;
+	margin-bottom: 40px;
 }
 
 .halfTable {
@@ -1518,4 +1527,34 @@ select {
 .lastTable {
 	width: 1300px;
 	margin-bottom: 30px;
+}
+
+.search_date {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    background: rgba(238, 238, 238, 0.974);
+    width: 400px;
+    display: inline-block;
+    position: relative;
+    height: 40px;
+}
+
+.search_date > label{
+    top: 6px;
+    line-height: 27px;
+    height: 30px;
+    width: 111px;
+    position: absolute;
+    left: 0px;
+    background: rgba(238, 238, 238, 0.974);
+    border-right: 3px solid rgb(187, 39, 32);
+    padding-right: 34px;
+}
+
+input#search-keyword-startdt, input#search-keyword-enddt {
+    border: none;
+    background: rgba(238, 238, 238, 0.974);
+    border-bottom: 1px solid #2b2b2b;
+    font-size: 13pt;
+    line-height: 12pt;
 }

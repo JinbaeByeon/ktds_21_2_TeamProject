@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>대여 신청</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 $().ready(function(){
