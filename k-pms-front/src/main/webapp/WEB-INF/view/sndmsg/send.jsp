@@ -13,7 +13,9 @@
 	var empWindow;
 	var ajaxUtil = new AjaxUtil();
 	const Editor = toastui.Editor;
+	
 	$().ready(function() {
+		var modal = new Modal($);
 		const editor = new Editor({
 			  el: document.querySelector('#msg-cntnt'),
 			  height: '500px',
@@ -43,7 +45,16 @@
 				$(this).val(inputVal.replace(/[^a-zA-Z0-9]/gi,''));
 			}
 		})
+		
+		$("#rcvr").on("focusout", function(){
+			createUser($(this).val().replace(" ",""));
+			$(this).val("");
+		});
+		
 		$("#send_btn").click(function(){
+			if(!validateForm()){
+				return;
+			}
 			var form = $("#create-form");
 			
 			// 수신 사원
@@ -73,7 +84,7 @@
 				var inputExt = $("<input type='hidden' name='atchFlList["+ cnt++ +"].flExt' value='"+ext+"'/>");
 				form.append(inputExt);
 			});
-			var cntnt = $("<textarea name='cntnt'></textarea>");
+			var cntnt = $("<textarea name='cntnt' hidden></textarea>");
 			cntnt.text(editor.getMarkdown());
 			form.append(cntnt);
 			ajaxUtil.upload("#create-form","${context}/api/sndmsg/snd",function(response){
@@ -158,6 +169,28 @@
 				$("#files").val("");
 			});
 		});
+
+		function validateForm() {
+			let rcvrCnt = $("#user_list").children(".user").children(".rcvr").length;
+			let ttl = $("#title").val();
+			let cntnt = editor.getMarkdown();
+
+			if (rcvrCnt == 0) {
+			    modal.show("받는사람을 입력해주세요.","#rcvr");
+			    return false;
+			}
+
+			if (ttl == "") {
+			    modal.show("제목을 작성해주세요.","#title");
+			    return false;
+			}
+
+			if (cntnt == "") {
+			    modal.show("내용을 작성해주세요.",editor);
+			    return false;
+			}
+			return true;
+		}
 	});
 	
 	function addEmpFn(emp){
