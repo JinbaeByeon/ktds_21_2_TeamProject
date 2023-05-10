@@ -24,12 +24,12 @@
 	function addTmMbrFn(message) {
 		
 		var tmMbrItems = $(document).find(".tmMbrAddTbody");
-		if (tmMbrItems.find("." + message.tmmbrid).length > 0) {
+		if (tmMbrItems.find("." + message.empid).length > 0) {
 			tmMbr.alert(message.lnm + message.fnm + "은(는) 이미 추가된 팀원입니다.");
 			return;
 		}
 
-		var tmMbrTr = $("<tr class='tmMbr-tr'></tr>");
+		var tmMbrTr = $("<tr class='tmMbr-tr " + message.empid + "'></tr>");
 		
 		var len = tmMbrItems.find(".tmmbr-item").length;
 		var itemId = $("<input type='hidden' name='ptmList[" + len + "].tmMbrId' class='tmmbr-item'/>");
@@ -182,7 +182,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">${prjId} | ${prjVO.prjNm}</div>
+				<div class="path">${prjVO.prjNm}</div>
 				<form id="create_form" enctype="multipart/form-data">
 					<table class="detail_table">
 		                <input type="hidden" id="prjId" name="prjId" value="${prjVO.prjId}" />
@@ -242,7 +242,7 @@
 		                        </thead>
 		                        <tbody class="tmMbrAddTbody">
 									<c:forEach items="${prjVO.ptmList}" var="ptm" varStatus="index">
-										<tr class="tmMbr-tr">
+										<tr class="tmMbr-tr ${ptm.tmMbrVO.empVO.empId}">
 											<input type="hidden" name="ptmList[${index.index}].tmMbrId" class="tmmbr-item" value="${ptm.prjTmMbrId}">
 											<td>${ptm.tmMbrVO.empVO.empId}</td>
 											<td>${ptm.tmMbrVO.empVO.lNm} ${ptm.tmMbrVO.empVO.fNm}</td>

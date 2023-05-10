@@ -13,7 +13,6 @@
 	$().ready(function() {
 		
 		$(".tm-tbody tr").click(function() {
-			$("#all_check").prop("checked", false);
 			$(".tm-tbody").find("tr").removeClass("active");
 			$(this).toggleClass("active");
 			var activeTmId = $(".active").data("tmid");
@@ -30,37 +29,48 @@
 					var tmNm = response.data[i].tmVO.tmNm;
 					
 					var tr = $("<tr data-tmmbrid='" + tmmbrId + "'data-empid='" + empId + "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" + lNm + "'data-tmnm='" + tmNm + "'></tr>");
-					var td = "<td class='input'><input type='checkbox' class='check-idx' value=" + tmmbrId + " /></td>"
+					var td = "<td class='input'><input type='checkbox' class='check_idx' value=" + tmmbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
 					td += "<td>" + lNm + fNm + "</td>"
 					
 					$(".tmmbr-tbody").append(tr);
 					tr.append(td);
 				}
+				$("#all_check").prop("checked", false);
 			})
-
 		});
 		
-		$("#search-btn").click(function() {
-			location.href = "${context}/tm/search?tmNm=" + $("#searh-tmNm").val();
+		
+		$("#all_check").change(function(){
+			$(".check_idx").prop("checked", $(this).prop("checked"));
 		});
 		
-		$("#all_check").change(function() {
-			$(".check-idx").prop("checked", $(this).prop("checked"));
-		});
-		
-		$(document).on("change",".check-idx" , function() {
-			var count = $(".check-idx").length;
-			var checkCount = $(".check-idx:checked").length;
+		function checkIndex(){
+			var count = $(".check_idx").length;
+			var checkCount = $(".check_idx:checked").length;
 			$("#all_check").prop("checked", count == checkCount);
+		}
+		
+		$(document).on("change", ".check_idx", function(){
+			checkIndex();
 		});
 		
-		$("#cancel-btn").click(function() {
+		$(document).on("click", ".check_idx", function(e){
+			$(this).prop("checked",$(this).prop("checked")==false);
+		});
+		
+		$(document).on("click", "#userListTable > tbody > tr > td", function(){
+			var check_idx = $(this).closest("tr").find(".check_idx");
+			check_idx.prop("checked",check_idx.prop("checked")==false);
+			checkIndex();
+		});
+		
+		$("#cancel_btn").click(function() {
 			window.close();
 		});
 		
 		$("#regist_btn").click(function() {
-			var checkOne = $(".check-idx:checked");
+			var checkOne = $(".check_idx:checked");
 			
 			if (checkOne.length == 0) {
 				alert("팀원을 선택하세요");

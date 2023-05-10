@@ -39,7 +39,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />	
-        	<div class="path">${prjId} | ${prjVO.prjNm}</div>
+        	<div class="path">${prjVO.prjNm}</div>
 			<table class="detail_page detail_table">
                 <input type="hidden" id="prjId" name="prjId" value="${prjId}" readonly />
                 <input type="hidden" id="empId" name="empId" value="${empId}" readonly />

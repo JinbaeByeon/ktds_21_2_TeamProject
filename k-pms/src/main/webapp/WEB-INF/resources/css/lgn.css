@@ -11,9 +11,19 @@ body {
   padding: 0;
   margin: 0;
 }
+#kpms{
+	font-family: 'Oswald', sans-serif;
+    color: rgb(187, 39, 32);
+    font-weight: 400;
+    font-size: 300px;
+    letter-spacing: -20px;
+    font-stretch: condensed;
+    top: -140px;
+    position: fixed;
+}
 body .container {
   background: rgb(237, 235, 231);
-  height: 100vh;
+  height: 95vh;
   width: 100vw;
   position: relative;
   transition: 0.3s all ease-in-out;

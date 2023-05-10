@@ -257,6 +257,10 @@
 				<form id="create_form" enctype="multipart/form-data">
 					<table class="detail_page detail_table">
 		                <tr>
+		                    <th>부서명</th>
+		                    <td><input type="text" id="depNm" name="depNm" value="${tmVO.depIdDepVO.depNm}" readonly/></td>
+		                </tr>
+		                <tr>
 		                    <th>부서 관리번호</th>
 		                    <td><input type="text" id="depId" name="depId" value="${tmVO.depIdDepVO.depId}" readonly/></td>
 		                </tr>

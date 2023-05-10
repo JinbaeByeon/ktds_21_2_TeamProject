@@ -42,7 +42,7 @@
 	    td += "<td>" + message.lnm  + message.fnm + "</td>"
 	    td += "<td>" + message.jobnm + "</td>"
 	
-	    var rmbtn = $("<td><button class='del-ptm-btn'><span class='material-symbols-outlined'>delete</span></button></td>")
+	    var rmbtn = $("<td><button class='trRemoveBtn'><span class='material-symbols-outlined'>delete</span></button></td>")
 	
 	    rmbtn.click(function() {
 	        var empTrToRemove = $(this).closest(".emp-tr");
