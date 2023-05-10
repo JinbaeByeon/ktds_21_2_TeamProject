@@ -28,6 +28,12 @@
 	var mbrIdx=0;
 	
 	function addDepFn(message) {
+		$("#tmHdId").val("");
+		$("#tmHdNm").text("");
+		$("#tmNm").val("");
+		$("#tmCrtDt").val("");
+		$(".emp-hd-tr").remove();
+		$(".emp-tr").remove();
 		
 		var depItems = $("#addDepIdBtn").closest("tr").find(".items");
 		if (depItems.find("." + message.depid).length > 0) {
@@ -250,7 +256,7 @@
 		                </tr>
 		                <tr>
 		                    <th>사용여부</th>
-		                    <td><input type="checkbox" id="useYn" name="useYn" value="Y"/></td>
+		                    <td><input type="checkbox" id="useYn" name="useYn" checked/></td>
 		                </tr>
 		                <tr>
 		                    <th>팀원</th>
