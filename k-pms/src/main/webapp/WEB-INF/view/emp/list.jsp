@@ -43,9 +43,18 @@
 				if(!confirm("해당 사원들의 비밀번호를 초기화하시겠습니까?")){
 					return;
 				}
-				var data;
-				data.url = '/api/emp/reset/password';
-				postCheckIdx(data);
+				var form = $("<form></form>")
+				
+				$(".check_idx:checked").each(function() {
+					form.append("<input type='hidden' name='empIdList' value='"+ $(this).val() +"'>");
+				});
+				$.post("${context}/api/emp/reset/password",form.serialize(), function(response) {
+					if (response.status == "200 OK") {
+						location.reload();
+					} else {
+						alert(response.message);
+					}
+				});
 			});
 			
 			$("#pstn-change").click(function(){
