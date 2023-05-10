@@ -35,7 +35,7 @@
 			$(this).addClass("active");
 			$(this).find(".sub_item").addClass("active");
 		});
-		$("div.header").mouseleave(function(){
+		$("div.header").mouseout(function(){
 			$(".top_navbar > .menu > .nav_menu > .nav").find(".active").removeClass("active");
 			<c:if test="${not empty selected}">
 				$("li.nav_item.${selected}").addClass("active");
