@@ -74,13 +74,13 @@ public class TmServiceImpl implements TmService {
 	@Override
 	public boolean updateOneTm(TmVO tmVO) {
 	    if (tmVO.getTmNm() == null || tmVO.getTmNm().trim().length() == 0) {
-	        throw new APIArgsException("400", "팀명이 누락되었습니다.");
+	        throw new APIArgsException("", "팀명이 누락되었습니다.");
 	    }
 	    if (tmVO.getTmHdId() == null || tmVO.getTmHdId().trim().length() == 0) {
-	        throw new APIArgsException("400", "팀장이 누락되었습니다.");
+	        throw new APIArgsException("", "팀장이 누락되었습니다.");
 	    }
 	    if (tmVO.getTmCrtDt() == null || tmVO.getTmCrtDt().trim().length() == 0) {
-	        throw new APIArgsException("400", "팀생성일이 누락되었습니다.");
+	        throw new APIArgsException("", "팀생성일이 누락되었습니다.");
 	    }
 	    
 	    TmVO orgnTmVO = tmDAO.readOneTmVOByTmId(tmVO.getTmId());
@@ -147,11 +147,12 @@ public class TmServiceImpl implements TmService {
 	@Override
 	public boolean deleteOneTmByTmId(String tmId) {
 		int delCount = tmDAO.deleteOneTmByTmId(tmId);
+		
 		if (delCount > 0) {
 			tmMbrDAO.deleteTmMbrByTmId(tmId);
 		}
 		else {
-			throw new APIArgsException("400", "프로젝트를 진행중인 팀이 존재합니다.");
+			throw new APIArgsException("", "프로젝트를 진행중인 팀이 존재합니다.");
 		}
 		
 		return delCount > 0;
@@ -167,7 +168,7 @@ public class TmServiceImpl implements TmService {
 		boolean isSuccess = delCount == tmId.size();
 		
 		if (!isSuccess) {
-			throw new APIException("400", "프로젝트를 진행중인 팀이 존재합니다." + tmInprj);
+			throw new APIException("", "프로젝트를 진행중인 팀이 존재합니다." + tmInprj);
 		}
 		else {
 			for (String tmid : tmId) {
