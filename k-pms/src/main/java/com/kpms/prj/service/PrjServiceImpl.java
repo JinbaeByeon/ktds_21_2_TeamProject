@@ -89,7 +89,7 @@ public class PrjServiceImpl implements PrjService {
 		if (prjCreateCount > 0) {
 			List<PrjTmMbrVO> ptmList = prjVO.getPtmList();
 			if (ptmList == null || ptmList.isEmpty()) {
-				throw new APIArgsException("404", "팀원을 추가해주세요");
+				throw new APIArgsException(APIStatus.MISSING_ARG, "팀원을 추가해주세요");
 			}
 			for (PrjTmMbrVO ptm : ptmList) {
 				if (StringUtil.isNull(ptm.getTmMbrId())) {
