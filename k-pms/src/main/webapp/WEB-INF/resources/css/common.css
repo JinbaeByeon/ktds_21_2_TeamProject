@@ -1101,10 +1101,6 @@ footer {
 	margin: 10px 0;
 }
 
-.file_area > .file_upload > button{
-	padding: 0 5px;
-}
-
 .file_area .file_drag{
 	margin: 10px;
     padding: 17px 10px;
@@ -1282,10 +1278,6 @@ div.button_btm_left {
 .file_area>.file_upload {
 	display: flex;
 	margin: 10px 0;
-}
-
-file_area>.file_upload>button {
-	padding: 0 5px;
 }
 
 .file_area .file_drag {

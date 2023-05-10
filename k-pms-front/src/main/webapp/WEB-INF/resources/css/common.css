@@ -450,7 +450,9 @@ a:link, a:visited {
 }
 
 .container .detail_table tr td input[type=text],
-.container .detail_table tr td input[type=date]{
+.container .detail_table tr td input[type=date],
+.container .detail_table tr td input[type=email],
+.container .detail_table tr td input[type=password]{
     margin: 0;
 }
 
