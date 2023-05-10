@@ -331,6 +331,7 @@ a:link, a:visited {
 
 .container .list_table tbody td {
 	background-color: rgba(238, 238, 238, 0.974);
+    white-space: nowrap;
 }
 
 .container .list_table thead tr th {
@@ -1417,10 +1418,10 @@ select {
 }
 
 /* input-width */
-#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
+/* #prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl,
 #eml, #eqpNm, #ttl, #title {
 	width: 300px;
-}
+} */
 
 #addDepHeadBtn {
 	margin: 0px;

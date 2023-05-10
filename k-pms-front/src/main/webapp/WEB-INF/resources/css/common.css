@@ -330,6 +330,7 @@ a:link, a:visited {
 
 .container .list_table tbody td {
 	background-color: rgba(238, 238, 238, 0.974);
+    white-space: nowrap;
 }
 
 .container .list_table thead tr th {
@@ -1357,10 +1358,6 @@ select {
 }
 
 
-#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl, #eml, #eqpNm, #ttl,
-	#title {
-	width: 300px;
-}
 
 .container .list_table div, .container .list_table span {
 	background: rgba(238, 238, 238, 0.974);
@@ -1375,10 +1372,10 @@ select {
 }
 
 /* input-width */
-#prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl, #eml, #eqpNm, #ttl,
+/* #prjNm, #cstmr, #issuTtl, #issuCntnt, #reqTtl, #eml, #eqpNm, #ttl,
 	#title {
 	width: 300px;
-}
+} */
 
 #addDepHeadBtn {
 	margin: 0px;

@@ -61,17 +61,25 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">${issuVO.reqVO.reqTtl} (${issuVO.reqId})</div>
+			<div class="path">${issuVO.reqVO.reqTtl} (${issuVO.reqId})</div>
+            <input type="hidden" name="issuId" value="${issuVO.issuId}"/>
+			<input type="hidden" name="mdfyr" value="${sessionScope.__USER__.empId}"/>
 			<table class="detail_page detail_table">
-                <input type="hidden" name="issuId" value="${issuVO.issuId}"/>
-				<input type="hidden" name="mdfyr" value="${sessionScope.__USER__.empId}"/>
                 <tr>
                     <th>제목</th>
                     <td colspan="3" id="issuTtl">${issuVO.issuTtl}</td>
                 </tr>
                 <tr>
                     <th>작성자</th>
-                    <td colspan="3" id="crtr">${issuVO.crtr}</td>
+                    <td id="crtr">${issuVO.crtr}</td>
+                    <th>작성일</th>
+                    <td>${issuVO.crtDt}</td>
+                </tr>
+                <tr>
+                	<th>수정자</th>
+                    <td>${issuVO.mdfyr}</td>
+                    <th>수정일</th>
+                    <td>${issuVO.mdfyDt}</td>
                 </tr>
                 <tr>
                     <th>요구사항</th>
@@ -110,18 +118,6 @@
                     <th>상세내용</th>
                     <td colspan="3"  id="dtlCntnt">${issuVO.dtlCntnt}</td>
                 </tr>
-                 <tr>
-                    <th>등록자</th>
-                    <td>${issuVO.crtr}</td>
-                    <th>등록일</th>
-                    <td>${issuVO.crtDt}</td>
-                </tr>
-                <tr>
-                	<th>수정자</th>
-                    <td>${issuVO.mdfyr}</td>
-                    <th>수정일</th>
-                    <td>${issuVO.mdfyDt}</td>
-                  </tr>
               </table>
 
         <div class="buttons">
