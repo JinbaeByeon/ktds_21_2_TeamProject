@@ -62,6 +62,13 @@
 		<jsp:include page="../../include/content.jsp"/>
 			<div class="path">임직원 관리 > 직무 변경 이력</div>
 		      <div class="search_wrapper">
+		      	<div class="search_field">
+		          	<div class="search_date">
+			            <label for="search-keyword-startdt">조회기간</label>
+						<input type="date" id="search-keyword-startdt" class="search-input" value="${jobLogVO.startDt}"/>
+						<input type="date" id="search-keyword-enddt" class="search-input" value="${jobLogVO.endDt}"/>
+		          	</div>
+		        </div>
 		        <div class="search_box">
 					<select class="search-option" name="searchType">
 						<option ${searchType== "ID" ? "selected" : ""}>ID</option>
@@ -69,9 +76,6 @@
 					</select>
 		          <div class="search_field">
 					<input type="text" id="search-keyword" class="input" value="${searchKeyword}" placeholder="Search"/>
-		            <label for="search-keyword-startdt">조회기간</label>
-					<input type="date" id="search-keyword-startdt" class="search-input" value="${jobLogVO.startDt}"/>
-					<input type="date" id="search-keyword-enddt" class="search-input" value="${jobLogVO.endDt}"/>
 		          </div>
 		          <div class="search-icon">
 		          	<button class="btn-search" id="search-btn"><span class="material-symbols-outlined">search</span></button>
