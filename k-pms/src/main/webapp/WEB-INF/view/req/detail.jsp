@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>요구사항 상세정보 페이지</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	var ajaxUtil = new AjaxUtil();
@@ -266,11 +266,6 @@
                     <th>첨부파일</th>
                     <td colspan="3">
                     		<div class="file_attachment input_div">
-								<div class="file_attachment_summary input_div">
-									<span class="total_count input_div">첨부 개</span>
-									<span class="total_volume input_div">전체용량</span>
-									<button class="save_all btn save">모두저장</button>
-								</div>
 								<div class="file_attachments_inner input_div">
 									<ul id="file_list">
 										<c:if test="${not empty reqVO.atchFlList}">
@@ -281,19 +276,12 @@
 												data-sz='${atchFl.flSz}'
 												data-ext='${atchFl.flExt}'>
 												<span class='file_name input_div'>${atchFl.orgFlNm}</span>
-												<c:if test="${atchFl.flSz < 1024*1024}">
-													<span class='file_size input_div'>${String.format("%.2f",atchFl.flSz/1024)} KB</span>
-												</c:if>
-												<c:if test="${atchFl.flSz >= 1024*1024}">
-													<span class='file_size input_div'>${String.format("%.2f",atchFl.flSz/1024/1024)} MB</span>
-												</c:if>
 											</li>
 										</c:forEach>
 										</c:if>
 									</ul>
 								</div>
 							</div>
-						<input type="file" id="files" multiple/>
                     </td>
                 </tr>
                 <tr>

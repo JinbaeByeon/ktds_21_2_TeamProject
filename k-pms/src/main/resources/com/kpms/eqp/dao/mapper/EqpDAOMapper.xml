@@ -22,6 +22,13 @@
 			<result property="fNm" column="MDFYR_E_F_NM"/>
 			<result property="lNm" column="MDFYR_E_L_NM"/>
 		</association>
+		<association property="applEmpVO"
+					  javaType="com.kpms.emp.vo.EmpVO"
+					  autoMapping="true">
+			<id property="empId" column="APPL"/>
+			<result property="fNm" column="APPL_E_F_NM"/>
+			<result property="lNm" column="APPL_E_L_NM"/>
+		</association>
 	</resultMap>
 	
 	<insert id="createNewEqp"
@@ -89,11 +96,15 @@
 			 , CRTR_E.F_NM CRTR_E_F_NM
 			 , MDFYR_E.L_NM MDFYR_E_L_NM
 			 , MDFYR_E.F_NM MDFYR_E_F_NM
+			 , APPL_E.L_NM APPL_E_L_NM
+			 , APPL_E.F_NM APPL_E_F_NM
 		  FROM EQP E
 		 INNER JOIN EMP CRTR_E
 		 	ON E.CRTR = CRTR_E.EMP_ID
 		 INNER JOIN EMP MDFYR_E
 		 	ON E.MDFYR = MDFYR_E.EMP_ID
+		 INNER JOIN EMP APPL_E
+		 	ON E.APPL_ID = APPL_E.EMP_ID
 		 WHERE E.DEL_YN = 'N'
 		 <choose>
 		 	<when test='searchMode == "list"'>
