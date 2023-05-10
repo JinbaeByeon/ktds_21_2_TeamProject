@@ -21,6 +21,7 @@ public class EqpVO extends AbstractPagingVO {
 
 	private String searchMode;
 
+	private EmpVO applEmpVO;
 	private EmpVO crtrEmpVO;
 	private EmpVO mdfyrEmpVO;
 
@@ -128,4 +129,12 @@ public class EqpVO extends AbstractPagingVO {
 		this.mdfyrEmpVO = mdfyrEmpVO;
 	}
 
+	public EmpVO getApplEmpVO() {
+		return applEmpVO;
+	}
+
+	public void setApplEmpVO(EmpVO applEmpVO) {
+		this.applEmpVO = applEmpVO;
+	}
+	
 }
