@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <c:set var="commonMode" value="${knwSearchVO.commonMode}" />
+<c:set var="prjListNull" value="${prjListNull}" />
 <c:set scope="request" var="selected" value="prj"/>
 <!DOCTYPE html>
 <html>
@@ -20,7 +21,6 @@
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	$().ready(function() {
-		
 		$(".sidebar > ul li a").removeClass("active");
 		if(${commonMode} == true) {
 			$("#com_knw_list").addClass("active");
@@ -30,6 +30,12 @@
 		}
 		
 		$("#new_btn").click(function() {
+			
+			if(${prjListNull}) {
+				alert("참가한 프로젝트가 없으므로 지식을 등록할 수 없습니다.");
+				return;
+			}
+			
 			var prjId = $("#prjId").val();
 			location.href = "${context}/knw/create/?prjId=" + prjId;
 		});
