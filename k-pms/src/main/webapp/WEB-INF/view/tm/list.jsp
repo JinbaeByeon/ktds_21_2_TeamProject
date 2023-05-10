@@ -103,7 +103,7 @@
 					location.reload();
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					alert(response.message);
 				}
 			});
 		});
