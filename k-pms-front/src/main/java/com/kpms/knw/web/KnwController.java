@@ -21,6 +21,8 @@ import com.kpms.knw.service.KnwService;
 import com.kpms.knw.vo.KnwSearchVO;
 import com.kpms.knw.vo.KnwVO;
 import com.kpms.prj.service.PrjService;
+import com.kpms.prj.vo.PrjSearchVO;
+import com.kpms.prj.vo.PrjVO;
 
 @Controller
 public class KnwController {
@@ -34,10 +36,20 @@ public class KnwController {
 	private String atchmntPath;
 	
 	@GetMapping("/knw/list/{commonMode}")
-	public String viewKnwListPage(KnwSearchVO knwSearchVO, Model model, @PathVariable boolean commonMode, @SessionAttribute("__USER__") EmpVO empVO) {
+	public String viewKnwListPage(PrjSearchVO prjSearchVO, KnwSearchVO knwSearchVO, Model model, @PathVariable boolean commonMode, @SessionAttribute("__USER__") EmpVO empVO) {
 		knwSearchVO.setCommonMode(commonMode);
 		knwSearchVO.setEmpId(empVO.getEmpId());
+		prjSearchVO.setEmpId(empVO.getEmpId());
 		List<KnwVO> knwList = knwService.readAllKnw(knwSearchVO);
+		List<PrjVO> prjList = prjService.readAllPrjVONoPagination(prjSearchVO);
+		
+		if(prjList.isEmpty()) {
+			model.addAttribute("prjListNull", true);
+		}
+		else {
+			model.addAttribute("prjListNull", false);
+		}
+		
 		model.addAttribute("knwList", knwList);
 		model.addAttribute("knwSearchVO", knwSearchVO);
 		model.addAttribute("prjVO", prjService.readOnePrjVOByPrjId(knwSearchVO.getPrjId()));

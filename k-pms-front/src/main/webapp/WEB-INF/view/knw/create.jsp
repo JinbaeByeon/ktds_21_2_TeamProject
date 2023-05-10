@@ -144,7 +144,7 @@
 			
 			ajaxUtil.upload("#create_form","${context}/api/knw/create",function(response) {
 				if (response.status == "200 OK") {
-					if(result) {
+					if($("#prjId").val() == null) {
 						location.href = "${context}/knw/list/1";	
 					}
 					else {
