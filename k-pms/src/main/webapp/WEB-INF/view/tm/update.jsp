@@ -175,7 +175,7 @@
 					location.href = "${context}" + response.redirectURL;
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					alert(response.message);
 				}
 			});
 		});
@@ -214,7 +214,7 @@
 					location.reload();
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					alert(response.message);
 				}
 			});
 		});
@@ -230,7 +230,7 @@
 					location.href = "${context}/tm/list"
 				}
 				else {
-					alert(response.errorCode + "/" + response.message);
+					alert(response.message);
 				}
 			});
 		});

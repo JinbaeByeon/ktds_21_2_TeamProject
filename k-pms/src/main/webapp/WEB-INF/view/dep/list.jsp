@@ -158,7 +158,7 @@ $().ready(function() {
 				location.reload();
 			}
 			else {
-				alert(response.errorCode + " / " + response.message);
+				alert(response.message);
 			}
 		});
 	})
@@ -171,7 +171,7 @@ $().ready(function() {
 					location.reload(); 
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					alert(response.message);
 				}
 			});
 		}
@@ -181,7 +181,7 @@ $().ready(function() {
 					location.reload(); 
 				}
 				else {
-					alert(response.errorCode + " / " + response.message);
+					alert(response.message);
 				}
 			});
 		}
@@ -231,7 +231,7 @@ $().ready(function() {
 				location.reload();
 			}
 			else {
-				alert(response.errorCode + " / " + response.message);
+				alert(response.message);
 			}
 		});
 	});

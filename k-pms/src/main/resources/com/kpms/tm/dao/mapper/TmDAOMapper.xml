@@ -276,7 +276,8 @@
 	                                                            FROM PRJ 
 	                                                           WHERE PRJ_STTS = '002_09'))
 	                       OR TM_MBR_ID NOT IN (SELECT TM_MBR_ID
-	                     						  FROM PRJ_TM_MBR))  
+	                     						  FROM PRJ_TM_MBR
+	                     						 WHERE DEL_YN = 'N'))  
 	</update>	
 	
 	<update id="deleteTmByDepId"
@@ -319,7 +320,8 @@
 	                                                            FROM PRJ 
 	                                                           WHERE PRJ_STTS = '002_09'))
 	                       OR TM_MBR_ID NOT IN (SELECT TM_MBR_ID
-	                     						  FROM PRJ_TM_MBR))  
+	                     						  FROM PRJ_TM_MBR
+	                     						 WHERE DEL_YN = 'N'))  
 	</update>
 	
 	
