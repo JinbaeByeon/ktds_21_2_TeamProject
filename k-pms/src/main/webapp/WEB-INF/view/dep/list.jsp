@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.util.Random"%>
+<%@ page import="java.util.Random"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
@@ -265,7 +265,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">부서 관리 > 부서 목록</div>
+				<div class="path">부서 상세</div>
 			      <div class="search_wrapper">
 			        <div class="search_box">
 			          <select id="search-option">

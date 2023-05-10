@@ -9,7 +9,7 @@
           <ul>
             <li>
               <a href="${context}/eqp/rent" id="eqp_rent">
-                <span>대여 관리</span>
+                <span>대여 목록</span>
               </a>
             </li>
             <li>

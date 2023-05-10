@@ -22,6 +22,7 @@
 		checkFile();
 		var empId = '${sessionScope.__USER__.empId}';
 		var data2 = "${reqVO.reqId}";
+		
 		console.log(data2);
 		$("#isModify").val("true");	
 		$("#reqId").val("${reqVO.reqId}");
@@ -296,7 +297,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-				<div class="path">${reqVO.reqTtl}</div>
+				<div class="path">${reqVO.reqTtl} (${reqVO.reqId})</div>
 				<form id="detail_form" >
 					<table class="detail_page detail_table">
 		                <tr>

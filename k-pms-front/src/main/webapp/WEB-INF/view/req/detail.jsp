@@ -315,7 +315,6 @@
             </table>
         <div class="buttons">
 			<button id="update_btn" class="btn edit">수정</button>
-			<button id="issu_delete_btn" class="btn delete">삭제</button>
         </div>        
         <div class="hr"></div>
             <div class="req path">이슈</div>

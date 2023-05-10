@@ -13,9 +13,10 @@ public class AutoSizingColumns {
 		}
 
 		Row row = WriteShare.sheet.getRow(0);
-		
-		for ( int j = 0; j < row.getLastCellNum(); j++ ) {
-			WriteShare.sheet.autoSizeColumn(j);
+		if (row != null) {
+			for ( int j = 0; j < row.getLastCellNum(); j++ ) {
+				WriteShare.sheet.autoSizeColumn(j);
+			}
 		}
 	}
 	

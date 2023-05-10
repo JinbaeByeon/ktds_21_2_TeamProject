@@ -1,6 +1,7 @@
 package com.kpms.emp.web;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.kpms.common.handler.DownloadUtil;
 import com.kpms.common.handler.SessionHandler;
+import com.kpms.common.util.ExcelUtil;
 import com.kpms.emp.service.EmpService;
+import com.kpms.emp.vo.EmpExcelVO;
 import com.kpms.emp.vo.EmpVO;
 import com.kpms.lgnhst.vo.LgnHstVO;
 import com.kpms.tmmbr.vo.TmMbrVO;
@@ -145,6 +148,25 @@ public class EmpController {
 		path += fileNm;
 		DownloadUtil dnUtil = new DownloadUtil(response, request, path);
 		dnUtil.download(fileNm);
+	}
+	
+	@GetMapping("/emp/export/excel")
+	public void doExportExcelEmp(HttpServletRequest request
+								, HttpServletResponse response) {
+		EmpVO empVO = new EmpVO();
+		List<EmpExcelVO> contents = new ArrayList<>();
+		empService.readEmpListNoPagination(empVO).forEach(emp -> {
+			contents.add(new EmpExcelVO(emp));
+		});
+		String path = "C:/kpms/files/excel";
+		String fileName = "Employees.xlsx";
+		File excelFile = ExcelUtil.writeExcel(contents, fileName, path);
+		
+		if(excelFile.exists()) {
+			path = excelFile.getPath();
+			new DownloadUtil(response, request, path)
+			.download(fileName);
+		}
 	}
 	
 }

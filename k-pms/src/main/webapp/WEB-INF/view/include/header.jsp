@@ -7,6 +7,9 @@
 	$().ready(function(){
 		function readCnt(){
 			$.get("${context}/api/rcvmsg/cnt",function(response){
+				if(response.status != "200 OK"){
+					location.reload();
+				}
 				var cnt = response.data;
 				var msgCnt = $("#msg_cnt");
 				if(cnt==0){
@@ -43,7 +46,7 @@
 		});
 
 		$("#my-info").click(function(){
-			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=500");
+			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=800");
 		});
 	});
 </script>
@@ -65,6 +68,7 @@
                    <img src="${context}/img/base_profile.png" />
                </c:if>
 	          <p id="my-info">
+	          	  <span style="font-size: 15px;">관리자</span><br/>
 	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}
 	          </p>
 	        </div>
@@ -91,7 +95,7 @@
 	          <li class="nav_item dep">
 	            <a href="${context}/dep/list">부서</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/dep/list">부서 관리</a></li>
+	              <li><a href="${context}/dep/list">부서 상세</a></li>
 	              <li><a href="${context}/tm/list">팀 관리</a></li>
 	              <li><a href="${context}/dep/mbrlist">팀원 관리</a></li>
 	            </ul>

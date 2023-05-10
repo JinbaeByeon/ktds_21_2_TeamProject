@@ -23,6 +23,9 @@
 		$("#search-btn").click(function() {
 			movePage(0)
 		});
+		$("#export_excel").click(function(){
+			location.href = "${context}/emp/export/excel"; 
+		});
 	});
 	function movePage(pageNo) {
 		var searchType = $(".search-option").val();
@@ -81,9 +84,11 @@
 		      <div class="list_section">
 				<jsp:include page="../../include/viewCnt.jsp" />
 		        <div class="total">총 ${jobLogList.size() > 0 ? jobLogList.get(0).totalCount : 0}건</div>
+			    <img id = "export_excel" src="${context}/img/excel-export.png" />
 		        <table class="list_table">
 		          <thead>
 						<tr>
+							<th>순번</th>
 							<th>직원ID</th>
 							<th>이름</th>
 							<th>이전 직무 관리번호</th>
@@ -112,6 +117,7 @@
 										data-chngrsn="${jobLog.chngRsn}"
 										data-crtdt="${jobLog.crtDt}"
 										data-crtr="${jobLog.crtr}">
+									<td>${jobLog.rnum}</td>
 									<td>${jobLog.empId}</td>
 									<td>${jobLog.empVO.lNm}${jobLog.empVO.fNm}</td>
 									<td>${jobLog.prvsJobId}</td>

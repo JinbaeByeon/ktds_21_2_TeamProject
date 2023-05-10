@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kpms.lgnhst.dao.LgnHstDAO;
+import com.kpms.lgnhst.vo.LgnHstExcelVO;
 import com.kpms.lgnhst.vo.LgnHstVO;
 
 @Service
@@ -48,6 +49,11 @@ public class LgnHstServiceImpl implements LgnHstService {
 		}
 		
 		return lgnHstDAO.readAllLgnHst(lgnHst);
+	}
+	
+	@Override
+	public List<LgnHstExcelVO> readAllLgnHstToExcel(LgnHstVO lgnHstVO) {
+		return lgnHstDAO.readAllLgnHstToExcel(lgnHstVO);
 	}
 
 }

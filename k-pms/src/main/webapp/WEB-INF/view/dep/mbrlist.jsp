@@ -33,7 +33,8 @@
 	    var itemId = $("<input type='hidden' name='tmMbrList[" + nextIndex + "].empId' class='emp-item'/>");
 	    itemId.val(empId);
 	
-	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex++ + "'></tr>");
+	    var empTr = $("<tr class='emp-tr " + empId + "' data-index='" + nextIndex++ + "' data-empid='" + empId 
+				+ "'></tr>");
 	
 	    var td = "<td></td>"
 	    td += "<td>" + empId + "</td>"
@@ -60,6 +61,8 @@
 	    empTr.append(rmbtn);
 	
 	}
+	
+	var detailWindow
 	
 	$().ready(function() {
 		$(".sidebar > ul li a").removeClass("active")
@@ -125,7 +128,7 @@
 					var tr = $("<tr data-tmmbrid='" + tmMbrId + "'data-empid='" + empId 
 							+ "'data-tmid='" + tmId + "'data-fnm='" + fNm + "'data-lnm='" 
 							+ lNm + "'data-tmnm='" + tmNm + "' data-jobnm='" + jobNm + "' data-pstnnm='" + pstnNm + "'></tr>");
-					var td = "<td><input type='checkbox' class='check-idx' value=" + tmMbrId + " /></td>"
+					var td = "<td class='check'><input type='checkbox' class='check-idx' value=" + tmMbrId + " /></td>"
 					td += "<td>" + empId + "</td>"
 					td += "<td>" + pstnNm + "</td>"
 					td += "<td>" + lNm + fNm + "</td>"
@@ -199,6 +202,15 @@
 			});
 		});
 		
+		$(document).on("click", ".tmMbr-tbody .emp-tr", function() {
+			var empId = $(this).closest("tr").data("empid");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+		});
+		$(document).on("click", ".tmMbr-tbody > tr > td:not(.check)", function() {
+			var empId = $(this).closest("tr").data("empid");
+			detailWindow = window.open("${context}/emp/detail/"+ empId,"사원 정보","width=600, height= 700");
+		});
+		
 		$("#search-btn").click(function() {
 			movePage(0);
 		});
@@ -220,8 +232,8 @@
 		<div>
 			<jsp:include page="../include/depSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-				<div class="container search_page">
-				  <div class="path">부서 관리 > 팀원 추가</div>
+				<div class="search_page">
+				  <div class="path">부서 관리 > 팀원 관리</div>
 				  		<div class="search_wrapper">
 					        <div class="search_box">
 					          <select id="search-option">
@@ -311,7 +323,7 @@
 				</form>
 
 				    <div class="buttons">
-					<button id="addTmMbrBtn" class="btn regist">팀원 추가</button>
+					<button id="addTmMbrBtn" class="btn edit">팀원 추가</button>
 					<button id="regist-btn" class="btn regist">등록</button>
 					<button id="delete-btn" class="btn delete">팀원 삭제</button>
 				    </div>

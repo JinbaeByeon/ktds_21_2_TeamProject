@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AtchFl">
 
-	<insert id="doCreateNewAtchFl"
+	<insert id="createNewAtchFl"
 			parameterType="com.kpms.atchfl.vo.AtchFlVO">
 		INSERT INTO ATCH_FL
 		 (FRGN_ID

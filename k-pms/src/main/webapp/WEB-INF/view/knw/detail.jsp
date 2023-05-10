@@ -207,7 +207,7 @@
 				<div class="path">관련 프로젝트: <a href="${context}/knw/list/0?prjId=${prjVO.prjId}">${prjVO.prjNm}</a></div>
 			</c:if>
 			<c:if test="${knwVO.prjId eq null}">
-				<div class="path"><a href="${context}/knw/list/1">사내 지식</a></div>
+				<div class="path"><a href="${context}/knw/list/1">프로젝트 > 사내 지식</a></div>
 			</c:if>
 			<div class="articleBox">
 				<div class="articleHead">

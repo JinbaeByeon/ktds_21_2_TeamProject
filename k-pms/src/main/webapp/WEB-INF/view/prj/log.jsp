@@ -36,7 +36,7 @@
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp"/>
 			<jsp:include page="../include/content.jsp" />
-			<div class="path">프로젝트 관리 > 프로젝트 변경 이력</div>
+			<div class="path">프로젝트 > 프로젝트 변경 이력</div>
 
 		      <div class="list_section">
 				<jsp:include page="../include/viewCnt.jsp" />

@@ -19,6 +19,7 @@
 			location.reload();
 		}
 	}
+	
 	$().ready(function(){
 		$(".sidebar > ul li a").removeClass("active")
 		$("#issu_list").addClass("active");
@@ -56,7 +57,7 @@
 		});
 					
 		$("#create_btn").click(function(){
-			location.href = "${context}/issu/create" 
+			location.href = "${context}/issu/create/${issuVO.reqId}"; 
 		});
 		
 		$("#all_check").change(function(){
@@ -177,6 +178,7 @@
 											data-crtr="${issu.crtr}"
 											data-issucntnt="${issu.issuCntnt}"
 											data-vwcnt="${issu.vwCnt}"
+											data-reqid="${issu.reqId}"
 											data-dffclty="${issu.dffclty}"
 											data-mntmmbrid="${issu.mnTmMbrId}"
 											data-stts="${issu.stts}"

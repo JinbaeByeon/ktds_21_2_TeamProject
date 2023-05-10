@@ -28,38 +28,6 @@ $().ready(function() {
 		location.href = "${context}/prj/list?prjStts=" + prjStts;
 	});
 	
-  $('.list_table th').each(function (column) {
-	   var sortdir
-	    $(this).click(function() {
-	      if($(this).is('.asc')) {
-	        $(this).removeClass('asc');
-	        $(this).addClass('desc');
-	        sortdir=-1;
-
-	      } else {
-	        $(this).addClass('asc');
-	        $(this).removeClass('desc'); sortdir=1;
-	      }
-
-	      $(this).siblings().removeClass('asc');
-	      $(this).siblings().removeClass('desc');
-
-	      var rec = $('.list_table').find('tbody>tr').get();
-		
-	      console.log(rec);
-	      rec.sort(function (a, b) {
-	        var val1 = $(a).children('td').eq(column).text().toUpperCase();
-	        var val2 = $(b).children('td').eq(column).text().toUpperCase();
-	        return (val1 < val2)?-sortdir:(val1>val2)?sortdir:0;
-	      });
-
-	      $.each(rec, function(index, row) {
-	          $('.list_table tbody').append(row);
-	      });
-	    });
-	 });
-
-	
 });
 	function movePage(pageNo) {
 		var searchOption = $("#search-option").val();
@@ -81,7 +49,7 @@ $().ready(function() {
 		<div>
 			<jsp:include page="../include/prjSidemenu.jsp" />
 			<jsp:include page="../include/content.jsp" />
-			  <div class="path">프로젝트</div>
+			  <div class="path">프로젝트 목록</div>
 		      <div class="search_wrapper">
 		        <div class="search_box">
 		          <select id="search-option">
@@ -102,8 +70,8 @@ $().ready(function() {
 		          <thead>
 		            <tr>
 		            	<th>순번</th>
-						<th>프로젝트명</th>
-						<th>고객사</th>
+						<th>프로젝트명<img class="sort_img"></th>
+						<th>고객사<img class="sort_img"></th>
 						<th>시작일</th>
 						<th>종료일</th>
 						<th>

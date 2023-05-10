@@ -35,7 +35,6 @@ public class AtchFlController {
 				, HttpServletResponse response) {
 		String uuidNm = atchFlVO.getUuidFlNm();
 		String fileNm = atchFlVO.getOrgFlNm();
-		System.out.println(uuidNm +" - " + fileNm);
 		try {
 			new DownloadUtil(response,request,atchmntPath + "/" + uuidNm)
 			.download(fileNm);

@@ -25,6 +25,21 @@
 			$("#search-btn").click(function() {
 				movePage(0)
 			});
+			$("#export_excel").click(function(){
+				var startDt = $("#search-keyword-startdt").val();
+				var endDt = $("#search-keyword-enddt").val();
+				
+				var intstartDt = parseInt(startDt.split("-").join(""));
+				var intEndDt = parseInt(endDt.split("-").join(""));
+				
+				if (intstartDt > intEndDt) {
+					alert("시작일자를 확인해 주세요")
+					return;
+				}
+				var qryStr = "?startDt=" + startDt;
+				qryStr += "&endDt=" + endDt;
+				location.href = "${context}/lgnlog/export/excel"+ qryStr; 
+			});
 		});
 		
 		function movePage(pageNo) {
@@ -83,9 +98,11 @@
 		      <div class="list_section">
 				<jsp:include page="../../include/viewCnt.jsp" />
 		        <div class="total">총 ${lgnHstList.size() > 0 ? lgnHstList.get(0).totalCount : 0} 건</div>
+			    <img id = "export_excel" src="${context}/img/excel-export.png" />
 		        <table class="list_table">
 		          <thead>
 						<tr>
+							<th style="width: 15%;">순번</th>
 							<th style="width: 15%;">직원ID</th>
 							<th style="width: 15%;">사원명</th>
 							<th style="width: 10%;">로그인/로그아웃</th>
@@ -102,6 +119,7 @@
 									    data-act="${lgnHst.act}"
 									    data-crtDt="${lgnHst.crtDt}"
 									    data-ip="${lgnHst.ip}">
+										<td>${lgnHst.rnum}</td>
 										<td>${lgnHst.crtr}</td>
 										<td>${lgnHst.emp.lNm}${lgnHst.emp.fNm}</td>
 										<td>${lgnHst.act}</td>

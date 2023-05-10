@@ -42,7 +42,7 @@
 		});
 
 		$("#my-info").click(function(){
-			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=500");
+			window.open("${context}/emp/detail/"+empId,"회원정보","width=600,height=800");
 		});
 	});
 </script>
@@ -59,7 +59,8 @@
                    <img src="${context}/img/base_profile.png" />
                </c:if>
 	          <p id="my-info">
-	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm}
+	          	  <span style="font-size: 15px;">${sessionScope.__USER__.job.jobNm}</span><br/>
+	          	  ${sessionScope.__USER__.lNm}${sessionScope.__USER__.fNm} ${sessionScope.__USER__.pstn.pstnNm}
 	          </p>
 	        </div>
 	      </div>
@@ -73,14 +74,14 @@
 	          <li class="nav_item dep">
 	            <a href="${context}/dep/detail">부서</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/dep/detail">부서 조회</a></li>
+	              <li><a href="${context}/dep/detail">부서 상세</a></li>
 	              <li><a href="${context}/tm/list">팀 조회</a></li>
 	            </ul>
 	          </li>
 	          <li class="nav_item eqp">
 	            <a href="${context}/eqp/rent">비품</a>
 	            <ul class="sub_item">
-	              <li><a href="${context}/eqp/rent">대여 관리</a></li>
+	              <li><a href="${context}/eqp/rent">대여 목록</a></li>
 	              <li><a href="${context}/eqp/apply">대여 신청</a></li>
 	            </ul>
 	          </li>
@@ -88,8 +89,8 @@
 	            <a href="${context}/prj/list">프로젝트</a>
 	            <ul class="sub_item">
 	              <li><a href="${context}/prj/list">프로젝트 목록</a></li>
-	              <li><a href="${context}/issu/list">이슈</a></li>
 	              <li><a href="${context}/req/list">요구사항</a></li>
+	              <li><a href="${context}/issu/list">이슈</a></li>
 	              <li><a href="${context}/knw/list/0">프로젝트 지식</a></li>
 	              <li><a href="${context}/knw/list/1">사내 지식</a></li>
 	            </ul>

@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>팀 관리</title>
 <jsp:include page="../include/stylescript.jsp" />
 <script type="text/javascript">
 	
@@ -55,9 +55,8 @@
 		if (${empty tmList} && pageNo > 0) {
 			movePage(pageNo -1);
 		}
-
+		
 		$("#new_btn").click(function() {
-			
 			location.href = "${context}/tm/create"
 		});
 		

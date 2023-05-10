@@ -29,6 +29,21 @@
 			$("#search-btn").click(function() {
 				movePage(0)
 			});
+			$("#export_excel").click(function(){
+				var startDt = $("#search-keyword-startdt").val();
+				var endDt = $("#search-keyword-enddt").val();
+				
+				var intstartDt = parseInt(startDt.split("-").join(""));
+				var intEndDt = parseInt(endDt.split("-").join(""));
+				
+				if (intstartDt > intEndDt) {
+					alert("시작일자를 확인해 주세요")
+					return;
+				}
+				var qryStr = "?startDt=" + startDt;
+				qryStr += "&endDt=" + endDt;
+				location.href = "${context}/acslog/export/excel" + qryStr; 
+			});
 		});
 		
 		function movePage(pageNo) {
@@ -93,9 +108,11 @@
 		      <div class="list_section">
 				<jsp:include page="../../include/viewCnt.jsp" />
 		        <div class="total">총 ${acsLogList.size() > 0? acsLogList.get(0).totalCount : 0}건</div>
+			    <img id = "export_excel" src="${context}/img/excel-export.png" />
 		        <table class="list_table">
 		          <thead>
 		            <tr>
+						<th>순번</th>
 						<th>직원ID</th>
 						<th>사원명</th>
 						<th>액세스 기록</th>
@@ -108,6 +125,7 @@
 								<c:forEach items="${acsLogList}"
 										   var="acsLog">
 									<tr>
+										<td>${acsLog.rnum}</td>
 										<td>${acsLog.crtr}</td>
 										<td>${acsLog.emp.lNm}${acsLog.emp.fNm}</td>
 										<td>${acsLog.acsLog}</td>

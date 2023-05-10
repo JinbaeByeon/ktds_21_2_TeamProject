@@ -102,7 +102,7 @@
 					<div class="path"><a href="${context}/prj/list">프로젝트</a> > <a href="${context}/knw/list/0">프로젝트 지식</a><c:if test="${prjVO.prjId != null}"> > 관련 프로젝트: ${prjVO.prjNm}</c:if></div>
 				</c:if>
 				<c:if test="${knwSearchVO.commonMode}">
-					<div class="path">사내 지식</div>
+					<div class="path">프로젝트 > 사내 지식</div>
 				</c:if>
 		      <div class="search_wrapper">
 		        <div class="search_box">

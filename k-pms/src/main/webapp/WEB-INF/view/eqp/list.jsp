@@ -19,8 +19,8 @@
 		$(".sidebar > ul li a").removeClass("active")
 		$("#eqp_list").addClass("active");
 		
-	     $(".detail_section").hide();
-		$(" .list_table > tbody > tr").click(function(){
+	    $(".detail_section").hide();
+		$(".list_table > tbody > tr").click(function(){
 
 			$("#crtr").closest("tr").show();
 			
@@ -282,10 +282,6 @@
 											<td>${eqp.prchsDt}</td>
 											<td>${eqp.applStts}</td>
 											<td>${eqp.lossStts}</td>
-<%-- 											<td>${eqp.crtr}(${eqp.crtrEmpVO.fNm}${eqp.crtrEmpVO.lNm})</td>
-											<td>${eqp.crtDt}</td>
-											<td>${eqp.mdfyr}(${eqp.mdfyrEmpVO.fNm}${eqp.mdfyrEmpVO.lNm})</td>
-											<td>${eqp.mdfyDt}</td> --%>
 											<td>${eqp.useYn}</td>
 										</tr>
 									</c:forEach>
@@ -307,7 +303,7 @@
 	                  <c:param name="path" value="${context}/eqp"/>
 	               	</c:import>
 			        <div class="buttons">
-			          <button id="new_btn" class="btn new">신규신청</button>
+			          <button id="new_btn" class="btn new">신규등록</button>
 			          <button id="delete_all_btn" class="btn delete">선택삭제</button>
 			        </div>
 			      </div>
