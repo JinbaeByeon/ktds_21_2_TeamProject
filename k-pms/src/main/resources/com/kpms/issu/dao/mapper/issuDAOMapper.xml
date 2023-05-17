@@ -110,7 +110,7 @@
 			resultMap="IssuMap">
 		<include refid="Common.pageHeader"/>
 		SELECT I.ISSU_ID PK_COL,
-			   DENSE_RANK() OVER(ORDER BY I.CRT_DT || I.ISSU_ID DESC) RNUM,
+			   DENSE_RANK() OVER(ORDER BY TO_CHAR(I.CRT_DT,'YYYYMMDDHH24MISS') || I.ISSU_ID DESC) RNUM,
 			   I.ISSU_ID,
 			   I.CRT_DT,
 			   I.CRTR,

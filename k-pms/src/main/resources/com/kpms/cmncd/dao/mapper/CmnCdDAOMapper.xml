@@ -17,7 +17,7 @@
 		resultMap="cmnCdVOMap">
 		<include refid="Common.pageHeader" />
 		SELECT CD.CD_ID PK_COL
-			 , DENSE_RANK() OVER(ORDER BY CD.CRT_DT || CD.CD_ID DESC) RNUM
+			 , DENSE_RANK() OVER(ORDER BY TO_CHAR(CD.CRT_DT,'YYYYMMDDHH24MISS') || CD.CD_ID DESC) RNUM
 			 , CD.CD_ID
 			 , TO_CHAR(CD.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
 			 , CD.CRTR

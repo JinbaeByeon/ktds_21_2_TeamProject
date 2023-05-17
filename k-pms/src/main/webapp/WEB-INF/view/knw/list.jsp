@@ -150,12 +150,7 @@
 		            <c:choose>
 		                <c:when test="${not empty knwList}">
 		                    <c:forEach items="${knwList}" var="knw">
-		                        <tr data-knwid="${knw.knwId}" data-ttl="${knw.ttl}"
-		                            data-cntnt="${knw.cntnt}" data-vwcnt="${knw.vwCnt}"
-		                            data-prjid="${knw.prjId}" data-crtr="${knw.crtr}"
-		                            data-crtdt="${knw.crtDt}" data-mdfyr="${knw.mdfyr}"
-		                            data-mdfydt="${knw.mdfyDt}" data-useyn="${knw.useYn}"
-		                            data-prjNm="${knw.prjVO.prjNm}">
+		                        <tr>
 		                            <td><input type="checkbox" class="check_idx" value="${knw.knwId}"><input type="hidden" class="crtr" value="${knw.crtr}"></td>
 		                            <td>${knw.rnum}</td>
 		                            <td><a href="${context}/knw/detail/${knw.knwId}">${knw.ttl}</a></td>
