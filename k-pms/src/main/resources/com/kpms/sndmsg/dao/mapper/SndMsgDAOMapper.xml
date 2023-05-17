@@ -39,7 +39,7 @@
 			resultMap="sndMsgVOMap">
 		<include refid="Common.pageHeader"/>
 		SELECT SM.MSG_ID PK_COL
-			 , DENSE_RANK() OVER(ORDER BY SM.CRT_DT || SM.MSG_ID DESC) RNUM
+			 , DENSE_RANK() OVER(ORDER BY TO_CHAR(SM.CRT_DT,'YYYYMMDDHH24MISS') || SM.MSG_ID DESC) RNUM
 			 , SM.MSG_ID
 			 , SM.CRT_DT
 			 , SM.CRTR

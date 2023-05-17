@@ -32,7 +32,7 @@
 			resultMap="rcvMsgVOMap">
 		<include refid="Common.pageHeader"/>
 		SELECT RM.MSG_ID PK_COL
-			 , DENSE_RANK() OVER(ORDER BY RM.CRT_DT || RM.MSG_ID DESC) RNUM
+			 , DENSE_RANK() OVER(ORDER BY TO_CHAR(RM.CRT_DT,'YYYYMMDDHH24MISS') || RM.MSG_ID DESC) RNUM
 			 , RM.MSG_ID
 			 , RM.CRT_DT
 			 , RM.CRTR
@@ -75,7 +75,7 @@
 			resultMap="rcvMsgVOMap">
 		<include refid="Common.pageHeader"/>
 		SELECT T.*
-			 , DENSE_RANK() OVER(ORDER BY CRT_DT || MSG_ID DESC) RNUM
+			 , DENSE_RANK() OVER(ORDER BY TO_CHAR(CRT_DT,'YYYYMMDDHH24MISS') || MSG_ID DESC) RNUM
 		  FROM (SELECT R.MSG_ID PK_COL
 					 , R.MSG_ID
 					 , R.CRT_DT

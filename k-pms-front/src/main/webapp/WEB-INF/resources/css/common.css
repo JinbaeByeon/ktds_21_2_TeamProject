@@ -43,7 +43,7 @@ a:link, a:visited {
 
 /* top_nav */
 .header {
-	height: 160px;
+	height: 140px;
 	position: fixed;
 	top: 0;
 	width: 100%;
@@ -325,6 +325,7 @@ a:link, a:visited {
 	overflow: hidden;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 	margin: 10px 0;
+    border-radius: 10px;
 }
 
 .container .list_table tbody td {

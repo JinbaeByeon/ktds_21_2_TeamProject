@@ -58,7 +58,10 @@
 		  FROM TM T
 		 INNER JOIN DEP D
 		 	ON T.DEP_ID = D.DEP_ID
-		  LEFT OUTER JOIN TM_MBR M
+		  LEFT OUTER JOIN (SELECT *
+		  					FROM TM_MBR
+		  				   WHERE DEL_YN = 'N'
+		 				  	 AND EMP_ID = #{empId}) M
 		    ON T.TM_ID = M.TM_ID
 		 INNER JOIN (SELECT E.*
  				  		  , E.L_NM || E.F_NM NM
@@ -70,7 +73,6 @@
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE T.DEL_YN = 'N'
 		   AND MBR.DEL_YN = 'N'
-		   AND M.EMP_ID = #{empId}
 		<choose>
 			<when test='searchOption == "depNm"'>
 		   AND D.DEP_NM LIKE '%' || #{searchKeyword} || '%'

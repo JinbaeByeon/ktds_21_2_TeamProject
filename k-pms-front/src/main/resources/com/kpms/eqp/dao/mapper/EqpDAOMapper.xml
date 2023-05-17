@@ -205,7 +205,7 @@
 		<include refid="Common.pageHeader" />
 		SELECT EQP_ID PK_COL
 			 , EQP_ID 
-			 , DENSE_RANK() OVER(ORDER BY CRT_DT || EQP_ID DESC) RNUM
+			 , DENSE_RANK() OVER(ORDER BY TO_CHAR(APPL_DT, 'YYYYMMDDHH24MISS') || EQP_ID DESC) RNUM
 			 , CRT_DT
 			 , CRTR
 			 , MDFY_DT

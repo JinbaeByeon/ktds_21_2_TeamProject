@@ -337,7 +337,7 @@
 			resultMap="EmpMap">
 		<include refid="Common.pageHeader"/>
 		SELECT E.EMP_ID PK_COL,
-			   DENSE_RANK() OVER(ORDER BY E.CRT_DT || E.EMP_ID DESC) RNUM,
+			   DENSE_RANK() OVER(ORDER BY TO_CHAR(E.CRT_DT,'YYYYMMDDHH24MISS') || E.EMP_ID DESC) RNUM,
 			   E.EMP_ID,
 			   TO_CHAR(E.CRT_DT,'YYYY-MM-DD HH24:MI:SS') CRT_DT,
 			   E.CRTR,

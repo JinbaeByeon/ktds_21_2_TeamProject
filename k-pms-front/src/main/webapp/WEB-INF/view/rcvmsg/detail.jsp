@@ -103,8 +103,6 @@
 					<c:if test="${not empty sndMsgVO.atchFlList and sndMsgVO.atchFlList.get(0).flSz != 0}">
 					<div class="file_attachment">
 						<div class="file_attachment_summary">
-							<span class="total_count">첨부 개</span>
-							<span class="total_volume">전체용량</span>
 							<button class="save_all btn save">모두저장</button>
 						</div>
 						<div class="file_attachments_inner">

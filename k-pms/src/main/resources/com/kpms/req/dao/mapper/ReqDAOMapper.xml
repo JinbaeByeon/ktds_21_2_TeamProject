@@ -112,7 +112,7 @@
 		<include refid="Common.pageHeader" />
 		SELECT R.REQ_ID PK_COL 
 			 , R.REQ_ID
-			 , DENSE_RANK() OVER(ORDER BY R.CRT_DT || R.REQ_ID DESC) RNUM
+			 , DENSE_RANK() OVER(ORDER BY TO_CHAR(R.CRT_DT,'YYYYMMDDHH24MISS') || R.REQ_ID DESC) RNUM
 			 , R.CRT_DT
 			 , R.CRTR
 			 , R.MDFY_DT
@@ -177,7 +177,7 @@
 			resultMap="reqVOMap">
 		SELECT R.REQ_ID PK_COL 
 			 , R.REQ_ID
-			 , DENSE_RANK() OVER(ORDER BY R.CRT_DT || R.REQ_ID DESC) RNUM
+			 , DENSE_RANK() OVER(ORDER BY TO_CHAR(R.CRT_DT,'YYYYMMDDHH24MISS') || R.REQ_ID DESC) RNUM
 			 , R.CRT_DT
 			 , R.CRTR
 			 , R.MDFY_DT
@@ -232,8 +232,8 @@
 		     , MDFYR=#{mdfyr}
 		     , USE_YN=NVL(#{useYn}, 'N')
 		     , DTL_REQ=#{dtlReq}
-		     , STRT_DT=#{strtDt}
-		     , EXPCT_END_DT=#{expctEndDt}
+		     , STRT_DT=TO_DATE(#{strtDt}, 'YYYY-MM-DD')
+		     , EXPCT_END_DT=TO_DATE(#{expctEndDt}, 'YYYY-MM-DD')
 		     , PRJ_ID=#{prjId}
 		     , MN_DVLPR=#{mnDvlpr}
 		     , TST_RSLT=#{tstRslt}

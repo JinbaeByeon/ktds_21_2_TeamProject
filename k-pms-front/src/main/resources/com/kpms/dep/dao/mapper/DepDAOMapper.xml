@@ -265,7 +265,8 @@
 		  			  WHERE DEL_YN = 'N') T
 		    ON T.TM_ID IN (SELECT TM_ID
 		    				 FROM TM_MBR
-		    			    WHERE EMP_ID = #{_parameter})
+		    			    WHERE EMP_ID = #{_parameter}
+		    			      AND DEL_YN = 'N')
 		  LEFT JOIN EMP TM_HD_EMP
 		    ON T.TM_HD_ID = TM_HD_EMP.EMP_ID
 		 WHERE D.DEP_ID = (SELECT DEP_ID

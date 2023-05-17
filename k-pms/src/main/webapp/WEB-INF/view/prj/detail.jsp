@@ -174,7 +174,7 @@
             <div class="hr"></div>
             <div class="req path">요구사항</div>
             <div class="total">
-            	총 ${reqVO.reqList.size() > 0 ? reqVO.reqList.size() : 0}건
+            	총 ${prjVO.reqList.get(0).reqId == null ? 0 : prjVO.reqList.size()}건
             </div>
             <div class="view_all">
                 <a href="${context}/req/list?prjId=${prjId}&prjNm=${prjVO.prjNm}">전체보기</a>
@@ -219,7 +219,7 @@
         <div class="hr"></div>
             <div class="req path">지식관리</div>
             <div class="total">
-            	총 ${knwVO.knwList.size() > 0 ? knwVO.knwList.size() : 0}건
+            	총 ${prjVO.knwList.get(0).knwId == null ? 0 : prjVO.knwList.size()}건
             </div>
             <div class="view_all">
                 <a href="${context}/knw/list/0?ttl=&prjId=${prjId}&prjVO.prjNm=&pageNo=0">전체보기</a>

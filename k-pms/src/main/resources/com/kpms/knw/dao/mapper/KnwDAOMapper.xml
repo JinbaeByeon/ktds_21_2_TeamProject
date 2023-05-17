@@ -49,7 +49,7 @@
 			resultMap="knwVOMap">
 		<include refid="Common.pageHeader" />
 		SELECT K.KNW_ID PK_COL
-		     , DENSE_RANK() OVER(ORDER BY K.CRT_DT || K.KNW_ID DESC) RNUM
+		     , DENSE_RANK() OVER(ORDER BY TO_CHAR(K.CRT_DT,'YYYYMMDDHH24MISS') || K.KNW_ID DESC) RNUM
 		     , K.KNW_ID
              , TO_CHAR(K.CRT_DT, 'YYYY-MM-DD HH24:MI:SS') CRT_DT
              , K.CRTR

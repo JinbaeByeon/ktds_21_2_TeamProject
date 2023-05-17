@@ -77,8 +77,8 @@
                                 <td>
                                      <input type="radio" name="check_idx" class="check_idx" value="${job.jobId}"/>
                                 </td>
-                                <td>${pstn.pstnNm}</td>
                                 <td>${pstn.pstnId}</td>
+                                <td>${pstn.pstnNm}</td>
                             </tr>
                         </c:forEach>
                     </c:when>

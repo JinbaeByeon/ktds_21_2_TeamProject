@@ -166,7 +166,6 @@
 							<th><input type="checkbox" id="all_check"/></th>
 							<th>순번</th>
 							<th>이슈제목</th>
-							<th>이슈ID</th>
 							<th>이슈내용</th>
 							<th>조회수</th>
 							<th>난이도</th>
@@ -197,14 +196,13 @@
 									</td>
 									<td>${issu.rnum}</td>
 									<td>${issu.issuTtl}</td>
-									<td>${issu.issuId}</td>
 									<td>${issu.issuCntnt}</td>
 									<td>${issu.vwCnt}</td>
 									<td>${issu.dffclty}</td>
 									<td>${issu.mnTmMbrId}</td>
 									<td>${issu.stts}</td>
-									<td>${issu.reqVO.reqTtl} (${issu.reqId})</td>
-									<td>${issu.crtEmp.lNm}${issu.crtEmp.fNm} (${issu.crtr})</td>
+									<td>${issu.reqVO.reqTtl}</td>
+									<td>${issu.crtEmp.lNm}${issu.crtEmp.fNm}</td>
 									<td>${issu.crtDt}</td>
 								</tr>
 							</c:forEach>
